@@ -14255,7 +14255,7 @@ a:hover, a:focus {
   padding: 100px 0;
   text-align: center;
   color: #FED700;
-  background: #000 url(../images/) no-repeat scroll bottom center; 
+  background: #000 url(../images/) no-repeat scroll bottom center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
