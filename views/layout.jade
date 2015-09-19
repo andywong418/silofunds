@@ -1,7 +1,24 @@
 doctype html
 html
   head
-    title= title
+    
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='Bibliotech is the leading provider of textbooks online.')
+    meta(name='author', content='')
+    title Bibliotech
+    link(rel='shortcut icon', href='../img/favicon.ico')
+    link(href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Kameron', rel='stylesheet', type='text/css')
+    
+    style.
+      #subscribeLink {
+      margin: 1em;
+      background: gold !important;
+      color: black;
+      }
+  body#page-top(data-spy='scroll', data-target='.navbar-fixed-top')
     block content

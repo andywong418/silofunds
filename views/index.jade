@@ -1,5 +1,56 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+      .container
+        .collapse.navbar-collapse.navbar-right.navbar-main-collapse
+          ul.nav.navbar-nav
+            li.hidden
+              a(href='#page-top')
+            li
+              a.page-scroll(href='#about') The App
+            li
+              a.page-scroll(href='#trial')
+                span.light Free Trial
+            li
+              a.page-scroll(href='#contact') Contact Us
+    header.intro
+      .intro-body
+        .container
+          .row
+            .col-md-8.col-md-offset-2
+              #circle
+                h1.brand-heading
+                  b
+                    | P
+                    span#title otfund
+                h2.intro-text Funding made easy.
+                a#subscribeLink.btn.btn-lg(href='http://bibliotech.education?subscribe')
+                  span Subscribe!
+    section#about.container.content-section.text-center
+      .row
+        .col-lg-8.col-lg-offset-2
+          h2 What We Do
+          p
+            | Potfund is a platform which connects those who need funding with those who provide it. Our unique search engine filters down your situation and provides the most suitable grants for your needs.
+    section#trial.container.content-section.text-center
+      .row
+        .col-lg-8.col-lg-offset-2
+          a#subscribeLink.btn.btn-lg(href='http://bibliotech.education?subscribe')
+            span The First Month Is On Us!
+    section#contact.container.content-section.text-center
+      .row
+        .col-lg-8.col-lg-offset-2
+          h2 Contact Us
+          p Feel free to email us to provide some feedback.
+          p
+            a(href='mailto:andros.wong@new.ox.ac.uk') andros.wong@new.ox.ac.uk
+          //
+            <ul class="list-inline banner-social-buttons">
+            <li><a href="https://twitter.com/bibliotechedu" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i><span class="network-name">Twitter</span></a></li>
+            <li><a href="https://www.facebook.com/bibliotechedu" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i><span class="network-name">Facebook</span></a></li>
+            </ul>
+    footer
+      .container.text-center
+        p Copyright © Potfund 2015
+    script(src='javascript/main.min.js')
