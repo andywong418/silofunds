@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var pg = require('pg');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,6 +26,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.get('/db', function (request, response) {
+  app.set('views', path.join(__dirname, 'check_db'));
+  app.set('view engine', 'ejs');
+
+  pg.connect(process.env.DATABASE_URL , function(err, client, done) {
+    client.query('SELECT * FROM items', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('db', {results: result.rows} ); }
+    });
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
