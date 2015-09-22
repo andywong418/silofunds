@@ -14349,7 +14349,7 @@ a:hover, a:focus {
 }
 @media (min-width: 767px) {
   .intro {
-    height: 92%;
+    height: 95%;
     padding: 0;
   }
   .intro .intro-body .brand-heading {
@@ -14409,7 +14409,7 @@ a:hover, a:focus {
 
 @media (min-width: 767px) {
   .content-section {
-    padding-top: 250px;
+    padding-top: 100px;
   }
 
   .download-section {
