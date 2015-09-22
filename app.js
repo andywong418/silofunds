@@ -31,7 +31,9 @@ app.get('/db', function (request, response) {
   app.set('views', path.join(__dirname, 'check_db'));
   app.set('view engine', 'ejs');
 
-  pg.connect(process.env.DATABASE_URL , function(err, client, done) {
+  var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
+
+  pg.connect(connectionString , function(err, client, done) {
     client.query('SELECT * FROM items', function(err, result) {
       done();
       if (err)
