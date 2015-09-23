@@ -13,6 +13,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "pg": "^4.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.9.0",
     "serve-favicon": "~2.3.0",
     "stylus": "0.42.3"
   }
