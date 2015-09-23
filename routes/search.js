@@ -1,8 +1,7 @@
 var express = require('express');
+var fund = require('../controllers/fund');
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', fund.index);
 
 module.exports = router;
