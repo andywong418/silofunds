@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var routes = require('./app/routes');
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
 
@@ -22,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Load routes
-require(__dirname + '/routes/routes')(app);
+routes.initialize(app);
 
 app.get('/db', function (request, response) {
   app.set('views', path.join(__dirname, 'check_db'));
