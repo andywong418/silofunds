@@ -28,6 +28,9 @@ app.get('/db', function (request, response) {
   app.set('views', path.join(__dirname, 'check_db'));
   app.set('view engine', 'ejs');
 
+  var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
+  var client = new pg.client(connectionString);
+
   pg.connect(connectionString , function(err, client, done) {
     client.query('SELECT * FROM items', function(err, result) {
       done();
