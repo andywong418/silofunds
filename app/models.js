@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('potfund_development', 'Howard', null, { dialect: 'postgres' });
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
+var sequelize = new Sequelize(connectionString);
 
 var Fund = sequelize.define('items', {
   // id: {
