@@ -14269,17 +14269,20 @@ a:hover, a:focus {
   display: inline;
 }
 
-.genre
+.form-control
 {
-	text-transform: lowercase;
-	margin-right: 5px;
+  display:inline;
+	width: 80px;
+  height: 40px;
+	margin-left: 5px;
+  -webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+  font-family: "Montserrat";
+  /*color:#BEC1C2;*/
 }
 
-.age
-{
-	text-transform: lowercase;
-	margin-right: 5px;
-}
+
 
 #dropdownMenu1
 {
