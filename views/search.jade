@@ -1,0 +1,67 @@
+extends layout
+
+block content
+  nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+      .container
+        .collapse.navbar-collapse.navbar-right.navbar-main-collapse
+          ul.nav.navbar-nav
+            li.hidden
+              a(href='#page-top')
+            li
+              a.page-scroll(href='#about') The App
+            li
+              a.page-scroll(href='#trial')
+                span.light Start a grant
+            li
+              a.page-scroll(href='#contact') Contact Us
+    header.intro
+      .intro-body
+        .container
+          .row
+            .col-md-8.col-md-offset-2
+                h1.brand-heading
+                  b
+                    | S
+                    span#title earch
+                form.search_form(action='/', method='post', name='search_form')
+                  input(type='text', name='search', id = "text_search", placeholder = "Search terms")
+                  input(type='text', name='search', id = "amount_req", placeholder = "Amount required")
+                  .dropdown
+                    button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+                      | G
+                      span.genre enre
+                      span.caret
+                    ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+                      li
+                        a(href='#') Action
+                      li
+                        a(href='#') Another action
+                      li
+                        a(href='#') Something else here
+                      li
+                        a(href='#') Separated link
+                  .dropdown
+                    button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+                      | A
+                      span.age ge
+                      span.caret
+                    ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+                      li
+                        a(href='#') Action
+                      li
+                        a(href='#') Another action
+                      li
+                        a(href='#') Something else here
+                      li
+                        a(href='#') Separated link
+                  button.btn.btn-danger(type='submit') Search
+
+    section#about.container.content-section.text-center
+      .row
+        .col-lg-8.col-lg-offset-2
+          h2 Complete Database:
+          ul
+            - for (var i=0; i < funds.length; i++) {
+              li= funds[i].id + " - " + funds[i].title + " - " + funds[i].genre
+              li ------------------------
+            - }
