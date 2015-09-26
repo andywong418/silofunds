@@ -14,20 +14,13 @@ module.exports = {
 
   search: function(req, res) {
     var searchString = req.body.tags;
-    
-    console.log(models.funds)
 
-      models.sequelize.query("SELECT * from funds WHERE ? % ANY(tags);", {replacements: [searchString], type: models.sequelize.QueryTypes.SELECT}
-    
+    // Plug ----- model: Fund ----- next to options below if you want to return instances of
+    // this model (not a JSON, but an instance to do further stuff with).
+    models.sequelize.query("SELECT * from funds WHERE ? % ANY(tags)",
+      { replacements: [searchString], type: models.sequelize.QueryTypes.SELECT }
     ).then(function(funds) {
-      
-      var funds = funds.map(function(fund) {
-      return fund;
-      });
-
       res.render('search', { funds: funds });
     });
-    
-    
   }
 };
