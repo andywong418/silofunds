@@ -24,8 +24,8 @@ block content
                     | S
                     span#title earch
                 form.search_form(action='/search', method='post', name='search_form')
-                  input(type='text', name='search', id = "text_search", placeholder = "Search terms")
-                  input(type='text', name='search', id = "amount_req", placeholder = "Amount required")
+                  input(type='text', name='tags', id = "text_search", placeholder = "Search terms")
+                  input(type='number', name='amount', id = "amount_req", placeholder = "Amount required")
                   select.form-control
                       option Age
                       option 1
