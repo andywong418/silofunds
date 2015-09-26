@@ -35,8 +35,19 @@ module.exports = function(sequelize, DataTypes) {
     inviteOnly: {
       type: DataTypes.BOOLEAN,
       field: 'inviteOnly'
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      field: 'createdAt',
+      defaultValue:sequelize.fn('NOW')
+    },
+    updatedAt: {
+       type: DataTypes.DATE,
+       field: 'updatedAt',
+      defaultValue:sequelize.fn('NOW')
     }
   }, {
+
     // classMethods: {
     //   associate: function(models) {
     //     Fund.belongsTo(models.User, {
