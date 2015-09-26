@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue:sequelize.fn('NOW')
     }
   }, {
-
+    timestamps: true
     // classMethods: {
     //   associate: function(models) {
     //     Fund.belongsTo(models.User, {
