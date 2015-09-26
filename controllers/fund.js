@@ -14,21 +14,20 @@ module.exports = {
 
   search: function(req, res) {
     var searchString = req.body.tags;
-    searchString = searchString.split(', ');
+    
+    console.log(models.funds)
 
-    models.funds.findAll({
-      where: {
-        tags: {
-          $in: searchString
-        }
-      }
-    }).then(function(funds) {
+      models.sequelize.query("SELECT * from funds WHERE ? % ANY(tags);", {replacements: [searchString], type: models.sequelize.QueryTypes.SELECT}
+    
+    ).then(function(funds) {
+      
       var funds = funds.map(function(fund) {
-        var json = fund.toJSON();
-        return json;
+      return fund;
       });
 
       res.render('search', { funds: funds });
     });
+    
+    
   }
 };

@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     tags: {
-      type: DataTypes.STRING(40),
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'tags',
       allowNull: false
     },
