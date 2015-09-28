@@ -14311,6 +14311,13 @@ border-radius: 0px;
 	padding-left: 5px;
 	margin: 5px;
 }
+#age
+{
+  height: 40px;
+  width: 150px;
+  padding-left: 5px;
+  margin: 5px;
+}
 .btn-danger
 {
 	margin: 10px;

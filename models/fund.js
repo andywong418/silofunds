@@ -20,19 +20,19 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       field: 'minimumAge'
     },
-    maximumAge: {
+    maximumage: {
       type: DataTypes.INTEGER,
       field: 'maximumAge'
     },
-    minimumAmount: {
+    minimumamount: {
       type: DataTypes.INTEGER,
       field: 'minimumAmount'
     },
-    maximumAmount: {
+    maximumamount: {
       type: DataTypes.INTEGER,
       field: 'maximumAmount'
     },
-    inviteOnly: {
+    inviteonly: {
       type: DataTypes.BOOLEAN,
       field: 'inviteOnly'
     },

@@ -26,13 +26,7 @@ block content
                 form.search_form(action='/search', method='post', name='search_form')
                   input(type='text', name='tags', id = "text_search", placeholder = "Search terms")
                   input(type='number', name='amount', id = "amount_req", placeholder = "Amount required")
-                  select.form-control
-                      option Age
-                      option 1
-                      option 2
-                      option 3
-                      option 4
-                      option 5
+                  input(type='number', name='age', id = "age", placeholder = "Age")
                   button.btn.btn-danger(type='submit') Search
 
     section#about.container.content-section.text-center
