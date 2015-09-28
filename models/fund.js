@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'tags',
       allowNull: false
     },
-    minimumAge: {
+    minimumage: {
       type: DataTypes.INTEGER,
       field: 'minimumAge'
     },
