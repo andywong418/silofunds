@@ -16,38 +16,41 @@ module.exports = function(sequelize, DataTypes) {
       field: 'tags',
       allowNull: false
     },
-    minimumage: {
+    minimum_age: {
       type: DataTypes.INTEGER,
-      field: 'minimumAge'
+      field: 'minimum_age'
     },
-    maximumage: {
+    maximum_age: {
       type: DataTypes.INTEGER,
-      field: 'maximumAge'
+      field: 'maximum_age'
     },
-    minimumamount: {
+    minimum_amount: {
       type: DataTypes.INTEGER,
-      field: 'minimumAmount'
+      field: 'minimum_amount'
     },
-    maximumamount: {
+    maximum_amount: {
       type: DataTypes.INTEGER,
-      field: 'maximumAmount'
+      field: 'maximum_amount'
     },
-    inviteonly: {
+    invite_only: {
       type: DataTypes.BOOLEAN,
-      field: 'inviteOnly'
+      field: 'invite_only'
     },
-    createdAt: {
+    created_at: {
       type: DataTypes.DATE,
-      field: 'createdAt',
-      defaultValue:sequelize.fn('NOW')
+      field: 'created_at',
+      defaultValue: sequelize.fn('NOW')
     },
-    updatedAt: {
+    updated_at: {
        type: DataTypes.DATE,
-       field: 'updatedAt',
-      defaultValue:sequelize.fn('NOW')
+       field: 'updated_at',
+      defaultValue: sequelize.fn('NOW')
     }
   }, {
-    timestamps: true
+    timestamps: true,
+    underscored: true,
+    paranoid: true
+
     // classMethods: {
     //   associate: function(models) {
     //     Fund.belongsTo(models.User, {

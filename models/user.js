@@ -8,7 +8,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
-    timestamps: true
+    timestamps: true,
+    underscored: true,
+    paranoid: true
+    
     // classMethods: {
     //   associate: function(models) {
     //     User.hasMany(models.funds)
