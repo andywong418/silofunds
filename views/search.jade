@@ -35,6 +35,7 @@ block content
           h2 Results:
           ul
             - for (var i=0; i < funds.length; i++) {
-              li= funds[i].id + " - " + funds[i].title + " - " + funds[i].tags
+              - var title = funds[i].title;
+              li= funds[i].id + " - " + funds[i].title + " - " + funds[i].tags + " - " + descriptions[title]
               li ------------------------
             - }
