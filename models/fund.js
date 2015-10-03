@@ -45,6 +45,10 @@ module.exports = function(sequelize, DataTypes) {
        type: DataTypes.DATE,
        field: 'updated_at',
       defaultValue: sequelize.fn('NOW')
+    },
+    link: {
+      type: DataTypes.TEXT,
+      field:'link'
     }
   }, {
     timestamps: true,
