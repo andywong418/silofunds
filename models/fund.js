@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     link: {
       type: DataTypes.TEXT,
-      field:'link'
+      field: 'link'
     }
   }, {
     timestamps: true,

@@ -14319,27 +14319,25 @@ border-radius: 0px;
   margin: 5px;
 }
 
-
 .fund_amount, .fund_age, .fund_description {
   font-weight: bold;
 }
+
 p {
   margin: 20px;
 }
+
 .control {
   font-weight: normal;
 }
 
-.database 
+.database
 {
    font-family: 'sans-serif';
    margin-top: 50px;
   font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
   text-align: center;
-  
-
-
-} 
+}
 
 .fund_link
 {
@@ -14348,11 +14346,9 @@ p {
   width: 150px;
   height: 40px;
   padding-top: 10px;
-
 }
 .fund_link a
 {
-
   color:white;
 }
 
@@ -14376,10 +14372,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 
 .database li
 {
-
 list-style-type: none;
-
-
 }
 
 .btn-danger

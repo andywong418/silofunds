@@ -35,7 +35,6 @@ module.exports = {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-
       res.render('search', { funds: funds, descriptions: descriptions });
     });
   }
