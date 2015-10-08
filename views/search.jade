@@ -1,10 +1,23 @@
 extends layout
 
 block content
-  nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-      .container
-        .collapse.navbar-collapse.navbar-right.navbar-main-collapse
-          ul.nav.navbar-nav
+  nav#nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+      #container.container
+        
+        h4.brand-heading 
+          a(href="http://www.google.com") 
+           b
+            | P
+            span#title otfund
+        form.search_form_2(action='/search', method='post', name='search_form')
+          input(type='text', name='tags', id = "text_search_2", placeholder = "Search terms")
+          input(type='number', name='amount', id = "amount_req_2", placeholder = "Amount")
+         
+          input(type='number', name='age', id = "age_2", placeholder = "Age")
+          
+          button#search_button.btn.btn-danger(type='submit') Search
+        #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+          ul#menu_icon.nav.navbar-nav
             li.hidden
               a(href='#page-top')
             li
@@ -14,22 +27,9 @@ block content
                 span.light Start a grant
             li
               a.page-scroll(href='#contact') Contact Us
-    header.intro
-      .intro-body
-        .container
-          .row
-            .col-md-8.col-md-offset-2
-                h1.brand-heading
-                  b
-                    | S
-                    span#title earch
-                form.search_form(action='/search', method='post', name='search_form')
-                  input(type='text', name='tags', id = "text_search", placeholder = "Search terms")
-                  input(type='number', name='amount', id = "amount_req", placeholder = "Amount required")
-                  input(type='number', name='age', id = "age", placeholder = "Age")
-                  button.btn.btn-danger(type='submit') Search
+   
 
-    section#about.container.content-section.text-center
+  section#about.container.content-section.text-center
       .row
         .col-lg-8.col-lg-offset-2
           div.results
@@ -41,22 +41,23 @@ block content
               - for (var i=0; i < funds.length; i++) {
                 - var title = funds[i].title;
                 - var link = funds[i].link;
+              .fund_list
                 li
                   h3.fund_title=funds[i].title
                 li
                   p.fund_amount Amount given:
-                    span.control= '£'+funds[i].maximum_amount
+                    span.control= ' £'+funds[i].maximum_amount
                   - if (funds[i].minimum_age) {
-                    p.fund_age Minimum Age:
+                    p.fund_min_age Minimum Age: 
                       span.control=funds[i].minimum_age
                   - }
                   - if (funds[i].maximum_age) {
-                    p.fund_age Maximum Age:
+                    p.fund_max_age Maximum Age: 
                       span.control=funds[i].maximum_age
                   - }
-                  p.fund_description Additional Information:
-                     span.control=descriptions[title]
+                  p.fund_description Additional Information: 
+                     span.control=descriptions[title] 
                   h4.fund_link
                    a(href=link, target='_blank') Apply Now
-                  hr
+                hr
               - }

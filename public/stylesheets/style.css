@@ -288,7 +288,7 @@ th {
   }
 
   .navbar {
-    display: none;
+    display: inline;
     background-color: black;
   }
 
@@ -1931,6 +1931,7 @@ pre code {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+
 }
 .container:before, .container:after {
   content: " ";
@@ -4578,6 +4579,7 @@ tbody.collapse.in {
   border-top: 1px solid transparent;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
+
 }
 .navbar-collapse:before, .navbar-collapse:after {
   content: " ";
@@ -4728,6 +4730,7 @@ tbody.collapse.in {
 
 .navbar-nav {
   margin: 7.5px -15px;
+
 }
 .navbar-nav > li > a {
   padding-top: 10px;
@@ -14193,7 +14196,7 @@ a:hover, a:focus {
   border-bottom: 1px solid;
   text-transform: uppercase;
   font-family: "Montserrat","Helvetica Neue",Helvetica,Arial,sans-serif;
-  background-color: transparent;
+  background-color: rgba(45,74,118,1.0);
   background-image: none;
 }
 .navbar-custom .navbar-brand {
@@ -14226,42 +14229,95 @@ a:hover, a:focus {
   outline: none;
   background-color: rgba(255, 255, 255, 0.3);
 }
-
-@media (min-width: 767px) {
-  .navbar {
-    padding: 20px 0;
-    border-bottom: none;
-    letter-spacing: 1px;
-    background: transparent;
-    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
-    -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
-    transition: background .5s ease-in-out,padding .5s ease-in-out;
-  }
-
-  .top-nav-collapse {
-    padding: 0;
-    background-color: rgba(45,74,118,0.8);
-  }
-
-  .navbar-custom.top-nav-collapse {
-    border-bottom: 1px solid rgba(255, 255, 255, 0);
-  }
+.navbar {
+  padding: 20px 0;
+  border-bottom: none;
+  letter-spacing: 1px;
+  background: transparent;
+  -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
+  -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
+  transition: background .5s ease-in-out,padding .5s ease-in-out;
 }
+
+
+#container{
+  margin-top: -20px;
+  background-color: rgba(45,74,118,1.0);
+  width:100%;
+
+
+}
+
+.top-nav-collapse {
+  padding: 0;
+  background-color: rgba(45,74,118,0.8);
+}
+
+.navbar-custom.top-nav-collapse {
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+}
+
 #title {
  text-transform: lowercase;
 
 }
 
+
 .search_form
 {
 	font-family: "Montserrat";
 	color: black;
-	margin-top: 80px;
-	display:inline;
 	box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  width:100%;
+  
+  
+}
+#page-top
+{
+  background-color: #edefed; /* Old browsers */
+  
+}
+.results > h3
+{
+ color:#3C5675;
+}
+
+.search_form_2
+{
+  font-family: "Montserrat";
+  color: black;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-top: -75px;
+  padding-left: 130px;
+
+  
+  position: relative;
+}
+#collapse {
+  margin-top: -48px;
+
+ }
+ 
+ .brand-heading {
+  
+  font-size: 30px;
+  font-family:'Roboto Slab', sans-serif;
+  font-style: normal;
+  color:white;
+  margin-top: 10px
+
+}
+
+@media (max-width: 1030px){
+ .navbar-nav 
+ {
+    display: none;
+  }
+
+
 }
 
 .dropdown
@@ -14304,6 +14360,15 @@ border-radius: 0px;
 	padding-left: 5px;
 	margin: 5px;
 }
+
+#text_search_2
+{
+  height: 30px;
+  width: 150px;
+  padding-left: 5px;
+  margin: 5px;
+}
+
 #amount_req
 {
 	height: 40px;
@@ -14311,6 +14376,15 @@ border-radius: 0px;
 	padding-left: 5px;
 	margin: 5px;
 }
+
+#amount_req_2
+{
+  height: 30px;
+  width: 100px;
+  padding-left: 5px;
+  margin: 5px;
+}
+
 #age
 {
   height: 40px;
@@ -14319,29 +14393,55 @@ border-radius: 0px;
   margin: 5px;
 }
 
-.fund_amount, .fund_age, .fund_description {
-  font-weight: bold;
+#age_2
+{
+  height: 30px;
+  width: 100px;
+  padding-left: 5px;
+  margin: 5px;
 }
 
-p {
-  margin: 20px;
+#search_button
+{
+  height:30px;
+}
+
+.fund_amount, .fund_min_age,.fund_max_age, .fund_description {
+  font-weight: bold;
 }
 
 .control {
   font-weight: normal;
+  color: #576366
 }
 
 .database
 {
-   font-family: 'sans-serif';
-   margin-top: 50px;
+  font-family: 'sans-serif';
+  margin-top: 50px;
   font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
+} 
+
+.database p {
+  margin: 15px;
+
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+}
+
+.fund_list{
+  background-color: white;
+  border-radius: 15px;
+  padding-top: 30px;
+  margin-bottom: 60px;
+  margin-right: 35px;
   text-align: center;
 }
 
 .fund_link
 {
-  background-color: #8B4B9F;
+  background-color: #3266B2;
   margin: 0 auto;
   width: 150px;
   height: 40px;
@@ -14354,7 +14454,8 @@ p {
 
 .results
 {
-  padding-top: 50px;
+  height:50px;
+  padding-top: 8px;
   border-width: 5px;
   border-style: solid;
   border-color: #3c547a;
@@ -14405,6 +14506,7 @@ list-style-type: none;
   padding-top: 95px;
   font-style: normal;
 }
+
 .intro .intro-body .intro-text {
   font-size: 18px;
   font-family: sans-serif;
