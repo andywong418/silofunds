@@ -46,10 +46,14 @@ block content
                 li
                   p.fund_amount Amount given:
                     span.control= '£'+funds[i].maximum_amount
-                  p.fund_age Minimum Age:
-                    span.control=funds[i].minimum_age
-                  p.fund_age Maximum Age:
-                    span.control=funds[i].maximum_age
+                  - if (funds[i].minimum_age) {
+                    p.fund_age Minimum Age:
+                      span.control=funds[i].minimum_age
+                  - }
+                  - if (funds[i].maximum_age) {
+                    p.fund_age Maximum Age:
+                      span.control=funds[i].maximum_age
+                  - }
                   p.fund_description Additional Information:
                      span.control=descriptions[title]
                   h4.fund_link
