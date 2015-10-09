@@ -57,7 +57,7 @@ module.exports = {
   create: function(req, res) {
     var fund = req.body;
     var title = fund.title;
-    var tags = fund.keywords.split(" ");
+    var tags = fund.keywords.split(", ");
 
     models.funds.create({ title: title, tags: tags, invite_only: fund.invite }).then(function(fund) {
       res.redirect('funds');
