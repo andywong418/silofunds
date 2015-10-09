@@ -53,7 +53,7 @@ html(lang='en')
     section#about.container.content-section.text-center
       .row
         form.create_fund(action='/funds', method='post', name='create_fund')
-          input(type='text', name='title', id = "title", placeholder = "Title", required)
+          input(type='text', name='title', id = "new_title", placeholder = "Title", required)
           hr
           input(type='text', name='keywords', id = "tags", placeholder = "Tags", required)
           hr
