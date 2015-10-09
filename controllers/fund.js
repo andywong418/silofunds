@@ -13,6 +13,17 @@ module.exports = {
     });
   },
 
+  home: function(req, res) {
+    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+      var funds = funds.map(function(fund) {
+        var json = fund.toJSON();
+        return json;
+      });
+
+      res.render('funds/index', { funds: funds, descriptions: descriptions });
+    });
+  },
+
   search: function(req, res) {
     var searchString = req.body.tags;
     var searchAge = parseInt(req.body.age);
@@ -36,6 +47,20 @@ module.exports = {
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
       res.render('search', { funds: funds, descriptions: descriptions });
+    });
+  },
+
+  new: function(req, res) {
+    res.render('funds/new', { layout: '../layout' });
+  },
+
+  create: function(req, res) {
+    var fund = req.body;
+    var title = fund.title;
+    var tags = fund.keywords.split(" ");
+
+    models.funds.create({ title: title, tags: tags, invite_only: fund.invite }).then(function(fund) {
+      res.redirect('funds');
     });
   }
 }
