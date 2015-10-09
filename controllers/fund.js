@@ -59,10 +59,17 @@ module.exports = {
     var title = fund.title;
     var tags = fund.keywords.split(", ");
     var link = fund.link;
-    var min_age = fund.min_age;
-    var max_age = fund.max_age;
-    var min_amount = fund.min_amount;
-    var max_amount = fund.max_amount;
+
+    var parseIfInt = function(string) {
+      if (string != '') {
+        return parseInt(string);
+      }
+    };
+
+    var min_age = parseIfInt(fund.min_age);
+    var max_age = parseIfInt(fund.max_age);
+    var min_amount = parseIfInt(fund.min_amount);
+    var max_amount = parseIfInt(fund.max_amount);
 
     models.funds.create({
       title: title,
