@@ -1,0 +1,64 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='Potfund is the leading provider of funding online.')
+    meta(name='author', content='')
+    title Potfund
+    link(rel='shortcut icon', href='../img/favicon.ico')
+    link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Kameron', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Raleway', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Roboto+Slab', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    style.
+      #subscribeLink {
+      margin: 1em;
+      background: gold !important;
+      color: black;
+      }
+  body#page-top(data-spy='scroll', data-target='.navbar-fixed-top')
+    block content
+      nav#nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+          #container.container
+
+            h4.brand-heading
+              a(href="http://www.google.com")
+               b
+                | P
+                span#title otfund
+            #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+              ul#menu_icon.nav.navbar-nav
+                li.hidden
+                  a(href='#page-top')
+                li
+                  a.page-scroll(href='#about') The App
+                li
+                  a.page-scroll(href='#trial')
+                    span.light Start a grant
+                li
+                  a.page-scroll(href='#contact') Contact Us
+      section#about.container.content-section
+        .row
+          form.create_fund(action='/funds', method='post', name='create_fund')
+            input(type='text', name='title', id = "title", placeholder = "Title", required)
+            hr
+            input(type='text', name='tags', id = "tags", placeholder = "Tags", required)
+            hr
+            input(type='number', name='min_age', id = "min_age", placeholder = "Minimum age")
+            hr
+            input(type='number', name='max_age', id = "max_age", placeholder = "Maximum age")
+            hr
+            input(type='number', name='min_amount', id = "min_amount", placeholder = "Minimum amount")
+            hr
+            input(type='number', name='max_amount', id = "max_amount", placeholder = "Maximum amount")
+            hr
+            input(type='checkbox', name='invite', id = "invite", placeholder = "Invite only")
+            hr
+            input(type='text', name='tags', id = "link", placeholder = "Link")
+            hr
+            button.btn.btn-danger(type='submit') Create
