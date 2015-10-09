@@ -58,8 +58,22 @@ module.exports = {
     var fund = req.body;
     var title = fund.title;
     var tags = fund.keywords.split(", ");
+    var link = fund.link;
+    var min_age = fund.min_age;
+    var max_age = fund.max_age;
+    var min_amount = fund.min_amount;
+    var max_amount = fund.max_amount;
 
-    models.funds.create({ title: title, tags: tags, invite_only: fund.invite }).then(function(fund) {
+    models.funds.create({
+      title: title,
+      tags: tags,
+      invite_only: fund.invite,
+      link: link,
+      minimum_age: min_age,
+      maximum_age: max_age,
+      minimum_amount: min_amount,
+      maximum_amount: max_amount
+    }).then(function(fund) {
       res.redirect('funds');
     });
   }
