@@ -4694,13 +4694,13 @@ tbody.collapse.in {
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
     margin-left: 0px;
-    background-color:black;
+    background-color:rgba(45,74,118,1.0);
+    font-family: 'Roboto Slab'
   }
 }
 
 .navbar-toggle {
   position: relative;
-
   margin-right: 15px;
   padding: 9px 10px;
   margin-top: 8px;
@@ -5008,7 +5008,7 @@ tbody.collapse.in {
 }
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
   color: #fff;
-  background-color: #090909;
+  background-color: ;
 }
 .navbar-inverse .navbar-nav > .disabled > a, .navbar-inverse .navbar-nav > .disabled > a:hover, .navbar-inverse .navbar-nav > .disabled > a:focus {
   color: #444;
@@ -14262,6 +14262,21 @@ a:hover, a:focus {
 
 }
 
+#header
+{
+  margin-top: -3px;
+  margin-left: -10px;
+}
+
+#header li a:hover
+{
+  background-color: transparent;
+}
+
+#menu_icon
+{
+  margin-top: 10px;
+}
 
 .search_form
 {
@@ -14283,42 +14298,75 @@ a:hover, a:focus {
  color:#3C5675;
 }
 
-.search_form_2
-{
-  font-family: "Montserrat";
-  color: black;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  margin-top: -75px;
-  padding-left: 130px;
 
-  
-  position: relative;
-}
 #collapse {
-  margin-top: -48px;
+  margin-top: 0px;
 
  }
  
- .brand-heading {
+ #brand-heading {
   
   font-size: 30px;
   font-family:'Roboto Slab', sans-serif;
   font-style: normal;
   color:white;
-  margin-top: 10px
-
+  margin-top: 7px;
+  margin-left: -10px;
+  background-color: transparent;
 }
 
-@media (max-width: 1030px){
- .navbar-nav 
+.navbar-form
+{
+  margin-left: -20px;
+  
+}
+#mobile-icon
+{
+  display: none;
+}
+
+
+@media (max-width: 1059px){
+ #menu_icon
  {
     display: none;
-  }
+    height:auto;
+ }
 
+
+ #mobile-icon{
+  display:inline-block;
+  margin-top: 16px;
+ }
+
+ #menu_icon li {
+
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+    margin: 0;
+    display:block;
+ }
 
 }
+@media (max-width: 767px) {
+  #brand-heading{
+    width:100px;
+  } 
+  #show{
+    margin-top: 60px;
+    margin-right: 100px;
+  }
+  .navbar-form
+  {
+    display:none;
+  }
+  
+
+}
+
+
+
 
 .dropdown
 {
@@ -14663,5 +14711,9 @@ img::selection {
   background: transparent;
 }
 img::-moz-selection {
+  background: transparent;
+}
+a.homepage, a.homepage:hover
+{
   background: transparent;
 }
