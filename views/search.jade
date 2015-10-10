@@ -36,12 +36,12 @@ html(lang='en')
           a#brand-heading.navbar-brand(href='/')
             | P
             span#title otfund
-        form.search_form(action='/search', method='post', name='search_form')
-          input#text_search(type='text', name='tags', placeholder='Search terms')
-          input#amount_req(type='number', name='amount', placeholder='Amount')
-          input#age(type='number', name='age', placeholder='Age')
-          button#search_button.btn.btn-danger(type='submit') Search
-      // Collect the nav links, forms, and other content for toggling
+          form.search_form(action='/search', method='post', name='search_form')
+            input#text_search(type='text', name='tags', placeholder='Search terms')
+            input#amount_req(type='number', name='amount', placeholder='Amount')
+            input#age(type='number', name='age', placeholder='Age')
+            button#search_button.btn.btn-danger(type='submit') Search
+        // Collect the nav links, forms, and other content for toggling
       #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
         ul.nav.navbar-nav
           // Hidden li included to remove active class from about link when scrolled up past about section
@@ -83,8 +83,10 @@ html(lang='en')
                       p.fund_max_age Maximum Age: 
                         span.control=funds[i].maximum_age
                     - }
-                    p.fund_description Additional Information: 
-                       span.control=descriptions[title] 
+                    input#checkbox(type='checkbox', name='a', value='a')
+                    label.fund_description(for='checkbox') Additional Information 
+                       i.fa.fa-chevron-circle-down  
+                       span.description_control=descriptions[title] 
                     h4.fund_link
                      a(href=link, target='_blank') Apply Now
                   hr
@@ -97,4 +99,9 @@ html(lang='en')
   script(src='javascript/jquery.easing.min.js')
   // Custom Theme JavaScript
   script(src='javascript/grayscale.js')
+  //Modernizr
+  script(src='javascript/modernizr-custom.js')
+  //search functions
+  script(src='javascript/search.js')
+
 

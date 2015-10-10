@@ -193,6 +193,11 @@ i {
     color:white;
 }
 
+.fa.fa-chevron-circle-down 
+{
+    color: black;
+}
+
 #text_search
 {
   height: 35px;
@@ -234,9 +239,7 @@ i {
   background-color: transparent;
 }
 @media(max-width: 1020px){
-    .search_form{
-        
-    }
+  
     #brand-heading{
         margin-left: 1px;
     }
@@ -314,16 +317,7 @@ i {
     }
 }
 */
-@media(max-width: 767px){
-    .search_form {
-        margin-top: 15px;
-        margin-left: -5px;
-        
-    }
-  
-   
 
-}
 
 @media(max-width: 530px){
     .results{
@@ -386,6 +380,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   display: inline-block;
 }
 
+.database li
+{
+list-style-type: none;
+}
+
 .fund_list{
   background-color: white;
   border-radius: 15px;
@@ -402,26 +401,75 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   width: 150px;
   height: 40px;
   padding-top: 10px;
+  margin-top: 30px;
 }
 .fund_link a
 {
   color:white;
 }
 
-.database li
-{
-list-style-type: none;
+.fund_description{
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 16px;
 }
 
+.fund_amount, .fund_min_age, .fund_max_age, .fund_description{
+    font-weight: bold;
+}
+
+.control, .description_control{
+    font-weight: normal;
+}
+
+.description_control{
+    display:  none;
+}
+
+
+
+
+#checkbox{
+    display: none;
+}
+
+
+
+.fa.fa-chevron-circle-down{
+    color:black;
+}
 @media(max-width: 920px){
-    .search_form{
-        display: none;
+    .results{
+        margin-top:80px;
+     }
+
+     .search_form{
+       
+       margin-left: 24%;
+
      }
 
     #brand-heading{
         font-size: 25px;
         margin-left: 0px;
     }
+
+    #text_search, #amount_req, #age{
+        border-color: rgba(45,74,118,0.55);
+    }
+}
+@media(max-width: 767px){
+    .search_form {
+        margin-top: 15px;
+        margin-left: -5px;
+        
+    }
+
+    .results{
+        margin-top: 30px;
+    }
+
 }
 
 @media(max-width:530px){
@@ -429,3 +477,12 @@ list-style-type: none;
         height:70px;
     }
 }
+
+@media(max-width: 400px){
+    .results{
+        padding: 0 10px;
+        padding-top: 5px;
+    }
+}
+
+
