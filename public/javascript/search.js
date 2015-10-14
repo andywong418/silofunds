@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
     function doneResizing() {
     	var form = document.getElementsByClassName("search_form");
@@ -22,18 +24,21 @@ $(document).ready(function() {
     });
 
     doneResizing();
-    $("#checkbox").click(function(){
-    	
-    	$(".description_control").css("display" , "block");
-    	$(".description_control").css("margin-top" , "5px");
-    	$(".description_control").toggle(this.checked);
-    // 	if(!$("checkbox").checked){
-    // 	$(".description_control").toggle(this.checked);
-    // }
-    //   else{
+    var bool = false;
 
-    //   }
-       
+    $(".fund_description").click(function(){
+    	if(bool){
+    		$(this).children("span").toggle(false);
+    		bool = false;
+    		
+    	}
+    	else{
+
+         $(this).children("span").css("display" , "block");
+    	   $(this).children("span").css("margin-top" , "5px");
+    	   bool = true;
+         
+    	}
 
     })
       

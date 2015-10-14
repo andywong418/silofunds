@@ -6,7 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
-    title Grayscale - Start Bootstrap Theme
+    Zipfund
     // Bootstrap Core CSS
     link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
     // Custom CSS
@@ -72,7 +72,7 @@ html(lang='en')
                 .fund_list
                   li
                     h3.fund_title=funds[i].title
-                  li
+                  li.fund_info
                     p.fund_amount Amount given:
                       span.control= ' £'+funds[i].maximum_amount
                     - if (funds[i].minimum_age) {
@@ -83,10 +83,10 @@ html(lang='en')
                       p.fund_max_age Maximum Age: 
                         span.control=funds[i].maximum_age
                     - }
-                    input#checkbox(type='checkbox', name='a', value='a')
+                    
                     label.fund_description(for='checkbox') Additional Information 
                        i.fa.fa-chevron-circle-down  
-                       span.description_control=descriptions[title] 
+                       span(class="description_control")=descriptions[title] 
                     h4.fund_link
                      a(href=link, target='_blank') Apply Now
                   hr
