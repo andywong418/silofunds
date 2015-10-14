@@ -30,11 +30,3 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 
-if ( $('body').css("width") === "920px") {
-    $('.results').append("<form action='/search' method='post' name='search_form' class='search_form'>
-                  <input type='text' name='tags' id='text_search' placeholder='Search terms'/>
-                  <input type='number' name='amount' id='amount_req' placeholder='Amount'/>
-                  <input type='number' name='age' id='age' placeholder='Age'/>
-                  <button id='search_button' type='submit' class='btn btn-danger'>Search</button>
-                </form>");
-}

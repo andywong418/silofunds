@@ -14,6 +14,12 @@ module.exports = {
   'South Square Trust':
   'One off grants of over £500 pounds can be given to individuals, while collages are also given grants towards their bursary/scholarship funds.',
 
+	'Dick Harrison Trust':
+	'FE, HE and mature students who require training in livestock aucioneering or rural estate management and were born in Cumbria, Northumberland or Scotland or whose parents live in these places.',
+
+	'Douglas Bomford Trust':
+	'The trust offers several kinds of funding such as Research (including post graduate studies), Travel Scholarships, Awards and Prizes, and IAgrE Student Membership ( free membership of IAgrE for over 1500 students).',
+
 // The following 'funds' are test funds that exist in my local db
 
   'hey': 'hey',
