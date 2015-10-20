@@ -8,7 +8,7 @@ module.exports = {
         var json = fund.toJSON();
         return json;
       });
-
+      console.log(funds);
       res.render('search', { funds: funds, descriptions: descriptions });
     });
   },

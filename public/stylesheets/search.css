@@ -146,7 +146,7 @@ a:focus {
     }
 
     #brand-heading {
-        margin-left: -50px;
+        margin-left: -60px;
 
     }
 
@@ -408,16 +408,6 @@ list-style-type: none;
   color:white;
 }
 
-.fund_description{
-    display: block;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-.fund_description span{
-    display: none;
-}
 
 .fund_amount, .fund_min_age, .fund_max_age, .fund_description{
     font-weight: bold;
