@@ -6,7 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
-    Zipfund
+    title Zipfund
     // Bootstrap Core CSS
     link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
     // Custom CSS
@@ -34,8 +34,8 @@ html(lang='en')
             <i class="fa fa-play-circle"></i>  <span class="light">Start</span> Bootstrap
             </a>
           a#brand-heading.navbar-brand(href='/')
-            | P
-            span#title otfund
+            | Z
+            span#title ipfund
           form.search_form(action='/search', method='post', name='search_form')
             input#text_search(type='text', name='tags', placeholder='Search terms')
             input#amount_req(type='number', name='amount', placeholder='Amount')
@@ -50,9 +50,9 @@ html(lang='en')
           li
             a.page-scroll(href='/#about') The App
           li
-            a.page-scroll(href='#download') Start a grant
+            a.page-scroll(href='/#trial') Start a grant
           li
-            a.page-scroll(href='#contact') Contact us
+            a.page-scroll(href='/#contact') Contact us
       // /.navbar-collapse
       // /.container
    
@@ -65,42 +65,42 @@ html(lang='en')
                 span='Your search returned ' + funds.length + ' results'
 
             div.page-header
-              ul.database
-                - for (var i=0; i < funds.length; i++) {
-                  - var title = funds[i].title;
-                  - var link = funds[i].link;
-                .fund_list
-                  li
-                    h3.fund_title=funds[i].title
-                  li.fund_info
-                    p.fund_amount Amount given:
-                      span.control= ' £'+funds[i].maximum_amount
-                    - if (funds[i].minimum_age) {
+              script#fund-template(type='text/template')
+                ul.database
+                  .fund_list
+                    li
+                      h3.fund_title <%= fund_title %>
+                    li.fund_info
+                      p.fund_amount Amount given: 
+                        span.control <%= maximum_amount %>
                       p.fund_min_age Minimum Age: 
-                        span.control=funds[i].minimum_age
-                    - }
-                    - if (funds[i].maximum_age) {
+                        span.control <%= minimum_age %>
                       p.fund_max_age Maximum Age: 
-                        span.control=funds[i].maximum_age
-                    - }
-                    
-                    label.fund_description(for='checkbox') Additional Information 
-                       i.fa.fa-chevron-circle-down  
-                       span(class="description_control")=descriptions[title] 
-                    h4.fund_link
-                     a(href=link, target='_blank') Apply Now
-                  hr
-                - }
+                        span.control <%= maximum_age %>
+
+                    label(id!='<%= fund_id %>') Additional Information 
+                         i.fa.fa-chevron-circle-down  
+                         span(class="description_control") <%= description %>
+                      h4.fund_link
+                       a(href!='<%=fund_link %>', target='_blank') Apply Now
+                    hr
+  //underscore
+  script(src="javascript/lib/underscore.js")  
   // jQuery
-  script(src='javascript/jquery.js')
+  script(src='javascript/lib/jquery.js')
+  //Backbone
+  script(src="javascript/lib/backbone.js")
   // Bootstrap Core JavaScript
-  script(src='javascript/bootstrap.min.js')
+  script(src='javascript/lib/bootstrap.min.js')
   // Plugin JavaScript
-  script(src='javascript/jquery.easing.min.js')
+  script(src='javascript/lib/jquery.easing.min.js')
   // Custom Theme JavaScript
-  script(src='javascript/grayscale.js')
+  script(src='javascript/index.js')
   //Modernizr
-  script(src='javascript/modernizr-custom.js')
+  script(src='javascript/lib/modernizr-custom.js')
+  script.
+    var fundData =!{JSON.stringify(funds)};
+    var fundDescription = !{JSON.stringify(descriptions)};
   //search functions
   script(src='javascript/search.js')
 

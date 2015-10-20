@@ -41,9 +41,9 @@ html(lang='en')
             li.hidden
               a(href='#page-top')
             li
-              a.page-scroll(href='/#about') The App
+              a.page-scroll(href='#about') The App
             li
-              a.page-scroll(href='#download') Start a grant
+              a.page-scroll(href='#trial') Start a grant
             li
               a.page-scroll(href='#contact') Contact us
         // /.navbar-collapse
@@ -105,11 +105,15 @@ html(lang='en')
     footer
       .container.text-center
         p Copyright © Zipfund 2015
+    //underscore
+    script(src="javascript/lib/underscore.js")  
     // jQuery
-    script(src='javascript/jquery.js')
+    script(src='javascript/lib/jquery.js')
+    //Backbone
+    script(src="javascript/lib/backbone.js")
     // Bootstrap Core JavaScript
-    script(src='javascript/bootstrap.min.js')
+    script(src='javascript/lib/bootstrap.min.js')
     // Plugin JavaScript
-    script(src='javascript/jquery.easing.min.js')
+    script(src='javascript/lib/jquery.easing.min.js')
     // Custom Theme JavaScript
-    script(src='javascript/grayscale.js')
+    script(src='javascript/index.js')
