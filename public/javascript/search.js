@@ -1,90 +1,102 @@
-
-// Only this file doesn't use backbone
-
 $(document).ready(function() {
   var bool = false;
-  for(var i = 0; i < fundData.length; i++){
+
+  for (var i = 0; i < fundData.length; i++) {
     var FundModel = Backbone.Model.extend({
-       defaults:{
-       	fund_title: '',
-       	maximum_amount: 0,
-       	minimum_age: 0,
-       	maximum_age: 0,
-       	fund_id: 0,
-       	description: '',
-       	fund_link: ''
+      defaults: {
+        fund_title: '',
+        maximum_amount: 0,
+        minimum_age: 0,
+        maximum_age: 0,
+        fund_id: 0,
+        description: '',
+        fund_link: ''
       }
     });
-   var FundView = Backbone.View.extend({
-     tagname: 'ul',
-     template: _.template($('#fund-template').html()),
-      render: function(){
+
+    var FundView = Backbone.View.extend({
+      tagname: 'ul',
+
+      template: _.template($('#fund-template').html()),
+
+      render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this; // enable chained calls
-     }
+      }
    });
-   var FundList = Backbone.View.extend({
-       el:".page-header",
 
-       initialize: function(){
+    var FundList = Backbone.View.extend({
+      el:".page-header",
+
+      initialize: function(){
         this.fundDisplay();
         this.infoToggle();
-        },
+      },
 
-       fundDisplay: function(){
-      	var fund = new FundModel({fund_title: fundData[i].title,
-        maximum_amount: "£" + fundData[i].maximum_amount, minimum_age: fundData[i].minimum_age,
-       	maximum_age: fundData[i].maximum_age, fund_id: fundData[i].id ,description: fundDescription[fundData[i].title],
-        fund_link: fundData[i].link});
-        var view = new FundView({model: fund});
+      fundDisplay: function(){
+        var fund = new FundModel({
+          fund_title: fundData[i].title,
+          maximum_amount: "£" + fundData[i].maximum_amount,
+          minimum_age: fundData[i].minimum_age,
+          maximum_age: fundData[i].maximum_age,
+          fund_id: fundData[i].id,
+          description: fundDescription[fundData[i].title],
+          fund_link: fundData[i].link
+        });
+
+        var view = new FundView({ model: fund });
+
         this.$el.append(view.render().el);
+
         if(!fundData[i].maximum_age){
-        	$(".fund_max_age").toggle(false);
+          $(".fund_max_age").toggle(false);
         }
-         if(!fundData[i].minimum_age){
-        	$(".fund_min_age").toggle(false);
-        }
-       },
 
-       infoToggle: function(){
-	       	$("#" + fundData[i].id).css("margin-top", "20px");
-	       	$("#" + fundData[i].id).css("margin-bottom", "15px");
-	       	$("#" + fundData[i].id).css("font-size", "16px");
-		      $("#" + fundData[i].id).on("click", function(){
-		        if(bool){
-		    		$(this).children("span").toggle(false);
-		    		bool = false;
-		    		}
-			    	else{
-               $(this).children("span").css("display" , "block");
-			    	   $(this).children("span").css("margin-top" , "5px");
-			    	   bool = true;
-            }
-			    })
-	      }
-   })
-   var FundList = new FundList();
- }
-	  function doneResizing() {
-    	var form = document.getElementsByClassName("search_form");
-        if(Modernizr.mq('screen and (min-width:920px)')) {
-            // action for screen widths including and above 768 pixels 
-            $(".navbar-header").append(form);
+        if(!fundData[i].minimum_age){
+          $(".fund_min_age").toggle(false);
         }
-        else if(Modernizr.mq('screen and (max-width:920px)')) {
-            // action for screen widths below 768 pixels 
-            $("#about").prepend(form);
-        }
+      },
+
+      infoToggle: function(){
+        $("#" + fundData[i].id).css("margin-top", "20px");
+        $("#" + fundData[i].id).css("margin-bottom", "15px");
+        $("#" + fundData[i].id).css("font-size", "16px");
+        $("#" + fundData[i].id).on("click", function() {
+          if(bool){
+            $(this).children("span").toggle(false);
+            bool = false;
+          }
+          else{
+            $(this).children("span").css("display" , "block");
+            $(this).children("span").css("margin-top" , "5px");
+            bool = true;
+          }
+        });
+      }
+   });
+
+  var FundList = new FundList();
+  }
+
+  function doneResizing() {
+    var form = document.getElementsByClassName("search_form");
+
+    if(Modernizr.mq('screen and (min-width:920px)')) {
+      // action for screen widths including and above 768 pixels
+      $(".navbar-header").append(form);
     }
-    var id;
-    $(window).resize(function() {
-        clearTimeout(id);
-        id = setTimeout(doneResizing, 0);
-    });
-    doneResizing();
-})
+    else if(Modernizr.mq('screen and (max-width:920px)')) {
+      // action for screen widths below 768 pixels
+      $("#about").prepend(form);
+    }
+  }
 
+  var id;
 
+  $(window).resize(function() {
+    clearTimeout(id);
+    id = setTimeout(doneResizing, 0);
+  });
 
-
-      
+  doneResizing();
+});
