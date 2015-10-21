@@ -25,23 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Load routes
 routes.initialize(app);
 
-app.get('/db', function (request, response) {
-  app.set('views', path.join(__dirname, 'check_db'));
-  app.set('view engine', 'ejs');
-
-  var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
-
-  pg.connect(connectionString , function(err, client, done) {
-    client.query('SELECT * FROM items', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('db', {results: result.rows} ); }
-    });
-  });
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
