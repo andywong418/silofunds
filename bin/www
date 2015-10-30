@@ -35,7 +35,8 @@ models.sequelize.sync().then(function () {
       console.log("Does the ES index exist?:");
       console.log(resp);
 
-      // If it exists, refresh its settings & mappings by deleting & creating again.
+      // If it exists, refresh its settings & mappings by deleting & creating again. This will
+      // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
       if (resp) {
         models.es.indices.delete({ index: 'funds' });
 
