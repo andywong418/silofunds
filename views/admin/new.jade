@@ -52,6 +52,8 @@ html(lang='en')
       // /.container
     section#about.container.content-section.text-center
       .row
+        a(href='/admin') Back to Manage Funds
+        hr
         form.create_fund(action='/admin', method='post', name='create_fund')
           input(type='text', name='title', id = "new_title", placeholder = "Title", required)
           hr
