@@ -26,6 +26,39 @@ models.sequelize.sync().then(function () {
     } else {
       console.log('All is well');
     }
+
+    models.es.indices.exists({ index: 'funds' }, function(err, resp) {
+      if (err) {
+        console.log(err);
+      }
+
+      console.log("Does the ES index exist?:");
+      console.log(resp);
+
+      // If it exists, refresh its settings & mappings by deleting & creating again.
+      if (resp) {
+        models.es.indices.delete({ index: 'funds' });
+
+        models.es.indices.create({
+          index: 'funds',
+          body: {
+            'settings': {},
+            'mappings': {
+              'fund': {
+                'properties': {
+                  'title': {
+                    'type': 'string',
+                    'fields': {
+                      "raw": { "type": "string", "index": "not_analyzed" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    });
   });
 
   /**
