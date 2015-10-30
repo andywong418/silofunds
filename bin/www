@@ -88,6 +88,22 @@ models.sequelize.sync().then(function () {
 
         console.log(funds);
         console.log('\n\n')
+
+        // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+
+        // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+        funds.forEach(function(fund) {
+          body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+          var wrapper = {};
+          wrapper['title'] = fund.title;
+          body.push(wrapper);
+        });
+
+        models.es.bulk({
+          body: body
+        }, function (err, resp) {
+          console.log(resp);
+        });
       }
     });
   }
