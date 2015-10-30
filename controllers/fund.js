@@ -18,17 +18,17 @@ module.exports = {
     var searchAmount = parseInt(req.body.amount);
     var injectionVariables = [searchString];
 
-    var sql = "SELECT * from funds WHERE ? % ANY(tags)";
+    var sql = "SELECT * from funds" // WHERE ? % ANY(tags)";
 
-    if (searchAge) {
-      sql = sql + " AND " + "minimum_age <= ?";
-      injectionVariables.push(searchAge);
-    }
-
-    if (searchAmount) {
-      sql = sql + " AND " + "maximum_amount >= ?";
-      injectionVariables.push(searchAmount);
-    }
+    // if (searchAge) {
+    //   sql = sql + " AND " + "minimum_age <= ?";
+    //   injectionVariables.push(searchAge);
+    // }
+    //
+    // if (searchAmount) {
+    //   sql = sql + " AND " + "maximum_amount >= ?";
+    //   injectionVariables.push(searchAmount);
+    // }
 
     models.sequelize.query(sql, {
       replacements: injectionVariables,
