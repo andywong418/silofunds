@@ -103,6 +103,11 @@ models.sequelize.sync().then(function () {
           body: body
         }, function (err, resp) {
           console.log(resp);
+
+          // Timestamp from table rounds down. Here is the correction to avoid duplication.
+          var lastUpdateFromTable = funds[funds.length - 1].created_at;
+          lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+          lastUpdate = lastUpdateFromTable;
         });
       }
     });
