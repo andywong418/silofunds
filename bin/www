@@ -61,6 +61,13 @@ models.sequelize.sync().then(function () {
     });
   });
 
+  var CronJob = require('cron').CronJob;
+  var lastUpdate = new Date();
+
+  var checkForChanges = function checkForChanges() {
+  }
+  var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+
   /**
    * Normalize a port into a number, string, or false.
    */
