@@ -8,11 +8,11 @@ html(lang='en')
     meta(name='author', content='')
     title Grayscale - Start Bootstrap Theme
     // Bootstrap Core CSS
-    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../stylesheets/bootstrap.min.css', rel='stylesheet')
     // Custom CSS
-    link(href='stylesheets/search.css', rel='stylesheet')
+    link(href='../stylesheets/search.css', rel='stylesheet')
     // Custom Fonts
-    link(href='font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    link(href='../font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Kameron', rel='stylesheet', type='text/css')
@@ -50,38 +50,23 @@ html(lang='en')
             a.page-scroll(href='#contact') Contact us
       // /.navbar-collapse
       // /.container
-
-
     section#about.container.content-section.text-center
-        .row
-          a(href='/funds/new') Create new fund
-          .col-lg-8.col-lg-offset-2
-            div.results
-              h3
-                span='Manage ' + funds.length + ' funds'
-
-            div.page-header
-              ul.database
-                - for (var i=0; i < funds.length; i++) {
-                  - var title = funds[i].title;
-                  - var link = funds[i].link;
-                .fund_list
-                  li
-                    h3.fund_title=funds[i].title
-                  li
-                    p.fund_amount Amount given:
-                      span.control= ' £'+funds[i].maximum_amount
-                    - if (funds[i].minimum_age) {
-                      p.fund_min_age Minimum Age:
-                        span.control=funds[i].minimum_age
-                    - }
-                    - if (funds[i].maximum_age) {
-                      p.fund_max_age Maximum Age:
-                        span.control=funds[i].maximum_age
-                    - }
-                    p.fund_description Additional Information:
-                       =descriptions[title]
-                    h4.fund_link
-                     a(href=link, target='_blank') Apply Now
-                  hr
-                - }
+      .row
+        form.create_fund(action='/admin', method='post', name='create_fund')
+          input(type='text', name='title', id = "new_title", placeholder = "Title", required)
+          hr
+          input(type='text', name='keywords', id = "tags", placeholder = "Tags", required)
+          hr
+          input(type='number', name='min_age', id = "min_age", placeholder = "Minimum age")
+          hr
+          input(type='number', name='max_age', id = "max_age", placeholder = "Maximum age")
+          hr
+          input(type='number', name='min_amount', id = "min_amount", placeholder = "Minimum amount")
+          hr
+          input(type='number', name='max_amount', id = "max_amount", placeholder = "Maximum amount")
+          hr
+          input(type='checkbox', name='invite', id = "invite", placeholder = "Invite only")
+          hr
+          input(type='text', name='link', id = "link", placeholder = "Link")
+          hr
+          button.btn.btn-danger(type='submit') Create
