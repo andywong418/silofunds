@@ -10,6 +10,11 @@ $(function() {
     event.preventDefault();
   });
 
+  $("input#text_search" ).autocomplete({
+    source: "../autocomplete",
+    minLength: 1
+  });
+
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
 
@@ -39,7 +44,7 @@ $(function() {
     events:{
       "click": "navbarToggle"
     },
-    
+
     navbarToggle: function(){
       $('.navbar-toggle:visible').click();
     }

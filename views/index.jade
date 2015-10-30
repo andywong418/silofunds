@@ -7,6 +7,8 @@ html(lang='en')
     meta(name='description', content='')
     meta(name='author', content='')
     title Zipfund
+    // jQuery UI
+    link(href='stylesheets/jquery-ui.min.css', rel='stylesheet')
     // Bootstrap Core CSS
     link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
     // Custom CSS
@@ -61,7 +63,7 @@ html(lang='en')
                   span
               p.intro-text Funding made easy
               form.search_form(action='/search', method='post', name='search_form')
-                input#text_search(type='text', name='tags', placeholder='Search terms')
+                input#text_search(type='text', name='tags', placeholder='Search terms' autocomplete = "off")
                 input#amount_req(type='number', name='amount', placeholder='Amount required')
                 input#age(type='number', name='age', placeholder='Age')
                 button#search_button.btn.btn-danger(type='submit') Search
@@ -74,11 +76,11 @@ html(lang='en')
             | Zipfund is a platform which connects those who need funding with those who provide it. Our unique search engine filters down your situation and provides the most suitable grants for your needs.
     section#trial.container.content-section.text-center
       .row
-        
+
           a#subscribeLink.btn.btn-lg
             span Start a grant hassle free!
 
-            
+
     // Contact Section
     section#contact.container.content-section.text-center
       .row
@@ -106,9 +108,11 @@ html(lang='en')
       .container.text-center
         p Copyright © Zipfund 2015
     //underscore
-    script(src="javascript/lib/underscore.js")  
+    script(src="javascript/lib/underscore.js")
     // jQuery
     script(src='javascript/lib/jquery.js')
+    // jQuery UI
+    script(src='javascript/lib/jquery-ui.min.js')
     //Backbone
     script(src="javascript/lib/backbone.js")
     // Bootstrap Core JavaScript
