@@ -65,6 +65,31 @@ models.sequelize.sync().then(function () {
   var lastUpdate = new Date();
 
   var checkForChanges = function checkForChanges() {
+    console.log('You will see this message every 30 second');
+    var log = 'Last updated: ' + lastUpdate;
+    console.log(log);
+
+    models.funds.findAll({
+      where: {
+        created_at: {
+          $gte: lastUpdate
+        }
+      },
+      order: 'created_at ASC'
+    }).then(function(funds) {
+      if (funds.length == 0) {
+        console.log("nothing to update....\n")
+      } else {
+        var body = [];
+        var funds = funds.map(function(fund) {
+          var json = fund.toJSON();
+          return json;
+        });
+
+        console.log(funds);
+        console.log('\n\n')
+      }
+    });
   }
   var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
