@@ -1,5 +1,4 @@
 var models = require('../models');
-var descriptions = require('../helpers/descriptionsHelper.js');
 
 module.exports = {
   index: function(req, res) {
@@ -9,7 +8,7 @@ module.exports = {
         return json;
       });
       console.log(funds);
-      res.render('search', { funds: funds, descriptions: descriptions });
+      res.render('search', { funds: funds });
     });
   },
 
@@ -35,7 +34,7 @@ module.exports = {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-      res.render('search', { funds: funds, descriptions: descriptions });
+      res.render('search', { funds: funds });
     });
   },
 }

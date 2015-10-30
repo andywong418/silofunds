@@ -1,5 +1,4 @@
 var models = require('../models');
-var descriptions = require('../helpers/descriptionsHelper.js');
 
 module.exports = {
   index: function(req, res) {
@@ -9,7 +8,7 @@ module.exports = {
         return json;
       });
 
-      res.render('admin/index', { funds: funds, descriptions: descriptions });
+      res.render('admin/index', { funds: funds });
     });
   },
 
