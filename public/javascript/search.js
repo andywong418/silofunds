@@ -40,7 +40,7 @@ $(document).ready(function() {
           minimum_age: fundData[i].minimum_age,
           maximum_age: fundData[i].maximum_age,
           fund_id: fundData[i].id,
-          description: fundDescription[fundData[i].title],
+          description: fundData[i].description,
           fund_link: fundData[i].link
         });
 
