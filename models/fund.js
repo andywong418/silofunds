@@ -49,6 +49,30 @@ module.exports = function(sequelize, DataTypes) {
     link: {
       type: DataTypes.TEXT,
       field: 'link'
+    },
+    description: {
+      type: DataTypes.TEXT,
+      field: 'description'
+    },
+    nationality: {
+      type: DataTypes.STRING(40),
+      field: 'nationality'
+    },
+    religion: {
+      type: DataTypes.STRING(40),
+      field: 'religion'
+    },
+    gender: {
+      type: DataTypes.STRING(40),
+      field: 'gender'
+    },
+    financial_situation: {
+      type: DataTypes.TEXT,
+      field: 'financial_situation'
+    },
+    merit_or_finance: {
+      type: DataTypes.TEXT,
+      field: 'merit_or_finance'
     }
   }, {
     timestamps: true,
