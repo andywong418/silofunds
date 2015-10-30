@@ -90,6 +90,7 @@ models.sequelize.sync().then(function () {
         console.log('\n\n')
 
         // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+        // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
 
         // Prepare body for _bulk processing. Each element in body array HAS to be an object.
         funds.forEach(function(fund) {
