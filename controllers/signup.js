@@ -12,7 +12,6 @@ module.exports = {
      	password: userpassword
      })
      res.render('signup');
-
-   }
+     }
 
 }

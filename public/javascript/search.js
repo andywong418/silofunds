@@ -74,10 +74,12 @@ $(document).ready(function() {
         });
       }
    });
+    
 
   var FundList = new FundList();
   }
-
+   
+  
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
 

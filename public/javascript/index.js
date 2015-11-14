@@ -1,14 +1,6 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
-  $('a.page-scroll').bind('click', function(event) {
-    var $anchor = $(this);
-
-    $('html, body').stop().animate({
-      scrollTop: $($anchor.attr('href')).offset().top
-    }, 1500, 'easeInOutExpo');
-
-    event.preventDefault();
-  });
+  
 
    var $form_modal = $('.cd-user-modal'),
     $form_login = $form_modal.find('#cd-login'),
@@ -37,6 +29,7 @@ $(function() {
     }
 
   });
+
 
   //close modal
   $('.cd-user-modal').on('click', function(event){
@@ -102,15 +95,7 @@ $(function() {
     $form_forgot_password.addClass('is-selected');
   }
 
-  //REMOVE THIS - it's just to show error messages 
-  $form_login.find('input[type="submit"]').on('click', function(event){
-    event.preventDefault();
-    $form_login.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible');
-  });
-  $form_signup.find('input[type="submit"]').on('click', function(event){
-    event.preventDefault();
-    $form_signup.find('input[type="email"]').toggleClass('has-error').next('span').toggleClass('is-visible');
-  });
+
 
   //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
 jQuery.fn.putCursorAtEnd = function() {

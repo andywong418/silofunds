@@ -150,13 +150,14 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../images/background_2_test2.jpg) no-repeat bottom center scroll;
+    background: url(../images/graduation.jpg) no-repeat bottom center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    background-position: center;
+    background-position: 50% 18%;
+
 }
 
 .intro .intro-body {
@@ -165,126 +166,51 @@ a:focus {
 }
 
 .intro .intro-body .brand-heading {
-    font-size: 50px;
+    font-size: 80px;
 }
 
 .intro .intro-body .intro-text {
     font-size: 18px;
     font-family: sans-serif;
-    font-weight:bold;
-    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+
 }
 
 @media(min-width:768px) {
     .intro {
-        height: 95%;
+        height: 90%;
         padding: 0;
     }
 
     .intro .intro-body .brand-heading {
-        font-size: 50px;
-        font-family:'Pacifico', sans-serif;
+        
+        font-family:'Source Sans Pro', sans-serif;
         padding-top: 80px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+
+
 
     }
 
     .intro .intro-body .intro-text {
         font-size: 18px;
-        font-family: sans-serif;
-        text-transform: uppercase;
+        font-family: "Helvetica Neue";
+        font-weight: bold;
 
+
+        
+    }
+    .intro-text{
+      margin-top: -25px;
     }
 }
 
-.btn-circle {
-    width: 70px;
-    height: 70px;
-    margin-top: 15px;
-    padding: 7px 16px;
-    border: 2px solid #fff;
-    border-radius: 100%!important;
-    font-size: 40px;
-    color: #fff;
-    background: 0 0;
-    -webkit-transition: background .3s ease-in-out;
-    -moz-transition: background .3s ease-in-out;
-    transition: background .3s ease-in-out;
-}
 
-.btn-circle:hover,
-.btn-circle:focus {
-    outline: 0;
-    color: #fff;
-    background: rgba(255,255,255,.1);
-}
 
-.btn-circle i.animated {
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
-}
 
-.btn-circle:hover i.animated {
-    -webkit-animation-name: pulse;
-    -moz-animation-name: pulse;
-    -webkit-animation-duration: 1.5s;
-    -moz-animation-duration: 1.5s;
-    -webkit-animation-iteration-count: infinite;
-    -moz-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    -moz-animation-timing-function: linear;
-}
 
-@-webkit-keyframes pulse {    
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
-
-    50% {
-        -webkit-transform: scale(1.2);
-        transform: scale(1.2);
-    }
-
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
-}
-
-@-moz-keyframes pulse {    
-    0% {
-        -moz-transform: scale(1);
-        transform: scale(1);
-    }
-
-    50% {
-        -moz-transform: scale(1.2);
-        transform: scale(1.2);
-    }
-
-    100% {
-        -moz-transform: scale(1);
-        transform: scale(1);
-    }
-}
-
-.content-section {
-    padding-top: 100px;
-}
-
-.download-section {
-    width: 100%;
-    padding: 50px 0;
-    color: #fff;
-    background: url(../img/downloads-bg.jpg) no-repeat center center scroll;
-    background-color: #000;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-}
 
 #map {
     width: 100%;
@@ -367,28 +293,12 @@ footer p {
     background: rgba(255,255,255,.2);
 }
 
-::selection {
-    text-shadow: none;
-    background: #fcfcfc;
-    background: rgba(255,255,255,.2);
-}
 
-img::selection {
-    background: 0 0;
-}
-
-img::-moz-selection {
-    background: 0 0;
-}
-
-body {
-    webkit-tap-highlight-color: rgba(255,255,255,.2);
-}
 
 .title
 {
 text-transform: lowercase;
-
+font-family: "Source Sans Pro";
 }
 
 #subscribeLink
@@ -468,6 +378,26 @@ text-transform: lowercase;
   height:40px;
   border-radius: 5px;
 }
+
+
+}
+
+@media(max-width: 696px){
+    #search_button{
+        margin-top: 5px;
+    }
+}
+@media(max-width: 610px){
+    #search_button{
+        margin-top: 0;
+    }
+}
+@media(max-width: 436px){
+    #search_button{
+        margin-top: 5px;
+    }
+}
+
 
 i{
     color:white;
@@ -558,7 +488,7 @@ a.cd-signin{
   cursor: auto;
   border-radius: 0.25em;
   color: black;
-  font-family: "PT Sans";
+  font-family: "Montserrat";
   -webkit-transform: translateY(-30px);
   -moz-transform: translateY(-30px);
   -ms-transform: translateY(-30px);
@@ -579,7 +509,7 @@ a.cd-signin{
 
 .cd-switcher{
     list-style: none;
-    
+
 }
 
 .cd-user-modal-container .cd-switcher li {
@@ -618,6 +548,12 @@ a.cd-signin{
   }
 }
 
+@media(max-width: 990px){
+  .cd-user-modal-container{
+    margin-top: 120px;
+  }
+}
+
 .cd-form {
   padding: 1.4em;
 
@@ -625,6 +561,7 @@ a.cd-signin{
 .cd-form .fieldset {
   position: relative;
   margin: 1.4em 0;
+
 }
 .cd-form .fieldset:first-child {
   margin-top: 0;
@@ -668,9 +605,11 @@ a.cd-signin{
   background-image: url("../images/cd-icon-password.svg");
 }
 .cd-form input {
+  
   margin: 0;
   padding: 0;
   border-radius: 0.25em;
+
 }
 .cd-form input.full-width {
   width: 100%;
@@ -787,6 +726,7 @@ a.cd-signin{
   }
   .cd-form input.has-padding {
     padding: 16px 20px 16px 50px;
+
   }
   .cd-form button[type=submit] {
     padding: 16px 0;
@@ -849,7 +789,7 @@ a.cd-signin{
   display: block;
 }
 #cd-signup input{
-  font-family: "PT Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 15px;
   
 }
@@ -867,7 +807,7 @@ a.cd-signin{
 }
 
 #cd-login input{
-  font-family: "PT Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 15px;
 }
 .cd-user-modal-container ul, li{
@@ -898,8 +838,10 @@ time, mark, audio, video {
 }
 
 #accept-terms{
+  position:relative;
     float:left;
-    margin-top: 15px;
+    margin-top: 16px;
+   z-index: 4;
   
 }
 
@@ -930,5 +872,15 @@ time, mark, audio, video {
    font-size: 15px;
 
 }
+
+.text-center{
+  margin-top: 30px;
+}
+
+.btn.btn-block{
+  font-size: 15px;
+}
+
+
 
 

@@ -3,6 +3,9 @@ var users = require('../routes/users');
 var search = require('../routes/search');
 var funds = require('../routes/funds');
 var signup = require('../routes/signup');
+var login = require('../routes/login');
+
+
 
 module.exports.initialize = function (app) {
   app.use('/', index);
@@ -10,4 +13,6 @@ module.exports.initialize = function (app) {
   app.use('/search', search);
   app.use('/funds', funds);
   app.use('/signup', signup);
+  app.use('/login', login);
+
 };
