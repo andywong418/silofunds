@@ -39,46 +39,46 @@ models.sequelize.sync().then(function () {
       // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
       if (resp) {
         models.es.indices.delete({ index: 'funds' });
+      }
 
-        models.es.indices.create({
-          index: 'funds',
-          body: {
-            "settings": {
-              "analysis": {
-                "filter": {
-                  "autocomplete_filter": {
-                    "type": "edge_ngram",
-                    "min_gram": 1,
-                    "max_gram": 20
-                  }
-                },
-                "analyzer": {
-                  "autocomplete": {
-                    "type": "custom",
-                    "tokenizer": "standard",
-                    "filter": [
-                      "lowercase",
-                      "autocomplete_filter"
-                    ]
-                  }
+      models.es.indices.create({
+        index: 'funds',
+        body: {
+          "settings": {
+            "analysis": {
+              "filter": {
+                "autocomplete_filter": {
+                  "type": "edge_ngram",
+                  "min_gram": 1,
+                  "max_gram": 20
+                }
+              },
+              "analyzer": {
+                "autocomplete": {
+                  "type": "custom",
+                  "tokenizer": "standard",
+                  "filter": [
+                    "lowercase",
+                    "autocomplete_filter"
+                  ]
                 }
               }
-            },
-            'mappings': {
-              'fund': {
-                'properties': {
-                  'title': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
-                    }
+            }
+          },
+          'mappings': {
+            'fund': {
+              'properties': {
+                'title': {
+                  'type': 'string',
+                  'fields': {
+                    "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
                   }
                 }
               }
             }
           }
-        });
-      }
+        }
+      });
     });
   });
 
