@@ -129,7 +129,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
     initialize: function() {
       _.bindAll(this, "render", "collapseNavbar");
-
+      this.render();
     },
 
     render: function(){
