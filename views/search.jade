@@ -41,18 +41,15 @@ html(lang='en')
         // Collect the nav links, forms, and other content for toggling
         #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
           ul.nav.navbar-nav
-            // Hidden li included to remove active class from about link when scrolled up past about section
-            li.hidden
-              a(href='#page-top')
             li
-             a.cd-signin.page-scroll(href='#0') Log in
+             a.cd-login.page-scroll.pre-signin(href='#0') Log in
             li
-             a.cd-signup.page-scroll(href='#0') Sign up
-            li
+             a.cd-signup.page-scroll.pre-signin(href='#0') Sign up
+            li.post-signin
              i.fa.fa-user
-            li
+            li.post-signin
              i.fa.fa-comment-o
-            li
+            li.post-signin
              i.fa.fa-pencil-square-o
       // /.navbar-collapse
       // /.container
@@ -161,13 +158,15 @@ html(lang='en')
   script(src='javascript/lib/bootstrap.min.js')
   // Plugin JavaScript
   script(src='javascript/lib/jquery.easing.min.js')
-  //search functions
-  script(src='javascript/search.js')
   // Custom Theme JavaScript
   script(src='javascript/index.js')
+  //search functions
+  script(src='javascript/search.js')
   //Modernizr
   script(src='javascript/lib/modernizr-custom.js')
   script.
     var fundData =!{JSON.stringify(funds)};
     var fundDescription = !{JSON.stringify(descriptions)};
+    
+
   

@@ -23,7 +23,6 @@ module.exports = function(passport) {
         models.users.find({
           where: {email: username}
         }).then(function(user){
-            console.log(user.password);
             if (!user){
             return done(null, false, { message: 'There is no account under this name.'} );
             }
@@ -47,7 +46,24 @@ module.exports = function(passport) {
 //             enableProof: false
 //     },
 //     function(accessToken, refreshToken, profile, done) {
-      
+//       models.users.find({
+//         where: {email: profile[0].email.value}
+//       }).then(function(user)){
+//            if(user){
+//             return done(null, user); // user found, return that user
+//            }
+//            else{
+//             var accessToken = accessToken;
+//             models.users.create({
+//             username: profile.name.givenName + profile.name.familyName,
+//             email: profile[0].email.value
+//            }).then(function(newUser){
+//               return done(null, newUser);
+//            });
+              
+//            }
+
+//       }
           
 //   }
 // ));

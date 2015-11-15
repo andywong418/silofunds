@@ -334,7 +334,7 @@ font-family: "Source Sans Pro";
     }
 }
 
-.navbar-custom .nav li a.cd-signin:hover, .navbar-custom .nav li a:focus, .navbar-custom .nav li a.active {
+.navbar-custom .nav li a.cd-signin:hover,.navbar-custom .nav li a.cd-login:hover, .navbar-custom .nav li a:focus, .navbar-custom .nav li a.active {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3);
 }
@@ -430,11 +430,13 @@ a.cd-signup{
 
 
 
-a.cd-signin{
+a.cd-login{
     margin-top: 5px;
     margin-right: 10px;
     color:#E3E7E8;
 }
+
+
 
 .nav li a.cd-signin:hover{
     color:white;

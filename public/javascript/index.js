@@ -11,21 +11,29 @@ $(function() {
     $tab_signup = $form_modal_tab.children('li').eq(1).children('a'),
     $forgot_password_link = $form_login.find('.cd-form-bottom-message a'),
     $back_to_login_link = $form_forgot_password.find('.cd-form-bottom-message a'),
-    $main_nav = $('.navbar-nav');
+    $main_nav = $('.pre-signin');
 
   //open modal
   $main_nav.on('click', function(event){
     $('.cd-switcher').css('display', 'inline')
-    if( $(event.target).is($main_nav) ) {
-      // on mobile open the submenu
-      $(this).children('ul').toggleClass('is-visible');
-    } else {
-      // on mobile close submenu
+    if($(event.target).is($main_nav) ) {
+     
+       // on mobile close submenu
       $main_nav.children('ul').removeClass('is-visible');
       //show modal layer
       $form_modal.addClass('is-visible'); 
       //show the selected form
-      ( $(event.target).is('.cd-signup') ) ? signup_selected() : login_selected();
+      if($(event.target).is('.cd-signup')){
+        signup_selected();
+      }
+      else if($(event.target).is('.cd-login')){
+        login_selected();
+      }
+    } else {
+      
+  // on mobile open the submenu
+      $(this).children('ul').toggleClass('is-visible');
+      
     }
 
   });
@@ -120,7 +128,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
     initialize: function() {
       _.bindAll(this, "render", "collapseNavbar");
-      this.render();
+      
     },
 
     render: function(){
@@ -149,6 +157,7 @@ jQuery.fn.putCursorAtEnd = function() {
       $('.navbar-toggle:visible').click();
     }
   });
+
 
   var scrollView = new Scrollview();
   var menuView = new Menuview();

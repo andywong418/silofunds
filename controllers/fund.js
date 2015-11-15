@@ -19,8 +19,9 @@ module.exports = {
         var json = fund.toJSON();
         return json;
       });
+      
 
-      res.render('funds/index', { funds: funds, descriptions: descriptions });
+      res.render('funds/index', { funds: funds, descriptions: descriptions});
     });
   },
 
@@ -46,7 +47,7 @@ module.exports = {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-      res.render('search', { funds: funds, descriptions: descriptions });
+      res.render('search', { funds: funds, descriptions: descriptions, user: false });
     });
   },
 

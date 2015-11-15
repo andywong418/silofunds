@@ -1,6 +1,7 @@
 var passport = require('passport');
 require('../controllers/passport')(passport);
 
+
 module.exports = {
   
   loginFailure: function(req, res){
@@ -9,8 +10,10 @@ module.exports = {
   },
   redirectUser: function(req, res){
   	  
-  	  res.send({user: true});
+  	  
   		res.redirect('/search');
+
+
   	}
 
 }
