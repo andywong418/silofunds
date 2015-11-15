@@ -127,7 +127,7 @@ a:focus {
 /*customised code*/
 @media(min-width:768px) {
     .navbar-custom {
-        
+
         background-color:rgba(45,74,118,1.0);
         height: 60px;
         -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
@@ -140,36 +140,26 @@ a:focus {
         background: rgba(45,74,118,0.8);
     }
 
-   
-
     #brand-heading {
         margin-left: -60px;
-        
-
     }
 
     .search_form {
     font-family: "Montserrat";
     color: black;
     padding-top: 3px;
-    
+
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     display: inline-block;
     float: left;
-
-
   }
 
     #container {
         margin-top: 5px;
     }
- 
 }
-
-
-
 
 .navbar-custom .nav li a:hover, .navbar-custom .nav li a:focus, .navbar-custom .nav li a.active {
     outline: none;
@@ -180,18 +170,18 @@ a:focus {
 {
     font-family: "Montserrat";
     color: black;
-    
+
     box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  
+
 }
 
 i {
     color:white;
 }
 
-.fa.fa-chevron-circle-down 
+.fa.fa-chevron-circle-down
 {
     color: black;
 }
@@ -227,17 +217,17 @@ i {
 }
 
 #brand-heading {
-  
+
   font-size: 30px;
   font-family:'Roboto Slab', sans-serif;
   font-style: normal;
   color:white;
-  
-  
+
+
   background-color: transparent;
 }
 @media(max-width: 1020px){
-  
+
     #brand-heading{
         margin-left: 1px;
     }
@@ -247,7 +237,6 @@ i {
     #brand-heading{
         font-size: 25px;
         margin-left: -100px;
-
     }
 
     .search_form{
@@ -258,9 +247,6 @@ i {
     #search_button{
         height:25px;
         padding: 0 10px;
-
-
-
     }
 
     #text_search{
@@ -274,15 +260,7 @@ i {
     #age{
         height: 25px
     }
-   
-
-
-
 }
-
-
-
-
 
 @media(max-width: 530px){
     .results{
@@ -295,15 +273,12 @@ i {
         margin-top: 5px;
     }
 }
-#title
-{
-text-transform: lowercase;
-
+#title {
+  text-transform: lowercase;
 }
 
-#about{
+#about {
     margin-top: 100px;
-
 }
 
 .results
@@ -335,7 +310,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   font-family: 'sans-serif';
   margin-top: 50px;
   font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
-} 
+}
 
 .database p {
   margin: 15px;
@@ -386,14 +361,9 @@ list-style-type: none;
     display:  none;
 }
 
-
-
-
 #checkbox{
     display: none;
 }
-
-
 
 .fa.fa-chevron-circle-down{
     color:black;
@@ -403,16 +373,13 @@ list-style-type: none;
         margin-top:80px;
      }
 
-     .search_form{
-       
-       
-       width: 100%;
+    .search_form{
+     width: 100%;
+    }
 
-
-     }
-     #search_button{
-        margin-top: -1px;
-     }
+    #search_button{
+      margin-top: -1px;
+    }
 
     #brand-heading{
         font-size: 25px;
@@ -427,13 +394,11 @@ list-style-type: none;
     .search_form {
         margin-top: 15px;
         margin-left: -5px;
-        
     }
 
     .results{
         margin-top: 30px;
     }
-
 }
 
 @media(max-width:530px){
@@ -519,21 +484,22 @@ list-style-type: none;
 .cd-switcher{
     list-style: none;
     z-index: 4
-
 }
 
 .cd-user-modal-container .cd-switcher li {
   width: 50%;
   float: left;
   text-align: center;
-
 }
+
 .cd-user-modal-container .cd-switcher li:first-child a {
   border-radius: 0.25em 0 0 0;
 }
+
 .cd-user-modal-container .cd-switcher li:last-child a {
   border-radius: 0 0.25em 0 0;
 }
+
 .cd-user-modal-container .cd-switcher a {
   display: block;
   width: 100%;
@@ -541,12 +507,13 @@ list-style-type: none;
   line-height: 50px;
   background: #d2d8d8;
   color: #809191;
-
 }
+
 .cd-user-modal-container .cd-switcher a.selected {
   background: #FFF;
   color: #505260;
 }
+
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
     margin: 4em auto;
@@ -676,7 +643,7 @@ list-style-type: none;
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
   font-size: 14px;
-  
+
   color: #343642;
 }
 .cd-form .cd-error-message {
@@ -738,13 +705,13 @@ list-style-type: none;
     padding: 16px 0;
   }
 
-  
+
 }
 
 .cd-form-message {
   padding: 1.4em 1.4em 0;
   font-size: 14px;
-  
+
   line-height: 1.4;
   text-align: center;
 }
@@ -761,7 +728,7 @@ list-style-type: none;
   bottom: -30px;
   text-align: center;
   font-size: 14px;
-  
+
 }
 .cd-form-bottom-message a {
   color: #FFF;
@@ -797,7 +764,7 @@ list-style-type: none;
 #cd-signup input{
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
-  
+
 }
 #cd-signup input::-ms-clear{
   display: none;
@@ -826,13 +793,10 @@ list-style-type: none;
 }
 
 
-
-
-
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
@@ -848,8 +812,6 @@ time, mark, audio, video {
   float:left;
   margin-top: 16px;
   z-index: 5;
-
-  
 }
 
 #terms{
@@ -870,23 +832,15 @@ time, mark, audio, video {
     font-size: 12px;
 }
 
-
 #signup-button, #login-button, #reset-password{
     padding: padding: 16px 20px 16px 50px;
     width: 100%;
     margin: 0;
    border-radius: 0.25em;
    font-size: 15px;
-
 }
 
 .post-signin{
   font-size: 20px;
   margin: 10px 10px 0;
-  
-
 }
-
-
-
-

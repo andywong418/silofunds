@@ -15,20 +15,15 @@ $(document).ready(function() {
 //         el: ".pre-signin",
 
 //         initialize: function(){
-        
+
 //         this.$el.css("display","none");
 //       }
-
 
 //   });
 //  var userNav = new UserNav();
 //   console.log(userNav);
 
-
-
-  
   for (var i = 0; i < fundData.length; i++) {
-    
     var FundModel = Backbone.Model.extend({
       defaults: {
         fund_title: '',
@@ -50,7 +45,7 @@ $(document).ready(function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this; // enable chained calls
       }
-   });
+    });
 
     var FundList = Backbone.View.extend({
       el:".page-header",
@@ -101,8 +96,7 @@ $(document).ready(function() {
         });
       }
    });
-    
-   
+
   var FundList = new FundList();
   }
 
@@ -116,10 +110,8 @@ $(document).ready(function() {
 
 // });
 
-
    // $('.pre-signin').css("display", "none");
-   
-  
+
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
 
@@ -141,6 +133,4 @@ $(document).ready(function() {
   });
 
   doneResizing();
-
-  
 });

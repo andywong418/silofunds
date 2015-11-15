@@ -15,18 +15,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING,
-      set:  function(v) {
-          var salt = bcrypt.genSaltSync(10);
-          var hash = bcrypt.hashSync(v, salt);
-          this.setDataValue('password', hash);
+      set: function(v) {
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(v, salt);
+        this.setDataValue('password', hash);
       }
     },
-    
   }, {
     timestamps: true,
     underscored: true,
     paranoid: true
-    
+
     // classMethods: {
     //   associate: function(models) {
     //     User.hasMany(models.funds)

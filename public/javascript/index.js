@@ -1,7 +1,5 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
-  
-
    var $form_modal = $('.cd-user-modal'),
     $form_login = $form_modal.find('#cd-login'),
     $form_signup = $form_modal.find('#cd-signup'),
@@ -17,11 +15,11 @@ $(function() {
   $main_nav.on('click', function(event){
     $('.cd-switcher').css('display', 'inline')
     if($(event.target).is($main_nav) ) {
-     
+
        // on mobile close submenu
       $main_nav.children('ul').removeClass('is-visible');
       //show modal layer
-      $form_modal.addClass('is-visible'); 
+      $form_modal.addClass('is-visible');
       //show the selected form
       if($(event.target).is('.cd-signup')){
         signup_selected();
@@ -30,21 +28,19 @@ $(function() {
         login_selected();
       }
     } else {
-      
+
   // on mobile open the submenu
       $(this).children('ul').toggleClass('is-visible');
-      
     }
-
   });
-
 
   //close modal
   $('.cd-user-modal').on('click', function(event){
     if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') ) {
       $form_modal.removeClass('is-visible');
-    } 
+    }
   });
+
   //close modal when clicking the esc keyboard button
   $(document).keyup(function(event){
       if(event.which=='27'){
@@ -62,14 +58,14 @@ $(function() {
   $('.hide-password').on('click', function(){
     var $this= $(this),
       $password_field = $this.prev('input');
-    
+
     ( 'password' == $password_field.attr('type') ) ? $password_field.attr('type', 'text') : $password_field.attr('type', 'password');
     ( 'Hide' == $this.text() ) ? $this.text('Show') : $this.text('Hide');
     //focus and move cursor to the end of input field
     $password_field.putCursorAtEnd();
   });
 
-  //show forgot-password form 
+  //show forgot-password form
   $forgot_password_link.on('click', function(event){
     event.preventDefault();
     forgot_password_selected();
@@ -128,7 +124,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
     initialize: function() {
       _.bindAll(this, "render", "collapseNavbar");
-      
+
     },
 
     render: function(){
@@ -152,7 +148,7 @@ jQuery.fn.putCursorAtEnd = function() {
     events:{
       "click": "navbarToggle"
     },
-    
+
     navbarToggle: function(){
       $('.navbar-toggle:visible').click();
     }

@@ -31,7 +31,7 @@ html(lang='en')
         .navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
             i.fa.fa-bars
-          
+
         // Collect the nav links, forms, and other content for toggling
         .collapse.navbar-collapse.navbar-right.navbar-main-collapse
           ul.nav.navbar-nav
@@ -39,10 +39,10 @@ html(lang='en')
             li.hidden
               a(href='#page-top')
             li
-             a.cd-login.pre-signin(href='#0') Log in
+              a.cd-login.pre-signin(href='#0') Log in
             li
-             a.cd-signup.pre-signin(href='#0') Sign up
-        
+              a.cd-signup.pre-signin(href='#0') Sign up
+
         // /.navbar-collapse
       // /.container
     // Intro Header
@@ -60,7 +60,7 @@ html(lang='en')
               #cd-signup
                 form(class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
                   p.fieldset
-                    label.image-replace.cd-username(for='signup-username') 
+                    label.image-replace.cd-username(for='signup-username')
                     input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
                     span.cd-error-message Error message here!
                   p.fieldset
@@ -75,7 +75,7 @@ html(lang='en')
                   p.fieldset
                     input#accept-terms(type='checkbox')
                     label(for='accept-terms' id = "terms")
-                      | I agree to the 
+                      | I agree to the
                       a(href='#0') Terms
                   p.fieldset
                     button.full-width.has-padding(type='submit', id = "signup-button") Create account
@@ -93,8 +93,8 @@ html(lang='en')
                     a.hide-password(href='#0') Hide
                     span.cd-error-message Error message here!
                   p.fieldset
-                     a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook") 
-                       span.fa.fa-facebook 
+                     a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+                       span.fa.fa-facebook
                        | Log in with Facebook
                   p#remember.fieldset
                     input#remember-me(type='checkbox', checked='')
@@ -118,10 +118,10 @@ html(lang='en')
                   a(href='#0') Back to log-in
               // cd-reset-password
               a.cd-close-form(href='#0') Close
-                // 
+                //
               // cd-login
           .col-md-8.col-md-offset-2
-            
+
             h1.brand-heading
               | S
               span.title
@@ -142,11 +142,11 @@ html(lang='en')
             | Silo is a platform which connects those who need funding with those who provide it. Our unique search engine filters down your situation and provides the most suitable grants for your needs.
     section#trial.container.content-section.text-center
       .row
-        
+
           a#subscribeLink.btn.btn-lg
             span Start a grant hassle free!
 
-            
+
     // Contact Section
     section#contact.container.content-section.text-center
       .row
@@ -174,7 +174,7 @@ html(lang='en')
       .container.text-center
         p Copyright © Silo 2015
     //underscore
-    script(src="javascript/lib/underscore.js")  
+    script(src="javascript/lib/underscore.js")
     // jQuery
     script(src='javascript/lib/jquery.js')
     //Backbone

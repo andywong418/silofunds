@@ -27,9 +27,8 @@ app.use(cookieParser());
 app.use(flash());
 app.use(session({secret: 'so secret'}));
 app.use(passport.initialize());
-app.use(passport.session()); 
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Load routes
 routes.initialize(app);
@@ -40,7 +39,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // error handlers
 
