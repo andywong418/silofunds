@@ -119,6 +119,11 @@ jQuery.fn.putCursorAtEnd = function() {
 };
 
 
+  $("input#text_search" ).autocomplete({
+    source: "../autocomplete",
+    minLength: 1
+  });
+
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
 

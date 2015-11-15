@@ -26,7 +26,115 @@ models.sequelize.sync().then(function () {
     } else {
       console.log('All is well');
     }
+
+    models.es.indices.exists({ index: 'funds' }, function(err, resp) {
+      if (err) {
+        console.log(err);
+      }
+
+      console.log("Does the ES index exist?:");
+      console.log(resp);
+
+      // If it exists, refresh its settings & mappings by deleting & creating again. This will
+      // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
+      if (resp) {
+        models.es.indices.delete({ index: 'funds' });
+
+        models.es.indices.create({
+          index: 'funds',
+          body: {
+            "settings": {
+              "analysis": {
+                "filter": {
+                  "autocomplete_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 1,
+                    "max_gram": 20
+                  }
+                },
+                "analyzer": {
+                  "autocomplete": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                      "lowercase",
+                      "autocomplete_filter"
+                    ]
+                  }
+                }
+              }
+            },
+            'mappings': {
+              'fund': {
+                'properties': {
+                  'title': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    });
   });
+
+  var CronJob = require('cron').CronJob;
+  var lastUpdate = new Date();
+
+  var checkForChanges = function checkForChanges() {
+    console.log('You will see this message every 30 second');
+    var log = 'Last updated: ' + lastUpdate;
+    console.log(log);
+
+    models.funds.findAll({
+      where: {
+        created_at: {
+          $gte: lastUpdate
+        }
+      },
+      order: 'created_at ASC'
+    }).then(function(funds) {
+      if (funds.length == 0) {
+        console.log("nothing to update....\n")
+      } else {
+        var body = [];
+        var funds = funds.map(function(fund) {
+          var json = fund.toJSON();
+          return json;
+        });
+
+        console.log(funds);
+        console.log('\n\n')
+
+        // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+        // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
+
+        // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+        funds.forEach(function(fund) {
+          body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+          var wrapper = {};
+          wrapper['title'] = fund.title;
+          body.push(wrapper);
+        });
+
+        models.es.bulk({
+          body: body
+        }, function (err, resp) {
+          console.log(resp);
+
+          // Timestamp from table rounds down. Here is the correction to avoid duplication.
+          var lastUpdateFromTable = funds[funds.length - 1].created_at;
+          lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+          lastUpdate = lastUpdateFromTable;
+        });
+      }
+    });
+  }
+  var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
   /**
    * Normalize a port into a number, string, or false.
