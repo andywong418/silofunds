@@ -6,8 +6,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./app/routes');
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
-
+var flash = require('connect-flash');
+var passport = require('passport');
+var LocalStrategy   = require('passport-local').Strategy;
+var session = require('express-session');
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
+var login = require('./controllers/login');
 var app = express();
 
 // view engine setup
@@ -20,27 +24,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash());
+app.use(session({secret: 'so secret'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Load routes
 routes.initialize(app);
-
-app.get('/db', function (request, response) {
-  app.set('views', path.join(__dirname, 'check_db'));
-  app.set('view engine', 'ejs');
-
-  var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
-
-  pg.connect(connectionString , function(err, client, done) {
-    client.query('SELECT * FROM items', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { response.render('db', {results: result.rows} ); }
-    });
-  });
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

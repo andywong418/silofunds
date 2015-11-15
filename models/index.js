@@ -3,9 +3,28 @@
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
-var sequelize = new Sequelize(connectionString);
+var elasticsearch = require('elasticsearch');
 var db        = {};
+
+var pgConnectionString = 'postgres://localhost:5432/silofunds_development';
+var esConnectionString = 'localhost:9200';
+
+if (process.env.DATABASE_URL) {
+  // Heroku
+  pgConnectionString = process.env.DATABASE_URL;
+}
+
+if (process.env.SEARCHBOX_URL) {
+  // Heroku
+  esConnectionString = process.env.SEARCHBOX_URL;
+}
+
+var sequelize = new Sequelize(pgConnectionString);
+
+var es = new elasticsearch.Client({
+  host: esConnectionString,
+  log: 'trace'
+});
 
 fs
   .readdirSync(__dirname)
@@ -25,5 +44,6 @@ Object.keys(db).forEach(function(modelName) {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.es = es;
 
 module.exports = db;

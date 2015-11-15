@@ -1,5 +1,27 @@
 $(document).ready(function() {
   var bool = false;
+// Need user data to do this
+//    var UserNavView = Backbone.View.extend({
+//   tagname: 'ul',
+//   template: _.template($('#usernav-template').html()),
+//   render: function() {
+//         this.$el.html(this.template(this.model.toJSON()));
+//         return this; // enable chained calls
+//   }
+
+// });
+
+// var UserNav = Backbone.View.extend({
+//         el: ".pre-signin",
+
+//         initialize: function(){
+
+//         this.$el.css("display","none");
+//       }
+
+//   });
+//  var userNav = new UserNav();
+//   console.log(userNav);
 
   for (var i = 0; i < fundData.length; i++) {
     var FundModel = Backbone.Model.extend({
@@ -23,7 +45,7 @@ $(document).ready(function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this; // enable chained calls
       }
-   });
+    });
 
     var FundList = Backbone.View.extend({
       el:".page-header",
@@ -77,6 +99,18 @@ $(document).ready(function() {
 
   var FundList = new FundList();
   }
+
+//   var UserNavView = Backbone.View.extend({
+//   tagname: 'ul',
+//   template: _.template($('#usernav-template').html()),
+//   render: function() {
+//         this.$el.html(this.template(this.model.toJSON()));
+//         return this; // enable chained calls
+//   }
+
+// });
+
+   // $('.pre-signin').css("display", "none");
 
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
