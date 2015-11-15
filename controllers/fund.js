@@ -14,9 +14,9 @@ module.exports = {
   },
 
   search: function(req, res) {
-    var searchString = req.body.tags;
-    var searchAge = parseInt(req.body.age);
-    var searchAmount = parseInt(req.body.amount);
+    var searchString = req.query.tags;
+    var searchAge = parseInt(req.query.age);
+    var searchAmount = parseInt(req.query.amount);
     var injectionVariables = [searchString];
 
     var sql = "SELECT * from funds" // WHERE ? % ANY(tags)";
@@ -35,7 +35,7 @@ module.exports = {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-      res.render('search', { funds: funds });
+      res.render('search', { funds: funds, user: false });
     });
   },
 }
