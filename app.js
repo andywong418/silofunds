@@ -10,7 +10,7 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
 var session = require('express-session');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/potfund_development';
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
 var login = require('./controllers/login');
 var app = express();
 

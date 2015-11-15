@@ -6,7 +6,7 @@ var Sequelize = require("sequelize");
 var elasticsearch = require('elasticsearch');
 var db        = {};
 
-var pgConnectionString = 'postgres://localhost:5432/potfund_development';
+var pgConnectionString = 'postgres://localhost:5432/silofunds_development';
 var esConnectionString = 'localhost:9200';
 
 if (process.env.DATABASE_URL) {
