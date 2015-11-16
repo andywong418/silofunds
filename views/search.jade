@@ -33,7 +33,7 @@ html(lang='en')
           a#brand-heading.navbar-brand(href='/')
             | S
             span#title ilo
-          form.search_form(action='/search', method='post', name='search_form')
+          form.search_form(action='/search', method='get', name='search_form')
             input#text_search(type='text', name='tags', placeholder='Search terms')
             input#amount_req(type='number', name='amount', placeholder='Amount')
             input#age(type='number', name='age', placeholder='Age')
