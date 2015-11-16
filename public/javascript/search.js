@@ -11,16 +11,16 @@ $(document).ready(function() {
 
 // });
 
-// var UserNav = Backbone.View.extend({
-//         el: ".pre-signin",
+var UserNav = Backbone.View.extend({
+        el: ".nav li",
 
-//         initialize: function(){
+        initialize: function(){
 
-//         this.$el.css("display","none");
-//       }
+        // $('.pre-signin').css("display","none");
+      }
 
-//   });
-//  var userNav = new UserNav();
+  });
+ var userNav = new UserNav();
 //   console.log(userNav);
 
   for (var i = 0; i < fundData.length; i++) {
@@ -110,7 +110,7 @@ $(document).ready(function() {
 
 // });
 
-   // $('.pre-signin').css("display", "none");
+  
 
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");

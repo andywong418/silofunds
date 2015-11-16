@@ -15,11 +15,20 @@ $(function() {
   $main_nav.on('click', function(event){
     $('.cd-switcher').css('display', 'inline')
     if($(event.target).is($main_nav) ) {
-
+      //set body to be static
+      $('html, body').css({
+        'overflow': 'hidden',
+        'height': '100%'
+       });
        // on mobile close submenu
       $main_nav.children('ul').removeClass('is-visible');
       //show modal layer
       $form_modal.addClass('is-visible');
+      //set cd-modal to be static
+      $form_modal.css({
+        'overflow': 'hidden',
+        'height': '100%'
+      });
       //show the selected form
       if($(event.target).is('.cd-signup')){
         signup_selected();
@@ -38,6 +47,11 @@ $(function() {
   $('.cd-user-modal').on('click', function(event){
     if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') ) {
       $form_modal.removeClass('is-visible');
+      //restore scroll
+      $('html, body').css({
+      'overflow': 'visible'
+      });
+
     }
   });
 
