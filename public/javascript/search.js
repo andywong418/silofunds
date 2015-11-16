@@ -1,5 +1,7 @@
 $(document).ready(function() {
   var bool = false;
+  
+  console.log(user);
 // Need user data to do this
 //    var UserNavView = Backbone.View.extend({
 //   tagname: 'ul',
@@ -15,6 +17,13 @@ var UserNav = Backbone.View.extend({
         el: ".nav li",
 
         initialize: function(){
+          
+             $('.post-signin').css("display","none");
+             if(user){
+                $('.post-signin').css("display","inline");
+                $('.pre-signin').css("display", "none");
+             }
+          
 
         // $('.pre-signin').css("display","none");
       }

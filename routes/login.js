@@ -7,12 +7,10 @@ require('../controllers/passport')(passport);
 router.post('/', passport.authenticate('local-login', {
 	failureRedirect: '/login/error'
 }), function(req, res) {
+	console.log(req);
 	res.render('login');
 });
 
-router.post('/search', passport.authenticate('local-login', {
-	failureRedirect: '/login/error'
-}), login.redirectUser);
 
 router.get('/error', login.loginFailure);
 

@@ -13,7 +13,7 @@ module.exports = {
   },
 
   search: function(req, res) {
-    query = req._parsedUrl.query;
+    console.log(req.user);
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
@@ -30,12 +30,17 @@ module.exports = {
     //   sql = sql + " AND " + "maximum_amount >= ?";
     //   injectionVariables.push(searchAmount);
     // }
-
+   
     models.sequelize.query(sql, {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-      res.render('search', { funds: funds, user: false });
+      if(req.user){
+      res.render('search', { funds: funds, user: req.user });
+    }
+      else{
+        res.render('search', { funds: funds, user: false });
+      }
     });
   }
 }

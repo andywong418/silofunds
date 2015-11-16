@@ -89,7 +89,7 @@ html(lang='en')
 
               #cd-login
                 // log in form
-                form.cd-form(action = "/login/search", method = "post", name = "login_form")
+                form.cd-form(action = "", method = "post", name = "login_form")
                   p.fieldset
                     label.image-replace.cd-email(for='signin-email') E-mail
                     input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
@@ -135,11 +135,11 @@ html(lang='en')
                     li
                       h3.fund_title <%= fund_title %>
                     li.fund_info
-                      p.fund_amount Amount given:
+                      p.fund_amount Amount given: 
                         span.control <%= maximum_amount %>
-                      p.fund_min_age Minimum Age:
+                      p.fund_min_age Minimum Age: 
                         span.control <%= minimum_age %>
-                      p.fund_max_age Maximum Age:
+                      p.fund_max_age Maximum Age: 
                         span.control <%= maximum_age %>
 
                     label(id!='<%= fund_id %>') Additional Information 
