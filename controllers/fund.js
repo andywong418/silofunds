@@ -7,7 +7,7 @@ module.exports = {
         var json = fund.toJSON();
         return json;
       });
-      
+
       res.render('search', { funds: funds });
     });
   },
@@ -30,15 +30,14 @@ module.exports = {
     //   sql = sql + " AND " + "maximum_amount >= ?";
     //   injectionVariables.push(searchAmount);
     // }
-   
+
     models.sequelize.query(sql, {
       replacements: injectionVariables,
       type: models.sequelize.QueryTypes.SELECT
     }).then(function(funds) {
-      if(req.user){
-      res.render('search', { funds: funds, user: req.user });
-    }
-      else{
+      if (req.user) {
+        res.render('search', { funds: funds, user: req.user });
+      } else {
         res.render('search', { funds: funds, user: false });
       }
     });

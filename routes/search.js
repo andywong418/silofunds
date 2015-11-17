@@ -9,9 +9,9 @@ router.get('/', fund.search);
 router.post('/', passport.authenticate('local-login', {
 	failureRedirect: '/login/error'
 }), function(req, res){
-	    var query = req._parsedUrl.query;
-	    res.redirect('/search?' + query);
-} );
+  var query = req._parsedUrl.query;
+  res.redirect('/search?' + query);
+});
 
 // router.post('/', fund.search);
 
