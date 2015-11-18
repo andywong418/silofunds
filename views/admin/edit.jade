@@ -1,0 +1,136 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    title Silo - Admin Portal
+    // Bootstrap
+    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+    // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    nav.navbar.navbar-default
+      .container-fluid
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/') Silo
+        // Collect the nav links, forms, and other content for toggling
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href='#') Link
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='#') Link
+            li
+              a(href='#') Link
+            li
+              a(href='#') Link
+        // /.navbar-collapse
+      // /.container-fluid
+
+    .container
+      a.btn.btn-default.btn-link(href='/admin', role='button') Back to fund listings
+      h1 Edit an existing fund:
+      table.table.table-responsive
+        form(action='/admin/' + fund.id + '/edit', method='post', name='create_fund')
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='title') Title
+                input#title.form-control(type='text', name='title', value=fund.title, required)
+              .col-md-6.form-group
+                label(for='tags') Tags (separate with comma, no space)
+                input#tags.form-control(type='text', name='keywords', value=fund.tags, required)
+          .row
+            tr
+              .col-md-3.form-group
+                label(for='min_age') Minimum Age
+                input#min_age.form-control(type='number', name='min_age', value=fund.minimum_age)
+              .col-md-3.form-group
+                label(for='max_age') Maximum Age
+                input#max_age.form-control(type='number', name='max_age', value=fund.maximum_age)
+              .col-md-3.form-group
+                label(for='min_amount') Minimum Amount
+                input#min_amount.form-control(type='number', name='min_amount', value=fund.minimum_amount)
+              .col-md-3.form-group
+                label(for='max_amount') Maximum Amount
+                input#max_amount.form-control(type='number', name='max_amount', value=fund.maximum_amount)
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='description') Description
+                textarea#description.form-control(rows='3', name='description')= fund.description
+              .col-md-6.form-group
+                label(for='financial_situation') Financial Situation
+                textarea#financial_situation.form-control(rows='3', name='financial_situation')= fund.financial_situation
+          .row
+            tr
+              .col-md-3.form-group
+                label Gender
+                .row
+                  .col-md-6
+                    label.radio-inline
+                      input#male(type='radio', name='gender', value='male')
+                      |  Male
+                  .col-md-6
+                    label.radio-inline
+                      input#female(type='radio', name='gender', value='female')
+                      |  Female
+              .col-md-3.form-group
+                label Merit or Finance based
+                .row
+                  .col-md-6
+                    label.radio-inline
+                      input#merit(type='radio', name='merit_or_finance', value='merit')
+                      |  Merit
+                  .col-md-6
+                    label.radio-inline
+                      input#finance(type='radio', name='merit_or_finance', value='finance')
+                      |  Finance
+              .col-md-3.form-group
+                label(for='nationality') Nationality
+                input#nationality.form-control(type='text', name='nationality', value=fund.nationality)
+              .col-md-3.form-group
+                label(for='religion') Religion
+                input#religion.form-control(type='text', name='religion', value=fund.religion)
+          .row
+            tr
+              .col-md-9.form-group
+                label(for='link') Link
+                input#link.form-control(type='text', name='link', value=fund.link)
+              .col-md-3.form-group
+                label(for='invite') Invite Only?
+                input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
+          .row
+            tr
+              .col-md-12.form-group
+                button.btn.btn-danger(type='submit') Update fund!
+
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='../../javascript/lib/bootstrap.min.js')
+    script.
+      var fund = !{JSON.stringify(fund)};
+      if(fund.gender != null) {
+        $("#" + fund.gender).prop("checked", true);
+      }
+
+      if(fund.merit_or_finance != null) {
+        $("#" + fund.merit_or_finance).prop("checked", true);
+      }
+
+      if(fund.invite_only) {
+        $("#invite").prop("checked", true);
+      }
