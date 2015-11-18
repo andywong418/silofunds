@@ -79,25 +79,29 @@ html(lang='en')
               .col-md-3.form-group
                 label Gender
                 .row
-                  .col-md-6
+                  .col-md-4
                     label.radio-inline
                       input#male(type='radio', name='gender', value='male')
                       |  Male
-                  .col-md-6
+                  .col-md-4
                     label.radio-inline
                       input#female(type='radio', name='gender', value='female')
                       |  Female
+                  .col-md-4
+                    a.btn.btn-default.btn-link#clear_gender(href='#', role='button') Clear
               .col-md-3.form-group
                 label Merit or Finance based
                 .row
-                  .col-md-6
+                  .col-md-4
                     label.radio-inline
                       input#merit(type='radio', name='merit_or_finance', value='merit')
                       |  Merit
-                  .col-md-6
+                  .col-md-4
                     label.radio-inline
                       input#finance(type='radio', name='merit_or_finance', value='finance')
                       |  Finance
+                  .col-md-4
+                    a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
               .col-md-3.form-group
                 label(for='nationality') Nationality
                 input#nationality.form-control(type='text', name='nationality', value=fund.nationality)
@@ -134,3 +138,15 @@ html(lang='en')
       if(fund.invite_only) {
         $("#invite").prop("checked", true);
       }
+
+      $("#clear_gender").click(function(evt) {
+        evt.preventDefault();
+
+        $("#male, #female").prop("checked", false);
+      })
+
+      $("#clear_merit").click(function(evt) {
+        evt.preventDefault();
+
+        $("#merit, #finance").prop("checked", false);
+      })
