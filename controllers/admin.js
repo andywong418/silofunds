@@ -27,6 +27,8 @@ module.exports = {
     var nationality = fund.nationality ? fund.nationality : null;
     var religion = fund.religion ? fund.religion : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var gender = fund.gender;
+    var merit_or_finance = fund.merit_or_finance;
 
     var parseIfInt = function(string) {
       if (string != '') {
@@ -38,23 +40,6 @@ module.exports = {
     var max_age = parseIfInt(fund.max_age);
     var min_amount = parseIfInt(fund.min_amount);
     var max_amount = parseIfInt(fund.max_amount);
-
-    // If fund is for BOTH genders, gender should be NULL. Similarly for merit / finance field.
-    var gender = null;
-    var merit_or_finance = null;
-
-    if ('male' in fund) {
-      gender = 'male';
-    }
-    if ('female' in fund) {
-      gender = 'female';
-    }
-    if ('merit' in fund) {
-      merit_or_finance = 'merit';
-    }
-    if ('finance' in fund) {
-      merit_or_finance = 'finance';
-    }
 
     models.funds.create({
       title: title,
