@@ -20,7 +20,19 @@ module.exports = {
     var id = req.params.id;
 
     models.funds.findById(id).then(function(fund) {
-      res.render('admin/edit', { fund: fund });
+      var date = fund.deadline;
+
+      var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+      var dd = date.getDate();
+      var yyyy = date.getFullYear();
+      mm = mm.toString(); // Prepare for comparison below
+      dd = dd.toString();
+      mm = mm.length > 1 ? mm : '0' + mm;
+      dd = dd.length > 1 ? dd : '0' + dd;
+
+      var reformattedDate = yyyy + "-" + mm + "-" + dd;
+
+      res.render('admin/edit', { fund: fund, deadline: reformattedDate });
     });
   },
 
@@ -39,6 +51,7 @@ module.exports = {
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
+    var deadline = fund.deadline ? fund.deadline : null;
 
     var parseIfInt = function(string) {
       if (string != '') {
@@ -66,7 +79,8 @@ module.exports = {
         religion: religion,
         financial_situation: financial_situation,
         merit_or_finance: merit_or_finance,
-        gender: gender
+        gender: gender,
+        deadline: deadline
       }).then(function() {
         res.redirect('../../admin');
       });
@@ -96,6 +110,7 @@ module.exports = {
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
+    var deadline = fund.deadline ? fund.deadline : null;
 
     var parseIfInt = function(string) {
       if (string != '') {
@@ -122,7 +137,8 @@ module.exports = {
       religion: religion,
       financial_situation: financial_situation,
       merit_or_finance: merit_or_finance,
-      gender: gender
+      gender: gender,
+      deadline: deadline
     }).then(function(fund) {
       res.redirect('admin');
     });
