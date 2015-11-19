@@ -13,7 +13,7 @@ module.exports = {
   },
 
   new: function(req, res) {
-    res.render('admin/new', { layout: '../layout' });
+    res.render('admin/new');
   },
 
   edit: function(req, res) {
