@@ -54,7 +54,7 @@ html(lang='en')
           th Invite Only
           th Link
           th Nationality
-          th Religion
+          th Deadline
         each fund in funds
           tr
           td= fund.id
@@ -68,7 +68,7 @@ html(lang='en')
           td
             a.btn.btn-default.btn-link(href=fund.link, role='button') Link
           td= fund.nationality
-          td= fund.religion
+          td= fund.deadline
           td
             form(action='/admin/' + fund.id + '/edit', method='get', name='edit_fund')
               button.btn.btn-primary(type='submit') Edit
