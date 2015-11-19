@@ -71,9 +71,12 @@ html(lang='en')
               .col-md-6.form-group
                 label(for='description') Description
                 textarea#description.form-control(rows='3', name='description')
-              .col-md-6.form-group
-                label(for='financial_situation') Financial Situation
-                textarea#financial_situation.form-control(rows='3', name='financial_situation')
+              .col-md-3.form-group
+                label(for='nationality') Nationality
+                input#nationality.form-control(type='text', name='nationality')
+              .col-md-3.form-group
+                label(for='religion') Religion
+                input#religion.form-control(type='text', name='religion')
           .row
             tr
               .col-md-3.form-group
@@ -102,12 +105,9 @@ html(lang='en')
                       |  Finance
                   .col-md-4
                     a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
-              .col-md-3.form-group
-                label(for='nationality') Nationality
-                input#nationality.form-control(type='text', name='nationality')
-              .col-md-3.form-group
-                label(for='religion') Religion
-                input#religion.form-control(type='text', name='religion')
+              .col-md-6.form-group
+                label(for='financial_situation') Financial Situation
+                textarea#financial_situation.form-control(rows='3', name='financial_situation')
           .row
             tr
               .col-md-9.form-group
