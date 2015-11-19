@@ -110,9 +110,12 @@ html(lang='en')
                 textarea#financial_situation.form-control(rows='3', name='financial_situation')
           .row
             tr
-              .col-md-9.form-group
+              .col-md-6.form-group
                 label(for='link') Link
                 input#link.form-control(type='text', name='link')
+              .col-md-3.form-group
+                label(for='link') Deadline
+                input#deadline.form-control(type='date', name='deadline')
               .col-md-3.form-group
                 label(for='invite') Invite Only?
                 input#invite.form-control(type='checkbox', name='invite')

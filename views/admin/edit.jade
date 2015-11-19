@@ -110,9 +110,12 @@ html(lang='en')
                 input#religion.form-control(type='text', name='religion', value=fund.religion)
           .row
             tr
-              .col-md-9.form-group
+              .col-md-6.form-group
                 label(for='link') Link
                 input#link.form-control(type='text', name='link', value=fund.link)
+              .col-md-3.form-group
+                label(for='link') Deadline
+                input#deadline.form-control(type='date', name='deadline', value=deadline)
               .col-md-3.form-group
                 label(for='invite') Invite Only?
                 input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
