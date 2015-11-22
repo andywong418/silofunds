@@ -32,10 +32,10 @@ var redisHost = 'localhost';
 var redisPort = 6379;
 var rtg = null;
 console.log(process.env);
-if (process.env.REDISTOGO_URL) {
+if (process.env.REDIS_URL) {
     // redistogo connection
     console.log("REDISTOGO is ON");
-    var rtg = require("url").parse(process.env.REDISTOGO_URL);
+    var rtg = require("url").parse(process.env.REDIS_URL);
     redisPort = rtg.port;
     redisHost = rtg.hostname;
     console.log(rtg);
