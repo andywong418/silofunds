@@ -27,14 +27,25 @@ app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(flash());
+
+var redisHost = 'localhost';
+var redisPort = 6379;
+var rtg = null;
+
+if (process.env.REDISTOGO_URL) {
+    // redistogo connection
+    var rtg = require("url").parse(process.env.REDISTOGO_URL);
+    redisPort = rtg.port;
+    redisHost = rtg.hostname;
+}
+
 app.use(session({
   secret: 'so secret',
   cookie: { secure : false, maxAge: (4 * 60 * 60 * 1000)},
   store: new RedisStore({
-    host: 'localhost',
-    port: 6379
+    host: redisHost,
+    port: redisPort
   })
-  
 }));
 app.use(passport.initialize());
 app.use(passport.session());
