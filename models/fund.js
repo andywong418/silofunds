@@ -42,9 +42,14 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: sequelize.fn('NOW')
     },
     updated_at: {
-       type: DataTypes.DATE,
-       field: 'updated_at',
+      type: DataTypes.DATE,
+      field: 'updated_at',
       defaultValue: sequelize.fn('NOW')
+    },
+    deadline: {
+      type: DataTypes.DATE,
+      field: 'deadline',
+      defaultValue: null
     },
     link: {
       type: DataTypes.TEXT,

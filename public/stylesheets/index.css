@@ -493,6 +493,7 @@ a.cd-login{
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
+
 }
 .cd-user-modal-container .cd-switcher:after {
   content: "";
@@ -546,6 +547,7 @@ a.cd-login{
 
 .cd-form {
   padding: 1.4em;
+
 
 }
 .cd-form .fieldset {

@@ -7,7 +7,7 @@ html(lang='en')
     // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
     title Silo - Admin Portal
     // Bootstrap
-    link(href='../stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
     // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
     // WARNING: Respond.js doesn't work if you view the page via file://
     //if lt IE 9
@@ -41,42 +41,39 @@ html(lang='en')
 
     .container
       a.btn.btn-default.btn-link(href='/admin', role='button') Back to fund listings
-      h1 Create a new fund here:
+      h1 Edit an existing fund:
       table.table.table-responsive
-        form(action='/admin', method='post', name='create_fund')
+        form(action='/admin/' + fund.id + '/edit', method='post', name='create_fund')
           .row
             tr
               .col-md-6.form-group
                 label(for='title') Title
-                input#title.form-control(type='text', name='title', required)
+                input#title.form-control(type='text', name='title', value=fund.title, required)
               .col-md-6.form-group
                 label(for='tags') Tags (separate with comma, no space)
-                input#tags.form-control(type='text', name='keywords', required)
+                input#tags.form-control(type='text', name='keywords', value=fund.tags, required)
           .row
             tr
               .col-md-3.form-group
                 label(for='min_age') Minimum Age
-                input#min_age.form-control(type='number', name='min_age')
+                input#min_age.form-control(type='number', name='min_age', value=fund.minimum_age)
               .col-md-3.form-group
                 label(for='max_age') Maximum Age
-                input#max_age.form-control(type='number', name='max_age')
+                input#max_age.form-control(type='number', name='max_age', value=fund.maximum_age)
               .col-md-3.form-group
                 label(for='min_amount') Minimum Amount
-                input#min_amount.form-control(type='number', name='min_amount')
+                input#min_amount.form-control(type='number', name='min_amount', value=fund.minimum_amount)
               .col-md-3.form-group
                 label(for='max_amount') Maximum Amount
-                input#max_amount.form-control(type='number', name='max_amount')
+                input#max_amount.form-control(type='number', name='max_amount', value=fund.maximum_amount)
           .row
             tr
               .col-md-6.form-group
                 label(for='description') Description
-                textarea#description.form-control(rows='3', name='description')
-              .col-md-3.form-group
-                label(for='nationality') Nationality
-                input#nationality.form-control(type='text', name='nationality')
-              .col-md-3.form-group
-                label(for='religion') Religion
-                input#religion.form-control(type='text', name='religion')
+                textarea#description.form-control(rows='3', name='description')= fund.description
+              .col-md-6.form-group
+                label(for='financial_situation') Financial Situation
+                textarea#financial_situation.form-control(rows='3', name='financial_situation')= fund.financial_situation
           .row
             tr
               .col-md-3.form-group
@@ -105,27 +102,32 @@ html(lang='en')
                       |  Finance
                   .col-md-4
                     a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
-              .col-md-6.form-group
-                label(for='financial_situation') Financial Situation
-                textarea#financial_situation.form-control(rows='3', name='financial_situation')
+              .col-md-3.form-group
+                label(for='nationality') Nationality
+                input#nationality.form-control(type='text', name='nationality', value=fund.nationality)
+              .col-md-3.form-group
+                label(for='religion') Religion
+                input#religion.form-control(type='text', name='religion', value=fund.religion)
           .row
             tr
               .col-md-6.form-group
                 label(for='link') Link
-                input#link.form-control(type='text', name='link')
+                input#link.form-control(type='text', name='link', value=fund.link)
               .col-md-3.form-group
                 label(for='link') Deadline
-                input#deadline.form-control(type='date', name='deadline')
+                input#deadline.form-control(type='date', name='deadline', value=deadline)
               .col-md-3.form-group
                 label(for='invite') Invite Only?
-                input#invite.form-control(type='checkbox', name='invite')
+                input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
           .row
             tr
               .col-md-12.form-group
-                button.btn.btn-primary(type='submit') Create fund!
+                button.btn.btn-danger(type='submit') Update fund!
 
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
-    script(src='../javascript/lib/bootstrap.min.js')
-    script(src='../javascript/admin.js')
+    script(src='../../javascript/lib/bootstrap.min.js')
+    script(src='../../javascript/admin.js')
+    script.
+      var fund = !{JSON.stringify(fund)};

@@ -474,6 +474,8 @@ list-style-type: none;
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
+  overflow-x: hidden; 
+    overflow-y: auto;
 }
 .cd-user-modal-container .cd-switcher:after {
   content: "";
@@ -748,6 +750,7 @@ list-style-type: none;
   white-space: nowrap;
   overflow: hidden;
 }
+
 @media only screen and (min-width: 1170px) {
   .cd-close-form {
     display: none;
@@ -845,4 +848,5 @@ time, mark, audio, video {
 .post-signin{
   font-size: 20px;
   margin: 10px 10px 0;
+  display: none;
 }

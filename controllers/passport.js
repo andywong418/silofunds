@@ -5,13 +5,14 @@ var bcrypt = require('bcrypt');
 
 module.exports = function(passport) {
 
-      //simple way to set req.user and to persist user's session via a cookie
+          //simple way to set req.user and to persist user's session via a cookie
       passport.serializeUser(function(user, done){
+         console.log("This is the user", user);
          done(null, user);
       });
 
       passport.deserializeUser(function(obj, done){
-         done(null, obj);
+        done(null, obj);
       });
 
       passport.use('local-login', new LocalStrategy({
@@ -19,7 +20,6 @@ module.exports = function(passport) {
           usernameField: 'useremail',
           passwordField: 'password'
       }, function(username, password, done) {
-        console.log(password);
 
         models.users.find({
           where: {email: username}
@@ -32,20 +32,21 @@ module.exports = function(passport) {
             if (!res) {
               return done(null, false, { message: 'Wrong password'} );
             } else {
-              return done(null, { username: user.email });
+              console.log(user);
+              return done(null, user);
             }
           });
         });
       }));
 
-    passport.use(new FacebookStrategy({
+
+
+    passport.use('facebook', new FacebookStrategy({
       clientID: '506830149486287',
       clientSecret: '45b00c46d1cf3d9396fd24fe99ea0e3d',
       callbackURL: "http://www.localhost:3001/auth/facebook/callback",
       profileFields : ['id', 'displayName', 'emails']
     }, function(accessToken, refreshToken, profile, done) {
-      // asynchronous
-      console.log(profile);
 
       process.nextTick(function() {
         models.users.find({
@@ -56,7 +57,8 @@ module.exports = function(passport) {
           } else {
             models.users.create({
               username: profile.displayName,
-              email: profile.emails[0].value
+              email: profile.emails[0].value,
+              token: accessToken
             }).then(function(newUser) {
               return done(null, newUser);
             });

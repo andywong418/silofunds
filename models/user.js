@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         var hash = bcrypt.hashSync(v, salt);
         this.setDataValue('password', hash);
       }
-    },
+    }
   }, {
     timestamps: true,
     underscored: true,
