@@ -9,26 +9,36 @@ var pg = require('pg');
 var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
+require('./controllers/passport')(passport);
+
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
-var login = require('./controllers/login');
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(flash());
-app.use(session({secret: 'so secret'}));
+app.use(session({
+  secret: 'so secret',
+  cookie: { secure : false, maxAge: (4 * 60 * 60 * 1000)},
+  store: new RedisStore({
+    host: 'localhost',
+    port: 6379
+  })
+  
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Load routes
 routes.initialize(app);

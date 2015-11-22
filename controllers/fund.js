@@ -13,7 +13,7 @@ module.exports = {
   },
 
   search: function(req, res) {
-    console.log(req.user);
+    console.log("CHECK THE REQ", req.session);
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);

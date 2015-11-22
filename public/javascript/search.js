@@ -18,10 +18,14 @@ var UserNav = Backbone.View.extend({
 
         initialize: function(){
           
-             $('.post-signin').css("display","none");
+             
              if(user){
+              $('.pre-signin').css("display", "none");
                 $('.post-signin').css("display","inline");
-                $('.pre-signin').css("display", "none");
+                
+             }
+             else{
+                $('.post-signin').css("display","none");
              }
           
 
