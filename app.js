@@ -31,7 +31,7 @@ app.use(flash());
 var redisHost = 'localhost';
 var redisPort = 6379;
 var rtg = null;
-
+console.log(process.env);
 if (process.env.REDISTOGO_URL) {
     // redistogo connection
     console.log("REDISTOGO is ON");
