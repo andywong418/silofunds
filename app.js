@@ -34,9 +34,11 @@ var rtg = null;
 
 if (process.env.REDISTOGO_URL) {
     // redistogo connection
+    console.log("REDISTOGO is ON");
     var rtg = require("url").parse(process.env.REDISTOGO_URL);
     redisPort = rtg.port;
     redisHost = rtg.hostname;
+    console.log(rtg);
 }
 
 app.use(session({
