@@ -12,8 +12,7 @@ module.exports = function(passport) {
       });
 
       passport.deserializeUser(function(obj, done){
-
-      done(null, obj);
+        done(null, obj);
       });
 
       passport.use('local-login', new LocalStrategy({
@@ -28,19 +27,19 @@ module.exports = function(passport) {
           if (!user) {
             return done(null, false, { message: 'There is no account under this name.'} );
           }
-          
+
           bcrypt.compare(password, user.password, function(err, res) {
             if (!res) {
               return done(null, false, { message: 'Wrong password'} );
             } else {
-               console.log(user);
+              console.log(user);
               return done(null, user);
             }
           });
         });
       }));
 
-  
+
 
     passport.use('facebook', new FacebookStrategy({
       clientID: '506830149486287',
@@ -67,9 +66,4 @@ module.exports = function(passport) {
         });
       });
     }));
-
-    
-
-    
-
 }

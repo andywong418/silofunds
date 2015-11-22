@@ -1,6 +1,6 @@
 $(document).ready(function() {
   var bool = false;
-  
+
   console.log(user);
 // Need user data to do this
 //    var UserNavView = Backbone.View.extend({
@@ -17,18 +17,13 @@ var UserNav = Backbone.View.extend({
         el: ".nav li",
 
         initialize: function(){
-          
-             
-             if(user){
-              $('.pre-signin').css("display", "none");
-                $('.post-signin').css("display","inline");
-                
-             }
-             else{
-                $('.post-signin').css("display","none");
-             }
-          
-
+          if(user){
+            $('.pre-signin').css("display", "none");
+            $('.post-signin').css("display","inline");
+          }
+          else{
+            $('.post-signin').css("display","none");
+          }
         // $('.pre-signin').css("display","none");
       }
 
@@ -123,7 +118,7 @@ var UserNav = Backbone.View.extend({
 
 // });
 
-  
+
 
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
