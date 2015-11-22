@@ -1,5 +1,7 @@
 $(document).ready(function() {
   var bool = false;
+
+  console.log(user);
 // Need user data to do this
 //    var UserNavView = Backbone.View.extend({
 //   tagname: 'ul',
@@ -11,16 +13,22 @@ $(document).ready(function() {
 
 // });
 
-// var UserNav = Backbone.View.extend({
-//         el: ".pre-signin",
+var UserNav = Backbone.View.extend({
+        el: ".nav li",
 
-//         initialize: function(){
+        initialize: function(){
+          if(user){
+            $('.pre-signin').css("display", "none");
+            $('.post-signin').css("display","inline");
+          }
+          else{
+            $('.post-signin').css("display","none");
+          }
+        // $('.pre-signin').css("display","none");
+      }
 
-//         this.$el.css("display","none");
-//       }
-
-//   });
-//  var userNav = new UserNav();
+  });
+ var userNav = new UserNav();
 //   console.log(userNav);
 
   for (var i = 0; i < fundData.length; i++) {
@@ -110,7 +118,7 @@ $(document).ready(function() {
 
 // });
 
-   // $('.pre-signin').css("display", "none");
+
 
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
