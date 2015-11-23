@@ -76,8 +76,12 @@ html(lang='en')
             form(action='/admin/' + fund.id + '/destroy', method='post', name='destroy_fund')
               button.btn.btn-danger(type='submit') Destroy
       a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
+      .downloader#downloader
 
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='javascript/lib/bootstrap.min.js')
+    script(src='javascript/admin.js')
+    script.
+      var fundData =!{JSON.stringify(funds)};
