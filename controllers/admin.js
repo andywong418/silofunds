@@ -44,7 +44,7 @@ module.exports = {
     var fund = req.body;
     console.log(fund);
     var title = fund.title;
-    var tags = fund.keywords.split(", ");
+    var tags = fund.keywords.split(",");
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
@@ -162,7 +162,7 @@ module.exports = {
     var fund = req.body;
     console.log(fund);
     var title = fund.title;
-    var tags = fund.keywords.split(", ");
+    var tags = fund.keywords.split(",");
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
