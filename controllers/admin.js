@@ -1,4 +1,6 @@
 var models = require('../models');
+var inspect = require('util').inspect;
+var Busboy = require('busboy');
 
 module.exports = {
   index: function(req, res) {
@@ -95,6 +97,53 @@ module.exports = {
         res.redirect('../../admin');
       });
     });
+  },
+
+  upload: function(req, res) {
+    var busboy = new Busboy({ headers: req.headers });
+    var jsonData = null;
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+      file.on('data', function(data) {
+        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        jsonData = data.toString();
+      });
+      file.on('end', function() {
+        console.log('File [' + fieldname + '] Finished');
+      });
+    });
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+    });
+    busboy.on('finish', function() {
+      console.log('Done parsing form! Injecting into database...');
+      var json_array = JSON.parse(jsonData);
+
+      for (var ind = 0; ind < json_array.length; ind++) {
+        var fund = json_array[ind];
+
+        models.funds.create({
+          title: fund.title,
+          tags: fund.tags,
+          invite_only: fund.invite_only,
+          link: fund.link,
+          minimum_age: fund.minimum_age,
+          maximum_age: fund.maximum_age,
+          minimum_amount: fund.minimum_amount,
+          maximum_amount: fund.maximum_amount,
+          description: fund.description,
+          nationality: fund.nationality,
+          religion: fund.religion,
+          financial_situation: fund.financial_situation,
+          merit_or_finance: fund.merit_or_finance,
+          gender: fund.gender,
+          deadline: fund.deadline
+        }).then(function() {
+          res.redirect('../admin');
+        });
+      }
+    });
+    req.pipe(busboy);
   },
 
   create: function(req, res) {
