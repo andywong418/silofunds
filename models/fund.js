@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     //   field: 'id'
     // },
     title: {
-      type: DataTypes.STRING(40),
+      type: DataTypes.TEXT,
       field: 'title',
       allowNull: false
     },
@@ -59,12 +59,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       field: 'description'
     },
-    nationality: {
-      type: DataTypes.STRING(40),
-      field: 'nationality'
+    countries: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'countries'
     },
     religion: {
-      type: DataTypes.STRING(40),
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'religion'
     },
     gender: {
