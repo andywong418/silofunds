@@ -76,7 +76,12 @@ html(lang='en')
             form(action='/admin/' + fund.id + '/destroy', method='post', name='destroy_fund')
               button.btn.btn-danger(type='submit') Destroy
       a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
+    .container
+      hr
       .downloader#downloader
+      form(action="/admin/upload", method="post", enctype="multipart/form-data")
+        input(type="file", name="jsonData")
+        button.btn.btn-default.btn-primary(type='submit') Upload JSON!
 
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
