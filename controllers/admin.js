@@ -48,8 +48,8 @@ module.exports = {
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
-    var nationality = fund.nationality ? fund.nationality : null;
-    var religion = fund.religion ? fund.religion : null;
+    var countries = fund.countries.split(",");
+    var religion = fund.religion.split(",");
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
@@ -77,7 +77,7 @@ module.exports = {
         minimum_amount: min_amount,
         maximum_amount: max_amount,
         description: description,
-        nationality: nationality,
+        countries: countries,
         religion: religion,
         financial_situation: financial_situation,
         merit_or_finance: merit_or_finance,
@@ -166,8 +166,8 @@ module.exports = {
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
-    var nationality = fund.nationality ? fund.nationality : null;
-    var religion = fund.religion ? fund.religion : null;
+    var countries = fund.countries.split(",");
+    var religion = fund.religion.split(",");
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
@@ -194,7 +194,7 @@ module.exports = {
       minimum_amount: min_amount,
       maximum_amount: max_amount,
       description: description,
-      nationality: nationality,
+      countries: countries,
       religion: religion,
       financial_situation: financial_situation,
       merit_or_finance: merit_or_finance,
