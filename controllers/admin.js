@@ -119,8 +119,20 @@ module.exports = {
       console.log('Done parsing form! Injecting into database...');
       var json_array = JSON.parse(jsonData);
 
+      // For converting pure string fields into an array of strings
+      var str_to_arrayofstrings = function(field) {
+        if (typeof field === "string") {
+          console.log("Converting str into arrayofstrings");
+          return field.split(",");
+        } else {
+          return field;
+        }
+      };
+
       for (var ind = 0; ind < json_array.length; ind++) {
         var fund = json_array[ind];
+
+        // TODO: Remove str_to_arrayofstrings function call once migration from DataTypes.TEXT to DataTypes.ARRAY(DataTypes.TEXT) is complete
 
         models.funds.create({
           title: fund.title,
