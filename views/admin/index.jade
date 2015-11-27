@@ -59,15 +59,14 @@ html(lang='en')
           tr
           td= fund.id
           td
-            a.btn.btn-default.btn-link(href=fund.link, role='button')= fund.title
+            a.btn.btn-default.btn-link(href=fund.link, role='button') Link
+          td= fund.title
           td= fund.tags
           td= fund.minimum_age
           td= fund.maximum_age
           td= fund.minimum_amount
           td= fund.maximum_amount
           td= fund.invite_only
-          td
-            a.btn.btn-default.btn-link(href=fund.link, role='button') Link
           td= fund.nationality
           td= fund.deadline
           td
