@@ -51,7 +51,7 @@ html(lang='en')
                 input#title.form-control(type='text', name='title', required)
               .col-md-6.form-group
                 label(for='tags') Tags (separate with comma, no space)
-                input#tags.form-control(type='text', name='keywords', required)
+                input#tags.form-control(type='text', name='keywords', style="text-transform: lowercase;" required)
           .row
             tr
               .col-md-3.form-group
@@ -73,10 +73,10 @@ html(lang='en')
                 textarea#description.form-control(rows='3', name='description')
               .col-md-3.form-group
                 label(for='countries') Countries (separate with comma, no space)
-                input#countries.form-control(type='text', name='countries')
+                input#countries.form-control(type='text', name='countries', style="text-transform: lowercase;")
               .col-md-3.form-group
                 label(for='religion') Religion (separate with comma, no space)
-                input#religion.form-control(type='text', name='religion')
+                input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;")
           .row
             tr
               .col-md-3.form-group
