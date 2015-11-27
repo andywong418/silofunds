@@ -28,16 +28,19 @@ module.exports = {
 
     models.funds.findById(id).then(function(fund) {
       var date = fund.deadline;
+      var reformattedDate = null;
 
-      var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
-      var dd = date.getDate();
-      var yyyy = date.getFullYear();
-      mm = mm.toString(); // Prepare for comparison below
-      dd = dd.toString();
-      mm = mm.length > 1 ? mm : '0' + mm;
-      dd = dd.length > 1 ? dd : '0' + dd;
+      if (date) {
+        var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+        var dd = date.getDate();
+        var yyyy = date.getFullYear();
+        mm = mm.toString(); // Prepare for comparison below
+        dd = dd.toString();
+        mm = mm.length > 1 ? mm : '0' + mm;
+        dd = dd.length > 1 ? dd : '0' + dd;
 
-      var reformattedDate = yyyy + "-" + mm + "-" + dd;
+        reformattedDate = yyyy + "-" + mm + "-" + dd;
+      }
 
       res.render('admin/edit', { fund: fund, deadline: reformattedDate });
     });
