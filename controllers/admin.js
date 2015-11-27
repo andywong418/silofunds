@@ -2,13 +2,18 @@ var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
 
+var fund_array_to_json = function(array) {
+  var funds = array.map(function(fund) {
+    var json = fund.toJSON();
+    return json;
+  });
+  return funds;
+};
+
 module.exports = {
   index: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
-      var funds = funds.map(function(fund) {
-        var json = fund.toJSON();
-        return json;
-      });
+      funds = fund_array_to_json(funds);
 
       res.render('admin/index', { funds: funds });
     });
