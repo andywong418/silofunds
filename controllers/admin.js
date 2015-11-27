@@ -69,7 +69,7 @@ module.exports = {
     var deadline = fund.deadline ? fund.deadline : null;
 
     var parseIfInt = function(string) {
-      if (string != '') {
+      if (string !== '') {
         return parseInt(string);
       }
     };
@@ -187,7 +187,7 @@ module.exports = {
     var deadline = fund.deadline ? fund.deadline : null;
 
     var parseIfInt = function(string) {
-      if (string != '') {
+      if (string !== '') {
         return parseInt(string);
       }
     };
@@ -217,4 +217,4 @@ module.exports = {
       res.redirect('admin');
     });
   }
-}
+};
