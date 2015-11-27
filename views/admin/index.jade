@@ -58,7 +58,8 @@ html(lang='en')
         each fund in funds
           tr
           td= fund.id
-          td= fund.title
+          td
+            a.btn.btn-default.btn-link(href=fund.link, role='button')= fund.title
           td= fund.tags
           td= fund.minimum_age
           td= fund.maximum_age
