@@ -27,11 +27,11 @@ $(function() {
   ///////////////////////////
 
   try {
-    if(fund.gender != null) {
+    if(fund.gender !== null) {
       $("#" + fund.gender).prop("checked", true);
     }
 
-    if(fund.merit_or_finance != null) {
+    if(fund.merit_or_finance !== null) {
       $("#" + fund.merit_or_finance).prop("checked", true);
     }
 
