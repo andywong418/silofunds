@@ -23,7 +23,9 @@ module.exports = {
       type: "fund",
       body: {
         "query": {
-          "match_all": {}
+          "match": {
+            "title": searchString
+          }
         }
       }
     }).then(function(resp) {
@@ -36,7 +38,7 @@ module.exports = {
 
         var title = hit._source.title;
         var hash = {};
-        
+
         hash.title = title;
 
         return hash;
