@@ -6,8 +6,8 @@ var login = require('../routes/login');
 var auth = require('../routes/auth');
 var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
-var emailValidation = require('../routes/emailValidation');
-var passwordValidation = require('../routes/passwordValidation');
+var validation = require('../routes/validation');
+
 
 module.exports.initialize = function (app) {
   app.use('/', index);
@@ -18,6 +18,5 @@ module.exports.initialize = function (app) {
   app.use('/auth', auth);
   app.use('/admin', admin);
   app.use('/autocomplete', autocomplete);
-  app.use('/emailValidation', emailValidation);
-  app.use('/passwordValidation', passwordValidation);
-};
+  app.use('/validation', validation);
+  };

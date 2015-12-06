@@ -168,7 +168,7 @@ jQuery.fn.putCursorAtEnd = function() {
     if(re.test($(this).val())){
       $('#email-error').removeClass('is-visible');
     }
-    $.get('/emailValidation', parameters, function(data){
+    $.get('/validation', parameters, function(data){
       
       if(data){
         $('#email-error').addClass('is-visible');
@@ -219,7 +219,7 @@ jQuery.fn.putCursorAtEnd = function() {
     if(error== 0){
      this.submit();
     }
-  })
+  });
 
   $("#signin-email").blur(function(){
     var parameters = {loginEmail: $(this).val()};
@@ -229,7 +229,7 @@ jQuery.fn.putCursorAtEnd = function() {
        $('#login-email-error').text('Please enter a valid email address');
        $('#login-button').prop('disabled', true);
     }
-    $.get('/emailValidation', parameters, function(data){
+    $.get('/validation', parameters, function(data){
       if(data){
         $('#login-email-error').addClass('is-visible');
         $('#login-email-error').text(data);
@@ -244,40 +244,43 @@ jQuery.fn.putCursorAtEnd = function() {
 
 });
  $("#signin-password").focus(function(){
-  $('#signin-password-error').removeClass('is-visible');
+    $('#signin-password-error').removeClass('is-visible');
 });
 
  $("#login-form").submit(function(e){
-      e.preventDefault();
-      var email = $('#signin-email');
-      var password = $('#signin-password');
-      var parameters = {email: email.val(), password: password.val()};
-      var error = 0;
-      
-      
-      if(!email.val()){
-        $('#login-email-error').addClass('is-visible');
-        $('#login-email-error').text('Please enter your email address to login');
-        $('#login-button').prop('disabled', false);  
-      }
-      if(!password.val()){
-        $('#signin-password-error').addClass('is-visible');
-        $('#signin-password-error').text('Please enter your password');
-        $('#login-button').prop('disabled', false);  
-      }
-      $.post('/passwordValidation', parameters, function(data){
-        
-        if(data){
-          console.log("TELL ME NOW", data);
-          $('#signin-password-error').addClass('is-visible');
-           $('#signin-password-error').text(data);
-          error++
+    e.preventDefault();
+    var email = $('#signin-email');
+    var password = $('#signin-password');
+    var parameters = {email: email.val(), password: password.val()};
+    
+    if(!email.val()){
+      $('#login-email-error').addClass('is-visible');
+      $('#login-email-error').text('Please enter your email address to login');
+      $('#login-button').prop('disabled', false);  
+    };
+
+    if(!password.val()){
+      $('#signin-password-error').addClass('is-visible');
+      $('#signin-password-error').text('Please enter your password');
+      $('#login-button').prop('disabled', false);  
+    };
+    
+    $.post('/validation', parameters, function(data){
+      if(data){
+        if(data == 'There is no account under this email address'){
+          $('#login-email-error').addClass('is-visible');
+          $('#login-email-error').text(data);
         }
         else{
-          document.getElementById("login-form").submit();
+          console.log("TELL ME NOW", data);
+          $('#signin-password-error').addClass('is-visible');
+          $('#signin-password-error').text(data);
         }
-      })
-
+      }
+      else{
+        document.getElementById("login-form").submit();
+      }
+    })
   })
 
   var Scrollview = Backbone.View.extend({
