@@ -404,8 +404,8 @@ i{
 
 
 a.cd-signup{
-
-    border: 5px solid;
+    padding: 0;
+    border: 4px solid;
     color: #E3E7E8;
 }
 
@@ -667,13 +667,11 @@ a.cd-login{
   display: inline-block;
   position: absolute;
   left: -5px;
-  bottom: -35px;
-  background: rgba(215, 102, 102, 0.9);
+  bottom: -28px;
+  color:red;
   padding: .8em;
   z-index: 2;
-  color: #FFF;
-  font-size: 13px;
-  font-size: 0.8125rem;
+  font-size: 12px;
   border-radius: 0.25em;
   /* prevent click and touch events */
   pointer-events: none;
@@ -685,7 +683,7 @@ a.cd-login{
 }
 .cd-form .cd-error-message::after {
   /* triangle */
-  content: '';
+/*  content: '';
   position: absolute;
   left: 22px;
   bottom: 100%;
@@ -694,13 +692,14 @@ a.cd-login{
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid rgba(215, 102, 102, 0.9);
-}
+*/}
 .cd-form .cd-error-message.is-visible {
   opacity: 1;
   visibility: visible;
   -webkit-transition: opacity 0.2s 0, visibility 0 0;
   -moz-transition: opacity 0.2s 0, visibility 0 0;
   transition: opacity 0.2s 0, visibility 0 0;
+
 }
 @media only screen and (min-width: 600px) {
   .cd-form {
@@ -823,14 +822,14 @@ time, mark, audio, video {
 #accept-terms{
   position:relative;
     float:left;
-    margin-top: 16px;
+    
    z-index: 4;
 }
 
 #terms{
     float: left;
     margin-bottom: 25px;
-    margin-top: 15px;
+    margin-top:-2px;
     margin-left: 1%;
     font-size: 12px;
 }
@@ -861,4 +860,9 @@ time, mark, audio, video {
 
 .btn.btn-block{
   font-size: 15px;
+}
+#terms-error{
+  margin-left: 20px;
+  color: red;
+  display: none;
 }

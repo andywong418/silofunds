@@ -60,40 +60,41 @@ html(lang='en')
                 li
                   a(href='#0') New account
               #cd-signup
-                form(class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
+                form(id='signup-form',class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
                   p.fieldset
                     label.image-replace.cd-username(for='signup-username')
                     input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
-                    span.cd-error-message Error message here!
+                    span#username-error.cd-error-message 
                   p.fieldset
                     label.image-replace.cd-email(for='signup-email') Email
                     input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
-                    span.cd-error-message Error message here!
+                    span#email-error.cd-error-message 
                   p.fieldset
                     label.image-replace.cd-password(for='signup-password') Password
                     input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
                     a.hide-password(href='#0') Hide
-                    span.cd-error-message Error message here!
+                    span#password-error.cd-error-message Error message here!
                   p.fieldset
                     input#accept-terms(type='checkbox')
                     label(for='accept-terms' id = "terms")
                       | I agree to the 
-                      a(href='#0') Terms
+                      a(href='#0') Terms 
+                      span#terms-error  Please agree to the terms and conditions 
                   p.fieldset
                     button.full-width.has-padding(type='submit', id = "signup-button") Create account
 
               #cd-login
                 // log in form
-                form.cd-form(action = "/login", method = "post", name = "login_form")
+                form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
                   p.fieldset
                     label.image-replace.cd-email(for='signin-email') E-mail
                     input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
-                    span.cd-error-message Error message here!
+                    span#login-email-error.cd-error-message Error message here!
                   p.fieldset
                     label.image-replace.cd-password(for='signin-password') Password
                     input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
                     a.hide-password(href='#0') Hide
-                    span.cd-error-message Error message here!
+                    span#signin-password-error.cd-error-message Error message here!
                   p.fieldset
                      a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
                        span.fa.fa-facebook
