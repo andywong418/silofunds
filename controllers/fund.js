@@ -17,29 +17,39 @@ module.exports = {
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
-    var injectionVariables = [searchString];
 
-    var sql = "SELECT * from funds" // WHERE ? % ANY(tags)";
-
-    // if (searchAge) {
-    //   sql = sql + " AND " + "minimum_age <= ?";
-    //   injectionVariables.push(searchAge);
-    // }
-    //
-    // if (searchAmount) {
-    //   sql = sql + " AND " + "maximum_amount >= ?";
-    //   injectionVariables.push(searchAmount);
-    // }
-
-    models.sequelize.query(sql, {
-      replacements: injectionVariables,
-      type: models.sequelize.QueryTypes.SELECT
-    }).then(function(funds) {
-      if (req.user) {
-        res.render('search', { funds: funds, user: req.user });
-      } else {
-        res.render('search', { funds: funds, user: false });
+    models.es.search({
+      index: "funds",
+      type: "fund",
+      body: {
+        "query": {
+          "match": {
+            "title": searchString
+          }
+        }
       }
+    }).then(function(resp) {
+      console.log("This is the response:");
+      console.log(resp);
+
+      var funds = resp.hits.hits.map(function(hit) {
+        console.log("Hit:");
+        console.log(hit);
+
+        var title = hit._source.title;
+        var hash = {};
+
+        hash.title = title;
+
+        return hash;
+      });
+
+      console.log(funds);
+
+      res.render('search', { funds: funds, user: false });
+    }, function(err) {
+      console.trace(err.message);
+      res.render('error');
     });
   }
-}
+};
