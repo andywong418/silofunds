@@ -170,8 +170,8 @@ a:focus {
 
 .intro .intro-body .intro-text {
     font-size: 18px;
-    font-family: sans-serif;
-    font-weight: bold;
+    font-family: "Montserrat";
+    
     letter-spacing: 1px;
 
 }
@@ -194,15 +194,15 @@ a:focus {
     }
 
     .intro .intro-body .intro-text {
-        font-size: 18px;
-        font-family: "Helvetica Neue";
-        font-weight: bold;
+        font-size: 30px;
+        font-family: "Montserrat";
+        
 
 
 
     }
     .intro-text{
-      margin-top: -25px;
+      
     }
 }
 
@@ -345,6 +345,7 @@ font-family: "Source Sans Pro";
     box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  margin-top: 80px;
 
 }
 
