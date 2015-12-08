@@ -3,11 +3,12 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+@import url(http://fonts.googleapis.com/css?family=Lato:700);
 
 body {
     width: 100%;
     height: 100%;
-    font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Montserrat';
     font-size: 14px;
     line-height: 1.42857;
     color: #333333;
@@ -73,6 +74,7 @@ a:focus {
 
 .navbar-custom .navbar-brand {
     font-weight: 700;
+   
 }
 
 .navbar-custom .navbar-brand:focus {
@@ -83,6 +85,14 @@ a:focus {
     padding: 4px 6px;
     font-size: 16px;
     color: #fff;
+}
+
+#brand-image{
+  margin-top: -4px;
+   height: auto; 
+    width: auto; 
+    max-width: 100px; 
+    max-height: 100px;
 }
 
 .navbar-custom .navbar-brand .navbar-toggle:focus,
@@ -123,6 +133,8 @@ a:focus {
 .navbar-custom .nav li.active a:hover {
     color: #fff;
 }
+
+
 
 @media(min-width:768px) {
     .navbar-custom {
@@ -178,7 +190,7 @@ a:focus {
 
 @media(min-width:768px) {
     .intro {
-        height: 90%;
+        height: 95%;
         padding: 0;
     }
 
@@ -196,40 +208,24 @@ a:focus {
     .intro .intro-body .intro-text {
         font-size: 30px;
         font-family: "Montserrat";
-        
-
-
-
     }
-    .intro-text{
-      
-    }
+  
 }
 
-
-
-
-
-
-#map {
-    width: 100%;
-    height: 200px;
-    margin-top: 100px;
-}
 
 @media(min-width:767px) {
     .content-section {
-        padding-top: 150px;
+        padding-top: 75px;
     }
+    .navbar-left{
+  margin-top: 8px;
+}
 
-    .download-section {
-        padding: 100px 0;
-    }
+.navbar-right{
+  margin-top: -58px;
+}
 
-    #map {
-        height: 400px;
-        margin-top: 250px;
-    }
+  
 }
 
 .btn {
@@ -433,6 +429,9 @@ a.cd-login{
 .nav li a.cd-signin:hover{
     color:white;
 }
+
+
+
 
 /* User sign in popup form */
 .cd-user-modal {
@@ -867,3 +866,86 @@ time, mark, audio, video {
   color: red;
   display: none;
 }
+
+/*#about{
+  background-color: #edefed;
+  width: 100%;
+  margin-top: 0;
+}*/
+
+#number-of-funds{
+  font-size: 44px;
+  width: 200px;
+  margin: 0px auto;
+  padding:20px;
+  border-color: #3c547a;
+  border-width: 15px;
+  border-style: solid;
+
+
+}
+
+#funds-brief{
+  width:300px;
+  margin: 60px auto;
+}
+
+#postgraduate-brief{
+  margin-top: 0;
+}
+#yet{
+  margin-top: 50px;
+  text-transform: lowercase;
+  color:#ff5050;
+}
+/*Progress circular bar css */
+#page {
+  width: 275px;
+  margin: 0px auto;
+  text-decoration: none;
+  margin-bottom: 50px;
+  margin-top: -100px;
+  
+}
+.progress-bar {
+  display: inline-block;
+  width: 275px;
+  height: 275px;
+  padding: 0;
+  background-color: transparent;
+  color:black;
+  box-shadow: none;
+}
+.progress-bar .progress-active {
+  position: relative;
+  top: -279px;
+}
+.progress-bar p {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 275px;
+  top: -460px;
+  font-size: 44px;
+  font-weight: 900;
+  text-align: center;
+}
+#progressControllerContainer {
+  font: 14px; 
+  font-family: "Montserrat", Helvetica, Helvetica Neue, Arial;
+  position: absolute;
+  top: 320px;
+  padding: 10px 80px;
+  display: none;
+}
+
+/*silo description*/
+#silo-here{
+  font-weight: bold;
+}
+/*profileviews*/
+/*#profile-views{
+   background-color: #edefed;
+
+}
+*/

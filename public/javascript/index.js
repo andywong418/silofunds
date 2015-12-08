@@ -281,7 +281,9 @@ jQuery.fn.putCursorAtEnd = function() {
         document.getElementById("login-form").submit();
       }
     })
-  })
+  });
+
+
 
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
