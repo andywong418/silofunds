@@ -109,8 +109,8 @@ models.sequelize.sync().then(function () {
       },
       order: 'created_at ASC'
     }).then(function(funds) {
-      if (funds.length == 0) {
-        console.log("nothing to update....\n")
+      if (funds.length === 0) {
+        console.log("nothing to update....\n");
       } else {
         var body = [];
         var funds = funds.map(function(fund) {
@@ -119,7 +119,7 @@ models.sequelize.sync().then(function () {
         });
 
         console.log(funds);
-        console.log('\n\n')
+        console.log('\n\n');
 
         // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
         // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
@@ -147,7 +147,7 @@ models.sequelize.sync().then(function () {
         });
       }
     });
-  }
+  };
   var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
   /**
