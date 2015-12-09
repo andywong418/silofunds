@@ -37,9 +37,11 @@ module.exports = {
         console.log(hit);
 
         var title = hit._source.title;
+        var maximum_amount = hit._source.maximum_amount;
         var hash = {};
 
         hash.title = title;
+        hash.maximum_amount = maximum_amount;
 
         return hash;
       });
