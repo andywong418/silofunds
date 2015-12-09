@@ -73,6 +73,10 @@ models.sequelize.sync().then(function () {
                   'fields': {
                     "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
                   }
+                },
+                "tags": {
+                  "type": "string",
+                  "index_name": "tag"
                 }
               }
             }
