@@ -80,6 +80,10 @@ models.sequelize.sync().then(function () {
                 },
                 "maximum_amount": {
                   "type": "long"
+                },
+                "description": {
+                  "type": "string",
+                  "index": "not_analyzed"
                 }
               }
             }
@@ -127,6 +131,7 @@ models.sequelize.sync().then(function () {
           wrapper.title = fund.title;
           wrapper.tags = fund.tags;
           wrapper.maximum_amount = fund.maximum_amount;
+          wrapper.description = fund.description;
           body.push(wrapper);
         });
 
