@@ -232,6 +232,7 @@ module.exports = {
         var wrapper = {};
         wrapper.title = fund.title;
         wrapper.tags = fund.tags;
+        wrapper.maximum_amount = fund.maximum_amount;
         body.push(wrapper);
       });
 
