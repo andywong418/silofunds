@@ -231,6 +231,7 @@ module.exports = {
         body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
         var wrapper = {};
         wrapper.title = fund.title;
+        wrapper.tags = fund.tags;
         body.push(wrapper);
       });
 
