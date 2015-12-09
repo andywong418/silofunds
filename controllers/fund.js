@@ -39,11 +39,13 @@ module.exports = {
         var title = hit._source.title;
         var maximum_amount = hit._source.maximum_amount;
         var description = hit._source.description;
+        var id = hit._id;
         var hash = {};
 
         hash.title = title;
         hash.maximum_amount = maximum_amount;
         hash.description = description;
+        hash.id = id;
 
         return hash;
       });
