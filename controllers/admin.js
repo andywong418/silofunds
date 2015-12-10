@@ -216,5 +216,35 @@ module.exports = {
     }).then(function(fund) {
       res.redirect('admin');
     });
+  },
+
+  sync: function(req, res) {
+    models.funds.findAll().then(function(funds) {
+      var body = [];
+      funds = fund_array_to_json(funds);
+
+      console.log(funds);
+      console.log('\n\n');
+
+      // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+      funds.forEach(function(fund) {
+        body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+        var wrapper = {};
+        wrapper.title = fund.title;
+        wrapper.tags = fund.tags;
+        wrapper.maximum_amount = fund.maximum_amount;
+        wrapper.description = fund.description;
+        body.push(wrapper);
+      });
+
+      models.es.bulk({
+        body: body
+      }, function (err, resp) {
+        console.log(resp);
+      });
+    }).then(function() {
+      console.log('...Finished sync');
+      res.redirect('../admin');
+    });
   }
 };
