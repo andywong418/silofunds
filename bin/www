@@ -73,6 +73,17 @@ models.sequelize.sync().then(function () {
                   'fields': {
                     "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
                   }
+                },
+                "tags": {
+                  "type": "string",
+                  "index_name": "tag"
+                },
+                "maximum_amount": {
+                  "type": "long"
+                },
+                "description": {
+                  "type": "string",
+                  "index": "not_analyzed"
                 }
               }
             }
@@ -98,8 +109,8 @@ models.sequelize.sync().then(function () {
       },
       order: 'created_at ASC'
     }).then(function(funds) {
-      if (funds.length == 0) {
-        console.log("nothing to update....\n")
+      if (funds.length === 0) {
+        console.log("nothing to update....\n");
       } else {
         var body = [];
         var funds = funds.map(function(fund) {
@@ -108,7 +119,7 @@ models.sequelize.sync().then(function () {
         });
 
         console.log(funds);
-        console.log('\n\n')
+        console.log('\n\n');
 
         // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
         // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
@@ -117,7 +128,10 @@ models.sequelize.sync().then(function () {
         funds.forEach(function(fund) {
           body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
           var wrapper = {};
-          wrapper['title'] = fund.title;
+          wrapper.title = fund.title;
+          wrapper.tags = fund.tags;
+          wrapper.maximum_amount = fund.maximum_amount;
+          wrapper.description = fund.description;
           body.push(wrapper);
         });
 
@@ -133,7 +147,7 @@ models.sequelize.sync().then(function () {
         });
       }
     });
-  }
+  };
   var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
   /**
