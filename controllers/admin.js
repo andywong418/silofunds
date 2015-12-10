@@ -25,9 +25,10 @@ var reformatDate = function(date) {
 
 module.exports = {
   index: function(req, res) {
+    console.log("IT'S HERE");
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+      console.log(funds);
       funds = fund_array_to_json(funds);
-
       res.render('admin/index', { funds: funds });
     });
   },

@@ -137,7 +137,7 @@ a:focus {
 
     .navbar-custom.top-nav-collapse {
         padding: 0;
-        background: rgba(45,74,118,0.8);
+        background: rgba(45,74,118,1.0);
     }
 
     #brand-heading {

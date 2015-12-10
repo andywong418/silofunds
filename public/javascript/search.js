@@ -88,6 +88,7 @@ var UserNav = Backbone.View.extend({
       },
 
       infoToggle: function(){
+        console.log(fundData[i].description);
         $("#" + fundData[i].id).css("margin-top", "20px");
         $("#" + fundData[i].id).css("margin-bottom", "15px");
         $("#" + fundData[i].id).css("font-size", "16px");
@@ -99,6 +100,8 @@ var UserNav = Backbone.View.extend({
           else{
             $(this).children("span").css("display" , "block");
             $(this).children("span").css("margin-top" , "5px");
+            $(this).children("span").css("padding" , "0 20px");
+            $(this).find("li").css("list-style-type" , "disc");
             bool = true;
           }
         });

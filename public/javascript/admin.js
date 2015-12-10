@@ -11,6 +11,12 @@ $(function() {
     $("#merit, #finance").prop("checked", false);
   });
 
+  // text editor init
+  tinymce.init({
+    selector: '#description'
+  });
+
+
   /////////////////////////// Download JSON Link
 
     var array_of_obj = fundData;
