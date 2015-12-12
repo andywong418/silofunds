@@ -10,7 +10,6 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
 require('./controllers/passport')(passport);
-
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
@@ -36,15 +35,21 @@ if (process.env.REDIS_URL) {
     // redistogo connection
     console.log("REDISTOGO is ON");
     var rtg = require("url").parse(process.env.REDIS_URL);
+    var redis = require('redis').createClient(rtg.port, rtg.hostname);
     redisPort = rtg.port;
     redisHost = rtg.hostname;
-    console.log(rtg);
+    redis.auth(rtg.auth.split(':')[1]);
+    console.log("HERE IT IS", redis);
+}
+else{
+  var redis = require("redis").createClient();
 }
 
 app.use(session({
   secret: 'so secret',
   cookie: { secure : false, maxAge: (4 * 60 * 60 * 1000)},
   store: new RedisStore({
+    client: redis,
     host: redisHost,
     port: redisPort
   })

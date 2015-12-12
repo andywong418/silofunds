@@ -17,7 +17,7 @@ module.exports = {
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
-     var user = req.session.passport.user;
+     var user = req.user;
 
     models.es.search({
       index: "funds",
