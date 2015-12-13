@@ -4,10 +4,6 @@ block extraHeader
   // Custom CSS
   link(rel='stylesheet', href='stylesheets/normalize.css')
   link(href='stylesheets/index.css', rel='stylesheet')
-  // Custom Theme JavaScript
-  script(src='javascript/index.js')
-  //Progress drawer
-  script(src='javascript/progressDrawer.js')
 
 block content
   // Navigation
@@ -119,18 +115,18 @@ block content
                   button#login-button.full-width.has-padding(type='submit') Login
                 p#email-option
                   a(href="#0") Continue with email
-            p.cd-form-bottom-message
+              p.cd-form-bottom-message
                 a(href="#0") Forgot your password?
             #cd-reset-password
               // reset password form
               p.cd-form-message
                 | Lost your password? Please enter your email address. You will receive a link to create a new password.
               form.cd-form
-                p.fieldset
+                p#resend-email.fieldset
                   label.image-replace.cd-email(for='reset-email') E-mail
                   input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
                   span.cd-error-message Error message here!
-                p.fieldset
+                p#reset-password.fieldset
                   button#reset-password.full-width.has-padding(type='submit') Reset password
               p.cd-form-bottom-message
                 a(href='#0') Back to log-in
@@ -206,3 +202,8 @@ block content
     .container.text-center
       p Copyright © Silo 2015
 
+block scripts
+  // Custom Theme JavaScript
+  script(src='javascript/index.js')
+  //Progress drawer
+  script(src='javascript/progressDrawer.js')

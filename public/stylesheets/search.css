@@ -474,8 +474,7 @@ list-style-type: none;
   -webkit-transition-duration: 0.3s;
   -moz-transition-duration: 0.3s;
   transition-duration: 0.3s;
-  overflow-x: hidden; 
-    overflow-y: auto;
+
 }
 .cd-user-modal-container .cd-switcher:after {
   content: "";
@@ -485,7 +484,6 @@ list-style-type: none;
 
 .cd-switcher{
     list-style: none;
-    z-index: 4
 }
 
 .cd-user-modal-container .cd-switcher li {
@@ -493,15 +491,12 @@ list-style-type: none;
   float: left;
   text-align: center;
 }
-
 .cd-user-modal-container .cd-switcher li:first-child a {
   border-radius: 0.25em 0 0 0;
 }
-
 .cd-user-modal-container .cd-switcher li:last-child a {
   border-radius: 0 0.25em 0 0;
 }
-
 .cd-user-modal-container .cd-switcher a {
   display: block;
   width: 100%;
@@ -510,12 +505,10 @@ list-style-type: none;
   background: #d2d8d8;
   color: #809191;
 }
-
 .cd-user-modal-container .cd-switcher a.selected {
   background: #FFF;
   color: #505260;
 }
-
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
     margin: 4em auto;
@@ -536,12 +529,17 @@ list-style-type: none;
 .cd-form {
   padding: 1.4em;
 
+
 }
 .cd-form .fieldset {
   position: relative;
   margin: 1.4em 0;
+  display: none;
+
 
 }
+
+
 .cd-form .fieldset:first-child {
   margin-top: 0;
 }
@@ -587,6 +585,7 @@ list-style-type: none;
   margin: 0;
   padding: 0;
   border-radius: 0.25em;
+
 }
 .cd-form input.full-width {
   width: 100%;
@@ -653,13 +652,11 @@ list-style-type: none;
   display: inline-block;
   position: absolute;
   left: -5px;
-  bottom: -35px;
-  background: rgba(215, 102, 102, 0.9);
+  bottom: -28px;
+  color:red;
   padding: .8em;
   z-index: 2;
-  color: #FFF;
-  font-size: 13px;
-  font-size: 0.8125rem;
+  font-size: 12px;
   border-radius: 0.25em;
   /* prevent click and touch events */
   pointer-events: none;
@@ -671,7 +668,7 @@ list-style-type: none;
 }
 .cd-form .cd-error-message::after {
   /* triangle */
-  content: '';
+/*  content: '';
   position: absolute;
   left: 22px;
   bottom: 100%;
@@ -680,13 +677,14 @@ list-style-type: none;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid rgba(215, 102, 102, 0.9);
-}
+*/}
 .cd-form .cd-error-message.is-visible {
   opacity: 1;
   visibility: visible;
   -webkit-transition: opacity 0.2s 0, visibility 0 0;
   -moz-transition: opacity 0.2s 0, visibility 0 0;
   transition: opacity 0.2s 0, visibility 0 0;
+
 }
 @media only screen and (min-width: 600px) {
   .cd-form {
@@ -707,8 +705,6 @@ list-style-type: none;
   .cd-form button[type=submit] {
     padding: 16px 0;
   }
-
-
 }
 
 .cd-form-message {
@@ -728,11 +724,10 @@ list-style-type: none;
   position: relative;
   width: 100%;
   left: 0;
-  bottom: 30px;
+  bottom: -30px;
   text-align: center;
   font-size: 14px;
-  display: inline-block;
-  z-index: 10;
+  display: none;
 
 }
 .cd-form-bottom-message a {
@@ -753,7 +748,6 @@ list-style-type: none;
   white-space: nowrap;
   overflow: hidden;
 }
-
 @media only screen and (min-width: 1170px) {
   .cd-close-form {
     display: none;
@@ -777,7 +771,6 @@ list-style-type: none;
 }
 
 #cd-signup p{
-    margin: 25px;
     padding: 0;
     border: 0;
     font-size: 100%;
@@ -786,9 +779,10 @@ list-style-type: none;
 }
 
 #cd-login input{
-  font-family: "PT Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 15px;
 }
+
 .cd-user-modal-container ul, li{
     margin: 0;
     padding: 0;
@@ -853,4 +847,27 @@ time, mark, audio, video {
   margin: 10px 10px 0;
   display: none;
 }
+
+#terms-error{
+  margin-left: 20px;
+  color:red;
+  display: none;
+
+}
+
+#email-option{
+  font-size: 17px;
+  text-decoration: underline;
+  text-align: center;
+}
+.login-social-btn, .signup-social-btn{
+  width: 90%;
+  margin: 7% auto;
+  
+}
+
+#signup-btn{
+  margin-top: 0;
+}
+
 

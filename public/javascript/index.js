@@ -121,6 +121,8 @@ $(function() {
     $form_login.removeClass('is-selected');
     $form_signup.removeClass('is-selected');
     $form_forgot_password.addClass('is-selected');
+    $('#resend-email').css('display', 'block');
+    $('#reset-password').css('display', 'block');
   }
 
   function signup_email_option_selected(){

@@ -229,7 +229,7 @@ a:focus {
 }
 
 .btn {
-    border-radius: 0;
+    border-radius: 6px;
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 400;
@@ -748,6 +748,7 @@ a.cd-login{
   text-align: center;
   font-size: 14px;
   display: none;
+
 }
 .cd-form-bottom-message a {
   color: white;
