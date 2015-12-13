@@ -99,6 +99,8 @@ var UserNav = Backbone.View.extend({
           else{
             $(this).children("span").css("display" , "block");
             $(this).children("span").css("margin-top" , "5px");
+            $(this).children("span").css("padding", "15px");
+            $(this).find("li").css("list-style-type", "disc");
             bool = true;
           }
         });

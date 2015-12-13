@@ -81,6 +81,14 @@ $(function() {
     $password_field.putCursorAtEnd();
   });
 
+  $('#email-signup-option').on('click', function(){
+      signup_email_option_selected();
+  })
+
+  $('#email-option').on('click', function(){
+      login_email_option_selected();
+  })
+
   //show forgot-password form
   $forgot_password_link.on('click', function(event){
     event.preventDefault();
@@ -115,6 +123,26 @@ $(function() {
     $form_forgot_password.addClass('is-selected');
   }
 
+  function signup_email_option_selected(){
+    $('#email-username').css('display', 'block');
+    $('#email-signup').css('display', 'block');
+    $('#email-signup-password').css('display', 'block');
+    $('.signup-social-btn').css('display', 'none');
+    $('#signup-terms').css('display', 'inline');
+    $('#signup-btn').css('display', 'block');
+    $('#email-signup-option').css('display', 'none');
+
+  }
+
+  function login_email_option_selected(){
+    $('#email-login').css('display', 'block');
+    $('#email-login-password').css('display', 'block');
+    $('#email-login-btn').css('display', 'block');
+    $('#remember').css('display', 'inline');
+    $('.cd-form-bottom-message').css('display', 'inline');
+    $('.login-social-btn').css('display', 'none');
+    $('#email-option').css('display', 'none');
+  }
 
 
   //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/

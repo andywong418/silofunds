@@ -403,6 +403,7 @@ i{
 a.cd-signup{
     padding: 0;
     border: 4px solid;
+    border-radius: 10px;
     color: #E3E7E8;
 }
 
@@ -553,8 +554,12 @@ a.cd-login{
 .cd-form .fieldset {
   position: relative;
   margin: 1.4em 0;
+  display: none;
+
 
 }
+
+
 .cd-form .fieldset:first-child {
   margin-top: 0;
 }
@@ -742,9 +747,10 @@ a.cd-login{
   bottom: -30px;
   text-align: center;
   font-size: 14px;
+  display: none;
 }
 .cd-form-bottom-message a {
-  color: #FFF;
+  color: white;
   text-decoration: underline;
 }
 
@@ -784,7 +790,6 @@ a.cd-login{
 }
 
 #cd-signup p{
-    margin: 25px;
     padding: 0;
     border: 0;
     font-size: 100%;
@@ -796,6 +801,7 @@ a.cd-login{
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
 }
+
 .cd-user-modal-container ul, li{
     margin: 0;
     padding: 0;
@@ -821,13 +827,13 @@ time, mark, audio, video {
 
 #accept-terms{
   position:relative;
-    float:left;
+    
     
    z-index: 4;
 }
 
 #terms{
-    float: left;
+    
     margin-bottom: 25px;
     margin-top:-2px;
     margin-left: 1%;
@@ -839,6 +845,7 @@ time, mark, audio, video {
     float: left;
     margin-top: 0;
     z-index: 7;
+    display: none;
 }
 
 #remember label{
@@ -949,3 +956,20 @@ time, mark, audio, video {
 
 }
 */
+#email-option{
+  font-size: 17px;
+  text-decoration: underline;
+  text-align: center;
+}
+.login-social-btn, .signup-social-btn{
+  width: 90%;
+  margin: 7% auto;
+  
+}
+
+#signup-btn{
+  margin-top: 0;
+}
+
+ 
+

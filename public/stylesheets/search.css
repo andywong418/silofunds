@@ -540,6 +540,7 @@ list-style-type: none;
 .cd-form .fieldset {
   position: relative;
   margin: 1.4em 0;
+
 }
 .cd-form .fieldset:first-child {
   margin-top: 0;
@@ -727,13 +728,15 @@ list-style-type: none;
   position: relative;
   width: 100%;
   left: 0;
-  bottom: -30px;
+  bottom: 30px;
   text-align: center;
   font-size: 14px;
+  display: inline-block;
+  z-index: 10;
 
 }
 .cd-form-bottom-message a {
-  color: #FFF;
+  color: white;
   text-decoration: underline;
 }
 
@@ -850,3 +853,4 @@ time, mark, audio, video {
   margin: 10px 10px 0;
   display: none;
 }
+
