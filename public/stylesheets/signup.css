@@ -1,0 +1,18 @@
+body{
+background: #B993D6; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #B993D6 , #8CA6DB); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #B993D6 , #8CA6DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#container{
+	background-color: white;
+	
+	margin-top: 200px;
+	width: 60%;
+	height: 300px;
+	border-radius: 5px;
+	font-size: 20px;
+	padding-top: 15px;
+	font-family: "Montserrat";
+	font-weight: bold;
+}
