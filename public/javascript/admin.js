@@ -16,7 +16,7 @@ $(function() {
     selector: '#description',
     fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
     plugins: "link",
-    toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert"
+    toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
 
 
   });
