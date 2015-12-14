@@ -10,12 +10,13 @@ $(function() {
 
     $("#merit, #finance").prop("checked", false);
   });
-
-  // text editor init
+   
+   // text editor init
   tinymce.init({
-    selector: '#description'
+    selector: '#description',
+    fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+    toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect"
   });
-
 
   /////////////////////////// Download JSON Link
 
