@@ -13,7 +13,7 @@ $(function() {
 
   //open modal
   $main_nav.on('click', function(event){
-    $('.cd-switcher').css('display', 'inline')
+    $('.cd-switcher').css('display', 'inline');
     if($(event.target).is($main_nav) ) {
       //set body to be static
       $('html, body').css({
@@ -83,11 +83,11 @@ $(function() {
 
   $('#email-signup-option').on('click', function(){
       signup_email_option_selected();
-  })
+  });
 
   $('#email-option').on('click', function(){
       login_email_option_selected();
-  })
+  });
 
   //show forgot-password form
   $forgot_password_link.on('click', function(event){
@@ -171,7 +171,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
   $("#signup-username").focus(function(){
     $('#username-error').removeClass('is-visible');
-})
+});
 
   $("#signup-username").blur(function(){
     var checkForSpace = $(this).val().indexOf(" ");
@@ -179,40 +179,40 @@ jQuery.fn.putCursorAtEnd = function() {
       $("#username-error").addClass('is-visible');
       $("#username-error").text("Please enter your full name");
     }
-  })
+  });
 
   $("#signup-email").focus(function(){
     $('#email-error').removeClass('is-visible');
-    $('#signup-button').prop('disabled', false); 
+    $('#signup-button').prop('disabled', false);
 });
 
   $("#signup-email").blur(function(){
     var parameters = {email: $(this).val()};
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if (!re.test($(this).val())){
-       
+
        $('#email-error').addClass('is-visible');
        $('#email-error').text('Please enter a valid email address');
-       $('#signup-button').prop('disabled', true); 
+       $('#signup-button').prop('disabled', true);
     }
     if(re.test($(this).val())){
       $('#email-error').removeClass('is-visible');
     }
     $.get('/validation', parameters, function(data){
-      
+
       if(data){
         $('#email-error').addClass('is-visible');
         $('#email-error').text(data);
-        $('#signup-button').prop('disabled', true);  
+        $('#signup-button').prop('disabled', true);
       }
-    })
+    });
   });
 
   $('#accept-terms').click(function(){
     if(this.checked){
       $('#terms-error').css('display', 'none');
     }
-  })
+  });
 
   $("#signup-password").focus(function(){
     $('#password-error').removeClass('is-visible');
@@ -243,10 +243,9 @@ jQuery.fn.putCursorAtEnd = function() {
     }
      if($('#accept-terms').is(":not(:checked)")){
       $('#terms-error').css('display', 'inline');
-      error++
-
+      error++;
      }
-    if(error== 0){
+    if(error === 0){
      this.submit();
     }
   });
@@ -263,14 +262,14 @@ jQuery.fn.putCursorAtEnd = function() {
       if(data){
         $('#login-email-error').addClass('is-visible');
         $('#login-email-error').text(data);
-        $('#login-button').prop('disabled', true);      
+        $('#login-button').prop('disabled', true);
       }
-    })
+    });
   });
 
  $("#signin-email").focus(function(){
    $('#login-email-error').removeClass('is-visible');
-   $('#login-button').prop('disabled', false);  
+   $('#login-button').prop('disabled', false);
 
 });
  $("#signin-password").focus(function(){
@@ -282,19 +281,19 @@ jQuery.fn.putCursorAtEnd = function() {
     var email = $('#signin-email');
     var password = $('#signin-password');
     var parameters = {email: email.val(), password: password.val()};
-    
+
     if(!email.val()){
       $('#login-email-error').addClass('is-visible');
       $('#login-email-error').text('Please enter your email address to login');
-      $('#login-button').prop('disabled', false);  
-    };
+      $('#login-button').prop('disabled', false);
+    }
 
     if(!password.val()){
       $('#signin-password-error').addClass('is-visible');
       $('#signin-password-error').text('Please enter your password');
-      $('#login-button').prop('disabled', false);  
-    };
-    
+      $('#login-button').prop('disabled', false);
+    }
+
     $.post('/validation', parameters, function(data){
       if(data){
         if(data == 'There is no account under this email address'){
@@ -310,7 +309,7 @@ jQuery.fn.putCursorAtEnd = function() {
       else{
         document.getElementById("login-form").submit();
       }
-    })
+    });
   });
 
 
