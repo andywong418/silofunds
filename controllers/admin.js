@@ -37,6 +37,22 @@ module.exports = {
     res.render('admin/new');
   },
 
+  validate: function(req, res) {
+    var title = req.body.title;
+
+    models.funds.findAll({
+      where: {
+        title: title
+      }
+    }).then(function(fund) {
+      if (fund.length) {
+        res.send(fund);
+      } else {
+        res.send(null);
+      }
+    });
+  },
+
   edit: function(req, res) {
     var id = req.params.id;
 
