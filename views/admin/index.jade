@@ -42,6 +42,19 @@ html(lang='en')
     .container
       h1.text-center Welcome to the Admin Portal!
       hr
+      .row
+        .col-md-3
+          a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
+        .col-md-3
+          form(action="/admin/upload", method="post", enctype="multipart/form-data")
+            input(type="file", name="jsonData")
+            button.btn.btn-default.btn-primary(type='submit') Upload JSON!
+        .col-md-3
+          form(action="/admin/sync", method="post", name="sync_db")
+            button.btn.btn-warning(type="submit") Sync ES to PG
+        .col-md-3
+          .downloader#downloader
+      hr
       table.table.table-bordered.table-responsive
         tr
           th ID
@@ -75,15 +88,8 @@ html(lang='en')
           td
             form(action='/admin/' + fund.id + '/destroy', method='post', name='destroy_fund')
               button.btn.btn-danger(type='submit') Destroy
-      a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
     .container
       hr
-      .downloader#downloader
-      form(action="/admin/upload", method="post", enctype="multipart/form-data")
-        input(type="file", name="jsonData")
-        button.btn.btn-default.btn-primary(type='submit') Upload JSON!
-      form(action="/admin/sync", method="post", name="sync_db")
-        button.btn.btn-warning(type="submit") Sync ES to PG
 
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
