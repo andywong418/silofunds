@@ -41,6 +41,9 @@ html(lang='en')
       // /.container-fluid
 
     .container
+      .alert.alert-danger.alert-dismissible.hidden(role='alert')
+        strong Oops!
+        |  That fund has already been entered. Please try again.
       a.btn.btn-default.btn-link(href='/admin', role='button') Back to fund listings
       h1 Edit an existing fund:
       table.table.table-responsive
