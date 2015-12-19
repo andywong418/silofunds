@@ -10,30 +10,32 @@ $(function() {
 
     $("#merit, #finance").prop("checked", false);
   });
-   
-   // text editor init
-  tinymce.init({
-    selector: '#description',
-    fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
-    plugins: "link",
-    toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
 
+  try {
 
-  });
+    // text editor init
+    tinymce.init({
+      selector: '#description',
+      fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+      plugins: "link",
+      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
+    });
+
+  } catch(e) {
+    console.log("tinymce not defined!");
+  }
 
   /////////////////////////// Download JSON Link
+  var array_of_obj = fundData;
+  var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
 
-    var array_of_obj = fundData;
-    var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
+  var a = document.createElement('a');
+  a.href = 'data:' + data;
+  a.download = 'data.json';
+  a.innerHTML = 'Download JSON';
 
-    var a = document.createElement('a');
-    a.href = 'data:' + data;
-    a.download = 'data.json';
-    a.innerHTML = 'Download JSON';
-
-    var container = document.getElementById('downloader');
-    container.appendChild(a);
-
+  var container = document.getElementById('downloader');
+  container.appendChild(a);
   ///////////////////////////
 
   try {
