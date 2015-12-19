@@ -1,0 +1,33 @@
+body{
+	font-family: 'Montserrat'
+}
+
+.navbar-custom{
+	background-color: rgba(45,74,118,1.0);
+	height: 42px;
+}
+.search_form{
+	  position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+
+}
+
+.search_form input{
+	margin:0px 7px;
+	border: none;
+	border-radius: 5px;
+	padding: 5px;
+	width: 313px;
+}
+
+.signin-icon{
+
+  font-size: 20px;
+  margin: 12px 10px 0;
+  color: white;
+
+}

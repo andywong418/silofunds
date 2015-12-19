@@ -13,7 +13,7 @@ block content
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
           i.fa.fa-bars
         a.navbar-brand(href="#")
-          img#brand-image(src="images/silographic_original.png")
+          img#brand-image(src="images/transparent silo icon graphic.png")
 
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse.navbar-main-collapse
@@ -141,8 +141,10 @@ block content
             span.title
               | 
               span
-          p.intro-text We make funding easy for you.
-          form.search_form(action='/search', method='get', name='search_form')
+          p.intro-text The search for funding shouldn't be draining.
+          p.intro-text-2 We're dedicated to funding your goals.
+          
+          form.search_form(action='/results', method='get', name='search_form')
             input#text_search(type='text', name='tags', placeholder='Search terms')
             input#amount_req(type='number', name='amount', placeholder='Amount required')
             input#age(type='number', name='age', placeholder='Age')

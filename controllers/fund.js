@@ -53,10 +53,10 @@ module.exports = {
 
       console.log(funds);
       if(user){
-        res.render('search',{ funds: funds, user: user } )
+        res.render('results',{ funds: funds, user: user } )
       }
       else{
-      res.render('search', { funds: funds, user: false });
+      res.render('results', { funds: funds, user: false });
       }
     }, function(err) {
       console.trace(err.message);
