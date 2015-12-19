@@ -20,7 +20,13 @@ $(function() {
 
     $.post('/admin/new/validate', parameters, function(data){
 
-      if (data) {
+      var same_title_as_original = false;
+
+      if (data[0].id === fund.id) {
+        same_title_as_original = true;
+      }
+
+      if (data && !same_title_as_original) {
         $(".alert").removeClass("hidden");
 
         $("html, body").animate({

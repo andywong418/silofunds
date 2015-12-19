@@ -48,6 +48,9 @@ module.exports = {
       console.log("CHECKS");
       console.log(fund);
       console.log(fund.length);
+      console.log("FUND ID:");
+      console.log(fund[0].id);
+      
       if (fund.length) {
         res.send(fund);
       } else {
