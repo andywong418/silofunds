@@ -45,6 +45,9 @@ module.exports = {
         title: title
       }
     }).then(function(fund) {
+      console.log("CHECKS");
+      console.log(fund);
+      console.log(fund.length);
       if (fund.length) {
         res.send(fund);
       } else {
