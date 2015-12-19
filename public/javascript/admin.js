@@ -11,6 +11,28 @@ $(function() {
     $("#merit, #finance").prop("checked", false);
   });
 
+  $("form[name='create_fund']").submit(function(e){
+    e.preventDefault();
+
+    var title = $('input#title');
+    var parameters = { title: title.val() };
+    var currentTarget = event.target;
+
+    $.post('/admin/new/validate', parameters, function(data){
+
+      if (data) {
+        $(".alert").removeClass("hidden");
+
+        $("html, body").animate({
+          scrollTop: $("body").offset().top
+        }, 200);
+      } else {
+        currentTarget.submit();
+      }
+
+     });
+   });
+
   try {
 
     // text editor init
@@ -51,6 +73,6 @@ $(function() {
       $("#invite").prop("checked", true);
     }
   } catch (e) {
-    console.log("Caught the error ;)");
+    console.log("Caught the error.");
   }
 });

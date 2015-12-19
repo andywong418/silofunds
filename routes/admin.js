@@ -10,5 +10,6 @@ router.post('/:id/edit', admin.update);
 router.post('/:id/destroy', admin.destroy);
 router.post('/upload', admin.upload);
 router.post('/sync', admin.sync);
+router.post('/new/validate', admin.validate);
 
 module.exports = router;
