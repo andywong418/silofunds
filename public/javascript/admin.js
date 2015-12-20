@@ -22,8 +22,12 @@ $(function() {
 
       var same_title_as_original = false;
 
-      if (data[0].id === fund.id) {
-        same_title_as_original = true;
+      try {
+        if (data[0].id === fund.id) {
+          same_title_as_original = true;
+        }
+      } catch (e) {
+        console.log("data ('fund' passed from the view) probably isn't defined.");
       }
 
       if (data && !same_title_as_original) {
