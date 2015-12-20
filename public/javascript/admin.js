@@ -53,18 +53,25 @@ $(function() {
     console.log("tinymce not defined!");
   }
 
-  /////////////////////////// Download JSON Link
-  var array_of_obj = fundData;
-  var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
+  var pathname = window.location.pathname;
 
-  var a = document.createElement('a');
-  a.href = 'data:' + data;
-  a.download = 'data.json';
-  a.innerHTML = 'Download JSON';
+  // Only append download link on index page
+  if (pathname === "/admin") {
+    /////////////////////////// Download JSON Link
 
-  var container = document.getElementById('downloader');
-  container.appendChild(a);
-  ///////////////////////////
+    var array_of_obj = fundData;
+    var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
+
+    var a = document.createElement('a');
+    a.href = 'data:' + data;
+    a.download = 'data.json';
+    a.innerHTML = 'Download JSON';
+
+    var container = document.getElementById('downloader');
+    container.appendChild(a);
+    ///////////////////////////
+  }
+
 
   try {
     if(fund.gender !== null) {
