@@ -142,10 +142,11 @@ block content
               | 
               span
           p.intro-text The search for funding shouldn't be draining.
-          p.intro-text-2 We're dedicated to funding your goals.
+          p.intro-text-2 Fund your goals 
+            span#emphasis now.
           
           form.search_form(action='/results', method='get', name='search_form')
-            input#text_search(type='text', name='tags', placeholder='Search terms')
+            input#text_search(type='text', name='tags', placeholder='Subject, University, Degree level')
             input#amount_req(type='number', name='amount', placeholder='Amount required')
             input#age(type='number', name='age', placeholder='Age')
             button#search_button.btn.btn-danger(type='submit') Search

@@ -43,6 +43,9 @@ html(lang='en')
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
             i.fa.fa-bars
           form.search_form(action='/results', method='get', name='search_form')
+            button#search-dropdown.btn.btn-default
+              i.fa.et-down.fa-bars
+              i.fa.et-down.fa-angle-down
             input#text_search(type='text', name='tags', placeholder='Search keywords')
             button#search_button.btn.btn-info(type='submit') 
               i.fa.fa-search
@@ -55,4 +58,4 @@ html(lang='en')
               li.signin-icon
                i.fa.fa-cog
 
-
+  script(src= '../../javascript/new-user-profile.js')
