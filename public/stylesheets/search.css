@@ -305,26 +305,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
  color:#3C5675;
 }
 
-.database
-{
-  font-family: 'sans-serif';
-  margin-top: 50px;
-  font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
-}
-
-.database p {
-  margin: 15px;
-
-  font-size: 16px;
-  text-align: center;
-  display: inline-block;
-}
-
-.database li
-{
-list-style-type: none;
-}
-
 .fund_list{
   background-color: white;
   border-radius: 15px;
@@ -343,11 +323,35 @@ list-style-type: none;
   padding-top: 10px;
   margin-top: 30px;
 }
+
 .fund_link a
 {
   color:white;
 }
 
+.database
+{
+  font-family: 'sans-serif';
+  margin-top: 50px;
+  font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
+  text-align: left;
+  
+}
+
+.database p {
+  margin: 15px;
+
+  font-size: 16px;
+  text-align: left;
+  display: inline-block;
+  
+}
+
+.database li
+{
+list-style-type: none;
+
+}
 
 .fund_amount, .fund_min_age, .fund_max_age, .fund_description{
     font-weight: bold;
@@ -358,7 +362,12 @@ list-style-type: none;
 }
 
 .description_control{
+  text-align: left;
     display:  none;
+}
+
+.fund_info{
+
 }
 
 #checkbox{
