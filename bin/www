@@ -81,6 +81,12 @@ models.sequelize.sync().then(function () {
                 "maximum_amount": {
                   "type": "long"
                 },
+                "minimum_amount": {
+                  "type": "long"
+                },
+                "countries": {
+                  "type": "string"
+                },
                 "description": {
                   "type": "string",
                   "index": "not_analyzed"

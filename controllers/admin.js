@@ -257,6 +257,8 @@ module.exports = {
         wrapper.title = fund.title;
         wrapper.tags = fund.tags;
         wrapper.maximum_amount = fund.maximum_amount;
+        wrapper.minimum_amount = fund.minimum_amount;
+        wrapper.countries = fund.countries;
         wrapper.description = fund.description;
         body.push(wrapper);
       });

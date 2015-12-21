@@ -353,6 +353,10 @@ list-style-type: none;
 
 }
 
+.database label{
+  font-weight: bold;
+}
+
 .fund_amount, .fund_min_age, .fund_max_age, .fund_description{
     font-weight: bold;
 }
@@ -367,7 +371,7 @@ list-style-type: none;
 }
 
 .fund_info{
-
+    margin-top: -10px;
 }
 
 #checkbox{

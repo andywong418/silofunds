@@ -39,14 +39,19 @@ module.exports = {
 
         var title = hit._source.title;
         var maximum_amount = hit._source.maximum_amount;
+        var minimum_amount = hit._source.minimum_amount;
+        var countries = hit._source.countries;
         var description = hit._source.description;
         var id = hit._id;
+
         var hash = {};
 
         hash.title = title;
         hash.maximum_amount = maximum_amount;
+        hash.minimum_amount = minimum_amount;
         hash.description = description;
         hash.id = id;
+        hash.countries = countries;
 
         return hash;
       });
