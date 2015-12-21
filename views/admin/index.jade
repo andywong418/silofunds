@@ -65,7 +65,7 @@ html(lang='en')
           th Maximum Age
           th Minimum Amount
           th Maximum Amount
-          th Nationality
+          th Countries
           th Deadline
         each fund in funds
           tr
@@ -78,7 +78,7 @@ html(lang='en')
           td= fund.maximum_age
           td= fund.minimum_amount
           td= fund.maximum_amount
-          td= fund.nationality
+          td= fund.countries
           td= fund.deadline
           td
             form(action='/admin/' + fund.id + '/edit', method='get', name='edit_fund')
