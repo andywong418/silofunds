@@ -36,29 +36,62 @@ html(lang='en')
     script(src='../../javascript/lib/jquery.easing.min.js')
     link(href='../../stylesheets/new-user-profile.css', rel='stylesheet')
   body
+    //
+      nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+          #container.container
+            .navbar-header
+              button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+                i.fa.fa-bars
+              form.search_form(action='/results', method='get', name='search_form')
+                button#search-dropdown.btn.btn-default
+                  i.fa.et-down.fa-bars
+                  i.fa.et-down.fa-angle-down
+                input#text_search(type='text', name='tags', placeholder='Search keywords')
+                button#search_button.btn.btn-info(type='submit') 
+                  i.fa.fa-search
+            #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+                ul.nav.navbar-nav
+                  li.signin-icon
+                    button
+                      i.fa.fa-user
+                  li.signin-icon
+                    button
+                     i.fa.fa-comment-o
+                  li.signin-icon
+                    button
+                      i.fa.fa-cog
+    nav.navbar.navbar-custom.navbar-fixed-top
+      .col-md-2
+      .col-md-6
+        p#almost You're almost there! Finish the signup by updating your profile below.
+      .col-md-4
+        button#previous Previous
+        button#next Next
+        button#skip Skip
     script#profile-template(type='text/template')
-    nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-      #container.container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
-            i.fa.fa-bars
-          form.search_form(action='/results', method='get', name='search_form')
-            button#search-dropdown.btn.btn-default
-              i.fa.et-down.fa-bars
-              i.fa.et-down.fa-angle-down
-            input#text_search(type='text', name='tags', placeholder='Search keywords')
-            button#search_button.btn.btn-info(type='submit') 
-              i.fa.fa-search
-        #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
-            ul.nav.navbar-nav
-              li.signin-icon
-                button
-                  i.fa.fa-user
-              li.signin-icon
-                button
-                  i.fa.fa-comment-o
-              li.signin-icon
-                button
-                  i.fa.fa-cog
+      #user-setup
+        section#about.container.content-section
+            .row
+              .col-md-3.col-md-offset-1
+                img#profile-picture(src="../../images/profile-placeholder.jpg")
+              .col-md-1
+              .col-md-7
+                .row
+                  .col-md-12
+                    h4 <%= username %>
+                  .col-md-12
+                    textarea#description(placeholder='Please enter a description of youself- including your age, any organisation you are part of and what you are currently seeking funding for.') 
+        section#video-intro.container.content-section.text-center
+          .row
+            a(href="#0") Upload an introductory video about the project you need funding for.
+        section#past-work.container.content-section.text-center
+          .row
+            a(href="#0") Upload any past work that relates to your fund campaign.
+        section#applied-funds.container.content-section.text-center 
+         h4 Please enter the amount of grant money you are seeking:     
+         input.progress(type='text', name='FirstName', placeholder='') 
+
 
   script(src= '../../javascript/new-user-profile.js')
+  script.
+    var user_setup = !{JSON.stringify(user)};
