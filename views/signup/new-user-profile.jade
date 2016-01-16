@@ -10,7 +10,7 @@ html(lang='en')
     // jQuery UI
     link(href='../../stylesheets/jquery-ui.min.css', rel='stylesheet')
     // Bootstrap Core CSS
-    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='../../stylesheets/bootstrap.css', rel='stylesheet')
     link(href='../../stylesheets/bootstrap-social.css', rel='stylesheet')
     // Custom Fonts
     link(href='../../font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
@@ -60,36 +60,39 @@ html(lang='en')
                   li.signin-icon
                     button
                       i.fa.fa-cog
-    nav.navbar.navbar-custom.navbar-fixed-top
-      .col-md-2
-      .col-md-6
-        p#almost You're almost there! Finish the signup by updating your profile below.
-      .col-md-4
-        button#previous Previous
-        button#next Next
-        button#skip Skip
-    script#profile-template(type='text/template')
-      #user-setup
-        section#about.container.content-section
-            .row
-              .col-md-3.col-md-offset-1
-                img#profile-picture(src="../../images/profile-placeholder.jpg")
-              .col-md-1
-              .col-md-7
+    #user-modal
+      nav.navbar.navbar-custom.navbar-fixed-top
+        .col-md-3
+        .col-md-5
+          p#almost You're almost there! Finish the signup by updating your profile below.
+        .col-md-4
+          button#previous Previous
+          button#next Next
+          button(type='submit')#finish Finish
+      script#profile-template(type='text/template')
+        #user-setup
+          form#profile-form(action = '/signup_complete',method = "post",name = "signup_form")
+            section#about.container.content-section
+                h4 <%= username %>
                 .row
-                  .col-md-12
-                    h4 <%= username %>
-                  .col-md-12
-                    textarea#description(placeholder='Please enter a description of youself- including your age, any organisation you are part of and what you are currently seeking funding for.') 
-        section#video-intro.container.content-section.text-center
-          .row
-            a(href="#0") Upload an introductory video about the project you need funding for.
-        section#past-work.container.content-section.text-center
-          .row
-            a(href="#0") Upload any past work that relates to your fund campaign.
-        section#applied-funds.container.content-section.text-center 
-         h4 Please enter the amount of grant money you are seeking:     
-         input.progress(type='text', name='FirstName', placeholder='') 
+                  .col-md-4.center-block
+                    figure#profile-figure
+                      a(href = "#upload-profile-picture")
+                        img#profile-picture(src="../../images/profile-placeholder.jpg")
+                      figcaption#add-profile Upload a profile picture 
+            
+                .row
+                  .col-md-6.col-md-offset-3
+                    textarea#description
+            section#video-intro.container.content-section.text-center
+              .row
+                a(href="#0") Upload an introductory video about the project you need funding for.
+            section#past-work.container.content-section.text-center
+              .row
+                a(href="#0") Upload any past work that relates to your fund campaign.
+            section#applied-funds.container.content-section.text-center 
+             h4 Please enter the amount of grant money you are seeking:     
+             input.progress(type='text', name='FirstName', placeholder='') 
 
 
   script(src= '../../javascript/new-user-profile.js')
