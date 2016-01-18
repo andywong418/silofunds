@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     funding_needed: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
       field: 'funding_needed',
       allowNull: false
     }
