@@ -20,6 +20,16 @@ module.exports = function(sequelize, DataTypes) {
         var hash = bcrypt.hashSync(v, salt);
         this.setDataValue('password', hash);
       }
+    },
+    description: {
+      type: DataTypes.STRING,
+      field: 'description',
+      allowNull: false
+    },
+    funding_needed: {
+      type: DataTypes.INTEGER,
+      field: 'funding_needed',
+      allowNull: false
     }
   }, {
     timestamps: true,

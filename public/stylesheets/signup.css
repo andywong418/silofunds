@@ -6,8 +6,7 @@ background: linear-gradient(to left, #B993D6 , #8CA6DB); /* W3C, IE 10+/ Edge, F
 
 #container{
 	background-color: white;
-	
-	margin-top: 200px;
+	margin-top: 170px;
 	width: 60%;
 	height: 300px;
 	border-radius: 5px;
@@ -15,4 +14,53 @@ background: linear-gradient(to left, #B993D6 , #8CA6DB); /* W3C, IE 10+/ Edge, F
 	padding-top: 15px;
 	font-family: "Montserrat";
 	font-weight: bold;
+}
+
+p{
+	margin-left: 6%;
+}
+
+#fund-icon, #user-icon{
+	font-size: 40px;
+	border: 3px solid;
+	border-radius: 5px;
+	padding: 15px;
+}
+
+#user-icon{
+	padding: 15px 20px;
+}
+
+.row{
+	margin-bottom: 6%;
+}
+
+a{
+
+	color: black;
+	height: 100%;
+}
+
+a:hover{
+
+/*background: #fd746c;*/ /* fallback for old browsers */
+/*background: -webkit-linear-gradient(to left, #fd746c , #ff9068); *//* Chrome 10-25, Safari 5.1-6 */
+/*background: linear-gradient(to left, #fd746c , #ff9068);*/ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@media(min-width: 767px){
+	h4{
+		margin-left: 12%;
+	}
+
+	#fund-icon, #user-icon{
+		font-size: 60px;
+		border: 3px solid;
+		border-radius: 5px;
+		padding: 15px;
+	}
+
+	#user-icon{
+		padding: 15px 20px;
+	}
 }

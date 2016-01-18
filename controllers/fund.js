@@ -13,11 +13,11 @@ module.exports = {
   },
 
   search: function(req, res) {
-    console.log("CHECK THE REQ", req);
+    console.log("CHECK THE REQ", req.session.passport.user);
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
-     var user = req.user;
+    var user = req.session.passport.user;
 
     models.es.search({
       index: "funds",
@@ -58,10 +58,10 @@ module.exports = {
 
       console.log(funds);
       if(user){
-        res.render('search', {funds: funds, user: user});
+        res.render('results',{ funds: funds, user: user } )
       }
       else{
-      res.render('search', { funds: funds, user: false });
+        res.render('results', { funds: funds, user: false });
       }
     }, function(err) {
       console.trace(err.message);

@@ -1,0 +1,20 @@
+extends ../layout.jade
+
+block extraHeader
+	link(href='stylesheets/signup.css', rel='stylesheet')
+
+block content
+	section#container.container
+		.row
+			.col-lg-6.col-lg-offset-3
+				p Are you a fund or an applicant?
+		.row
+			.col-lg-4.col-lg-offset-2
+				a(href="/signup/fund/"+ user.id)
+					i#fund-icon.fa.fa-university
+				h4 Fund
+			.col-lg-4.col-lg-offset-2
+				a(href="/signup/user/"+ user.id)
+					i#user-icon.fa.fa-user
+				h4 User
+

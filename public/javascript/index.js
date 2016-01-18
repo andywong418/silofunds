@@ -13,7 +13,7 @@ $(function() {
 
   //open modal
   $main_nav.on('click', function(event){
-    $('.cd-switcher').css('display', 'inline')
+    $('.cd-switcher').css('display', 'inline');
     if($(event.target).is($main_nav) ) {
       //set body to be static
       $('html, body').css({
@@ -47,6 +47,8 @@ $(function() {
   $('.cd-user-modal').on('click', function(event){
     if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') ) {
       $form_modal.removeClass('is-visible');
+      $('.cd-error-message').removeClass('is-visible');
+      $('#terms-error').css('display', 'none');
       //restore scroll
       $('html, body').css({
       'overflow': 'visible'
@@ -77,6 +79,14 @@ $(function() {
     ( 'Hide' == $this.text() ) ? $this.text('Show') : $this.text('Hide');
     //focus and move cursor to the end of input field
     $password_field.putCursorAtEnd();
+  });
+
+  $('#email-signup-option').on('click', function(){
+      signup_email_option_selected();
+  });
+
+  $('#email-option').on('click', function(){
+      login_email_option_selected();
   });
 
   //show forgot-password form
@@ -111,8 +121,30 @@ $(function() {
     $form_login.removeClass('is-selected');
     $form_signup.removeClass('is-selected');
     $form_forgot_password.addClass('is-selected');
+    $('#resend-email').css('display', 'block');
+    $('#reset-password').css('display', 'block');
   }
 
+  function signup_email_option_selected(){
+    $('#email-username').css('display', 'block');
+    $('#email-signup').css('display', 'block');
+    $('#email-signup-password').css('display', 'block');
+    $('.signup-social-btn').css('display', 'none');
+    $('#signup-terms').css('display', 'inline');
+    $('#signup-btn').css('display', 'block');
+    $('#email-signup-option').css('display', 'none');
+
+  }
+
+  function login_email_option_selected(){
+    $('#email-login').css('display', 'block');
+    $('#email-login-password').css('display', 'block');
+    $('#email-login-btn').css('display', 'block');
+    $('#remember').css('display', 'inline');
+    $('.cd-form-bottom-message').css('display', 'inline');
+    $('.login-social-btn').css('display', 'none');
+    $('#email-option').css('display', 'none');
+  }
 
 
   //credits http://css-tricks.com/snippets/jquery/move-cursor-to-end-of-textarea-or-input/
@@ -132,11 +164,155 @@ jQuery.fn.putCursorAtEnd = function() {
   });
 };
 
-
   $("input#text_search" ).autocomplete({
     source: "../autocomplete",
     minLength: 1
   });
+
+  $("#signup-username").focus(function(){
+    $('#username-error').removeClass('is-visible');
+});
+
+  $("#signup-username").blur(function(){
+    var checkForSpace = $(this).val().indexOf(" ");
+    if (checkForSpace < 0){
+      $("#username-error").addClass('is-visible');
+      $("#username-error").text("Please enter your full name");
+    }
+  });
+
+  $("#signup-email").focus(function(){
+    $('#email-error').removeClass('is-visible');
+    $('#signup-button').prop('disabled', false);
+});
+
+  $("#signup-email").blur(function(){
+    var parameters = {email: $(this).val()};
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (!re.test($(this).val())){
+
+       $('#email-error').addClass('is-visible');
+       $('#email-error').text('Please enter a valid email address');
+       $('#signup-button').prop('disabled', true);
+    }
+    if(re.test($(this).val())){
+      $('#email-error').removeClass('is-visible');
+    }
+    $.get('/validation', parameters, function(data){
+
+      if(data){
+        $('#email-error').addClass('is-visible');
+        $('#email-error').text(data);
+        $('#signup-button').prop('disabled', true);
+      }
+    });
+  });
+
+  $('#accept-terms').click(function(){
+    if(this.checked){
+      $('#terms-error').css('display', 'none');
+    }
+  });
+
+  $("#signup-password").focus(function(){
+    $('#password-error').removeClass('is-visible');
+
+  });
+
+  $("#signup-form").submit(function(e){
+    e.preventDefault();
+    var username = $('#signup-username');
+    var email = $('#signup-email');
+    var password = $('#signup-password');
+    var checkbox = $('#accept-terms');
+    var error = 0;
+    if(!username.val()){
+      $('#username-error').addClass('is-visible');
+      $('#username-error').text('This is a required field.');
+      error++;
+    }
+    if(!email.val()){
+      $('#email-error').addClass('is-visible');
+      $('#email-error').text('This is a required field.');
+      error++;
+    }
+     if(!password.val()){
+      $('#password-error').addClass('is-visible');
+      $('#password-error').text('This is a required field');
+      error++;
+    }
+     if($('#accept-terms').is(":not(:checked)")){
+      $('#terms-error').css('display', 'inline');
+      error++;
+     }
+    if(error === 0){
+     this.submit();
+    }
+  });
+
+  $("#signin-email").blur(function(){
+    var parameters = {loginEmail: $(this).val()};
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if (!re.test($(this).val())){
+       $('#login-email-error').addClass('is-visible');
+       $('#login-email-error').text('Please enter a valid email address');
+       $('#login-button').prop('disabled', true);
+    }
+    $.get('/validation', parameters, function(data){
+      if(data){
+        $('#login-email-error').addClass('is-visible');
+        $('#login-email-error').text(data);
+        $('#login-button').prop('disabled', true);
+      }
+    });
+  });
+
+ $("#signin-email").focus(function(){
+   $('#login-email-error').removeClass('is-visible');
+   $('#login-button').prop('disabled', false);
+
+});
+ $("#signin-password").focus(function(){
+    $('#signin-password-error').removeClass('is-visible');
+});
+
+ $("#login-form").submit(function(e){
+    e.preventDefault();
+    var email = $('#signin-email');
+    var password = $('#signin-password');
+    var parameters = {email: email.val(), password: password.val()};
+
+    if(!email.val()){
+      $('#login-email-error').addClass('is-visible');
+      $('#login-email-error').text('Please enter your email address to login');
+      $('#login-button').prop('disabled', false);
+    }
+
+    if(!password.val()){
+      $('#signin-password-error').addClass('is-visible');
+      $('#signin-password-error').text('Please enter your password');
+      $('#login-button').prop('disabled', false);
+    }
+
+    $.post('/validation', parameters, function(data){
+      if(data){
+        if(data == 'There is no account under this email address'){
+          $('#login-email-error').addClass('is-visible');
+          $('#login-email-error').text(data);
+        }
+        else{
+          console.log("TELL ME NOW", data);
+          $('#signin-password-error').addClass('is-visible');
+          $('#signin-password-error').text(data);
+        }
+      }
+      else{
+        document.getElementById("login-form").submit();
+      }
+    });
+  });
+
+
 
   var Scrollview = Backbone.View.extend({
     el: ".navbar",

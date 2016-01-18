@@ -1,0 +1,172 @@
+extends layout
+
+block extraHeader
+  link(href='stylesheets/results.css', rel='stylesheet')
+  
+block content
+    nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+      #container.container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+            i.fa.fa-bars
+
+          a#brand-heading.navbar-brand(href='/')
+            | S
+            span#title ilo
+          form.search_form(action='/results', method='get', name='search_form')
+            input#text_search(type='text', name='tags', placeholder='Search terms')
+            input#amount_req(type='number', name='amount', placeholder='Amount')
+            input#age(type='number', name='age', placeholder='Age')
+            button#search_button.btn.btn-danger(type='submit') Search
+        // Collect the nav links, forms, and other content for toggling
+        #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+          ul.nav.navbar-nav
+            li
+             a.cd-login.page-scroll.pre-signin(href='#0') Log in
+            li
+             a.cd-signup.page-scroll.pre-signin(href='#0') Sign up
+            li.post-signin
+             i.fa.fa-user
+            li.post-signin
+             i.fa.fa-comment-o
+            li.post-signin
+             i.fa.fa-cog
+    section#about.container.content-section.text-center
+        .row
+          .cd-user-modal
+             .cd-user-modal-container
+              ul.cd-switcher
+                li
+                  a(href='#0') Log in
+                li
+                  a(href='#0') New account
+              #cd-signup
+                form(id='signup-form',class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
+                  p#email-username.fieldset
+                    label.image-replace.cd-username(for='signup-username')
+                    input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
+                    span#username-error.cd-error-message 
+                  p#email-signup.fieldset
+                    label.image-replace.cd-email(for='signup-email') Email
+                    input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
+                    span#email-error.cd-error-message 
+                  p#email-signup-password.fieldset
+                    label.image-replace.cd-password(for='signup-password') Password
+                    input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
+                    a.hide-password(href='#0') Hide
+                    span#password-error.cd-error-message Error message here!
+                  p#fb-social.signup-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+                       span.fa.fa-facebook
+                       | Log in with Facebook
+                  p#google-social.signup-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+                       span.fa.fa-google
+                       | Log in with Google
+                  p#linkedin-social.signup-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
+                       span.fa.fa-linkedin
+                       | Log in with Linkedin
+                  p#email-signup-option
+                    a(href='#0') Continue with email. 
+                    span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
+                  p#signup-terms.fieldset
+                    input#accept-terms(type='checkbox')
+                    label(for='accept-terms' id = "terms")
+                      | I agree to the 
+                      a(href='#0') Terms 
+                      span#terms-error  Please agree to the terms and conditions 
+                  p#signup-btn.fieldset
+                    button.full-width.has-padding(type='submit', id = "signup-button") Create account
+
+              #cd-login
+                // log in form
+                form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
+                  p#email-login.fieldset
+                    label.image-replace.cd-email(for='signin-email') E-mail
+                    input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
+                    span#login-email-error.cd-error-message Error message here!
+                  p#email-login-password.fieldset
+                    label.image-replace.cd-password(for='signin-password') Password
+                    input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
+                    a.hide-password(href='#0') Hide
+                    span#signin-password-error.cd-error-message Error message here!
+                  p#fb-social.login-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+                       span.fa.fa-facebook
+                       | Log in with Facebook
+                  p#google-social.login-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+                       span.fa.fa-google
+                       | Log in with Google
+                  p#linkedin-social.login-social-btn
+                     a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/linkedin")
+                       span.fa.fa-linkedin
+                       | Log in with Linkedin
+                  p#remember.fieldset
+                    input#remember-me(type='checkbox', checked='')
+                    label(for='remember-me') Remember me
+                  p#email-login-btn.fieldset
+                    button#login-button.full-width.has-padding(type='submit') Login
+                  p#email-option
+                    a(href="#0") Continue with email
+                p.cd-form-bottom-message
+                  a(href="#0") Forgot your password?
+              #cd-reset-password
+                // reset password form
+                p.cd-form-message
+                  | Lost your password? Please enter your email address. You will receive a link to create a new password.
+                form.cd-form
+                  p#resend-email.fieldset
+                    label.image-replace.cd-email(for='reset-email') E-mail
+                    input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
+                    span.cd-error-message Error message here!
+                  p#reset-password.fieldset
+                    button#reset-password.full-width.has-padding(type='submit') Reset password
+                p.cd-form-bottom-message
+                  a(href='#0') Back to log-in
+              // cd-reset-password
+              a.cd-close-form(href='#0') Close
+                //
+              // cd-login
+          .col-lg-8.col-lg-offset-2
+            div.results
+              h3
+                span='Your search returned ' + funds.length + ' results'
+
+            div.page-header
+              script#fund-template(type='text/template')
+                ul.database
+                  .fund_list
+                    li
+                      h3.fund_title <%= fund_title %>
+                    li.fund_info
+                      p(class!= 'fund_min_amount' + '<%= fund_id %>' )  Minimum amount given: 
+                        span.control <%= minimum_amount %>
+                      p(class!= 'fund_max_amount' + '<%= fund_id %>') Maximum amount given: 
+                        span.control <%= maximum_amount %>
+                      p(class!='fund_min_age' + '<%= fund_id %>' ) Minimum Age: 
+                        span.control <%= minimum_age %>
+                      p(class!= 'fund_max_age' +  '<%= fund_id %>') Maximum Age: 
+                        span.control <%= maximum_age %>
+                      p(class!= 'nationalities'+ '<%= fund_id %>') Nationalities: 
+                        span.control <%=countries %>
+
+                    label(id!='<%= fund_id %>') Additional Information 
+                         i.fa.fa-chevron-circle-down
+                         span(class="description_control") <%= description %>
+                      h4.fund_link
+                       a(href!='<%=fund_link %>', target='_blank') Apply Now
+                    hr
+
+block scripts
+  // Custom Theme JavaScript
+  script(src='javascript/index.js')
+  //search functions
+  script(src='javascript/results.js')
+  //Modernizr
+  script(src='javascript/lib/modernizr-custom.js')
+  script.
+    var fundData =!{JSON.stringify(funds)};
+    var user = !{JSON.stringify(user)};
+
