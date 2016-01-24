@@ -24,8 +24,13 @@ module.exports = {
       type: "fund",
       body: {
         "query": {
-          "match": {
-            "title": searchString
+          "filtered": {
+            "query": {
+              "multi_match": {
+                "query": searchString,
+                "fields": ["tags","title.autocomplete"]
+              }
+            }
           }
         }
       }

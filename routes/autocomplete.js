@@ -15,7 +15,7 @@ router.get('/', function(req,res) {
           "query": {
             "multi_match": {
               "query": req.query.term,
-              "fields": ["title.autocomplete"]
+              "fields": ["tags","title.autocomplete"]
             }
           }
         }
