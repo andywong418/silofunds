@@ -260,6 +260,15 @@ module.exports = {
         wrapper.minimum_amount = fund.minimum_amount;
         wrapper.countries = fund.countries;
         wrapper.description = fund.description;
+        wrapper.maximum_age = fund.maximum_age;
+        wrapper.minimum_age = fund.minimum_age;
+        wrapper.invite_only = fund.invite_only;
+        wrapper.link = fund.link;
+        wrapper.religion = fund.religion;
+        wrapper.gender = fund.gender;
+        wrapper.financial_situation = fund.financial_situation;
+        wrapper.merit_or_finance = fund.merit_or_finance;
+        wrapper.deadline = fund.deadline;
         body.push(wrapper);
       });
 
