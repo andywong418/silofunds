@@ -9,6 +9,7 @@ router.get('/', function(req,res) {
     index: "funds",
     type: "fund",
     body: {
+      "size": 5,
       "query": {
         "filtered": {
           "query": {
