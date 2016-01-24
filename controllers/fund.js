@@ -41,29 +41,21 @@ module.exports = {
       var funds = resp.hits.hits.map(function(hit) {
         console.log("Hit:");
         console.log(hit);
-
-        var title = hit._source.title;
-        var maximum_amount = hit._source.maximum_amount;
-        var minimum_amount = hit._source.minimum_amount;
-        var countries = hit._source.countries;
-        var description = hit._source.description;
-        var id = hit._id;
-
+        var fields = ["title","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
         var hash = {};
 
-        hash.title = title;
-        hash.maximum_amount = maximum_amount;
-        hash.minimum_amount = minimum_amount;
-        hash.description = description;
-        hash.id = id;
-        hash.countries = countries;
+        for (var i = 0; i < fields.length ; i++) {
+          hash[fields[i]] = hit._source[fields[i]];
+        }
+        // Sync id separately, because it is hit._id, NOT hit._source.id
+        hash.id = hit._id;
 
         return hash;
       });
 
       console.log(funds);
       if(user){
-        res.render('results',{ funds: funds, user: user } )
+        res.render('results',{ funds: funds, user: user } );
       }
       else{
         res.render('results', { funds: funds, user: false });
