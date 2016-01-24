@@ -254,21 +254,12 @@ module.exports = {
       funds.forEach(function(fund) {
         body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
         var wrapper = {};
-        wrapper.title = fund.title;
-        wrapper.tags = fund.tags;
-        wrapper.maximum_amount = fund.maximum_amount;
-        wrapper.minimum_amount = fund.minimum_amount;
-        wrapper.countries = fund.countries;
-        wrapper.description = fund.description;
-        wrapper.maximum_age = fund.maximum_age;
-        wrapper.minimum_age = fund.minimum_age;
-        wrapper.invite_only = fund.invite_only;
-        wrapper.link = fund.link;
-        wrapper.religion = fund.religion;
-        wrapper.gender = fund.gender;
-        wrapper.financial_situation = fund.financial_situation;
-        wrapper.merit_or_finance = fund.merit_or_finance;
-        wrapper.deadline = fund.deadline;
+        var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+
+        for (var i = 0; i < fields.length ; i++) {
+          hash[fields[i]] = hit._source[fields[i]];
+        }
+
         body.push(wrapper);
       });
 

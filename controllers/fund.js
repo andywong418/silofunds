@@ -41,7 +41,7 @@ module.exports = {
       var funds = resp.hits.hits.map(function(hit) {
         console.log("Hit:");
         console.log(hit);
-        var fields = ["title","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+        var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
         var hash = {};
 
         for (var i = 0; i < fields.length ; i++) {
