@@ -84,12 +84,39 @@ models.sequelize.sync().then(function () {
                 "minimum_amount": {
                   "type": "long"
                 },
+                "maximum_age": {
+                  "type": "integer"
+                },
+                "minimum_age": {
+                  "type": "integer"
+                },
+                "invite_only": {
+                  "type": "boolean"
+                },
+                "link": {
+                  "type": "string"
+                },
+                "religion": {
+                  "type": "string"
+                },
+                "gender": {
+                  "type": "string"
+                },
+                "financial_situation": {
+                  "type": "string"
+                },
+                "merit_or_finance": {
+                  "type": "string"
+                },
                 "countries": {
                   "type": "string"
                 },
                 "description": {
                   "type": "string",
                   "index": "not_analyzed"
+                },
+                "deadline": {
+                  "type": "date"
                 }
               }
             }
