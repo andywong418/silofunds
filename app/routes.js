@@ -6,8 +6,7 @@ var login = require('../routes/login');
 var auth = require('../routes/auth');
 var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
- var validation = require('../routes/validation');
-
+var validation = require('../routes/validation');
 
 module.exports.initialize = function (app) {
   app.use('/', index);

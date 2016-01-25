@@ -21,15 +21,34 @@ module.exports = function(sequelize, DataTypes) {
         this.setDataValue('password', hash);
       }
     },
+    profile_picture: {
+      type: DataTypes.TEXT,
+      field: 'profile_picture',
+      
+    },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       field: 'description',
-      allowNull: false
+    },
+    past_work: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'past_work',
+    },
+    date_of_birth: {
+      type: DataTypes.DATE,
+      field: 'date_of_birth'
+    },
+    nationality: {
+      type: DataTypes.STRING,
+      field: 'nationality'
+    },
+    religion: {
+      type: DataTypes.STRING,
+      field: 'religion'
     },
     funding_needed: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
       field: 'funding_needed',
-      allowNull: false
     }
   }, {
     timestamps: true,

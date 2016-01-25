@@ -329,9 +329,15 @@ jQuery.fn.putCursorAtEnd = function() {
     collapseNavbar: function(){
       if (this.$el.offset().top > 50) {
        $(".navbar-fixed-top").addClass("top-nav-collapse");
+       $(".cd-signup").css("border", "none");
+       $(".cd-signup").css("margin-top", "5px");
       }
       else {
       $(".navbar-fixed-top").removeClass("top-nav-collapse");
+      $(".cd-signup").css("border", "2px solid");
+      $(".cd-signup").css("border-radius", "10px");
+      $(".cd-signup").css("margin-top", "3px");
+   
       }
     }
   });

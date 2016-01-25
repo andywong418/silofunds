@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "aws-sdk": "^2.2.31",
     "bcrypt": "0.8.5",
     "body-parser": "~1.13.2",
     "busboy": "^0.2.12",
@@ -19,6 +20,7 @@
     "express-session": "^1.11.3",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "multer": "^1.1.0",
     "passport": "^0.2.2",
     "passport-facebook": "2.0.0",
     "passport-local": "^1.0.0",
