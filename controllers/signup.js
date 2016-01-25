@@ -138,8 +138,10 @@ module.exports = {
       nationality: nationality,
       religion: religion,
       funding_needed: fundingNeeded
-    }).then(function(){
-       res.render('signup/user-complete'); 
+    }).then(function(user){
+       var newUser = true;
+       console.log(user);
+       res.render('signup/user-complete', {user: user, newUser: newUser}); 
     })
 
     });
