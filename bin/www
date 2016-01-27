@@ -5,7 +5,7 @@ var debug = require('debug')('potfund:server');
 var http = require('http');
 var models = require('../models');
 
-models.sequelize.sync().then(function () {
+// models.sequelize.sync().then(function () {
   var port = normalizePort(process.env.PORT || '3001');
   app.set('port', port);
 
@@ -244,4 +244,4 @@ models.sequelize.sync().then(function () {
       : 'port ' + addr.port;
     debug('Listening on ' + bind);
   }
-});
+// });
