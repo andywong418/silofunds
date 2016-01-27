@@ -61,8 +61,8 @@ $(document).ready(function(){
 			            		
                 $('#profile-picture')
                   .attr('src', e.target.result)
-                  .width(190)
-                  .height(190);
+                  .width(250)
+                  .height(250);
 		            };
 
          		 		reader.readAsDataURL(this.files[0]);

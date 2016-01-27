@@ -118,7 +118,7 @@ z-index: 100000;
 	border-radius: 10px;
 	background-color: white;
 	width: 70%;
-	height: 480px;
+	height: 520px;
 	padding: 0;
 	text-align: center;
 
@@ -131,10 +131,9 @@ z-index: 100000;
 	 color: #8a6d3b;
    background-color: #fcf8e3;
    border-color: #faebcc;
-   top: 230px;
-   width: 200px;
-
-   
+   top: 320px;
+   width: 250px;
+   border-radius: 10px;
    
 }
 
@@ -149,9 +148,12 @@ z-index: 100000;
 
 
 #profile-picture{
-	float:left;
-	height: 200px;
-	width: 200px;
+	
+	height: 250px;
+	width: 250px;
+	 -webkit-border-radius: 125px;
+    -moz-border-radius: 125px;
+    border-radius: 125px; 
 	border: 5px solid #e9eaed;
 	display: inline;
 	margin-top: 50px;
@@ -166,6 +168,7 @@ z-index: 100000;
 }
 #about h4{
 	margin-top: 52px;
+	margin-left: 50px;
 
 }
 
@@ -176,10 +179,12 @@ font-weight: 100
 
 #description{
 	position: relative;
+	margin-top: 40px;
+	margin-left: 20px;
 	width: 100%;
 	padding: 5px;
-	margin-top: 20px;
 	height: 100px;
+
 }
 
 
@@ -330,7 +335,11 @@ background: linear-gradient(to left, #DD5E89 , #F7BB97); /* W3C, IE 10+/ Edge, F
 		padding-left: 50px;
 	}
 }
-
+@media(max-width: 1120px){
+	#about h4, #description{
+		margin-left: 15px;
+	}
+}
 
 @media(max-width: 1017px){
 		#almost{
@@ -350,6 +359,9 @@ background: linear-gradient(to left, #DD5E89 , #F7BB97); /* W3C, IE 10+/ Edge, F
 		#almost{
 			margin-left: -40%;
 		}
+			#about h4, #description{
+		margin-left: 5px;
+	}
 }
 
 @media(max-width: 916px){
@@ -399,8 +411,9 @@ background: linear-gradient(to left, #DD5E89 , #F7BB97); /* W3C, IE 10+/ Edge, F
 		height: 130px;
 	}
 	#about{
-		height:500px;
+		height:540px;
 	}
+
 }
 
 @media(max-width: 781px){

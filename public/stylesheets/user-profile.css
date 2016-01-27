@@ -1,5 +1,6 @@
 body{
 	font-family: 'Nunito';
+	background-color: #e9f0f4;
 	
 
 }
@@ -17,12 +18,12 @@ body{
 
 
 .search_form{
-	  position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
-    margin: auto;
-    margin-top: 9px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: auto;
+  margin-top: 9px;
 
 }
 
@@ -44,6 +45,11 @@ body{
 	padding-left: 5px;
 	/*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
   background: #ffffff; 
+
+}
+
+#search-dropdown:focus{
+	outline: 0;
 }
 
 #search-dropdown i{
@@ -65,4 +71,220 @@ body{
 
 .fa-user, .fa-comment-o{
 	display: none;
+}
+
+.fa-cog{
+	margin-right: -20px;
+}
+
+.center-block{
+	text-align: center;
+	float: none;
+	display: table;
+  margin: 0 auto;
+}
+/*advanced search styles*/
+
+#advanced-search{
+	margin: -2.4% 20%;
+
+	width: 40%;
+	position: fixed;
+	z-index: 4;
+	background-color: #ABB7B7;
+	box-sizing: border-box;
+	padding: 25px;
+	padding-top: 25px;
+}
+
+#advanced-nationality, #advanced-age, #religion,#input-amount{
+	
+	border-radius: 5px;
+	border: none;
+	padding: 3px 5px;
+	margin-top: 5px;
+}
+#advanced-age{
+	width: 60%;
+	display: block;
+	margin: 0 auto;
+
+}
+
+#advanced-nationality{
+	width: 65%;
+	display: block;
+	margin: 0 auto;
+}
+#religion{
+	width: 50%;
+	display: block;
+	margin: 0 auto;
+}
+
+#input-amount{
+	width: 60%;
+	display: block;
+	margin: 0 auto;
+}
+
+#amount_needed,#gender, #merit-or-finance{
+	margin: 20px auto;
+	margin-bottom: 5px;
+
+}
+
+/*profile styles */
+
+#basic-info{
+	background-color: white;
+	margin-top: 80px;
+	border-radius: 10px;
+	width: 65%;
+	padding: 30px;
+}
+#profile-picture{
+
+  display: block;
+  margin: 0 auto;
+	height: 250px;
+	width: 250px;
+  -webkit-border-radius: 125px;
+  -moz-border-radius: 125px;
+  border-radius: 150px; 
+	border: 5px solid white;
+	
+	margin-bottom: 15px;
+}
+
+#add-profile{
+	display: none;
+}
+
+#username{
+	font-weight: 100;
+	font-size: 25px;
+}
+#age,#nationality{
+	font-size: 20px;
+	display: inline;
+
+}
+
+#description{
+	background-color: white;
+	margin-top: 5px;
+	border-radius: 10px;
+	width: 65%;
+	padding: 30px
+}
+.intro{
+	font-size: 40px;
+	color: #4aa3df;
+}
+
+#intro-paragraph{
+	font-size: 16px;
+	margin: 20px 10px auto;
+}
+
+.work{
+	font-size: 40px;
+	color: #1abc9c;
+}
+
+#past-work{
+	background-color: white;
+	margin-top: 5px;
+	border-radius: 10px;
+	width: 65%;
+	padding: 30px;
+}
+
+#work-display i{
+	font-size: 30px;
+	margin: 20px 20px 10px 20px;
+}
+
+.pdf-file{
+	color: #f39c12;
+}
+
+.photo-file{
+	color: #c0392b;
+}
+.video-file{
+	color: #8e44ad;
+}
+
+.excel-file{
+	color: #16a085;
+}
+
+.word-file{
+	color: #2980b9;
+}
+
+.powerpoint-file{
+	color: #e67e22;
+}
+
+.filename{
+	color: #7f8c8d;
+}
+
+#work-display a{
+	display: inline;
+	font-size: 15px;
+	margin: 10px;
+}
+
+#progress{
+	background-color: white;
+	margin-top: 5px;
+	margin-bottom: 50px;
+	border-radius: 10px;
+	width: 65%;
+	padding: 30px;
+}
+
+.fund-progress{
+	font-size: 40px;
+	color: #9b59b6;
+}
+
+.progress{
+	height: 40px;
+	margin-top: 20px;
+}
+.progress p{
+color: #95a5a6;
+font-size: 20px;
+padding-top: 8px;
+	
+}
+
+#applied-funds{
+	color: #bdc3c7;
+	font-size: 22px;
+	margin-top: 30px;
+}
+
+.get-started{
+	
+
+background: #fd746c; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #fd746c , #ff9068); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #fd746c , #ff9068); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 15px;
 }
