@@ -2,6 +2,8 @@ var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
 
+var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
     var json = fund.toJSON();
@@ -138,12 +140,12 @@ module.exports = {
 
   upload: function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
-    var jsonData = null;
+    var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
       file.on('data', function(data) {
         console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-        jsonData = data.toString();
+        jsonData += data.toString();
       });
       file.on('end', function() {
         console.log('File [' + fieldname + '] Finished');
@@ -156,38 +158,17 @@ module.exports = {
       console.log('Done parsing form! Injecting into database...');
       var json_array = JSON.parse(jsonData);
 
-      // For converting pure string fields into an array of strings
-      var str_to_arrayofstrings = function(field) {
-        if (typeof field === "string") {
-          console.log("Converting str into arrayofstrings");
-          return field.split(",");
-        } else {
-          return field;
-        }
-      };
-
       for (var ind = 0; ind < json_array.length; ind++) {
         var fund = json_array[ind];
+        var create_options = {};
 
-        // TODO: Remove str_to_arrayofstrings function call once migration from DataTypes.TEXT to DataTypes.ARRAY(DataTypes.TEXT) is complete
+        for (var i=0; i<fields.length; i++) {
+          var field = fields[i];
+          create_options[field] = fund[field];
+          create_options["id"] = fund.id;
+        }
 
-        models.funds.create({
-          title: fund.title,
-          tags: fund.tags,
-          invite_only: fund.invite_only,
-          link: fund.link,
-          minimum_age: fund.minimum_age,
-          maximum_age: fund.maximum_age,
-          minimum_amount: fund.minimum_amount,
-          maximum_amount: fund.maximum_amount,
-          description: fund.description,
-          countries: str_to_arrayofstrings(fund.nationality),
-          religion: str_to_arrayofstrings(fund.religion),
-          financial_situation: fund.financial_situation,
-          merit_or_finance: fund.merit_or_finance,
-          gender: fund.gender,
-          deadline: fund.deadline
-        }).then(function() {
+        models.funds.create( create_options ).then(function() {
           res.redirect('../admin');
         });
       }
@@ -254,7 +235,6 @@ module.exports = {
       funds.forEach(function(fund) {
         body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
         var wrapper = {};
-        var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
 
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];
