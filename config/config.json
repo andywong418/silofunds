@@ -10,6 +10,7 @@
     "dialect": "postgres"
   },
   "production": {
+    "username": "mumjkgufawtthr",
     "user": "mumjkgufawtthr",
     "password": "eaZjw9z-SC0_0AjaoQeuiHjhY4",
     "database": "dal5vi10p8v345",
