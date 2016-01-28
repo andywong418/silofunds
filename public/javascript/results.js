@@ -86,29 +86,87 @@ var UserNav = Backbone.View.extend({
         $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
 
         var view = new FundView({ model: fund });
-
         this.$el.append(view.render().el);
-         if(!fundData[i].countries){
+       
+        var countries = fundData[i].countries;
+        if(!countries){
             $(".nationalities"+ fundData[i].id).toggle(false);
         }
-        $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
+        else{
+          console.log(countries.length);
+          if(countries.length > 4){
+            for(var k = 0; k < 4; k++){
+              $(".nationalities" + fundData[i].id).append("<span class= 'label label-info'>" + countries[k] + "</span>");
+              $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
+              $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
+              if(k == 3){
+                $(".nationalities" + fundData[i].id).append("<span> ... </span>")
+              }
 
+            }
+          }
+          else{
+            for(var j = 0; j < countries.length; j++){
+              $(".nationalities" + fundData[i].id).append("<span class= 'label label-info'>" + countries[j] + "</span>");
+              $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
+              $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
+
+            }
+          }
+        } 
+        
         if(!fundData[i].minimum_amount){
-          $(".fund_min_amount"+ fundData[i].id).toggle(false);
+          $(".fund_min_amount" + fundData[i].id).toggle(false);
+          $(".fund_max_amount" + fundData[i].id).children('.control').addClass("max_amount"+ fundData[i].id);
+          $(".max_amount" + fundData[i].id).addClass("label label-danger");
+          $(".max_amount" + fundData[i].id).html("Under £" + fundData[i].maximum_amount);
         };
 
 
         if(!fundData[i].maximum_amount){
           $(".fund_max_amount"+ fundData[i].id).toggle(false);
+          
+          $(".fund_min_amount"+ fundData[i].id).children('.control').addClass("min_amount"+ fundData[i].id);
+          $(".min_amount" + fundData[i].id).addClass("label label-warning");
+          $(".min_amount"+ fundData[i].id).html("£" + fundData[i].minimum_amount + "+")
         };
+
+        if(fundData[i].maximum_amount && fundData[i].minimum_amount){
+          
+          $(".fund_min_amount"+ fundData[i].id).children('.control').addClass("min_amount"+ fundData[i].id);
+          console.log($(".fund_min_amount"+ fundData[i].id).children('.control'));
+          $(".min_amount" + fundData[i].id).addClass("label label-warning");
+          $(".min_amount"+ fundData[i].id).html("£" + fundData[i].minimum_amount);
+          $(".fund_min_amount" + fundData[i].id).append("<span id='minus-sign'> - </span>");
+           $(".fund_max_amount" + fundData[i].id).children('.control').addClass("max_amount"+ fundData[i].id);
+          $(".max_amount" + fundData[i].id).addClass("label label-danger");
+          $(".max_amount" + fundData[i].id).css("margin-left", "-26px")
+        }
+
 
         if(!fundData[i].maximum_age){
           $(".fund_max_age"+ fundData[i].id).toggle(false);
+          $(".fund_min_age"+ fundData[i].id).children('.control').addClass("min_age"+ fundData[i].id);
+          $(".min_age" + fundData[i].id ).addClass('label label-success');
+          $(".min_age"+ fundData[i].id).html(fundData[i].minimum_age + "+")
+
         };
 
         if(!fundData[i].minimum_age){
           $(".fund_min_age"+ fundData[i].id).toggle(false);
+          console.log("THIS IS", fundData[i]);
+          $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);          
+          $(".max_age" + fundData[i].id).addClass("label label-success").html("Under " + fundData[i].maximum_age);;
         };
+
+        if(fundData[i].maximum_age && fundData[i].minimum_age){
+          $(".fund_min_age"+ fundData[i].id).children('.control').addClass("min_age"+ fundData[i].id);
+          $(".min_age" + fundData[i].id).addClass("label label-success");
+          $(".fund_min_age" + fundData[i].id).append("<span id='minus-sign'> - </span>");
+          $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);
+          $(".max_age" + fundData[i].id).addClass("label label-success");
+          $(".max_age" + fundData[i].id).css("margin-left", "-26px");
+        }
       },
 
       infoToggle: function(){

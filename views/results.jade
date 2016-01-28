@@ -141,16 +141,16 @@ block content
                     li
                       h3.fund_title <%= fund_title %>
                     li.fund_info
-                      p(class!= 'fund_min_amount' + '<%= fund_id %>' )  Minimum amount given: 
-                        span.control <%= minimum_amount %>
-                      p(class!= 'fund_max_amount' + '<%= fund_id %>') Maximum amount given: 
+                      p(class!= 'fund_min_amount' + '<%= fund_id %>' )  
+                        span.control
+                      p(class!= 'fund_max_amount' + '<%= fund_id %>')  
                         span.control <%= maximum_amount %>
-                      p(class!='fund_min_age' + '<%= fund_id %>' ) Minimum Age: 
+                      p(class!='fund_min_age' + '<%= fund_id %>' ) 
                         span.control <%= minimum_age %>
-                      p(class!= 'fund_max_age' +  '<%= fund_id %>') Maximum Age: 
+                      p(class!= 'fund_max_age' +  '<%= fund_id %>') 
                         span.control <%= maximum_age %>
-                      p(class!= 'nationalities'+ '<%= fund_id %>') Nationalities: 
-                        span.control <%=countries %>
+                      p(class!= 'nationalities'+ '<%= fund_id %>') 
+                        span.control.nationalities 
 
                     label(id!='<%= fund_id %>') Additional Information 
                          i.fa.fa-chevron-circle-down
