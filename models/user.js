@@ -26,6 +26,10 @@ module.exports = function(sequelize, DataTypes) {
       field: 'description',
       allowNull: false
     },
+    age: {
+      type: DataTypes.INTEGER,
+      field: 'age'
+    },
     funding_needed: {
       type: DataTypes.INTEGER,
       field: 'funding_needed',
