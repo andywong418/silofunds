@@ -75,6 +75,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       field: 'financial_situation'
     },
+    email: {
+      type: DataTypes.TEXT,
+      field: 'email'
+    },
     merit_or_finance: {
       type: DataTypes.TEXT,
       field: 'merit_or_finance'
