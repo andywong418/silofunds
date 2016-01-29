@@ -4,6 +4,20 @@ body{
 	
 
 }
+#user-modal{
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 3;
+background: rgba(52, 54, 66, 0.9);
+display: none;
+
+-webkit-transition: opacity 0.3s 0, visibility 0 0.3s;
+-moz-transition: opacity 0.3s 0, visibility 0 0.3s;
+transition: opacity 0.3s 0, visibility 0 0.3s;
+}
 
 .navbar-custom{
 	background-color: rgba(45,74,118,1.0);
@@ -24,6 +38,7 @@ body{
   text-align: center;
   margin: auto;
   margin-top: 9px;
+  z-index: 10;
 
 }
 
@@ -35,6 +50,13 @@ body{
 	width: 313px;
 }
 
+#dropdown{
+	display: inline;
+}
+
+#dropdown-menu{
+	margin-top: 5px;
+}
 
 #search-dropdown{
 	width: 38px;
@@ -54,13 +76,31 @@ body{
 
 #search-dropdown i{
 	margin: 0px 2px;
+	position: relative;
+	z-index: 5
+}
+#grants, #users{
+	cursor: pointer;
+	margin: 10px;
+	padding-left: 10px;
+	padding-top: 2px;
+	height: 25px;
+}
+#grants:hover, #users:hover{
+	background-color: #f5f5f5;
+
+}
+
+#grants span, #users span{
+	float: right;
+	display: none;
+	color:#2ABB9B;
 }
 
 .signin-icon{
 
   font-size: 20px;
   margin: 10px 10px 0;
-
 }
 
 .signin-icon button{
@@ -68,7 +108,9 @@ body{
 	background-color: transparent;
 	border: none;
 }
-
+.signin-icon button{
+	outline: 0;
+}
 .fa-user, .fa-comment-o{
 	display: none;
 }
@@ -83,28 +125,114 @@ body{
 	display: table;
   margin: 0 auto;
 }
+.instruction-pointer {
+	position: fixed;
+	background: #88b7d5;
+	border: 4px solid #c2e1f5;
+	height: 90px;
+	width: 20%;
+	top: 53px; 
+	left: 35%;
+	z-index: 4;
+	display: none;
+}
+.instruction-pointer:after, .instruction-pointer:before {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.instruction-pointer:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #88b7d5;
+	border-width: 10px;
+	margin-left: -10px;
+}
+.instruction-pointer:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: #c2e1f5;
+	border-width: 16px;
+	margin-left: -16px;
+}
+
+.instruction-pointer-2 {
+	position: fixed;
+	background: #88b7d5;
+	border: 4px solid #c2e1f5;
+	height: 90px;
+	width: 20%;
+	top: 55px; 
+	left: 25.9%;
+	z-index: 4;
+	display: none;
+}
+.instruction-pointer-2:after, .instruction-pointer-2:before {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.instruction-pointer-2:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #88b7d5;
+	border-width: 10px;
+	margin-left: -10px;
+}
+.instruction-pointer-2:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: #c2e1f5;
+	border-width: 16px;
+	margin-left: -16px;
+}
+
+#instruction-footer{
+display: none;
+position: fixed;
+z-index: 5;
+height: 40px;
+bottom: 0;
+background: #50C9C3; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #50C9C3 , #96DEDA); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #50C9C3 , #96DEDA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: white;
+padding-top: 10px;
+width: 100%;
+font-size: 15px;
+}
+
 /*advanced search styles*/
 
-#advanced-search{
+
+#advanced-search,#advanced-search-2{
 	margin: -2.4% 20%;
 
 	width: 40%;
 	position: fixed;
 	z-index: 4;
-	background-color: #ABB7B7;
+	background-color: #ECECEC;
 	box-sizing: border-box;
 	padding: 25px;
 	padding-top: 25px;
 }
 
-#advanced-nationality, #advanced-age, #religion,#input-amount{
+#advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{
 	
 	border-radius: 5px;
 	border: none;
 	padding: 3px 5px;
 	margin-top: 5px;
 }
-#advanced-age{
+#advanced-age, #advanced-age-2{
 	width: 60%;
 	display: block;
 	margin: 0 auto;
@@ -277,14 +405,17 @@ background: #fd746c; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #fd746c , #ff9068); /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to left, #fd746c , #ff9068); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-    margin-top: 15px;
+border: none;
+color: white;
+padding: 7px 32px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 15px;
+}
+.get-started:focus{
+	outline: 0
 }

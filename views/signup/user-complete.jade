@@ -4,6 +4,7 @@ block extraHeader
   link(href='../../stylesheets/user-profile.css', rel='stylesheet')
 
 block content
+ #user-modal
   script#profile-template(type='text/template')
     nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
       #container.container
@@ -11,12 +12,27 @@ block content
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
             i.fa.fa-bars
           form.search_form(id = "search-form", action='/results', method='get', name='search_form')
-            button#search-dropdown.btn.btn-default
-              i.fa.et-down.fa-bars
-              i.fa.et-down.fa-angle-down
-            input#text_search(type='text', name='tags', placeholder='Search keywords')
+            #dropdown.dropdown
+              button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                i.fa.et-down.fa-bars
+                i.fa.et-down.fa-angle-down
+              ul#dropdown-menu.dropdown-menu
+                li.dropdown-header type of profile search
+                li#grants
+                  | Grants
+                  span
+                    i.fa.fa-check
+                li#users
+                  | Users  
+                  span
+                    i.fa.fa-check         
+            input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
             button#search_button.btn.btn-info(type='submit')
               i.fa.fa-search
+          .instruction-pointer
+            p Search for grants or users by entering your desired subject, university and/or degree level
+          .instruction-pointer-2
+            p Use advanced search to start a detailed search for funds or other users. 
         #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
             ul.nav.navbar-nav
               li.signin-icon
@@ -28,6 +44,7 @@ block content
               li.signin-icon
                 button
                   i.fa.fa-cog
+
     section#advanced-search.container.content-section.text-center
       .row
         .col-md-4
@@ -69,6 +86,36 @@ block content
               label.radio-inline
                 input#female(type='radio', name = 'gender', value = 'female')
                 | Female
+    section#advanced-search-2.container.content-section.text-center
+      .row
+        .col-md-4
+          label(for='age') Age:
+          input#advanced-age-2(type = "number", name = "user_age") 
+            
+        .col-md-4
+          label(for= 'nationality') Nationality:
+          input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality) 
+           
+        .col-md-4
+          label(for= 'religion') Religion:
+          input#religion(type = "text", name = "user_religion", value = user.religion) 
+           
+      .row
+        
+        .col-md-4
+          label#amount_needed(for= 'amount_needed') Amount:
+          input#input-amount(type = "text", name = "user_funding_needed", value ="£" + user.funding_needed)
+        .col-md-4
+          label#gender Gender
+          .row
+            .col-md-6
+              label.radio-inline
+                input#male(type='radio', name = 'user_gender', value= 'male')
+                | Male
+            .col-md-6
+              label.radio-inline
+                input#female(type='radio', name = 'user_gender', value = 'female')
+                | Female
     section#basic-info.container.content-section.text-center
       .row
         .col-md-4.center-block
@@ -101,6 +148,10 @@ block content
             .progress-bar.progress-bar-warning.progress-bar-striped(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width:0%')
           p#applied-funds You have not applied to any funds yet.
           button.get-started Get started now
+    footer#instruction-footer.container.text-center
+      p
+        | Press enter to advance
+
 block scripts
   script(src= '../../javascript/user-profile.js')
   script.
