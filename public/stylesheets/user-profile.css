@@ -214,15 +214,15 @@ font-size: 15px;
 
 
 #advanced-search,#advanced-search-2{
-	margin: -2.4% 20%;
+	margin: -2.4% 17%;
 
-	width: 40%;
+	width: 46%;
 	position: fixed;
 	z-index: 4;
 	background-color: #ECECEC;
-	box-sizing: border-box;
-	padding: 25px;
 	padding-top: 25px;
+	padding-bottom: 25px;
+	padding-right: 30px;
 }
 
 #advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{
@@ -331,8 +331,38 @@ font-size: 15px;
 
 #work-display i{
 	font-size: 30px;
-	margin: 20px 20px 10px 20px;
+	margin: 20px 0px 10px 20px;
 }
+
+#work-display span{
+	display: block;
+	cursor: pointer;
+	padding-bottom: 10px;
+
+}
+
+#add-work {
+	font-size: 15px;
+	cursor: pointer;
+	margin: 20px 35%;
+	width: 30%;
+	color:#337ab7;
+	box-sizing: border-box;
+	border: 3px #337ab7 dashed;
+	padding-right: 20px;
+	padding-top: 5px;
+
+}
+#add-work:hover{
+	border: 3px #19B5FE dashed;
+	color:#19B5FE;
+}
+#add-work i{
+	font-size: 15px;
+	margin-right: 5px;
+}
+
+
 
 .pdf-file{
 	color: #f39c12;
@@ -365,6 +395,17 @@ font-size: 15px;
 	display: inline;
 	font-size: 15px;
 	margin: 10px;
+}
+
+.add-work-description, .delete-work{
+	float: right;
+	font-size: 20px !important;
+	margin-top: 30px !important;
+	color:#337ab7;
+	margin-right: 10px;
+}
+.add-work-description:hover, .delete-work:hover{
+	color: #19B5FE;
 }
 
 #progress{

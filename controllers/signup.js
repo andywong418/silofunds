@@ -107,16 +107,16 @@ module.exports = {
         })
     }, function done() {
         models.users.findById(userId).then(function(user){
-                    console.log("CHECK AGAIN THE USER", user);
-                    console.log("CHECK THE ARRAY", linkArray);
-                    user.update({
-                      past_work: linkArray
-                    }).then(function(){
-                      next();
-                    })
-                    
-                  });
-    })
+            console.log("CHECK AGAIN THE USER", user);
+            console.log("CHECK THE ARRAY", linkArray);
+            user.update({
+              past_work: linkArray
+            }).then(function(){
+              next();
+            })
+            
+          });
+      })
 
    
     

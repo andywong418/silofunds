@@ -69,10 +69,7 @@ $(document).ready(function(){
         			}
     }) 
 
-			}
-
-			
-			
+			}			
 			$("#next").click(function(){
 				counter++;
 					if(counter == 1){
@@ -212,7 +209,6 @@ $(document).ready(function(){
 						});
 
 			$("input[id='work']").change(function(e){
-				console.log("IS IT GETTING THROUGH?");
 				var $input = $(this),
 				$label = $input.next('label'),
 				labelVal = $label.html()

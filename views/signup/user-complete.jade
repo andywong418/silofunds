@@ -32,7 +32,7 @@ block content
           .instruction-pointer
             p Search for grants or users by entering your desired subject, university and/or degree level
           .instruction-pointer-2
-            p Use advanced search to start a detailed search for funds or other users. 
+            p Use advanced search to look at specific fields for funds or other users. 
         #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
             ul.nav.navbar-nav
               li.signin-icon
@@ -139,6 +139,10 @@ block content
         .col-md-12.center-block
           span.glyphicon.glyphicon-briefcase.work(aria-hidden = "true")
           #work-display
+          #add-work
+            i.fa.fa-plus
+            input#work-file(type='file', style='display: none;', name = 'work_files')
+            label(for='work-file') Add work
     section#progress.container.content-section
       .row
         .col-md-10.center-block
