@@ -8,6 +8,7 @@ var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var basicAuth = require('basic-auth');
+var adminUsers = require('./adminCred.js');
 
 var auth = function (req, res, next) {
   function unauthorized(res) {
@@ -21,10 +22,19 @@ var auth = function (req, res, next) {
     return unauthorized(res);
   }
 
-  if (user.name === 'foo' && user.pass === 'bar') {
-    return next();
+  if (process.env.ADMIN_USERNAME && process.env.ADMIN_PASS) {
+    // On production
+    if (user.name === process.env.ADMIN_USERNAME && user.pass === process.env.ADMIN_PASS) {
+      return next();
+    } else {
+      return unauthorized(res);
+    }
   } else {
-    return unauthorized(res);
+    if (user.pass === adminUsers[user.name]) {
+      return next();
+    } else {
+      return unauthorized(res);
+    }
   }
 };
 
