@@ -397,14 +397,14 @@ font-size: 15px;
 	margin: 10px;
 }
 
-.add-work-description, .delete-work{
+.add, .delete{
 	float: right;
 	font-size: 20px !important;
 	margin-top: 30px !important;
 	color:#337ab7;
 	margin-right: 10px;
 }
-.add-work-description:hover, .delete-work:hover{
+.add:hover, .delete:hover{
 	color: #19B5FE;
 }
 

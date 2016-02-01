@@ -27,19 +27,10 @@ module.exports = {
   },
   userProfile: function(req, res){
     var userId = req.params.id;
-    console.log("IS IT GETTING THROUGH?", userId);
     models.users.findById(userId).then(function(user){
-      console.log("CHECK AGAIN THE USER", user);
       res.render('signup/new-user-profile', {user: user});
     })
   },
-  // uploadInfo:function(req,res){
-  //   var userId = req.params.id;
-  //   models.users.findById(userId).then(function(user){
-  //           console.log("CHECK AGAIN THE USER", user);
-  //           res.render('signup/user-complete', {user: user});
-  //     })
-  // },
   uploadPicture: function(req,res, next){
     var userId = req.params.id;
     var idString = req.params.id.toString();
@@ -50,7 +41,6 @@ module.exports = {
     accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
     secretAccessKey: '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'
     });
-    console.log("CHECK HERE", req.files.profile_picture[0].originalname); 
     var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.files.profile_picture[0].originalname, ACL: 'public-read'}});
     s3.headBucket(bucketName, function(err, data) {
       if (err) {
@@ -58,9 +48,7 @@ module.exports = {
           if (err) { console.log("Error:", err); }
           else{
             s3.upload({Body: req.files.profile_picture[0].buffer, ContentType: req.files.profile_picture[0].mimetype}, function(){       
-                console.log("Picture uploaded to bucket");
                 models.users.findById(userId).then(function(user){
-                  console.log("CHECK AGAIN THE USER", user);
                   user.update({
                     profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.files.profile_picture[0].originalname
                   })   
@@ -72,7 +60,7 @@ module.exports = {
       } // an error occurred so bucket doesn't exist
       else   {
         s3.upload({Body: req.files.profile_picture[0].buffer, ContentType: req.files.profile_picture[0].mimetype}, function(){
-              console.log("Successfully uploaded picture to bucket");   
+              console.log("uploaded picture successfully");
               next();    
         });
        
@@ -87,42 +75,32 @@ module.exports = {
     accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
     secretAccessKey: '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'
     });
-    var linkArray = [];
     async.eachSeries(req.files.past_work, function iterator(item, callback){
-        console.log("CHECKING INITINTINTINIT", item)
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
-      
+        console.log("AM I HERE");
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
-                console.log("Successfully uploaded one piece of work to bucket"); 
-                linkArray.push("https://s3.amazonaws.com/" + bucketName + "/" + item.originalname);
-                callback();
-               
-                  // models.users.findById(userId).then(function(user){
-                  //   console.log("CHECK AGAIN THE USER", user);
-                  //   user.update({
-                  //     past_work: linkArray
-                  //   })
-                  // });
-                
-        })
-    }, function done() {
-        models.users.findById(userId).then(function(user){
-            console.log("CHECK AGAIN THE USER", user);
-            console.log("CHECK THE ARRAY", linkArray);
-            user.update({
-              past_work: linkArray
-            }).then(function(){
-              next();
-            })
-            
+          console.log("CHECKING WHERE I AM");
+          console.log("https://s3.amazonaws.com/" + bucketName + "/" + item.originalname);
+          console.log(userId);
+          models.documents.upsert({
+            link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
+            user_id: userId
+          }).then(function(document){
+            console.log("CHECKING HERE", document);
+            callback()
           });
+            
+        })       
+    }, function done() {
+            console.log("MOVING ON")
+            next();        
       })
 
    
     
   },
   uploadInfo: function(req, res){
-    console.log(req.body);
+    console.log("ANDY W IS HERE");
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
@@ -131,18 +109,25 @@ module.exports = {
     fundingNeeded = req.body.funding_needed;
 
     models.users.findById(userId).then(function(user){
-                    
-    user.update({
-      description: description,
-      date_of_birth: dateOfBirth,
-      nationality: nationality,
-      religion: religion,
-      funding_needed: fundingNeeded
-    }).then(function(user){
-       var newUser = true;
-       console.log(user);
-       res.render('signup/user-complete', {user: user, newUser: newUser}); 
-    })
+             console.log("found user:");      
+              user.update({
+                description: description,
+                date_of_birth: dateOfBirth,
+                nationality: nationality,
+                religion: religion,
+                funding_needed: fundingNeeded
+              }).then(function(user){
+                  console.log("CAN I CATCH THEM ALL");
+                  models.documents.findAll({
+                     where: {user_id: user.id}
+                  }).then(function(documents){
+                      console.log("REDNERR");
+                      console.log(documents);
+                     var newUser = true;
+                     res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents}); 
+                  });
+
+              })
 
     });
   }

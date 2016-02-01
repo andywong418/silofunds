@@ -93,37 +93,42 @@ $(document).ready(function(){
 			this.editProfile();
 		},
 		workDisplay: function(){
-			var pastWork = user.past_work;
-			for( var i = 0; i < pastWork.length; i++){
-				var seekingExtension = pastWork[i].split(".");
+			console.log(documents)
+			for( var i = 0; i < documents.length; i++){
+				var document = documents[i].link;
+				var seekingExtension = document.split(".");
 				var extension = seekingExtension[seekingExtension.length-1];			
-				var seekingFilename = pastWork[i].split("/");
+				var seekingFilename = document.split("/");
 				var filename = seekingFilename[seekingFilename.length-1];
+				var id = documents[i].id;
 				if(extension == "pdf"){
-					$("#work-display").append("<span><i class = 'fa fa-file-pdf-o pdf-file' ><a href = '" + pastWork[i] + "'>"+ filename + "</a></i><i class = 'fa fa-times delete-work pdf'></i><i class = 'fa fa-plus-circle add-work-description pdf'></i><</span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 				else if(extension == "jpg" || extension == "png"){
-					$("#work-display").append("<span><i class = 'fa fa-file-photo-o photo-file'><a href = '" + pastWork[i] + "'>" + filename + "</a></i><i class = 'fa fa-times delete-work photo'></i><i class = 'fa fa-plus-circle add-work-description photo'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "xls" || extension == "xlsx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-excel-o excel-file'><a href = '" + pastWork[i] + "'>" + filename + "</a></i><i class = 'fa fa-times delete-work excel'></i><i class = 'fa fa-plus-circle add-work-description excel'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "ppt" || extension == "pptx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file<a href = '" + pastWork[i] + "'>"+ filename + "</a></i><i class = 'fa fa-times delete-work powerpoint'></i><i class = 'fa fa-plus-circle add-work-description powerpoint'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 
 				else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
-					$("#work-display").append("<span><i class = 'fa fa-file-video-o video-file'><a href = '" + pastWork[i] + "'>" + filename + "</a></i><i class = 'fa fa-times delete-work video'></i><i class = 'fa fa-plus-circle add-work-description video'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "doc" || extension == "docx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-word-o word-file'><a href = '" + pastWork[i] + "'>"+ filename + "</a></i><i class = 'fa fa-times delete-work word'></i><i class = 'fa fa-plus-circle add-work-description word'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
 				else{
-					$("#work-display").append("<span><i class = 'fa fa-file filename'><a href = '" + pastWork[i] + "'>"+  filename + "</a></i><i class = 'fa fa-times delete-work other'></i><i class = 'fa fa-plus-circle add-work-description other'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
 				}
+				$(".add-work-description" + id).click(function(){
+					console.log("this is " + id)
+				})
 			}
 		},
 		newUser: function(){
@@ -172,17 +177,55 @@ $(document).ready(function(){
 		},
 		editProfile: function(){
 			$("input[id='work-file']").change(function(e){
-				var file = this.value;
-				var array = this.value.split("\\");
-				var filename = array[array.length-1];
-				console.log(filename);
-				var extensionArray = filename.split(".");
-				var extension = extensionArray[extensionArray.length -1];
-				console.log(extension);
-				var parameter = {work_file: file };
-				$.post('/add-work', parameter, function(data){
-					
-				}) 
+				
+				var file = this.files[0];
+				console.log(file);
+				var data = new FormData();
+				data.append('file', file);
+				data.append('user', user.id);
+				$.ajax({
+				  type: "POST",
+				  url: '/user-edit/add-work',
+				  data: data,
+				  processData: false,
+					contentType: false,
+				}).done(function(data) {
+					if(data){
+						console.log(data);
+						var file = data.link;
+						var seekingExtension = file.split(".");
+						var extension = seekingExtension[seekingExtension.length-1];			
+						var seekingFilename = file.split("/");
+						var filename = seekingFilename[seekingFilename.length-1];
+						var id = data.id;
+						console.log(extension);
+						if(extension == "pdf"){
+							$("#work-display").prepend("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+						else if(extension == "jpg" || extension == "png"){
+							$("#work-display").prepend("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+
+						else if (extension == "xls" || extension == "xlsx"){
+						$("#work-display").prepend("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+
+						else if (extension == "ppt" || extension == "pptx"){
+							$("#work-display").prepend("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+
+						else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
+							$("#work-display").prepend("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+
+						else if (extension == "doc" || extension == "docx"){
+							$("#work-display").prepend("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+						else{
+							$("#work-display").prepend("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						}
+					}
+				});
 			
 			})
 		}

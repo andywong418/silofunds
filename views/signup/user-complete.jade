@@ -141,7 +141,7 @@ block content
           #work-display
           #add-work
             i.fa.fa-plus
-            input#work-file(type='file', style='display: none;', name = 'work_files')
+            input#work-file(type='file', style='display: none;', name = 'file')
             label(for='work-file') Add work
     section#progress.container.content-section
       .row
@@ -161,3 +161,4 @@ block scripts
   script.
     var user = !{JSON.stringify(user)};
     var newUser = !{JSON.stringify(newUser)};
+    var documents = !{JSON.stringify(documents)};
