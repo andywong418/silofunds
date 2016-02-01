@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "basic-auth": "^1.0.3",
     "bcrypt": "0.8.5",
     "body-parser": "~1.13.2",
     "busboy": "^0.2.12",
