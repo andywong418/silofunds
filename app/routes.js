@@ -8,7 +8,6 @@ var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var basicAuth = require('basic-auth');
-var adminUsers = require('./adminCred.js');
 
 var auth = function (req, res, next) {
   function unauthorized(res) {
@@ -30,6 +29,9 @@ var auth = function (req, res, next) {
       return unauthorized(res);
     }
   } else {
+    // Local
+    var adminUsers = require('./adminCred.js');
+    
     if (user.pass === adminUsers[user.name]) {
       return next();
     } else {
