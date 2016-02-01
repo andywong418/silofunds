@@ -46,4 +46,8 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.es = es;
 
+// TODO: EDIT FUND & USER MODELS TO INCLUDE FOREIGN KEY FIELDS + WORK OUT HOW TO STORE THE RELATIONSHIPS
+db.funds.belongsToMany(db.users, { as: 'Fundees', through: 'FundUser' , foreignKey: 'Fund_userid' });
+db.users.belongsToMany(db.funds, { as: 'Funders', through: 'FundUser' , foreignKey: 'User_fundid' });
+
 module.exports = db;
