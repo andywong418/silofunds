@@ -14,6 +14,11 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
 var app = express();
+var mcapi = require('mailchimp-api');
+var mailchimpKey = require('./secrets.js').mailchimpKey;
+
+var mcKey = process.env.MAILCHIMP_KEY || mailchimpKey;
+mc = new mcapi.Mailchimp(mcKey);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

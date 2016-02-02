@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "basic-auth": "^1.0.3",
     "bcrypt": "0.8.5",
     "body-parser": "~1.13.2",
     "busboy": "^0.2.12",
@@ -18,6 +19,7 @@
     "express": "~4.13.1",
     "express-session": "^1.11.3",
     "jade": "~1.11.0",
+    "mailchimp-api": "^2.0.7",
     "morgan": "~1.6.1",
     "passport": "^0.2.2",
     "passport-facebook": "2.0.0",
