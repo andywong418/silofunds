@@ -101,6 +101,7 @@ module.exports = {
   },
   uploadInfo: function(req, res){
     console.log("ANDY W IS HERE");
+    console.log("ANDYYYY", req.session);
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,

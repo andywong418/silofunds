@@ -98,7 +98,6 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 }
 
 .signin-icon{
-
   font-size: 20px;
   margin: 10px 10px 0;
 }
@@ -107,16 +106,37 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 	color:white;
 	background-color: transparent;
 	border: none;
-}
-.signin-icon button{
+	position: relative;
+	z-index: 10;
 	outline: 0;
 }
-.fa-user, .fa-comment-o{
-	display: none;
+#settings-button:hover, #settings-button:active, #settings-button:visited, #settings-button:link, #settings-button:focus{
+	background-color: transparent;
+	color: #D2D7D3;
 }
 
+ .fa-comment-o{
+	display: none;
+}
 .fa-cog{
-	margin-right: -20px;
+	font-size: 20px;
+}
+.fa-cog:hover{
+	cursor: pointer;
+	font-size: 20px;
+	color:#D2D7D3;
+}
+.fa-cog:active, .fa-cog:visited{
+	color:#D2D7D3;
+}
+/*.fa-user{
+margin-right: -40px;
+}*/
+#home{
+color: white;
+}
+#home:hover{
+
 }
 
 .center-block{
@@ -299,19 +319,9 @@ img#profile-picture{
 	border: 5px solid white;
 	margin-bottom: 15px;
 	cursor: pointer;
- filter: blur(5px);
 	
 }
 
-img#profile-picture:hover{
-cursor: pointer;
-filter: blur(5px);
-// Browser Specific
--webkit-filter: blur(5px);
--moz-filter: blur(5px);
--o-filter: blur(5px);
--ms-filter: blur(5px);
-}
 
 #add-profile{
 	position: absolute;

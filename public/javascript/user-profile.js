@@ -87,6 +87,7 @@ $(document).ready(function(){
 			this.addDescription();
 			this.deleteWork();
 			this.changePicture();
+			this.settings();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -321,7 +322,7 @@ $(document).ready(function(){
 					$("#add-profile").css("display", "none");
 				});
 				
-				$("#profile-picture").click(function() {
+				$("#add-profile").click(function() {
 								console.log('HI');
 						    $("input[id='my_file']").click();
 						});
@@ -355,6 +356,9 @@ $(document).ready(function(){
 								console.log("SUCCESS", data);
 							})
     		})
+		},
+		settings: function(){
+			
 		}
 	});
 
