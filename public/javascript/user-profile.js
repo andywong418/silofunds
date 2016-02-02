@@ -130,8 +130,10 @@ $(document).ready(function(){
 		},
 		newUser: function(){
 			var allowed = false;
+			var newTutorial = newUser;
 			$(".get-started").click(function(){
-				if(newUser){
+				console.log(newTutorial);
+				if(newTutorial){
 					$("#user-modal").css("display", "inline");
 					$('html, body').animate({
     		    scrollTop: 0
@@ -148,13 +150,12 @@ $(document).ready(function(){
 				}
 			});
 				
-				if(newUser){
+				if(newTutorial){
 					var counter = 0;
 					var down = {};
-				  $(document).keydown(function(e){
+				  $(document).keypress(function(e){
 				    	var key = (e.keyCode ? e.keyCode : e.which);
-				    	if(key == '13' && allowed){		
-				    			if(down['13'] == null){	  
+				    	if(key == '13' && allowed){		  
 				    				e.preventDefault();
 				    				if(counter == 0){
 				    				
@@ -169,11 +170,11 @@ $(document).ready(function(){
 						    			$("#user-modal").css("display","none");
 						    			$("#text_search").focus();
 						    			counter++;
-						    			return
-						    			newUser = false;
+						    			newTutorial = false;
 						    			allowed = false;
+						    			return
 						    		}
-					    		}
+					    		
 				    	}
 							
 				  })
@@ -249,15 +250,18 @@ $(document).ready(function(){
 						if($("#add-work-description" + id).next().length == 0){
 							$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
 							$("textarea").not("#edit-work"+id).remove();	
-							user = id;
 							return true;
 						}
 						else{
-							console.log("WHAT DID IT SAVE");			
+							console.log("WHAT DID IT SAVE");		
+
 							var description = $("#work-description" + id).html();
 							console.log(description);
 							$("#work-description" + id).replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + description + "</textarea>");
+							$("#add-work-description" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
 							$("textarea").not("#edit-work"+id).remove();
+							user = id;
+							savedDescription = description;
 						}	
 									 
 				});
@@ -280,7 +284,7 @@ $(document).ready(function(){
 				});			
 
 				$(document).click(function(e) {
-		    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {	       
+		    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {
 		        $("textarea").toggle(false);      	
 		      	
 		    }
