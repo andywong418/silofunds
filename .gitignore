@@ -1,4 +1,3 @@
 npm-debug.log
 node_modules
-.gitignore
-app/adminCred.js
+app/secrets.js
