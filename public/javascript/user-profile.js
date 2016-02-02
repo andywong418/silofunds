@@ -221,15 +221,22 @@ $(document).ready(function(){
 		addDescription: function(){
 			var existingDescription = false;
 			var savedDescription = '';
+			var textareaAdded = false;
 			$(".add").click(function(){
 					console.log(existingDescription);
 						if(existingDescription == false){
 						var seekId = $(this).attr("id");
 						var idArray = seekId.split("n");
 						var id = idArray[idArray.length-1];
-						console.log("This id", id);
-						$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
-						$("textarea").not("#edit-work"+id).remove();	
+						console.log("This it", $("#add-work-description" + id).next());
+						if($("#add-work-description" + id).next().length == 0){
+							$("#add-work-description" + id).first().after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
+							$("textarea").not("#edit-work"+id).remove();	
+							return true;
+						}
+						else{
+							return false;
+						}
 					}
 
 					else{
