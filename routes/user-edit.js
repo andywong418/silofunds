@@ -5,5 +5,6 @@ var multer = require('multer');
 var upload = multer();
 
 router.post('/add-work', upload.single('file'), edit.addWork);
+router.post('/add-description', edit.addDescription);
 
 module.exports = router; 

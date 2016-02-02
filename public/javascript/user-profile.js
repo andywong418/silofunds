@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-//setting up page view
-
 	var UserModel = Backbone.Model.extend({
 		defaults: {
 			name: "",
@@ -68,12 +66,7 @@ $(document).ready(function(){
       		advanced_2 = false; 
 			});
 			$(document).click(function(e) {
-				console.log(e.target.closest('#grants'));
-				console.log($(e.target).closest('#advanced-search').length);
-		    if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {
-		        // cancel highlighting 
-		        console.log("Is it still getting in here?");
-		       
+		    if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {	       
 		        $("#advanced-search").toggle(false);      	
 		      	
 		    }
@@ -87,10 +80,11 @@ $(document).ready(function(){
 		    else{
 		      		return true;
 		    }
-});			
+			});			
 			this.workDisplay();
 			this.newUser();
-			this.editProfile();
+			this.addWork();
+			this.addDescription();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -102,33 +96,30 @@ $(document).ready(function(){
 				var filename = seekingFilename[seekingFilename.length-1];
 				var id = documents[i].id;
 				if(extension == "pdf"){
-					$("#work-display").append("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 				else if(extension == "jpg" || extension == "png"){
-					$("#work-display").append("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "xls" || extension == "xlsx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "ppt" || extension == "pptx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 
 				else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
-					$("#work-display").append("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 
 				else if (extension == "doc" || extension == "docx"){
-					$("#work-display").append("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
 				else{
-					$("#work-display").append("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+					$("#work-display").append("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
-				$(".add-work-description" + id).click(function(){
-					console.log("this is " + id)
-				})
 			}
 		},
 		newUser: function(){
@@ -175,11 +166,9 @@ $(document).ready(function(){
 		     down[keycode] = null;
 			});
 		},
-		editProfile: function(){
-			$("input[id='work-file']").change(function(e){
-				
+		addWork: function(){
+			$("input[id='work-file']").change(function(e){				
 				var file = this.files[0];
-				console.log(file);
 				var data = new FormData();
 				data.append('file', file);
 				data.append('user', user.id);
@@ -200,38 +189,78 @@ $(document).ready(function(){
 						var id = data.id;
 						console.log(extension);
 						if(extension == "pdf"){
-							$("#work-display").prepend("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id = 'add-work-description" + id + "'></i></span>");
 						}
 						else if(extension == "jpg" || extension == "png"){
-							$("#work-display").prepend("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file-photo-o photo-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 
 						else if (extension == "xls" || extension == "xlsx"){
-						$("#work-display").prepend("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+						$("#work-display").prepend("<span><i class = 'fa fa-file-excel-o excel-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 
 						else if (extension == "ppt" || extension == "pptx"){
-							$("#work-display").prepend("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file-powerpoint-o powerpoint-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 
 						else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
-							$("#work-display").prepend("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file-video-o video-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 
 						else if (extension == "doc" || extension == "docx"){
-							$("#work-display").prepend("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file-word-o word-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 						else{
-							$("#work-display").prepend("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete delete-work" + id + "'></i><i class = 'fa fa-plus-circle add add-work-description" + id + "'></i></span>");
+							$("#work-display").prepend("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
 					}
 				});
-			
-			})
-		}
+			});
+				
+		},
+		addDescription: function(){
+			var existingDescription = false;
+			var savedDescription = '';
+			$(".add").click(function(){
+					console.log(existingDescription);
+						if(existingDescription == false){
+						var seekId = $(this).attr("id");
+						var idArray = seekId.split("n");
+						var id = idArray[idArray.length-1];
+						console.log("This id", id);
+						$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
+						$("textarea").not("#edit-work"+id).remove();	
+					}
 
-	})
+					else{
+						console.log("WHAT DID IT SAVE", savedDescription);
+						var seekId = $(".work-description").attr("id");
+						var idArray = seekId.split("n");
+						var id = idArray[idArray.length-1];
+						$(".work-description").replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + savedDescription + "</textarea>");
+					}				 
+				});
+
+				$(document).on('keypress',".edit-work", function(event){
+					var html = $(".edit-work");
+					if(event.which == 13 || event.keyCode == 13){
+						var description = $(this).val();
+						var seekId1 = html.attr("id");
+						console.log(seekId1);
+						var idArray1 = seekId1.split("k");
+						var id1 = idArray1[idArray1.length-1];
+						console.log(id1);
+						var parameters = {description: description, user: id1};
+						$.post('/user-edit/add-description', parameters, function(data){
+							console.log("SUCCESS", data);
+							$("textarea").replaceWith("<p id = 'work-description" + id1 + "' class = 'work-description'>" + data + "</p> ");
+							existingDescription = true;
+							savedDescription = data;
+						})
+					}
+				});				
+		}
+	});
 
 	var userInfo = new UserInfo();
-
 })

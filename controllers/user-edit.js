@@ -34,6 +34,20 @@ addWork: function(req, res){
 							})
   });
 	
+},
+addDescription: function(req, res){
+	console.log("HEREEEEEE", req.body);
+	var description = req.body.description;
+	var id = req.body.user;
+	console.log('description', description);
+	console.log('user', id);
+	models.documents.findById(id).then(function(document){
+		document.update({
+			description: description
+		}).then(function(document){
+			res.send(document.description);
+		})
+	})
 }
 
 
