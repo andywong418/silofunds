@@ -349,6 +349,21 @@ jQuery.fn.putCursorAtEnd = function() {
     }
   });
 
+  $('form.subscribe').submit(function(e) {
+    e.preventDefault();
+
+    var $form = $(this);
+    var email = $form.find('input[name="subscription_email"]').val();
+    var url = $form.attr("action");
+    console.log('Email is ' + email);
+    console.log('posting....');
+
+    var posting = $.post(url, { email: email });
+
+    posting.done(function(data) {
+      console.log('Finished post request.');
+    });
+  });
 
   var scrollView = new Scrollview();
   var menuView = new Menuview();
