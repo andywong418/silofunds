@@ -237,7 +237,7 @@ module.exports = {
         var wrapper = {};
 
         for (var i = 0; i < fields.length ; i++) {
-          hash[fields[i]] = hit._source[fields[i]];
+          wrapper[fields[i]] = fund[fields[i]];
         }
 
         body.push(wrapper);
