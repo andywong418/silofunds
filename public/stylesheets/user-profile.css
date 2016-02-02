@@ -284,9 +284,11 @@ font-size: 15px;
 	border-radius: 10px;
 	width: 65%;
 	padding: 30px;
-}
-#profile-picture{
 
+}
+
+img#profile-picture{
+	position: relative;
   display: block;
   margin: 0 auto;
 	height: 250px;
@@ -295,11 +297,31 @@ font-size: 15px;
   -moz-border-radius: 125px;
   border-radius: 150px; 
 	border: 5px solid white;
-	
 	margin-bottom: 15px;
+	cursor: pointer;
+ filter: blur(5px);
+	
+}
+
+img#profile-picture:hover{
+cursor: pointer;
+filter: blur(5px);
+// Browser Specific
+-webkit-filter: blur(5px);
+-moz-filter: blur(5px);
+-o-filter: blur(5px);
+-ms-filter: blur(5px);
 }
 
 #add-profile{
+	position: absolute;
+	width: 70%;
+	top: 90px;
+	left: 45px;
+	font-size: 50px;
+
+	color: white;
+	cursor: pointer;
 	display: none;
 }
 

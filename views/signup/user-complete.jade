@@ -120,8 +120,10 @@ block content
       .row
         .col-md-4.center-block
           figure#profile-figure
+            input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#profile-picture(src= user.profile_picture)
-            figcaption#add-profile Update your profile picture
+            figcaption#add-profile 
+              i.fa.fa-camera
       .row
         .col-md-4.center-block
           p#username <%= name %>
@@ -162,4 +164,3 @@ block scripts
     var user = !{JSON.stringify(user)};
     var newUser = !{JSON.stringify(newUser)};
     var documents = !{JSON.stringify(documents)};
-    

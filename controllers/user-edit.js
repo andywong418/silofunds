@@ -16,8 +16,7 @@ addWork: function(req, res){
 	AWS.config.update({
     accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
     secretAccessKey: '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'
-    });
-		console.log("POOP");
+  });
 
 	var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
 	s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
@@ -56,6 +55,34 @@ deleteWork: function(req, res){
 			res.send("Deleted work!");
 		})
 	})
+
+},
+changePicture: function(req, res){
+	console.log("HELLO B");
+	console.log(req);
+	console.log(req.file);
+	var file = req.file;
+	var userId = req.body.user;
+
+	var bucketName = "silo-user-profile-" + userId;
+
+	AWS.config.update({
+    accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
+    secretAccessKey: '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'
+  });
+
+	var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
+	s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
+      console.log("uploaded picture successfully");   
+      models.users.findById(userId).then(function(user){
+      	user.update({
+      	profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname,
+				}).then(function(){
+					res.send("YOU GOT THIS");
+
+        })								
+			})
+	});
 
 }
 

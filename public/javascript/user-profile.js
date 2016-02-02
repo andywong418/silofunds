@@ -86,6 +86,7 @@ $(document).ready(function(){
 			this.addWork();
 			this.addDescription();
 			this.deleteWork();
+			this.changePicture();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -195,7 +196,7 @@ $(document).ready(function(){
 				  url: '/user-edit/add-work',
 				  data: data,
 				  processData: false,
-					contentType: false,
+					contentType: false
 				}).done(function(data) {
 					if(data){
 						console.log(data);
@@ -312,6 +313,48 @@ $(document).ready(function(){
 				})
 
 			})
+		},
+		changePicture: function(){
+				$("#profile-figure").hover(function(){
+					$("#add-profile").css("display", "inline");
+				}, function(){
+					$("#add-profile").css("display", "none");
+				});
+				
+				$("#profile-picture").click(function() {
+								console.log('HI');
+						    $("input[id='my_file']").click();
+						});
+						$("input[id='my_file']").change(function(){
+							
+			        if (this.files && this.files[0]) {
+			        	
+		            var reader = new FileReader();
+
+		            reader.onload = function (e) {
+			            		
+                $('#profile-picture')
+                  .attr('src', e.target.result)
+                  .width(250)
+                  .height(250);
+		            };
+
+         		 		reader.readAsDataURL(this.files[0]);
+        			}
+        			var file = this.files[0];
+							var data = new FormData();
+							data.append('profile_picture', file);
+							data.append('user', user.id);
+        			$.ajax({
+        				type: "POST",
+        				url: "/user-edit/profile-picture",
+        				data: data,
+        				processData: false,
+								contentType: false,
+							}).then(function(data){
+								console.log("SUCCESS", data);
+							})
+    		})
 		}
 	});
 
