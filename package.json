@@ -19,6 +19,7 @@
     "express": "~4.13.1",
     "express-session": "^1.11.3",
     "jade": "~1.11.0",
+    "mailchimp-api": "^2.0.7",
     "morgan": "~1.6.1",
     "passport": "^0.2.2",
     "passport-facebook": "2.0.0",
