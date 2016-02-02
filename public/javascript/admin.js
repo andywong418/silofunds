@@ -11,6 +11,16 @@ $(function() {
     $("#merit, #finance").prop("checked", false);
   });
 
+  $("form[name='destroy_fund']").submit(function(e) {
+    e.preventDefault();
+    var currentTarget = event.target;
+    var result = confirm("You sure you want to delete?");
+
+    if (result) {
+      currentTarget.submit();
+    }
+  });
+
   $("form[name='create_fund']").submit(function(e){
     e.preventDefault();
 
