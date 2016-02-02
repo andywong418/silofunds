@@ -249,7 +249,13 @@ $(document).ready(function(){
 						var id = idArray[idArray.length-1];
 						if($("#add-work-description" + id).next().length == 0){
 							$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
-							$("textarea").not("#edit-work"+id).remove();	
+							if($("#add-work-description" + user).next().length == 0){
+								$("textarea").not("#edit-work"+id).remove();	
+							}
+							else{
+								$("#edit-work" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
+								$("textarea").not("#edit-work"+id).remove();	
+							}
 							return true;
 						}
 						else{
@@ -258,10 +264,10 @@ $(document).ready(function(){
 							var description = $("#work-description" + id).html();
 							console.log(description);
 							$("#work-description" + id).replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + description + "</textarea>");
-							$("#add-work-description" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
-							$("textarea").not("#edit-work"+id).remove();
-							user = id;
-							savedDescription = description;
+							$("#edit-work" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
+								$("textarea").not("#edit-work"+id).remove();
+								user = id;
+								savedDescription = description;
 						}	
 									 
 				});
