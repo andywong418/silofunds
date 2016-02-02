@@ -30,8 +30,8 @@ var auth = function (req, res, next) {
     }
   } else {
     // Local
-    var adminUsers = require('./adminCred.js');
-    
+    var adminUsers = require('./secrets.js').adminUsers;
+
     if (user.pass === adminUsers[user.name]) {
       return next();
     } else {
