@@ -123,6 +123,9 @@ $(document).ready(function(){
 				}
 				$('.delete').attr("title", "Delete this piece of work from profile");
 				$('.add').attr("title", "Add/edit the description for this piece of work");
+				if(documents[i].description){
+					$("#add-work-description" + id).after("<p id = 'work-description" + id + "' class = 'work-description'>" + documents[i].description + "</p> ")
+				}
 			}
 		},
 		newUser: function(){
@@ -165,7 +168,10 @@ $(document).ready(function(){
 						    			$("#instruction-footer").css("display","none");
 						    			$("#user-modal").css("display","none");
 						    			$("#text_search").focus();
-						    			counter = 0;
+						    			counter++;
+						    			return
+						    			newUser = false;
+						    			allowed = false;
 						    		}
 					    		}
 				    	}
@@ -232,33 +238,28 @@ $(document).ready(function(){
 				
 		},
 		addDescription: function(){
-			var existingDescription = false;
+
 			var savedDescription = '';
 			var textareaAdded = false;
+			var user;
 			$(".add").click(function(){
-					console.log(existingDescription);
-						if(existingDescription == false){
 						var seekId = $(this).attr("id");
 						var idArray = seekId.split("n");
 						var id = idArray[idArray.length-1];
-						console.log("This it", $("#add-work-description" + id).next());
 						if($("#add-work-description" + id).next().length == 0){
-							$("#add-work-description" + id).first().after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
+							$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
 							$("textarea").not("#edit-work"+id).remove();	
+							user = id;
 							return true;
 						}
 						else{
-							return false;
-						}
-					}
-
-					else{
-						console.log("WHAT DID IT SAVE", savedDescription);
-						var seekId = $(".work-description").attr("id");
-						var idArray = seekId.split("n");
-						var id = idArray[idArray.length-1];
-						$(".work-description").replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + savedDescription + "</textarea>");
-					}				 
+							console.log("WHAT DID IT SAVE");			
+							var description = $("#work-description" + id).html();
+							console.log(description);
+							$("#work-description" + id).replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + description + "</textarea>");
+							$("textarea").not("#edit-work"+id).remove();
+						}	
+									 
 				});
 
 				$(document).on('keypress',".edit-work", function(event){
@@ -274,8 +275,6 @@ $(document).ready(function(){
 						$.post('/user-edit/add-description', parameters, function(data){
 							console.log("SUCCESS", data);
 							$("textarea").replaceWith("<p id = 'work-description" + id1 + "' class = 'work-description'>" + data + "</p> ");
-							existingDescription = true;
-							savedDescription = data;
 						})
 					}
 				});			
