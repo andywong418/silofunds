@@ -85,6 +85,7 @@ $(document).ready(function(){
 			this.newUser();
 			this.addWork();
 			this.addDescription();
+			this.deleteWork();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -120,6 +121,8 @@ $(document).ready(function(){
 				else{
 					$("#work-display").append("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + document + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 				}
+				$('.delete').attr("title", "Delete this piece of work from profile");
+				$('.add').attr("title", "Add/edit the description for this piece of work");
 			}
 		},
 		newUser: function(){
@@ -134,33 +137,41 @@ $(document).ready(function(){
 			    $(".instruction-pointer").css("display","inline")
 			    allowed = true;
 				}
+				else{
+					$('html, body').animate({
+    		    scrollTop: 0
+			    }, 2000);
+			    $("#text_search").focus();
+				}
 			});
 				
-				var counter = 0;
-				var down = {};
-			  $(document).keydown(function(e){
-			    	var key = (e.keyCode ? e.keyCode : e.which);
-			    	if(key == '13' && allowed){		
-			    			if(down['13'] == null){	  
-			    				e.preventDefault();
-			    				if(counter == 0){
-			    				
-						    		$(".instruction-pointer").css("display","none");
-						    		$(".instruction-pointer-2").css("display","inline");	
-						    		counter++;
-						    		return;
+				if(newUser){
+					var counter = 0;
+					var down = {};
+				  $(document).keydown(function(e){
+				    	var key = (e.keyCode ? e.keyCode : e.which);
+				    	if(key == '13' && allowed){		
+				    			if(down['13'] == null){	  
+				    				e.preventDefault();
+				    				if(counter == 0){
+				    				
+							    		$(".instruction-pointer").css("display","none");
+							    		$(".instruction-pointer-2").css("display","inline");	
+							    		counter++;
+							    		return;
+						    		}
+						    		if(counter == 1){
+						    			$(".instruction-pointer-2").css("display", "none");
+						    			$("#instruction-footer").css("display","none");
+						    			$("#user-modal").css("display","none");
+						    			$("#text_search").focus();
+						    			counter = 0;
+						    		}
 					    		}
-					    		if(counter == 1){
-					    			$(".instruction-pointer-2").css("display", "none");
-					    			$("#instruction-footer").css("display","none");
-					    			$("#user-modal").css("display","none");
-					    			$("#text_search").focus();
-					    			counter = 0;
-					    		}
-				    		}
-			    	}
-						
-			  });
+				    	}
+							
+				  })
+			};
 			$(document).keyup(function(event) {
 		     var keycode = (event.keyCode ? event.keyCode : event.which);
 		     down[keycode] = null;
@@ -213,6 +224,8 @@ $(document).ready(function(){
 						else{
 							$("#work-display").prepend("<span><i class = 'fa fa-file filename " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id= 'add-work-description" + id + "'></i></span>");
 						}
+						$('.delete').attr("title", "Delete this piece of work from profile");
+						$('.add').attr("title", "Add/edit the description for this piece of work");
 					}
 				});
 			});
@@ -265,7 +278,31 @@ $(document).ready(function(){
 							savedDescription = data;
 						})
 					}
-				});				
+				});			
+
+				$(document).click(function(e) {
+		    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {	       
+		        $("textarea").toggle(false);      	
+		      	
+		    }
+		    else{
+		      		return true;
+		      	}
+				});	
+		},
+		deleteWork: function(){
+			$(".delete").click(function(){
+				var seekId = $(this).attr("id");
+				var idArray = seekId.split("k");
+				var id = idArray[idArray.length-1];
+				console.log(id);
+				$("#delete-work" + id).parent('span').remove();
+				var parameters = {id: id};
+				$.post('/user-edit/delete-work', parameters, function(data){
+					console.log(data);
+				})
+
+			})
 		}
 	});
 

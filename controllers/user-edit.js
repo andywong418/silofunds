@@ -48,6 +48,15 @@ addDescription: function(req, res){
 			res.send(document.description);
 		})
 	})
+},
+deleteWork: function(req, res){
+	var id = req.body.id;
+	models.documents.findById(id).then(function(document){
+		document.destroy().then(function(document){
+			res.send("Deleted work!");
+		})
+	})
+
 }
 
 
