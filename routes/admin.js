@@ -14,5 +14,6 @@ router.post('/sync', admin.sync);
 router.post('/new/validate', admin.validate);
 
 router.get('/mc-list', admin_mc.index);
+router.get('/mc-list/:id', admin_mc.view);
 
 module.exports = router;
