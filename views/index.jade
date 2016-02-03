@@ -150,10 +150,6 @@ block content
             input#amount_req(type='number', name='amount', placeholder='Amount required')
             input#age(type='number', name='age', placeholder='Age')
             button#search_button.btn.btn-danger(type='submit') Search
-          //- form.subscribe(action='/subscribe', method='post', name='subscribe')
-          //-   input(type='email', name='subscription_email', placeholder='email address')
-          //-   input.btn(type='submit', value='Subscribe')
-
   // About Section
   section#about.container.content-section.text-center
     .row
@@ -213,3 +209,5 @@ block scripts
   script(src='javascript/index.js')
   //Progress drawer
   script(src='javascript/progressDrawer.js')
+  script.
+    var resultsPage = !{JSON.stringify(resultsPage)}

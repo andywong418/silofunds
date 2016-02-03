@@ -7,6 +7,7 @@ var auth = require('../routes/auth');
 var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
+var user_edit = require('../routes/user-edit');
 var basicAuth = require('basic-auth');
 
 var auth = function (req, res, next) {
@@ -50,4 +51,5 @@ module.exports.initialize = function (app) {
   app.use('/admin', auth, admin);
   app.use('/autocomplete', autocomplete);
   app.use('/validation', validation);
+  app.use('/user-edit', user_edit);
 };

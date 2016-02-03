@@ -75,7 +75,6 @@ a:focus {
 
 .navbar-custom .navbar-brand {
     font-weight: 700;
-
 }
 
 .navbar-custom .navbar-brand:focus {
@@ -188,8 +187,16 @@ a:focus {
     /*margin: ;*/
     letter-spacing: 1px;
     font-weight: 100;
+}
 
+.intro .intro-body .intro-text-2{
+  margin-top: -30px;
+  font-size: 24px;
+  font-weight: lighter;
+}
 
+#emphasis{
+  font-weight: bold;
 }
 
 .intro .intro-body .intro-text-2{
@@ -224,25 +231,21 @@ a:focus {
         font-size: 30px;
         font-family: "Montserrat";
         line-height: 60px;
-
     }
-
 }
 
 
 @media(min-width:767px) {
-    .content-section {
-        padding-top: 75px;
-    }
-    .navbar-left{
-  margin-top: 8px;
-}
+  .content-section {
+      padding-top: 75px;
+  }
+  .navbar-left{
+    margin-top: 8px;
+  }
 
-.navbar-right{
-  margin-top: -55px;
-}
-
-
+  .navbar-right{
+    margin-top: -55px;
+  }
 }
 
 .btn {
@@ -346,7 +349,7 @@ font-family: "Source Sans Pro";
     }
 }
 
-.navbar-custom .nav li a.cd-signin:hover,.navbar-custom .nav li a.cd-login:hover, .navbar-custom .nav li a:focus, .navbar-custom .nav li a.active {
+.navbar-custom .nav li a.cd-signup:hover,.navbar-custom .nav li a.cd-login:hover, .navbar-custom .nav li a:focus, .navbar-custom .nav li a.active {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3);
 }
@@ -427,7 +430,8 @@ i{
 
 
 a.cd-signup{
-    padding: -10px;
+    margin-top: 3px;
+    padding: 0;
     border: 2px solid;
     border-radius: 10px;
     color: #E3E7E8;
@@ -451,15 +455,13 @@ a.cd-login{
     margin-top: 5px;
     margin-right: 10px;
     color:#E3E7E8;
-
+    border: none;
+    border-radius: 10px;
 }
 
 .nav li a.cd-signin:hover{
     color:white;
 }
-
-
-
 
 /* User sign in popup form */
 .cd-user-modal {
@@ -855,13 +857,10 @@ time, mark, audio, video {
 
 #accept-terms{
   position:relative;
-
-
-   z-index: 4;
+  z-index: 4;
 }
 
 #terms{
-
     margin-bottom: 25px;
     margin-top:-2px;
     margin-left: 1%;
@@ -939,7 +938,6 @@ time, mark, audio, video {
   text-decoration: none;
   margin-bottom: 50px;
   margin-top: -100px;
-
 }
 .progress-bar {
   display: inline-block;
@@ -991,7 +989,6 @@ time, mark, audio, video {
 .login-social-btn, .signup-social-btn{
   width: 90%;
   margin: 7% auto;
-
 }
 
 #signup-btn{

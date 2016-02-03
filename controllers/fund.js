@@ -8,12 +8,11 @@ module.exports = {
         return json;
       });
 
-      res.render('search', { funds: funds });
+      res.render('results', { funds: funds });
     });
   },
 
   search: function(req, res) {
-    console.log("CHECK THE REQ", req.session.passport.user);
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
@@ -52,13 +51,13 @@ module.exports = {
 
         return hash;
       });
-
+      var results_page = true;
       console.log(funds);
       if(user){
         res.render('results',{ funds: funds, user: user } );
       }
       else{
-        res.render('results', { funds: funds, user: false });
+        res.render('results', { funds: funds, user: false, resultsPage: results_page });
       }
     }, function(err) {
       console.trace(err.message);

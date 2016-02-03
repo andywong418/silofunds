@@ -1,0 +1,30 @@
+extends layout-signup
+
+block extraHeader
+	link(href='../../stylesheets/user-profile.css', rel='stylesheet')
+
+block content
+	nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+      #container.container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+            i.fa.fa-bars
+          form.search_form(action='/results', method='get', name='search_form')
+            button#search-dropdown.btn.btn-default
+              i.fa.et-down.fa-bars
+              i.fa.et-down.fa-angle-down
+            input#text_search(type='text', name='tags', placeholder='Search keywords')
+            button#search_button.btn.btn-info(type='submit') 
+              i.fa.fa-search
+        #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+            ul.nav.navbar-nav
+              li.signin-icon
+                button
+                  i.fa.fa-user
+              li.signin-icon
+                button
+                 i.fa.fa-comment-o
+              li.signin-icon
+                button
+                  i.fa.fa-cog
+

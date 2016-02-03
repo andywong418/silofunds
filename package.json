@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "async": "^1.5.2",
+    "aws-sdk": "^2.2.31",
     "basic-auth": "^1.0.3",
     "bcrypt": "0.8.5",
     "body-parser": "~1.13.2",
@@ -21,6 +23,7 @@
     "jade": "~1.11.0",
     "mailchimp-api": "^2.0.7",
     "morgan": "~1.6.1",
+    "multer": "^1.1.0",
     "passport": "^0.2.2",
     "passport-facebook": "2.0.0",
     "passport-local": "^1.0.0",

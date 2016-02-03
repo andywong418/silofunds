@@ -1,6 +1,6 @@
 module.exports = {
   index: function(req, res) {
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Express', resultsPage: false });
   },
 
   subscribe: function(req, res) {
