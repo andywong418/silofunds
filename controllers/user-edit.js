@@ -1,5 +1,6 @@
 var models = require("../models");
 var AWS = require('aws-sdk');
+var secrets = require('../app/secrets');
 
 module.exports = {
 	addWork: function(req, res){
@@ -8,8 +9,8 @@ module.exports = {
 		var bucketName = "silo-user-profile-" + userId;
 
 		AWS.config.update({
-	    accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
-	    secretAccessKey: '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'
+	    accessKeyId: secrets.AWS_KEYID,
+	    secretAccessKey: secrets.AWS_KEY
 	  });
 
 		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
@@ -54,8 +55,8 @@ module.exports = {
 		var bucketName = "silo-user-profile-" + userId;
 
 		AWS.config.update({
-	    accessKeyId: 'AKIAJAZVDFTFRHXLNUOA',
-	    secretAccessKey: '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'
+	    accessKeyId: secrets.AWS_KEYID,
+	    secretAccessKey: secrets.AWS_KEY
 	  });
 
 		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
