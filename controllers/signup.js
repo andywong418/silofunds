@@ -100,8 +100,8 @@ module.exports = {
     
   },
   uploadInfo: function(req, res){
-    console.log("ANDY W IS HERE");
-    console.log("ANDYYYY", req.session);
+    console.log("ANDY W IS HERE", req);
+    console.log("ANDYYYY", req.sessionID);
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
@@ -109,8 +109,7 @@ module.exports = {
     religion = req.body.religion,
     fundingNeeded = req.body.funding_needed;
 
-    models.users.findById(userId).then(function(user){
-             console.log("found user:");      
+    models.users.findById(userId).then(function(user){   
               user.update({
                 description: description,
                 date_of_birth: dateOfBirth,
@@ -118,14 +117,11 @@ module.exports = {
                 religion: religion,
                 funding_needed: fundingNeeded
               }).then(function(user){
-                  console.log("CAN I CATCH THEM ALL");
                   models.documents.findAll({
                      where: {user_id: user.id}
                   }).then(function(documents){
-                      console.log("REDNERR");
-                      console.log(documents);
                      var newUser = true;
-                     res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents}); 
+                     res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.sessionID}); 
                   });
 
               })

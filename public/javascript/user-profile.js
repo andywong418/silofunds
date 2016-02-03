@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	var UserModel = Backbone.Model.extend({
 		defaults: {
 			name: "",
@@ -87,7 +86,7 @@ $(document).ready(function(){
 			this.addDescription();
 			this.deleteWork();
 			this.changePicture();
-			this.settings();
+			this.redirectHome();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -356,9 +355,6 @@ $(document).ready(function(){
 								console.log("SUCCESS", data);
 							})
     		})
-		},
-		settings: function(){
-			
 		}
 	});
 

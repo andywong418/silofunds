@@ -1,0 +1,123 @@
+#categories{
+	top:80px;
+	position: relative;
+	background-color: white;
+	border-radius: 10px;
+	height: 400px;
+	padding-top: 30px;
+
+}
+
+ul{
+	list-style: none;
+}
+#advanced-search, #advanced-search-2{
+	top: 80px;
+}
+
+#categories ul{
+	margin-left: -30px;
+}
+
+#categories i{
+margin-left: -10px;
+margin-right: 10px;
+}
+
+#general-settings, #account{
+	margin-left: 10px;
+	padding: 0;
+}
+#general-settings:hover, #account:hover{
+	cursor: pointer;
+}
+
+#general-settings{
+	width: 80%;
+}
+#account{
+	margin-top: 13px;
+	color: grey;
+
+}
+#account i {
+	margin-right: 15px;
+}
+
+#logout a, #logo3t a:hover{
+	color: grey;
+}
+#profile-settings{
+	top:80px;
+	position: relative;
+	background-color: white;
+	border-radius: 10px;
+	padding-top: 30px;
+	padding-left: 30px;
+	bottom: 50px;
+}
+
+#email-row:hover,#username-row:hover,#password-row:hover, #description-row:hover, #nationality-row:hover, #religion-row:hover, #funding_needed-row:hover{
+	background-color: #d8deea;
+	cursor: pointer;
+}
+#email-row,#username-row{
+	padding-top: 10px;
+	cursor: pointer;
+	
+}
+#password-row{
+	padding-top: 10px;
+	cursor: pointer;
+
+}
+
+#grey{
+	color: grey;
+	cursor: pionter;
+}
+.profile-edit{
+	display: none;
+}
+.edit{
+	display: inline;
+}
+.fa-pencil{
+	display: inline;
+	margin-right: 10px;
+}
+
+.save{
+	background: #457fca; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #457fca , #5691c8); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #457fca , #5691c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+border: 2px #446CB3 solid;
+color: white;
+padding: 7px 10px;
+text-align: center;
+text-decoration: none;
+display: block;
+font-size: 13px;
+cursor: pointer;
+border-radius: 5px;
+position: relative;
+margin: 0 auto;
+margin-top: 20px;
+display: none;
+}
+.save:focus{
+	background-color: #446CB3
+}
+
+.save:active{
+	background-color: #446CB3
+}
+
+#save-password{
+	margin-bottom: 30px
+}
+
+#inputdescription{
+	height: 80px;
+	width: 100%
+}

@@ -4,7 +4,6 @@ block extraHeader
   link(href='../../stylesheets/user-profile.css', rel='stylesheet')
 
 block content
- #user-modal
   script#profile-template(type='text/template')
     nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
       #container.container
@@ -37,7 +36,7 @@ block content
             ul.nav.navbar-nav
               li.signin-icon
                 button
-                  a#home(href="/users/" + user.id)
+                  a#home(href="#0")
                     i.fa.fa-user
               //      
                 li.signin-icon
@@ -49,11 +48,11 @@ block content
                     i.fa.fa-cog
                   ul#settings-menu.dropdown-menu
                     li#settings
-                      a(href='/users/settings/' + user.id)
+                      a(href='/users/settings/' + user.id + '/'+session)
                         | Settings
                     li.divider(role='separator')
                     li#logout
-                      a(href='/users/logout')
+                      a#logout(href='/users/logout')
                         | Log out
 
     section#advanced-search.container.content-section.text-center
