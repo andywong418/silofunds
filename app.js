@@ -20,7 +20,7 @@ var mcKey;
 if (process.env.MAILCHIMP_KEY) {
   mcKey = process.env.MAILCHIMP_KEY;
 } else {
-  var mailchimpKey = require('./app/secrets.js').mailchimpKey;
+  var mailchimpKey = require('./app/secrets.js').MAILCHIMP_KEY;
   mcKey = mailchimpKey;
 }
 
