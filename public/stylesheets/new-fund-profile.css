@@ -99,7 +99,7 @@
 }
 
 #description{
-	margin-top: 30px;
+	margin-top: 50px;
 	font-size: 16px;
 }
 
@@ -107,15 +107,19 @@
 	margin-top: 10px;
 	width: 70%;
 	height: 100px;
-	font-size: 16px;
+	font-size: 14px;
+	padding: 10px;
+	border: 2px #16a085 solid;
 }
 
 #charity-number{
 	font-size: 16px;
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 #charity-input{
 	margin-top: 10px;
+	border: 2px #16a085 solid;
+	font-size: 15px;
 }
 

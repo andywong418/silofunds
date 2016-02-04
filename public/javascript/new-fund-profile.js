@@ -26,11 +26,16 @@ $(document).ready(function(){
   		var view = new AccountView({model: account});
   		this.$el.append(view.render().el);
   		
-  		console.log(this.model.get('profile_picture'));
+  		console.log(this.model.get('description'));
   		if(this.model.get('profile_picture')){
 				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
 			}
-			
+			if(this.model.get('description')){
+				this.$("#description-area").val( this.model.get('description'));
+			}
+			if(this.model.get('charity_number')){
+				this.$("#charity-input").val( this.model.get('charity_number'));
+			}
 
   		$(document).on('click', '#profile-picture', function(){
   			console.log('HI');
@@ -68,7 +73,40 @@ $(document).ready(function(){
 	   		 		$("#add-profile").css("display", "none");
   				}
 			});
+  		this.uploadtextArea();
+  		this.uploadCharityNumber();
+  	},
+  	uploadtextArea: function(){
+  		$(document).on('blur', '#description-area', function(){
+  			var description = $("#description-area").val();
+  			var parameters = {description: description};
+  			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+  				console.log(data);
+  			})
+  		}) 	
+  	},
+  	uploadCharityNumber: function(){
+  		$(document).on('keypress', '#charity-input', function(e){
+  			var code = e.keycode || e.which;
+  			console.log($("#charity-input").val());
+  			console.log(code);
+  			if (code == 13){
 
+  				parameters = {charity_number: $("#charity-input").val() };
+  				$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+  				console.log(data);
+  			})
+  			}
+  		})
+  		$(document).on('blur', '#charity-input', function(){
+
+
+  				parameters = {charity_number: $("#charity-input").val() };
+  				$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+  				console.log(data);
+  			})
+  			
+  		})
   	}
   });
 

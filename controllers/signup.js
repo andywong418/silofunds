@@ -188,5 +188,12 @@ module.exports = {
         }          // successful response- bucket exists
       });
     }
+    else{
+      models.users.findById(userId).then(function(user){
+        user.update(req.body).then(function(user){
+          res.send(user);
+        })
+      })
+    }
   }
 };
