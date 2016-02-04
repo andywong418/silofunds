@@ -41,6 +41,10 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "expect.js": "^0.3.1",
-    "superagent": "^1.7.2"
+    "hiredis": "^0.4.1",
+    "really-need": "^1.9.0",
+    "should": "^8.2.1",
+    "superagent": "^1.7.2",
+    "supertest": "^1.1.0"
   }
 }
