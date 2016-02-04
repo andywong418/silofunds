@@ -11,11 +11,12 @@ module.exports ={
         if(user){
           res.send('There is already an account under this email address');
         }
+        res.end();
       });
     } else {
       models.users.find({where:{email:loginEmail}}).then(function(user){
         if(!user){
-          res.send('There is no account under this email address');
+          res.send('Please enter a valid email address');
         }
       });
     }
