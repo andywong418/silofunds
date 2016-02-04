@@ -128,5 +128,15 @@ module.exports = {
         });
       });
     });
+  },
+
+  fundProfile: function(req, res){
+    console.log("is anything getting in?");
+    var fundId = req.params.id;
+    console.log("WHAT'S IN HERE", fundId);
+    models.users.findById(fundId).then(function(user){
+      console.log("hihihi")
+      res.render('signup/new-fund-profile', {user: user});
+    });
   }
 };

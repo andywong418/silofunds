@@ -15,5 +15,6 @@ router.post('/results', function(req,res){
 })
 router.get('/user/:id', signup.userProfile);
 router.post('/user_signup_complete/:id',upload.fields(params), signup.uploadPicture, signup.uploadWork, signup.uploadInfo);
+router.get('/fund/:id', signup.fundProfile);
 
 module.exports = router;
