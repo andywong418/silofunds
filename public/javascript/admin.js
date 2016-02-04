@@ -69,23 +69,25 @@ $(function() {
 
   var pathname = window.location.pathname;
 
-  // Only append download link on index page
-  if (pathname === "/admin") {
-    /////////////////////////// Download JSON Link
+  $('a#downloader').click(function(e) {
+    e.preventDefault();
 
-    var array_of_obj = fundData;
-    var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
+    var $link = $(this);
+    var url = $link.attr("href");
+    var posting = $.post(url);
 
-    var a = document.createElement('a');
-    a.href = 'data:' + data;
-    a.download = 'data.json';
-    a.innerHTML = 'Download JSON';
+    posting.done(function(array_of_obj) {
+      var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
+      var a = document.createElement('a');
+      var container = document.getElementById('generated_download_link');
+      a.href = 'data:' + data;
+      a.download = 'data.json';
+      a.innerHTML = 'Download JSON';
+      container.appendChild(a);
 
-    var container = document.getElementById('downloader');
-    container.appendChild(a);
-    ///////////////////////////
-  }
-
+      console.log('Finished AJAX.');
+    });
+  });
 
   try {
     if(fund.gender !== null) {

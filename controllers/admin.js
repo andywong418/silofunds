@@ -62,6 +62,16 @@ module.exports = {
     });
   },
 
+  download: function(req, res, next) {
+    // For generating the download link and transferring ALL data to front-end
+    // (including deleted_at == NOT NULL)
+    models.funds.findAll({ order: 'id ASC', paranoid: false }).then(function(funds) {
+      funds = fund_array_to_json(funds);
+      res.send(funds);
+      res.end();
+    });
+  },
+
   edit: function(req, res) {
     var id = req.params.id;
 

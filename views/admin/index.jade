@@ -15,7 +15,8 @@ block content
           form(action="/admin/sync", method="post", name="sync_db")
             button.btn.btn-warning(type="submit") Sync ES to PG
         .col-md-3
-          .downloader#downloader
+          a.btn.btn-default.btn-link#downloader(href='/admin/download' download) Generate download link
+          .downloader#generated_download_link
       hr
       table.table.table-bordered.table-responsive
         tr
