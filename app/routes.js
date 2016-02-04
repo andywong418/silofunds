@@ -52,4 +52,4 @@ module.exports.initialize = function (app) {
   app.use('/autocomplete', autocomplete);
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
-};
+};;

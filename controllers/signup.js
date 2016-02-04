@@ -131,12 +131,62 @@ module.exports = {
   },
 
   fundProfile: function(req, res){
-    console.log("is anything getting in?");
+    console.log("YO", req.params);
     var fundId = req.params.id;
     console.log("WHAT'S IN HERE", fundId);
     models.users.findById(fundId).then(function(user){
       console.log("hihihi")
       res.render('signup/new-fund-profile', {user: user});
     });
+  },
+  get: function(req, res){
+    console.log("AM I GETTING IN HERE????")
+    var id = req.params.id;
+    models.users.findById(id).then(function(user){
+      res.json(user);
+    })
+
+  },
+  fundAccount: function(req, res){
+    console.log("WE'RE HERE DIK");
+    var userId = req.params.id;
+    var bucketName = "silo-fund-profile-" + userId;
+    console.log(req.file);
+    if (req.file){
+      AWS.config.update({
+        accessKeyId: aws_keyid,
+        secretAccessKey: aws_key
+      });
+      var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.file.originalname, ACL: 'public-read'}});
+      s3.headBucket(bucketName, function(err, data) {
+        if (err) {
+          s3.createBucket(function(err){
+            if (err) { console.log("Error:", err); }
+            else{
+              s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
+                  models.users.findById(userId).then(function(user){
+                    user.update({
+                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
+                    }).then(function(user){
+                      res.send("GOT HIMMMMMMMM");
+                    });
+                  });
+              });
+            }
+          });
+        } else { // an error occurred so bucket doesn't exist
+          s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
+            console.log("Uploaded picture.");
+               models.users.findById(userId).then(function(user){
+                    user.update({
+                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
+                    }).then(function(user){
+                      res.send("GOT HIMMMMMMMM");
+                    });
+              });
+          });
+        }          // successful response- bucket exists
+      });
+    }
   }
 };

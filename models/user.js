@@ -48,6 +48,14 @@ module.exports = function(sequelize, DataTypes) {
     funding_needed: {
       type: DataTypes.INTEGER,
       field: 'funding_needed',
+    },
+    fund_or_user:{
+      type: DataTypes.INTEGER,
+      field: 'fund_or_user'
+    },
+    charity_number:{
+      type: DataTypes.INTEGER,
+      field: 'charity_number'
     }
   }, {
     timestamps: true,
