@@ -172,16 +172,19 @@ module.exports = {
         var fund = json_array[ind];
         var create_options = {};
 
-        for (var i=0; i<fields.length; i++) {
-          var field = fields[i];
-          create_options[field] = fund[field];
-          create_options["id"] = fund.id;
-        }
+        if (!fund.deleted_at) {
+          for (var i=0; i<fields.length; i++) {
+            var field = fields[i];
+            create_options[field] = fund[field];
+            create_options["id"] = fund.id;
+          }
 
-        models.funds.create( create_options ).then(function() {
-          res.redirect('../admin');
-        });
+          models.funds.create( create_options ).then(function() {
+            console.log('Created fund.');
+          });
+        }
       }
+      res.redirect('../admin');
     });
     req.pipe(busboy);
   },
