@@ -17,6 +17,7 @@ router.get('/user/:id', signup.userProfile);
 router.post('/user_signup_complete/:id',upload.fields(params), signup.uploadPicture, signup.uploadWork, signup.uploadInfo);
 router.get('/fund/:id', signup.fundProfile);
 router.get('/fund/fund_account/:id', signup.get);
+router.post('/fund_signup/tags/:id', signup.getTags);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 
 module.exports = router;

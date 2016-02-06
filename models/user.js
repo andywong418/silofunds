@@ -56,6 +56,10 @@ module.exports = function(sequelize, DataTypes) {
     charity_number:{
       type: DataTypes.INTEGER,
       field: 'charity_number'
+    },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'tags',
     }
   }, {
     timestamps: true,

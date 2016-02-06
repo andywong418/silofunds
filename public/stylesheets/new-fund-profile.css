@@ -32,6 +32,12 @@
 	color: #0aa4bf;
 }
 
+.account-submit{
+	margin-left: -30px;
+}
+#almost{
+	margin-right: -24%;
+}
 
 #previous:hover, #next:hover, #finish:hover{
 	background: #85D8CE;
@@ -101,6 +107,8 @@
 #description{
 	margin-top: 50px;
 	font-size: 16px;
+	text-align: left;
+	margin-left: 10%
 }
 
 #description-area{
@@ -110,16 +118,75 @@
 	font-size: 14px;
 	padding: 10px;
 	border: 2px #16a085 solid;
+	font-weight: 200;
 }
 
 #charity-number{
 	font-size: 16px;
 	margin-top: 50px;
+	text-align: left;
+	margin-left: 10%;
 }
 
 #charity-input{
 	margin-top: 10px;
 	border: 2px #16a085 solid;
 	font-size: 15px;
+	font-weight: 200;
 }
 
+#eligible-info{
+	margin-top: 70px;
+	border-radius: 10px;
+	background-color: white;
+	width: 75%;
+	padding: 20px;
+	padding-top: 50px;
+	position: relative;
+	z-index: 5;
+	margin-bottom: 30px;
+}
+#eligible-info p{
+	font-weight: 500;
+}
+#tags, #nationality, #religion, #age, #amount, #merit_or_finance, #gender,#dates{
+	margin-top: 30px;
+	font-size: 16px;
+	text-align: left;
+	display: inline;
+	margin-right: 10%;
+	float: left;
+	margin-left: 1.5%;
+}
+
+#tags-input, #nationality-input, #religion-input, #min-age-input, #max-age-input, #min-amount-input, #max-amount-input, #start,#deadline{
+	float: left;
+	width: 50%;
+	margin-top: 15px;
+	margin-left: 1.5%
+}
+
+#merit-column, #finance-column, #male-column, #female-column{
+	float: left;
+	margin-left: 10%
+}
+#max-age-input, #max-amount-input{
+	margin-left: -20%;
+}
+#max-age-input, #max-amount-input{
+	margin-left: -35%;
+}
+
+#finance-column, #female-column, #both-column, #both-gender{
+	margin-top: 15px;
+}
+
+#start-span, #deadline-span{
+	float: left;
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-left: 20px;
+}
+#deadline-column{
+	margin-left: -10%;
+}

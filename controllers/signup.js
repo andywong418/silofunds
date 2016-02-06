@@ -140,15 +140,28 @@ module.exports = {
     });
   },
   get: function(req, res){
-    console.log("AM I GETTING IN HERE????")
     var id = req.params.id;
     models.users.findById(id).then(function(user){
       res.json(user);
     })
 
   },
+  getTags:function(req, res){
+    var id = req.params.id;
+    console.log("Hello helo hel");
+    console.log(req.body);
+    var tagArray = req.body["tags[]"];
+    console.log(tagArray);
+    models.users.findById(id).then(function(user){
+      console.log("USER", user);
+      user.update({
+        tags: tagArray
+      }),then(function(user){
+        res.send(data);
+      })
+    })
+  },
   fundAccount: function(req, res){
-    console.log("WE'RE HERE DIK");
     var userId = req.params.id;
     var bucketName = "silo-fund-profile-" + userId;
     console.log(req.file);
@@ -189,8 +202,10 @@ module.exports = {
       });
     }
     else{
+      console.log("BIG TINGS", req.body);
       models.users.findById(userId).then(function(user){
         user.update(req.body).then(function(user){
+          co
           res.send(user);
         })
       })

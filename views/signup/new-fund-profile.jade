@@ -9,7 +9,7 @@ block content
 					nav.navbar.navbar-custom.navbar-fixed-top
 						.col-sm-3
 						.col-sm-5.col-xs-12
-							p#almost You're almost there! Finish the signup by updating your profile below.
+							p#almost Update and verify your grant details here.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
 							a#next.account-submit(href= "#eligible", type = "button") Next
@@ -23,25 +23,102 @@ block content
 										figcaption#add-profile Upload a profile picture 
 							.row
 								.col-md-12.center-block
-									p#description Please enter a brief overview of your grant organisation
+									p#description 1. Please enter a brief overview of your grant organisation:
 									textarea#description-area 
 							.row
 								.col-md-12.center-block
-									p#charity-number Please enter your registered charity number
+									p#charity-number 2. Please enter your registered charity number:
 									input(type = 'number', id = 'charity-input')
 			script#eligible-template(type='text/template')
 					nav.navbar.navbar-custom.navbar-fixed-top
 						.col-sm-3
 						.col-sm-5.col-xs-12
-							p#almost You're almost there! 
+							p The eligibility criteria below will help our search engine index your grant.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
 							a#previous(href = "#account", type = "button") Previous
 							a#next.eligible-submit(href = "#application", type = "button") Next
 					section#eligible-info.container.content-section
-						
-
-
+						.row
+							.col-md-12.center-block
+								p#tags 3. Please choose some tags that describe the eligibility of your grant-subjects offered, university, degree level, etc (separate each tag with a comma and no space):
+								input#tags-input(type = 'text')
+						.row
+							.col-md-12.center-block
+								p#nationality 4. Please enter a country/countries that students can apply from:
+								input#nationality-input(type='text')
+						.row
+							.col-md-12.center-block
+								p#religion 5. Please specify any faiths that potential applicants need to be part of:
+								input#religion-input(type='text')
+						.row
+							.col-md-12.center-block
+									p#age 6. Please enter any age requirements of your institution if applicable
+									.row									
+										.col-xs-6
+											input#min-age-input(type='number', placeholder = 'Minimum age', value = "minimum_age") 
+										.col-xs-6
+											input#max-age-input(type='number', placeholder = 'Maximum age', value = "maximum_age")
+						.row
+							.col-md-12.center-block
+									p#amount 7. Please enter the minimum and/or maximum amount of funding given if applicable
+									.row									
+										.col-xs-6
+											input#min-amount-input(type='number', placeholder = 'Minimum amount', value = "minimum_amount") 
+										.col-xs-6
+											input#max-amount-input(type='number', placeholder = 'Maximum amount', value = "maximum_amount")
+						.row
+							.col-md-12.center-block
+								p#merit_or_finance 8. Please specify whether your grant gives funding based on merit, financial situation or both
+								.row
+									.col-xs-3.checkbox
+										label#merit-column
+											input#merit(type='checkbox', value = "merit") 
+											span Merit
+									.col-xs-3.checkbox
+										label#finance-column
+											input#finance(type='checkbox', value = "finance") 
+											span Financial situation
+									.col-xs-3.checkbox
+										label#both-column
+											input#both(type='checkbox') 
+											span Both
+						.row
+							.col-md-12.center-block
+								p#gender 9. Please specify whether your grant provides for male, female or both kind of students
+								.row
+									.col-xs-3.checkbox
+										label#male-column
+											input#merit(type='checkbox', value = "male") 
+											span Male
+									.col-xs-3.checkbox
+										label#female-column
+											input#female(type='checkbox', value = "female") 
+											span Female
+									.col-xs-3.checkbox
+										label#both-gender
+											input#both-gender-input(type='checkbox') 
+											span Both
+						.row
+							.col-md-12.center-block
+								p#dates 10. Please enter a date when students can start handing in applications and a deadline for applications
+								.form-group
+									.row
+										.col-xs-5
+											span#start-span Start:
+											input#start.form-control(type='date')
+										.col-xs-5#deadline-column
+											span#deadline-span Deadline:
+											input#deadline.form-control(type='date')
+			script#application-template(type='text/template')
+				nav.navbar.navbar-custom.navbar-fixed-top
+						.col-sm-3
+						.col-sm-5.col-xs-12
+							p You're almost there! Finish by adding an application form to your profile.
+						.col-sm-0.col-xs-4
+						.col-sm-4.col-xs-6.center-block
+							a#previous(href = "#eligible", type = "button") Previous
+							a#next.eligible-submit(href = "#application", type = "button") Finish
 block scripts
 	script(src = '../../javascript/new-fund-profile.js')
 	script.
