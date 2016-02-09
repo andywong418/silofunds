@@ -2,13 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Fund = sequelize.define("funds", {
-    id: {
-      type: DataTypes.INTEGER,
-      field: 'id',
-      primaryKey: true,
-      unique: true,
-      autoIncrement: true,
-    },
+
     title: {
       type: DataTypes.TEXT,
       field: 'title',
@@ -96,18 +90,18 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: true,
     underscored: true,
-    paranoid: true
+    paranoid: true,
 
-    // classMethods: {
-    //   associate: function(models) {
-    //     Fund.belongsTo(models.User, {
-    //       onDelete: "CASCADE",
-    //       foreignKey: {
-    //         allowNull: false
-    //       }
-    //     });
-    //   }
-    // }
+    classMethods: {
+      associate: function(models) {
+        Fund.belongsToMany(models.users, {
+          onDelete: "CASCADE",
+          as: 'Fundees',
+          through: "applications",
+          foreignKey: 'Fund_userid'
+        });
+      }
+    }
   });
 
   return Fund;

@@ -56,13 +56,18 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: true,
     underscored: true,
-    paranoid: true
+    paranoid: true,
 
-    // classMethods: {
-    //   associate: function(models) {
-    //     User.hasMany(models.funds)
-    //   }
-    // }
+  classMethods: {
+      associate: function(models) {
+        User.belongsToMany(models.funds, {
+          onDelete: "CASCADE",
+          as: 'Funders',
+          through: "applications",
+          foreignKey: 'User_fundid'
+        });
+      }
+    }
   });
 
   return User;
