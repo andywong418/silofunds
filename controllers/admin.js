@@ -62,6 +62,16 @@ module.exports = {
     });
   },
 
+  download: function(req, res, next) {
+    // For generating the download link and transferring ALL data to front-end
+    // (including deleted_at == NOT NULL)
+    models.funds.findAll({ order: 'id ASC', paranoid: false }).then(function(funds) {
+      funds = fund_array_to_json(funds);
+      res.send(funds);
+      res.end();
+    });
+  },
+
   edit: function(req, res) {
     var id = req.params.id;
 
@@ -166,12 +176,17 @@ module.exports = {
           var field = fields[i];
           create_options[field] = fund[field];
           create_options["id"] = fund.id;
+
+          if (fund.deleted_at) {
+            create_options["deleted_at"] = fund.deleted_at;
+          }
         }
 
         models.funds.create( create_options ).then(function() {
-          res.redirect('../admin');
+          console.log('Created fund.');
         });
       }
+      res.redirect('../admin');
     });
     req.pipe(busboy);
   },
