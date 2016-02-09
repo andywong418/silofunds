@@ -1,3 +1,7 @@
+body{
+	font-family: "Nunito";
+}
+
 #user-modal{
 
 	position: fixed;
@@ -197,4 +201,64 @@
 }
 #deadline-column{
 	margin-left: -10%;
+}
+
+#application-info{
+	margin-top: 70px;
+	border-radius: 10px;
+	width: 60%;
+	padding: 20px;
+	padding-top: 50px;
+	text-align: center;
+	position: relative;
+	z-index: 5;
+	margin-bottom: 30px;
+}
+
+.cd-switcher:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.cd-switcher{
+    list-style: none;
+    display: inline;
+/*    float: left;*/
+
+
+}
+.cd-switcher li{
+	background-color: white;
+	float: left;
+	display: inline;
+	height: 100%;
+	vertical-align: bottom;
+	position: relative;
+	z-index: 7;
+	padding-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 4px;
+	border-top-left-radius: 3px;
+	margin-bottom: -20px;
+
+}
+#application-form{
+	margin-top: -6px;
+	background-color: white;
+	display: block;
+	height: 400px;
+	text-align: center;
+	border-radius: 3px;
+		border-top-left-radius: 0;
+
+}
+#add-category{
+	cursor: pointer;
+	background-color:#BFBFBF;
+	border-top-left-radius: 0;
+	border-top-right-radius: 3px;
+	padding-bottom: 4px;
+	box-sizing: border-box;
 }
