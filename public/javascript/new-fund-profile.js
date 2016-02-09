@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-	console.log("LOLOLOL TROLL", fund_setup);
 	var FundModel = Backbone.Model.extend({
 		url: 'fund_account/' + fund_setup.id
 	});
@@ -27,7 +26,7 @@ $(document).ready(function(){
   		var view = new AccountView({model: account});
   		this.$el.append(view.render().el);
   		
-  		console.log(this.model.get('description'));
+  		console.log(this.model);
   		if(this.model.get('profile_picture')){
 				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
 			}
@@ -37,7 +36,7 @@ $(document).ready(function(){
 			if(this.model.get('charity_number')){
 				this.$("#charity-input").val( this.model.get('charity_number'));
 			}
-
+		
   		$(document).on('click', '#profile-picture', function(){
   			console.log('HI');
 			    $("input[id='my_file']").click();
@@ -138,6 +137,47 @@ $(document).ready(function(){
   		if(this.model.get("religion")){
   			this.$("#religion-input").val(this.model.get("religion"));
   		}
+  		if(this.model.get("maximum_age")){
+  			this.$("#maximum_age").val(this.model.get("maximum_age"));
+  		}
+  		if(this.model.get("minimum_age")){
+  			this.$("#minimum_age").val(this.model.get("minimum_age"));
+  		}
+  		if(this.model.get("maximum_amount")){
+  			this.$("#maximum_amount").val(this.model.get("maximum_amount")); 			
+  		}
+  		if(this.model.get("minimum_amount")){
+  			this.$("#minimum_amount").val(this.model.get("minimum_amount")); 			
+  		}
+			if(this.model.get('merit_or_finance')){
+				if(this.model.get('merit_or_finance') == "merit"){
+					console.log(this.model.get('merit_or_finance'));
+					this.$("#merit").prop("checked", true);
+				}
+				else{
+					this.$("#finance").prop("checked", true);
+				}
+			}
+			if(this.model.get('gender')){
+				if(this.model.get('gender') == "male"){
+					this.$("#male").prop("checked", true);
+				}
+				else{
+					this.$("#female").prop("checked", true);
+				}
+			}
+
+			if(this.model.get('start_date')){
+				console.log(this.model.get('start_date'));
+				var dateArray = this.model.get('start_date').split("T");
+				var date = dateArray[0];
+				this.$("#start_date").val(date);
+			}
+			if(this.model.get('deadline')){
+				var dateArray = this.model.get('deadline').split("T");
+				var date = dateArray[0];
+				this.$("#deadline").val(date);
+			}
   		$(document).on('blur', '#tags-input', function(){
 	  		if($(this).val()){
 	  			var field = $(this).siblings().attr('id');
@@ -209,9 +249,17 @@ $(document).ready(function(){
   	clearRadio: function(){
   		$(document).on('click', '#clear1', function(){
   			$("#merit, #finance").prop("checked", false);
+  			var parameters = {merit_or_finance: null};
+  			$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  					console.log(data);
+  				})
   		});
   		$(document).on('click', '#clear2', function(){
   			$("#male, #female").prop("checked", false);
+  			var parameters = {gender: null};
+  			$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  					console.log(data);
+  				})
   		})
   	}
   });
