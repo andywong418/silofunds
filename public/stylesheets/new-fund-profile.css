@@ -149,7 +149,7 @@
 #eligible-info p{
 	font-weight: 500;
 }
-#tags, #nationality, #religion, #age, #amount, #merit_or_finance, #gender,#dates{
+#tags, #countries, #religion, #age, #amount, #merit_or_finance, #gender,#dates{
 	margin-top: 30px;
 	font-size: 16px;
 	text-align: left;
@@ -159,7 +159,7 @@
 	margin-left: 1.5%;
 }
 
-#tags-input, #nationality-input, #religion-input, #min-age-input, #max-age-input, #min-amount-input, #max-amount-input, #start,#deadline{
+#tags-input, #nationality-input, #religion-input, #minimum_age, #maximum_age, #minimum_amount, #maximum_amount, #start_date,#deadline{
 	float: left;
 	width: 50%;
 	margin-top: 15px;
@@ -170,15 +170,23 @@
 	float: left;
 	margin-left: 10%
 }
-#max-age-input, #max-amount-input{
-	margin-left: -20%;
-}
-#max-age-input, #max-amount-input{
+
+#maximum_age, #maximum_amount{
 	margin-left: -35%;
 }
 
-#finance-column, #female-column, #both-column, #both-gender{
+#finance-column, #female-column, #both-column, #clear1, #clear2{
 	margin-top: 15px;
+}
+
+#clear1, #clear2{
+ cursor: pointer;
+ color: #337ab7;
+ display: inline;
+ float: left;
+}
+#clear1:hover, #clear2:hover{
+	text-decoration: underline;
 }
 
 #start-span, #deadline-span{

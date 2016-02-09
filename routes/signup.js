@@ -18,6 +18,9 @@ router.post('/user_signup_complete/:id',upload.fields(params), signup.uploadPict
 router.get('/fund/:id', signup.fundProfile);
 router.get('/fund/fund_account/:id', signup.get);
 router.post('/fund_signup/tags/:id', signup.getTags);
+router.post('/fund_signup/countries/:id', signup.getCountries);
+router.post('/fund_signup/religion/:id', signup.getReligion);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
+router.post('/fund_signup/fund_data/:id', signup.insertFundData);
 
 module.exports = router;

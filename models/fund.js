@@ -2,19 +2,21 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Fund = sequelize.define("funds", {
-    // id: {
-    //   type: DataTypes.UUID,
-    //   field: 'id'
-    // },
+    id: {
+      type: DataTypes.INTEGER,
+      field: 'id',
+      primaryKey: true,
+      unique: true,
+      autoIncrement: true,
+    },
     title: {
       type: DataTypes.TEXT,
       field: 'title',
-      allowNull: false
+      unique: true
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'tags',
-      allowNull: false
+      field: 'tags'
     },
     minimum_age: {
       type: DataTypes.INTEGER,
@@ -49,7 +51,10 @@ module.exports = function(sequelize, DataTypes) {
     deadline: {
       type: DataTypes.DATE,
       field: 'deadline',
-      defaultValue: null
+    },
+    start_date: {
+      type: DataTypes.DATE,
+      field: 'start_date'
     },
     link: {
       type: DataTypes.TEXT,
@@ -76,12 +81,17 @@ module.exports = function(sequelize, DataTypes) {
       field: 'financial_situation'
     },
     email: {
-      type: DataTypes.TEXT,
-      field: 'email'
+      type: DataTypes.STRING(40),
+      field: 'email',
+      unique: true
     },
     merit_or_finance: {
       type: DataTypes.TEXT,
       field: 'merit_or_finance'
+    },
+    charity_number:{
+      type: DataTypes.INTEGER,
+      field: 'charity_number'
     }
   }, {
     timestamps: true,

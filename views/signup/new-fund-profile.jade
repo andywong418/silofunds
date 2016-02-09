@@ -45,7 +45,7 @@ block content
 								input#tags-input(type = 'text')
 						.row
 							.col-md-12.center-block
-								p#nationality 4. Please enter a country/countries that students can apply from:
+								p#countries 4. Please enter a country/countries that students can apply from (separate each country with a comma and no space):
 								input#nationality-input(type='text')
 						.row
 							.col-md-12.center-block
@@ -56,49 +56,46 @@ block content
 									p#age 6. Please enter any age requirements of your institution if applicable
 									.row									
 										.col-xs-6
-											input#min-age-input(type='number', placeholder = 'Minimum age', value = "minimum_age") 
+											input#minimum_age(type='number', placeholder = 'Minimum age', value = "minimum_age") 
 										.col-xs-6
-											input#max-age-input(type='number', placeholder = 'Maximum age', value = "maximum_age")
+											input#maximum_age(type='number', placeholder = 'Maximum age', value = "maximum_age")
 						.row
 							.col-md-12.center-block
 									p#amount 7. Please enter the minimum and/or maximum amount of funding given if applicable
 									.row									
 										.col-xs-6
-											input#min-amount-input(type='number', placeholder = 'Minimum amount', value = "minimum_amount") 
+											input#minimum_amount(type='number', placeholder = 'Minimum amount', value = "minimum_amount") 
 										.col-xs-6
-											input#max-amount-input(type='number', placeholder = 'Maximum amount', value = "maximum_amount")
+											input#maximum_amount(type='number', placeholder = 'Maximum amount', value = "maximum_amount")
 						.row
 							.col-md-12.center-block
 								p#merit_or_finance 8. Please specify whether your grant gives funding based on merit, financial situation or both
 								.row
-									.col-xs-3.checkbox
+									.col-xs-3.radio
 										label#merit-column
-											input#merit(type='checkbox', value = "merit") 
+											input#merit(type='radio', value = "merit", name = "merit_or_finance") 
 											span Merit
-									.col-xs-3.checkbox
+									.col-xs-3.radio
 										label#finance-column
-											input#finance(type='checkbox', value = "finance") 
+											input#finance(type='radio', value = "finance", name = "merit_or_finance") 
 											span Financial situation
-									.col-xs-3.checkbox
-										label#both-column
-											input#both(type='checkbox') 
-											span Both
+									#clear-radio.col-xs-3.radio
+										span#clear1 Clear
 						.row
 							.col-md-12.center-block
 								p#gender 9. Please specify whether your grant provides for male, female or both kind of students
 								.row
-									.col-xs-3.checkbox
+									.col-xs-3.radio
 										label#male-column
-											input#merit(type='checkbox', value = "male") 
+											input#male(type='radio', value = "male", name = "gender") 
 											span Male
-									.col-xs-3.checkbox
+									.col-xs-3.radio
 										label#female-column
-											input#female(type='checkbox', value = "female") 
+											input#female(type='radio', value = "female", name = "gender") 
 											span Female
-									.col-xs-3.checkbox
-										label#both-gender
-											input#both-gender-input(type='checkbox') 
-											span Both
+									#clear-radio.col-xs-3.radio
+										span#clear2 Clear
+										
 						.row
 							.col-md-12.center-block
 								p#dates 10. Please enter a date when students can start handing in applications and a deadline for applications
@@ -106,7 +103,7 @@ block content
 									.row
 										.col-xs-5
 											span#start-span Start:
-											input#start.form-control(type='date')
+											input#start_date.form-control(type='date')
 										.col-xs-5#deadline-column
 											span#deadline-span Deadline:
 											input#deadline.form-control(type='date')

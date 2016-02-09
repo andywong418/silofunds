@@ -4,6 +4,7 @@ var fs = require('fs');
 var async = require('async');
 var aws_keyid;
 var aws_key;
+var sequelize = require('sequelize');
 
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_keyid = process.env.AWS_KEYID;
@@ -131,34 +132,135 @@ module.exports = {
   },
 
   fundProfile: function(req, res){
-    console.log("YO", req.params);
     var fundId = req.params.id;
-    console.log("WHAT'S IN HERE", fundId);
     models.users.findById(fundId).then(function(user){
-      console.log("hihihi")
-      res.render('signup/new-fund-profile', {user: user});
+      var scholarshipName = user.username;
+      var email = user.email;
+      var userId = user.id
+      //see if fund already exists on fund table
+      models.funds.findOrCreate({where:{title: scholarshipName}, defaults:{email: email}}).spread(function(user, created){
+        console.log("EVEN HERE", created);
+        
+        if(created){
+          console.log("LOOK AT ME", user);
+          var fund_id = user.id;
+          models.users.findById(fundId).then(function(user){
+            user.update({
+              fund_or_user: fund_id
+            }).then(function(user){
+              res.render('signup/new-fund-profile', {user: user});
+            })
+            
+          })
+        }
+
+        else{
+          console.log("JUST KIDDING WE HERE")
+          var fundTableId = user.id;
+          user.update({
+            email: email
+          }).then(function(user){
+            models.users.findById(fundId).then(function(user){
+              user.update({
+                fund_or_user: fundTableId
+              }).then(function(user){
+                res.render('signup/new-fund-profile', {user: user});
+              })
+            })
+          })
+        }
+      })
     });
   },
   get: function(req, res){
     var id = req.params.id;
     models.users.findById(id).then(function(user){
-      res.json(user);
+      var fundUser = user;
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" || attrname != "description" || attrname != "religion" || attrname != "created_at" || attrname != "updated_at"){
+
+            user["dataValues"][attrname] = fund[attrname];
+
+          }         
+        }
+        res.json(user);
+      })
+
     })
 
   },
   getTags:function(req, res){
     var id = req.params.id;
-    console.log("Hello helo hel");
     console.log(req.body);
-    var tagArray = req.body["tags[]"];
+    var tagArray;
+    var tags = req.body["tags[]"];
+    if(Array.isArray(tags)){
+      tagArray = tags;
+    }
+    else{
+      tagArray= [];
+      tagArray.push(tags);
+    }
     console.log(tagArray);
     models.users.findById(id).then(function(user){
-      console.log("USER", user);
-      user.update({
-        tags: tagArray
-      }),then(function(user){
-        res.send(data);
+      models.funds.findById(user.fund_or_user).then(function(user){
+        user.update({
+          tags: tagArray
+        }).then(function(data){
+          res.send(data);
+        })
       })
+      
+    })
+  },
+  getCountries: function(req, res){
+    var id = req.params.id;
+    console.log(req.body);
+    var countriesArray;
+    var countries = req.body["countries[]"];
+    if(Array.isArray(countries)){
+      countriesArray = countries;
+   }
+   else{
+      countriesArray = [];
+      countriesArray.push(countries);
+     }
+    console.log(countriesArray);
+    models.users.findById(id).then(function(user){
+      models.funds.findById(user.fund_or_user).then(function(user){
+        user.update({
+          countries: countriesArray
+        }).then(function(data){
+          res.send(data);
+        })
+      })
+      
+    })
+
+
+  },
+  getReligion: function(req, res){
+     var id = req.params.id;
+    var religionArray;
+    var religion = req.body["religion[]"];
+   if(Array.isArray(religion)){
+      religionArray = religion;
+   }
+   else{
+      religionArray = [];
+      religionArray.push(religion);
+     }
+    console.log(religionArray);
+    models.users.findById(id).then(function(user){
+      models.funds.findById(user.fund_or_user).then(function(user){
+        user.update({
+          religion: religionArray
+        }).then(function(data){
+          res.send(data);
+        })
+      })
+      
     })
   },
   fundAccount: function(req, res){
@@ -205,10 +307,29 @@ module.exports = {
       console.log("BIG TINGS", req.body);
       models.users.findById(userId).then(function(user){
         user.update(req.body).then(function(user){
-          co
-          res.send(user);
+          models.funds.findById(user.fund_or_user).then(function(fund){
+            fund.update(req.body).then(function(user){
+              res.send(user);
+            })
+          })
+          
         })
       })
     }
+  },
+  insertFundData: function(req, res){
+    var userId = req.params.id;
+    console.log("KENDRICK", req.body);
+    models.users.findById(userId).then(function(user){
+      var fundId = user.fund_or_user;
+      console.log(fundId);
+      models.funds.findById(fundId).then(function(user){
+        console.log("HMMMMMMMMMMM", user);
+        user.update(req.body).then(function(user){
+          console.log("ERROR");
+          res.send(user);
+        })
+      })
+    })
   }
 };

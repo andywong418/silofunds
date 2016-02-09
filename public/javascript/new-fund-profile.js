@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+	console.log("LOLOLOL TROLL", fund_setup);
 	var FundModel = Backbone.Model.extend({
 		url: 'fund_account/' + fund_setup.id
 	});
@@ -93,7 +94,7 @@ $(document).ready(function(){
   			if (code == 13){
 
   				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
   			}
@@ -102,7 +103,7 @@ $(document).ready(function(){
 
 
   				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
   			
@@ -131,8 +132,8 @@ $(document).ready(function(){
   		if(this.model.get("tags")){
   			this.$("#tags-input").val(this.model.get("tags"));
   		}
-  		if(this.model.get("nationality")){
-  			this.$("#nationality-input").val(this.model.get("nationality"));
+  		if(this.model.get("countries")){
+  			this.$("#nationality-input").val(this.model.get("countries"));
   		}
   		if(this.model.get("religion")){
   			this.$("#religion-input").val(this.model.get("religion"));
@@ -149,24 +150,69 @@ $(document).ready(function(){
 	  			})
   			}
   		});
-
-  		$(document).on('blur', '#nationality-input, #religion-input', function(){
+  			$(document).on('blur', '#nationality-input', function(){
 	  		if($(this).val()){
 	  			var field = $(this).siblings().attr('id');
 	  			var value = $(this).val();
+	  			var countriesArray = value.split(',');
 	  			var parameters = {};
-	  			parameters[field] = value;
-	  			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
+	  			parameters["countries"] = countriesArray;
+	  			$.post('/signup/fund_signup/countries/' + fund_setup.id, parameters, function(data){
 	  				console.log(data);
 	  			})
   			}
   		});
 
-  		// $(document).on('blur', '#min-age-input,#max-age-input,#min-amount-input,#max-amount-input'){
-  		// 	var field = $(this).siblings().attr('id');
-  		// }
+  		$(document).on('blur', '#religion-input', function(){
+	  		if($(this).val()){
+	  			var field = $(this).siblings().attr('id');
+	  			var value = $(this).val();
+	  			var religionArray = value.split(',');
+	  			var parameters = {};
+	  			parameters[field] = religionArray;
+	  			console.log(religionArray);
+	  			$.post('/signup/fund_signup/religion/' + fund_setup.id, parameters, function(data){
+	  				console.log(data);
+	  			})
+  			}
+  		});
 
+  		$(document).on('blur', '#maximum_age, #minimum_age, #maximum_amount, #minimum_amount, #start_date, #deadline', function(){
+  			if($(this).val()){
+  				var field = ($(this).attr('id'))
+  				var value = $(this).val();
+  				var parameters = {};
+  				parameters[field] = value;
+  				console.log(field);
+  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  					console.log(data);
+  				})
+  			}
+  		})
 
+  		$(document).on('click', '#merit, #finance, #male, #female', function(){
+  			if($(this).val()){
+  				var field = $(this).attr("name");
+  				var value = $(this).val();
+  				console.log(value);
+  				var parameters = {};
+  				parameters[field] = value;
+  				console.log(parameters);
+  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  					console.log(data);
+  				})
+  			}
+  		})
+
+  		this.clearRadio();
+  	},
+  	clearRadio: function(){
+  		$(document).on('click', '#clear1', function(){
+  			$("#merit, #finance").prop("checked", false);
+  		});
+  		$(document).on('click', '#clear2', function(){
+  			$("#male, #female").prop("checked", false);
+  		})
   	}
   });
 	
