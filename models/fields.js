@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes){
     },
     html: {
     	type: DataTypes.TEXT,
-    	field: 'title',
+    	field: 'html',
     },
     created_at: {
       type: DataTypes.DATE,

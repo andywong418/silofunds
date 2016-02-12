@@ -17,10 +17,14 @@ router.get('/user/:id', signup.userProfile);
 router.post('/user_signup_complete/:id',upload.fields(params), signup.uploadPicture, signup.uploadWork, signup.uploadInfo);
 router.get('/fund/:id', signup.fundProfile);
 router.get('/fund/fund_account/:id', signup.get);
+router.get('/fund/fund_account/application/:id', signup.getApplication);
 router.post('/fund_signup/tags/:id', signup.getTags);
 router.post('/fund_signup/countries/:id', signup.getCountries);
 router.post('/fund_signup/religion/:id', signup.getReligion);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
+router.post('/fund_signup/fund_application/:id', signup.applicationCategory);
+router.post('/fund_signup/change_category/:id', signup.changeCategory);
+router.post('/fund_signup/add_category/:id', signup.addCategory);
 
 module.exports = router;

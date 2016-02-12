@@ -36,7 +36,18 @@ $(document).ready(function(){
 			if(this.model.get('charity_number')){
 				this.$("#charity-input").val( this.model.get('charity_number'));
 			}
-		
+			
+			var categoriesArray = $.map(this.model.get("categories"), function(value, index) {
+   				 return [value];
+				});
+
+			if(categoriesArray.length == 0){
+				parameters = {title: "General", status: "setup" };
+  			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
+  			console.log(data);
+  			});
+			}
+			
   		$(document).on('click', '#profile-picture', function(){
   			console.log('HI');
 			    $("input[id='my_file']").click();
@@ -282,6 +293,123 @@ $(document).ready(function(){
   			})
   			var view = new ApplicationView({model: application});
   			this.$el.append(view.render().el);
+  			var counter = 0;
+  			$(document).on('click', function(){
+  				if(counter == 0){
+	  				$(".instruction-pointer").css("display", "none");
+	  				$(".instruction-pointer-2").css("display", "inline");
+	  				counter++
+  				}
+  				else if(counter == 1){
+  				$(".instruction-pointer-2").css("display", "none");
+  					counter++;
+  				}
+  			})
+  			this.editCategory();
+  			this.editField();
+			},
+			editCategory: function(){
+				categoriesArray= this.model.get("categories");
+
+		
+					for(var i = categoriesArray.length -1; i >= 0; i--){
+					this.$(".cd-switcher").prepend("<li class = 'replacer' id = '" + categoriesArray[i].id + "'>" + categoriesArray[i].title + "</li>");
+					}
+					this.$(".cd-switcher li").first().css("background-color", "#BFBFBF");
+					this.$(".cd-switcher li").first().addClass("active");
+
+				// $(document).on('click', '.replacer', function(){
+				// 	 var categoryId = $(this).attr("id"); 
+				// 	 if($(this).children().prop('tagName') == 'INPUT'){
+				// 	 	return true;
+				// 	 }
+				// 	 else{
+				// 	 	$(this).html("<input class = 'categoryReplacer' id = '"+ categoryId + "', type = 'text'></input>");// REPLACE WITH TEXT AREA
+				// 	 }
+
+				// })
+
+
+				$(document).on('click', '.replacer', function(){
+					var categoryId = $(this).attr('id');
+					$("#" + categoryId).css("background-color", "#BFBFBF");
+					$("#" + categoryId).addClass("active");
+					$(".cd-switcher li").not("#" + categoryId + ",#add-category").css("background-color", "white");
+					$(".cd-switcher li").not("#" + categoryId + ",#add-category").removeClass("active");
+
+				})
+				$(document).on('click', '#add-category', function(){
+					$(this).before("<li><input id = 'addition', type = 'text'></input></li>");
+				})
+				// $(document).on('blur', '.categoryReplacer', function(){
+				// 	console.log($(this).val());
+				// 	var newTitle = $(this).val();
+				// 	var categoryId = $(this).attr("id");
+				// 	console.log("ID", categoryId);
+				// 	var parameters = {title: newTitle, category_id: categoryId};
+				// 	$.post('/signup/fund_signup/change_category/' + fund_setup.fund_or_user, parameters, function(data){
+				// 		console.log(data);
+				// 	})
+				// });
+				$(document).on('blur', "#addition", function(){
+					var newTitle = $(this).val();
+					var parameters = {title: newTitle};
+					$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
+						console.log(data);
+					})
+				})
+			},
+			editField: function(){
+				$(document).on('click', '#add-field', function(){
+					$("#application-info").css("z-index", "-1");
+
+					$("#field-modal").css("display", "block");
+				});
+
+				$(document).on('click', '.close', function(){
+					$("#application-info").css("z-index", "5");
+					$("#field-modal").css("display", "none");
+				});
+
+				$(document).on('click', '#description-text', function(){
+					$("#text, #upload, #checkbox").attr('disabled', true);
+				});
+
+				$(document).on('click', '#questions', function(){
+					$("#text, #upload, #checkbox").attr('disabled', false);
+				});
+
+
+				$(document).on('click', '#submit', function(){
+					var questions = $("#questions").prop("checked");
+					var descriptionText = $("#description-text").prop("checked");
+					var text = $("#text").prop("checked");
+					var upload = $("#upload").prop("checked");
+					var checkbox = $("#checkbox").prop("checked");
+					console.log(questions);
+					var id = $(".active").attr("id");
+					console.log("ID FOUND", id);
+					if(questions && text ){
+						$("#application-info").css("z-index", "5");
+						$("#field-modal").css("display", "none");
+						$("#add-field").before("<input placeholder = 'Type your question here' id = '" + id + "' class = 'add-text-question'></input> <textarea placeholder = 'The applicant will type their answer here' id = '" + id + "' class = 'add-question-area'></textarea>")
+					}
+					else if (questions && upload){
+						$("#application-info").css("z-index", "5");
+						$("#field-modal").css("display", "none");
+						$("#add-field").before("<input placeholder = 'Type your question here' id = '" + id + "' class = 'add-file-question'></input> <input type = 'file' class = 'add-file-answer' id = '" + id + "' class = 'add-file-answer'></input>")
+					}
+					else if (questions && checkbox){
+							$("#application-info").css("z-index", "5");
+						$("#field-modal").css("display", "none");
+						$("#add-field").before("<input placeholder = 'Type your question here' id = '" + id + "' class = 'add-checkbox-question'></input> <input type = 'checkbox' class = 'add-file-answer' id = '" + id + "' class = 'add-checkbox-answer'></input>")
+					}
+					else if (descriptionText){
+						$("#application-info").css("z-index", "5");
+						$("#field-modal").css("display", "none");
+						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
+					}
+				})
 			}
   })
 	
@@ -316,9 +444,13 @@ $(document).ready(function(){
 		})
 	},
 	application: function() {
-		var applicationModel = new FundModel();
+		var ApplicationModel = Backbone.Model.extend({
+			url: "fund_account/application/" + fund_setup.id
+		})
+		var applicationModel = new ApplicationModel();
 		applicationModel.fetch({
 			success:function(){
+				console.log(JSON.stringify(applicationModel));
 				router.loadView(new ApplicationDisplay({model: applicationModel }));
 			}
 			

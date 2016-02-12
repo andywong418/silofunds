@@ -263,6 +263,42 @@ module.exports = {
       
     })
   },
+  getApplication: function(req, res){
+      var id = req.params.id;
+    models.users.findById(id).then(function(user){
+      var fundUser = user;
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" || attrname != "description" || attrname != "religion" || attrname != "created_at" || attrname != "updated_at"){
+
+            user["dataValues"][attrname] = fund[attrname];
+
+          }         
+        }
+        var fields= [];
+        models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
+          if(application){
+            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+            // for (var category in categories){
+            //   console.log(category);
+            //   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
+            //     console.log(field)
+            //   })
+
+
+            user["dataValues"]["categories"] = categories;
+            res.json(user);
+           })
+          }
+          else{
+            res.json(user);
+          }
+        
+        })
+      })
+
+    })
+  },
   fundAccount: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-fund-profile-" + userId;
@@ -329,6 +365,55 @@ module.exports = {
           console.log("ERROR");
           res.send(user);
         })
+      })
+    })
+  },
+  applicationCategory: function(req, res){
+    var fundId = req.params.id;
+    var status = req.body.status;
+    var title = req.body.title;
+    console.log(fundId);
+    models.applications.findOrCreate({
+      where:{
+      Fund_userid: fundId
+    }, defaults: { status: status}}).spread(function(user, created){
+      if(created){
+        models.categories.create({
+          title: title,
+          application_id: user.id
+        }).then(function(data){
+          res.send(data);
+        })
+      }
+      else{
+        models.categories.find({where: {application_id: user.id}}).then(function(data){
+        })
+      }
+    })
+  },
+  changeCategory: function(req, res){
+    var fundId = req.params.id;
+    var title = req.body.title;
+    var categoryId = req.body.category_id;
+
+    models.categories.findById(categoryId).then(function(category){
+      category.update({
+        title: title
+      }).then(function(data){
+        res.send(data);
+      })
+    })
+  
+  },
+  addCategory: function(req, res){
+    var fundId = req.params.id;
+    var title = req.body.title;
+    models.applications.find({where: {Fund_userid: fundId, status: 'setup'}}).then(function(application){
+      models.categories.create({
+        title: title,
+        application_id: application.id
+      }).then(function(data){
+        res.send(data);
       })
     })
   }
