@@ -14,7 +14,6 @@ block content
           i.fa.fa-bars
         a.navbar-brand(href="/")
           img#brand-image(src="images/transparent silo icon graphic.png")
-
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse.navbar-main-collapse
         ul.nav.navbar-nav.navbar-left
@@ -135,7 +134,7 @@ block content
               //
             // cd-login
         .col-md-8.col-md-offset-2
-
+          != messages('messages', locals)
           h1.brand-heading
             | 
             span.title

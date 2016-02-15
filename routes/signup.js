@@ -11,6 +11,7 @@ var params = [
 
 router.post('/', signup.addUser);
 router.get('/', function(req, res) {
+  req.flash('danger', 'Please signup from here.');
   res.redirect('/');
 });
 router.post('/results', function(req,res){

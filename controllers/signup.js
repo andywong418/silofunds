@@ -46,7 +46,7 @@ module.exports = {
 	      res.render('signup/new-user-profile', {user: user});
 	    });
 		} else {
-			// TODO: add flash error message to be shown on homepage. req.session.error = ...
+			req.flash('danger', 'Please signup from here.');
 			res.redirect('/');
 		}
   },

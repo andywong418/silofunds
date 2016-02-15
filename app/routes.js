@@ -10,7 +10,7 @@ var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
 var basicAuth = require('basic-auth');
 
-var auth = function (req, res, next) {
+var auth_admin = function (req, res, next) {
   function unauthorized(res) {
     res.set('WWW-Authenticate', 'Basic realm=Admin Authorization Required');
     return res.send(401);
@@ -48,7 +48,7 @@ module.exports.initialize = function (app) {
   app.use('/signup', signup);
   app.use('/login', login);
   app.use('/auth', auth);
-  app.use('/admin', auth, admin);
+  app.use('/admin', auth_admin, admin);
   app.use('/autocomplete', autocomplete);
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
