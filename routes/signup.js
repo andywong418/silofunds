@@ -10,9 +10,12 @@ var params = [
 ];
 
 router.post('/', signup.addUser);
+router.get('/', function(req, res) {
+  res.redirect('/');
+});
 router.post('/results', function(req,res){
 	res.redirect('/results');
-})
+});
 router.get('/user/:id', signup.userProfile);
 router.post('/user_signup_complete/:id',upload.fields(params), signup.uploadPicture, signup.uploadWork, signup.uploadInfo);
 
