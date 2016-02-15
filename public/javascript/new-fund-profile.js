@@ -303,14 +303,24 @@ $(document).ready(function(){
   				$(".instruction-pointer-2").css("display", "none");
   					counter++;
   				}
-  			})
+  			});
+
+  			$( window ).resize(function() {
+				  var savedLength = $("ul.cd-switcher").width();
+							$("ul.cd-switcher").width($("#application-form").width());
+							var formLength = $("#application-form").width();
+							console.log("-" + (formLength - savedLength) + "px");
+							if(formLength = savedLength != 0){
+								$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
+							}
+				});
+
   			this.editCategory();
   			this.editField();
 			},
 			editCategory: function(){
-				categoriesArray= this.model.get("categories");
-
-		
+				
+				categoriesArray= this.model.get("categories");		
 					for(var i = categoriesArray.length -1; i >= 0; i--){
 					this.$(".cd-switcher").prepend("<li class = 'category' id = '" + categoriesArray[i].id + "'>" + categoriesArray[i].title + "</li>");
 					}
@@ -340,6 +350,12 @@ $(document).ready(function(){
 									$("#add-field").before("<p class = 'description-filler' id= '" +  data[i].id + "'><span class = question-pointer>" + parsed.description + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p> <hr>");
 								}
 							}
+							var savedLength = $("ul.cd-switcher").width();
+							$("ul.cd-switcher").width($("#application-form").width());
+							var formLength = $("#application-form").width();
+							console.log("-" + (formLength - savedLength) + "px");
+							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
+							
 						}
 					});
 
@@ -373,7 +389,15 @@ $(document).ready(function(){
 					})
 				})
 				$(document).on('click', '#add-category', function(){
-					$(this).before("<li><input id = 'addition', type = 'text'></input></li>");
+					var savedLength = $("ul.cd-switcher").width();
+					$("ul.cd-switcher").width($("#application-form").width());
+					var formLength = $("#application-form").width();
+					console.log("-" + (formLength - savedLength) + "px");
+					if(formLength = savedLength != 0){
+					$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
+					}
+					// var w = 50/n;
+					$(this).before("<li><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
 					$("#add-field").siblings().not("#delete-category").remove();
 				})
 
@@ -381,16 +405,18 @@ $(document).ready(function(){
 				$(document).on('blur', "#addition", function(){
 					var newTitle = $(this).val();		
 					console.log($(this).parent());	
-					var parent = $(this).parent();
-					$(".cd-switcher li").not(this).removeClass("active");
-					$(".cd-switcher li").not(this).css("background-color", "white");
-					var parameters = {title: newTitle};
-					$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
-						console.log(data);
-						parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'>" + data.title + "</li>");
+					if($(this).val()){
+						var parent = $(this).parent();
+						$(".cd-switcher li").not(this).removeClass("active");
+						$(".cd-switcher li").not(this).css("background-color", "white");
+						var parameters = {title: newTitle};
+						$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
+							console.log(data);
+							parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
 
 
-					})
+						})
+					}
 				})
 				$(document).on('click', '#delete-category', function(){
 					var categoryId = $(".active").attr("id");
