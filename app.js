@@ -36,7 +36,6 @@ app.use(logger('dev'));
 app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(flash());
 
 var redisHost = 'localhost';
 var redisPort = 6379;
@@ -67,7 +66,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
 
 // Load routes
 routes.initialize(app);
