@@ -149,6 +149,7 @@ body{
 	display: inline;
 	margin-top: 50px;
 	margin-bottom: 15px;
+	object-fit: cover;
 
 }
 .center-block{

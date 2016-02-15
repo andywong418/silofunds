@@ -121,12 +121,15 @@ block content
 						li#add-category
 							i.fa.fa-plus
 					.instruction-pointer
-						p Sort your application into different parts (e.g. applicant information, referees, etc). Change the title of the category by clicking on the text.
+						p Sort your application into different parts (e.g. applicant information, referees, etc). Add a category by clicking on the grey icon.
 					#application-form
 						.col-md-6.center-block
 							p#add-field Add a field for this category
 								span#add-icon
 									i.fa.fa-plus-circle
+							p#delete-category Delete this category
+								span#delete-icon
+									i.fa.fa-times
 							.instruction-pointer-2
 								p Add a description text area or a question and specify the type of applicant input (if any) desired.
 				#field-modal.container.content-section.text-center
@@ -136,22 +139,22 @@ block content
 								h4 Your input
 							.col-md-6
 								input#questions(type="radio", name = "question-type") 
-								|	Questions for applicants
+								| Questions for applicants
 							.col-md-6
 								input#description-text(type="radio", name="question-type") 
-								|	Description Text field
+								| Description Text field
 						.row
 							.col-md-4.center-block
 								h4 Applicant input
 							.col-md-4
 								input#text(type="radio", name = "answer-type") 
-								|	Text answer
+								| Text answer
 							.col-md-4
 								input#upload(type="radio", name = "answer-type") 
 								| File upload
 							.col-md-4
 								input#checkbox(type="radio", name = "answer-type") 
-								|	Checkbox
+								| Checkbox
 						.row
 							.col-md-4.center-block
 								button#submit(class = 'btn btn-success') Save

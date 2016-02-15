@@ -25,6 +25,12 @@ router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAcc
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
 router.post('/fund_signup/fund_application/:id', signup.applicationCategory);
 router.post('/fund_signup/change_category/:id', signup.changeCategory);
+router.get('/fund_signup/delete_category/:id', signup.deleteCategory)
 router.post('/fund_signup/add_category/:id', signup.addCategory);
+router.post('/fund_signup/add_field/:id', signup.addField);
+router.post('/fund_signup/edit_field/:id', signup.editField);
+router.get('/fund_signup/get_fields/:id', signup.getFields);
+router.get('/fund_signup/delete_field/:id', signup.deleteField);
+
 
 module.exports = router;

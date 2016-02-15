@@ -236,7 +236,7 @@ body{
 	vertical-align: bottom;
 	position: relative;
 	z-index: 7;
-	padding-top: 10px;
+	padding-top: 7px;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-bottom: 4px;
@@ -247,7 +247,7 @@ body{
 		border-top-left-radius: 3px;
 }
 #application-form{
-	margin-top: -6px;
+	margin-top: -9px;
 	background-color: white;
 	display: block;
 	text-align: center;
@@ -265,7 +265,7 @@ body{
 	box-sizing: border-box;
 }
 
-#add-field{
+#add-field, #delete-category{
 	margin-top: 20px;
 	border: 3px #337ab7 dashed;
 	color:#337ab7;
@@ -280,6 +280,10 @@ body{
 #add-icon{
 	font-size: 17px;
 	margin-left: 10%;
+}
+ #delete-icon{
+	font-size: 17px;
+	margin-left: 5%;
 }
 
 .instruction-pointer {
@@ -388,16 +392,21 @@ body{
     text-decoration: none;
     cursor: pointer;
 }
-.add-text-question, .add-question-area{
+
+.add-text-question{
+	margin-top: 30px;
 	width: 150%;
 	margin-left: -25%;
-}
-.add-text-question{
-	margin-top: 30px
+	margin-bottom: 20px;
 }
 
-.add-question-area{
-	margin-top: 20px;
+.add-text-answer{
+	width: 100%
+}
+
+.add-text{
+	width: 100%;
+
 }
 
 .add-file-question{
@@ -408,13 +417,26 @@ body{
 .add-file-answer{
 
 	display: inline-block;  
-	margin: 5% auto;
+	margin: 3% 20%;
+	margin-bottom: 20px;
 }
 
 .add-checkbox-question{
 	width: 80%;
 	margin-right: 20px;
 	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+.add-checkbox-answer{
+	display: inline;
+	margin-left: 10px !important;
+	margin-bottom: 10%;
+}
+
+.input-filler{
+	display: inline;
+	font-size: 17.5px;
 }
 
 .add-description-field{
@@ -424,4 +446,29 @@ body{
 	margin-left: -25%;
 }
 
+.paragraph-filler, .description-filler{
+	margin-top: 20px;
+	font-size: 17.5px;
+}
 
+.add, .delete{
+	float: right;
+	color: #81CFE0;
+	cursor: pointer;
+	margin-bottom: 15px;
+}
+.add{
+	margin-right: 10px;
+	margin-left: 20px;
+}
+.delete{
+	margin-right: -20px;
+}
+
+hr{
+	border-top: 1px solid white
+}
+.edit-text-question, .edit-text-description{
+	width: 150%;
+	margin-left: -25%;
+}

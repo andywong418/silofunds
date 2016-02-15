@@ -26,7 +26,7 @@ $(document).ready(function(){
   		var view = new AccountView({model: account});
   		this.$el.append(view.render().el);
   		
-  		console.log(this.model);
+
   		if(this.model.get('profile_picture')){
 				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
 			}
@@ -37,11 +37,10 @@ $(document).ready(function(){
 				this.$("#charity-input").val( this.model.get('charity_number'));
 			}
 			
-			var categoriesArray = $.map(this.model.get("categories"), function(value, index) {
-   				 return [value];
-				});
+			var categoriesArray = this.model.get('categories');
+			console.log(categoriesArray);
 
-			if(categoriesArray.length == 0){
+			if(!categoriesArray){
 				parameters = {title: "General", status: "setup" };
   			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
   			console.log(data);
@@ -313,56 +312,105 @@ $(document).ready(function(){
 
 		
 					for(var i = categoriesArray.length -1; i >= 0; i--){
-					this.$(".cd-switcher").prepend("<li class = 'replacer' id = '" + categoriesArray[i].id + "'>" + categoriesArray[i].title + "</li>");
+					this.$(".cd-switcher").prepend("<li class = 'category' id = '" + categoriesArray[i].id + "'>" + categoriesArray[i].title + "</li>");
 					}
 					this.$(".cd-switcher li").first().css("background-color", "#BFBFBF");
 					this.$(".cd-switcher li").first().addClass("active");
+					var onLoadCategory = this.$(".cd-switcher li").first().attr("id");
+					console.log(onLoadCategory);
+					$.get('/signup/fund_signup/get_fields/' + onLoadCategory, function(data){
+						if(data){
+							var parsedData = JSON.parse(data[1].html);
+							console.log(parsedData.question_tag);
+							console.log(parsedData);
+							console.log(data[1]);
+							for (var i = 0; i < data.length; i++){
+								var parsed = JSON.parse(data[i].html);
+								console.log(parsed);
+								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
+									$("#add-field").before("<p class = 'paragraph-filler' id = '" + data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" +  data[i].id + "'></textarea> <hr>");
+								}
+								else if(parsed.question_tag  && parsed.applicant_input_type == "file"){
+									$("#add-field").before("<p class = 'input-filler' id = '" + data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><input type = 'file' placholder = 'The applicant will type their answer here' class = 'add-file-answer' id= '" + data[i].id + "' /> <hr>");
+								}
+								else if (parsed.question_tag  && parsed.applicant_input_type == "checkbox"){
+									$("#add-field").before("<p class = 'input-filler' id = '" +  data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><input type = 'checkbox' class = 'add-checkbox-answer' id= '"+ data[i].id + "' /> <hr>");
+								}
+								else{
+									$("#add-field").before("<p class = 'description-filler' id= '" +  data[i].id + "'><span class = question-pointer>" + parsed.description + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p> <hr>");
+								}
+							}
+						}
+					});
 
-				// $(document).on('click', '.replacer', function(){
-				// 	 var categoryId = $(this).attr("id"); 
-				// 	 if($(this).children().prop('tagName') == 'INPUT'){
-				// 	 	return true;
-				// 	 }
-				// 	 else{
-				// 	 	$(this).html("<input class = 'categoryReplacer' id = '"+ categoryId + "', type = 'text'></input>");// REPLACE WITH TEXT AREA
-				// 	 }
-
-				// })
-
-
-				$(document).on('click', '.replacer', function(){
+				$(document).on('click', '.category', function(){
 					var categoryId = $(this).attr('id');
 					$("#" + categoryId).css("background-color", "#BFBFBF");
 					$("#" + categoryId).addClass("active");
-					$(".cd-switcher li").not("#" + categoryId + ",#add-category").css("background-color", "white");
-					$(".cd-switcher li").not("#" + categoryId + ",#add-category").removeClass("active");
-
+					$(".cd-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
+					$(".cd-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
+					console.log($("#add-field").siblings());
+					$("#add-field").siblings().not("#delete-category").remove();
+					$.get('/signup/fund_signup/get_fields/' + categoryId, function(data){
+						if(data){
+							for (var i = 0; i < data.length; i++){
+								var parsed = JSON.parse(data[i].html);
+								console.log(parsed);
+								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
+									$("#add-field").before("<p class = 'paragraph-filler' id = '" +  data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" + data[i].id + "'></textarea> <hr>");
+								}
+								else if(parsed.question_tag  && parsed.applicant_input_type == "file"){
+									$("#add-field").before("<p class = 'input-filler' id = '" +  data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><input type = 'file' placholder = 'The applicant will type their answer here' class = 'add-file-answer' id= '" +  data[i].id + "' /> <hr>");
+								}
+								else if (parsed.question_tag  && parsed.applicant_input_type == "checkbox"){
+									$("#add-field").before("<p class = 'input-filler' id= '" + data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><input type = 'checkbox' class = 'add-checkbox-answer' id= '" + data[i].id + "' /> <hr>");
+								}
+								else{
+									$("#add-field").before("<p class = 'description-filler' id = '" + data[i].id + "'><span class = question-pointer>" + parsed.description + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p> <hr>");
+								}
+							}
+						}
+					})
 				})
 				$(document).on('click', '#add-category', function(){
 					$(this).before("<li><input id = 'addition', type = 'text'></input></li>");
+					$("#add-field").siblings().not("#delete-category").remove();
 				})
-				// $(document).on('blur', '.categoryReplacer', function(){
-				// 	console.log($(this).val());
-				// 	var newTitle = $(this).val();
-				// 	var categoryId = $(this).attr("id");
-				// 	console.log("ID", categoryId);
-				// 	var parameters = {title: newTitle, category_id: categoryId};
-				// 	$.post('/signup/fund_signup/change_category/' + fund_setup.fund_or_user, parameters, function(data){
-				// 		console.log(data);
-				// 	})
-				// });
+
+
 				$(document).on('blur', "#addition", function(){
-					var newTitle = $(this).val();
+					var newTitle = $(this).val();		
+					console.log($(this).parent());	
+					var parent = $(this).parent();
+					$(".cd-switcher li").not(this).removeClass("active");
+					$(".cd-switcher li").not(this).css("background-color", "white");
 					var parameters = {title: newTitle};
 					$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
 						console.log(data);
+						parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'>" + data.title + "</li>");
+
+
+					})
+				})
+				$(document).on('click', '#delete-category', function(){
+					var categoryId = $(".active").attr("id");
+					var closestCategory;
+					if($(".active").prev("li").prop("tagName") != "LI"){
+						closestCategory = $(".active").next("li");
+					}
+					else{
+						closestCategory = $(".active").prev("li");
+					}
+					console.log(closestCategory);
+					$.get('/signup/fund_signup/delete_category/'+ categoryId, function(data){
+						$(".active").remove();
+						closestCategory.click();
 					})
 				})
 			},
 			editField: function(){
 				$(document).on('click', '#add-field', function(){
 					$("#application-info").css("z-index", "-1");
-
 					$("#field-modal").css("display", "block");
 				});
 
@@ -392,7 +440,7 @@ $(document).ready(function(){
 					if(questions && text ){
 						$("#application-info").css("z-index", "5");
 						$("#field-modal").css("display", "none");
-						$("#add-field").before("<input placeholder = 'Type your question here' id = '" + id + "' class = 'add-text-question'></input> <textarea placeholder = 'The applicant will type their answer here' id = '" + id + "' class = 'add-question-area'></textarea>")
+						$("#add-field").before("<input placeholder = 'Type your question here' id = '" + id + "' class = 'add-text-question'></input> <textarea placeholder = 'The applicant will type their answer here' id = '" + id + "' class = 'add-text-answer'></textarea>")
 					}
 					else if (questions && upload){
 						$("#application-info").css("z-index", "5");
@@ -410,6 +458,108 @@ $(document).ready(function(){
 						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
 					}
 				})
+
+				$(document).on('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field', function(){
+						var categoryId = $(this).attr('id');
+						var questionClass = $(this).attr('class');
+						var classArray = questionClass.split("-");
+						var classNeeded = classArray[1];
+						var applicantInput = $(this).next().prop("tagName").toLowerCase();
+						var applicantInputClass = $(this).next().attr('class');
+						var applicantInputType = $(this).next().prop('type');
+						var question = $(this).val();
+						var saveInput = $(this);
+						var saveApplicantInput = $(this).next();
+						var parameters = {};
+						if (classNeeded == "text" || classNeeded == "file" || classNeeded == 'checkbox' ){
+							parameters = {
+								question_tag: "input",
+								question: question,
+								applicant_input_type: applicantInputType
+							}
+							$.post('/signup/fund_signup/add_field/' + categoryId, parameters, function(data){
+								console.log(data);
+								saveInput.replaceWith("<p id = '" + data.id + "' class = 'paragraph-filler'><span class = question-pointer>" + question + "</span><span><i class = 'fa fa-times delete' id= '" + data.id + "'></i><i class = 'fa fa-pencil add' id = '" + data.id + "'></i> </span></p> <hr> ")
+							})
+						}
+						else{
+							parameters = {
+								description_tag: "textarea",
+								description: question
+							}
+							$.post('/signup/fund_signup/add_field/' + categoryId, parameters, function(data){
+								console.log(data);
+								saveInput.replaceWith("<p id = '" + data.id + "' class = 'description-filler'><span class = question-pointer>" + question + "</span><span><i class = 'fa fa-times delete' id= '" + data.id + "'></i><i class = 'fa fa-pencil add' id = '" + data.id + "'></i> </span></p> <hr>");
+							})
+						}
+				})
+				$(document).on('click', '.add', function(){
+						var fieldId = $(this).attr("id");
+						var val = $(this).parent().prev().html();
+						var question_or_description = $(this).parent().parent();
+						console.log(question_or_description);
+						console.log(fieldId);
+						console.log(val);
+					  if(question_or_description.attr('class') == 'paragraph-filler' || question_or_description.attr('class') == 'input-filler'){
+						$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+						}
+
+						else{
+							$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-description'></input>");
+						
+						}
+				})
+
+				$(document).on('blur', '.edit-text-question, .edit-text-description', function(){
+					var fieldId = $(this).attr("id");
+					var value = $(this).val();
+					var inputClass = $(this).attr("class");
+					var applicantInputType = $(this).parent().parent().next().prop('type');
+					console.log(applicantInputType);
+					var saveInput = $(this);
+					if(inputClass == 'edit-text-question'){
+							var parameters = {
+								question_tag: "input",
+								question: value,
+								applicant_input_type: applicantInputType
+							}
+							$.post('/signup/fund_signup/edit_field/' + fieldId, parameters, function(data){
+								saveInput.replaceWith("<p id = '" + data.id + "' class = 'paragraph-filler'>" + value + "</p> ");
+							})
+					}
+					else{
+						var parameters = {
+								description_tag: "textarea",
+								description: value
+							}
+							$.post('/signup/fund_signup/edit_field/' + fieldId, parameters, function(data){
+								saveInput.replaceWith("<p id = '" + fieldId + "' class = 'description-filler'>" + value + "</p> ")
+							})
+					}
+
+				})
+
+				$(document).on('click', '.delete', function(){
+					var fieldId = $(this).attr("id");
+					var question = $(this).parent().parent();
+					var answer = $(this).parent().parent().next();
+					var hr = $(this).parent().parent().next().next();
+
+					$.get('/signup/fund_signup/delete_field/'+ fieldId, function(data){
+						if(question == 'paragraph-filler' || question == 'input-filler'){
+							question.remove();
+							answer.remove();
+							hr.remove();
+						}
+						else{
+							question.remove();
+							answer.remove();
+						}
+						
+					})
+
+				})
+
 			}
   })
 	

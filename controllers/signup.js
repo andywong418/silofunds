@@ -284,8 +284,6 @@ module.exports = {
             //   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
             //     console.log(field)
             //   })
-
-
             user["dataValues"]["categories"] = categories;
             res.json(user);
            })
@@ -405,6 +403,15 @@ module.exports = {
     })
   
   },
+  deleteCategory: function(req, res){
+    var categoryId = req.params.id;
+    console.log("SOMETHING", categoryId);
+    models.categories.findById(categoryId).then(function(category){
+      category.destroy().then(function(){
+        res.send("DESTROYED cateogory");
+      })
+    })
+  },
   addCategory: function(req, res){
     var fundId = req.params.id;
     var title = req.body.title;
@@ -414,6 +421,51 @@ module.exports = {
         application_id: application.id
       }).then(function(data){
         res.send(data);
+      })
+    })
+  },
+
+  addField: function(req, res){
+    var categoryId = req.params.id;
+    var html = JSON.stringify(req.body);
+    console.log(html);
+    // REMEMBER TO CHANGE TITLE TO HTML
+    models.categories.findById(categoryId).then(function(category){
+      models.fields.create({
+        html: html,
+        category_id: category.id
+    }).then(function(data){
+      res.send(data);
+    })
+    })
+  
+  },
+  editField: function(req, res){
+    var fieldId = req.params.id;
+    var html = JSON.stringify(req.body);
+    models.fields.findById(fieldId).then(function(field){
+      field.update({
+        html: html
+      }).then(function(data){
+        res.send(data);
+      })
+    })
+  },
+
+  getFields: function(req, res){
+    console.log("SOMETGHIN");
+    var catgoryId = req.params.id;
+    models.fields.findAll({where: {category_id: catgoryId}}).then(function(data){
+      if(data){
+      res.send(data);
+      }
+    })
+  },
+  deleteField: function(req, res){
+    var fieldId = req.params.id;
+    models.fields.findById(fieldId).then(function(field){
+      field.destroy().then(function(){
+        res.send("DESTROYED IT");
       })
     })
   }
