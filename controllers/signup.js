@@ -20,6 +20,9 @@ module.exports = {
     var username = req.body.username;
     var useremail = req.body.useremail;
     var userpassword = req.body.userpassword;
+
+		req.session.lastPage = '/signup';
+
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
@@ -37,9 +40,15 @@ module.exports = {
 
   userProfile: function(req, res){
     var userId = req.params.id;
-    models.users.findById(userId).then(function(user){
-      res.render('signup/new-user-profile', {user: user});
-    });
+
+		if (req.session.lastPage == '/signup') {
+			models.users.findById(userId).then(function(user){
+	      res.render('signup/new-user-profile', {user: user});
+	    });
+		} else {
+			// TODO: add flash error message to be shown on homepage. req.session.error = ...
+			res.redirect('/');
+		}
   },
 
   uploadPicture: function(req,res, next){
