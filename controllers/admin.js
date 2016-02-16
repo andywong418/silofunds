@@ -232,7 +232,9 @@ module.exports = {
       merit_or_finance: merit_or_finance,
       gender: gender,
       deadline: deadline
-    }).then(function(fund) {
+    }).catch(function(err) {
+      console.log("There seems to have been an error: " + err);
+    }).then(function() {
       res.redirect('admin');
     });
   },
