@@ -175,7 +175,6 @@ module.exports = {
         for (var i=0; i<fields.length; i++) {
           var field = fields[i];
           create_options[field] = fund[field];
-          create_options["id"] = fund.id;
 
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
