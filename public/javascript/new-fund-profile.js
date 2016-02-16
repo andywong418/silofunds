@@ -366,8 +366,9 @@ $(document).ready(function(){
 					$(".cd-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
 					$(".cd-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
 					console.log($("#add-field").siblings());
-					$("#add-field").siblings().not("#delete-category").remove();
+					
 					$.get('/signup/fund_signup/get_fields/' + categoryId, function(data){
+						$("#add-field").siblings().not("#delete-category").remove();
 						if(data){
 							for (var i = 0; i < data.length; i++){
 								var parsed = JSON.parse(data[i].html);
@@ -392,13 +393,18 @@ $(document).ready(function(){
 					var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-form").width());
 					var formLength = $("#application-form").width();
-					console.log("-" + (formLength - savedLength) + "px");
 					if(formLength = savedLength != 0){
 					$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 					}
+					console.log($(this).prev("li").attr("id"));
 					// var w = 50/n;
-					$(this).before("<li><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
+					// if($(this).prev("li"))
+					if($(this).prev("li").attr("id")){
+					$(".active").removeClass("active");
+					$(this).before("<li class = 'active'><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
 					$("#add-field").siblings().not("#delete-category").remove();
+					}
+
 				})
 
 
@@ -413,12 +419,11 @@ $(document).ready(function(){
 						$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
 							console.log(data);
 							parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
-
-
 						})
 					}
 				})
-				$(document).on('click', '#delete-category', function(){
+				$(document).on('click', '#delete-category', function(e){
+					e.preventDefault();
 					var categoryId = $(".active").attr("id");
 					var closestCategory;
 					if($(".active").prev("li").prop("tagName") != "LI"){
@@ -427,10 +432,13 @@ $(document).ready(function(){
 					else{
 						closestCategory = $(".active").prev("li");
 					}
-					console.log(closestCategory);
-					$.get('/signup/fund_signup/delete_category/'+ categoryId, function(data){
+					
+						console.log(closestCategory);
 						$(".active").remove();
 						closestCategory.click();
+
+					$.get('/signup/fund_signup/delete_category/'+ categoryId, function(data){
+			
 					})
 				})
 			},
