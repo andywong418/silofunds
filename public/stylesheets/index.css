@@ -1075,10 +1075,40 @@ time, mark, audio, video {
 	margin-top: 150px;
 }
 
-.footer-distributed .footer-left p{
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right{
+	display: inline-block;
+	vertical-align: top;
+}
+
+/* Footer left */
+
+.footer-distributed .footer-left {
+  width: 33%;
+}
+
+.footer-distributed .footer-left p,
+.footer-center p{
 	color:  #8f9296;
 	font-size: 14px;
 	margin: 0;
+}
+
+.footer-distributed .footer-left a{
+    margin-top: 8px;
+}
+
+/* Footer center */
+
+.footer-distributed .footer-center {
+  width: 33%;
+}
+
+.footer-center p {
+  text-align: center;
+  vertical-align: middle;
+  margin-top: 15px;
 }
 
 /* Footer links */
@@ -1100,7 +1130,7 @@ time, mark, audio, video {
 
 .footer-distributed .footer-right{
 	float: right;
-	margin-top: 6px;
+	margin-top: -3px;
 	max-width: 180px;
 }
 
@@ -1125,8 +1155,11 @@ time, mark, audio, video {
 @media (max-width: 600px) {
 
 	.footer-distributed .footer-left,
+  .footer-distributed .footer-center,
 	.footer-distributed .footer-right{
 		text-align: center;
+    display: block;
+    width: 100%;
 	}
 
 	.footer-distributed .footer-right{
