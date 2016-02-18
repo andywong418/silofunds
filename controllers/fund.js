@@ -63,5 +63,13 @@ module.exports = {
       console.trace(err.message);
       res.render('error');
     });
+  },
+  editDescription: function(req, res){
+    var fundId = req.params.id;
+    models.users.findById(fundId).then(function(fund){
+      fund.update(req.body).then(function(data){
+        res.send(data);
+      })
+    })
   }
 };

@@ -31,6 +31,6 @@ router.post('/fund_signup/add_field/:id', signup.addField);
 router.post('/fund_signup/edit_field/:id', signup.editField);
 router.get('/fund_signup/get_fields/:id', signup.getFields);
 router.get('/fund_signup/delete_field/:id', signup.deleteField);
-
+router.get('/fund_signup_complete/:id', signup.signupFundComplete)
 
 module.exports = router;

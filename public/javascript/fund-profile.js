@@ -1,126 +1,190 @@
 $(document).ready(function(){
-
 	var FundModel = Backbone.Model.extend({
-		url: 'fund_account/' + fund_setup.id
-	});
 
-	var AccountView = Backbone.View.extend({
-		id: 'account-setup',
-		template: _.template($('#account-template').html()),
+	});
+	console.log(fund);
+	var FundView = Backbone.View.extend({
+		id: 'fund-setup',
+		template: _.template($('#profile-template').html()),
 		render: function() {
         this.$el.html(this.template(this.model.toJSON()));
-       
         return this; // enable chained calls
-      }
-
+    }
 	});
 
-  var AccountDisplay = Backbone.View.extend({
-  	tagName: 'div',
-  	id: "account-handler",
-  	initialize: function(){
-  		var account = new FundModel({
-  			fundName: fund_setup.username
-  		});
-  		var model = this.model;
-  		var view = new AccountView({model: account});
-  		this.$el.append(view.render().el);
-  		
-
-  		if(this.model.get('profile_picture')){
-				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
-			}
-			if(this.model.get('description')){
-				this.$("#description-area").val( this.model.get('description'));
-			}
-			if(this.model.get('charity_number')){
-				this.$("#charity-input").val( this.model.get('charity_number'));
-			}
-			
-			var categoriesArray = this.model.get('categories');
-			console.log(categoriesArray);
-
-			if(!categoriesArray){
-				parameters = {title: "General", status: "setup" };
-  			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
-  			console.log(data);
-  			});
-			}
-			
-  		$(document).on('click', '#profile-picture', function(){
-  			console.log('HI');
-			    $("input[id='my_file']").click();
-  		});
-  		$(document).on('change', "input[id='my_file']", function(){
-  			   if (this.files && this.files[0]) {
-
-	          var reader = new FileReader();
-
-	          reader.onload = function (e) {
-	          console.log(model);
-	          model.set({imageLink: e.target.result});
-	          $('#profile-picture')
-	            .attr('src', e.target.result)
-	            .width(250)
-	            .height(250);
-	          };
-	          var file = this.files[0];
-						var data = new FormData();
-						data.append('profile_picture', file);
-						data.append('user', fund_setup.id);
-						$.ajax({
-							type: 'POST',
-							url: "/signup/fund_signup/" + fund_setup.id,
-							data: data,
-						  processData: false,
-							contentType: false
-						}).done(function(data){
-							console.log(data);
-
-						});
-	          console.log(this.files[0].name);
-	   		 		reader.readAsDataURL(this.files[0]);
-	   		 		$("#add-profile").css("display", "none");
-  				}
+	var UserInfo = Backbone.View.extend({
+		el: 'body',
+		initialize: function(){
+			var startArray = fund.start_date.split("T");
+			var start_date = startArray[0];
+			var deadlineArray = fund.deadline.split("T");
+			var deadline = deadlineArray[0];
+			var fund_model = new FundModel({
+				name: fund.username,
+				description: fund.description,
+				nationality: fund.countries,
+				minAge: fund.minimum_age,
+				maxAge: fund.maximum_age,
+				minAmount: fund.minimum_amount,
+				maxAmount: fund.maximum_amount,
+				nationality: fund.countries,
+				religion: fund.religion,
+				charityNumber: fund.charity_number,
+				gender: fund.gender,
+				startDate: start_date,
+				deadline: deadline
 			});
-  		this.uploadtextArea();
-  		this.uploadCharityNumber();
-  	},
-  	uploadtextArea: function(){
-  		$(document).on('blur', '#description-area', function(){
-  			var description = $("#description-area").val();
-  			var parameters = {description: description};
-  			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
-  			})
-  		}) 	
-  	},
-  	uploadCharityNumber: function(){
-  		$(document).on('keypress', '#charity-input', function(e){
-  			var code = e.keycode || e.which;
-  			console.log($("#charity-input").val());
-  			console.log(code);
-  			if (code == 13){
 
-  				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
-  			})
-  			}
-  		})
-  		$(document).on('blur', '#charity-input', function(){
+			var view = new FundView({model: fund_model});
+			this.$el.append(view.render().el);
+			this.advancedSearch();
+			this.changePicture();
+		},
+		advancedSearch: function(){
+				var advanced = true;
+				var advanced_2 = true;
+				$("#advanced-search").toggle(false);
+				$("#advanced-search-2").toggle(false);
+				$("#grants").click(function(){
+			  		// $("#advanced-age").attr("value", age);
+			  		$("#advanced-search").toggle(true);
+			  		$("#advanced-search-2").toggle(false);
+			  		$("#grants span").css("display","inline");
+			  		$("#users span").css("display","none");
+			  		// $("#text_search").attr("name", "fund_tags");
+			  		advanced = false;
+			  		return true;
+			  	});
+				
+				$("#users").click(function(){
+					// $("#advanced-age-2").attr("value", age);
 
+			  		$("#advanced-search-2").toggle(true);
+			  		$("#advanced-search").toggle(false);
+			  		$("#users span").css("display","inline");
+			  		$("#grants span").css("display","none");
+			  		// $("#text_search").attr("name", "user_tags")
+			  		advanced_2 = false; 
+				});
 
-  				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
-  			})
-  			
-  		})
-  	}
+				$(document).click(function(e) {
+			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {	       
+			      $("#advanced-search").toggle(false);      	
+			    	
+			  }
+			  else{
+			    		return true;
+			    	}
+
+			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null) {
+			    $("#advanced-search-2").toggle(false);      	     	
+			  }
+			  else{
+			    		return true;
+			  }
+			})
+		},
+		changePicture: function(){
+			$("#profile-figure").hover(function(){
+			$("#add-profile").css("display", "inline");
+		}, function(){
+			$("#add-profile").css("display", "none");
+		});
+		
+			$("#add-profile").click(function() {
+			    $("input[id='my_file']").click();
+				});
+				$("input[id='my_file']").change(function(){
+					
+	        if (this.files && this.files[0]) {
+	        	
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+	            		
+            $('#fund-picture')
+              .attr('src', e.target.result)
+              .width(250)
+              .height(250);
+            };
+
+     		 		reader.readAsDataURL(this.files[0]);
+    			}
+    			var file = this.files[0];
+					var data = new FormData();
+					data.append('profile_picture', file);
+					data.append('fund', fund.id);
+    			$.ajax({
+    				type: "POST",
+    				url: "/user-edit/profile-picture",
+    				data: data,
+    				processData: false,
+						contentType: false,
+					}).then(function(data){
+						console.log("SUCCESS", data);
+					})
+			})
+		}
+	})
+
+var userInfo = new UserInfo();
+
+var OverviewView = Backbone.View.extend({
+  	id: 'overview-setup',
+  	template: _.template($('#overview-template').html()),
+		render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this; // enable chained calls
+      }
   });
+var OverviewDisplay = Backbone.View.extend({
+	tagName: 'div',
+	id: 'overview-handler',
+	initialize: function(){
 
-  var EligibleView = Backbone.View.extend({
+		var startArray = fund.start_date.split("T");
+		var start_date = startArray[0];
+		var deadlineArray = fund.deadline.split("T");
+		var deadline = deadlineArray[0];
+		var overview = new FundModel({
+		fundName: fund.username,
+		description: fund.description,
+		startDate: start_date,
+		deadline: deadline
+		})
+		var view = new OverviewView({model: overview});
+		this.$el.append(view.render().el);
+		$('#overview').addClass('chosen');
+		$('#overview').css("background-color", "#36D7B7");
+		$('#overview, #overview-paragraph').css("color", "white");
+		$('#overview').css("border-right", "0");
+		$('.switcher li').not("#overview").css("background-color", "white");
+		$('#application-paragraph, #application').css("color", "black");
+		$('#eligibility-paragraph, #eligibility').css("color", "black");
+		$('.switcher li').not("#overview").css("border-right", "0");
+
+		this.editDescription();
+  },
+  editDescription: function(){
+  	 $(document).on('click', '#edit-description', function(){
+  	 		var description = $("#description").html();
+  	 		console.log(description);
+  	 		$("#description").replaceWith("<textarea class = 'description-filler' id = '" + fund.id + "'>" + description + "</textarea>");
+  	 });
+
+  	 $(document).on('blur', ".description-filler", function(){
+  	 	var newDescription = $(this).val();
+  	 	console.log(newDescription);
+  	 	var parameters = {description: newDescription};
+  	 	$.post('/funds/edit_description/' + fund.id, parameters, function(data){
+  	 		$('.description-filler').replaceWith("<p id = 'description'>" + newDescription + "</p>");
+  	 	})
+  	 })
+
+  }
+})
+
+var EligibleView = Backbone.View.extend({
   	id: 'eligible-setup',
   	template: _.template($('#eligible-template').html()),
 		render: function() {
@@ -129,151 +193,82 @@ $(document).ready(function(){
       }
   });
 
-  var EligibleDisplay = Backbone.View.extend({
-  	tagName: 'div',
-  	id: "eligible-handler",
-  	initialize: function(){
-  		var eligible = new FundModel({
-  			fundName: fund_setup.username
-  		})
-  		var view = new EligibleView({model: eligible});
-  		this.$el.append(view.render().el);
-  		if(this.model.get("tags")){
-  			this.$("#tags-input").val(this.model.get("tags"));
-  		}
-  		if(this.model.get("countries")){
-  			this.$("#nationality-input").val(this.model.get("countries"));
-  		}
-  		if(this.model.get("religion")){
-  			this.$("#religion-input").val(this.model.get("religion"));
-  		}
-  		if(this.model.get("maximum_age")){
-  			this.$("#maximum_age").val(this.model.get("maximum_age"));
-  		}
-  		if(this.model.get("minimum_age")){
-  			this.$("#minimum_age").val(this.model.get("minimum_age"));
-  		}
-  		if(this.model.get("maximum_amount")){
-  			this.$("#maximum_amount").val(this.model.get("maximum_amount")); 			
-  		}
-  		if(this.model.get("minimum_amount")){
-  			this.$("#minimum_amount").val(this.model.get("minimum_amount")); 			
-  		}
-			if(this.model.get('merit_or_finance')){
-				if(this.model.get('merit_or_finance') == "merit"){
-					console.log(this.model.get('merit_or_finance'));
-					this.$("#merit").prop("checked", true);
-				}
-				else{
-					this.$("#finance").prop("checked", true);
-				}
+var EligibleDisplay = Backbone.View.extend({
+	tagName: "div", 
+	id: "eligible-handler",
+	initialize: function(){
+		var eligible = new FundModel({
+		})
+		var view = new EligibleView({model: eligible});
+		this.$el.append(view.render().el);
+		$('#application-paragraph, #application').css("color", "black");
+		$('#overview-paragraph, #overview').css("color", "black");
+		$('#eligibility').css("background-color", "#36D7B7");
+		$('#eligibility, #eligibility-paragraph').css("color", "white");
+		$('#eligibility').css("border-right", "0");
+		$('.switcher li').not("#eligibility").css("border-right", "0");
+		$('.switcher li').not("#eligibility").css("background-color", "white");
+		
+
+		this.checkCriteria();
+	},
+	checkCriteria: function(){
+		console.log(fund.countries);
+		if(fund.countries){
+			for (var i = 0; i < fund.countries.length; i++){
+				this.$("#countries").after("<span class = 'added-countries'>" + fund.countries[i] + "</p>")
 			}
-			if(this.model.get('gender')){
-				if(this.model.get('gender') == "male"){
-					this.$("#male").prop("checked", true);
-				}
-				else{
-					this.$("#female").prop("checked", true);
-				}
+		}
+		else{
+			this.$("#countries").after("<span>This scholarship does not specify any eligible countries. <span>")
+		}
+		if(fund.minimum_age){
+			this.$("#min_age").after("<span class = 'added-age'>" + fund.minimum_age + "</p>")
+		}
+		else{
+			this.$("#min_age").after("<span>This scholarship does not specify a minimum age.<span>")
+		}
+		if(fund.maximum_age){
+			this.$("#max_age").after("<span class = 'added-age'>" + fund.maximum_age + "</p>")
+		}
+		else{
+			this.$("#max_age").after("<span>This scholarship does not specify a maximum age.<span>")
+		}
+		if(fund.minimum_amount){
+			this.$("#min_amount").after("<span class = 'added-amount'>" + fund.minimum_amount + "</p>")
+		}
+		else{
+			this.$("#min_amount").after("<span>This scholarship does not specify a minimum amount of funding given.<span>")
+		}
+		if(fund.maximum_amount){
+			this.$("#max_amount").after("<span class = 'added-amount'>" + fund.maximum_amount + "</p>")
+		}
+		else{
+			this.$("#max_amount").after("<span>This scholarship does not specify a maximum amount of funding given.<span>")
+		}
+		if(fund.religion){
+			for (var i = 0; i < fund.religion.length; i++){
+				this.$("#religion").after("<span class = 'added-religion'>" + fund.religion[i] + "</p>")
 			}
+		}
+		else{
+			this.$("#religion").after("<span>This scholarship does not have any specific requirements for religion.<span>")
+		}
+		if(fund.gender){
+			this.$("#gender").after("<span class = 'added-gender'>" + fund.gender + "</p>")
+		}
+		else{
+			this.$("#gender").after("<span>This scholarship does not have any specify a certain gender.<span>")
+		}
+		if(fund.merit_or_finance){
+			this.$("#merit_or_finance").after("<span class = 'added-merit'>" + fund.merit_or_finance + "</span>");
+		}
+		else{
+			this.$("#merit_or_finance").after("<span>This scholarship caters for both financial situation and merit.<span>")
+		}
+	}
+})
 
-			if(this.model.get('start_date')){
-				console.log(this.model.get('start_date'));
-				var dateArray = this.model.get('start_date').split("T");
-				var date = dateArray[0];
-				this.$("#start_date").val(date);
-			}
-			if(this.model.get('deadline')){
-				var dateArray = this.model.get('deadline').split("T");
-				var date = dateArray[0];
-				this.$("#deadline").val(date);
-			}
-  		$(document).on('blur', '#tags-input', function(){
-	  		if($(this).val()){
-	  			var field = $(this).siblings().attr('id');
-	  			var value = $(this).val();
-	  			var tagArray = value.split(',');
-	  			var parameters = {};
-	  			parameters["tags"] = tagArray;
-	  			$.post('/signup/fund_signup/tags/' + fund_setup.id, parameters, function(data){
-	  				console.log(data);
-	  			})
-  			}
-  		});
-  			$(document).on('blur', '#nationality-input', function(){
-	  		if($(this).val()){
-	  			var field = $(this).siblings().attr('id');
-	  			var value = $(this).val();
-	  			var countriesArray = value.split(',');
-	  			var parameters = {};
-	  			parameters["countries"] = countriesArray;
-	  			$.post('/signup/fund_signup/countries/' + fund_setup.id, parameters, function(data){
-	  				console.log(data);
-	  			})
-  			}
-  		});
-
-  		$(document).on('blur', '#religion-input', function(){
-	  		if($(this).val()){
-	  			var field = $(this).siblings().attr('id');
-	  			var value = $(this).val();
-	  			var religionArray = value.split(',');
-	  			var parameters = {};
-	  			parameters[field] = religionArray;
-	  			console.log(religionArray);
-	  			$.post('/signup/fund_signup/religion/' + fund_setup.id, parameters, function(data){
-	  				console.log(data);
-	  			})
-  			}
-  		});
-
-  		$(document).on('blur', '#maximum_age, #minimum_age, #maximum_amount, #minimum_amount, #start_date, #deadline', function(){
-  			if($(this).val()){
-  				var field = ($(this).attr('id'))
-  				var value = $(this).val();
-  				var parameters = {};
-  				parameters[field] = value;
-  				console.log(field);
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  					console.log(data);
-  				})
-  			}
-  		})
-
-  		$(document).on('click', '#merit, #finance, #male, #female', function(){
-  			if($(this).val()){
-  				var field = $(this).attr("name");
-  				var value = $(this).val();
-  				console.log(value);
-  				var parameters = {};
-  				parameters[field] = value;
-  				console.log(parameters);
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  					console.log(data);
-  				})
-  			}
-  		})
-
-  		this.clearRadio();
-  	},
-  	clearRadio: function(){
-  		$(document).on('click', '#clear1', function(){
-  			$("#merit, #finance").prop("checked", false);
-  			var parameters = {merit_or_finance: null};
-  			$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  					console.log(data);
-  				})
-  		});
-  		$(document).on('click', '#clear2', function(){
-  			$("#male, #female").prop("checked", false);
-  			var parameters = {gender: null};
-  			$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
-  					console.log(data);
-  				})
-  		})
-  	}
-  });
-	
 	var ApplicationView = Backbone.View.extend({
   	id: 'application-setup',
   	template: _.template($('#application-template').html()),
@@ -288,32 +283,24 @@ $(document).ready(function(){
   		id: "application-handler",
   		initialize: function(){
   			var application = new FundModel({
-  			fundName: fund_setup.username
+  			fundName: fund.username
   			})
   			var view = new ApplicationView({model: application});
   			this.$el.append(view.render().el);
-  			var counter = 0;
-  			$(document).on('click', function(){
-  				if(counter == 0){
-	  				$(".instruction-pointer").css("display", "none");
-	  				$(".instruction-pointer-2").css("display", "inline");
-	  				counter++
-  				}
-  				else if(counter == 1){
-  				$(".instruction-pointer-2").css("display", "none");
-  					counter++;
-  				}
-  			});
 
   			$( window ).resize(function() {
 				  var savedLength = $("ul.cd-switcher").width();
-							$("ul.cd-switcher").width($("#application-form").width());
-							var formLength = $("#application-form").width();
-							console.log("-" + (formLength - savedLength) + "px");
-							if(formLength = savedLength != 0){
-								$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
-							}
+					$("ul.cd-switcher").width($("#application-info").width());
+				
 				});
+		 		$('#application').css("background-color", "#36D7B7");
+				$('#application, #application-paragraph').css("color", "white");
+				$('#application').css("border-right", "0");
+				$('#overview-paragraph, #overview').css("color", "black");
+				$('#eligibility-paragraph, #eligibility').css("color", "black");
+				$('.switcher li').not("#application").css("background-color", "white");
+				$('.switcher li').not("#application").css("color", "black");
+				$('.switcher li').not("#application").css("border-right", "0");
 
   			this.editCategory();
   			this.editField();
@@ -352,10 +339,10 @@ $(document).ready(function(){
 								}
 							}
 							var savedLength = $("ul.cd-switcher").width();
-							$("ul.cd-switcher").width($("#application-form").width());
-							var formLength = $("#application-form").width();
+							$("ul.cd-switcher").width($("#application-info").width());
+							var formLength = $("#application-info").width();
 							console.log("-" + (formLength - savedLength) + "px");
-							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
+							// $("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 							
 						}
 						else{
@@ -374,7 +361,13 @@ $(document).ready(function(){
 					$(".cd-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
 					$(".cd-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
 					console.log($("#add-field").siblings());
-					
+					if($(this) != $("ul.cd-switcher").children(":first")){
+						$("ul.cd-switcher").children(":first").css("border-bottom", "none");
+
+					}
+					else{
+						$("ul.cd-switcher").children(":first").css("border-bottom-left-radius", "3px");
+					}
 					$.get('/signup/fund_signup/get_fields/' + categoryId, function(data){
 						$("#add-field").siblings().not("#delete-category").remove();
 						if(data){
@@ -404,9 +397,6 @@ $(document).ready(function(){
 					if(formLength = savedLength != 0){
 					$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 					}
-					console.log($(this).prev("li").attr("id"));
-					// var w = 50/n;
-					// if($(this).prev("li"))
 					if($(this).prev("li").attr("id")){
 					$(".active").removeClass("active");
 					$(this).before("<li class = 'active'><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
@@ -415,16 +405,16 @@ $(document).ready(function(){
 
 				})
 
-
+				$(document).off('blur', "#addition");
 				$(document).on('blur', "#addition", function(){
 					var newTitle = $(this).val();		
 					console.log($(this).parent());	
 					if($(this).val()){
 						var parent = $(this).parent();
 						$(".cd-switcher li").not(this).removeClass("active");
-						$(".cd-switcher li").not(this).css("background-color", "white");
+						$(".cd-switcher li").not(this).not("#add-category").css("background-color", "white");
 						var parameters = {title: newTitle};
-						$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
+						$.post('/signup/fund_signup/add_category/'+ fund.fund_or_user, parameters, function(data){
 							console.log(data);
 							parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
 						})
@@ -456,6 +446,7 @@ $(document).ready(function(){
 					$("#field-modal").css("display", "block");
 				});
 
+
 				$(document).on('click', '.close', function(){
 					$("#application-info").css("z-index", "5");
 					$("#field-modal").css("display", "none");
@@ -469,7 +460,7 @@ $(document).ready(function(){
 					$("#text, #upload, #checkbox").attr('disabled', false);
 				});
 
-
+				$(document).off('click', '#submit');
 				$(document).on('click', '#submit', function(){
 					var questions = $("#questions").prop("checked");
 					var descriptionText = $("#description-text").prop("checked");
@@ -500,7 +491,7 @@ $(document).ready(function(){
 						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
 					}
 				})
-
+				$(document).off('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field');
 				$(document).on('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field', function(){
 						var categoryId = $(this).attr('id');
 						var questionClass = $(this).attr('class');
@@ -604,40 +595,25 @@ $(document).ready(function(){
 
 			}
   })
-	
 
-  var Router = Backbone.Router.extend({
+ var Router = Backbone.Router.extend({
 	routes : {
-		"" : "account",
-		"account" : "account",
+		"" : "overview",
+		"overview" : "overview",
 		"eligible" : "eligible",
 		"application": "application"
 	},
-	account : function() {
-		console.log(fund_setup.id);
+	overview: function() {
 		// var link = window.location.hostname;
-		var router = this;
-		var accountModel = new FundModel();
-		accountModel.fetch({
-			success:function(){
-				console.log(JSON.stringify(accountModel));
-				router.loadView(new AccountDisplay({model: accountModel}));
-			}
-		});
+
+		router.loadView(new OverviewDisplay());
 	},
 	eligible : function() {
-		var eligibleModel = new FundModel();
-		eligibleModel.fetch({
-			success:function(){
-				console.log(JSON.stringify(eligibleModel));
-				router.loadView(new EligibleDisplay({model: eligibleModel}));
-			}
-
-		})
+		router.loadView(new EligibleDisplay());
 	},
 	application: function() {
 		var ApplicationModel = Backbone.Model.extend({
-			url: "fund_account/application/" + fund_setup.id
+			url: "/signup/fund/fund_account/application/" + fund.id
 		})
 		var applicationModel = new ApplicationModel();
 		applicationModel.fetch({
@@ -649,16 +625,14 @@ $(document).ready(function(){
 		})
 	},
 	loadView : function(viewing) {
-	
-		this.view && this.view.remove();
+		this.view && this.view.remove() && this.view.unbind();
 		this.view = viewing;
-		$('body').append(viewing.el);
+		$('#overview-container').append(viewing.el);
 	}
 });
 
+
 var router = new Router();
 Backbone.history.start();
-  // var accountDisplay = new AccountDisplay();
-  // var eligibleDisplay = new EligibleDisplay();
 
 })

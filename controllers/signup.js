@@ -178,8 +178,8 @@ module.exports = {
       var fundUser = user;
       models.funds.findById(user.fund_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
-          if(attrname != "id" || attrname != "description" || attrname != "religion" || attrname != "created_at" || attrname != "updated_at"){
-
+          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+            console.log(attrname);
             user["dataValues"][attrname] = fund[attrname];
 
           }         
@@ -264,12 +264,12 @@ module.exports = {
     })
   },
   getApplication: function(req, res){
-      var id = req.params.id;
+    var id = req.params.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
       models.funds.findById(user.fund_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
-          if(attrname != "id" || attrname != "description" || attrname != "religion" || attrname != "created_at" || attrname != "updated_at"){
+          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
             user["dataValues"][attrname] = fund[attrname];
 
@@ -467,6 +467,36 @@ module.exports = {
       field.destroy().then(function(){
         res.send("DESTROYED IT");
       })
+    })
+  },
+  signupFundComplete: function(req, res){
+    var id = req.params.id;
+    models.users.findById(id).then(function(user){
+      var fundUser = user;
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+
+            user["dataValues"][attrname] = fund[attrname];
+
+          }         
+        }
+        var fields= [];
+        models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
+            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+            // for (var category in categories){
+            //   console.log(category);
+            //   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
+            //     console.log(field)
+            //   })
+            user["dataValues"]["categories"] = categories;
+            res.render('signup/fund-profile', {user: user, newUser: true});
+           })
+          
+        
+        })
+      })
+
     })
   }
 };

@@ -69,7 +69,7 @@ block content
 											input#maximum_amount(type='number', placeholder = 'Maximum amount', value = "maximum_amount")
 						.row
 							.col-md-12.center-block
-								p#merit_or_finance 8. Please specify whether your grant gives funding based on merit, financial situation or both
+								p#merit_or_finance 8. Please specify whether your grant gives funding based on merit or financial situation (leave blank if both)
 								.row
 									.col-xs-3.radio
 										label#merit-column
@@ -83,7 +83,7 @@ block content
 										span#clear1 Clear
 						.row
 							.col-md-12.center-block
-								p#gender 9. Please specify whether your grant provides for male, female or both kind of students
+								p#gender 9. Please specify whether your grant provides for male or female students (leave blank if both)
 								.row
 									.col-xs-3.radio
 										label#male-column
@@ -114,8 +114,7 @@ block content
 							p You're almost there! Finish by adding an application form to your profile.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
-							a#previous(href = "#eligible", type = "button") Previous
-							a#next.application-submit(href = "#application", type = "button") Finish    
+							a#next.application-submit(href = '/signup/fund_signup_complete/' + user.id, type = "button") Finish    
 				section#application-info.container.content-section
 					ul.cd-switcher
 						li#add-category
@@ -131,7 +130,7 @@ block content
 								span#delete-icon
 									i.fa.fa-times
 							.instruction-pointer-2
-								p Add a description text area or a question and specify the type of applicant input (if any) desired.
+								p Add a description text area or a question and specify the type of applicant input (if any) desired. Your question will be registered if you click away or tab away from the input area.
 				#field-modal.container.content-section.text-center
 						span.close x
 						.row
