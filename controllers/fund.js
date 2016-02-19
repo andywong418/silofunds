@@ -243,7 +243,13 @@ module.exports = {
         })
       }
     }
-
-    
+  },
+  logout: function(req, res){
+    req.session.destroy(function(err) {
+  // cannot access session here
+      res.redirect('/');
+    });
   }
+    
+  
 };
