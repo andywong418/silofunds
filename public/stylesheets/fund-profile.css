@@ -107,6 +107,15 @@ cursor: pointer;
 	width: 65%;
 	padding: 30px;
 }
+
+.start-date-filler, .deadline-filler{
+	display: inline;
+	float: left;
+	margin: 30px 7%;
+}
+.deadline-filler{
+	margin: 30px 5%;
+}
 #eligible-form p{
 	margin-top: 20px;
 	font-size: 18px;
@@ -137,6 +146,8 @@ cursor: pointer;
 }
 
 .added-religion{
+	display: inline-block;
+	margin-left: 10px;
 	color: #67809F;
 }
 

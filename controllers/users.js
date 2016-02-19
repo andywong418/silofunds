@@ -8,7 +8,6 @@ module.exports = {
 		models.users.findById(id).then(function(user){
 			console.log('is it this');
 			models.documents.findAll({where: {user_id: id}}).then(function(documents){
-				console.log("HIHIHI CUNT", documents);
 				res.render('signup/user-complete', {user: user, newUser: false, documents: documents});
 			});
 		});

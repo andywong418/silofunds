@@ -57,7 +57,7 @@ margin-right: 10px;
 	bottom: 50px;
 }
 
-#email-row:hover,#username-row:hover,#password-row:hover, #description-row:hover, #nationality-row:hover, #religion-row:hover, #funding_needed-row:hover{
+#email-row:hover,#username-row:hover,#password-row:hover, #description-row:hover, #nationality-row:hover, #countries-row:hover, #religion-row:hover, #funding_needed-row:hover, #minimum_age-row:hover, #maximum_age-row:hover, #minimum_amount-row:hover, #maximum_amount-row:hover, #gender-row:hover, #merit_or_finance-row:hover, #charity_number-row:hover{
 	background-color: #d8deea;
 	cursor: pointer;
 }
@@ -121,3 +121,5 @@ display: none;
 	height: 80px;
 	width: 100%
 }
+
+

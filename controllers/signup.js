@@ -471,6 +471,8 @@ module.exports = {
   },
   signupFundComplete: function(req, res){
     var id = req.params.id;
+    var session = req.sessionID;
+    console.log("BOOYA", session);
     models.users.findById(id).then(function(user){
       var fundUser = user;
       models.funds.findById(user.fund_or_user).then(function(fund){
@@ -490,7 +492,7 @@ module.exports = {
             //     console.log(field)
             //   })
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true});
+            res.render('signup/fund-profile', {user: user, newUser: true, session: session});
            })
           
         

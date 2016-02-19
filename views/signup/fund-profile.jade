@@ -5,7 +5,6 @@ block extraHeader
 	link(href='../../stylesheets/fund-profile.css', rel='stylesheet')
 
 block content
-	script#profile-template(type='text/template')
 		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
 			#container.container
 				.navbar-header
@@ -49,7 +48,7 @@ block content
 										i.fa.fa-cog
 									ul#settings-menu.dropdown-menu
 										li#settings
-											a(href='/users/settings/' + user.id + '/'+session)
+											a(href='/funds/settings/' + user.id + '/'+session)
 												| Settings
 										li.divider(role='separator')
 										li#logout
@@ -66,8 +65,8 @@ block content
 							input#advanced-nationality(type = "text", name = "nationality") 
 						.col-md-4
 							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "religion") 						 
-					.row					
+							input#religion(type = "text", name = "religion")             
+					.row          
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
 							input#input-amount(type = "text", name = "funding_needed")
@@ -97,14 +96,14 @@ block content
 					.row
 						.col-md-4
 							label(for='age') Age:
-							input#advanced-age-2(type = "number", name = "user_age") 							
+							input#advanced-age-2(type = "number", name = "user_age")              
 						.col-md-4
 							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "user_nationality") 						 
+							input#advanced-nationality(type = "text", name = "user_nationality")             
 						.col-md-4
 							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "user_religion") 						 
-					.row					
+							input#religion(type = "text", name = "user_religion")              
+					.row          
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
 							input#input-amount(type = "text", name = "user_funding_needed")
@@ -122,7 +121,7 @@ block content
 				section#fund-info.container.content-section.text-center
 					.row
 						.col-md-5.center-block
-							h4 <%= name %>
+							h4#name <%= name %>
 					.row
 						.col-md-4.center-block
 							figure#profile-figure
@@ -146,9 +145,11 @@ block content
 								h4#description-intro Fund overview
 									span#edit-description
 										i.fa.fa-pencil
-								p#description <%= description %>
+								p#description <%= fundDescription %>
 								h4#application-dates Application dates
-								p#dates The applications for this fund starts on <%= startDate %> and deadline is <%= deadline %>.
+									span#edit-dates
+										i.fa.fa-pencil
+								p#dates The applications for this fund starts on <%= fundStartDate %> and deadline is on <%= fundDeadline %>.
 						script#eligible-template(type='text/template')
 							#eligible-form.container.content-section
 								.row

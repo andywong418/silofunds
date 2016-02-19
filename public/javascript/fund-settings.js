@@ -1,17 +1,10 @@
 $(document).ready(function(){
-	var SettingsModel = Backbone.Model.extend({
-			defaults: {
-				name: "",
-				age: 0,
-				description: "",
-				nationality: "",
-				religion: "",
-				funding_needed: 0
-			}
+	console.log(fund);
+		var SettingsModel = Backbone.Model.extend({
 
 		});
 	var SettingsView = Backbone.View.extend({
-		id: 'user-setup',
+		id: 'fund-settings',
 		template: _.template($('#settings-template').html()),
 		render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -23,20 +16,25 @@ $(document).ready(function(){
 	var SettingsInfo = Backbone.View.extend({
 		el: 'body',
 		initialize: function(){
-			var myDate = user.date_of_birth.split("-");
-			var yearFix= myDate[2].split("T");
-			var day = yearFix[0];
-			var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-			var birthDate = new Date(newDate).getTime();
-			var nowDate = new Date().getTime();
-			var age = Math.floor((nowDate - birthDate) / 31536000000 );
+			var startArray = fund.start_date.split("T");
+			var start_date = startArray[0];
+			var deadlineArray = fund.deadline.split("T");
+			var deadline = deadlineArray[0];
 			var settings_model = new SettingsModel({
-				name: user.username,
-				age: age,
-				description: user.description,
-				nationality: user.nationality,
-				funding_needed: user.funding_needed,
-				religion: user.religion
+				name: fund.username,
+				description: fund.description,
+				nationality: fund.countries,
+				minAge: fund.minimum_age,
+				maxAge: fund.maximum_age,
+				minAmount: fund.minimum_amount,
+				maxAmount: fund.maximum_amount,
+				nationality: fund.countries,
+				religion: fund.religion,
+				charityNumber: fund.charity_number,
+				gender: fund.gender,
+				merit_or_finance: fund.merit_or_finance,
+				startDate: start_date,
+				deadline: deadline
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
@@ -45,7 +43,6 @@ $(document).ready(function(){
 			$("#advanced-search").toggle(false);
 			$("#advanced-search-2").toggle(false);
 			$("#grants").click(function(){
-      		$("#advanced-age").attr("value", age);
       		$("#advanced-search").toggle(true);
       		$("#advanced-search-2").toggle(false);
       		$("#grants span").css("display","inline");
@@ -54,9 +51,9 @@ $(document).ready(function(){
       		advanced = false;
       		return true;
       	});
-			
+
+
 			$("#users").click(function(){
-				$("#advanced-age-2").attr("value", age);
   
       		$("#advanced-search-2").toggle(true);
       		$("#advanced-search").toggle(false);
@@ -82,22 +79,20 @@ $(document).ready(function(){
 		    }
 			})
 			this.editAccount();
+			this.clearRadio();
 		},
-
 		editAccount: function(){
-
 		if(general== false){
+			console.log("WHY YOU NO WORK");
 			$('.general').css("display", "none");
 			$('.profile-edit').css("display", "inline");
 			$('#general-settings').css("color", "grey");
 			$('#account').css("color", "black")
 		}
-		
 
 			(function( $ ){
    $.fn.displaySave = function() {
       var id = $(this).attr("id");
-      console.log(id);
 			var seekid = id.split("-");
 			var element = seekid[0];
 			console.log(element);
@@ -148,10 +143,19 @@ $(document).ready(function(){
 				$('#general-settings').css("color", "black");
 				$('#account').css("color", "grey")
 			})
-		}
+		},
+  	clearRadio: function(){
+  		$(document).on('click', '#clear1', function(){
+  			$("#merit, #finance").prop("checked", false);
+  			var parameters = {merit_or_finance: null};
+  		});
+  		$(document).on('click', '#clear2', function(){
+  			$("#male, #female").prop("checked", false);
+  			var parameters = {gender: null};
+  
+  		})
+  	}
 
-	})
-
-	var settingsInfo = new SettingsInfo();
-
+	})	
+		var settingsInfo = new SettingsInfo()
 })
