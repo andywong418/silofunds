@@ -278,13 +278,16 @@ module.exports = {
      }
     console.log(religionArray);
     models.users.findById(id).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(user){
-        user.update({
-          religion: religionArray
-        }).then(function(data){
-          res.send(data);
+      user.update({religion: religionArray}).then(function(user){
+        models.funds.findById(user.fund_or_user).then(function(fund){
+          fund.update({
+            religion: religionArray
+          }).then(function(data){
+            res.send(data);
+          })
         })
       })
+
       
     })
   },
@@ -380,15 +383,16 @@ module.exports = {
     var userId = req.params.id;
     console.log("KENDRICK", req.body);
     models.users.findById(userId).then(function(user){
-      var fundId = user.fund_or_user;
-      console.log(fundId);
-      models.funds.findById(fundId).then(function(user){
-        console.log("HMMMMMMMMMMM", user);
-        user.update(req.body).then(function(user){
-          console.log("ERROR");
-          res.send(user);
+        var fundId = user.fund_or_user;
+        console.log(fundId);
+        models.funds.findById(fundId).then(function(user){
+          console.log("HMMMMMMMMMMM", user);
+          user.update(req.body).then(function(user){
+            console.log("ERROR");
+            res.send(user);
+          })
         })
-      })
+      
     })
   },
   applicationCategory: function(req, res){

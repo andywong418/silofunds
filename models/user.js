@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'nationality'
     },
     religion: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'religion'
     },
     funding_needed: {

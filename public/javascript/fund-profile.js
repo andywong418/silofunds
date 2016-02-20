@@ -247,7 +247,7 @@ var EligibleDisplay = Backbone.View.extend({
 		}
 		if(fund.religion){
 			var religion = fund.religion;
-			religion = religion.split(",");
+			// religion = religion.split(",");
 			for (var i = 0; i < religion.length; i++){
 				this.$("#religion").after("<span class = 'added-religion'>" + religion[i] + "</p>")
 			}
