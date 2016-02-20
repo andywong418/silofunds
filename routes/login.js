@@ -11,7 +11,6 @@ router.post('/', passport.authenticate('local-login', {
 	console.log(req);
 	var id = req.user.dataValues.id;
 	var session = req.session;
-	console.log("HAY", id);
 	models.users.findById(id).then(function(user){
 		if(user.fund_or_user){
       models.funds.findById(user.fund_or_user).then(function(fund){

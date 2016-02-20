@@ -17,7 +17,9 @@ module.exports = {
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
     var user = req.session.passport.user;
-
+    var session = req.sessionID;
+    console.log("REQ",req);
+    console.log("SESSION", req.session.passport);
     models.es.search({
       index: "funds",
       type: "fund",
@@ -54,10 +56,10 @@ module.exports = {
       var results_page = true;
       console.log(funds);
       if(user){
-        res.render('results',{ funds: funds, user: user } );
+        res.render('results',{ funds: funds, user: user, resultsPage: results_page, session: session } );
       }
       else{
-        res.render('results', { funds: funds, user: false, resultsPage: results_page });
+        res.render('results', { funds: funds, user: false, resultsPage: results_page, session: false });
       }
     }, function(err) {
       console.trace(err.message);
