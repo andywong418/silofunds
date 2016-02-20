@@ -175,7 +175,6 @@ module.exports = {
         for (var i=0; i<fields.length; i++) {
           var field = fields[i];
           create_options[field] = fund[field];
-          create_options["id"] = fund.id;
 
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
@@ -233,7 +232,9 @@ module.exports = {
       merit_or_finance: merit_or_finance,
       gender: gender,
       deadline: deadline
-    }).then(function(fund) {
+    }).catch(function(err) {
+      console.log("There seems to have been an error: " + err);
+    }).then(function() {
       res.redirect('admin');
     });
   },
