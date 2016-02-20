@@ -62,8 +62,20 @@ module.exports = {
 	},
 	changePicture: function(req, res){
 		var file = req.file;
-		var userId = req.body.user;
-		var bucketName = "silo-user-profile-" + userId;
+		var userId;
+		var bucketName;
+		console.log("CHECKING USER OR FUNd", req.body);
+		if(req.body.user){
+			 userId = req.body.user;
+			 bucketName = "silo-user-profile-" + userId
+		}
+		else if (req.body.fund){
+			userId = req.body.fund;
+			bucketName = "silo-fund-profile-" + userId
+		}
+		
+
+
 
 		AWS.config.update({
 	    accessKeyId: aws_keyid,

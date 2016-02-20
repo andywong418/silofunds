@@ -1,0 +1,218 @@
+extends layout-signup
+
+block extraHeader
+	link(href='../../stylesheets/user-profile.css', rel = 'stylesheet')
+	link(href='../../stylesheets/fund-profile.css', rel='stylesheet')
+
+block content
+		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+			#container.container
+				.navbar-header
+					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+						i.fa.fa-bars
+					form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+						#dropdown.dropdown
+							button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+								i.fa.et-down.fa-bars
+								i.fa.et-down.fa-angle-down
+							ul#dropdown-menu.dropdown-menu
+								li.dropdown-header type of profile search
+								li#grants
+									| Grants
+									span
+										i.fa.fa-check
+								li#users
+									| Users  
+									span
+										i.fa.fa-check         
+						input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
+						button#search_button.btn.btn-info(type='submit')
+							i.fa.fa-search
+					.instruction-pointer
+						p Search for grants or users by entering your desired subject, university and/or degree level
+					.instruction-pointer-2
+						p Use advanced search to look at specific fields for funds or other users. 
+				#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+						ul.nav.navbar-nav
+							li.signin-icon
+								button
+									a#home(href="#0")
+										i.fa.fa-user
+							//      
+								li.signin-icon
+									button
+									 i.fa.fa-comment-o
+							li.signin-icon
+								.dropdown
+									button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+										i.fa.fa-cog
+									ul#settings-menu.dropdown-menu
+										li#settings
+											a(href='/funds/settings/' + user.id + '/'+session)
+												| Settings
+										li.divider(role='separator')
+										li#logout
+											a#logout(href='/funds/logout')
+												| Log out
+		section#advanced-search.container.content-section.text-center
+					.row
+						.col-md-4
+							label(for='age') Age:
+							input#advanced-age(type = "number", name = "age") 
+								
+						.col-md-4
+							label(for= 'nationality') Nationality:
+							input#advanced-nationality(type = "text", name = "nationality") 
+						.col-md-4
+							label(for= 'religion') Religion:
+							input#religion(type = "text", name = "religion")             
+					.row          
+						.col-md-4
+							label#amount_needed(for= 'amount_needed') Amount:
+							input#input-amount(type = "text", name = "funding_needed")
+						.col-md-4
+							label#merit-or-finance Merit or Finance
+							.row
+								.col-md-6
+									label.radio-inline
+										input#merit(type='radio', name='merit_or_finance', value='merit')
+										| Merit
+								.col-md-6
+										label.radio-inline
+												input#finance(type='radio', name='merit_or_finance', value='finance')
+												| Finance
+						.col-md-4
+							label#gender Gender
+							.row
+								.col-md-6
+									label.radio-inline
+										input#male(type='radio', name = 'gender', value= 'male')
+										| Male
+								.col-md-6
+									label.radio-inline
+										input#female(type='radio', name = 'gender', value = 'female')
+										| Female
+				section#advanced-search-2.container.content-section.text-center
+					.row
+						.col-md-4
+							label(for='age') Age:
+							input#advanced-age-2(type = "number", name = "user_age")              
+						.col-md-4
+							label(for= 'nationality') Nationality:
+							input#advanced-nationality(type = "text", name = "user_nationality")             
+						.col-md-4
+							label(for= 'religion') Religion:
+							input#religion(type = "text", name = "user_religion")              
+					.row          
+						.col-md-4
+							label#amount_needed(for= 'amount_needed') Amount:
+							input#input-amount(type = "text", name = "user_funding_needed")
+						.col-md-4
+							label#gender Gender
+							.row
+								.col-md-6
+									label.radio-inline
+										input#male(type='radio', name = 'user_gender', value= 'male')
+										| Male
+								.col-md-6
+									label.radio-inline
+										input#female(type='radio', name = 'user_gender', value = 'female')
+										| Female
+				section#fund-info.container.content-section.text-center
+					.row
+						.col-md-5.center-block
+							h4#name <%= name %>
+					.row
+						.col-md-4.center-block
+							figure#profile-figure
+								input#my_file(type='file', style='display: none;', name = 'profile_picture')
+								img#fund-picture(src= user.profile_picture)
+								figcaption#add-profile 
+									i.fa.fa-camera
+					ul.switcher
+						li#overview
+							i.fa.fa-tags
+							a#overview-paragraph(href="#overview") Overview
+						li#eligibility
+							i.fa.fa-ticket
+							a#eligibility-paragraph(href="#eligible") Eligibility
+						li#application
+							i.fa.fa-sticky-note-o
+							a#application-paragraph(href="#application") Application form
+					#overview-container
+						script#overview-template(type='text/template')
+							#overview-form.container.content-section
+								h4#description-intro Fund overview
+									span#edit-description
+										i.fa.fa-pencil
+								p#description <%= fundDescription %>
+								h4#application-dates Application dates
+									span#edit-dates
+										i.fa.fa-pencil
+								p#dates The applications for this fund starts on <%= fundStartDate %> and deadline is on <%= fundDeadline %>.
+						script#eligible-template(type='text/template')
+							#eligible-form.container.content-section
+								.row
+									.col-md-4
+										p#min_age Minimum age:
+									.col-md-4
+										p#max_age Maximum age:
+								.row
+									.col-md-4
+										p#min_amount Minimum amount:
+									.col-md-4
+										p#max_amount Maximum amount:
+								.row
+									.col-md-4
+										p#countries Countries:
+									.col-md-4
+										p#religion Religion:
+								.row
+									.col-md-4
+										p#gender Gender:
+									.col-md-4
+										p#merit_or_finance Merit or Finance:
+						script#application-template(type='text/template')
+							ul.cd-switcher
+								li#add-category
+									i.fa.fa-plus
+							#application-info.container.content-section
+									.col-md-6.center-block
+										p#add-field Add a field for this category
+											span#add-icon
+												i.fa.fa-plus-circle
+										p#delete-category Delete this category
+											span#delete-icon
+												i.fa.fa-times
+							#field-modal.container.content-section.text-center
+								span.close x
+								.row
+									.col-md-4.center-block
+										h4 Your input
+									.col-md-6
+										input#questions(type="radio", name = "question-type") 
+										| Questions for applicants
+									.col-md-6
+										input#description-text(type="radio", name="question-type") 
+										| Description Text field
+								.row
+									.col-md-4.center-block
+										h4 Applicant input
+									.col-md-4
+										input#text(type="radio", name = "answer-type") 
+										| Text answer
+									.col-md-4
+										input#upload(type="radio", name = "answer-type") 
+										| File upload
+									.col-md-4
+										input#checkbox(type="radio", name = "answer-type") 
+										| Checkbox
+								.row
+									.col-md-4.center-block
+										button#submit(class = 'btn btn-success') Save
+
+block scripts
+	script(src= '../../javascript/fund-profile.js')
+	script.
+		var fund = !{JSON.stringify(user)};
+		var newUser = !{JSON.stringify(newUser)};

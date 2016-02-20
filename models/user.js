@@ -42,23 +42,36 @@ module.exports = function(sequelize, DataTypes) {
       field: 'nationality'
     },
     religion: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'religion'
     },
     funding_needed: {
       type: DataTypes.INTEGER,
       field: 'funding_needed',
+    },
+    fund_or_user: {
+      type: DataTypes.INTEGER,
+      field: 'fund_or_user'
+    },
+    email_updates:{
+      type: DataTypes.BOOLEAN,
+      field: 'email_updates'
     }
   }, {
     timestamps: true,
     underscored: true,
-    paranoid: true
+    paranoid: true,
 
-    // classMethods: {
-    //   associate: function(models) {
-    //     User.hasMany(models.funds)
-    //   }
-    // }
+  classMethods: {
+      associate: function(models) {
+        User.belongsToMany(models.funds, {
+          onDelete: "CASCADE",
+          as: 'Funders',
+          through: "applications",
+          foreignKey: 'User_fundid'
+        });
+      }
+    }
   });
 
   return User;

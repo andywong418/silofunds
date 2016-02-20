@@ -40,6 +40,9 @@ $(document).ready(function(){
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
+			if(user.email_updates == true){
+				$("#email_updates").prop("checked", true);
+			}
 			var advanced = true;
 			var advanced_2 = true;
 			$("#advanced-search").toggle(false);
@@ -82,16 +85,16 @@ $(document).ready(function(){
 		    }
 			})
 			this.editAccount();
-			this.redirectHome();
+			this.editEmailSettings();
 		},
 
 		editAccount: function(){
-		console.log("COLONEL",general);
+
 		if(general== false){
 			$('.general').css("display", "none");
 			$('.profile-edit').css("display", "inline");
-			$('#general-settings').css("color", "black");
-			$('#account').css("color", "grey")
+			$('#general-settings').css("color", "grey");
+			$('#account').css("color", "black")
 		}
 		
 
@@ -105,7 +108,7 @@ $(document).ready(function(){
 			var value = $("#" + id + " #grey").html();
 			console.log(value);
 			if(element == "description"){
-				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description' placeholder = '"+ value + "'></textarea>");
+				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description'>" + value + "</textarea>");
 				$("#save-" + element).css("display","inline");
 				$(".save").not("#save-" + element).css("display", "none");
 			}
@@ -148,6 +151,22 @@ $(document).ready(function(){
 				$('.profile-edit').css("display", "none");
 				$('#general-settings').css("color", "black");
 				$('#account').css("color", "grey")
+			})
+		},
+		editEmailSettings: function(){
+			$("#email_updates").change(function(){
+				if(!this.checked){
+					var parameters = {email_updates: false};
+					$.post('/users/email-settings/'+ user.id, parameters, function(data){
+						console.log(data);
+					})
+				}
+				else{
+					var parameters = {email_updates: true};
+					$.post('/users/email-settings/'+ user.id, parameters, function(data){
+						console.log(data);
+					})
+				}
 			})
 		}
 

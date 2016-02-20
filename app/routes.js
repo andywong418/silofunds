@@ -1,5 +1,6 @@
 var index = require('../routes/index');
 var users = require('../routes/users');
+var funds = require('../routes/funds');
 var results = require('../routes/results');
 var signup = require('../routes/signup');
 var login = require('../routes/login');
@@ -44,6 +45,7 @@ var auth_admin = function (req, res, next) {
 module.exports.initialize = function (app) {
   app.use('/', index);
   app.use('/users', users);
+  app.use('/funds', funds);
   app.use('/results', results);
   app.use('/signup', signup);
   app.use('/login', login);

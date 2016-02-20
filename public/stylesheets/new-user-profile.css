@@ -1,9 +1,9 @@
 body{
-	font-family: 'Nunito';
 	background: #B993D6; /* fallback for old browsers */
 	background: -webkit-linear-gradient(to left, #B993D6 , #8CA6DB); /* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to left, #B993D6 , #8CA6DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	/*overflow: hidden;*/
+		font-family: 'Nunito';
 }
 
 #user-modal{
@@ -128,8 +128,10 @@ body{
    background-color: #fcf8e3;
    border-color: #faebcc;
    top: 320px;
-   width: 250px;
+   width: 70%;
+   margin: 0 18%;
    border-radius: 3px;
+   cursor: pointer;
 }
 
 #profile-figure{
@@ -149,6 +151,7 @@ body{
 	display: inline;
 	margin-top: 50px;
 	margin-bottom: 15px;
+	object-fit: cover;
 
 }
 .center-block{

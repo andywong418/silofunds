@@ -1,13 +1,27 @@
-var request = require('superagent');
+// https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/
+var request = require('supertest');
+require = require('really-need');
 var expect = require('expect.js');
+var should = require('should');
 
-describe('Server', function(){
-  it('should respond to post request', function(done){
-    request.post('localhost:3000').end(function(res){
-      //TODO check that response is okay
-      expect(res.status).to.equal(200);
-      expect(res.body).to.contain('world');
+describe('loading express', function() {
+  var server;
+
+  beforeEach(function() {
+    server = require('../app.js', { bustCache: true });
+  });
+
+  it('responds to /', function testSlash(done) {
+    request(server).get('/').end(function(err, res) {
+      res.status.should.equal(200);
+      done(err);
     });
-    done();
+  });
+
+  it('404s everything else', function testPath(done) {
+    request(server).get('/foo/bar').end(function(err, res) {
+      res.status.should.equal(404);
+      done(err);
+    });
   });
 });
