@@ -40,6 +40,9 @@ $(document).ready(function(){
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
+			if(user.email_updates == true){
+				$("#email_updates").prop("checked", true);
+			}
 			var advanced = true;
 			var advanced_2 = true;
 			$("#advanced-search").toggle(false);
@@ -82,6 +85,7 @@ $(document).ready(function(){
 		    }
 			})
 			this.editAccount();
+			this.editEmailSettings();
 		},
 
 		editAccount: function(){
@@ -147,6 +151,22 @@ $(document).ready(function(){
 				$('.profile-edit').css("display", "none");
 				$('#general-settings').css("color", "black");
 				$('#account').css("color", "grey")
+			})
+		},
+		editEmailSettings: function(){
+			$("#email_updates").change(function(){
+				if(!this.checked){
+					var parameters = {email_updates: false};
+					$.post('/users/email-settings/'+ user.id, parameters, function(data){
+						console.log(data);
+					})
+				}
+				else{
+					var parameters = {email_updates: true};
+					$.post('/users/email-settings/'+ user.id, parameters, function(data){
+						console.log(data);
+					})
+				}
 			})
 		}
 

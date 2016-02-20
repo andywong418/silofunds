@@ -221,6 +221,12 @@ html
 									.row#input-charity_number
 										.col-md-12.center-block
 											button#save-charity_number.save Save Changes
+									hr.account
+									.row
+										.col-md-5
+											p Receive email updates weekly
+										.col-md-1
+											input#email_updates(type='checkbox', name='email-updates', value = 'email-updates')
 									br
 								.profile-edit
 									.row#description-row
@@ -329,15 +335,7 @@ html
 											p.edit Edit
 									.row#input-merit_or_finance
 										.col-md-12.center-block
-											button#save-merit_or_finance.save Save changes
-	
-									//		
-										hr
-										.row
-											.col-md-6
-												p Receive email updates weekly
-											.col-md-5
-												// input(type='checkbox', name='email-updates', checked='')
+											button#save-merit_or_finance.save Save changes	
 	script(src= '../../../javascript/fund-settings.js')
 	script.
 		var fund = !{JSON.stringify(user)}

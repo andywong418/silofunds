@@ -17,6 +17,29 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 }
 
 module.exports = {
+  subscribe: function(req, res, next){
+    var username = req.body.username;
+    var name = username.split(" ");
+    var firstName = name[0];
+    var lastName = name[1]
+    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
+        EMAIL: data.email,
+        FNAME: firstName,
+        LNAME: lastName
+        }}, function(data) {
+      console.log("Successfully subscribed!");
+      console.log('ending AJAX post request...');
+      next();
+    }, function(error) {
+      if (error.error) {
+        console.log(error.code + error.error);
+      } else {
+        console.log('some other error');
+      }
+      console.log('ending AJAX post request...');
+      res.status(400).end();
+    });
+  },
   addUser: function(req, res){
     var username = req.body.username;
     var useremail = req.body.useremail;
@@ -28,7 +51,8 @@ module.exports = {
         models.users.create({
           username: username,
           email: useremail,
-          password: userpassword
+          password: userpassword,
+          email_updates: true
         }).then(function(user){
           res.render('signup/signup', {user: user});
         });

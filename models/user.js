@@ -52,6 +52,10 @@ module.exports = function(sequelize, DataTypes) {
     fund_or_user: {
       type: DataTypes.INTEGER,
       field: 'fund_or_user'
+    },
+    email_updates:{
+      type: DataTypes.BOOLEAN,
+      field: 'email_updates'
     }
   }, {
     timestamps: true,

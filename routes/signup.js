@@ -9,7 +9,7 @@ var params = [
 {name: 'past_work', maxCount: 5}
 ];
 
-router.post('/', signup.addUser);
+router.post('/', signup.subscribe, signup.addUser);
 router.post('/results', function(req,res){
 	res.redirect('/results');
 })

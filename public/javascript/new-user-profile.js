@@ -47,7 +47,7 @@ $(document).ready(function(){
 			var counter = 0;
 			if(counter === 0){
 						$('#profile-figure').css("z-index", "4");
-						$("#profile-picture").click(function() {
+						$("#profile-picture, #add-profile").click(function() {
 								console.log('HI');
 						    $("input[id='my_file']").click();
 						});
@@ -129,6 +129,68 @@ $(document).ready(function(){
 						$("#next").toggle(true);
 					}
 			});
+
+			$(document).on('keypress', function(e){
+				if (e.which == 13 || e.keyCode == 13){
+					counter++;
+					if(counter == 1){
+						$('#add-profile').toggle(false);
+						$('#profile-figure').css("z-index", "2");
+						$("#previous").css("display", "inline");
+						$('#description').css("z-index", "4");
+						$("#description").attr("placeholder", "Please enter a description of youself- including any organisation you are part of, what you are currently seeking funding for and what you will do with the money granted.");
+						$('#description').css("z-index", "4");
+					}
+					else{
+							$("#description").attr("placeholder","");
+						$('#description').css("z-index", "2");
+					}
+					if(counter == 2){
+						$('#past-work').css("z-index","4");
+						$('html, body').animate({
+			        scrollTop: $("#description").offset().top
+			    		}, 2000);
+					}
+						else{
+						$('#past-work').css("z-index","2");
+					}
+					if(counter == 3){
+
+						$('#age').css("z-index", "4");
+					}
+					else{
+
+						$('#age').css("z-index", "2");
+					}
+					if(counter == 4){
+						$('#nationality').css("z-index","4");
+					}
+					else{
+						$('#nationality').css("z-index","2");
+
+					}
+					if(counter == 5){
+						 $('html, body').animate({
+			        scrollTop: $("#past-work").offset().top
+			    		}, 2000);
+						$("#religion").css("z-index", "4");
+					}
+					else{
+						$("#religion").css("z-index", "2");
+					}
+
+					if (counter ==6){
+						$("#applied-funds").css("z-index", "4");
+						$("#finish").toggle(true);
+						$("#next").toggle(false);
+					}
+					else{
+						$("#applied-funds").css("z-index", "2");
+						$("#finish").toggle(false);
+						$("#next").toggle(true);
+					}
+				}
+			})
 
 			$("#previous").click(function(){
 				counter--;
