@@ -2,6 +2,7 @@ $(document).ready(function() {
   var bool = false;
 
   console.log(user);
+  console.log(session);
 // Need user data to do this
 //    var UserNavView = Backbone.View.extend({
 //   tagname: 'ul',
@@ -20,6 +21,18 @@ var UserNav = Backbone.View.extend({
           if(user){
             $('.pre-signin').css("display", "none");
             $('.post-signin').css("display","inline");
+            if(user.fund_or_user){
+              console.log("THIS IS A FUND");
+              $("#home").attr("href", '/funds/' + user.id + '/'+session);
+              $(".settings").attr("href", '/funds/settings/' +user.id + '/' + session);
+              $(".logout").attr("href", 'funds/logout');
+            }
+            else{
+               console.log("THIS IS A USER");
+              $("#home").attr("href", '/users/' + user.id + '/'+session);
+              $(".settings").attr("href", '/users/settings/' +user.id + '/' + session);
+              $(".logout").attr("href", 'users/logout');
+            }
           }
           else{
             $('.post-signin').css("display","none");
