@@ -156,16 +156,30 @@ module.exports = {
           })
 
         })
-      }else{
+      } else{
         models.users.findById(id).then(function(user){
-          user.update(body).then(function(user){
+          user.update(body).then(function(newUser){
             models.funds.findById(user.fund_or_user).then(function(fund){
-              for (var attrname in fund['dataValues']){
-                if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                  user["dataValues"][attrname] = fund[attrname];
-                }         
-              }
-              res.render('fund-settings', {user: user, session: session, general: general_settings});     
+                if('username' in body){
+                  fund.update({title: newUser.username}).then(function(newFund){
+                    for (var attrname in newFund['dataValues']){
+                      if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+                        newUser["dataValues"][attrname] = newFund[attrname];
+                      }         
+                    }
+                    res.render('fund-settings', {user: user, session: session, general: general_settings});     
+                  })
+                }
+                else{
+                  fund.update({email: newUser.email}).then(function(newFund){
+                    for (var attrname in newFund['dataValues']){
+                      if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+                        newUser["dataValues"][attrname] = newFund[attrname];
+                      }         
+                    }
+                    res.render('fund-settings', {user: user, session: session, general: general_settings});     
+                  })
+                }
             });
           });
         });

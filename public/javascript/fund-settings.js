@@ -38,6 +38,9 @@ $(document).ready(function(){
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
+			if(fund.email_updates == true){
+				$("#email_updates").prop("checked", true);
+			}
 			var advanced = true;
 			var advanced_2 = true;
 			$("#advanced-search").toggle(false);
@@ -79,7 +82,7 @@ $(document).ready(function(){
 		    }
 			})
 			this.editAccount();
-			this.clearRadio();
+			this.editEmailSettings();
 		},
 		editAccount: function(){
 		if(general== false){
@@ -144,18 +147,23 @@ $(document).ready(function(){
 				$('#account').css("color", "grey")
 			})
 		},
-  	clearRadio: function(){
-  		$(document).on('click', '#clear1', function(){
-  			$("#merit, #finance").prop("checked", false);
-  			var parameters = {merit_or_finance: null};
-  		});
-  		$(document).on('click', '#clear2', function(){
-  			$("#male, #female").prop("checked", false);
-  			var parameters = {gender: null};
-  
-  		})
-  	}
-
+		editEmailSettings: function(){
+			console.log("WHAT?")
+			$("#email_updates").change(function(){
+				if(!this.checked){
+					var parameters = {email_updates: false};
+					$.post('/users/email-settings/'+ fund.id, parameters, function(data){
+						console.log(data);
+					})
+				}
+				else{
+					var parameters = {email_updates: true};
+					$.post('/users/email-settings/'+ fund.id, parameters, function(data){
+						console.log(data);
+					})
+				}
+			})
+		}
 	})	
 		var settingsInfo = new SettingsInfo()
 })

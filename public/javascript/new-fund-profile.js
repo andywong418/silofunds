@@ -88,6 +88,7 @@ $(document).ready(function(){
   	},
   	uploadtextArea: function(){
   		$(document).on('blur', '#description-area', function(){
+				$("#description-area").css("border", "2px #16a085 solid");
   			var description = $("#description-area").val();
   			var parameters = {description: description};
   			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
@@ -97,6 +98,7 @@ $(document).ready(function(){
   	},
   	uploadCharityNumber: function(){
   		$(document).on('keypress', '#charity-input', function(e){
+  			$("#charity-input").css("border", "2px #16a085 solid");
   			var code = e.keycode || e.which;
   			console.log($("#charity-input").val());
   			console.log(code);
@@ -110,7 +112,7 @@ $(document).ready(function(){
   		})
   		$(document).on('blur', '#charity-input', function(){
 
-
+  				$("#charity-input").css("border", "2px #16a085 solid");
   				parameters = {charity_number: $("#charity-input").val() };
   				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   				console.log(data);
@@ -190,6 +192,7 @@ $(document).ready(function(){
 			}
   		$(document).on('blur', '#tags-input', function(){
 	  		if($(this).val()){
+	  			$(this).css("border", "2px #16a085 solid");
 	  			var field = $(this).siblings().attr('id');
 	  			var value = $(this).val();
 	  			var tagArray = value.split(',');
@@ -201,7 +204,9 @@ $(document).ready(function(){
   			}
   		});
   			$(document).on('blur', '#nationality-input', function(){
+
 	  		if($(this).val()){
+	  			$(this).css("border", "2px #16a085 solid");
 	  			var field = $(this).siblings().attr('id');
 	  			var value = $(this).val();
 	  			var countriesArray = value.split(',');
@@ -215,6 +220,7 @@ $(document).ready(function(){
 
   		$(document).on('blur', '#religion-input', function(){
 	  		if($(this).val()){
+	  			$(this).css("border", "2px #16a085 solid");
 	  			var field = $(this).siblings().attr('id');
 	  			var value = $(this).val();
 	  			var religionArray = value.split(',');
@@ -229,6 +235,7 @@ $(document).ready(function(){
 
   		$(document).on('blur', '#maximum_age, #minimum_age, #maximum_amount, #minimum_amount, #start_date, #deadline', function(){
   			if($(this).val()){
+  				$(this).css("border", "2px #16a085 solid");
   				var field = ($(this).attr('id'))
   				var value = $(this).val();
   				var parameters = {};
@@ -242,6 +249,7 @@ $(document).ready(function(){
 
   		$(document).on('click', '#merit, #finance, #male, #female', function(){
   			if($(this).val()){
+  				$(this).css("border", "2px #16a085 solid");
   				var field = $(this).attr("name");
   				var value = $(this).val();
   				console.log(value);
@@ -296,12 +304,8 @@ $(document).ready(function(){
   			$(document).on('click', function(){
   				if(counter == 0){
 	  				$(".instruction-pointer").css("display", "none");
-	  				$(".instruction-pointer-2").css("display", "inline");
+	  				$(".instruction-pointer-2").css("display", "none");
 	  				counter++
-  				}
-  				else if(counter == 1){
-  				$(".instruction-pointer-2").css("display", "none");
-  					counter++;
   				}
   			});
 
@@ -397,6 +401,7 @@ $(document).ready(function(){
 						}
 					})
 				})
+				$(document).off('click', '#add-category');
 				$(document).on('click', '#add-category', function(){
 					var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-form").width());
@@ -415,7 +420,7 @@ $(document).ready(function(){
 
 				})
 
-
+				$(document).off('blur', '#add-category');
 				$(document).on('blur', "#addition", function(){
 					var newTitle = $(this).val();		
 					console.log($(this).parent());	
@@ -451,6 +456,7 @@ $(document).ready(function(){
 				})
 			},
 			editField: function(){
+				$(document).off('click', '#add-field');
 				$(document).on('click', '#add-field', function(){
 					$("#application-info").css("z-index", "-1");
 					$("#field-modal").css("display", "block");
@@ -469,7 +475,7 @@ $(document).ready(function(){
 					$("#text, #upload, #checkbox").attr('disabled', false);
 				});
 
-
+				$(document).off('click', '#submit');
 				$(document).on('click', '#submit', function(){
 					var questions = $("#questions").prop("checked");
 					var descriptionText = $("#description-text").prop("checked");
@@ -500,7 +506,7 @@ $(document).ready(function(){
 						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
 					}
 				})
-
+				$(document).off('click', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field');
 				$(document).on('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field', function(){
 						var categoryId = $(this).attr('id');
 						var questionClass = $(this).attr('class');

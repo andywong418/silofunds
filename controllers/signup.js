@@ -19,11 +19,12 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 module.exports = {
   subscribe: function(req, res, next){
     var username = req.body.username;
+    var email = req.body.useremail;
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1]
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
-        EMAIL: data.email,
+        EMAIL: email,
         FNAME: firstName,
         LNAME: lastName
         }}, function(data) {

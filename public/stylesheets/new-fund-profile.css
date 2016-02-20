@@ -121,7 +121,6 @@ body{
 	height: 100px;
 	font-size: 14px;
 	padding: 10px;
-	border: 2px #16a085 solid;
 	font-weight: 200;
 }
 
@@ -134,7 +133,6 @@ body{
 
 #charity-input{
 	margin-top: 10px;
-	border: 2px #16a085 solid;
 	font-size: 15px;
 	font-weight: 200;
 }
@@ -336,9 +334,8 @@ align-items: flex-end;
 	height: 140px;
 	width: 20%;
 	top: 280px; 
-	left: 33%;
+	left: 40%;
 	z-index: 4;
-	display: none;
 
 }
 .instruction-pointer-2:after, .instruction-pointer-2:before {
@@ -468,7 +465,7 @@ align-items: flex-end;
 }
 .add{
 	margin-right: 10px;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 .delete{
 	margin-right: -20px;

@@ -49,7 +49,7 @@ module.exports = {
 			var name = user.username.split(" ");
 			var firstName = name[0];
 			var lastName = name[1];
-			user.update(req.body).then(function(data){
+			user.update({email_updates: req.body.email_updates}).then(function(data){
 				console.log(req.body);
 				if(req.body.email_updates == 'false'){
 				   mc.lists.unsubscribe({ id: '075e6f33c2', email: {email: data.email}, merge_vars: {
