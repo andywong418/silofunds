@@ -1,6 +1,19 @@
 module.exports = {
   index: function(req, res) {
+    console.log(req.session.passport.user);
+    var user = req.session.passport.user;
+    if(user){
+      if(user.fund_or_user){
+        res.redirect('/funds/' + user.id+ '/' + req.sessionID);
+      }
+      else{
+        res.redirect('/users/' + user.id + '/' + req.sessionID);
+      }
+    }
+
+    else {
     res.render('index', { title: 'Express', resultsPage: false });
+    }
   },
 
   subscribe: function(req, res) {

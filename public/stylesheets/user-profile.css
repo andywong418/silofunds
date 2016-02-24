@@ -99,7 +99,7 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 
 .signin-icon{
   font-size: 20px;
-  margin: 10px 10px 0;
+  margin: 10px 5px 0;
 }
 
 .signin-icon button{
@@ -451,6 +451,7 @@ img#profile-picture{
 	margin: 10px;
 }
 
+
 .add, .delete{
 	float: right;
 	font-size: 20px !important;
@@ -479,6 +480,8 @@ img#profile-picture{
 .progress{
 	height: 40px;
 	margin-top: 20px;
+	background-color: #D2D7D3
+
 }
 .progress p{
 color: #95a5a6;
@@ -487,7 +490,18 @@ padding-top: 8px;
 	
 }
 
-#applied-funds{
+.progress-bar{
+	position: relative;
+	z-index: 7;
+
+}
+#progress-label{
+	position: absolute;
+	left: 32%;
+	z-index: 10;
+	color: white;
+}
+#not-applied{
 	color: #bdc3c7;
 	font-size: 22px;
 	margin-top: 30px;
@@ -513,4 +527,40 @@ margin-top: 15px;
 }
 .get-started:focus{
 	outline: 0
+}
+
+
+#scholarship, #amount{
+	padding: 15px 100px;	
+	color: white;
+	font-size: 18px;
+background: #83d8d3; /* fallback for old browsers */
+
+        
+}
+
+#applied-funds{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	margin-left: 5%;
+	display: none;
+}
+
+
+
+#scholarship{
+margin-left: -30px;
+border-top-left-radius: 10px;
+border-right: 1px solid white;
+}
+
+#amount{
+	border-top-right-radius: 10px;
+	padding-right: 110px;
+}
+
+.fund-name, .fund-amount{
+	padding: 20px 0;
+	border: 1px solid #bdc3c7;
+	font-size: 15px;
 }

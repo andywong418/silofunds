@@ -420,7 +420,7 @@ $(document).ready(function(){
 
 				})
 
-				$(document).off('blur', '#add-category');
+				$(document).off('blur', '#addition');
 				$(document).on('blur', "#addition", function(){
 					var newTitle = $(this).val();		
 					console.log($(this).parent());	
@@ -506,7 +506,7 @@ $(document).ready(function(){
 						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
 					}
 				})
-				$(document).off('click', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field');
+				$(document).off('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field');
 				$(document).on('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field', function(){
 						var categoryId = $(this).attr('id');
 						var questionClass = $(this).attr('class');
@@ -541,6 +541,7 @@ $(document).ready(function(){
 							})
 						}
 				})
+				$(document).off('click', '.add');
 				$(document).on('click', '.add', function(){
 						var fieldId = $(this).attr("id");
 						var val = $(this).parent().prev().html();
@@ -557,7 +558,7 @@ $(document).ready(function(){
 						
 						}
 				})
-
+				$(document).off('blur', '.edit-text-question, .edit-text-description');
 				$(document).on('blur', '.edit-text-question, .edit-text-description', function(){
 					var fieldId = $(this).attr("id");
 					var value = $(this).val();

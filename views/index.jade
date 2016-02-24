@@ -1,202 +1,225 @@
 extends layout
 
 block extraHeader
-  // Custom CSS
-  link(rel='stylesheet', href='stylesheets/normalize.css')
-  link(href='stylesheets/index.css', rel='stylesheet')
+	// Custom CSS
+	link(rel='stylesheet', href='stylesheets/normalize.css')
+	link(href='stylesheets/index.css', rel='stylesheet')
 
 block content
-  // Navigation
-  nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-    .container
-      .navbar-header
-        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
-          i.fa.fa-bars
-        a.navbar-brand(href="/")
-          img#brand-image(src="images/transparent silo icon graphic.png")
-      // Collect the nav links, forms, and other content for toggling
-      .collapse.navbar-collapse.navbar-main-collapse
-        ul.nav.navbar-nav.navbar-left
-            li
-              a(href='#0') Features
-            li
-              a(href='http://siloblogs.tumblr.com/') Blog
-            li
-              a(href='#0') Our team
-      .collapse.navbar-collapse.navbar-right.navbar-main-collapse
-        ul.nav.navbar-nav
-          li
-            a.cd-login.pre-signin(href='#0') Log in
-          li
-            a.cd-signup.pre-signin(href='#0') Sign up
+	// Navigation
+	nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+		.container
+			.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+					i.fa.fa-bars
+				a.navbar-brand(href="/")
+					img#brand-image(src="images/transparent silo icon graphic.png")
+			// Collect the nav links, forms, and other content for toggling
+			.collapse.navbar-collapse.navbar-main-collapse
+				ul.nav.navbar-nav.navbar-left
+						li
+							a(href='#0') Features
+						li
+							a(href='http://siloblogs.tumblr.com/') Blog
+						li
+							a(href='#0') Our team
+			.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+				ul.nav.navbar-nav
+					li
+						a.cd-login.pre-signin(href='#0') Log in
+					li
+						a.cd-signup.pre-signin(href='#0') Sign up
 
-      // /.navbar-collapse
-    // /.container
-  // Intro Header
-  header.intro
-    .intro-body
-      .container
-        .row
-         .cd-user-modal
-           .cd-user-modal-container
-            ul.cd-switcher
-              li
-                a(href='#0') Log in
-              li
-                a(href='#0') New account
-            #cd-signup
-              form(id='signup-form',class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
-                p#email-username.fieldset
-                  label.image-replace.cd-username(for='signup-username')
-                  input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
-                  span#username-error.cd-error-message 
-                p#email-signup.fieldset
-                  label.image-replace.cd-email(for='signup-email') Email
-                  input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
-                  span#email-error.cd-error-message 
-                p#email-signup-password.fieldset
-                  label.image-replace.cd-password(for='signup-password') Password
-                  input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
-                  a.hide-password(href='#0') Hide
-                  span#password-error.cd-error-message Error message here!
-                p#fb-social.signup-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-                     span.fa.fa-facebook
-                     | Log in with Facebook
-                p#google-social.signup-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
-                     span.fa.fa-google
-                     | Log in with Google
-                p#linkedin-social.signup-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
-                     span.fa.fa-linkedin
-                     | Log in with Linkedin
-                p#email-signup-option
-                  a(href='#0') Continue with email. 
-                  span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
-                p#signup-terms.fieldset
-                  input#accept-terms(type='checkbox')
-                  label(for='accept-terms' id = "terms")
-                    | I agree to the 
-                    a(href='#0') Terms 
-                    span#terms-error  Please agree to the terms and conditions 
-                p#signup-btn.fieldset
-                  button.full-width.has-padding(type='submit', id = "signup-button") Create account
+			// /.navbar-collapse
+		// /.container
+	// Intro Header
+	header.intro
+		.intro-body
+			.container
+				.row
+					.cd-user-modal
+						.cd-user-modal-container
+							ul.cd-switcher
+								li
+									a(href='#0') Log in
+								li
+									a(href='#0') New account
+							#cd-signup
+								form(id='signup-form',class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
+									p#email-username.fieldset
+										label.image-replace.cd-username(for='signup-username')
+										input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
+										span#username-error.cd-error-message 
+									p#email-signup.fieldset
+										label.image-replace.cd-email(for='signup-email') Email
+										input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
+										span#email-error.cd-error-message 
+									p#email-signup-password.fieldset
+										label.image-replace.cd-password(for='signup-password') Password
+										input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
+										a.hide-password(href='#0') Hide
+										span#password-error.cd-error-message Error message here!
+									p#fb-social.signup-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+											span.fa.fa-facebook
+											| Log in with Facebook
+									p#google-social.signup-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+											span.fa.fa-google
+											| Log in with Google
+									p#linkedin-social.signup-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
+											span.fa.fa-linkedin
+											| Log in with Linkedin
+									p#email-signup-option
+										a(href='#0') Continue with email. 
+										span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
+									p#signup-terms.fieldset
+										input#accept-terms(type='checkbox')
+										label(for='accept-terms' id = "terms")
+											| I agree to the 
+											a(href='#0') Terms 
+											span#terms-error  Please agree to the terms and conditions 
+									p#signup-btn.fieldset
+										button.full-width.has-padding(type='submit', id = "signup-button") Create account
 
-            #cd-login
-              // log in form
-              form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
-                p#email-login.fieldset
-                  label.image-replace.cd-email(for='signin-email') E-mail
-                  input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
-                  span#login-email-error.cd-error-message Error message here!
-                p#email-login-password.fieldset
-                  label.image-replace.cd-password(for='signin-password') Password
-                  input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
-                  a.hide-password(href='#0') Hide
-                  span#signin-password-error.cd-error-message Error message here!
-                p#fb-social.login-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-                     span.fa.fa-facebook
-                     | Log in with Facebook
-                p#google-social.login-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
-                     span.fa.fa-google
-                     | Log in with Google
-                p#linkedin-social.login-social-btn
-                   a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
-                     span.fa.fa-linkedin
-                     | Log in with Linkedin
-                p#remember.fieldset
-                  input#remember-me(type='checkbox', checked='')
-                  label(for='remember-me') Remember me
-                p#email-login-btn.fieldset
-                  button#login-button.full-width.has-padding(type='submit') Login
-                p#email-option
-                  a(href="#0") Continue with email
-              p.cd-form-bottom-message
-                a(href="#0") Forgot your password?
-            #cd-reset-password
-              // reset password form
-              p.cd-form-message
-                | Lost your password? Please enter your email address. You will receive a link to create a new password.
-              form.cd-form
-                p#resend-email.fieldset
-                  label.image-replace.cd-email(for='reset-email') E-mail
-                  input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
-                  span.cd-error-message Error message here!
-                p#reset-password.fieldset
-                  button#reset-password.full-width.has-padding(type='submit') Reset password
-              p.cd-form-bottom-message
-                a(href='#0') Back to log-in
-            // cd-reset-password
-            a.cd-close-form(href='#0') Close
-              //
-            // cd-login
-        .col-md-8.col-md-offset-2
-          != messages('messages', locals)
-          h1.brand-heading
-            | 
-            span.title
-              | 
-              span
-          p.intro-text The search for funding shouldn't be draining.
-          p.intro-text-2 Fund your goals 
-            span#emphasis now.
-          
-          form.search_form(action='/results', method='get', name='search_form')
-            input#text_search(type='text', name='tags', placeholder='Subject, University, Degree level')
-            input#amount_req(type='number', name='amount', placeholder='Amount required')
-            input#age(type='number', name='age', placeholder='Age')
-            button#search_button.btn.btn-danger(type='submit') Search
-  // About Section
-  section#about.container.content-section.text-center
-    .row
-      .col-md-3.col-md-offset-2
-        h1#number-of-funds 8800
-        p#funds-brief There are 8800 grants in the UK giving approximately £2.5 billion in funds annually.
-      .col-md-2
-        h1#yet yet...
-      .col-md-3
-        #page
-          .progress-bar
-            canvas#inactiveProgress.progress-inactive(height='275px', width='275px')
-            canvas#activeProgress.progress-active(height='275px', width='275px')
-            p 0%
-          #progressControllerContainer
-            input#progressController(type='range', min='0', max='100', value='72')
-          p#postgraduate-brief 72% of postgraduate students have no financial help.
+							#cd-login
+								// log in form
+								form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
+									p#email-login.fieldset
+										label.image-replace.cd-email(for='signin-email') E-mail
+										input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
+										span#login-email-error.cd-error-message Error message here!
+									p#email-login-password.fieldset
+										label.image-replace.cd-password(for='signin-password') Password
+										input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
+										a.hide-password(href='#0') Hide
+										span#signin-password-error.cd-error-message Error message here!
+									p#fb-social.login-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+											span.fa.fa-facebook
+											| Log in with Facebook
+									p#google-social.login-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+											span.fa.fa-google
+											| Log in with Google
+									p#linkedin-social.login-social-btn
+										a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
+											span.fa.fa-linkedin
+											| Log in with Linkedin
+									p#remember.fieldset
+										input#remember-me(type='checkbox', checked='')
+										label(for='remember-me') Remember me
+									p#email-login-btn.fieldset
+										button#login-button.full-width.has-padding(type='submit') Login
+									p#email-option
+										a(href="#0") Continue with email
+								p.cd-form-bottom-message
+									a(href="#0") Forgot your password?
+							#cd-reset-password
+								// reset password form
+								p.cd-form-message
+									| Lost your password? Please enter your email address. You will receive a link to create a new password.
+								form.cd-form
+									p#resend-email.fieldset
+										label.image-replace.cd-email(for='reset-email') E-mail
+										input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
+										span.cd-error-message Error message here!
+									p#reset-password.fieldset
+										button#reset-password.full-width.has-padding(type='submit') Reset password
+								p.cd-form-bottom-message
+									a(href='#0') Back to log-in
+							// cd-reset-password
+							a.cd-close-form(href='#0') Close
+							//
+						// cd-login
+				.col-md-8.col-md-offset-2
+					!= messages('messages', locals)
+					h1.brand-heading
+						| 
+						span.title
+							| 
+							span
+					p.intro-text The search for funding shouldn't be draining.
+					p.intro-text-2 Fund your goals 
+						span#emphasis now.
+					
+					form.search_form(action='/results', method='get', name='search_form')
+						input#text_search(type='text', name='tags', placeholder='Subject, University, Degree level')
+						input#amount_req(type='number', name='amount', placeholder='Amount required')
+						input#age(type='number', name='age', placeholder='Age')
+						button#search_button.btn.btn-danger(type='submit') Search
+	// About Section
+	section#about.container.content-section.text-center
+		.row
+			.col-md-3.col-md-offset-2
+				h1#number-of-funds 8800
+				p#funds-brief There are 8800 grants in the UK giving approximately £2.5 billion in funds annually.
+			.col-md-2
+				h1#yet yet...
+			.col-md-3
+				#page
+					.progress-bar
+						canvas#inactiveProgress.progress-inactive(height='275px', width='275px')
+						canvas#activeProgress.progress-active(height='275px', width='275px')
+						p 0%
+					#progressControllerContainer
+						input#progressController(type='range', min='0', max='100', value='72')
+					p#postgraduate-brief 72% of postgraduate students have no financial help.
 
-      .col-md-2
-      .col-lg-8.col-lg-offset-2
-        p#silo-here Silo is here to solve this. By connecting those who need funding with those who provide it, we want to make the grant process more equitable.
-  section#trial.container.content-section.text-center
-    .row#profile-views
-      a#subscribeLink.btn.btn-lg
-          span Start a grant hassle free!
-  footer.footer-distributed
-        .footer-left
-          p.footer-links
-            a(href='#') About
-            | 					· 
-            a(href='#') Faq
-            | 					· 
-            a(href='mailto:howard@silofunds.com') Contact
-        .footer-center
-          p Silo © 2016
-        .footer-right
-          a(href='#')
-            i.fa.fa-facebook
-          a(href='https://twitter.com/SiloFunds')
-            i.fa.fa-twitter
-          a(href='#')
-            i.fa.fa-linkedin
-          a(href='#')
-            i.fa.fa-google-plus
+			.col-md-2
+			.col-lg-8.col-lg-offset-2
+				p#silo-here Silo is here to solve this. By connecting those who need funding with those who provide it, we want to make the grant process more equitable.
+	section#showcase.container.content-section.text-center
+		#profile-views.carousel.slide(data-ride = 'carousel')
+			ol.carousel-indicators
+				li.active(data-target='#profile-views', data-slide-to='0')
+				li(data-target='#profile-views', data-slide-to='1')
+				li(data-target='#profile-views', data-slide-to='2')
+			.carousel-inner(role='listbox')
+				.item.active
+					h3#applicant-intro Applicants
+					img#user-profile(src="images/homescreen-user.png")
+					p#user-features Customise your profile by showcasing past work, track your application process and engage with like-minded people in our supportive community.
+				.item
+					.row#intro-row
+						h3#fund-intro Funds
+						.col-md-6
+							img#fund-profile(src="images/profile.png")
+							p#profile-features Display your eligibility criteria and other relevant information.
+						.col-md-6
+							img#application(src="images/application.png")
+							p#application-feature Create and edit an online application form for potential applicants.
+
+			a.left.carousel-control(href='#profile-views', role='button', data-slide='prev')
+				span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+				span.sr-only Previous
+			a.right.carousel-control(href='#profile-views', role='button', data-slide='next')
+				span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+				span.sr-only Next
+	footer.footer-distributed
+				.footer-left
+					p.footer-links
+						a(href='#') About
+						| 					· 
+						a(href='#') Faq
+						| 					· 
+						a(href='mailto:howard@silofunds.com') Contact
+				.footer-center
+					p Silo © 2016
+				.footer-right
+					a(href='#')
+						i.fa.fa-facebook
+					a(href='https://twitter.com/SiloFunds')
+						i.fa.fa-twitter
+					a(href='#')
+						i.fa.fa-linkedin
+					a(href='#')
+						i.fa.fa-google-plus
 block scripts
-  // Custom Theme JavaScript
-  script(src='javascript/index.js')
-  //Progress drawer
-  script(src='javascript/progressDrawer.js')
-  script.
-    var resultsPage = !{JSON.stringify(resultsPage)}
+	// Custom Theme JavaScript
+	script(src='javascript/index.js')
+	//Progress drawer
+	script(src='javascript/progressDrawer.js')
+	script.
+		var resultsPage = !{JSON.stringify(resultsPage)}

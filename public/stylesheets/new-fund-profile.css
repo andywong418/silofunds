@@ -455,17 +455,19 @@ align-items: flex-end;
 .paragraph-filler, .description-filler{
 	margin-top: 20px;
 	font-size: 16.5px;
+	padding: 5px;
 }
 
 .add, .delete{
 	float: right;
 	color: #81CFE0;
 	cursor: pointer;
-	margin-bottom: 15px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: inline;
 }
 .add{
 	margin-right: 10px;
-	margin-left: 10px;
 }
 .delete{
 	margin-right: -20px;

@@ -13,7 +13,44 @@ $(document).ready(function() {
 //   }
 
 // });
+var advanced = true;
+var advanced_2 = true;
+$("#advanced-search").toggle(false);
+$("#advanced-search-2").toggle(false);
+$("#grants").click(function(){
+    $("#advanced-search").toggle(true);
+    $("#advanced-search-2").toggle(false);
+    $("#grants span").css("display","inline");
+    $("#users span").css("display","none");
+    $("#text_search").attr("name", "fund_tags");
+    advanced = false;
+    return true;
+  });
 
+$("#users").click(function(){
+    $("#advanced-search-2").toggle(true);
+    $("#advanced-search").toggle(false);
+    $("#users span").css("display","inline");
+    $("#grants span").css("display","none");
+    $("#text_search").attr("name", "user_tags")
+    advanced_2 = false; 
+});
+$(document).click(function(e) {
+  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {        
+      $("#advanced-search").toggle(false);        
+      
+  }
+  else{
+        return true;
+      }
+
+  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null) {
+    $("#advanced-search-2").toggle(false);              
+  }
+  else{
+        return true;
+  }
+});     
 var UserNav = Backbone.View.extend({
         el: ".nav li",
 
@@ -21,6 +58,7 @@ var UserNav = Backbone.View.extend({
           if(user){
             $('.pre-signin').css("display", "none");
             $('.post-signin').css("display","inline");
+            $('.post-signin').css("z-index", "11");
             if(user.fund_or_user){
               console.log("THIS IS A FUND");
               $("#home").attr("href", '/funds/' + user.id + '/'+session);

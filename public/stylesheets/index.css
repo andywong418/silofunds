@@ -976,6 +976,7 @@ time, mark, audio, video {
 /*silo description*/
 #silo-here{
   font-weight: bold;
+  font-size: 18px;
 }
 /*profileviews*/
 /*#profile-views{
@@ -1046,11 +1047,63 @@ time, mark, audio, video {
     }
   }
 }
+#showcase{
+  background-color: #e4ecf2;
+  position: relative;
+  width: 100%;
+  padding-top: 40px;
+}
+#user-profile{
+  max-width: 100%;
+  height: auto;
 
-.subscribe {
-  color: #000000;
+}
+#user-features{
+  font-size: 18px;
+  width: 60%;
+  margin-top: -150px;
+  margin-left: 20%;
+  color: #6C7A89;
+  margin-bottom: 100px;
 }
 
+.carousel-indicators li, .carousel-indicators .active{
+  margin: 10px;
+}
+
+.carousel-indicators li{
+  background-color: #616d7b;
+  border: none;
+}
+
+.carousel-indicators .active{
+  background-color: #ABB7B7;
+}
+
+.carousel-control.right, .carousel-control.left{
+  background-image: none;
+}
+
+#fund-profile, #application{
+  max-width: 100%;
+  height: auto;
+}
+
+#profile-features, #application-feature{
+    font-size: 18px;
+    color: #6C7A89;
+}
+
+#intro-row{
+  margin-bottom: 100px;
+}
+
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev{
+  margin-left: -50px
+}
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next{
+  margin-right: -50px;
+}
 .messages {
   position: fixed;
   top: 40px;

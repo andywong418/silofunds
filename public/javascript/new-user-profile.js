@@ -207,7 +207,7 @@ $(document).ready(function(){
     		    scrollTop: 0
 			    }, 2000);
 			    $('#description').css("z-index", "4");
-					$("#description").attr("placeholder", "Please enter a description of youself- including your age, any organisation you are part of and what you are currently seeking funding for.");
+					$("#description").attr("placeholder", "Please enter a description of youself- including any organisation you are part of, what you are currently seeking funding for and what you will do with the money granted.");
 				}
 				else{
 					$('#description').css("z-index", "2");
@@ -268,31 +268,34 @@ $(document).ready(function(){
 					.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 						});
 
-			$("input[id='work']").change(function(e){
-				var $input = $(this),
-				$label = $input.next('label'),
-				labelVal = $label.html();
-				var fileName = '';
-				console.log("CHECK HERE TOO");
-				if( this.files && this.files.length > 1 ){
-				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-				}
-				else if( e.target.value ){
-					fileName = e.target.value.split( '\\' ).pop();
-					console.log(fileName);
-				}
+			$("#work-span").click(function(){
+				$("input[id='work']").change(function(e){
+					var $input = $(this),
+					$label = $input.next('label'),
+					labelVal = $label.html();
+					var fileName = '';
+					console.log("CHECK HERE TOO");
+					if( this.files && this.files.length > 1 ){
+					fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+					}
+					else if( e.target.value ){
+						fileName = e.target.value.split( '\\' ).pop();
+						console.log(fileName);
+					}
 
-				if( fileName ){
-					$label.html( fileName );
-				}
-				else{
-					$label.html( labelVal );
-				}
+					if( fileName ){
+						$label.html( fileName );
+					}
+					else{
+						$label.html( labelVal );
+					}
 
-				$input
-					.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
-					.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
-						});
+					$input
+						.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
+						.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
+				});
+			})
+
 		},
 		finishSignup: function(){
 			$('#finish').click(function(){

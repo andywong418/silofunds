@@ -146,13 +146,15 @@ module.exports = {
     nationality = req.body.nationality,
     religion = req.body.religion,
     fundingNeeded = req.body.funding_needed;
-
+    console.log("INFO HERE?");;
+    var religionArray = [];
+    religionArray.push(religion);
     models.users.findById(userId).then(function(user){
       user.update({
         description: description,
         date_of_birth: dateOfBirth,
         nationality: nationality,
-        religion: religion,
+        religion: religionArray,
         funding_needed: fundingNeeded
       }).then(function(user){
         models.documents.findAll({

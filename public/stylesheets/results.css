@@ -7,7 +7,7 @@
 body {
     width: 100%;
     height: 100%;
-    font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Nunito","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.42857;
     color: #333333;
@@ -63,6 +63,15 @@ a:focus {
     font-weight: 400;
 }
 
+#brand-image{
+  margin-top: -13px;
+   height: auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+    position: relative;
+    z-index: 11;
+}
 .navbar-custom {
     margin-bottom: 0;
     border-bottom: 1px solid rgba(255,255,255,.3);
@@ -123,7 +132,187 @@ a:focus {
 .navbar-custom .nav li.active a:hover {
     color: #fff;
 }
+/* New search bar */
+.search_form{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: auto;
+  margin-top: 9px;
+  z-index: 10;
 
+}
+
+.search_form input{
+  margin:0px 7px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  width: 313px;
+  font-size: 13px;
+}
+
+#dropdown{
+  display: inline;
+}
+
+#dropdown-menu{
+  margin-top: 5px;
+}
+
+#search-dropdown{
+  width: 38px;
+  height:38px;
+  border-radius: 19px;
+  margin-top: -4px;
+  padding: 0;
+  padding-left: 5px;
+  /*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
+  background: #ffffff; 
+
+}
+
+#search-dropdown:focus{
+  outline: 0;
+}
+
+#search-dropdown i{
+  margin: 0px 2px;
+  position: relative;
+  z-index: 5;
+  color: black;
+}
+#grants, #users{
+  cursor: pointer;
+  margin: 10px;
+  padding-left: 10px;
+  padding-top: 2px;
+  height: 25px;
+  text-transform: capitalize;
+}
+#grants:hover, #users:hover{
+  background-color: #f5f5f5;
+
+}
+
+#grants span, #users span{
+  float: right;
+  display: none;
+  color:#2ABB9B;
+}
+
+.signin-icon{
+  font-size: 20px;
+  margin: 10px 5px 0;
+}
+
+.signin-icon button{
+  color:white;
+  background-color: transparent;
+  border: none;
+  position: relative;
+  z-index: 10;
+  outline: 0;
+}
+#settings-button:hover, #settings-button:active, #settings-button:visited, #settings-button:link, #settings-button:focus{
+  background-color: transparent;
+  color: #D2D7D3;
+}
+
+ .fa-comment-o{
+  display: none;
+}
+.fa-cog{
+  font-size: 20px;
+}
+.fa-cog:hover{
+  cursor: pointer;
+  font-size: 20px;
+  color:#D2D7D3;
+}
+.fa-cog:active, .fa-cog:visited{
+  color:#D2D7D3;
+}
+/*.fa-user{
+margin-right: -40px;
+}*/
+#home{
+color: white;
+}
+#home:hover{
+
+}
+
+.center-block{
+  text-align: center;
+  float: none;
+  display: table;
+  margin: 0 auto;
+}
+/*advanced search */
+#advanced-search,#advanced-search-2{
+  margin: -3.5% 17%;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  width: 46%;
+  position: fixed;
+  z-index: 4;
+  background-color: #E4F1FE;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 30px;
+}
+
+#advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{
+  
+  border-radius: 5px;
+  border: none;
+  padding: 3px 5px;
+  margin-top: 5px;
+}
+#advanced-age, #advanced-age-2{
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+
+}
+
+#advanced-nationality{
+  width: 65%;
+  display: block;
+  margin: 0 auto;
+}
+#religion{
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+#input-amount{
+  width: 60%;
+  display: block;
+  margin: 0 auto;
+}
+
+#amount_needed,#gender, #merit-or-finance{
+  margin: 20px auto;
+  margin-bottom: 5px;
+
+}
 /*customised code*/
 @media(min-width:768px) {
     .navbar-custom {
@@ -187,93 +376,8 @@ i {
     color: black;
 }
 
-#text_search
-{
-  height: 35px;
-    width: 125px;
-    padding-left: 5px;
-    margin: 5px;
-}
-
-#amount_req
-{
-    height: 35px;
-    width: 100px;
-    padding-left: 5px;
-    margin: 5px;
-}
-
-#age
-{
-  height: 35px;
-  width: 60px;
-  padding-left: 5px;
-  margin: 5px;
-}
-
-#search_button
-{
-  height: 35px;
-  margin-left: 5px;
-}
-
-#brand-heading {
-
-  font-size: 30px;
-  font-family:'Roboto Slab', sans-serif;
-  font-style: normal;
-  color:white;
 
 
-  background-color: transparent;
-}
-@media(max-width: 1020px){
-
-    #brand-heading{
-        margin-left: 1px;
-    }
-}
-
-@media(max-width: 991px){
-    #brand-heading{
-        font-size: 25px;
-        margin-left: -100px;
-    }
-
-    .search_form{
-        margin-top: 5px;
-        width: 110%;
-    }
-
-    #search_button{
-        height:25px;
-        padding: 0 10px;
-    }
-
-    #text_search{
-        height:25px;
-    }
-
-    #amount_req{
-        height:25px;
-    }
-
-    #age{
-        height: 25px
-    }
-}
-
-@media(max-width: 530px){
-    .results{
-        height: 100px;
-    }
-}
-
-@media(max-width: 430px){
-    #search_button {
-        margin-top: 5px;
-    }
-}
 #title {
   text-transform: lowercase;
 }
@@ -323,6 +427,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   height: 40px;
   padding-top: 10px;
   margin-top: 30px;
+  border-radius: 3px;
+  box-shadow: 5px;
 }
 
 .fund_link a
@@ -858,7 +964,7 @@ time, mark, audio, video {
 
 .post-signin{
   font-size: 20px;
-  margin: 10px 20px 0;
+  margin: 10px 5px 0;
   display: none;
 }
 .post-signin button{
@@ -917,3 +1023,7 @@ time, mark, audio, video {
   color: black;
 }
 
+
+.ui-menu .ui-menu-item{
+  margin-top: 13px;
+}

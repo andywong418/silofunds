@@ -1,5 +1,6 @@
 #advanced-search, #advanced-search-2{
 	top: 80px;
+	z-index: 11;
 }
 
 #fund-info{
@@ -80,7 +81,7 @@
 #overview-form, #eligible-form{
 	text-align: center;
 	padding-top: 30px;
-	padding-bottom: 30px;
+	padding-bottom: 10px;
 }
 
 
@@ -99,7 +100,7 @@ cursor: pointer;
 
 .description-filler{
 	margin-top: 20px;
-	width: 50%;
+	width: 100%;
 	margin-right: 35%;
 }
 
@@ -369,6 +370,7 @@ align-items: flex-end;
 	color: #81CFE0;
 	cursor: pointer;
 	margin-bottom: 15px;
+	margin-top: 5px !important;
 }
 .add{
 	margin-right: 10px;

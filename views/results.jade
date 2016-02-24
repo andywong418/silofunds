@@ -11,13 +11,27 @@ block content
 						i.fa.fa-bars
 
 					a#brand-heading.navbar-brand(href='/')
-						| S
-						span#title ilo
-					form.search_form(action='/results', method='get', name='search_form')
-						input#text_search(type='text', name='tags', placeholder='Search terms')
-						input#amount_req(type='number', name='amount', placeholder='Amount')
-						input#age(type='number', name='age', placeholder='Age')
-						button#search_button.btn.btn-danger(type='submit') Search
+						img#brand-image(src="images/transparent silo icon graphic.png")
+					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+							i.fa.fa-bars
+					form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+						#dropdown.dropdown
+							button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+								i.fa.et-down.fa-bars
+								i.fa.et-down.fa-angle-down
+							ul#dropdown-menu.dropdown-menu
+								li.dropdown-header type of profile search
+								li#grants
+									| Grants
+									span
+										i.fa.fa-check
+								li#users
+									| Users  
+									span
+										i.fa.fa-check         
+						input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
+						button#search_button.btn.btn-info(type='submit')
+							i.fa.fa-search
 				// Collect the nav links, forms, and other content for toggling
 				#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
 					ul.nav.navbar-nav
@@ -44,6 +58,70 @@ block content
 									li#logout
 										a.logout(href="#0")
 											| Log out
+		section#advanced-search.container.content-section.text-center
+			.row
+				.col-md-4
+					label(for='age') Age:
+					input#advanced-age(type = "number", name = "age")
+				.col-md-4
+					label(for= 'nationality') Nationality:
+					input#advanced-nationality(type = "text", name = "nationality")	 
+				.col-md-4
+					label(for= 'religion') Religion:
+					input#religion(type = "text", name = "religion")				 
+			.row		
+				.col-md-4
+					label#amount_needed(for= 'amount_needed') Amount:
+					input#input-amount(type = "text", name = "funding_needed")
+				.col-md-4
+					label#merit-or-finance Merit or Finance
+					.row
+						.col-md-6
+							label.radio-inline
+								input#merit(type='radio', name='merit_or_finance', value='merit')
+								| Merit
+						.col-md-6
+								label.radio-inline
+										input#finance(type='radio', name='merit_or_finance', value='finance')
+										| Finance
+				.col-md-4
+					label#gender Gender
+					.row
+						.col-md-6
+							label.radio-inline
+								input#male(type='radio', name = 'gender', value= 'male')
+								| Male
+						.col-md-6
+							label.radio-inline
+								input#female(type='radio', name = 'gender', value = 'female')
+								| Female
+		section#advanced-search-2.container.content-section.text-center
+			.row
+				.col-md-4
+					label(for='age') Age:
+					input#advanced-age-2(type = "number", name = "user_age") 
+						
+				.col-md-4
+					label(for= 'nationality') Nationality:
+					input#advanced-nationality(type = "text", name = "user_nationality") 
+				.col-md-4
+					label(for= 'religion') Religion:
+					input#religion(type = "text", name = "user_religion")				 
+			.row		
+				.col-md-4
+					label#amount_needed(for= 'amount_needed') Amount:
+					input#input-amount(type = "text", name = "user_funding_needed")
+				.col-md-4
+					label#gender Gender
+					.row
+						.col-md-6
+							label.radio-inline
+								input#male(type='radio', name = 'user_gender', value= 'male')
+								| Male
+						.col-md-6
+							label.radio-inline
+								input#female(type='radio', name = 'user_gender', value = 'female')
+								| Female
 		section#about.container.content-section.text-center
 				.row
 					.cd-user-modal
