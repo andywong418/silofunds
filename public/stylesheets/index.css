@@ -1084,25 +1084,45 @@ time, mark, audio, video {
   background-image: none;
 }
 
+#fund-intro, #applicant-intro{
+  color: #34495E
+}
 #fund-profile, #application{
-  max-width: 100%;
+  max-width: 70%;
   height: auto;
 }
 
-#profile-features, #application-feature{
+#profile-features, #application-feature, #coming-features{
     font-size: 18px;
     color: #6C7A89;
+    margin-top: -50px;
 }
+
+#coming-soon{
+  padding-top: 150px;
+
+}
+#coming{
+  border: 5px solid #34495E;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 20px;
+  color: #34495E;
+}
+
+
 
 #intro-row{
   margin-bottom: 100px;
 }
 
 .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev{
-  margin-left: -50px
+  margin-left: -70px
 }
 .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next{
-  margin-right: -50px;
+  margin-right: -70px;
 }
 .messages {
   position: fixed;

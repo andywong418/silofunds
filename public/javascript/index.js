@@ -375,4 +375,11 @@ jQuery.fn.putCursorAtEnd = function() {
   var scrollView = new Scrollview();
   var menuView = new Menuview();
 
+  // var position = $("#application-feature").offset();
+  // $("#coming-features").css("top", position.top)
+
+  // $(window).resize(function(){
+  // var position = $("#application-feature").offset();
+  // $("#coming-features").css("top", position.top)
+  // })
 });

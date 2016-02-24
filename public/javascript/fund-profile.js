@@ -259,7 +259,7 @@ var EligibleDisplay = Backbone.View.extend({
 			this.$("#gender").after("<span class = 'added-gender'>" + fund.gender + "</p>")
 		}
 		else{
-			this.$("#gender").after("<span>This scholarship does not have any specify a certain gender.<span>")
+			this.$("#gender").after("<span>This scholarship does not specify a certain gender.<span>")
 		}
 		if(fund.merit_or_finance){
 			this.$("#merit_or_finance").after("<span class = 'added-merit'>" + fund.merit_or_finance + "</span>");
