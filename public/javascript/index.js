@@ -346,7 +346,7 @@ jQuery.fn.putCursorAtEnd = function() {
     scrollTo: function(){
         $('html, body').animate({
         scrollTop: $("#showcase").offset().top -20
-        }, 2000);
+        }, 1500, "easeOutQuart");
     }
   });
 
@@ -384,13 +384,69 @@ jQuery.fn.putCursorAtEnd = function() {
   $("#about-scroll").click(function(){
     $('html, body').animate({
         scrollTop: $("#about-us").offset().top-80
-        }, 2000);
-  })
-  // var position = $("#application-feature").offset();
-  // $("#coming-features").css("top", position.top)
+        }, 1500, "easeOutQuart");
+  });
 
-  // $(window).resize(function(){
-  // var position = $("#application-feature").offset();
-  // $("#coming-features").css("top", position.top)
-  // })
+  $(function() {
+    $(window).scroll( function(){
+    
+        /* Check the location of each desired element */
+        $('.hideme').each( function(i){
+            
+            var bottom_of_object = $(this).offset().top + ($(this).outerHeight() /2);
+            var bottom_of_window = $(window).scrollTop() + $(window).height();
+            
+            /* If the object is completely visible in the window, fade it it */
+            if( bottom_of_window > bottom_of_object ){
+                
+                $(this).animate({'opacity':'1'},1500);
+                    
+            }
+            
+        }); 
+    
+    });
+  });
+
+
+  (function($) {
+
+    $.fn.visible = function(partial) {
+      
+        var $t            = $(this),
+            $w            = $(window),
+            viewTop       = $w.scrollTop(),
+            viewBottom    = viewTop + $w.height(),
+            _top          = $t.offset().top,
+            _bottom       = _top + $t.height(),
+            compareTop    = partial === true ? _bottom : _top,
+            compareBottom = partial === true ? _top : _bottom;
+      
+      return ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+
+    };
+      
+  })(jQuery);
+
+  $(window).scroll(function(event) {
+    
+    $(".module").each(function(i, el) {
+      var el = $(el);
+      if (el.visible(true)) {
+        el.addClass("come-in"); 
+      } 
+    });
+    
+  });
+
+
+  $(window).scroll(function(event) {  
+    $(".module-2").each(function(i, el){
+       var el = $(el);
+        if (el.visible(true)) {
+          el.addClass("come-in-2"); 
+        } 
+    })
+  })
+
 });

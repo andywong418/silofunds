@@ -150,12 +150,12 @@ block content
 	// About Section
 	section#about.container.content-section.text-center
 		.row
-			.col-md-3.col-md-offset-2
+			.col-md-3.col-md-offset-2.hideme
 				h1#number-of-funds 8800
 				p#funds-brief There are 8800 grants in the UK giving approximately £2.5 billion in funds annually.
-			.col-md-2
+			.col-md-2.hideme
 				h1#yet yet...
-			.col-md-3
+			.col-md-3.hideme
 				#page
 					.progress-bar
 						canvas#inactiveProgress.progress-inactive(height='275px', width='275px')
@@ -171,19 +171,19 @@ block content
 	hr#line-break
 	section#about-us.container.content-section.text-center
 		.col-md-12.center-block
-			h3#about-intro About us
-			.col-md-4
+			h3#about-intro.module About us
+			.col-md-4.module
 				img#free(src="images/free.svg")
 				p#free-paragraph We know that young adults and students are less financially flexible. As a result our product is free for all applicants.
-			.col-md-4
+			.col-md-4.module
 				img#crowd-funding(src="images/crowd-funding.svg")
 				p#crowd-funding-paragraph Our platform aggregates the concepts of crowdfunding and funding from established organisations.
-			.col-md-4
+			.col-md-4.module
 				img#network(src="images/network.svg") 
 				p#network-paragraph Silo is the first service to directly connect grant institutions with applicants.
 				h3#coming-soon Coming soon...
 	section#showcase.container.content-section.text-center
-		#profile-views.carousel.slide(data-ride = 'carousel')
+		#profile-views.carousel.slide(data-ride = 'carousel', data-interval = "false")
 			ol.carousel-indicators
 				li.active(data-target='#profile-views', data-slide-to='0')
 				li(data-target='#profile-views', data-slide-to='1')
@@ -193,6 +193,11 @@ block content
 					h3#applicant-intro Applicants
 					img#user-profile(src="images/homescreen-user.png")
 					p#user-features Customise your profile by showcasing past work, track your application process and engage with like-minded people in our supportive community.
+				.item
+					.row
+						h3#search-intro Search
+						img#search-profile(src="images/search_1.png")
+						p#search-features Use our unique search engine to look for funds tailored to your specific needs.
 				.item
 					.row#intro-row
 						h3#fund-intro Funds
@@ -208,12 +213,6 @@ block content
 							#coming-soon.col-md-3
 								h4#coming Coming soon ...
 								p#coming-features Manage your applicants and their applications.
-				.item
-					.row
-						h3#search-intro Search
-						img#search-profile(src="images/search_1.png")
-						p#search-features Use our unique search engine to look for funds tailored to your specific needs.
-
 			a.left.carousel-control(href='#profile-views', role='button', data-slide='prev')
 				span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
 				span.sr-only Previous
@@ -221,8 +220,8 @@ block content
 				span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
 				span.sr-only Next
 	section#generosity.container.content-section.text-center
-		h3#generosity-intro Generosity
-		p#generosity-paragraph Those who are just short of their target will be included in a suggestion list for other applicants of similar interests who have surpassed their intended amount of funding. These applicants are then encouraged to donate to those within the suggestion list. This will ultimately create a fair distribution of financial rewards.
+		h3#generosity-intro.hideme Generosity
+		p#generosity-paragraph.hideme Those who are just short of their target will be included in a suggestion list for other applicants of similar interests who have surpassed their intended amount of funding. These applicants are then encouraged to donate to those within the suggestion list. This will ultimately create a fair distribution of financial rewards.
 	footer.footer-distributed
 				.footer-left
 					p.footer-links
@@ -233,12 +232,12 @@ block content
 					p Silo © 2016
 				.footer-right
 					p.footer-social
-						a(href='#')
+						a(href='https://www.facebook.com/SiloFunds/?fref=ts')
 							i.fa.fa-facebook
 						a(href='https://twitter.com/SiloFunds')
 							i.fa.fa-twitter
-						a(href='#')
-							i.fa.fa-linkedin
+						a(href='https://www.instagram.com/silofunds/')
+							i.fa.fa-instagram
 						a(href='#')
 							i.fa.fa-google-plus
 block scripts
