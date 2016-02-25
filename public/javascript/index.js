@@ -316,7 +316,9 @@ jQuery.fn.putCursorAtEnd = function() {
 
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
-
+    events: {
+      "click #features": "scrollTo"
+    },
     initialize: function() {
       _.bindAll(this, "render", "collapseNavbar");
       this.render();
@@ -340,6 +342,11 @@ jQuery.fn.putCursorAtEnd = function() {
         $(".cd-signup").css("margin-top", "3px");
         }
       }
+    },
+    scrollTo: function(){
+        $('html, body').animate({
+        scrollTop: $("#showcase").offset().top -20
+        }, 2000);
     }
   });
 
@@ -374,7 +381,11 @@ jQuery.fn.putCursorAtEnd = function() {
 
   var scrollView = new Scrollview();
   var menuView = new Menuview();
-
+  $("#about-scroll").click(function(){
+    $('html, body').animate({
+        scrollTop: $("#about-us").offset().top-80
+        }, 2000);
+  })
   // var position = $("#application-feature").offset();
   // $("#coming-features").css("top", position.top)
 

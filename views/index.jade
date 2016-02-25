@@ -17,12 +17,10 @@ block content
 			// Collect the nav links, forms, and other content for toggling
 			.collapse.navbar-collapse.navbar-main-collapse
 				ul.nav.navbar-nav.navbar-left
-						li
-							a(href='#0') Features
+						li#features
+							a(href="#") Features
 						li
 							a(href='http://siloblogs.tumblr.com/') Blog
-						li
-							a(href='#0') Our team
 			.collapse.navbar-collapse.navbar-right.navbar-main-collapse
 				ul.nav.navbar-nav
 					li
@@ -170,6 +168,20 @@ block content
 			.col-md-2
 			.col-lg-8.col-lg-offset-2
 				p#silo-here Silo is here to solve this. By connecting those who need funding with those who provide it, we want to make the grant process more equitable.
+	hr#line-break
+	section#about-us.container.content-section.text-center
+		.col-md-12.center-block
+			h3#about-intro About us
+			.col-md-4
+				img#free(src="images/free.svg")
+				p#free-paragraph We know that young adults and students are less financially flexible. As a result our product is free for all applicants.
+			.col-md-4
+				img#crowd-funding(src="images/crowd-funding.svg")
+				p#crowd-funding-paragraph Our platform aggregates the concepts of crowdfunding and funding from established organisations.
+			.col-md-4
+				img#network(src="images/network.svg") 
+				p#network-paragraph Silo is the first service to directly connect grant institutions with applicants.
+				h3#coming-soon Coming soon...
 	section#showcase.container.content-section.text-center
 		#profile-views.carousel.slide(data-ride = 'carousel')
 			ol.carousel-indicators
@@ -196,6 +208,11 @@ block content
 							#coming-soon.col-md-3
 								h4#coming Coming soon ...
 								p#coming-features Manage your applicants and their applications.
+				.item
+					.row
+						h3#search-intro Search
+						img#search-profile(src="images/search_1.png")
+						p#search-features Use our unique search engine to look for funds tailored to your specific needs.
 
 			a.left.carousel-control(href='#profile-views', role='button', data-slide='prev')
 				span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
@@ -203,25 +220,27 @@ block content
 			a.right.carousel-control(href='#profile-views', role='button', data-slide='next')
 				span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
 				span.sr-only Next
+	section#generosity.container.content-section.text-center
+		h3#generosity-intro Generosity
+		p#generosity-paragraph Those who are just short of their target will be included in a suggestion list for other applicants of similar interests who have surpassed their intended amount of funding. These applicants are then encouraged to donate to those within the suggestion list. This will ultimately create a fair distribution of financial rewards.
 	footer.footer-distributed
 				.footer-left
 					p.footer-links
-						a(href='#') About
-						| 					· 
-						a(href='#') Faq
-						| 					· 
+						a#about-scroll About
+						a(href="#")	· 
 						a(href='mailto:howard@silofunds.com') Contact
 				.footer-center
 					p Silo © 2016
 				.footer-right
-					a(href='#')
-						i.fa.fa-facebook
-					a(href='https://twitter.com/SiloFunds')
-						i.fa.fa-twitter
-					a(href='#')
-						i.fa.fa-linkedin
-					a(href='#')
-						i.fa.fa-google-plus
+					p.footer-social
+						a(href='#')
+							i.fa.fa-facebook
+						a(href='https://twitter.com/SiloFunds')
+							i.fa.fa-twitter
+						a(href='#')
+							i.fa.fa-linkedin
+						a(href='#')
+							i.fa.fa-google-plus
 block scripts
 	// Custom Theme JavaScript
 	script(src='javascript/index.js')

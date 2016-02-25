@@ -190,10 +190,10 @@ var UserNav = Backbone.View.extend({
                }
                if(fundData[i].maximum_age && fundData[i].minimum_age){
                  $(".fund_min_age"+ fundData[i].id).children('.control').addClass("min_age"+ fundData[i].id);
-                 $(".min_age" + fundData[i].id).addClass("label label-success badge badge-inverse");
+                 $(".min_age" + fundData[i].id).addClass("label label-success badge badge-info");
                  $(".fund_min_age" + fundData[i].id).append("<span id='minus-sign'> - </span>");
                  $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);
-                 $(".max_age" + fundData[i].id).addClass("label label-success badge badge-inverse");
+                 $(".max_age" + fundData[i].id).addClass("label label-success badge badge-info");
                  $(".max_age" + fundData[i].id).css("margin-left", "-26px");
                }
       },

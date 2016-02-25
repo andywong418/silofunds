@@ -68,7 +68,7 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: "CASCADE",
           as: 'Funders',
           through: "applications",
-          foreignKey: 'User_fundid'
+          foreignKey: 'user_id'
         });
       }
     }

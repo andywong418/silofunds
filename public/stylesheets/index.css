@@ -922,7 +922,7 @@ time, mark, audio, video {
 
 #funds-brief{
   width:300px;
-  margin: 60px auto;
+  margin: 71px auto;
 }
 
 #postgraduate-brief{
@@ -939,7 +939,7 @@ time, mark, audio, video {
   margin: 0px auto;
   text-decoration: none;
   margin-bottom: 50px;
-  margin-top: -100px;
+  margin-top: -85px;
 }
 .progress-bar {
   display: inline-block;
@@ -1047,17 +1047,43 @@ time, mark, audio, video {
     }
   }
 }
+.center-block{
+  text-align: center;
+  float: none;
+  display: table;
+  margin: 0 auto;
+}
+
+#line-break{
+  border-width: 3px;
+}
+#about-us{
+  height: 578px;
+}
+#free, #crowd-funding, #network{
+  width: 40%;
+  height: auto;
+}
+
+#crowd-funding-paragraph, #free-paragraph, #network-paragraph{
+  font-size: 18px;
+  color: #34495E;
+  margin-top: 25px;
+}
 #showcase{
   background-color: #e4ecf2;
   position: relative;
   width: 100%;
   padding-top: 40px;
+  margin-bottom: 0;
+  margin-top: 10px;
 }
-#user-profile{
+#user-profile, #search-profile{
   max-width: 100%;
   height: auto;
 
 }
+
 #user-features{
   font-size: 18px;
   width: 60%;
@@ -1067,6 +1093,14 @@ time, mark, audio, video {
   margin-bottom: 100px;
 }
 
+ #search-features{
+  font-size: 18px;
+  width: 60%;
+  margin-left: 20%;
+  color: #6C7A89;
+  margin-bottom: 100px;
+  margin-top: -53px;
+ }
 .carousel-indicators li, .carousel-indicators .active{
   margin: 10px;
 }
@@ -1084,7 +1118,7 @@ time, mark, audio, video {
   background-image: none;
 }
 
-#fund-intro, #applicant-intro{
+#fund-intro, #applicant-intro, #search-intro{
   color: #34495E
 }
 #fund-profile, #application{
@@ -1096,9 +1130,11 @@ time, mark, audio, video {
     font-size: 18px;
     color: #6C7A89;
     margin-top: -50px;
+    margin-bottom: -16px;
 }
 
-#coming-soon{
+
+/*#coming-soon{
   padding-top: 150px;
 
 }
@@ -1110,7 +1146,7 @@ time, mark, audio, video {
   padding-right: 5px;
   font-size: 20px;
   color: #34495E;
-}
+}*/
 
 
 
@@ -1133,6 +1169,27 @@ time, mark, audio, video {
   z-index: 100;
   margin-left: 20%;
 }
+
+#generosity{
+  margin-top: 0;
+  height: 578px;
+  width: 100%;
+  background: url("../images/Noon-Years-Confetti.png") no-repeat fixed; 
+  background-position: center;
+
+}
+
+#generosity-intro{
+  color: #336E7B
+}
+
+#generosity-paragraph{
+  width: 60%;
+  margin-left: 20%;
+  font-size: 19px;
+    color: #36D7B7;
+    line-height: 2;
+}
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* Footer CSS */
 
@@ -1145,7 +1202,6 @@ time, mark, audio, video {
 	font: normal 16px sans-serif;
 
 	padding: 35px 50px;
-	margin-top: 150px;
 }
 
 .footer-distributed .footer-left,
@@ -1158,7 +1214,8 @@ time, mark, audio, video {
 /* Footer left */
 
 .footer-distributed .footer-left {
-  width: 33%;
+  width: 40%;
+
 }
 
 .footer-distributed .footer-left p,
@@ -1170,18 +1227,19 @@ time, mark, audio, video {
 
 .footer-distributed .footer-left a{
     margin-top: 8px;
+    margin-left: 20px;
 }
 
 /* Footer center */
 
 .footer-distributed .footer-center {
-  width: 33%;
+  width: 20%;
 }
 
 .footer-center p {
   text-align: center;
   vertical-align: middle;
-  margin-top: 15px;
+  margin-top: 65px;
 }
 
 /* Footer links */
@@ -1192,6 +1250,8 @@ time, mark, audio, video {
 	color:  #ffffff;
 	margin: 0 0 10px;
 	padding: 0;
+  float: right;
+
 }
 
 .footer-distributed p.footer-links a{
@@ -1204,25 +1264,34 @@ time, mark, audio, video {
 .footer-distributed .footer-right{
 	float: right;
 	margin-top: -3px;
-	max-width: 180px;
+  width: 40%;
 }
 
 .footer-distributed .footer-right a{
 	display: inline-block;
-	width: 35px;
-	height: 35px;
-	background-color:  #22313F;
-	border-radius: 2px;
-
+	width: 36px;
+	height: 36px;
+	background-color:  transparent;
+	border-radius: 18px;
+  border: 0.3px solid white;
 	font-size: 20px;
 	color: #ffffff;
 	text-align: center;
 	line-height: 35px;
 
-	margin-left: 3px;
+	margin-left: 15px;
   margin-top: 8px;
 }
+.footer-distributed .footer-right a:first-child{
+  margin-left: 0;
+}
+.footer-right p.footer-social{
+  float: left;
+}
 
+#about-scroll{
+  cursor: pointer;
+}
 /* If you don't want the footer to be responsive, remove these media queries */
 
 @media (max-width: 600px) {
