@@ -4,7 +4,7 @@ module.exports = {
 	home: function(req, res){
 		var id = req.params.id;
 		var session = req.params.session;
-
+		console.log(req);
 		models.users.findById(id).then(function(user){
 			console.log('is it this');
 			models.documents.findAll({where: {user_id: id}}).then(function(documents){

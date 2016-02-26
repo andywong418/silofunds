@@ -41,13 +41,13 @@ module.exports = {
       res.status(400).end();
     });
   },
-  addUser: function(req, res){
+  addUser: function(req, res, next){
     var username = req.body.username;
     var useremail = req.body.useremail;
     var userpassword = req.body.userpassword;
 
 		req.session.lastPage = '/signup';
-
+    console.log("REQ FOR REDIRECT", req);
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
@@ -140,6 +140,7 @@ module.exports = {
   },
   uploadInfo: function(req, res){
     console.log("Uploading info...");
+    console.log("CHECK REDIRECT", req);
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
@@ -161,7 +162,12 @@ module.exports = {
           where: {user_id: user.id}
         }).then(function(documents){
           var newUser = true;
-          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.sessionID});
+          if(req.session.redirect_user){
+            res.redirect('/results' + req.session.redirect_user);
+          }
+          else{
+          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.session});
+          }
         });
       });
     });

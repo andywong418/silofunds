@@ -1,5 +1,15 @@
 var models = require('../models');
 var query;
+var emptyStringToNull = function(object) {
+  var newArray = [];
+  for (var field in object){
+    if(object[field] == ''){
+      delete object[field];
+    }
+  }
+  return object;
+};
+
 module.exports = {
   index: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
@@ -16,10 +26,13 @@ module.exports = {
     var searchString = req.query.tags;
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
+    var query = emptyStringToNull(req.query);
+    console.log("QUERY FOR REAL", query);
     var user = req.session.passport.user;
     var session = req.sessionID;
-    console.log("REQ",req);
-    console.log("SESSION", req.session.passport);
+    var search_url_array = req.url.split('/');
+    req.session["redirect_user"] = search_url_array[1];
+    console.log(req.session);
     models.es.search({
       index: "funds",
       type: "fund",
@@ -56,10 +69,10 @@ module.exports = {
       var results_page = true;
       console.log(funds);
       if(user){
-        res.render('results',{ funds: funds, user: user, resultsPage: results_page, session: session } );
+        res.render('results',{ funds: funds, user: user, resultsPage: results_page, session: session, query: query } );
       }
       else{
-        res.render('results', { funds: funds, user: false, resultsPage: results_page, session: false });
+        res.render('results', { funds: funds, user: false, resultsPage: results_page, session: false, query: query });
       }
     }, function(err) {
       console.trace(err.message);

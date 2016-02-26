@@ -3,48 +3,43 @@ $(document).ready(function(){
 
 	});
 	$("#name").html(fund.username);
-	var advanced = true;
-	var advanced_2 = true;
-	$("#advanced-search").toggle(false);
-	$("#advanced-search-2").toggle(false);
-	$("#grants").click(function(){
-  		// $("#advanced-age").attr("value", age);
-  		$("#advanced-search").toggle(true);
-  		$("#advanced-search-2").toggle(false);
-  		$("#grants span").css("display","inline");
-  		$("#users span").css("display","none");
-  		// $("#text_search").attr("name", "fund_tags");
-  		advanced = false;
-  		return true;
-  	});
-	
-	$("#users").click(function(){
-		// $("#advanced-age-2").attr("value", age);
 
-  		$("#advanced-search-2").toggle(true);
-  		$("#advanced-search").toggle(false);
-  		$("#users span").css("display","inline");
-  		$("#grants span").css("display","none");
-  		// $("#text_search").attr("name", "user_tags")
-  		advanced_2 = false; 
-	});
+var advanced = true;
+var advanced_2 = true;
+$("#advanced-search").toggle(false);
+$("#advanced-search-2").toggle(false);
+$("#grants").click(function(){
+    $("#advanced-search").slideDown();
+    $("#advanced-search-2").toggle(false);
+    $("#grants span").css("display","inline");
+    $("#users span").css("display","none");
+    advanced = false;
+    return true;
+  });
 
-	$(document).click(function(e) {
-  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {	       
-      $("#advanced-search").toggle(false);      	
-    	
+$("#users").click(function(){
+    $("#advanced-search-2").toggle(true);
+    $("#advanced-search").toggle(false);
+    $("#users span").css("display","inline");
+    $("#grants span").css("display","none");
+    advanced_2 = false; 
+});
+$(document).click(function(e) {
+  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {        
+      $("#advanced-search").toggle(false);        
+      
   }
   else{
-    		return true;
-    	}
+        return true;
+      }
 
-  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null) {
-    $("#advanced-search-2").toggle(false);      	     	
+  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
+    $("#advanced-search-2").toggle(false);              
   }
   else{
-    		return true;
+        return true;
   }
-})
+}); 
 
 $("#profile-figure").hover(function(){
 $("#add-profile").css("display", "inline");

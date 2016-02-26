@@ -3,17 +3,35 @@ var signup = require('../controllers/signup');
 var router = express.Router();
 var multer = require('multer');
 var upload = multer();
+var passport = require('passport');
 var params = [
 {name: 'profile_picture', maxCount: 1},
 {name: 'video_intro', maxCount: 1},
 {name: 'past_work', maxCount: 5}
 ];
+require('../controllers/passport')(passport);
+var models = require('../models');
 
 router.get('/', function(req, res) {
   req.flash('danger', 'Please signup from here.');
   res.redirect('/');
 });
-router.post('/', signup.subscribe, signup.addUser);
+router.post('/', signup.subscribe, passport.authenticate('local-signup', {
+	failureRedirect: '/login/error'
+}), function(req, res){
+    var username = req.body.username;
+    var useremail = req.body.useremail;
+    var userpassword = req.body.userpassword;
+
+		req.session.lastPage = '/signup';
+    console.log("REQ FOR REDIRECT", req);
+    models.users.find({
+      where: {email: useremail}
+    }).then(function(user){
+    	console.log("AM I HERE?");
+      res.render('signup/signup', {user: user});      
+    });
+});
 router.post('/results', function(req,res){
 	res.redirect('/results');
 });

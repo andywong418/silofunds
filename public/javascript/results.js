@@ -13,16 +13,27 @@ $(document).ready(function() {
 //   }
 
 // });
+
+console.log(query);
+
+for(var field in query){
+  $('.' + field).attr('value', query[field]);
+  if(field == 'merit_or_finance'){
+      $('#' + query[field]).attr("checked", "true");
+  }
+  if(field == 'gender'){
+    $('#' + query[field]).attr("checked", "true");
+  }
+}
 var advanced = true;
 var advanced_2 = true;
 $("#advanced-search").toggle(false);
 $("#advanced-search-2").toggle(false);
 $("#grants").click(function(){
-    $("#advanced-search").toggle(true);
+    $("#advanced-search").slideDown();
     $("#advanced-search-2").toggle(false);
     $("#grants span").css("display","inline");
     $("#users span").css("display","none");
-    $("#text_search").attr("name", "fund_tags");
     advanced = false;
     return true;
   });
@@ -32,11 +43,10 @@ $("#users").click(function(){
     $("#advanced-search").toggle(false);
     $("#users span").css("display","inline");
     $("#grants span").css("display","none");
-    $("#text_search").attr("name", "user_tags")
     advanced_2 = false; 
 });
 $(document).click(function(e) {
-  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null) {        
+  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {        
       $("#advanced-search").toggle(false);        
       
   }
@@ -44,7 +54,7 @@ $(document).click(function(e) {
         return true;
       }
 
-  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null) {
+  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
     $("#advanced-search-2").toggle(false);              
   }
   else{

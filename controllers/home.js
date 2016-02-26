@@ -2,6 +2,7 @@ module.exports = {
   index: function(req, res) {
     console.log(req.session.passport.user);
     var user = req.session.passport.user;
+    delete req.session.redirect_user;
     if(user){
       if(user.fund_or_user){
         res.redirect('/funds/' + user.id+ '/' + req.sessionID);

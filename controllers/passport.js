@@ -39,9 +39,46 @@ module.exports = function(passport) {
         });
       }));
 
+       passport.use('local-signup', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
 
+        usernameField : 'useremail',
+        passwordField : 'userpassword',
+        passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+    function(req, email, password, done) {
 
-    passport.use('facebook', new FacebookStrategy({
+        // asynchronous
+        // User.findOne wont fire unless data is sent back
+        process.nextTick(function() {
+
+        // find a user whose email is the same as the forms email
+        // we are checking to see if the user trying to login already exists
+        console.log("PASSPORT REQ", req);
+        models.users.find({
+          where: {email: email}
+        }).then(function(user){
+          if(!user) {
+            models.users.create({
+              username: req.body.username,
+              email: email,
+              password: password,
+              email_updates: true
+            }).then(function(user){
+              console.log("AM I HERE");
+              return done(null, user);
+
+            });
+          }
+        });
+
+  
+
+        });
+
+    }));
+
+      passport.use('facebook', new FacebookStrategy({
       clientID: '506830149486287',
       clientSecret: '45b00c46d1cf3d9396fd24fe99ea0e3d',
       callbackURL: "https://silofunds.herokuapp.com/auth/facebook/callback",
@@ -67,4 +104,6 @@ module.exports = function(passport) {
         });
       });
     }));
-}
+};
+
+

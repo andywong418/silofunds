@@ -447,6 +447,14 @@ jQuery.fn.putCursorAtEnd = function() {
           el.addClass("come-in-2"); 
         } 
     })
+  });
+  var className;
+  $(".footer-distributed .footer-right a").hover(function(){
+   var classNameArray = $(this).children().attr('class').split(" ");
+    className = classNameArray[1];
+    $("i." + className).css("color", "#22313F");
+  }, function(){
+    console.log("CLASS", className);
+    $("i." + className).css("color", "white");
   })
-
 });

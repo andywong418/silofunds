@@ -32,9 +32,14 @@ router.post('/', passport.authenticate('local-login', {
         })
       })
 		} else{
+        if(req.session.redirect_user){
+          res.redirect('/results' + req.session.redirect_user);
+        }
+        else{
 				models.documents.findAll({where: {user_id: id}}).then(function(documents){
 				res.render('signup/user-complete', {user: user, newUser: false, documents: documents});
 			});
+      }
 		}
 	})
 
