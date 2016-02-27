@@ -227,15 +227,16 @@ var UserNav = Backbone.View.extend({
           }
         });
       },
-      addApplication(){
-        $(".fund_link a").click(function(){
-          var fund_id = $(this).parent().siblings('label').attr("id");
-          parameters = {"fund_id": fund_id};
-          $.post('/users/add-application/'+ user.id, parameters, function(data){
-            console.log(data)
+      addApplication: function(){
+        if(user && !user.fund_or_user){
+          $(".fund_link a").click(function(){
+            var fund_id = $(this).parent().siblings('label').attr("id");
+            parameters = {"fund_id": fund_id};
+            $.post('/users/add-application/'+ user.id, parameters, function(data){
+              console.log(data)
+            })
           })
-        })
-
+        }
       }
    });
 
