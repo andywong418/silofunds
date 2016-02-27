@@ -122,6 +122,7 @@ var UserNav = Backbone.View.extend({
       initialize: function(){
         this.fundDisplay();
         this.infoToggle();
+        this.addApplication();
       },
 
       fundDisplay: function(){
@@ -225,6 +226,16 @@ var UserNav = Backbone.View.extend({
             bool = true;
           }
         });
+      },
+      addApplication(){
+        $(".fund_link a").click(function(){
+          var fund_id = $(this).parent().siblings('label').attr("id");
+          parameters = {"fund_id": fund_id};
+          $.post('/users/add-application/'+ user.id, parameters, function(data){
+            console.log(data)
+          })
+        })
+
       }
    });
 

@@ -57,10 +57,11 @@ html
 											| Grants
 											span
 												i.fa.fa-check
-										li#users
-											| Users  
-											span
-												i.fa.fa-check         
+										//
+											li#users
+												| Users  
+												span
+													i.fa.fa-check         
 								input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
 								button#search_button.btn.btn-info(type='submit')
 									i.fa.fa-search
@@ -95,64 +96,64 @@ html
 					.row
 						.col-md-4
 							label(for='age') Age:
-							input#advanced-age(type = "number", name = "age") 	
+							input#advanced-age(type = "number", name = "age", form = "search-form") 	
 						.col-md-4
 							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "nationality") 
+							input#advanced-nationality(type = "text", name = "nationality", form = "search-form") 
 						.col-md-4
 							label(for= 'religion') Religion:
 							input#religion(type = "text", name = "religion") 
 					.row
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "funding_needed")
+							input#input-amount(type = "text", name = "funding_needed", form = "search-form")
 						.col-md-4
 							label#merit-or-finance Merit or Finance
 							.row
 								.col-md-6
 									label.radio-inline
-										input#merit(type='radio', name='merit_or_finance')
+										input#merit(type='radio', name='merit_or_finance', form = "search-form")
 										| Merit
 								.col-md-6
 										label.radio-inline
-												input#finance(type='radio', name='merit_or_finance')
+												input#finance(type='radio', name='merit_or_finance', form = "search-form")
 												| Finance
 						.col-md-4
 							label#gender Gender
 							.row
 								.col-md-6
 									label.radio-inline
-										input#male(type='radio', name = 'gender')
+										input#male(type='radio', name = 'gender', form = "search-form")
 										| Male
 								.col-md-6
 									label.radio-inline
-										input#female(type='radio', name = 'gender')
+										input#female(type='radio', name = 'gender', form = "search-form")
 										| Female
 				section#advanced-search-2.container.content-section.text-center
 					.row
 						.col-md-4
 							label(for='age') Age:
-							input#advanced-age-2(type = "number", name = "user_age") 
+							input#advanced-age-2(type = "number", name = "user_age", form = "search-form") 
 						.col-md-4
 							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality) 
+							input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality, form = "search-form") 
 						.col-md-4
 							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "user_religion") 
+							input#religion(type = "text", name = "user_religion", form = "search-form") 
 					.row
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "user_funding_needed")
+							input#input-amount(type = "text", name = "user_funding_needed", form = "search-form")
 						.col-md-4
 							label#gender Gender
 							.row
 								.col-md-6
 									label.radio-inline
-										input#male(type='radio', name = 'user_gender')
+										input#male(type='radio', name = 'user_gender', form = "search-form")
 										| Male
 								.col-md-6
 									label.radio-inline
-										input#female(type='radio', name = 'user_gender')
+										input#female(type='radio', name = 'user_gender', form = "search-form")
 										| Female
 
 				section#edit.container.content-section

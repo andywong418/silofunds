@@ -1,4 +1,5 @@
 var models = require('../models');
+var async = require('async');
 
 module.exports = {
 	home: function(req, res){
@@ -6,10 +7,30 @@ module.exports = {
 		var session = req.params.session;
 		console.log(req);
 		models.users.findById(id).then(function(user){
-			console.log('is it this');
-			models.documents.findAll({where: {user_id: id}}).then(function(documents){
-				res.render('signup/user-complete', {user: user, newUser: false, documents: documents});
-			});
+			models.applications.findAll({user_id: user.id}).then(function(application){
+				applied_funds = [];
+				console.log(application.length);
+				async.each(application, function(app, callback){
+						var app_obj = {};
+						app_obj['status'] = app.dataValues.status; 
+						models.funds.findById(app.dataValues.fund_id).then(function(fund){
+							app_obj['title'] = fund.title;
+							console.log("WHAT FUND", fund);
+							applied_funds.push(app_obj);
+							console.log("I'M HERE", applied_funds);
+							callback();
+						})
+
+				}, function done(){
+					models.documents.findAll({where: {user_id: id}}).then(function(documents){
+						res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
+					});
+				})
+
+		
+				
+			})
+		
 		});
 	},
 
@@ -91,6 +112,21 @@ module.exports = {
 				 		 });
 				}
 			})
+		})
+
+	},
+	addApplication: function(req, res){
+		var user_id = req.params.id;
+		var fund_id = req.body.fund_id;
+		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(user, created) {
+			if(created){
+				user.update({status: 'pending'}).then(function(data){
+					res.send(data);
+				})
+			}
+			else{
+				res.send("Already applied!");
+			}
 		})
 
 	},

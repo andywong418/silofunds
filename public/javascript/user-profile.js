@@ -81,7 +81,7 @@ $(document).ready(function(){
 			this.addDescription();
 			this.deleteWork();
 			this.changePicture();
-			this.redirectHome();
+			this.applicationDisplay();
 		},
 		workDisplay: function(){
 			console.log(documents)
@@ -350,6 +350,21 @@ $(document).ready(function(){
 								console.log("SUCCESS", data);
 							})
     		})
+		},
+		applicationDisplay: function(){
+			console.log(applications);
+			if(applications){
+				$('#not-applied').css("display", "none");
+				$("#applied-funds").show();
+				for(var i = 0; i < applications.length; i++){
+					$("#applied-funds").append("<tr class='fund-entry'><td class = fund-name>" + applications[i].title + "</td><td class= 'fund-status'>" + applications[i].status + "</td><td class= 'fund-amount'> - </td></tr>");
+				}
+
+			}
+			else{
+				$("#applied-funds").hide();
+				$('#not-applied').css("display", "inline");
+			}
 		}
 	});
 

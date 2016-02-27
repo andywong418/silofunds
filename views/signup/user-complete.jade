@@ -165,19 +165,21 @@ block content
               p#progress-label 0% of £<%= funding_needed %> reached
               .progress-bar.progress-bar-warning.progress-bar-striped(role='progressbar', aria-valuenow='10', aria-valuemin='0', aria-valuemax='100', style='width:0%')
             p#not-applied You have not applied to any funds yet.
-            table#applied-funds(style='width:80%')
+            table#applied-funds
               tr#header
                 td#scholarship Scholarship
+                td#status Status
                 td#amount Amount
-              tr.fund-entry
-                td.fund-name Erasmus Mobility Grant
-                td.fund-amount £3600
-              tr.fund-entry
-                td.fund-name The British Psychological Society
-                td.fund-amount £2000
-              tr.fund-entry
-                td.fund-name Research Council Scholarship
-                td.fund-amount £800
+              //
+                tr.fund-entry
+                  td.fund-name Erasmus Mobility Grant
+                  td.fund-amount £3600
+                tr.fund-entry
+                  td.fund-name The British Psychological Society
+                  td.fund-amount £2000
+                tr.fund-entry
+                  td.fund-name Research Council Scholarship
+                  td.fund-amount £800
 
             button.get-started Get started
       footer#instruction-footer.container.text-center
@@ -190,3 +192,4 @@ block scripts
     var user = !{JSON.stringify(user)};
     var newUser = !{JSON.stringify(newUser)};
     var documents = !{JSON.stringify(documents)};
+    var applications = !{JSON.stringify(applications)};

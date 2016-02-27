@@ -530,8 +530,8 @@ margin-top: 15px;
 }
 
 
-#scholarship, #amount{
-	padding: 15px 100px;	
+#scholarship, #amount, #status{
+	padding: 15px 50px;	
 	color: white;
 	font-size: 18px;
 background: #83d8d3; /* fallback for old browsers */
@@ -539,27 +539,31 @@ background: #83d8d3; /* fallback for old browsers */
         
 }
 
+
 #applied-funds{
 	margin-top: 50px;
 	margin-bottom: 50px;
-	margin-left: 5%;
-	display: none;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 
 
 #scholarship{
-margin-left: -30px;
+margin-left: 10%;
 border-top-left-radius: 10px;
 border-right: 1px solid white;
-}
 
+}
+#status{
+	border-right: 1px solid white;
+}
 #amount{
 	border-top-right-radius: 10px;
-	padding-right: 110px;
+
 }
 
-.fund-name, .fund-amount{
+.fund-name, .fund-amount, .fund-status{
 	padding: 20px 0;
 	border: 1px solid #bdc3c7;
 	font-size: 15px;
