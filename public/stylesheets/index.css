@@ -926,6 +926,7 @@ time, mark, audio, video {
 #funds-brief{
   width:300px;
   margin: 71px auto;
+  margin-left: -20px;
 }
 
 #postgraduate-brief{
@@ -1104,6 +1105,9 @@ time, mark, audio, video {
   margin-bottom: 100px;
   margin-top: -53px;
  }
+ .carousel-indicators{
+  z-index: 1;
+ }
 .carousel-indicators li, .carousel-indicators .active{
   margin: 10px;
 }
@@ -1158,10 +1162,10 @@ time, mark, audio, video {
 }
 
 .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev{
-  margin-left: -70px
+  margin-left: -55px
 }
 .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next{
-  margin-right: -70px;
+  margin-right: -55px;
 }
 .messages {
   position: fixed;
@@ -1327,7 +1331,11 @@ time, mark, audio, video {
   cursor: pointer;
 }
 /* If you don't want the footer to be responsive, remove these media queries */
-
+@media(max-width: 990px){
+  #funds-brief{
+    margin-left: auto;
+  }
+}
 @media (max-width: 600px) {
 
 	.footer-distributed .footer-left,
@@ -1347,3 +1355,4 @@ time, mark, audio, video {
 		line-height: 1.8;
 	}
 }
+

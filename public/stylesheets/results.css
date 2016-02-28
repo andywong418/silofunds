@@ -426,7 +426,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   width: 150px;
   height: 40px;
   padding-top: 10px;
-  margin-top: 30px;
+  margin-top: 10px;
   border-radius: 3px;
   box-shadow: 5px;
 }
@@ -500,6 +500,10 @@ list-style-type: none;
 
 .badge-inverse {
   background-color: #333333;
+}
+.badge-tags{
+  background-color: #446CB3;
+  margin: 0 5px;
 }
 
 .control, .description_control{

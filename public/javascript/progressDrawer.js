@@ -1,5 +1,5 @@
 //Progress bar drawing
-      var $pc = $('#progressController');
+  var $pc = $('#progressController');
   var $pCaption = $('.progress-bar p');
   var iProgress = document.getElementById('inactiveProgress');
   var aProgress = document.getElementById('activeProgress');
