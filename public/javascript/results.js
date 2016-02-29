@@ -147,7 +147,9 @@ var UserNav = Backbone.View.extend({
           if(tags.length > 8){
             for(var x = 0; x < 7; x++){
               $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;' '>" + tags[x] + "</span>");
+
             }
+            $(".fund_tags" + fundData[i].id).append("<span class = 'etc' style = 'margin-top: 10px;' '> ... </span>");
           }
           else{
             for(var y = 0; y < tags.length; y++){

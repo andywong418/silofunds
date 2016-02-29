@@ -70,8 +70,9 @@ block content
 											span.fa.fa-linkedin
 											| Log in with Linkedin
 									p#email-signup-option
-										a(href='#0') Continue with email. 
-										span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
+										//Add back for social login
+											a(href='#0') Continue with email. 
+											span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
 									p#signup-terms.fieldset
 										input#accept-terms(type='checkbox')
 										label(for='accept-terms' id = "terms")
@@ -110,8 +111,9 @@ block content
 										label(for='remember-me') Remember me
 									p#email-login-btn.fieldset
 										button#login-button.full-width.has-padding(type='submit') Login
-									p#email-option
-										a(href="#0") Continue with email
+									//
+										p#email-option
+											a(href="#0") Continue with email
 								p.cd-form-bottom-message
 									a(href="#0") Forgot your password?
 							#cd-reset-password

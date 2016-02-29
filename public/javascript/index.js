@@ -82,11 +82,11 @@ $(function() {
   });
 
   $('#email-signup-option').on('click', function(){
-      signup_email_option_selected();
+      // signup_email_option_selected();  ADD BACK FOR SOCIAL SIGNUP
   });
 
   $('#email-option').on('click', function(){
-      login_email_option_selected();
+      // login_email_option_selected();  ADD BACK FOR SOCIAL LOGIN
   });
 
   //show forgot-password form
@@ -107,6 +107,12 @@ $(function() {
     $form_forgot_password.removeClass('is-selected');
     $tab_login.addClass('selected');
     $tab_signup.removeClass('selected');
+    //remove for social login
+    $('#email-login').css('display', 'block');
+    $('#email-login-password').css('display', 'block');
+    $('#email-login-btn').css('display', 'block');
+      $('#remember').css('display', 'inline');
+    $('.cd-form-bottom-message').css('display', 'inline');
   }
 
   function signup_selected(){
@@ -115,6 +121,12 @@ $(function() {
     $form_forgot_password.removeClass('is-selected');
     $tab_login.removeClass('selected');
     $tab_signup.addClass('selected');
+    //remove for social signup
+    $('#email-username').css('display', 'block');
+    $('#email-signup').css('display', 'block');
+    $('#email-signup-password').css('display', 'block');
+    $('#signup-terms').css('display', 'inline');
+    $('#signup-btn').css('display', 'block');
   }
 
   function forgot_password_selected(){

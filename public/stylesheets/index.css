@@ -996,6 +996,7 @@ time, mark, audio, video {
 .login-social-btn, .signup-social-btn{
   width: 90%;
   margin: 7% auto;
+  display: none;
 }
 
 #signup-btn{
