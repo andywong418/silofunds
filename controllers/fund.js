@@ -33,20 +33,74 @@ module.exports = {
     var search_url_array = req.url.split('/');
     req.session["redirect_user"] = search_url_array[1];
     console.log(req.session);
+    var dateNow = new Date();
+    dateNow = dateNow.toISOString();
+
+    var queryOptionsShouldArr = [
+      {
+        "range": {
+          "minimum_amount": {
+            "lte": searchAmount
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": searchAmount
+          }
+        }
+      },
+      {
+        "range": {
+          "minimum_age": {
+            "lte": searchAge
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": searchAge
+          }
+        }
+      }
+    ];
+
+    var queryOptions = {
+      "filtered": {
+        "filter": {
+          "bool": {
+            "must": {
+              "range": {
+                "deadline": {
+                  "gte": dateNow
+                }
+              }
+            },
+            "should": queryOptionsShouldArr
+          }
+        }
+      }
+    };
+
+    if (searchString !== '') {
+      queryOptions.filtered["query"] = {
+        "multi_match" : {
+          "query": searchString,
+          "fields": ["tags","title.autocomplete"]
+        }
+      };
+    }
+
+    console.log("QUERY OPTIONS ARE HERE: " + queryOptions);
+
     models.es.search({
       index: "funds",
       type: "fund",
       body: {
-        "query": {
-          "filtered": {
-            "query": {
-              "multi_match": {
-                "query": searchString,
-                "fields": ["tags","title.autocomplete"]
-              }
-            }
-          }
-        }
+        "size": 1000,
+        "query": queryOptions
       }
     }).then(function(resp) {
       console.log("This is the response:");
@@ -91,7 +145,7 @@ module.exports = {
 
             user["dataValues"][attrname] = fund[attrname];
 
-          }         
+          }
         }
         var fields= [];
         models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
@@ -99,8 +153,8 @@ module.exports = {
             user["dataValues"]["categories"] = categories;
             res.render('signup/fund-profile', {user: user, newUser: false, session: session});
            })
-          
-        
+
+
         })
       })
 
@@ -138,9 +192,9 @@ module.exports = {
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
-          }         
+          }
         }
-        res.render('fund-settings', {user: user, newUser: true, session: session, general: general_settings});     
+        res.render('fund-settings', {user: user, newUser: true, session: session, general: general_settings});
       })
 
     })
@@ -163,7 +217,7 @@ module.exports = {
                 for (var attrname in newfund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                     user["dataValues"][attrname] = newfund[attrname];
-                  }         
+                  }
                 }
                 res.render('fund-settings', {user: user, session: session, general: general_settings});
               })
@@ -180,9 +234,9 @@ module.exports = {
                     for (var attrname in newFund['dataValues']){
                       if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                         newUser["dataValues"][attrname] = newFund[attrname];
-                      }         
+                      }
                     }
-                    res.render('fund-settings', {user: user, session: session, general: general_settings});     
+                    res.render('fund-settings', {user: user, session: session, general: general_settings});
                   })
                 }
                 else{
@@ -190,9 +244,9 @@ module.exports = {
                     for (var attrname in newFund['dataValues']){
                       if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                         newUser["dataValues"][attrname] = newFund[attrname];
-                      }         
+                      }
                     }
-                    res.render('fund-settings', {user: user, session: session, general: general_settings});     
+                    res.render('fund-settings', {user: user, session: session, general: general_settings});
                   })
                 }
             });
@@ -210,9 +264,9 @@ module.exports = {
             for (var attrname in fund['dataValues']){
               if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                 user["dataValues"][attrname] = fund[attrname];
-              }         
+              }
             }
-            res.render('fund-settings', {user: user, session: session, general: general_settings});     
+            res.render('fund-settings', {user: user, session: session, general: general_settings});
             });
           });
         })
@@ -224,9 +278,9 @@ module.exports = {
             for (var attrname in fund['dataValues']){
               if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                 user["dataValues"][attrname] = fund[attrname];
-              }         
+              }
             }
-            res.render('fund-settings', {user: user, session: session, general: general_settings});     
+            res.render('fund-settings', {user: user, session: session, general: general_settings});
             });
           });
         })
@@ -257,14 +311,14 @@ module.exports = {
 
           body.religion = religion;
         }
-        
+
         models.users.findById(id).then(function(user){
           models.funds.findById(user.fund_or_user).then(function(fund){
             fund.update(body).then(function(fund){
               for (var attrname in fund['dataValues']){
                 if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                   user["dataValues"][attrname] = fund[attrname];
-                }         
+                }
               }
               res.render('fund-settings', {user: fund, session: session, general: general_settings});
             })
@@ -279,6 +333,6 @@ module.exports = {
       res.redirect('/');
     });
   }
-    
-  
+
+
 };
