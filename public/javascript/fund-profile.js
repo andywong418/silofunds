@@ -283,7 +283,10 @@ var EligibleDisplay = Backbone.View.extend({
   			})
   			var view = new ApplicationView({model: application});
   			this.$el.append(view.render().el);
-
+  			$(document).ready(function(){
+  				var savedLength = $("ul.cd-switcher").width();
+					$("ul.cd-switcher").width($("#application-info").width());
+  			})
   			$( window ).resize(function() {
 				  var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-info").width());
@@ -385,6 +388,7 @@ var EligibleDisplay = Backbone.View.extend({
 						}
 					})
 				})
+				$(document).off('click', '#add-category');
 				$(document).on('click', '#add-category', function(){
 					var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-form").width());
@@ -529,15 +533,27 @@ var EligibleDisplay = Backbone.View.extend({
 						console.log(fieldId);
 						console.log(val);
 					  if(question_or_description.attr('class') == 'paragraph-filler' || question_or_description.attr('class') == 'input-filler'){
-						$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	console.log($(this).parent().prev().children('input').length);
+					  	if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
+						
 						}
 
 						else{
-							$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-description'></input>");
+							if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
 						
 						}
-				})
-
+				});
+				$(document).off('blur','.edit-text-question, .edit-text-description');
 				$(document).on('blur', '.edit-text-question, .edit-text-description', function(){
 					var fieldId = $(this).attr("id");
 					var value = $(this).val();

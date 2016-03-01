@@ -428,7 +428,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   padding-top: 10px;
   margin-top: 10px;
   border-radius: 3px;
-  box-shadow: 5px;
+  box-shadow: inset 0px -2px 3px 0px #2C3E50;
 }
 
 .fund_link a
