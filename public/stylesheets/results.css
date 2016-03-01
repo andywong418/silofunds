@@ -169,7 +169,7 @@ a:focus {
   padding: 0;
   padding-left: 5px;
   /*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
-  background: #ffffff; 
+  background: #ffffff;
 
 }
 
@@ -278,7 +278,7 @@ color: white;
 }
 
 #advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{
-  
+
   border-radius: 5px;
   border: none;
   padding: 3px 5px;
@@ -436,13 +436,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   color:white;
 }
 
+.fund_link:active {
+  background-color: #305c9c;
+  box-shadow: none;
+}
+
 .database
 {
   font-family: 'sans-serif';
   margin-top: 50px;
   font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
   text-align: left;
-  
+
 }
 
 .database p {
@@ -451,7 +456,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   font-size: 16px;
   text-align: left;
   display: inline-block;
-  
+
 }
 
 .database li
