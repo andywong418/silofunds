@@ -353,7 +353,7 @@ $(document).ready(function(){
 		},
 		applicationDisplay: function(){
 			console.log(applications);
-			if(applications){
+			if(applications.length > 0){
 				$('#not-applied').css("display", "none");
 				$("#applied-funds").show();
 				for(var i = 0; i < applications.length; i++){

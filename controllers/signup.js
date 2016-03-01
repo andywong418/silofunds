@@ -321,7 +321,7 @@ module.exports = {
           }         
         }
         var fields= [];
-        models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
+        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
           if(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             // for (var category in categories){
@@ -419,7 +419,7 @@ module.exports = {
     console.log(fundId);
     models.applications.findOrCreate({
       where:{
-      Fund_userid: fundId
+      fund_id: fundId
     }, defaults: { status: status}}).spread(function(user, created){
       if(created){
         models.categories.create({
@@ -461,7 +461,7 @@ module.exports = {
   addCategory: function(req, res){
     var fundId = req.params.id;
     var title = req.body.title;
-    models.applications.find({where: {Fund_userid: fundId, status: 'setup'}}).then(function(application){
+    models.applications.find({where: {fund_id: fundId, status: 'setup'}}).then(function(application){
       models.categories.create({
         title: title,
         application_id: application.id
@@ -530,7 +530,7 @@ module.exports = {
           }         
         }
         var fields= [];
-        models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
+        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             // for (var category in categories){
             //   console.log(category);

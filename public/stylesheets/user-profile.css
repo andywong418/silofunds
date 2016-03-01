@@ -30,7 +30,15 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 	
 }
 
-
+#brand-image{
+  margin-top: -13px;
+   height: auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+    position: relative;
+    z-index: 11;
+}
 .search_form{
   position: absolute;
   width: 100%;
@@ -319,7 +327,7 @@ img#profile-picture{
 	border: 5px solid white;
 	margin-bottom: 15px;
 	cursor: pointer;
-	
+	object-fit: cover;
 }
 
 

@@ -371,7 +371,7 @@ i {
     color:white;
 }
 
-.fa.fa-chevron-circle-down
+.fa.fa-chevron-circle-down, .fa.fa-chevron-circle-up
 {
     color: black;
 }
@@ -576,6 +576,9 @@ list-style-type: none;
 .cd-login, .cd-signup{
   position: relative;
   z-index: 10
+}
+.cd-login:hover,  .cd-signup:hover, .navbar-custom .nav li a {
+  border-radius: 10px !important;
 }
 .cd-user-modal {
   position: fixed;
@@ -974,6 +977,8 @@ time, mark, audio, video {
   float:left;
   margin-top: 16px;
   z-index: 5;
+  /*REMEMBER FOR LOGIN TERMS AS WELL */
+  display: none;
 }
 
 #terms{
@@ -982,6 +987,8 @@ time, mark, audio, video {
     margin-top: 15px;
     margin-left: 1%;
     font-size: 12px;
+      /*REMEMBER FOR LOGIN TERMS AS WELL */
+    display: none;
 }
 
 #remember{
@@ -1055,7 +1062,7 @@ time, mark, audio, video {
 .login-social-btn, .signup-social-btn{
   width: 90%;
   margin: 7% auto;
-  
+  display: none;
 }
 
 #signup-btn{

@@ -297,7 +297,6 @@ var EligibleDisplay = Backbone.View.extend({
 				$('.switcher li').not("#application").css("background-color", "white");
 				$('.switcher li').not("#application").css("color", "black");
 				$('.switcher li').not("#application").css("border-right", "0");
-
   			this.editCategory();
   			this.editField();
 			},

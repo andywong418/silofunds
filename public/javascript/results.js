@@ -234,10 +234,13 @@ var UserNav = Backbone.View.extend({
         $("#" + fundData[i].id).css("font-size", "16px");
         $("#" + fundData[i].id).on("click", function() {
           if(bool){
+            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
             $(this).children("span").toggle(false);
             bool = false;
           }
           else{
+            console.log($(this).children('i'));
+            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
             $(this).children("span").css("display" , "block");
             $(this).children("span").css("margin-top" , "5px");
             $(this).children("span").css("padding", "15px");
