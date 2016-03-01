@@ -39,7 +39,7 @@ block content
 						ul.nav.navbar-nav
 							li.signin-icon
 								button
-									a#home(href='/funds/settings/' + user.id + '/'+session)
+									a#home(href='/funds/' + user.id + '/')
 										i.fa.fa-user
 							//      
 								li.signin-icon
@@ -51,11 +51,11 @@ block content
 										i.fa.fa-cog
 									ul#settings-menu.dropdown-menu
 										li#settings
-											a(href="/funds/" + user.id + "/"+session)
+											a(href="/funds/settings/" + user.id + "/")
 												| Settings
 										li.divider(role='separator')
 										li#logout
-											a#logout(href='/funds/logout')
+											a#logout(href='/funds/logout/'+ user.id)
 												| Log out
 		section#advanced-search.container.content-section.text-center
 					.row

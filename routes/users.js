@@ -7,11 +7,11 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/:id/:session', users.home)
-router.get('/settings/:id/:session', users.settings);
-router.post('/settings/:id/:session', users.changeSettings);
+router.get('/:id/', users.home)
+router.get('/settings/:id/', users.settings);
+router.post('/settings/:id/', users.changeSettings);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application/:id', users.addApplication);
-router.get('/logout', users.logout);
+router.get('/logout/:id', users.logout);
 
 module.exports = router;

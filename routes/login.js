@@ -11,7 +11,6 @@ router.post('/', passport.authenticate('local-login', {
 }), function(req, res) {
 	console.log(req);
 	var id = req.user.dataValues.id;
-	var session = req.session;
 	models.users.findById(id).then(function(user){
 		if(user.fund_or_user){
       models.funds.findById(user.fund_or_user).then(function(fund){
@@ -26,7 +25,7 @@ router.post('/', passport.authenticate('local-login', {
         models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true, session: session});
+            res.render('signup/fund-profile', {user: user, newUser: true});
            })
           
         

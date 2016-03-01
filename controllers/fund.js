@@ -123,10 +123,10 @@ module.exports = {
       var results_page = true;
       console.log(funds);
       if(user){
-        res.render('results',{ funds: funds, user: user, resultsPage: results_page, session: session, query: query } );
+        res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
       }
       else{
-        res.render('results', { funds: funds, user: false, resultsPage: results_page, session: false, query: query });
+        res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
       }
     }, function(err) {
       console.trace(err.message);
@@ -151,7 +151,7 @@ module.exports = {
         models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: false, session: session});
+            res.render('signup/fund-profile', {user: user, newUser: false});
            })
 
 
@@ -194,7 +194,9 @@ module.exports = {
             user["dataValues"][attrname] = fund[attrname];
           }
         }
-        res.render('fund-settings', {user: user, newUser: true, session: session, general: general_settings});
+
+        res.render('fund-settings', {user: user, newUser: true, general: general_settings});     
+
       })
 
     })
@@ -219,7 +221,7 @@ module.exports = {
                     user["dataValues"][attrname] = newfund[attrname];
                   }
                 }
-                res.render('fund-settings', {user: user, session: session, general: general_settings});
+                res.render('fund-settings', {user: user, general: general_settings});
               })
             })
           })
@@ -246,7 +248,9 @@ module.exports = {
                         newUser["dataValues"][attrname] = newFund[attrname];
                       }
                     }
-                    res.render('fund-settings', {user: user, session: session, general: general_settings});
+
+                    res.render('fund-settings', {user: user, general: general_settings});     
+
                   })
                 }
             });
@@ -266,7 +270,8 @@ module.exports = {
                 user["dataValues"][attrname] = fund[attrname];
               }
             }
-            res.render('fund-settings', {user: user, session: session, general: general_settings});
+            res.render('fund-settings', {user: user, general: general_settings});     
+
             });
           });
         })
@@ -280,7 +285,9 @@ module.exports = {
                 user["dataValues"][attrname] = fund[attrname];
               }
             }
-            res.render('fund-settings', {user: user, session: session, general: general_settings});
+
+            res.render('fund-settings', {user: user, general: general_settings});     
+
             });
           });
         })
@@ -320,7 +327,7 @@ module.exports = {
                   user["dataValues"][attrname] = fund[attrname];
                 }
               }
-              res.render('fund-settings', {user: fund, session: session, general: general_settings});
+              res.render('fund-settings', {user: fund, general: general_settings});
             })
           })
         })
@@ -328,6 +335,7 @@ module.exports = {
     }
   },
   logout: function(req, res){
+    console.log("WHY NOT HERE?")
     req.session.destroy(function(err) {
   // cannot access session here
       res.redirect('/');

@@ -40,7 +40,7 @@ block content
               ul.nav.navbar-nav
                 li.signin-icon
                   button
-                    a#home(href= "/users/" + user.id + "/"+session)
+                    a#home(href= "/users/" + user.id + "/")
                       i.fa.fa-user
                 //      
                   li.signin-icon
@@ -52,11 +52,11 @@ block content
                       i.fa.fa-cog
                     ul#settings-menu.dropdown-menu
                       li#settings
-                        a(href='/users/settings/' + user.id + '/'+session)
+                        a(href='/users/settings/' + user.id + '/')
                           | Settings
                       li.divider(role='separator')
                       li#logout
-                        a#logout(href='/users/logout')
+                        a#logout(href='/users/logout/'+ user.id)
                           | Log out
 
       section#advanced-search.container.content-section.text-center

@@ -166,7 +166,7 @@ module.exports = {
             res.redirect('/results' + req.session.redirect_user);
           }
           else{
-          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.session, applications: false});
+          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
           }
         });
       });
@@ -517,8 +517,6 @@ module.exports = {
   },
   signupFundComplete: function(req, res){
     var id = req.params.id;
-    var session = req.sessionID;
-    console.log("BOOYA", session);
     models.users.findById(id).then(function(user){
       var fundUser = user;
       models.funds.findById(user.fund_or_user).then(function(fund){
@@ -538,7 +536,7 @@ module.exports = {
             //     console.log(field)
             //   })
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true, session: session});
+            res.render('signup/fund-profile', {user: user, newUser: true});
            })
           
         

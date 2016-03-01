@@ -5,7 +5,7 @@ module.exports = {
 	home: function(req, res){
 		var id = req.params.id;
 		console.log("CHECKING ID",id)
-		var session = req.params.session;
+
 		console.log(req);
 		models.users.findById(id).then(function(user){
 			models.applications.findAll({where: {user_id: user.id}}).then(function(application){
@@ -42,18 +42,16 @@ module.exports = {
 	},
 
 	settings: function(req, res){
-		var session = req.params.session;
 		var id = req.params.id;
 		var general_settings = true;
 
 		models.users.findById(id).then(function(user){
-			res.render('user-settings', {user: user, session: session, general: general_settings});
+			res.render('user-settings', {user: user, general: general_settings});
 		});
 	},
 
 	changeSettings: function(req, res){
 		var general_settings;
-		var session = req.params.session;
 		var id = req.params.id;
 		var body = req.body;
 
@@ -66,7 +64,7 @@ module.exports = {
 
 		models.users.findById(id).then(function(user){
 			user.update(body).then(function(user){
-				res.render('user-settings', {user: user, session: session, general: general_settings});
+				res.render('user-settings', {user: user, general: general_settings});
 			});
 		});
 	},
@@ -138,6 +136,7 @@ module.exports = {
 
 	},
 	logout: function(req, res){
+		console.log("WHY NOT HERE");
 		req.session.destroy(function(err) {
   // cannot access session here
   		res.redirect('/');

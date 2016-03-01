@@ -275,6 +275,7 @@ color: white;
   padding-top: 25px;
   padding-bottom: 25px;
   padding-right: 30px;
+  display: none;
 }
 
 #advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{

@@ -5,10 +5,10 @@ module.exports = {
     delete req.session.redirect_user;
     if(user){
       if(user.fund_or_user){
-        res.redirect('/funds/' + user.id+ '/' + req.sessionID);
+        res.redirect('/funds/' + user.id+ '/');
       }
       else{
-        res.redirect('/users/' + user.id + '/' + req.sessionID);
+        res.redirect('/users/' + user.id + '/');
       }
     }
 
