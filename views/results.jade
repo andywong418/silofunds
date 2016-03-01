@@ -245,7 +245,8 @@ block content
 											p(class!= 'fund_max_age' +  '<%= fund_id %>') 
 												span.control <%= maximum_age %>
 											p(class!= 'nationalities'+ '<%= fund_id %>') 
-
+											p(class!='deadline' + '<%= fund_id %>') Deadline: 
+												span.control <%= deadline %>
 										label(id!='<%= fund_id %>') Additional Information 
 												i.fa.fa-chevron-circle-down
 												span(class="description_control") <%= description %>

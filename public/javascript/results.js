@@ -42,24 +42,24 @@ $("#users").click(function(){
     $("#advanced-search").toggle(false);
     $("#users span").css("display","inline");
     $("#grants span").css("display","none");
-    advanced_2 = false; 
+    advanced_2 = false;
 });
 $(document).click(function(e) {
-  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {        
-      $("#advanced-search").toggle(false);        
-      
+  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+      $("#advanced-search").toggle(false);
+
   }
   else{
         return true;
       }
 
   if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-    $("#advanced-search-2").toggle(false);              
+    $("#advanced-search-2").toggle(false);
   }
   else{
         return true;
   }
-});     
+});
 var UserNav = Backbone.View.extend({
         el: ".nav li",
 
@@ -125,6 +125,8 @@ var UserNav = Backbone.View.extend({
       },
 
       fundDisplay: function(){
+        var deadlineArray = fundData[i].deadline.split("T");
+        var deadline = deadlineArray[0].split("-").reverse().join("-");
         var fund = new FundModel({
           fund_title: fundData[i].title,
           maximum_amount: "£" + fundData[i].maximum_amount,
@@ -132,7 +134,8 @@ var UserNav = Backbone.View.extend({
           maximum_age: fundData[i].maximum_age,
           fund_id: fundData[i].id,
           description: fundData[i].description,
-          fund_link: fundData[i].link
+          fund_link: fundData[i].link,
+          deadline: deadline
         });
 
         var view = new FundView({ model: fund });
@@ -155,7 +158,7 @@ var UserNav = Backbone.View.extend({
               $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'>" + tags[y] + "</span>");
             }
           }
-          
+
         }
         var countries = fundData[i].countries;
         if(!countries){
