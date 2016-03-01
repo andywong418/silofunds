@@ -117,7 +117,9 @@ cursor: pointer;
 	width: 65%;
 	padding: 30px;
 }
-
+.dates{
+	width: 100%
+}
 .start-date-filler, .deadline-filler{
 	display: inline;
 	float: left;

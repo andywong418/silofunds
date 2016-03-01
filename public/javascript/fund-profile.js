@@ -145,8 +145,7 @@ var OverviewDisplay = Backbone.View.extend({
 				var start_date = startArray[0];
 				var deadlineArray = fund.deadline.split("T");
 				var deadline = deadlineArray[0];
-  	 		console.log(description);
-  	 		$("#dates").replaceWith("<div class = 'date-container'><p class = 'start-date-filler'> Start date: <input class = 'date-filler' id = 'start_date' type = 'date' value = '" +start_date+ "'></input></p><p class = 'deadline-filler'>Deadline: <input class= 'date-filler' id = 'deadline' type = 'date' value = '" + deadline + "'></input></p></div>");
+  	 		$("#dates").replaceWith("<p class = 'start-date-filler'> Start date: <input class = 'date-filler' id = 'start_date' type = 'date' value = '" +start_date+ "'></input></p><p class = 'deadline-filler'>Deadline: <input class= 'date-filler' id = 'deadline' type = 'date' value = '" + deadline + "'></input></p>");
   	 });
 
   	 $(document).on('blur', ".date-filler", function(){
@@ -155,13 +154,18 @@ var OverviewDisplay = Backbone.View.extend({
   	 	console.log(newDates);
   	 	var parameters = {};
   	 	parameters[dateId] = newDates;
+  	 	var dateContainer = $('.dates');
   	 	$.post('/funds/edit_dates/' + fund.id, parameters, function(data){
   	 		var startArray = data.start_date.split("T");
-				var start_date = startArray[0].split("").reverse().join("-");;
+  	 		console.log(startArray[0].length);
+				var start_date = startArray[0].split("-").reverse().join("-");;
+				console.log(start_date);
 				var deadlineArray = data.deadline.split("T");
-				var deadline = deadlineArray[0].split("").reverse().join("-");;
-  	 		console.log(description);
-  	 		$('.date-container').replaceWith("<p id = 'dates> The applications for this fund starts on" + start_date +  " and deadline is on " + deadline +"</p>");
+				console.log(deadlineArray[0]);
+				var deadline = deadlineArray[0].split("-").reverse().join("-");;
+  	 		console.log(deadline);
+  	 		$('.deadline-filler').remove();
+  	 		$('.start-date-filler').replaceWith("<p id = 'dates'>The applications for this fund starts on " + start_date + " and the deadline is on " + deadline)
   	 	})
   	 })
   }
