@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	var UserNav = Backbone.View.extend({
         el: "nav",
 
@@ -67,7 +68,7 @@ $(document).ready(function(){
 
          		 		reader.readAsDataURL(this.files[0]);
         			}
-    });
+    				});
 
 			}
 			$("#next").click(function(){
@@ -127,6 +128,10 @@ $(document).ready(function(){
 						$("#applied-funds").css("z-index", "2");
 						$("#finish").toggle(false);
 						$("#next").toggle(true);
+					}
+					if(counter == 7){
+						$("#finish").toggle(true);
+						$("#next").toggle(false);
 					}
 			});
 
@@ -189,8 +194,39 @@ $(document).ready(function(){
 						$("#finish").toggle(false);
 						$("#next").toggle(true);
 					}
+					if(counter == 7){
+
+						e.preventDefault();
+						$("#finish").toggle(true);
+						$("#next").toggle(false);
+						var preloader = $('.se-pre-con');
+						var finalInput = $('#applied-funds');
+						var profileSrc = $('#profile-picture').attr('src');
+						var description = $('textarea#description').val();
+						var workInput = $('#work-span label').html();
+						var birthday = $('#date_of_birth').val();
+						var country = $('#country-select option:selected').val();
+						var religion = $('#religion-select option:selected').val();
+						var fundingNeeded = $('.progress').val();
+	
+						if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || workInput == 'Choose up to 5 files' || !birthday || !country || !religion || !fundingNeeded){
+							$("#applied-funds").css("z-index", "4");
+							console.log("ERROR");
+							$('.alert').css("display", "block");
+							counter--;
+						}
+						else{
+							finalInput.css("z-index", "0");
+							preloader.css('display', 'inline');
+							$('#profile-form').submit();
+						}
+					}
+					if(counter > 7){
+						counter = 7;
+						console.log(counter);
+					}
 				}
-			})
+			});
 
 			$("#previous").click(function(){
 				counter--;
@@ -243,8 +279,12 @@ $(document).ready(function(){
 				else{
 						$("#religion").css("z-index", "2");
 				}
+				if(counter == 6){
+						$("#applied-funds").css("z-index", "4");
+				}
 
 			});
+
 			$("input[id='video']").change(function(e){
 
 				var $input = $(this),
@@ -266,9 +306,9 @@ $(document).ready(function(){
 				$input
 					.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
 					.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
-						});
+			});
 
-			$("#work-span").click(function(){
+
 				$("input[id='work']").change(function(e){
 					var $input = $(this),
 					$label = $input.next('label'),
@@ -294,15 +334,48 @@ $(document).ready(function(){
 						.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
 						.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 				});
-			})
+			
 
 		},
 		finishSignup: function(){
 			$('#finish').click(function(){
-				$('#profile-form').submit();
+				var preloader = $('.se-pre-con');
+				var finalInput = $('#applied-funds');
+				var profileSrc = $('#profile-picture').attr('src');
+				var description = $('textarea#description').val();
+				var workInput = $('#work-span label').html();
+				var birthday = $('#date_of_birth').val();
+				var country = $('#country-select option:selected').val();
+				var religion = $('#religion-select option:selected').val();
+				var fundingNeeded = $('.progress').val();
+
+				console.log(profileSrc);
+				console.log(description);
+				console.log(workInput);
+				console.log(birthday);
+				console.log(country);
+				console.log(religion);
+				console.log(fundingNeeded);
+
+		
+				if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || workInput == 'Choose up to 5 files' || !birthday || !country || !religion || !fundingNeeded){
+					console.log("ERROR");
+					$('.alert').css("display", "block");
+					counter--;
+				}
+				else{
+					finalInput.css("z-index", "0");
+					preloader.css('display', 'inline');
+					$('#profile-form').submit();
+				}
+				// default picture source = ../../images/fund_img_placeholder.jpg
+				// default work html = Choose up to 5 files
+				// $('#profile-form').submit();
 			});
 		}
 	});
 
 	var userInfo = new UserInfo();
 });
+
+

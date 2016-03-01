@@ -4,30 +4,37 @@ var async = require('async');
 module.exports = {
 	home: function(req, res){
 		var id = req.params.id;
+		console.log("CHECKING ID",id)
 		var session = req.params.session;
 		console.log(req);
 		models.users.findById(id).then(function(user){
-			models.applications.findAll({user_id: user.id}).then(function(application){
-				applied_funds = [];
-				console.log(application.length);
-				async.each(application, function(app, callback){
-						var app_obj = {};
-						app_obj['status'] = app.dataValues.status; 
-						models.funds.findById(app.dataValues.fund_id).then(function(fund){
-							app_obj['title'] = fund.title;
-							console.log("WHAT FUND", fund);
-							applied_funds.push(app_obj);
-							console.log("I'M HERE", applied_funds);
-							callback();
-						})
+			models.applications.findAll({where: {user_id: user.id}}).then(function(application){
+				console.log("checking applications");
+				if(application.length != 0){
+					applied_funds = [];
+					async.each(application, function(app, callback){
+							var app_obj = {};
+							app_obj['status'] = app.dataValues.status; 
+							models.funds.findById(app.dataValues.fund_id).then(function(fund){
+								app_obj['title'] = fund.title;
+								console.log("WHAT FUND", fund);
+								applied_funds.push(app_obj);
+								console.log("I'M HERE", applied_funds);
+								callback();
+							})
 
-				}, function done(){
+					}, function done(){
+						models.documents.findAll({where: {user_id: id}}).then(function(documents){
+							res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
+						});
+					})
+
+				}
+				else{
 					models.documents.findAll({where: {user_id: id}}).then(function(documents){
-						res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
-					});
-				})
-
-		
+							res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: false});
+						});
+				}
 				
 			})
 		

@@ -166,7 +166,7 @@ module.exports = {
             res.redirect('/results' + req.session.redirect_user);
           }
           else{
-          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.session});
+          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, session: req.session, applications: false});
           }
         });
       });
