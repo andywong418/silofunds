@@ -40,6 +40,12 @@ $(document).ready(function(){
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
+
+			$("input#text_search" ).autocomplete({
+		    source: "../../../autocomplete",
+		    minLength: 1
+		  });
+
 			if(user.email_updates == true){
 				$("#email_updates").prop("checked", true);
 			}
@@ -61,24 +67,24 @@ $(document).ready(function(){
 			    $("#advanced-search").toggle(false);
 			    $("#users span").css("display","inline");
 			    $("#grants span").css("display","none");
-			    advanced_2 = false; 
+			    advanced_2 = false;
 			});
 			$(document).click(function(e) {
-			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {        
-			      $("#advanced-search").toggle(false);        
-			      
+			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+			      $("#advanced-search").toggle(false);
+
 			  }
 			  else{
 			        return true;
 			      }
 
 			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-			    $("#advanced-search-2").toggle(false);              
+			    $("#advanced-search-2").toggle(false);
 			  }
 			  else{
 			        return true;
 			  }
-			}); 
+			});
 			this.editAccount();
 			this.editEmailSettings();
 		},
@@ -91,7 +97,7 @@ $(document).ready(function(){
 			$('#general-settings').css("color", "grey");
 			$('#account').css("color", "black")
 		}
-		
+
 
 			(function( $ ){
    $.fn.displaySave = function() {
@@ -113,7 +119,7 @@ $(document).ready(function(){
 		  $(".save").not("#save-" + element).css("display", "none");
 			}
 			return this;
-   		}; 
+   		};
 		})( jQuery );
 
 		(function( $ ){
@@ -123,7 +129,7 @@ $(document).ready(function(){
 			var seekid = id.split("-");
 			var element = seekid[1];
 			return this;
-   		}; 
+   		};
 		})( jQuery );
 
 			$(".row").click(function(){

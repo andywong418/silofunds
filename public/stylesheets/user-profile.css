@@ -1,7 +1,7 @@
 body{
 	font-family: 'Nunito';
 	background-color: #e9f0f4;
-	
+
 
 }
 #user-modal{
@@ -27,7 +27,7 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 	margin: 0 auto;
 	margin-top: 15px;
 	text-align: center;
-	
+
 }
 
 #brand-image{
@@ -74,7 +74,7 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 	padding: 0;
 	padding-left: 5px;
 	/*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
-  background: #ffffff; 
+  background: #ffffff;
 
 }
 
@@ -123,6 +123,56 @@ transition: opacity 0.3s 0, visibility 0 0.3s;
 	color: #D2D7D3;
 }
 
+.ui-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  display: none;
+  min-width: 160px;
+  _width: 160px;
+  padding: 13px 5px 5px 5px;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+
+  .ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+
+    &.ui-state-hover, &.ui-state-active {
+      color: #ffffff;
+      text-decoration: none;
+      background-color: #0088cc;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      background-image: none;
+    }
+  }
+}
+
  .fa-comment-o{
 	display: none;
 }
@@ -159,7 +209,7 @@ color: white;
 	border: 4px solid #c2e1f5;
 	height: 90px;
 	width: 20%;
-	top: 53px; 
+	top: 53px;
 	left: 35%;
 	z-index: 4;
 	display: none;
@@ -194,7 +244,7 @@ color: white;
 	border: 4px solid #c2e1f5;
 	height: 90px;
 	width: 20%;
-	top: 55px; 
+	top: 55px;
 	left: 25.9%;
 	z-index: 4;
 	display: none;
@@ -268,7 +318,7 @@ font-size: 15px;
 }
 
 #advanced-nationality, #advanced-age, #advanced-age-2, #religion,#input-amount{
-	
+
 	border-radius: 5px;
 	border: none;
 	padding: 3px 5px;
@@ -323,11 +373,15 @@ img#profile-picture{
 	width: 250px;
   -webkit-border-radius: 125px;
   -moz-border-radius: 125px;
-  border-radius: 150px; 
+  border-radius: 150px;
 	border: 5px solid white;
 	margin-bottom: 15px;
 	cursor: pointer;
+
 	object-fit: cover;
+
+
+
 }
 
 
@@ -495,7 +549,7 @@ img#profile-picture{
 color: #95a5a6;
 font-size: 20px;
 padding-top: 8px;
-	
+
 }
 
 .progress-bar{
@@ -517,7 +571,7 @@ padding-top: 8px;
 }
 
 .get-started{
-	
+
 
 background: #fd746c; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #fd746c , #ff9068); /* Chrome 10-25, Safari 5.1-6 */
@@ -540,12 +594,12 @@ margin-top: 15px;
 
 
 #scholarship, #amount, #status{
-	padding: 15px 50px;	
+	padding: 15px 50px;
 	color: white;
 	font-size: 18px;
 background: #83d8d3; /* fallback for old browsers */
 
-        
+
 }
 
 
