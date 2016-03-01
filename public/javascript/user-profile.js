@@ -39,6 +39,12 @@ $(document).ready(function(){
 			});
 			var view = new UserView({model: user_model});
 			this.$el.append(view.render().el);
+
+			$("input#text_search" ).autocomplete({
+				source: "../../autocomplete",
+				minLength: 1
+			});
+
 			var advanced = true;
 			var advanced_2 = true;
 			$("#advanced-search").toggle(false);
@@ -57,24 +63,24 @@ $(document).ready(function(){
 			    $("#advanced-search").toggle(false);
 			    $("#users span").css("display","inline");
 			    $("#grants span").css("display","none");
-			    advanced_2 = false; 
+			    advanced_2 = false;
 			});
 			$(document).click(function(e) {
-			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {        
-			      $("#advanced-search").toggle(false);        
-			      
+			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+			      $("#advanced-search").toggle(false);
+
 			  }
 			  else{
 			        return true;
 			      }
 
 			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-			    $("#advanced-search-2").toggle(false);              
+			    $("#advanced-search-2").toggle(false);
 			  }
 			  else{
 			        return true;
 			  }
-			}); 
+			});
 			this.workDisplay();
 			this.newUser();
 			this.addWork();
@@ -88,7 +94,7 @@ $(document).ready(function(){
 			for( var i = 0; i < documents.length; i++){
 				var document = documents[i].link;
 				var seekingExtension = document.split(".");
-				var extension = seekingExtension[seekingExtension.length-1];			
+				var extension = seekingExtension[seekingExtension.length-1];
 				var seekingFilename = document.split("/");
 				var filename = seekingFilename[seekingFilename.length-1];
 				var id = documents[i].id;
@@ -145,18 +151,18 @@ $(document).ready(function(){
 			    $("#text_search").focus();
 				}
 			});
-				
+
 				if(newTutorial){
 					var counter = 0;
 					var down = {};
 				  $(document).keypress(function(e){
 				    	var key = (e.keyCode ? e.keyCode : e.which);
-				    	if(key == '13' && allowed){		  
+				    	if(key == '13' && allowed){
 				    				e.preventDefault();
 				    				if(counter == 0){
-				    				
+
 							    		$(".instruction-pointer").css("display","none");
-							    		$(".instruction-pointer-2").css("display","inline");	
+							    		$(".instruction-pointer-2").css("display","inline");
 							    		counter++;
 							    		return;
 						    		}
@@ -170,9 +176,9 @@ $(document).ready(function(){
 						    			allowed = false;
 						    			return
 						    		}
-					    		
+
 				    	}
-							
+
 				  })
 			};
 			$(document).keyup(function(event) {
@@ -181,7 +187,7 @@ $(document).ready(function(){
 			});
 		},
 		addWork: function(){
-			$("input[id='work-file']").change(function(e){				
+			$("input[id='work-file']").change(function(e){
 				var file = this.files[0];
 				var data = new FormData();
 				data.append('file', file);
@@ -197,7 +203,7 @@ $(document).ready(function(){
 						console.log(data);
 						var file = data.link;
 						var seekingExtension = file.split(".");
-						var extension = seekingExtension[seekingExtension.length-1];			
+						var extension = seekingExtension[seekingExtension.length-1];
 						var seekingFilename = file.split("/");
 						var filename = seekingFilename[seekingFilename.length-1];
 						var id = data.id;
@@ -232,7 +238,7 @@ $(document).ready(function(){
 					}
 				});
 			});
-				
+
 		},
 		addDescription: function(){
 
@@ -246,16 +252,16 @@ $(document).ready(function(){
 						if($("#add-work-description" + id).next().length == 0){
 							$("#add-work-description" + id).after("<textarea placeholder = 'Add a description for this piece of work. Press enter to save it.' class = 'edit-work' id = 'edit-work" + id + "'></textarea>");
 							if($("#add-work-description" + user).next().length == 0){
-								$("textarea").not("#edit-work"+id).remove();	
+								$("textarea").not("#edit-work"+id).remove();
 							}
 							else{
 								$("#edit-work" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
-								$("textarea").not("#edit-work"+id).remove();	
+								$("textarea").not("#edit-work"+id).remove();
 							}
 							return true;
 						}
 						else{
-							console.log("WHAT DID IT SAVE");		
+							console.log("WHAT DID IT SAVE");
 
 							var description = $("#work-description" + id).html();
 							console.log(description);
@@ -264,8 +270,8 @@ $(document).ready(function(){
 								$("textarea").not("#edit-work"+id).remove();
 								user = id;
 								savedDescription = description;
-						}	
-									 
+						}
+
 				});
 
 				$(document).on('keypress',".edit-work", function(event){
@@ -283,17 +289,17 @@ $(document).ready(function(){
 							$("textarea").replaceWith("<p id = 'work-description" + id1 + "' class = 'work-description'>" + data + "</p> ");
 						})
 					}
-				});			
+				});
 
 				$(document).click(function(e) {
 		    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {
-		        $("textarea").toggle(false);      	
-		      	
+		        $("textarea").toggle(false);
+
 		    }
 		    else{
 		      		return true;
 		      	}
-				});	
+				});
 		},
 		deleteWork: function(){
 			$(".delete").click(function(){
@@ -315,19 +321,19 @@ $(document).ready(function(){
 				}, function(){
 					$("#add-profile").css("display", "none");
 				});
-				
+
 				$("#add-profile").click(function() {
 								console.log('HI');
 						    $("input[id='my_file']").click();
 						});
 						$("input[id='my_file']").change(function(){
-							
+
 			        if (this.files && this.files[0]) {
-			        	
+
 		            var reader = new FileReader();
 
 		            reader.onload = function (e) {
-			            		
+
                 $('#profile-picture')
                   .attr('src', e.target.result)
                   .width(250)
