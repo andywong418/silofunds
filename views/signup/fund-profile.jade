@@ -10,6 +10,8 @@ block content
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
 						i.fa.fa-bars
+					a#brand-heading.navbar-brand
+						img#brand-image(src="../../../images/transparent silo icon graphic.png")
 					form.search_form(id = "search-form", action='/results', method='get', name='search_form')
 						#dropdown.dropdown
 							button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
@@ -37,7 +39,7 @@ block content
 						ul.nav.navbar-nav
 							li.signin-icon
 								button
-									a#home(href="#0")
+									a#home(href='/funds/settings/' + user.id + '/'+session)
 										i.fa.fa-user
 							//      
 								li.signin-icon
@@ -49,7 +51,7 @@ block content
 										i.fa.fa-cog
 									ul#settings-menu.dropdown-menu
 										li#settings
-											a(href='/funds/settings/' + user.id + '/'+session)
+											a(href="/funds/" + user.id + "/"+session)
 												| Settings
 										li.divider(role='separator')
 										li#logout
@@ -150,7 +152,8 @@ block content
 								h4#application-dates Application dates
 									span#edit-dates
 										i.fa.fa-pencil
-								p#dates The applications for this fund starts on <%= fundStartDate %> and deadline is on <%= fundDeadline %>.
+								.dates
+									p#dates The applications for this fund starts on <%= fundStartDate %> and deadline is on <%= fundDeadline %>.
 						script#eligible-template(type='text/template')
 							#eligible-form.container.content-section
 								.row

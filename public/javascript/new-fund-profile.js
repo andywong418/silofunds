@@ -300,14 +300,23 @@ $(document).ready(function(){
   			})
   			var view = new ApplicationView({model: application});
   			this.$el.append(view.render().el);
-  			var counter = 0;
-  			$(document).on('click', function(){
-  				if(counter == 0){
-	  				$(".instruction-pointer").css("display", "none");
-	  				$(".instruction-pointer-2").css("display", "none");
-	  				counter++
-  				}
-  			});
+				var counter = 0;
+				var firstInstructor = $(".instruction-pointer");
+				var secondInstructor = $(".instruction-pointer-2");
+				$(document).on('click', function(){
+					console.log(counter);
+					if(counter ==0){
+						console.log("BITCH");
+						$('.instruction-pointer').css('display', 'none');
+						$('.instruction-pointer-2').css('display', 'none');
+
+					}
+					// if(counter == 1){
+					// 	console.log("hey")
+					// 	$('.instruction-pointer-2').css('display', 'none');
+					// }
+					
+				});
 
   			$( window ).resize(function() {
 				  var savedLength = $("ul.cd-switcher").width();
@@ -370,7 +379,7 @@ $(document).ready(function(){
 							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 						}
 					});
-
+				$(document).off('click', '.category');
 				$(document).on('click', '.category', function(){
 					var categoryId = $(this).attr('id');
 					$("#" + categoryId).css("background-color", "#BFBFBF");
@@ -417,7 +426,6 @@ $(document).ready(function(){
 					$(this).before("<li class = 'active'><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
 					$("#add-field").siblings().not("#delete-category").remove();
 					}
-
 				})
 
 				$(document).off('blur', '#addition');

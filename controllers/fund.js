@@ -148,7 +148,7 @@ module.exports = {
           }
         }
         var fields= [];
-        models.applications.find({where: {Fund_userid: fund.id, status: 'setup'}}).then(function(application){
+        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             user["dataValues"]["categories"] = categories;
             res.render('signup/fund-profile', {user: user, newUser: false, session: session});

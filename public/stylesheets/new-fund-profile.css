@@ -300,7 +300,7 @@ align-items: flex-end;
 	height: 90px;
 	width: 20%;
 	top: 170px; 
-	left: 20.5%;
+	left: 15%;
 	z-index: 6;
 }
 .instruction-pointer:after, .instruction-pointer:before {
@@ -335,8 +335,7 @@ align-items: flex-end;
 	width: 20%;
 	top: 280px; 
 	left: 40%;
-	z-index: 4;
-
+	z-index: 99;
 }
 .instruction-pointer-2:after, .instruction-pointer-2:before {
 	bottom: 100%;

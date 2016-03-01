@@ -3,6 +3,15 @@
 	z-index: 11;
 }
 
+#brand-image{
+  margin-top: -13px;
+   height: auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+    position: relative;
+    z-index: 11;
+}
 #fund-info{
 	top: 90px;
 	position: relative;
@@ -100,7 +109,7 @@ cursor: pointer;
 
 .description-filler{
 	margin-top: 20px;
-	width: 100%;
+	width: 50%;
 	margin-right: 35%;
 }
 
@@ -108,7 +117,9 @@ cursor: pointer;
 	width: 65%;
 	padding: 30px;
 }
-
+.dates{
+	width: 100%
+}
 .start-date-filler, .deadline-filler{
 	display: inline;
 	float: left;

@@ -145,8 +145,7 @@ var OverviewDisplay = Backbone.View.extend({
 				var start_date = startArray[0];
 				var deadlineArray = fund.deadline.split("T");
 				var deadline = deadlineArray[0];
-  	 		console.log(description);
-  	 		$("#dates").replaceWith("<div class = 'date-container'><p class = 'start-date-filler'> Start date: <input class = 'date-filler' id = 'start_date' type = 'date' value = '" +start_date+ "'></input></p><p class = 'deadline-filler'>Deadline: <input class= 'date-filler' id = 'deadline' type = 'date' value = '" + deadline + "'></input></p></div>");
+  	 		$("#dates").replaceWith("<p class = 'start-date-filler'> Start date: <input class = 'date-filler' id = 'start_date' type = 'date' value = '" +start_date+ "'></input></p><p class = 'deadline-filler'>Deadline: <input class= 'date-filler' id = 'deadline' type = 'date' value = '" + deadline + "'></input></p>");
   	 });
 
   	 $(document).on('blur', ".date-filler", function(){
@@ -155,13 +154,18 @@ var OverviewDisplay = Backbone.View.extend({
   	 	console.log(newDates);
   	 	var parameters = {};
   	 	parameters[dateId] = newDates;
+  	 	var dateContainer = $('.dates');
   	 	$.post('/funds/edit_dates/' + fund.id, parameters, function(data){
   	 		var startArray = data.start_date.split("T");
-				var start_date = startArray[0].split("").reverse().join("-");;
+  	 		console.log(startArray[0].length);
+				var start_date = startArray[0].split("-").reverse().join("-");;
+				console.log(start_date);
 				var deadlineArray = data.deadline.split("T");
-				var deadline = deadlineArray[0].split("").reverse().join("-");;
-  	 		console.log(description);
-  	 		$('.date-container').replaceWith("<p id = 'dates> The applications for this fund starts on" + start_date +  " and deadline is on " + deadline +"</p>");
+				console.log(deadlineArray[0]);
+				var deadline = deadlineArray[0].split("-").reverse().join("-");;
+  	 		console.log(deadline);
+  	 		$('.deadline-filler').remove();
+  	 		$('.start-date-filler').replaceWith("<p id = 'dates'>The applications for this fund starts on " + start_date + " and the deadline is on " + deadline)
   	 	})
   	 })
   }
@@ -283,7 +287,10 @@ var EligibleDisplay = Backbone.View.extend({
   			})
   			var view = new ApplicationView({model: application});
   			this.$el.append(view.render().el);
-
+  			$(document).ready(function(){
+  				var savedLength = $("ul.cd-switcher").width();
+					$("ul.cd-switcher").width($("#application-info").width());
+  			})
   			$( window ).resize(function() {
 				  var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-info").width());
@@ -297,7 +304,6 @@ var EligibleDisplay = Backbone.View.extend({
 				$('.switcher li').not("#application").css("background-color", "white");
 				$('.switcher li').not("#application").css("color", "black");
 				$('.switcher li').not("#application").css("border-right", "0");
-
   			this.editCategory();
   			this.editField();
 			},
@@ -386,6 +392,7 @@ var EligibleDisplay = Backbone.View.extend({
 						}
 					})
 				})
+				$(document).off('click', '#add-category');
 				$(document).on('click', '#add-category', function(){
 					var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-form").width());
@@ -530,15 +537,27 @@ var EligibleDisplay = Backbone.View.extend({
 						console.log(fieldId);
 						console.log(val);
 					  if(question_or_description.attr('class') == 'paragraph-filler' || question_or_description.attr('class') == 'input-filler'){
-						$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	console.log($(this).parent().prev().children('input').length);
+					  	if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
+						
 						}
 
 						else{
-							$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-description'></input>");
+							if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
 						
 						}
-				})
-
+				});
+				$(document).off('blur','.edit-text-question, .edit-text-description');
 				$(document).on('blur', '.edit-text-question, .edit-text-description', function(){
 					var fieldId = $(this).attr("id");
 					var value = $(this).val();
