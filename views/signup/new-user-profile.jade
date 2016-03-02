@@ -19,7 +19,7 @@ block content
 			|  You seem to have missed one or more input fields. Please fill in all the necessary information below.
 		script#profile-template(type='text/template')
 			#user-setup
-				form#profile-form(action = '/signup/user_signup_complete/' + user.id,method = "post", enctype="multipart/form-data")
+				form#profile-form(action = '/signup/user_signup_complete/' + user.id, method = "post", enctype="multipart/form-data")
 					section#about.container.content-section
 						h4#name <%= username %>
 						.row
@@ -295,6 +295,7 @@ block content
 						span.input-group-btn
 							select#religion-select.form-control(data-placeholder='Choose a religion...', form = "profile-form", name= "religion")
 								option(value='') -- select one --
+								option(value = 'null') I prefer not to say
 								option(value='African Traditional & Diasporic') African Traditional & Diasporic
 								option(value='Agnostic') Agnostic
 								option(value='Atheist') Atheist
@@ -320,7 +321,6 @@ block content
 								option(value='Zoroastrianism') Zoroastrianism
 								option(value='primal-indigenous') primal-indigenous
 								option(value='Other') Other
-								option(value = 'null') I prefer not to say
 					section#applied-funds.container.content-section.text-center
 						h4#fund-amount Please enter the amount of grant money you are seeking:     
 						input.progress(type='number', name='funding_needed', placeholder='')

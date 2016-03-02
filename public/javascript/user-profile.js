@@ -187,6 +187,16 @@ $(document).ready(function(){
 			});
 		},
 		addWork: function(){
+			$('#add-work label, #add-work i').hover(function(){
+				$('#add-work').css('border', '3px #19B5FE dashed');
+				$('#add-work').css('color', '#19B5FE');
+			}, function(){
+				$('#add-work').css('border', '3px #337ab7 dashed');
+				$('#add-work').css('color', '#337ab7');
+			});
+			$('#add-work i').click(function(){
+				$("input[id='work-file']").click();
+			});
 			$("input[id='work-file']").change(function(e){
 				var file = this.files[0];
 				var data = new FormData();

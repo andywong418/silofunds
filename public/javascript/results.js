@@ -78,7 +78,7 @@ var UserNav = Backbone.View.extend({
                console.log("THIS IS A USER");
               $("#home").attr("href", '/users/' + user.id);
               $(".settings").attr("href", '/users/settings/' +user.id );
-              $(".logout").attr("href", 'users/logout');
+              $(".logout").attr("href", 'users/logout/' + user.id);
             }
           }
           else{

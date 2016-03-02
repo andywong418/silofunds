@@ -451,7 +451,6 @@ img#profile-picture{
 
 #add-work {
 	font-size: 15px;
-	cursor: pointer;
 	margin: 20px 35%;
 	width: 30%;
 	color:#337ab7;
@@ -461,13 +460,17 @@ img#profile-picture{
 	padding-top: 5px;
 
 }
+
+#add-work label{
+	cursor: pointer;
+}
 #add-work:hover{
-	border: 3px #19B5FE dashed;
-	color:#19B5FE;
+
 }
 #add-work i{
 	font-size: 15px;
 	margin-right: 5px;
+	cursor:pointer;
 }
 
 .edit-work{

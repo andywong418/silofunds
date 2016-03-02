@@ -99,6 +99,7 @@ module.exports = {
                     profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.files.profile_picture[0].originalname
                   });
                 });
+                console.log('uploaded picture');
                 next();
             });
           }
@@ -113,13 +114,17 @@ module.exports = {
   },
 
   uploadWork: function(req, res, next){
+    console.log("TRY AGAIN HERE PLS", req.files);
     var userId = req.params.id;
     var bucketName = "silo-user-profile-" + userId;
+
     AWS.config.update({
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
+    console.log("HI HI",req.files.past_work);
     async.eachSeries(req.files.past_work, function iterator(item, callback){
+        console.log("CHECKING THE ASYNC");
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
           console.log("Uploading work...");
@@ -140,14 +145,12 @@ module.exports = {
   },
   uploadInfo: function(req, res){
     console.log("Uploading info...");
-    console.log("CHECK REDIRECT", req);
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
     nationality = req.body.nationality,
     religion = req.body.religion,
     fundingNeeded = req.body.funding_needed;
-    console.log("INFO HERE?");;
     var religionArray = [];
     religionArray.push(religion);
     models.users.findById(userId).then(function(user){
