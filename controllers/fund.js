@@ -123,7 +123,11 @@ module.exports = {
       var results_page = true;
       console.log(funds);
       if(user){
-        res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+        console.log("Checking the user",user);
+        models.users.findById(user.id).then(function(user){
+          res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+        })
+        
       }
       else{
         res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });

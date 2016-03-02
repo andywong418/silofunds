@@ -558,11 +558,21 @@ $(document).ready(function(){
 						console.log(fieldId);
 						console.log(val);
 					  if(question_or_description.attr('class') == 'paragraph-filler' || question_or_description.attr('class') == 'input-filler'){
-						$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
 						}
 
 						else{
-							$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-description'></input>");
+					  	if($(this).parent().prev().children('input').length >0){
+					  		return true
+					  	}
+					  	else{
+					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
+					  	}
 						
 						}
 				})

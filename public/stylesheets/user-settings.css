@@ -13,6 +13,7 @@ ul{
 }
 #advanced-search, #advanced-search-2{
 	top: 80px;
+  display: none;
 }
 #brand-image{
   margin-top: -13px;

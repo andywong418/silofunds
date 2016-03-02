@@ -1,6 +1,7 @@
 #advanced-search, #advanced-search-2{
 	top: 80px;
 	z-index: 11;
+	display: none;
 }
 
 #brand-image{
