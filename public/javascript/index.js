@@ -253,10 +253,10 @@ jQuery.fn.putCursorAtEnd = function() {
       $('#password-error').text('This is a required field');
       error++;
     }
-     if($('#accept-terms').is(":not(:checked)")){
-      $('#terms-error').css('display', 'inline');
-      error++;
-     }
+    //  if($('#accept-terms').is(":not(:checked)")){
+    //   $('#terms-error').css('display', 'inline');
+    //   error++;
+    //  } ADD AFTER WE HAVE LEGAL Terms
     if(error === 0){
      this.submit();
     }
@@ -401,22 +401,22 @@ jQuery.fn.putCursorAtEnd = function() {
 
   $(function() {
     $(window).scroll( function(){
-    
+
         /* Check the location of each desired element */
         $('.hideme').each( function(i){
-            
+
             var bottom_of_object = $(this).offset().top + ($(this).outerHeight() /2);
             var bottom_of_window = $(window).scrollTop() + $(window).height();
-            
+
             /* If the object is completely visible in the window, fade it it */
             if( bottom_of_window > bottom_of_object ){
-                
+
                 $(this).animate({'opacity':'1'},1500);
-                    
+
             }
-            
-        }); 
-    
+
+        });
+
     });
   });
 
@@ -424,7 +424,7 @@ jQuery.fn.putCursorAtEnd = function() {
   (function($) {
 
     $.fn.visible = function(partial) {
-      
+
         var $t            = $(this),
             $w            = $(window),
             viewTop       = $w.scrollTop(),
@@ -433,31 +433,31 @@ jQuery.fn.putCursorAtEnd = function() {
             _bottom       = _top + $t.height(),
             compareTop    = partial === true ? _bottom : _top,
             compareBottom = partial === true ? _top : _bottom;
-      
+
       return ((compareBottom <= viewBottom) && (compareTop >= viewTop));
 
     };
-      
+
   })(jQuery);
 
   $(window).scroll(function(event) {
-    
+
     $(".module").each(function(i, el) {
       var el = $(el);
       if (el.visible(true)) {
-        el.addClass("come-in"); 
-      } 
+        el.addClass("come-in");
+      }
     });
-    
+
   });
 
 
-  $(window).scroll(function(event) {  
+  $(window).scroll(function(event) {
     $(".module-2").each(function(i, el){
        var el = $(el);
         if (el.visible(true)) {
-          el.addClass("come-in-2"); 
-        } 
+          el.addClass("come-in-2");
+        }
     })
   });
   var className;
