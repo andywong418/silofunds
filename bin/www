@@ -5,6 +5,16 @@ var debug = require('debug')('potfund:server');
 var http = require('http');
 var models = require('../models');
 
+var fund_array_to_json = function(array) {
+  var funds = array.map(function(fund) {
+    var json = fund.toJSON();
+    return json;
+  });
+  return funds;
+};
+
+var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+
 models.sequelize.sync().then(function () {
   var port = normalizePort(process.env.PORT || '3001');
   app.set('port', port);
@@ -124,6 +134,35 @@ models.sequelize.sync().then(function () {
         }
       });
     });
+  });
+
+  // Automatically sync ALL on restart
+  models.funds.findAll().then(function(funds) {
+    var body = [];
+    funds = fund_array_to_json(funds);
+
+    console.log(funds);
+    console.log('\n\n');
+
+    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+    funds.forEach(function(fund) {
+      body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+      var wrapper = {};
+
+      for (var i = 0; i < fields.length ; i++) {
+        wrapper[fields[i]] = fund[fields[i]];
+      }
+
+      body.push(wrapper);
+    });
+
+    models.es.bulk({
+      body: body
+    }, function (err, resp) {
+      console.log(resp);
+    });
+  }).then(function() {
+    console.log('...Finished sync');
   });
 
   var CronJob = require('cron').CronJob;
