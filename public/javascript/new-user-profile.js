@@ -285,28 +285,28 @@ $(document).ready(function(){
 
 			});
 
-			$("input[id='video']").change(function(e){
+			// $("input[id='video']").change(function(e){
 
-				var $input = $(this),
-				$label = $input.next('label'),
-				labelVal = $label.html();
-				var fileName = '';
+			// 	var $input = $(this),
+			// 	$label = $input.next('label'),
+			// 	labelVal = $label.html();
+			// 	var fileName = '';
 
-				if( e.target.value ){
-					fileName = e.target.value.split( '\\' ).pop();
-				}
+			// 	if( e.target.value ){
+			// 		fileName = e.target.value.split( '\\' ).pop();
+			// 	}
 
-				if( fileName ){
-					$label.html( fileName );
-				}
-				else{
-					$label.html( labelVal );
-				}
+			// 	if( fileName ){
+			// 		$label.html( fileName );
+			// 	}
+			// 	else{
+			// 		$label.html( labelVal );
+			// 	}
 
-				$input
-					.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
-					.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
-			});
+			// 	$input
+			// 		.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
+			// 		.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
+			// });
 
 
 				$("input[id='work']").change(function(e){
