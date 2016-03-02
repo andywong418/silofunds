@@ -235,7 +235,7 @@ block content
 										li
 											h3.fund_title <%= fund_title %>
 										li.fund_info
-											p(class!= 'fund_tags' + '<%= fund_id %>')
+											p(class!= 'fund_tags' + '<%= fund_id %>') Tags: 
 											p(class!= 'fund_min_amount' + '<%= fund_id %>' )  
 												span.control
 											p(class!= 'fund_max_amount' + '<%= fund_id %>')  
@@ -246,13 +246,12 @@ block content
 												span.control <%= maximum_age %>
 											p(class!= 'nationalities'+ '<%= fund_id %>') 
 											p(class!='deadline' + '<%= fund_id %>') Deadline: 
-												span.control <%= deadline %>
+												span.control.badge.badge-deadline <%= deadline %>
 										label(id!='<%= fund_id %>') Additional Information 
 												i.fa.fa-chevron-circle-down
 												span(class="description_control") <%= description %>
 											h4.fund_link
 												a(href!='<%=fund_link %>', target='_blank') Apply Now
-										hr
 
 block scripts
 	// Custom Theme JavaScript

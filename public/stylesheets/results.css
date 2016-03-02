@@ -418,6 +418,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   margin-bottom: 60px;
   margin-right: 35px;
   text-align: center;
+  padding-bottom: 30px;
 }
 
 .fund_link
@@ -512,6 +513,10 @@ list-style-type: none;
   margin: 0 5px;
 }
 
+.badge-deadline{
+  background-color: #049372;
+  margin: 0 5px;
+}
 .control, .description_control{
     font-weight: normal;
 }
