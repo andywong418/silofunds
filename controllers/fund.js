@@ -167,10 +167,13 @@ module.exports = {
   },
   editDescription: function(req, res){
     var fundId = req.params.id;
-    models.users.findById(fundId).then(function(fund){
-      fund.update(req.body).then(function(data){
-        res.send(data);
+    models.users.findById(fundId).then(function(user){
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        fund.update(req.body).then(function(data){
+          res.send(data);
+        })
       })
+    
     })
   },
   editDates: function(req, res){

@@ -236,6 +236,7 @@ var UserNav = Backbone.View.extend({
         $("#" + fundData[i].id).css("font-size", "16px");
         $("#" + fundData[i].id).on("click", function() {
           if(bool){
+            console.log($(this).children("span").html());
             $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
             $(this).children("span").slideUp();
             bool = false;
