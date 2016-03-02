@@ -47,122 +47,135 @@ models.sequelize.sync().then(function () {
 
       // If it exists, refresh its settings & mappings by deleting & creating again. This will
       // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
-      if (resp) {
-        models.es.indices.delete({ index: 'funds' });
-      }
-
-      models.es.indices.create({
+      models.es.indices.delete({
         index: 'funds',
-        body: {
-          "settings": {
-            "analysis": {
-              "filter": {
-                "autocomplete_filter": {
-                  "type": "edge_ngram",
-                  "min_gram": 1,
-                  "max_gram": 20
-                }
-              },
-              "analyzer": {
-                "autocomplete": {
-                  "type": "custom",
-                  "tokenizer": "standard",
-                  "filter": [
-                    "lowercase",
-                    "autocomplete_filter"
-                  ]
-                }
-              }
-            }
-          },
-          'mappings': {
-            'fund': {
-              'properties': {
-                'title': {
-                  'type': 'string',
-                  'fields': {
-                    "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+        ignore: [404]
+      }).then(function(err, resp) {
+        if (err) {
+          console.log("ERROR IN HERE: " + err);
+        } else if (resp) {
+          console.log("RESPONSE IN HERE: " + resp);
+        }
+
+        models.es.indices.create({
+          index: 'funds',
+          body: {
+            "settings": {
+              "analysis": {
+                "filter": {
+                  "autocomplete_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 1,
+                    "max_gram": 20
                   }
                 },
-                "tags": {
-                  "type": "string",
-                  "index_name": "tag"
-                },
-                "maximum_amount": {
-                  "type": "long"
-                },
-                "minimum_amount": {
-                  "type": "long"
-                },
-                "maximum_age": {
-                  "type": "integer"
-                },
-                "minimum_age": {
-                  "type": "integer"
-                },
-                "invite_only": {
-                  "type": "boolean"
-                },
-                "link": {
-                  "type": "string"
-                },
-                "religion": {
-                  "type": "string"
-                },
-                "gender": {
-                  "type": "string"
-                },
-                "financial_situation": {
-                  "type": "string"
-                },
-                "merit_or_finance": {
-                  "type": "string"
-                },
-                "countries": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string",
-                  "index": "not_analyzed"
-                },
-                "deadline": {
-                  "type": "date"
+                "analyzer": {
+                  "autocomplete": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                      "lowercase",
+                      "autocomplete_filter"
+                    ]
+                  }
+                }
+              }
+            },
+            'mappings': {
+              'fund': {
+                'properties': {
+                  'title': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+                    }
+                  },
+                  "tags": {
+                    "type": "string",
+                    "index_name": "tag"
+                  },
+                  "maximum_amount": {
+                    "type": "long"
+                  },
+                  "minimum_amount": {
+                    "type": "long"
+                  },
+                  "maximum_age": {
+                    "type": "integer"
+                  },
+                  "minimum_age": {
+                    "type": "integer"
+                  },
+                  "invite_only": {
+                    "type": "boolean"
+                  },
+                  "link": {
+                    "type": "string"
+                  },
+                  "religion": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "financial_situation": {
+                    "type": "string"
+                  },
+                  "merit_or_finance": {
+                    "type": "string"
+                  },
+                  "countries": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                  },
+                  "deadline": {
+                    "type": "date"
+                  }
                 }
               }
             }
           }
-        }
+        }).then(function(err, resp) {
+          if (err) {
+            console.log("ERROR IN HERE: " + err);
+          } else if (resp) {
+            console.log("RESPONSE IN HERE: " + resp);
+          }
+
+          // Automatically sync ALL on restart
+          models.funds.findAll().then(function(funds) {
+            var body = [];
+            funds = fund_array_to_json(funds);
+
+            console.log(funds);
+            console.log('\n\n');
+
+            // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+            funds.forEach(function(fund) {
+              body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+              var wrapper = {};
+
+              for (var i = 0; i < fields.length ; i++) {
+                wrapper[fields[i]] = fund[fields[i]];
+              }
+
+              body.push(wrapper);
+            });
+
+            models.es.bulk({
+              body: body
+            }, function (err, resp) {
+              console.log(resp);
+            });
+          }).then(function() {
+            console.log('...Finished sync');
+          });
+        });
       });
     });
-  });
-
-  // Automatically sync ALL on restart
-  models.funds.findAll().then(function(funds) {
-    var body = [];
-    funds = fund_array_to_json(funds);
-
-    console.log(funds);
-    console.log('\n\n');
-
-    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-    funds.forEach(function(fund) {
-      body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-      var wrapper = {};
-
-      for (var i = 0; i < fields.length ; i++) {
-        wrapper[fields[i]] = fund[fields[i]];
-      }
-
-      body.push(wrapper);
-    });
-
-    models.es.bulk({
-      body: body
-    }, function (err, resp) {
-      console.log(resp);
-    });
-  }).then(function() {
-    console.log('...Finished sync');
   });
 
   var CronJob = require('cron').CronJob;
