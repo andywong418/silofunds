@@ -51,6 +51,9 @@ a:hover{
 	h4{
 	margin-left: 12%;
 	}
+	#applicant{
+		margin-left: 2%;
+	}
 
 	#fund-icon, #user-icon{
 	font-size: 60px;

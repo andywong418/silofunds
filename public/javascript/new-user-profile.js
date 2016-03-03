@@ -209,7 +209,7 @@ $(document).ready(function(){
 						var religion = $('#religion-select option:selected').val();
 						var fundingNeeded = $('.progress').val();
 	
-						if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || workInput == 'Choose up to 5 files' || !birthday || !country || !religion || !fundingNeeded){
+						if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || !birthday || !country || !religion || !fundingNeeded){
 							$("#applied-funds").css("z-index", "4");
 							console.log("ERROR");
 							$('.alert').css("display", "block");
@@ -317,6 +317,7 @@ $(document).ready(function(){
 					console.log("CHECK HERE TOO");
 					if( this.files && this.files.length > 1 ){
 					fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+					console.log(fileName);
 					}
 					else if( e.target.value ){
 						fileName = e.target.value.split( '\\' ).pop();
