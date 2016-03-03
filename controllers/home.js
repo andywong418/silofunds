@@ -5,10 +5,25 @@ module.exports = {
     delete req.session.redirect_user;
     if(user){
       if(user.fund_or_user){
-        res.redirect('/funds/' + user.id+ '/');
+        try{
+          console.log("something");
+          res.redirect('/funds/' + user.id+ '/');
+        } catch(err) {
+          console.log("redirecting", err);
+          res.render('index', { title: 'Express', resultsPage: false });
+        }
+        
       }
       else{
-        res.redirect('/users/' + user.id + '/');
+        try{
+          console.log(error);
+          res.redirect('/users/' + user.id + '/');
+        }
+        catch(err) {
+          console.log("redirecting", err);
+          res.render('index', { title: 'Express', resultsPage: false });
+        }
+        
       }
     }
 
