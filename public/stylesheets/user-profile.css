@@ -449,6 +449,7 @@ img#profile-picture{
 	cursor: pointer;
 	padding-bottom: 10px;
 	margin-bottom: 30px;
+	margin-top: 30px;
 
 }
 #work-display span i a{
@@ -456,7 +457,7 @@ img#profile-picture{
 }
 #add-work {
 	font-size: 15px;
-	margin: 20px 35%;
+	margin: 30px 35%;
 	width: 30%;
 	color:#337ab7;
 	box-sizing: border-box;
@@ -487,7 +488,9 @@ img#profile-picture{
 	position: relative;
 	z-index: 5;
 }
-
+.work-description{
+	margin-top: 20px;
+}
 .pdf-file{
 	color: #f39c12;
 }

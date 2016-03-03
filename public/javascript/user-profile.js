@@ -313,7 +313,7 @@ $(document).ready(function(){
 				});
 		},
 		deleteWork: function(){
-			$(".delete").click(function(){
+			$(document).on('click', '.delete', function(){
 				var seekId = $(this).attr("id");
 				var idArray = seekId.split("k");
 				var id = idArray[idArray.length-1];
