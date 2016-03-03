@@ -16,6 +16,7 @@ var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/si
 var app = express();
 var mcapi = require('mailchimp-api');
 var mcKey;
+var favicon = require('serve-favicon');
 
 if (process.env.MAILCHIMP_KEY) {
   mcKey = process.env.MAILCHIMP_KEY;
@@ -29,6 +30,7 @@ mc = new mcapi.Mailchimp(mcKey);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
