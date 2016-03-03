@@ -40,12 +40,8 @@ module.exports = {
         console.log('some other error');
       }
       console.log('ending AJAX post request...');
-<<<<<<< HEAD
       res.status(400);
 			res.redirect('/');
-=======
-      next();
->>>>>>> 6ec0cffbf4529a7974d7353b7c3dae01d838c8c0
     });
   },
   addUser: function(req, res, next){
