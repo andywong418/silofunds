@@ -308,6 +308,16 @@ $(document).ready(function(){
 			// 		.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 			// });
 
+				if (!Modernizr.inputtypes.date) {
+        // If not native HTML5 support, fallback to jQuery datePicker
+            $('input[type=date]').datepicker({
+                // Consistent format with the HTML5 picker
+                    dateFormat : 'dd-mm-yy'
+                },
+                // Localization
+                $.datepicker.regional['it']
+            );
+        };
 
 				$("input[id='work']").change(function(e){
 					var $input = $(this),

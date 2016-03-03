@@ -140,6 +140,16 @@ $(document).ready(function(){
   		})
   		var view = new EligibleView({model: eligible});
   		this.$el.append(view.render().el);
+			if (!Modernizr.inputtypes.date) {
+        // If not native HTML5 support, fallback to jQuery datePicker
+            $('input[type=date]').datepicker({
+                // Consistent format with the HTML5 picker
+                    dateFormat : 'dd-mm-yy'
+                },
+                // Localization
+                $.datepicker.regional['it']
+            );
+        };
   		if(this.model.get("tags")){
   			this.$("#tags-input").val(this.model.get("tags"));
   		}
@@ -178,6 +188,7 @@ $(document).ready(function(){
 					this.$("#female").prop("checked", true);
 				}
 			}
+
 
 			if(this.model.get('start_date')){
 				console.log(this.model.get('start_date'));
