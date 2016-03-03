@@ -63,7 +63,7 @@ $(document).ready(function(){
 			var advanced_2 = true;
 			$("#advanced-search").toggle(false);
 			$("#advanced-search-2").toggle(false);
-			$("#grants").click(function(){
+			$("#grants, #refine-search").click(function(){
 			    $("#advanced-search").slideDown();
 			    $("#advanced-search-2").toggle(false);
 			    $("#grants span").css("display","inline");
@@ -79,8 +79,9 @@ $(document).ready(function(){
 			    $("#grants span").css("display","none");
 			    advanced_2 = false;
 			});
+
 			$(document).click(function(e) {
-			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#refine-search') === null && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
 			      $("#advanced-search").toggle(false);
 
 			  }
