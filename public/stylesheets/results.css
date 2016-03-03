@@ -165,11 +165,13 @@ a:focus {
   width: 38px;
   height:38px;
   border-radius: 19px;
-  margin-top: -4px;
+  margin-top: -3px;
+  margin-right: -3px;
   padding: 0;
   padding-left: 5px;
   /*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
-  background: #ffffff;
+  background: rgba(45,74,118,1.0);
+  border: none ;
 
 }
 
@@ -181,7 +183,7 @@ a:focus {
   margin: 0px 2px;
   position: relative;
   z-index: 5;
-  color: black;
+
 }
 #grants, #users{
   cursor: pointer;
@@ -476,6 +478,19 @@ list-style-type: none;
 }
 
 
+#refine-search{
+  position: absolute;
+  left: -140px;
+  width: 150px;
+  top: 2px;
+  color: white;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+#refine-search:hover{
+  text-decoration: underline;
+}
 .badge {
   padding-top: 5px;
   padding-bottom: 5px;
