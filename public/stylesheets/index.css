@@ -1069,6 +1069,11 @@ time, mark, audio, video {
 #about-us{
   height: 578px;
 }
+
+#about-intro {
+  color: #22313F;
+}
+
 #free, #crowd-funding, #network{
   width: 40%;
   height: auto;
@@ -1186,20 +1191,20 @@ time, mark, audio, video {
   margin-top: 0;
   height: 578px;
   width: 100%;
-  background: url("../images/Noon-Years-Confetti.png") no-repeat fixed; 
+  background: url("../images/Noon-Years-Confetti.png") no-repeat fixed;
   background-position: center;
 
 }
 
 #generosity-intro{
-  color: #336E7B
+  color: #34495E;
 }
 
 #generosity-paragraph{
   width: 60%;
   margin-left: 20%;
   font-size: 19px;
-    color: #36D7B7;
+    color: #34495E;
     line-height: 2.5;
 }
 
@@ -1360,4 +1365,3 @@ time, mark, audio, video {
 		line-height: 1.8;
 	}
 }
-
