@@ -392,16 +392,6 @@ $(document).ready(function(){
 				var country = $('#country-select option:selected').val();
 				var religion = $('#religion-select option:selected').val();
 				var fundingNeeded = $('.progress').val();
-
-				console.log(profileSrc);
-				console.log(description);
-				console.log(workInput);
-				console.log(birthday);
-				console.log(country);
-				console.log(religion);
-				console.log(fundingNeeded);
-
-		
 				if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || workInput == 'Choose up to 5 files' || !birthday || !country || !religion || !fundingNeeded){
 					console.log("ERROR");
 					$('.alert').css("display", "block");

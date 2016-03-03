@@ -112,7 +112,7 @@ module.exports = {
       } else { // an error occurred so bucket doesn't exist
         s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
           console.log("Uploaded picture.");
-          res.send('data');
+          res.end();
         });
       }          // successful response- bucket exists
     });
@@ -145,7 +145,7 @@ module.exports = {
           });
         });
     }, function done() {
-        res.send("DATA");
+        res.end();
       });
   },
   uploadInfo: function(req, res){
