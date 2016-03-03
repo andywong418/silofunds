@@ -22,7 +22,8 @@ module.exports = {
     var email = req.body.useremail;
     var name = username.split(" ");
     var firstName = name[0];
-    var lastName = name[1]
+    var lastName = name[1];
+
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
@@ -34,12 +35,17 @@ module.exports = {
     }, function(error) {
       if (error.error) {
         console.log(error.code + error.error);
+
       } else {
         console.log('some other error');
       }
       console.log('ending AJAX post request...');
+<<<<<<< HEAD
       res.status(400);
 			res.redirect('/');
+=======
+      next();
+>>>>>>> 6ec0cffbf4529a7974d7353b7c3dae01d838c8c0
     });
   },
   addUser: function(req, res, next){
