@@ -202,6 +202,7 @@ $(document).ready(function(){
 				var data = new FormData();
 				data.append('file', file);
 				data.append('user', user.id);
+				console.log(file);
 				$.ajax({
 				  type: "POST",
 				  url: '/user-edit/add-work',
@@ -255,7 +256,7 @@ $(document).ready(function(){
 			var savedDescription = '';
 			var textareaAdded = false;
 			var user;
-			$(".add").click(function(){
+			$(document).on('click', '.add', function(){
 						var seekId = $(this).attr("id");
 						var idArray = seekId.split("n");
 						var id = idArray[idArray.length-1];
@@ -312,7 +313,7 @@ $(document).ready(function(){
 				});
 		},
 		deleteWork: function(){
-			$(".delete").click(function(){
+			$(document).on('click', '.delete', function(){
 				var seekId = $(this).attr("id");
 				var idArray = seekId.split("k");
 				var id = idArray[idArray.length-1];

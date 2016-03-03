@@ -26,13 +26,14 @@ module.exports = {
 
 		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
 		s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
-	      console.log("uploaded picture successfully");
+	      console.log("uploaded file successfully");
 	      models.documents.upsert({
 	      	link: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname,
 	      	user_id: userId
 				}).then(function(){
 					models.documents.find({where: {link: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname }
 				}).then(function(document){
+					console.log('yo yo yo', document);
 					res.send(document);
 				});
 			});
