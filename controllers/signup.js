@@ -38,7 +38,8 @@ module.exports = {
         console.log('some other error');
       }
       console.log('ending AJAX post request...');
-      res.status(400).end();
+      res.status(400);
+			res.redirect('/');
     });
   },
   addUser: function(req, res, next){
@@ -185,7 +186,7 @@ module.exports = {
       //see if fund already exists on fund table
       models.funds.findOrCreate({where:{title: scholarshipName}, defaults:{email: email}}).spread(function(user, created){
         console.log("EVEN HERE", created);
-        
+
         if(created){
           console.log("LOOK AT ME", user);
           var fund_id = user.id;
@@ -195,7 +196,7 @@ module.exports = {
             }).then(function(user){
               res.render('signup/new-fund-profile', {user: user});
             })
-            
+
           })
         }
 
@@ -227,7 +228,7 @@ module.exports = {
             console.log(attrname);
             user["dataValues"][attrname] = fund[attrname];
 
-          }         
+          }
         }
         res.json(user);
       })
@@ -256,7 +257,7 @@ module.exports = {
           res.send(data);
         })
       })
-      
+
     })
   },
   getCountries: function(req, res){
@@ -280,7 +281,7 @@ module.exports = {
           res.send(data);
         })
       })
-      
+
     })
 
 
@@ -308,7 +309,7 @@ module.exports = {
         })
       })
 
-      
+
     })
   },
   getApplication: function(req, res){
@@ -321,7 +322,7 @@ module.exports = {
 
             user["dataValues"][attrname] = fund[attrname];
 
-          }         
+          }
         }
         var fields= [];
         models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
@@ -339,7 +340,7 @@ module.exports = {
           else{
             res.json(user);
           }
-        
+
         })
       })
 
@@ -394,7 +395,7 @@ module.exports = {
               res.send(user);
             })
           })
-          
+
         })
       })
     }
@@ -412,7 +413,7 @@ module.exports = {
             res.send(user);
           })
         })
-      
+
     })
   },
   applicationCategory: function(req, res){
@@ -450,7 +451,7 @@ module.exports = {
         res.send(data);
       })
     })
-  
+
   },
   deleteCategory: function(req, res){
     var categoryId = req.params.id;
@@ -487,7 +488,7 @@ module.exports = {
       res.send(data);
     })
     })
-  
+
   },
   editField: function(req, res){
     var fieldId = req.params.id;
@@ -528,7 +529,7 @@ module.exports = {
 
             user["dataValues"][attrname] = fund[attrname];
 
-          }         
+          }
         }
         var fields= [];
         models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
@@ -541,8 +542,8 @@ module.exports = {
             user["dataValues"]["categories"] = categories;
             res.render('signup/fund-profile', {user: user, newUser: true});
            })
-          
-        
+
+
         })
       })
 
