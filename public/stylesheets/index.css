@@ -1151,9 +1151,9 @@ time, mark, audio, video {
 }
 
 
-/*#coming-soon{
-  padding-top: 150px;
-
+#coming-soon{
+  font-size: 18px;
+  color: #6C7A89;
 }
 #coming{
   border: 5px solid #34495E;
@@ -1163,7 +1163,7 @@ time, mark, audio, video {
   padding-right: 5px;
   font-size: 20px;
   color: #34495E;
-}*/
+}
 
 
 
