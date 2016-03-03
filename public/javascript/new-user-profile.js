@@ -65,7 +65,21 @@ $(document).ready(function(){
                   .width(250)
                   .height(250);
 		            };
+  	          var file = this.files[0];
+							var data = new FormData();
+							data.append('profile_picture', file);
+							data.append('user', user_setup.id);
+							$.ajax({
+								type: 'POST',
+								url: "/signup/user_signup/profile_picture/" + user_setup.id,
+								data: data,
+							  processData: false,
+								contentType: false
+							}).done(function(data){
+								console.log(data);
 
+							});
+	          		console.log(this.files[0].name);
          		 		reader.readAsDataURL(this.files[0]);
         			}
     				});
@@ -341,6 +355,25 @@ $(document).ready(function(){
 						$label.html( labelVal );
 					}
 
+	          var files = this.files;
+	          console.log(files[0]);
+	          var fileArray = [];
+	         
+						var data = new FormData();
+						for(var i = 0; i < files.length; i++){
+	          	data.append('past_work', files[i]);
+	          };
+						data.append('user', user_setup.id);
+						$.ajax({
+							type: 'POST',
+							url: "/signup/user_signup/work/" + user_setup.id,
+							data: data,
+						  processData: false,
+							contentType: false
+						}).done(function(data){
+							console.log(data);
+						});
+
 					$input
 						.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
 						.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
@@ -378,10 +411,7 @@ $(document).ready(function(){
 					finalInput.css("z-index", "0");
 					preloader.css('display', 'inline');
 					$('#profile-form').submit();
-				}
-				// default picture source = ../../images/fund_img_placeholder.jpg
-				// default work html = Choose up to 5 files
-				// $('#profile-form').submit();
+				}				
 			});
 		}
 	});

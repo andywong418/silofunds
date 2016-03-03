@@ -79,44 +79,45 @@ module.exports = {
 		}
   },
 
-  uploadPicture: function(req,res, next){
+  uploadPicture: function(req,res){
+    console.log("I'm HERE");
     var userId = req.params.id;
     var idString = req.params.id.toString();
     var bucketString = "silo-user-profile-";
     var bucketName = bucketString.concat(idString);
-
+    console.log('body', req.body);
+    console.log('req file', req.file);
     AWS.config.update({
     accessKeyId: aws_keyid,
     secretAccessKey: aws_key
     });
-    var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.files.profile_picture[0].originalname, ACL: 'public-read'}});
+    var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.file.originalname, ACL: 'public-read'}});
     s3.headBucket(bucketName, function(err, data) {
       if (err) {
         s3.createBucket(function(err){
           if (err) { console.log("Error:", err); }
           else{
-            s3.upload({Body: req.files.profile_picture[0].buffer, ContentType: req.files.profile_picture[0].mimetype}, function(){
+            s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
                 models.users.findById(userId).then(function(user){
                   user.update({
-                    profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.files.profile_picture[0].originalname
+                    profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
                   });
                 });
                 console.log('uploaded picture');
-                next();
+                res.end();
             });
           }
         });
       } else { // an error occurred so bucket doesn't exist
-        s3.upload({Body: req.files.profile_picture[0].buffer, ContentType: req.files.profile_picture[0].mimetype}, function(){
+        s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
           console.log("Uploaded picture.");
-          next();
+          res.send('data');
         });
       }          // successful response- bucket exists
     });
   },
 
-  uploadWork: function(req, res, next){
-    console.log("TRY AGAIN HERE PLS", req.files);
+  uploadWork: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-user-profile-" + userId;
 
@@ -124,9 +125,11 @@ module.exports = {
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
-    console.log("HI HI",req.files.past_work);
-    async.eachSeries(req.files.past_work, function iterator(item, callback){
-        console.log("CHECKING THE ASYNC");
+    console.log("HI HI",req.files[1]);
+    console.log("WHOLE THING", req.files);
+    async.eachSeries(req.files, function iterator(item, callback){
+      console.log('check', item);
+        console.log("CHECKING THE ASYNC", item.originalname);
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
           console.log("Uploading work...");
@@ -141,17 +144,15 @@ module.exports = {
           });
         });
     }, function done() {
-        console.log("Uploaded work.");
-        next();
+        res.send("DATA");
       });
   },
   uploadInfo: function(req, res){
-    console.log("Uploading info...");
     var userId = req.params.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
     nationality = req.body.nationality,
-    religion = req.body.religion,
+    religion = req.body.religion;
     fundingNeeded = req.body.funding_needed;
     var religionArray = [];
     religionArray.push(religion);
@@ -171,6 +172,8 @@ module.exports = {
             res.redirect('/results' + req.session.redirect_user);
           }
           else{
+            console.log(user);
+            console.log(documents);
           res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
           }
         });

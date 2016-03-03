@@ -19,7 +19,7 @@ block content
 			|  You seem to have missed one or more input fields. Please fill in all the necessary information below.
 		script#profile-template(type='text/template')
 			#user-setup
-				form#profile-form(action = '/signup/user_signup_complete/' + user.id, method = "post", enctype="multipart/form-data")
+				form#profile-form(action = '/signup/user_signup_complete/' + user.id, method = "post")
 					section#about.container.content-section
 						h4#name <%= username %>
 						.row
@@ -38,13 +38,13 @@ block content
 							p#stand-out Bolster your application by letting funds and peers see your best work.
 							#work-span.btn.btn-primary.btn-file
 								i.fa.fa-upload
-								input#work(type='file', form = 'profile-form', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
+								input#work(type='file', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
 								label(for='work') Choose up to 5 files
 					section#age.container.content-section.text-center
 						h4 Please select your date of birth:
 						.form-group
 							label(for='link') 
-								input#date_of_birth.form-control(type='date', name='date_of_birth')
+								input#date_of_birth.form-control(type='date', name='date_of_birth', form = 'profile-form')
 					section#nationality.container.content-section.text-center
 						h4 Please select your nationality: 
 						span.input-group-btn
@@ -324,7 +324,7 @@ block content
 								option(value='Other') Other
 					section#applied-funds.container.content-section.text-center
 						h4#fund-amount Please enter the amount of grant money you are seeking:     
-						input.progress(type='number', name='funding_needed', placeholder='')
+						input.progress(type='number', name='funding_needed', placeholder='', form = 'profile-form')
 		.se-pre-con
 block scripts
 	script(src='../../javascript/lib/modernizr-input.js')

@@ -22,6 +22,7 @@ $(document).ready(function(){
 	var UserInfo = Backbone.View.extend({
 		el: 'body',
 		initialize: function(){
+			console.log(user);
 			var myDate = user.date_of_birth.split("-");
 			var yearFix= myDate[2].split("T");
 			var day = yearFix[0];
