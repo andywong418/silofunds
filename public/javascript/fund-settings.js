@@ -38,6 +38,16 @@ $(document).ready(function(){
 			});
 			var view = new SettingsView({model: settings_model});
 			this.$el.append(view.render().el);
+			if (!Modernizr.inputtypes.date) {
+        // If not native HTML5 support, fallback to jQuery datePicker
+            $('input[type=date]').datepicker({
+                // Consistent format with the HTML5 picker
+                    dateFormat : 'dd-mm-yy'
+                },
+                // Localization
+                $.datepicker.regional['it']
+            );
+        };
 			if(fund.email_updates == true){
 				$("#email_updates").prop("checked", true);
 			}

@@ -140,6 +140,16 @@ var OverviewDisplay = Backbone.View.extend({
 
   },
   editDates: function(){
+		if (!Modernizr.inputtypes.date) {
+      // If not native HTML5 support, fallback to jQuery datePicker
+          $('input[type=date]').datepicker({
+              // Consistent format with the HTML5 picker
+                  dateFormat : 'dd-mm-yy'
+              },
+              // Localization
+              $.datepicker.regional['it']
+          );
+      };
   	$(document).on('click', '#edit-dates', function(){
   	 		var startArray = fund.start_date.split("T");
 				var start_date = startArray[0];
