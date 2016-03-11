@@ -131,6 +131,12 @@ models.sequelize.sync().then(function () {
                     "type": "string",
                     "index": "not_analyzed"
                   },
+                  "suggest": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": false
+                  },
                   "deadline": {
                     "type": "date"
                   }
@@ -161,6 +167,8 @@ models.sequelize.sync().then(function () {
               for (var i = 0; i < fields.length ; i++) {
                 wrapper[fields[i]] = fund[fields[i]];
               }
+
+              wrapper["suggest"] = { "input": fund.tags };
 
               body.push(wrapper);
             });
