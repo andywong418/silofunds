@@ -278,11 +278,7 @@ ul.banner-social-buttons {
     margin-top: 0;
 }
 
-@media(max-width:1199px) {
-    ul.banner-social-buttons {
-        margin-top: 15px;
-    }
-}
+
 
 @media(max-width:767px) {
     ul.banner-social-buttons li {
@@ -1341,11 +1337,7 @@ time, mark, audio, video {
   cursor: pointer;
 }
 /* If you don't want the footer to be responsive, remove these media queries */
-@media(max-width: 990px){
-  #funds-brief{
-    margin-left: auto;
-  }
-}
+/*
 @media (max-width: 600px) {
 
 	.footer-distributed .footer-left,
@@ -1364,4 +1356,178 @@ time, mark, audio, video {
 	.footer-distributed .footer-left p.footer-links{
 		line-height: 1.8;
 	}
+}*/
+
+/* custom media queries for mobile op */
+@media(max-width:1199px) {
+    ul.banner-social-buttons {
+        margin-top: 15px;
+    }
+    #text_search{
+      width: 230px;
+      font-size: 13px;
+    }
+    #amount_req{
+      width: 150px;
+      font-size: 13px;
+    }
+     #age{
+      width: 70px;
+      font-size: 13px;
+     }
+    .intro-body .container{
+      padding-bottom: 30px;
+    }
+  .intro .intro-body .intro-text{
+    font-size: 25px;
+  }
+  .intro .intro-body .intro-text-2{
+
+    font-size: 22px;
+  }
+  #silo-here{
+    display: inline-block;
+    width: 70%;
+  }
+  #funds-brief{
+    margin-left: -40px;
+  }
+  #yet{
+    margin-left: 40px;
+  }
+}
+@media(max-width: 991px){
+  #funds-brief{
+    margin-left: auto !important;
+  }
+  #yet{
+    margin-top: 0;
+    display:block;
+    margin-left: 15px;
+  }
+  .progress-bar{
+    margin-top: 70px;
+  }
+  #free, #crowd-funding, #network {
+    width: 20%;
+    height: auto;
+  }
+  #showcase{
+    margin-top: 40%;
+  }
+  #profile-features{
+    margin-bottom: 0;
+  }
+   #user-profile{
+    max-width: 130%;
+    margin-left: -15%;
+  }
+}
+@media(max-width: 889px){
+  #user-features{
+    margin-top: -100px;
+  }
+
+}
+@media(max-width: 767px){
+  .intro .intro-body .intro-text{
+    font-size: 25px;
+  }
+  .intro .intro-body .intro-text-2{
+    margin-top: 0px;
+    font-size: 22px;
+  }
+  .search_form{
+    margin-bottom: -50px;
+  }
+  .cd-signup{
+    border: none;
+  }
+ #generosity{
+  margin-top: 30%;
+ }
+  #generosity-intro{
+    margin-top: 30px;
+  }
+  #generosity-paragraph{
+    font-size: 18px;
+    width: 94%;
+    margin-left: 3%
+  }
+  #features, #showcase{
+    display: none;
+  }
+}
+
+@media(max-width: 630px){
+    #search_button{
+      font-size: 12px;
+    }
+     #text_search{
+      width: 190px;
+      font-size: 11px;
+    }
+    #amount_req{
+      width: 65px;
+      font-size: 11px;
+    }
+     #age{
+      width: 50px;
+      font-size: 11px;
+     }
+       #generosity-paragraph{
+    font-size: 16px;
+    width: 94%;
+    margin-left: 3%
+  }
+}
+@media(max-width: 572px){
+    .footer-distributed p.footer-links a{
+      font-size: 14px;
+      display: inline;
+    }
+    .footer-distributed .footer-right{
+      margin-right: -30px;
+    }
+    .footer-distributed .footer-right a{
+  
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      margin-top: 5px;
+      margin-left: 8px;
+    }
+}
+@media(max-width: 512px){
+ 
+  .footer-distributed .footer-right a{
+      margin-top: 5px;
+  }
+  .footer-distributed .footer-center{
+      margin-left: 15px;
+  }
+}
+@media(max-width: 497px){
+    #search_button{
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+}
+@media(max-width: 462px){
+  .footer-distributed .footer-left{
+    width: 20%;
+    margin-left: 20px;
+  }
+  .footer-distributed .footer-left a{
+    margin-left: 10px;
+  }
+  .footer-distributed .footer-center{
+
+      width: 25%;
+      margin-left: 20px;
+    }
+  .footer-distributed .footer-right{
+    padding-right: 0;
+    width: 50%;
+  }
 }
