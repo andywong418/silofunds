@@ -1102,3 +1102,14 @@ time, mark, audio, video {
 .ui-menu .ui-menu-item{
   margin-top: 13px;
 }
+
+#deadline-passed{
+  font-weight: bold;
+  margin-bottom: 30px;
+  background-color: #C0392B;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 0px;
+  margin-top: 0;
+  display: none;
+}

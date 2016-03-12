@@ -33,8 +33,7 @@ module.exports = {
     var search_url_array = req.url.split('/');
     req.session["redirect_user"] = search_url_array[1];
     console.log(req.session);
-    var dateNow = new Date();
-    dateNow = dateNow.toISOString();
+
 
     var queryOptionsShouldArr = [
       {
@@ -71,13 +70,6 @@ module.exports = {
       "filtered": {
         "filter": {
           "bool": {
-            "must": {
-              "range": {
-                "deadline": {
-                  "gte": dateNow
-                }
-              }
-            },
             "should": queryOptionsShouldArr
           }
         }

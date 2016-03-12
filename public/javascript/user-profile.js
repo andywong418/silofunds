@@ -50,10 +50,28 @@ $(document).ready(function(){
                 $.datepicker.regional['it']
             );
         };
-			$("input#text_search" ).autocomplete({
-				source: "../../autocomplete",
-				minLength: 1
-			});
+      function split( val ) {
+      	return val.split(" ");
+ 			};
+		  $("input#text_search" ).autocomplete({
+		    source: "../autocomplete",
+		    minLength: 1,
+		    select: function( event, ui ) {
+		      var terms = split( this.value );
+		      // remove the current input
+		      terms.pop();
+		      // add the selected item
+		      terms.push( ui.item.value );
+		      // add placeholder to get the comma-and-space at the end
+		      terms.push( "" );
+		      this.value = terms.join(" ");
+		      return false;
+		    },
+		    focus: function() {
+		      // prevent value inserted on focus
+		      return false;
+		    }
+		  });
 
 			var advanced = true;
 			var advanced_2 = true;

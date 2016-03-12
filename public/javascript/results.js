@@ -145,6 +145,15 @@ var UserNav = Backbone.View.extend({
         var view = new FundView({ model: fund });
 
         this.$el.append(view.render().el);
+        // Do the date
+        var dateNow = new Date();
+        dateNow = dateNow.toISOString();
+        console.log("NOW", dateNow);
+        console.log("DEADLINE", fundData[i].deadline);
+        if (fundData[i].deadline < dateNow){
+          console.log("TRUE");
+          $('#deadline-passed').css('display', 'block');
+        };
         var tags = fundData[i].tags;
         if(!tags){
           $(".fund_tags"+ fundData[i].id).toggle(false);
