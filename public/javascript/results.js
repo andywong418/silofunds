@@ -288,13 +288,22 @@ var UserNav = Backbone.View.extend({
   function doneResizing() {
     var form = document.getElementsByClassName("search_form");
 
-    if(Modernizr.mq('screen and (min-width:920px)')) {
+    if(Modernizr.mq('screen and (min-width:720px)')) {
       // action for screen widths including and above 768 pixels
       $(".navbar-header").append(form);
     }
-    else if(Modernizr.mq('screen and (max-width:920px)')) {
+    else if(Modernizr.mq('screen and (max-width:720px)')) {
       // action for screen widths below 768 pixels
       $("#about").prepend(form);
+    }
+
+    if(Modernizr.mq('screen and (max-width:851px)')) {
+      // action for screen widths including and above 768 pixels
+      $("#text_search").attr('placeholder', 'Subject, University, Degree level');
+    }
+    else if(Modernizr.mq('screen and (min-width:851px)')) {
+      // action for screen widths including and above 768 pixels
+      $("#text_search").attr('placeholder', 'Keywords-Subject, University, Degree level');
     }
   }
 
