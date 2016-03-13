@@ -80,7 +80,8 @@ module.exports = {
       queryOptions.filtered["query"] = {
         "multi_match" : {
           "query": searchString,
-          "fields": ["tags","title.autocomplete"]
+          "fields": ["tags","title.autocomplete"],
+          "operator":   "and"
         }
       };
     }
