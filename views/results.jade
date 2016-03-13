@@ -232,7 +232,7 @@ block content
 									.fund_list
 										li
 											h3.fund_title <%= fund_title %>
-											h4#deadline-passed Oops the deadline has passed for this fund...
+											h4#deadline-passed(class!= 'deadline-passed' + '<%= fund_id %>') Oops the deadline has passed for this fund...
 										li.fund_info
 											p(class!= 'fund_tags' + '<%= fund_id %>') Tags: 
 											p(class!= 'fund_min_amount' + '<%= fund_id %>' )  

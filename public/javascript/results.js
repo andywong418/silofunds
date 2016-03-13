@@ -127,8 +127,12 @@ var UserNav = Backbone.View.extend({
       },
 
       fundDisplay: function(){
+        var deadline;
+        if(fundData[i].deadline){
         var deadlineArray = fundData[i].deadline.split("T");
-        var deadline = deadlineArray[0].split("-").reverse().join("-");
+        deadline = deadlineArray[0].split("-").reverse().join("-");
+        }
+
         var fund = new FundModel({
           fund_title: fundData[i].title,
           maximum_amount: "£" + fundData[i].maximum_amount,
@@ -146,8 +150,10 @@ var UserNav = Backbone.View.extend({
         // Do the date
         var dateNow = new Date();
         dateNow = dateNow.toISOString();
+        console.log(dateNow);
         if (fundData[i].deadline < dateNow){
-          $('#deadline-passed').css('display', 'block');
+          console.log("DEADLINED");
+          $('.deadline-passed' + fundData[i].id).css('display', 'block');
         };
         var tags = fundData[i].tags;
         if(!tags){
