@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var bool = false;
 
-  console.log(user);
+
 // Need user data to do this
 //    var UserNavView = Backbone.View.extend({
 //   tagname: 'ul',
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 // });
 
-console.log(query);
+
 
 for(var field in query){
   $('.' + field).attr('value', query[field]);
@@ -36,7 +36,7 @@ $("#grants").click(function(){
     return true;
   });
 $(document).on('click', '#refine-search', function(){
-  console.log("REFINE");
+
   $("#advanced-search").slideDown();
    advanced = false;
     return true;
@@ -73,13 +73,11 @@ var UserNav = Backbone.View.extend({
             $('.post-signin').css("display","inline");
             $('.post-signin').css("z-index", "11");
             if(user.fund_or_user){
-              console.log("THIS IS A FUND");
               $("#home").attr("href", '/funds/' + user.id );
               $(".settings").attr("href", '/funds/settings/' +user.id);
               $(".logout").attr("href", 'funds/logout');
             }
             else{
-               console.log("THIS IS A USER");
               $("#home").attr("href", '/users/' + user.id);
               $(".settings").attr("href", '/users/settings/' +user.id );
               $(".logout").attr("href", 'users/logout/' + user.id);
@@ -93,7 +91,7 @@ var UserNav = Backbone.View.extend({
 
   });
  var userNav = new UserNav();
-//   console.log(userNav);
+
 
   for (var i = 0; i < fundData.length; i++) {
     var FundModel = Backbone.Model.extend({
@@ -148,10 +146,7 @@ var UserNav = Backbone.View.extend({
         // Do the date
         var dateNow = new Date();
         dateNow = dateNow.toISOString();
-        console.log("NOW", dateNow);
-        console.log("DEADLINE", fundData[i].deadline);
         if (fundData[i].deadline < dateNow){
-          console.log("TRUE");
           $('#deadline-passed').css('display', 'block');
         };
         var tags = fundData[i].tags;
@@ -178,7 +173,6 @@ var UserNav = Backbone.View.extend({
            $(".nationalities"+ fundData[i].id).toggle(false);
         }
         else{
-          console.log(countries.length);
           if(countries.length > 4){
             for(var k = 0; k < 4; k++){
                $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'>" + countries[k] + "</span>");
@@ -213,7 +207,6 @@ var UserNav = Backbone.View.extend({
          if(fundData[i].maximum_amount && fundData[i].minimum_amount){
 
            $(".fund_min_amount"+ fundData[i].id).children('.control').addClass("min_amount"+ fundData[i].id);
-           console.log($(".fund_min_amount"+ fundData[i].id).children('.control'));
            $(".min_amount" + fundData[i].id).addClass("label label-warning badge badge-warning");
            $(".min_amount"+ fundData[i].id).html("£" + fundData[i].minimum_amount);
            $(".fund_min_amount" + fundData[i].id).append("<span id='minus-sign'> - </span>");
@@ -229,7 +222,6 @@ var UserNav = Backbone.View.extend({
          }
          if(!fundData[i].minimum_age){
            $(".fund_min_age"+ fundData[i].id).toggle(false);
-           console.log("THIS IS", fundData[i]);
            $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);
            $(".max_age" + fundData[i].id).addClass("label label-success badge badge-info").html("Under " + fundData[i].maximum_age);
          }
@@ -249,14 +241,12 @@ var UserNav = Backbone.View.extend({
         $("#" + fundData[i].id).css("font-size", "16px");
         $("#" + fundData[i].id).on("click", function() {
           if(bool){
-            console.log($(this).children("span").html());
             $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
             $(this).children("span").slideUp();
             bool = false;
 
           }
           else{
-            console.log($(this).children('i'));
             $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
             $(this).children("span").slideDown();
             $(this).children("span").css("margin-top" , "5px");
@@ -272,7 +262,6 @@ var UserNav = Backbone.View.extend({
             var fund_id = $(this).parent().siblings('label').attr("id");
             parameters = {"fund_id": fund_id};
             $.post('/users/add-application/'+ user.id, parameters, function(data){
-              console.log(data)
             })
           })
         }
@@ -298,12 +287,22 @@ var UserNav = Backbone.View.extend({
     }
 
     if(Modernizr.mq('screen and (max-width:851px)')) {
-      // action for screen widths including and above 768 pixels
       $("#text_search").attr('placeholder', 'Subject, University, Degree level');
     }
     else if(Modernizr.mq('screen and (min-width:851px)')) {
-      // action for screen widths including and above 768 pixels
       $("#text_search").attr('placeholder', 'Keywords-Subject, University, Degree level');
+    }
+
+    if(user && Modernizr.mq('screen and (max-width:767px)')) {
+      $('.navbar-header').css('float', 'left');
+      $('.navbar-collapse.collapse').css('display', 'block');
+      $('.navbar-toggle').css('display', 'none');
+      $('.navbar-nav li').css('float', 'left');
+      $('.navbar-nav li a').css('padding-top', '15px');
+      $('.navbar-nav.navbar-right:last-child').css('margin-right', '-15px');
+      $('.navbar-right').css('float', 'right');
+      $('.navbar-nav').css('margin', '0');
+      $('#container').css('padding-bottom', '5px');
     }
   }
 

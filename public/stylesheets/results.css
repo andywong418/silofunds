@@ -1191,6 +1191,9 @@ time, mark, audio, video {
   #advanced-search{
     margin-top: -50px;
   }
+  .post-signin{
+    margin-top: 12px;
+  }
 }
 @media(max-width: 719px){
   .search_form{
