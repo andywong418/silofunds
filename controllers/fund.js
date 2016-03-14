@@ -64,6 +64,7 @@ module.exports = {
           }
         }
       }
+        
     ];
 
     var queryOptions = {
@@ -78,11 +79,30 @@ module.exports = {
 
     if (searchString !== '') {
       queryOptions.filtered["query"] = {
-        "multi_match" : {
-          "query": searchString,
-          "fields": ["tags","title.autocomplete"],
-          "operator":   "and"
-        }
+        "bool": {
+        "should": [
+          {
+          "multi_match" : {
+            "query": searchString,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 10
+          }},   
+          {        
+          "match":{
+            "tags": "all-subjects",
+
+          }}
+      
+      
+         // "term" : {  
+
+         //    "tags" : "all-subjects", 
+         //    "boost": 2.0
+                   
+         //  }
+        ]
+       }
       };
     }
 
