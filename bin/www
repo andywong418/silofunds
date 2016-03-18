@@ -14,6 +14,7 @@ var fund_array_to_json = function(array) {
 };
 
 var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
 
 models.sequelize.sync().then(function () {
   var port = normalizePort(process.env.PORT || '3001');
@@ -37,7 +38,7 @@ models.sequelize.sync().then(function () {
       console.log('All is well');
     }
 
-    models.es.indices.exists({ index: 'funds' }, function(err, resp) {
+    models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
       if (err) {
         console.log(err);
       }
@@ -179,11 +180,265 @@ models.sequelize.sync().then(function () {
               console.log(resp);
             });
           }).then(function() {
-            console.log('...Finished sync');
+            models.es.exists({index: 'users'}, function(err, resp){
+              if (err) {
+                console.log(err);
+              };
+
+              console.log("Does the USER ES index exist?:");
+              console.log(resp);
+              models.es.indices.delete({
+                index: 'users',
+                ignore: [404]
+              }).then(function(err, resp){
+                if (err) {
+                  console.log("ERROR IN HERE: " + err);
+                } else if (resp) {
+                  console.log("RESPONSE IN HERE: " + resp);
+                }
+                models.es.indices.create({
+                  index: 'users',
+                  body: {
+                    "settings": {
+                      "analysis": {
+                        "filter": {
+                          "autocomplete_filter": {
+                            "type": "edge_ngram",
+                            "min_gram": 1,
+                            "max_gram": 20
+                          }
+                        },
+                        "analyzer": {
+                          "autocomplete": {
+                            "type": "custom",
+                            "tokenizer": "standard",
+                            "filter": [
+                              "lowercase",
+                              "autocomplete_filter"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    'mappings': {
+                      'user': {
+                        'properties': {
+                          'username': {
+                            'type': 'string',
+                            'fields': {
+                              "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+                            }
+                          },
+                          "profile_picture": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                          },
+                          "description": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                          },
+                          "past_work": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                          },
+                          "date_of_birth": {
+                            "type": "date"
+                          },
+                          "nationality": {
+                            "type": "string"
+                          },
+                          "religion": {
+                            "type": "string"
+                          },
+                          "funding_needed": {
+                            "type": "integer"
+                          },
+                          "fund_or_user": {
+                            "type": "boolean"
+                          },
+                          "suggest": {
+                            "type": "completion",
+                            "index_analyzer": "simple",
+                            "search_analyzer": "simple",
+                            "payloads": false
+                          }
+                        }
+                      }
+                    }
+                  }
+                }).then(function(err, resp){
+                  if (err) {
+                    console.log("ERROR IN HERE: " + err);
+                  } else if (resp) {
+                    console.log("RESPONSE IN HERE: " + resp);
+                  }
+
+                  // Automatically sync ALL on restart
+                  models.users.findAll().then(function(users) {
+                    var userBody = [];
+                    users = fund_array_to_json(users);
+
+                    console.log(users);
+                    console.log('\n\n');
+
+                    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+                    users.forEach(function(user) {
+                      userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+                      var wrapper = {};
+
+                      for (var i = 0; i < userFields.length ; i++) {
+                        wrapper[userFields[i]] = user[userFields[i]];
+                      }
+
+                      wrapper["suggest"] = { "input": user.username };
+
+                      userBody.push(wrapper);
+                    });
+
+                    models.es.bulk({
+                      body: userBody
+                    }, function (err, resp) {
+                      console.log(resp);
+                    });
+                  }).then(function() {
+                    console.log('...Finished sync');
+                  });
+                })
+              })
+
+            })
           });
         });
+
       });
     });
+    // models.es.exists({index: 'users'}, function(err, resp){
+    //   if (err) {
+    //     console.log(err);
+    //   };
+    //
+    //   console.log("Does the USER ES index exist?:");
+    //   console.log(resp);
+    //   models.es.indices.delete({
+    //     index: 'users',
+    //     ignore: [404]
+    //   }).then(function(err, resp){
+    //     if (err) {
+    //       console.log("ERROR IN HERE: " + err);
+    //     } else if (resp) {
+    //       console.log("RESPONSE IN HERE: " + resp);
+    //     }
+    //     models.es.indices.create({
+    //       index: 'users',
+    //       body: {
+    //         "settings": {
+    //           "analysis": {
+    //             "filter": {
+    //               "autocomplete_filter": {
+    //                 "type": "edge_ngram",
+    //                 "min_gram": 1,
+    //                 "max_gram": 20
+    //               }
+    //             },
+    //             "analyzer": {
+    //               "autocomplete": {
+    //                 "type": "custom",
+    //                 "tokenizer": "standard",
+    //                 "filter": [
+    //                   "lowercase",
+    //                   "autocomplete_filter"
+    //                 ]
+    //               }
+    //             }
+    //           }
+    //         },
+    //         'mappings': {
+    //           'user': {
+    //             'properties': {
+    //               'username': {
+    //                 'type': 'string',
+    //                 'fields': {
+    //                   "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+    //                 }
+    //               },
+    //               "profile_picture": {
+    //                 "type": "string",
+    //                 "index": "not_analyzed"
+    //               },
+    //               "description": {
+    //                 "type": "string",
+    //                 "index": "not_analyzed"
+    //               },
+    //               "past_work": {
+    //                 "type": "string",
+    //                 "index": "not_analyzed"
+    //               },
+    //               "date_of_birth": {
+    //                 "type": "date"
+    //               },
+    //               "nationality": {
+    //                 "type": "string"
+    //               },
+    //               "religion": {
+    //                 "type": "string"
+    //               },
+    //               "funding_needed": {
+    //                 "type": "integer"
+    //               },
+    //               "fund_or_user": {
+    //                 "type": "boolean"
+    //               },
+    //               "suggest": {
+    //                 "type": "completion",
+    //                 "index_analyzer": "simple",
+    //                 "search_analyzer": "simple",
+    //                 "payloads": false
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }).then(function(err, resp){
+    //       if (err) {
+    //         console.log("ERROR IN HERE: " + err);
+    //       } else if (resp) {
+    //         console.log("RESPONSE IN HERE: " + resp);
+    //       }
+    //
+    //       // Automatically sync ALL on restart
+    //       models.users.findAll().then(function(users) {
+    //         var body = [];
+    //         users = fund_array_to_json(users);
+    //
+    //         console.log(users);
+    //         console.log('\n\n');
+    //
+    //         // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+    //         users.forEach(function(user) {
+    //           body.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+    //           var wrapper = {};
+    //
+    //           for (var i = 0; i < fields.length ; i++) {
+    //             wrapper[fields[i]] = user[fields[i]];
+    //           }
+    //
+    //           wrapper["suggest"] = { "input": user.username };
+    //
+    //           body.push(wrapper);
+    //         });
+    //
+    //         models.es.bulk({
+    //           body: body
+    //         }, function (err, resp) {
+    //           console.log(resp);
+    //         });
+    //       }).then(function() {
+    //         console.log('...Finished sync');
+    //       });
+    //     })
+    //   })
+    //
+    // })
   });
 
   var CronJob = require('cron').CronJob;
