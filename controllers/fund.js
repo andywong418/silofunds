@@ -27,7 +27,7 @@ module.exports = {
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
     var query = emptyStringToNull(req.query);
-    console.log("QUERY FOR REAL", query);
+    console.log("QUERY FOR REAL", searchAmount);
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
@@ -67,15 +67,27 @@ module.exports = {
 
     ];
 
+    console.log("I'm here")
     var queryOptions = {
       "filtered": {
         "filter": {
           "bool": {
-            "should": queryOptionsShouldArr
+            "should": { "match_all": {} }
           }
         }
       }
     };
+    if(searchAmount || searchAge){
+      var queryOptions = {
+        "filtered": {
+          "filter": {
+            "bool": {
+              "should": queryOptionsShouldArr
+            }
+          }
+        }
+      };
+    }
 
     if (searchString !== '') {
       queryOptions.filtered["query"] = {
