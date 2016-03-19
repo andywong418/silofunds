@@ -203,7 +203,10 @@ button.navbar-toggle{
 #grants span, #users span{
   float: right;
   display: none;
-  color:#2ABB9B;
+
+}
+#grants span i, #users span i{
+    color:#2ABB9B;
 }
 
 .signin-icon{
@@ -605,7 +608,7 @@ list-style-type: none;
 .cd-login, .cd-signup{
   position: relative;
   z-index: 10;
-  margin-top: 5px;  
+  margin-top: 5px;
 }
 .cd-login:hover,  .cd-signup:hover, .navbar-custom .nav li a {
   border-radius: 10px !important;
@@ -1143,7 +1146,7 @@ time, mark, audio, video {
   }
   .radio-inline{
     margin-top: 10px;
-  } 
+  }
 }
 @media(max-width: 920px){
   #brand-image{

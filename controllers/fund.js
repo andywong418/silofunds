@@ -64,7 +64,7 @@ module.exports = {
           }
         }
       }
-        
+
     ];
 
     var queryOptions = {
@@ -87,20 +87,11 @@ module.exports = {
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
             "boost": 10
-          }},   
-          {        
+          }},
+          {
           "match":{
             "tags": "all-subjects",
-
           }}
-      
-      
-         // "term" : {  
-
-         //    "tags" : "all-subjects", 
-         //    "boost": 2.0
-                   
-         //  }
         ]
        }
       };
@@ -140,7 +131,7 @@ module.exports = {
         models.users.findById(user.id).then(function(user){
           res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
         })
-        
+
       }
       else{
         res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
@@ -186,7 +177,7 @@ module.exports = {
           res.send(data);
         })
       })
-    
+
     })
   },
   editDates: function(req, res){
@@ -215,7 +206,7 @@ module.exports = {
           }
         }
 
-        res.render('fund-settings', {user: user, newUser: true, general: general_settings});     
+        res.render('fund-settings', {user: user, newUser: true, general: general_settings});
 
       })
 
@@ -269,7 +260,7 @@ module.exports = {
                       }
                     }
 
-                    res.render('fund-settings', {user: user, general: general_settings});     
+                    res.render('fund-settings', {user: user, general: general_settings});
 
                   })
                 }
@@ -290,7 +281,7 @@ module.exports = {
                 user["dataValues"][attrname] = fund[attrname];
               }
             }
-            res.render('fund-settings', {user: user, general: general_settings});     
+            res.render('fund-settings', {user: user, general: general_settings});
 
             });
           });
@@ -306,7 +297,7 @@ module.exports = {
               }
             }
 
-            res.render('fund-settings', {user: user, general: general_settings});     
+            res.render('fund-settings', {user: user, general: general_settings});
 
             });
           });

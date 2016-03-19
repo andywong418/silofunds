@@ -2,7 +2,7 @@ extends layout
 
 block extraHeader
 	link(href='stylesheets/results.css', rel='stylesheet')
-	
+
 block content
 		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
 			#container.container
@@ -13,7 +13,7 @@ block content
 						i.fa.fa-bars
 					form.search_form(id = "search-form", action='/results', method='get', name='search_form')
 						#dropdown.dropdown
-							a#refine-search(href='#0') Refine search 
+							a#refine-search(href='#0') Refine search
 							button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
 								i.fa.et-down.fa-bars
 								i.fa.et-down.fa-angle-down
@@ -23,11 +23,10 @@ block content
 									| Grants
 									span
 										i.fa.fa-check
-								//
-									li#users
-										| Users  
-										span
-											i.fa.fa-check         
+								li#users
+									| Users
+									span
+										i.fa.fa-check
 						input#text_search.tags(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
 						button#search_button.btn.btn-info(type='submit')
 							i.fa.fa-search
@@ -64,11 +63,11 @@ block content
 					input#advanced-age.age(type = "number", name = "age", form = "search-form")
 				.col-md-4
 					label(for= 'nationality') Nationality:
-					input#advanced-nationality.nationality(type = "text", name = "nationality", form = "search-form")	 
+					input#advanced-nationality.nationality(type = "text", name = "nationality", form = "search-form")
 				.col-md-4
 					label(for= 'religion') Religion:
-					input#religion.religion(type = "text", name = "religion", form = "search-form")				 
-			.row		
+					input#religion.religion(type = "text", name = "religion", form = "search-form")
+			.row
 				.col-md-4
 					label#amount_needed(for= 'amount_needed') Amount:
 					input#input-amount.amount_needed(type = "text", name = "funding_needed", form = "search-form")
@@ -98,15 +97,15 @@ block content
 			.row
 				.col-md-4
 					label(for='age') Age:
-					input#advanced-age-2(type = "number", name = "user_age", form = "search-form") 
-						
+					input#advanced-age-2(type = "number", name = "user_age", form = "search-form")
+
 				.col-md-4
 					label(for= 'nationality') Nationality:
-					input#advanced-nationality(type = "text", name = "user_nationality", form = "search-form") 
+					input#advanced-nationality(type = "text", name = "user_nationality", form = "search-form")
 				.col-md-4
 					label(for= 'religion') Religion:
-					input#religion(type = "text", name = "user_religion", form = "search-form")				 
-			.row		
+					input#religion(type = "text", name = "user_religion", form = "search-form")
+			.row
 				.col-md-4
 					label#amount_needed(for= 'amount_needed') Amount:
 					input#input-amount(type = "text", name = "user_funding_needed", form = "search-form")
@@ -135,11 +134,11 @@ block content
 									p#email-username.fieldset
 										label.image-replace.cd-username(for='signup-username')
 										input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
-										span#username-error.cd-error-message 
+										span#username-error.cd-error-message
 									p#email-signup.fieldset
 										label.image-replace.cd-email(for='signup-email') Email
 										input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
-										span#email-error.cd-error-message 
+										span#email-error.cd-error-message
 									p#email-signup-password.fieldset
 										label.image-replace.cd-password(for='signup-password') Password
 										input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
@@ -159,14 +158,14 @@ block content
 											| Log in with Linkedin
 									//
 										p#email-signup-option
-											a(href='#0') Continue with email. 
+											a(href='#0') Continue with email.
 											span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
 									p#signup-terms.fieldset
 										input#accept-terms(type='checkbox')
 										label(for='accept-terms' id = "terms")
-											| I agree to the 
-											a(href='#0') Terms 
-											span#terms-error  Please agree to the terms and conditions 
+											| I agree to the
+											a(href='#0') Terms
+											span#terms-error  Please agree to the terms and conditions
 									p#signup-btn.fieldset
 										button.full-width.has-padding(type='submit', id = "signup-button") Create account
 
@@ -234,19 +233,19 @@ block content
 											h3.fund_title <%= fund_title %>
 											h4#deadline-passed(class!= 'deadline-passed' + '<%= fund_id %>') Oops the deadline has passed for this fund...
 										li.fund_info
-											p(class!= 'fund_tags' + '<%= fund_id %>') Tags: 
-											p(class!= 'fund_min_amount' + '<%= fund_id %>' )  
+											p(class!= 'fund_tags' + '<%= fund_id %>') Tags:
+											p(class!= 'fund_min_amount' + '<%= fund_id %>' )
 												span.control
-											p(class!= 'fund_max_amount' + '<%= fund_id %>')  
+											p(class!= 'fund_max_amount' + '<%= fund_id %>')
 												span.control <%= maximum_amount %>
-											p(class!='fund_min_age' + '<%= fund_id %>' ) 
+											p(class!='fund_min_age' + '<%= fund_id %>' )
 												span.control <%= minimum_age %>
-											p(class!= 'fund_max_age' +  '<%= fund_id %>') 
+											p(class!= 'fund_max_age' +  '<%= fund_id %>')
 												span.control <%= maximum_age %>
-											p(class!= 'nationalities'+ '<%= fund_id %>') 
-											p(class!='deadline' + '<%= fund_id %>') Deadline: 
+											p(class!= 'nationalities'+ '<%= fund_id %>')
+											p(class!='deadline' + '<%= fund_id %>') Deadline:
 												span.control.badge.badge-deadline <%= deadline %>
-										label(id!='<%= fund_id %>') Additional Information 
+										label(id!='<%= fund_id %>') Additional Information
 												i.fa.fa-chevron-circle-down
 												span(class="description_control") <%= description %>
 											h4.fund_link

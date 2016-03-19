@@ -255,7 +255,7 @@ module.exports = {
         for (var i = 0; i < fields.length ; i++) {
           wrapper[fields[i]] = fund[fields[i]];
         }
-
+        wrapper["suggest"] = { "input": fund.tags };
         body.push(wrapper);
       });
 
