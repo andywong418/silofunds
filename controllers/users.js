@@ -1,6 +1,14 @@
 var models = require('../models');
 var async = require('async');
-
+var emptyStringToNull = function(object) {
+  var newArray = [];
+  for (var field in object){
+    if(object[field] == ''){
+      delete object[field];
+    }
+  }
+  return object;
+};
 module.exports = {
 	home: function(req, res){
 		var id = req.params.id;
@@ -14,7 +22,7 @@ module.exports = {
 					applied_funds = [];
 					async.each(application, function(app, callback){
 							var app_obj = {};
-							app_obj['status'] = app.dataValues.status; 
+							app_obj['status'] = app.dataValues.status;
 							models.funds.findById(app.dataValues.fund_id).then(function(fund){
 								app_obj['title'] = fund.title;
 								console.log("WHAT FUND", fund);
@@ -35,9 +43,9 @@ module.exports = {
 							res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: false});
 						});
 				}
-				
+
 			})
-		
+
 		});
 	},
 
@@ -140,6 +148,132 @@ module.exports = {
 		req.session.destroy(function(err) {
   // cannot access session here
   		res.redirect('/');
+		});
+	},
+	search:function(req, res){
+		console.log("I'm home");
+		var searchString = req.query.tags;
+		console.log("here")
+		var searchAge = parseInt(req.query.age);
+		console.log("what is this")
+		var searchAmount = parseInt(req.query.amount);
+		console.log("maybe")
+		var query = emptyStringToNull(req.query);
+		console.log("QUERY FOR REAL", query);
+		var user = req.session.passport.user;
+		var session = req.sessionID;
+		var search_url_array = req.url.split('/');
+		// var queryOptionsShouldArr = [
+		// 	{
+		// 		"range": {
+		// 			"minimum_amount": {
+		// 				"lte": searchAmount
+		// 			}
+		// 		}
+		// 	},
+		// 	{
+		// 		"range": {
+		// 			"maximum_amount": {
+		// 				"gte": searchAmount
+		// 			}
+		// 		}
+		// 	},
+		// 	{
+		// 		"range": {
+		// 			"minimum_age": {
+		// 				"lte": searchAge
+		// 			}
+		// 		}
+		// 	},
+		// 	{
+		// 		"range": {
+		// 			"maximum_amount": {
+		// 				"gte": searchAge
+		// 			}
+		// 		}
+		// 	}
+		//
+		// ];
+
+		console.log("I'm here")
+		var queryOptions = {
+			"filtered": {
+				"filter": {
+					"bool": {
+						"should": { "match_all": {} }
+					}
+				}
+			}
+		};
+		if(searchAmount || searchAge){
+			var queryOptions = {
+				"filtered": {
+					"filter": {
+						"bool": {
+							"should": queryOptionsShouldArr
+						}
+					}
+				}
+			};
+		}
+
+		if (searchString !== '') {
+			queryOptions.filtered["query"] = {
+				"bool": {
+				"should": [
+					{
+					"multi_match" : {
+						"query": searchString,
+						"fields": ["username","description"]
+					}}
+				]
+			 }
+			};
+		}
+
+		console.log("QUERY OPTIONS ARE HERE: " + queryOptions);
+
+		models.es.search({
+			index: "users",
+			type: "user",
+			body: {
+				"size": 1000,
+				"query": queryOptions
+			}
+		}).then(function(resp) {
+			console.log("This is the response:");
+			console.log(resp);
+
+			var users = resp.hits.hits.map(function(hit) {
+				console.log("Hit:");
+				console.log(hit);
+				var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+				var hash = {};
+
+				for (var i = 0; i < fields.length ; i++) {
+					hash[fields[i]] = hit._source[fields[i]];
+				}
+				// Sync id separately, because it is hit._id, NOT hit._source.id
+				hash.id = hit._id;
+
+				return hash;
+			});
+			var results_page = true;
+			console.log("USERS", users);
+			if(user){
+				console.log("Checking the user",user);
+				models.users.findById(user.id).then(function(user){
+					res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query } );
+				})
+
+			}
+			else{
+				console.log("check if user-results is there");
+				res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
+			}
+		}, function(err) {
+			console.trace(err.message);
+			res.render('error');
 		});
 	}
 };

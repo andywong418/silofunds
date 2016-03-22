@@ -216,6 +216,10 @@ models.sequelize.sync().then(function () {
                               "lowercase",
                               "autocomplete_filter"
                             ]
+                          },
+                          "my_english": {
+                            "type":      "english",
+                            "stopwords": "_english_"
                           }
                         }
                       }
@@ -226,7 +230,7 @@ models.sequelize.sync().then(function () {
                           'username': {
                             'type': 'string',
                             'fields': {
-                              "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
+                              "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                             }
                           },
                           "profile_picture": {
@@ -235,7 +239,7 @@ models.sequelize.sync().then(function () {
                           },
                           "description": {
                             "type": "string",
-                            "index": "not_analyzed"
+                            "search_analyzer": "my_english"
                           },
                           "past_work": {
                             "type": "string",

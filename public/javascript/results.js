@@ -47,7 +47,7 @@ $("#users").click(function(){
     $("#users span").css("display","inline");
     $("#grants span").css("display","none");
     advanced_2 = false;
-    $("#search-form").attr('action', '/user-results');
+    $("#search-form").attr('action', '/results/users');
 });
 $(document).click(function(e) {
   if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
