@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   var bool = false;
-
+  console.log(userData);
   for(var field in query){
     $('.' + field).attr('value', query[field]);
     // if(field == 'merit_or_finance'){
@@ -91,7 +91,7 @@ $(document).ready(function(){
      });
 
      var UserView = Backbone.View.extend({
-       tagname: 'ul',
+       tagname: 'div',
 
        template: _.template($('#user-template').html()),
 
@@ -127,9 +127,21 @@ $(document).ready(function(){
          });
 
          var view = new UserView({ model: user });
-
+         var religion = userData[i].religion;
+         var id = userData[i].id;
+         console.log("religion", religion);
          this.$el.append(view.render().el);
          // Do the date
+
+           for (j = 0; j < religion.length; j++){
+             console.log("religion every j", religion[j])
+             if (religion[j] != 'null'){
+             $('.user-religion' + id).append("<span class = control>" + religion[j] + "</span>" )
+             }
+             else{
+               $('.user-religion' + id).css('display', 'none')
+             }
+           }
 
        }
     });

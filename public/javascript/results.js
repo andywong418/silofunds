@@ -1,5 +1,6 @@
 $(document).ready(function() {
-var bool = false;
+  var bool = false;
+
 
 for(var field in query){
   $('.' + field).attr('value', query[field]);

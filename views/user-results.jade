@@ -227,18 +227,23 @@ block content
 						span='Your search returned ' + users.length + ' results'
 				div.page-header
 					script#user-template(type='text/template')
-						ul.database
-							.fund_list
-								li
-									img#user-picture(src!= '<%= profile_picture%>')
-									h3.username <%= username %>
-								li.user-info
-									p(class!= 'user-age' + '<%= user_id %>' ) Age:
-										span.control <%= user_age %>
-									p(class!= 'user-nationality' + '<%= user_id %>') Nationality:
-										span.control <%= user.nationality %>
-									p#religion(class!= 'user-religion' + '<%= user_id %>' ) Religion:
-										span.control <%= user_religion %>
+						.database
+							.user_list
+								.row
+									.col-md-6
+										img#user-picture(src!= '<%= profile_picture%>')
+									.col-md-6
+										h3.username <%= username %>
+										.row
+											.col-md-3
+												p#user-age(class!= 'user-age' + '<%= user_id %>' ) Age:
+													span.control <%= user_age %>
+											.col-md-8
+												p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Nationality:
+													span.control <%= user_nationality %>
+										.row
+											.col-md-5
+												p#user-religion(class!= 'user-religion' + '<%= user_id %>' ) Religion:
 
 block scripts
 	script(src='/javascript/index.js')
