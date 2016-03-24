@@ -1,19 +1,5 @@
 $(document).ready(function() {
-  var bool = false;
-
-
-// Need user data to do this
-//    var UserNavView = Backbone.View.extend({
-//   tagname: 'ul',
-//   template: _.template($('#usernav-template').html()),
-//   render: function() {
-//         this.$el.html(this.template(this.model.toJSON()));
-//         return this; // enable chained calls
-//   }
-
-// });
-
-
+var bool = false;
 
 for(var field in query){
   $('.' + field).attr('value', query[field]);

@@ -1,5 +1,6 @@
 module.exports = {
   index: function(req, res) {
+    console.log("HEYYYYYY");
     console.log(req.session.passport.user);
     var user = req.session.passport.user;
     delete req.session.redirect_user;
@@ -12,18 +13,17 @@ module.exports = {
           console.log("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
         }
-        
+
       }
       else{
         try{
-          console.log(error);
           res.redirect('/users/' + user.id + '/');
         }
         catch(err) {
           console.log("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
         }
-        
+
       }
     }
 

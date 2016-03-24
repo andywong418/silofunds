@@ -2,8 +2,8 @@ extends layout
 
 block extraHeader
 	// Custom CSS
-	link(rel='stylesheet', href='stylesheets/normalize.css')
-	link(href='stylesheets/index.css', rel='stylesheet')
+	link(rel='stylesheet', href='/stylesheets/normalize.css')
+	link(href='/stylesheets/index.css', rel='stylesheet')
 
 block content
 	// Navigation
@@ -47,11 +47,11 @@ block content
 									p#email-username.fieldset
 										label.image-replace.cd-username(for='signup-username')
 										input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
-										span#username-error.cd-error-message 
+										span#username-error.cd-error-message
 									p#email-signup.fieldset
 										label.image-replace.cd-email(for='signup-email') Email
 										input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
-										span#email-error.cd-error-message 
+										span#email-error.cd-error-message
 									p#email-signup-password.fieldset
 										label.image-replace.cd-password(for='signup-password') Password
 										input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
@@ -71,14 +71,14 @@ block content
 											| Log in with Linkedin
 									p#email-signup-option
 										//Add back for social login
-											a(href='#0') Continue with email. 
+											a(href='#0') Continue with email.
 											span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
 									p#signup-terms.fieldset
 										input#accept-terms(type='checkbox')
 										label(for='accept-terms' id = "terms")
-											| I agree to the 
-											a(href='#0') Terms 
-											span#terms-error  Please agree to the terms and conditions 
+											| I agree to the
+											a(href='#0') Terms
+											span#terms-error  Please agree to the terms and conditions
 									p#signup-btn.fieldset
 										button.full-width.has-padding(type='submit', id = "signup-button") Create account
 
@@ -136,14 +136,10 @@ block content
 				.col-md-8.col-md-offset-2
 					!= messages('messages', locals)
 					h1.brand-heading
-						| 
-						span.title
-							| 
-							span
 					p.intro-text The search for funding shouldn't be draining.
-					p.intro-text-2 Fund your goals 
-						span#emphasis now.
-					
+					p.intro-text-2 Fund your goals
+						span#emphasis  now.
+
 					form.search_form(action='/results', method='get', name='search_form')
 						input#text_search(type='text', name='tags', placeholder='Subject, University, Degree level')
 						input#amount_req(type='number', name='amount', placeholder='Amount required')
@@ -176,12 +172,12 @@ block content
 			h3#about-intro.module About us
 			.col-md-4.module
 				img#free(src="images/free.svg")
-				p#free-paragraph We understand the financial pressures of student-life. So we made Silo free to use. 
+				p#free-paragraph We understand the financial pressures of student-life. So we made Silo free to use.
 			.col-md-4.module
 				img#crowd-funding(src="images/crowd-funding.svg")
 				p#crowd-funding-paragraph Our platform aggregates crowdfunding tools and traditional fundraising methods to maximize your chances of success.
 			.col-md-4.module
-				img#network(src="images/network.svg") 
+				img#network(src="images/network.svg")
 				p#network-paragraph *Silo is the first service to directly connect grant institutions to you.
 				p#coming-soon *Coming soon...
 	section#showcase.container.content-section.text-center

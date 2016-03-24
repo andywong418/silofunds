@@ -268,7 +268,7 @@ module.exports = {
 
 			}
 			else{
-				console.log("check if user-results is there");
+				console.log("check if user-results is there", query);
 				res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
 			}
 		}, function(err) {
