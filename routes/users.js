@@ -13,5 +13,5 @@ router.post('/settings/:id/', users.changeSettings);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application/:id', users.addApplication);
 router.get('/logout/:id', users.logout);
-
+router.get('/public/:id', users.public)
 module.exports = router;

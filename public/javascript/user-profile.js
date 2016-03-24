@@ -108,12 +108,12 @@ $(document).ready(function(){
 			        return true;
 			      }
 
-			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-			    $("#advanced-search-2").toggle(false);
-			  }
-			  else{
-			        return true;
-			  }
+				if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+					$("#advanced-search-2").toggle(false);
+				}
+				else{
+							return true;
+				}
 			});
 			this.workDisplay();
 			this.newUser();

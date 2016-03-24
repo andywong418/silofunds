@@ -20,6 +20,8 @@ $("#grants").click(function(){
     $("#grants span").css("display","inline");
     $("#users span").css("display","none");
     advanced = false;
+    $("#search-form").attr('action', '/results');
+    $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level')
     return true;
   });
 $(document).on('click', '#refine-search', function(){
@@ -35,6 +37,7 @@ $("#users").click(function(){
     $("#grants span").css("display","none");
     advanced_2 = false;
     $("#search-form").attr('action', '/results/users');
+    $("#text_search").attr('placeholder', 'Search for users by name or by interests')
 });
 $(document).click(function(e) {
   if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {

@@ -232,8 +232,9 @@ block content
 								.row
 									.col-md-6
 										img#user-picture(src!= '<%= profile_picture%>')
-									.col-md-6
-										h3.username <%= username %>
+									#user-info.col-md-6
+										a(href != '/users/public/' + '<%= user_id %>')
+											h3.username <%= username %>
 										.row
 											.col-md-3
 												p#user-age(class!= 'user-age' + '<%= user_id %>' ) Age:
