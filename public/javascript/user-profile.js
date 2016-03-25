@@ -40,6 +40,7 @@ $(document).ready(function(){
 			});
 			var view = new UserView({model: user_model});
 			this.$el.append(view.render().el);
+			
 			if (!Modernizr.inputtypes.date) {
         // If not native HTML5 support, fallback to jQuery datePicker
             $('input[type=date]').datepicker({

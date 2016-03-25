@@ -60,6 +60,105 @@ block content
                     li#logout
                       a.logout(href="#0")
                         | Log out
+
+      .cd-user-modal
+        .cd-user-modal-container
+          ul.cd-switcher
+            li
+              a(href='#0') Log in
+            li
+              a(href='#0') New account
+          #cd-signup
+            form(id='signup-form',class = 'cd-form',action = '/signup',method = "post",name = "signup_form")
+              p#email-username.fieldset
+                label.image-replace.cd-username(for='signup-username')
+                input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
+                span#username-error.cd-error-message
+              p#email-signup.fieldset
+                label.image-replace.cd-email(for='signup-email') Email
+                input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
+                span#email-error.cd-error-message
+              p#email-signup-password.fieldset
+                label.image-replace.cd-password(for='signup-password') Password
+                input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
+                a.hide-password(href='#0') Hide
+                span#password-error.cd-error-message Error message here!
+              p#fb-social.signup-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+                  span.fa.fa-facebook
+                  | Log in with Facebook
+              p#google-social.signup-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+                  span.fa.fa-google
+                  | Log in with Google
+              p#linkedin-social.signup-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
+                  span.fa.fa-linkedin
+                  | Log in with Linkedin
+              //
+                p#email-signup-option
+                  a(href='#0') Continue with email.
+                  span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
+              p#signup-terms.fieldset
+                input#accept-terms(type='checkbox')
+                label(for='accept-terms' id = "terms")
+                  | I agree to the
+                  a(href='#0') Terms
+                  span#terms-error  Please agree to the terms and conditions
+              p#signup-btn.fieldset
+                button.full-width.has-padding(type='submit', id = "signup-button") Create account
+
+          #cd-login
+            // log in form
+            form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
+              p#email-login.fieldset
+                label.image-replace.cd-email(for='signin-email') E-mail
+                input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
+                span#login-email-error.cd-error-message Error message here!
+              p#email-login-password.fieldset
+                label.image-replace.cd-password(for='signin-password') Password
+                input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
+                a.hide-password(href='#0') Hide
+                span#signin-password-error.cd-error-message Error message here!
+              p#fb-social.login-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
+                  span.fa.fa-facebook
+                  | Log in with Facebook
+              p#google-social.login-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
+                  span.fa.fa-google
+                  | Log in with Google
+              p#linkedin-social.login-social-btn
+                a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/linkedin")
+                  span.fa.fa-linkedin
+                  | Log in with Linkedin
+              p#remember.fieldset
+                input#remember-me(type='checkbox', checked='')
+                label(for='remember-me') Remember me
+              p#email-login-btn.fieldset
+                button#login-button.full-width.has-padding(type='submit') Login
+              //
+                p#email-option
+                  a(href="#0") Continue with email
+            p.cd-form-bottom-message
+              a(href="#0") Forgot your password?
+          #cd-reset-password
+            // reset password form
+            p.cd-form-message
+              | Lost your password? Please enter your email address. You will receive a link to create a new password.
+            form.cd-form
+              p#resend-email.fieldset
+                label.image-replace.cd-email(for='reset-email') E-mail
+                input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
+                span.cd-error-message Error message here!
+              p#reset-password.fieldset
+                button#reset-password.full-width.has-padding(type='submit') Reset password
+            p.cd-form-bottom-message
+              a(href='#0') Back to log-in
+          // cd-reset-password
+          a.cd-close-form(href='#0') Close
+            //
+          // cd-login
       section#advanced-search.container.content-section.text-center
         .row
           .col-md-4
@@ -172,11 +271,6 @@ block content
                 tr.fund-entry
                   td.fund-name Research Council Scholarship
                   td.fund-amount £800
-
-            button.get-started Get started
-      footer#instruction-footer.container.text-center
-        p
-          | Press enter to advance
 block scripts
   script(src='/javascript/lib/modernizr-input.js')
   script(src= '/javascript/user-public.js')
@@ -186,3 +280,4 @@ block scripts
     var newUser = !{JSON.stringify(newUser)};
     var documents = !{JSON.stringify(documents)};
     var applications = !{JSON.stringify(applications)};
+    var resultsPage = true;
