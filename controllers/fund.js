@@ -381,6 +381,38 @@ module.exports = {
   // cannot access session here
       res.redirect('/');
     });
+  },
+  public: function(req, res){
+    var loggedInUser;
+    var id = req.params.id;
+    if(req.session.passport.user){
+      loggedInUser = req.session.passport.user;
+    }
+    else{
+      loggedInUser = false;
+    }
+    models.users.find({where: {fund_or_user: id}}).then(function(user){
+      var fundUser = user;
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+            user["dataValues"][attrname] = fund[attrname];
+
+          }
+        }
+        var fields= [];
+        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
+            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+            user["dataValues"]["categories"] = categories;
+            res.render('fund-public', {loggedInUser: loggedInUser, user: user, newUser: false});
+           })
+
+
+        })
+      })
+
+    })
+
   }
 
 

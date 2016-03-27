@@ -270,6 +270,7 @@ var UserNav = Backbone.View.extend({
         }
         else{
           $("#profile_link" + fundId).attr('href',  link)
+          $("#profile_link" + fundId).attr('target',  "_blank")
         }
       }
    });
