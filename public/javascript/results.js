@@ -115,6 +115,7 @@ var UserNav = Backbone.View.extend({
         this.fundDisplay();
         this.infoToggle();
         this.addApplication();
+        this.profileLink();
       },
 
       fundDisplay: function(){
@@ -141,9 +142,7 @@ var UserNav = Backbone.View.extend({
         // Do the date
         var dateNow = new Date();
         dateNow = dateNow.toISOString();
-        console.log(dateNow);
         if (fundData[i].deadline < dateNow){
-          console.log("DEADLINED");
           $('.deadline-passed' + fundData[i].id).css('display', 'block');
         };
         var tags = fundData[i].tags;
@@ -261,6 +260,16 @@ var UserNav = Backbone.View.extend({
             $.post('/users/add-application/'+ user.id, parameters, function(data){
             })
           })
+        }
+      },
+      profileLink: function(){
+        var fundId = fundData[i].id;
+        var link = fundData[i].link;
+        if (fundData[i].fund_user){
+          $("#profile_link" + fundId).attr('href', '/funds/public/' + fundId);
+        }
+        else{
+          $("#profile_link" + fundId).attr('href',  link)
         }
       }
    });

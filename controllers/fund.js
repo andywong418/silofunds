@@ -1,5 +1,6 @@
 var models = require('../models');
 var query;
+var async = require('async')
 var emptyStringToNull = function(object) {
   var newArray = [];
   for (var field in object){
@@ -121,7 +122,6 @@ module.exports = {
     }).then(function(resp) {
       console.log("This is the response:");
       console.log(resp);
-
       var funds = resp.hits.hits.map(function(hit) {
         console.log("Hit:");
         console.log(hit);
@@ -134,20 +134,38 @@ module.exports = {
         // Sync id separately, because it is hit._id, NOT hit._source.id
         hash.id = hit._id;
 
+        // console.log("HASH AFTER", hash);
         return hash;
       });
-      var results_page = true;
-      console.log(funds);
-      if(user){
-        console.log("Checking the user",user);
-        models.users.findById(user.id).then(function(user){
-          res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+      async.map(funds, function(fund, callback){
+        fund.fund_user = false;
+        models.users.find({where: {fund_or_user: fund.id}}).then(function(user){
+          if(user){
+            console.log("FUND USER", user);
+            fund.fund_user = true;
+            console.log("HASH", fund);
+            callback(null, fund)
+          }
+          else{
+            console.log("HASH else", fund)
+            callback(null, fund)
+          }
         })
+      }, function(err, funds){
+        var results_page = true;
+        console.log("READ FUNDS", funds);
+        if(user){
+          console.log("Checking the user",user);
+          models.users.findById(user.id).then(function(user){
+            res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+          })
 
-      }
-      else{
-        res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
-      }
+        }
+        else{
+          res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
+        }
+      })
+
     }, function(err) {
       console.trace(err.message);
       res.render('error');

@@ -230,7 +230,8 @@ block content
 								ul.database
 									.fund_list
 										li
-											h3.fund_title <%= fund_title %>
+											a(id != 'profile_link' + '<%= fund_id %>')
+												h3.fund_title <%= fund_title %>
 											h4#deadline-passed(class!= 'deadline-passed' + '<%= fund_id %>') Oops the deadline has passed for this fund...
 										li.fund_info
 											p(class!= 'fund_tags' + '<%= fund_id %>') Tags:

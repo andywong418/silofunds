@@ -13,7 +13,7 @@ router.post('/', passport.authenticate('local-login', {
   var query = req._parsedUrl.query;
   res.redirect('/results?' + query);
 });
-router.get('/users', users.search )
+router.get('/users', users.search );
 // router.post('/', fund.search);
 
 //We can't redirect user yet
