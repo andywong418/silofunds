@@ -318,17 +318,26 @@ module.exports = {
         })
       }
       if('religion' in body){
+        body.religion = body.religion.replace(/\s*,\s*/g, ',');
+        console.log(body.religion);
+        var religion = [];
+        var religionArray = body.religion.split(",");
+        console.log("BODY", religionArray);
+        for(var i = 0; i < religionArray.length; i++){
+          religion.push(religionArray[i]);
+        }
+        body.religion = religion;
         models.users.findById(id).then(function(user){
           user.update({religion: body.religion}).then(function(user){
             models.funds.findById(user.fund_or_user).then(function(fund){
-            for (var attrname in fund['dataValues']){
-              if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                user["dataValues"][attrname] = fund[attrname];
-              }
-            }
-
-            res.render('fund-settings', {user: user, general: general_settings});
-
+              fund.update(body.religion).then(function(fund){
+                for (var attrname in fund['dataValues']){
+                  if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+                    user["dataValues"][attrname] = fund[attrname];
+                  }
+                }
+                res.render('fund-settings', {user: user, general: general_settings});
+              })
             });
           });
         })
@@ -347,19 +356,8 @@ module.exports = {
           console.log(countries);
           body.countries = countries;
         }
-        if('religion' in body){
-          body.religion = body.religion.replace(/\s*,\s*/g, ',');
-          console.log(body.religion);
-          var religion = [];
-          var religionArray = body.religion.split(",");
-          console.log("BODY", religionArray);
-          for(var i = 0; i < religionArray.length; i++){
-            religion.push(religionArray[i]);
-          }
 
-          body.religion = religion;
-        }
-
+        console.log("GENDER", body);
         models.users.findById(id).then(function(user){
           models.funds.findById(user.fund_or_user).then(function(fund){
             fund.update(body).then(function(fund){
@@ -368,7 +366,7 @@ module.exports = {
                   user["dataValues"][attrname] = fund[attrname];
                 }
               }
-              res.render('fund-settings', {user: fund, general: general_settings});
+              res.render('fund-settings', {user: user, general: general_settings});
             })
           })
         })

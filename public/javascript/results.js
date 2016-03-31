@@ -66,12 +66,12 @@ var UserNav = Backbone.View.extend({
             if(user.fund_or_user){
               $("#home").attr("href", '/funds/' + user.id );
               $(".settings").attr("href", '/funds/settings/' +user.id);
-              $(".logout").attr("href", 'funds/logout');
+              $(".logout").attr("href", '/funds/logout');
             }
             else{
               $("#home").attr("href", '/users/' + user.id);
               $(".settings").attr("href", '/users/settings/' +user.id );
-              $(".logout").attr("href", 'users/logout/' + user.id);
+              $(".logout").attr("href", '/users/logout/' + user.id);
             }
           }
           else{
