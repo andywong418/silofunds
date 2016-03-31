@@ -37,7 +37,7 @@
 }
 
 .switcher{
-	
+
     list-style: none;
     display: -webkit-box;
     float:left;
@@ -98,7 +98,7 @@
 #description-intro, #application-dates{
 	margin: 0 auto;
 	position: relative;
-	text-align: center; 
+	text-align: center;
 	margin-right: 35%
 }
 
@@ -139,9 +139,7 @@ cursor: pointer;
 #countries{
 	margin-bottom: 0;
 }
-#gender{
-	margin-top: 0;
-}
+
 
 
 .added-countries{
@@ -192,13 +190,13 @@ cursor: pointer;
 	padding-bottom: 50px;
 }
 
-.cd-switcher:after {
+.cd-switcher:after, .category-switcher:after {
   content: "";
   display: table;
   clear: both;
 }
 
-.cd-switcher{
+.cd-switcher, .category-switcher{
     list-style: none;
     display: -webkit-box;
 /*    float: left;*/
@@ -208,7 +206,7 @@ cursor: pointer;
 
 margin-top: 20px;
 }
-.cd-switcher li{
+.cd-switcher li, .category-switcher li{
 
 	background-color: white;
 	float: left;
@@ -231,12 +229,12 @@ align-items: flex-end;
 }
 
 
-.cd-switcher li:first-child{
+.cd-switcher li:first-child, .category-switcher li:first-child{
 		border-top-left-radius: 3px;
 		border-bottom-left-radius: 3px;
 }
 
-.cd-switcher li:last-child{
+.cd-switcher li:last-child, .category-switcher li:last-child{
 		border-top-right-radius: 3px;
 		border-bottom-right-radius: 3px;
 		background-color: #BFBFBF;
@@ -292,7 +290,7 @@ align-items: flex-end;
 	width: 60%;
 	padding: 50px;
 	padding-top: 40px;
-	
+
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 	display: none;
 }
@@ -342,7 +340,7 @@ align-items: flex-end;
 }
 .add-file-answer{
 
-	display: inline-block;  
+	display: inline-block;
 	margin: 3% 20%;
 	margin-bottom: 20px;
 }

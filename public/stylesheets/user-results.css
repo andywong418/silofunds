@@ -1,6 +1,4 @@
-#advanced-search, #advanced-search-2{
-  margin-top: 4%;
-}
+
 .database{
   display: block;
 }
@@ -29,6 +27,7 @@
 .control{
 margin-left: 4px;
 }
-#religion{
-  margin-left: 2px;
+
+.post-signin{
+  margin-top: 13px;
 }

@@ -175,12 +175,12 @@ $(document).ready(function(){
         if(loggedInUser.fund_or_user){
           $("#home").attr("href", '/funds/' + loggedInUser.id );
           $(".settings").attr("href", '/funds/settings/' +loggedInUser.id);
-          $(".logout").attr("href", 'funds/logout');
+          $(".logout").attr("href", '/funds/logout');
         }
         else{
           $("#home").attr("href", '/users/' + loggedInUser.id);
           $(".settings").attr("href", '/users/settings/' +loggedInUser.id );
-          $(".logout").attr("href", 'users/logout/' + loggedInUser.id);
+          $(".logout").attr("href", '/users/logout/' + loggedInUser.id);
         }
       }
       else{
@@ -365,29 +365,6 @@ $(document).ready(function(){
      });
    };
 
-     function split( val ) {
-         return val.split(" ");
-     };
-
-     $("input#text_search" ).autocomplete({
-       source: "../autocomplete",
-       minLength: 1,
-       select: function( event, ui ) {
-         var terms = split( this.value );
-         // remove the current input
-         terms.pop();
-         // add the selected item
-         terms.push( ui.item.value );
-         // add placeholder to get the comma-and-space at the end
-         terms.push( "" );
-         this.value = terms.join(" ");
-         return false;
-       },
-       focus: function() {
-         // prevent value inserted on focus
-         return false;
-       }
-     });
 
 
      $("#signup-username").focus(function(){

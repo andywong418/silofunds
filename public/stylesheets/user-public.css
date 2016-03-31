@@ -17,6 +17,12 @@ a:active, a:hover{
 .collapse{
   margin-top: -5px;
 }
+.post-signin{
+  margin-top: 15px;
+}
+#brand-image{
+  margin-top: -16px;
+}
 img#profile-picture{
   cursor: auto
 }
