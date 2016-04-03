@@ -1115,7 +1115,9 @@ time, mark, audio, video {
   margin-top: 0;
   display: none;
 }
-
+.display, .display:hover{
+  color: white;
+}
 /* media queries for mobile opt */
 @media(max-width: 1065px){
   #advanced-search,#advanced-search-2{

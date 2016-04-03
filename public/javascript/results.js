@@ -193,14 +193,17 @@ var UserNav = Backbone.View.extend({
         else{
           if(tags.length > 8){
             for(var x = 0; x < 7; x++){
-              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;' '>" + tags[x] + "</span>");
+              var searchTags = tags[x].split(" ").join("+");
+              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[x] + "</a></span>");
 
             }
             $(".fund_tags" + fundData[i].id).append("<span class = 'etc' style = 'margin-top: 10px;' '> ... </span>");
           }
           else{
             for(var y = 0; y < tags.length; y++){
-              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'>" + tags[y] + "</span>");
+              var searchTags = tags[y].split(" ").join("+");
+              console.log("searchTags", searchTags);
+              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
             }
           }
 
@@ -212,7 +215,7 @@ var UserNav = Backbone.View.extend({
         else{
           if(countries.length > 4){
             for(var k = 0; k < 4; k++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a href= '/results?nationality='" + countries[k] + "''>" + countries[k] + "</a></span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a class='display' href= '/results?tags=&age=&nationality='" + countries[k] + "'>" + countries[k] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
                if(k == 3){
@@ -222,7 +225,7 @@ var UserNav = Backbone.View.extend({
            }
            else{
              for(var j = 0; j < countries.length; j++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a href= '/results?nationality=" + countries[j] + "''>" + countries[j] + "</a></span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a class = 'display' href= '/results?tags=&age=&nationality=" + countries[j] + "'>" + countries[j] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
              }
