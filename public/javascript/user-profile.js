@@ -40,7 +40,7 @@ $(document).ready(function(){
 			});
 			var view = new UserView({model: user_model});
 			this.$el.append(view.render().el);
-			
+
 			if (!Modernizr.inputtypes.date) {
         // If not native HTML5 support, fallback to jQuery datePicker
             $('input[type=date]').datepicker({
@@ -76,16 +76,41 @@ $(document).ready(function(){
 
 			var advanced = true;
 			var advanced_2 = true;
-			$("#advanced-search").toggle(false);
-			$("#advanced-search-2").toggle(false);
 			$("#grants").click(function(){
 			    $("#advanced-search").slideDown();
 			    $("#advanced-search-2").toggle(false);
 			    $("#grants span").css("display","inline");
 			    $("#users span").css("display","none");
 			    advanced = false;
+			    $("#search-form").attr('action', '/results');
+			    $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level');
+			    $("input#text_search" ).autocomplete({
+			      source: "/autocomplete",
+			      minLength: 1,
+			      select: function( event, ui ) {
+			        var terms = split( this.value );
+			        // remove the current input
+			        terms.pop();
+			        // add the selected item
+			        terms.push( ui.item.value );
+			        // add placeholder to get the comma-and-space at the end
+			        terms.push( "" );
+			        this.value = terms.join(" ");
+			        return false;
+			      },
+			      focus: function() {
+			        // prevent value inserted on focus
+			        return false;
+			      }
+			    });
 			    return true;
 			  });
+			$(document).on('click', '#refine-search', function(){
+
+			  $("#advanced-search").slideDown();
+			   advanced = false;
+			    return true;
+			});
 
 			$("#users").click(function(){
 			    $("#advanced-search-2").toggle(true);
@@ -93,6 +118,27 @@ $(document).ready(function(){
 			    $("#users span").css("display","inline");
 			    $("#grants span").css("display","none");
 			    advanced_2 = false;
+			    $("#search-form").attr('action', '/results/users');
+			    $("#text_search").attr('placeholder', 'Search for users by name or by interests')
+			    $("input#text_search" ).autocomplete({
+			      source: "/autocomplete/users",
+			      minLength: 1,
+			      select: function( event, ui ) {
+			        var terms = split( this.value );
+			        // remove the current input
+			        terms.pop();
+			        // add the selected item
+			        terms.push( ui.item.value );
+			        // add placeholder to get the comma-and-space at the end
+			        terms.push( "" );
+			        this.value = terms.join(" ");
+			        return false;
+			      },
+			      focus: function() {
+			        // prevent value inserted on focus
+			        return false;
+			      }
+			    });
 			});
 			$(document).on('click', '#refine-search', function(){
 			  console.log("REFINE");

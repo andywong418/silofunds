@@ -357,7 +357,6 @@ module.exports = {
           body.countries = countries;
         }
 
-        console.log("GENDER", body);
         models.users.findById(id).then(function(user){
           models.funds.findById(user.fund_or_user).then(function(fund){
             fund.update(body).then(function(fund){
