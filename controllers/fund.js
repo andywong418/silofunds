@@ -28,6 +28,9 @@ module.exports = {
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
     var query = emptyStringToNull(req.query);
+    var searchCountry = req.query.nationality;
+    var searchReligion = req.query.religion;
+    console.log("relgion", req.query);
     console.log("QUERY FOR REAL", searchAmount);
     var user = req.session.passport.user;
     var session = req.sessionID;
@@ -89,8 +92,7 @@ module.exports = {
         }
       };
     }
-
-    if (searchString !== '') {
+    if(searchString !== ''){
       queryOptions.filtered["query"] = {
         "bool": {
         "should": [
@@ -99,11 +101,57 @@ module.exports = {
             "query": searchString,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
-            "boost": 10
+            "boost": 3
           }},
           {
           "match":{
-            "tags": "all-subjects",
+            "tags": "all-subjects"
+          }}
+        ]
+       }
+      };
+    }
+    if (searchCountry) {
+      queryOptions.filtered["query"] = {
+        "bool": {
+        "should": [
+          {
+          "multi_match" : {
+            "query": searchString,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 3
+          }},
+          {
+          "match":{
+            "tags": "all-subjects"
+          }},
+          {
+            "match":{
+            "countries": searchCountry
+          }}
+        ]
+       }
+      };
+    }
+    if(searchReligion){
+      queryOptions.filtered["query"] = {
+        "bool": {
+        "should": [
+          {
+          "multi_match" : {
+            "query": searchString,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 3
+          }},
+          {
+          "match":{
+            "tags": "all-subjects"
+          }},
+          {
+            "match":{
+            "religion": searchReligion
           }}
         ]
        }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var bool = false;
 
-
+console.log(query);
 for(var field in query){
   $('.' + field).attr('value', query[field]);
   if(field == 'merit_or_finance'){
@@ -212,7 +212,7 @@ var UserNav = Backbone.View.extend({
         else{
           if(countries.length > 4){
             for(var k = 0; k < 4; k++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'>" + countries[k] + "</span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a href= '/results?nationality='" + countries[k] + "''>" + countries[k] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
                if(k == 3){
@@ -222,7 +222,7 @@ var UserNav = Backbone.View.extend({
            }
            else{
              for(var j = 0; j < countries.length; j++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'>" + countries[j] + "</span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a href= '/results?nationality=" + countries[j] + "''>" + countries[j] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
              }
