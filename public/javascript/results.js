@@ -96,6 +96,27 @@ $(document).click(function(e) {
         return true;
   }
 });
+
+var allShown = true;
+$('#show-all').on('click', function(){
+  console.log(allShown);
+  if(allShown){
+    $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
+    console.log($(this));
+    $(this).html("Show all funds - including those which are expired");
+    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
+    allShown = false;
+  }
+  else{
+    console.log($('*[class*=fund_list]:hidden').length);
+    console.log($(this));
+    $('*[class*=fund_list]:hidden').css('display', 'block');
+    $(this).html("Only show funds which have not passed their deadline");
+    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results")
+    allShown = true;
+  }
+});
+
 var UserNav = Backbone.View.extend({
         el: ".nav li",
 
@@ -185,6 +206,7 @@ var UserNav = Backbone.View.extend({
         dateNow = dateNow.toISOString();
         if (fundData[i].deadline < dateNow){
           $('.deadline-passed' + fundData[i].id).css('display', 'block');
+          $('.deadline-passed' + fundData[i].id).closest('.fund_list').children().css('opacity', '0.4');
         };
         var tags = fundData[i].tags;
         if(!tags){
@@ -202,7 +224,6 @@ var UserNav = Backbone.View.extend({
           else{
             for(var y = 0; y < tags.length; y++){
               var searchTags = tags[y].split(" ").join("+");
-              console.log("searchTags", searchTags);
               $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
             }
           }

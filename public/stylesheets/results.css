@@ -11,7 +11,7 @@ body {
     font-size: 14px;
     line-height: 1.42857;
     color: #333333;
-    background-color: #f5f8fa;
+    background-color: #F6FAFE;
 }
 
 html {
@@ -421,6 +421,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
   margin-right: 35px;
   text-align: center;
   padding-bottom: 30px;
+  border: 2px solid #DADFE1
 }
 
 .fund_link
@@ -505,12 +506,12 @@ list-style-type: none;
 }
 
 .badge-error {
-  background-color: #b94a48;
+  background-color: #4ECDC4;
   margin: 5px;
 }
 
 .badge-warning {
-  background-color: #f89406;
+  background-color: #EB974E;
 }
 
 .badge-success {
@@ -525,7 +526,7 @@ list-style-type: none;
   background-color: #333333;
 }
 .badge-tags{
-  background-color: #D2527F;
+  background-color: #E26A6A;
   margin: 5px 5px;
 }
 
@@ -1108,7 +1109,7 @@ time, mark, audio, video {
 #deadline-passed{
   font-weight: lighter;
   margin-bottom: 30px;
-  background-color: #D24D57;
+  background-color: #F64747;
   border-radius: 3px;
   color: white;
   padding: 5px 0px;
@@ -1117,6 +1118,17 @@ time, mark, audio, video {
 }
 .display, .display:hover{
   color: white;
+}
+.page-header{
+  padding-top: 5px;
+}
+
+#show-all{
+  margin-top: 5px;
+  background-color: #337ab7;
+}
+#show-all:active, #show-all:hover, #show-all:focus{
+  outline: 0
 }
 /* media queries for mobile opt */
 @media(max-width: 1065px){
