@@ -416,11 +416,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 .fund_list{
   background-color: white;
   border-radius: 15px;
-  padding-top: 30px;
+  padding: 30px;
   margin-bottom: 60px;
   margin-right: 35px;
   text-align: center;
-  padding-bottom: 30px;
   border: 2px solid #DADFE1
 }
 
@@ -456,8 +455,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 }
 
 .database p {
-  margin: 15px;
-
+  margin: 7px;
   font-size: 16px;
   text-align: left;
   display: inline-block;
@@ -540,11 +538,15 @@ list-style-type: none;
 
 .description_control{
   text-align: left;
-    display:  none;
 }
-
+.read-more{
+  display: none;
+}
+.read-link{
+  cursor: pointer;
+}
 .fund_info{
-    margin-top: -10px;
+    margin-top: -20px;
 }
 
 #checkbox{

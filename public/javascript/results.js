@@ -273,7 +273,7 @@ var UserNav = Backbone.View.extend({
            $(".fund_min_amount" + fundData[i].id).append("<span id='minus-sign'> - </span>");
             $(".fund_max_amount" + fundData[i].id).children('.control').addClass("max_amount"+ fundData[i].id);
            $(".max_amount" + fundData[i].id).addClass("label label-danger badge badge-warning");
-           $(".max_amount" + fundData[i].id).css("margin-left", "-26px");
+           $(".max_amount" + fundData[i].id).css("margin-left", "-10px");
          }
          if(!fundData[i].maximum_age){
            $(".fund_max_age"+ fundData[i].id).toggle(false);
@@ -292,30 +292,84 @@ var UserNav = Backbone.View.extend({
            $(".fund_min_age" + fundData[i].id).append("<span id='minus-sign'> - </span>");
            $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);
            $(".max_age" + fundData[i].id).addClass("label label-success badge badge-info");
-           $(".max_age" + fundData[i].id).css("margin-left", "-26px");
+           $(".max_age" + fundData[i].id).css("margin-left", "-10px");
          }
       },
 
       infoToggle: function(){
-        $("#" + fundData[i].id).css("margin-top", "20px");
+        $("#" + fundData[i].id).css("margin-top", "7px");
         $("#" + fundData[i].id).css("margin-bottom", "15px");
         $("#" + fundData[i].id).css("font-size", "16px");
-        $("#" + fundData[i].id).on("click", function() {
-          if(bool){
-            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
-            $(this).children("span").slideUp();
-            bool = false;
-
+        String.prototype.splitWithIndex=function(delim){
+         var ret=[]
+         var splits=this.split(delim)
+         var index=0
+         for(var i=0;i<splits.length;i++){
+          ret.push([index,splits[i]])
+          index+=splits[i].length+delim.length
+         }
+         return ret
+        }
+        var description = fundData[i].description;
+        var splitDescriptionArray = description.splitWithIndex('</p>');
+        var splitDescriptionArray2 = description.splitWithIndex('</ul>');
+        var splitNumber = Math.floor((splitDescriptionArray.length)/2);
+        if(splitNumber > 1){
+          var readMore;
+          var constant;
+          if(splitDescriptionArray2.length > 1){
+            console.log(splitDescriptionArray2);
+            if(splitDescriptionArray[2][0] > splitDescriptionArray2[1][0]){
+              readMore = description.substring(splitDescriptionArray2[1][0]);
+              constant = description.substring(0,splitDescriptionArray2[1][0]);
+            }
+            else{
+              readMore = description.substring(splitDescriptionArray[2][0]);
+              constant = description.substring(0,splitDescriptionArray[2][0]);
+            }
           }
           else{
-            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
-            $(this).children("span").slideDown();
-            $(this).children("span").css("margin-top" , "5px");
-            $(this).children("span").css("padding", "15px");
-            $(this).find("li").css("list-style-type", "disc");
-            bool = true;
+            readMore = description.substring(splitDescriptionArray[2][0]);
+            constant = description.substring(0,splitDescriptionArray[2][0]);
           }
-        });
+          var finalDescription = constant + "<div id = 'read-more" + fundData[i].id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + fundData[i].id +  "'> Read more </a>";
+          console.log(finalDescription);
+          $("#" + fundData[i].id).children('.description_control').html(finalDescription);
+        }
+        else{
+          $("#" + fundData[i].id).children('.description_control').html(fundData[i].description);
+        };
+        var fundId = fundData[i].id;
+        var readMore = false;
+        $('#read-link' + fundId).on('click', function(){
+          if(readMore){
+            $('#read-more' + fundId).css('display', 'none');
+            $(this).html("Read more");
+            readMore = false;
+          }
+          else{
+            $('#read-more' + fundId).css('display', 'inline');
+            $(this).html("Read less");
+            readMore = true;
+          }
+        })
+
+        // $("#" + fundData[i].id).on("click", function() {
+        //   if(bool){
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
+        //     $(this).children("span").slideUp();
+        //     bool = false;
+        //
+        //   }
+        //   else{
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
+        //     $(this).children("span").slideDown();
+        //     $(this).children("span").css("margin-top" , "5px");
+        //     $(this).children("span").css("padding", "15px");
+        //     $(this).find("li").css("list-style-type", "disc");
+        //     bool = true;
+        //   }
+        // });
       },
       addApplication: function(){
         if(user && !user.fund_or_user){

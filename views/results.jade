@@ -246,9 +246,10 @@ block content
 											p(class!= 'nationalities'+ '<%= fund_id %>')
 											p(class!='deadline' + '<%= fund_id %>') Deadline:
 												span.control.badge.badge-deadline <%= deadline %>
-										label(id!='<%= fund_id %>') Additional Information
-												i.fa.fa-chevron-circle-down
-												span(class="description_control") <%= description %>
+										label(id!='<%= fund_id %>') Additional Information:
+												//
+													i.fa.fa-chevron-circle-down
+												span(class="description_control")
 											h4.fund_link
 												a(href!='<%=fund_link %>', target='_blank') Apply Now
 
