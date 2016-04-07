@@ -539,6 +539,9 @@ list-style-type: none;
 .description_control{
   text-align: left;
 }
+.description_control li{
+  list-style-type: disc;;
+}
 .read-more{
   display: none;
 }
