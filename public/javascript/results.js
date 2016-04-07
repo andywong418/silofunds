@@ -342,7 +342,7 @@ var UserNav = Backbone.View.extend({
         //Conventionalised the styles in css
         $("#" + fundData[i].id).children('.description_control').find('*').css('line-height', '2');
         $("#" + fundData[i].id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
-        $("#" + fundData[i].id).children('.description_control').find('*').not('.read-link').css('font-size', '12');
+        $("#" + fundData[i].id).children('.description_control').find('*').css('font-size', '12pt');
         var fundId = fundData[i].id;
         var readMore = false;
         $('#read-link' + fundId).on('click', function(){
