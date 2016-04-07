@@ -509,7 +509,8 @@ list-style-type: none;
 }
 
 .badge-warning {
-  background-color: #EB974E;
+  background-color: #4FDA9B;
+
 }
 
 .badge-success {
@@ -517,19 +518,19 @@ list-style-type: none;
 }
 
 .badge-info {
-  background-color: #3a87ad;
+  background-color: #56A0D4;
 }
 
 .badge-inverse {
   background-color: #333333;
 }
 .badge-tags{
-  background-color: #E26A6A;
+  background-color: #FFB95D;
   margin: 5px 5px;
 }
 
 .badge-deadline{
-  background-color: #049372;
+  background-color: #E26A6A;
   margin: 0 5px;
 }
 .control, .description_control{
@@ -1131,7 +1132,7 @@ time, mark, audio, video {
 
 #show-all{
   margin-top: 5px;
-  background-color: #337ab7;
+  background-color: #348AC7;
 }
 #show-all:active, #show-all:hover, #show-all:focus{
   outline: 0

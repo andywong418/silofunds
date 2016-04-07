@@ -143,7 +143,7 @@ module.exports = {
             "query": searchString,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
-            "boost": 3
+            "boost": 10
           }},
           {
           "match":{
