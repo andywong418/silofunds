@@ -543,8 +543,12 @@ list-style-type: none;
 .description_control li{
   list-style-type: disc;;
 }
+.description_control p{
+  margin-top: 10px;
+}
 .read-more{
   display: none;
+  text-align: left;
 }
 .read-link{
   cursor: pointer;

@@ -249,7 +249,7 @@ block content
 										label(id!='<%= fund_id %>') Additional Information:
 												//
 													i.fa.fa-chevron-circle-down
-												span(class="description_control")
+												span(class="description_control") 
 											h4.fund_link
 												a(href!='<%=fund_link %>', target='_blank') Apply Now
 
@@ -260,6 +260,7 @@ block scripts
 	script(src='javascript/results.js')
 	//Modernizr
 	script(src='javascript/lib/modernizr-custom.js')
+	//readmore
 	script.
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};

@@ -300,60 +300,47 @@ var UserNav = Backbone.View.extend({
         $("#" + fundData[i].id).css("margin-top", "7px");
         $("#" + fundData[i].id).css("margin-bottom", "15px");
         $("#" + fundData[i].id).css("font-size", "16px");
-        String.prototype.splitWithIndex=function(delim){
-         var ret=[]
-         var splits=this.split(delim)
-         var index=0
-         for(var i=0;i<splits.length;i++){
-          ret.push([index,splits[i]])
-          index+=splits[i].length+delim.length
-         }
-         return ret
-        }
+
         var description = fundData[i].description;
-        var splitDescriptionArray = description.splitWithIndex('</p>');
-        var splitDescriptionArray2 = description.splitWithIndex('</ul>');
+        var splitDescriptionArray = description.split(/<\/.*?>/g);
+        splitDescriptionArray = splitDescriptionArray.filter(function(element){
+          return element.length > 5
+        });
+        console.log(splitDescriptionArray);
+        console.log(description);
         var splitNumber = Math.floor((splitDescriptionArray.length)/2);
         if(splitNumber > 1){
-          var readMore;
-          var constant;
-          if(splitDescriptionArray2.length > 1){
-            console.log(splitDescriptionArray2);
-            if(splitDescriptionArray[2][0] > splitDescriptionArray2[1][0]){
-              readMore = description.substring(splitDescriptionArray2[1][0]);
-              constant = description.substring(0,splitDescriptionArray2[1][0]);
-            }
-            else{
-              readMore = description.substring(splitDescriptionArray[2][0]);
-              constant = description.substring(0,splitDescriptionArray[2][0]);
-            }
+          var index = description.indexOf(splitDescriptionArray[1]);
+          if(index < 60){
+            index = description.indexOf(splitDescriptionArray[2])
           }
-          else{
-            readMore = description.substring(splitDescriptionArray[2][0]);
-            constant = description.substring(0,splitDescriptionArray[2][0]);
-          }
+          var constant = description.substring(0, index);
+          var readMore = description.substring(index);
           var finalDescription = constant + "<div id = 'read-more" + fundData[i].id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + fundData[i].id +  "'> Read more </a>";
           console.log(finalDescription);
           $("#" + fundData[i].id).children('.description_control').html(finalDescription);
         }
         else{
           $("#" + fundData[i].id).children('.description_control').html(fundData[i].description);
-        };
+        }
+
+
         //Conventionalised the styles in css
         $("#" + fundData[i].id).children('.description_control').find('*').css('line-height', '2');
         $("#" + fundData[i].id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
         $("#" + fundData[i].id).children('.description_control').find('*').css('font-size', '12pt');
+
         var fundId = fundData[i].id;
-        var readMore = false;
+        var readMore = true;
         $('#read-link' + fundId).on('click', function(){
           if(readMore){
-            $('#read-more' + fundId).css('display', 'none');
-            $(this).html("Read more");
+            $('#read-more' + fundId).slideDown();
+            $(this).html("Read less");
             readMore = false;
           }
           else{
-            $('#read-more' + fundId).css('display', 'inline');
-            $(this).html("Read less");
+            $('#read-more' + fundId).slideUp();
+            $(this).html("Read more");
             readMore = true;
           }
         })
