@@ -382,6 +382,7 @@ i {
 .fa.fa-chevron-circle-down, .fa.fa-chevron-circle-up
 {
     color: black;
+    margin-left: 5px;
 }
 
 
@@ -555,9 +556,7 @@ list-style-type: none;
     display: none;
 }
 
-.fa.fa-chevron-circle-down{
-    color:black;
-}
+
 @media(max-width: 920px){
     .results{
         margin-top:80px;
