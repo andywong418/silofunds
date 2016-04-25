@@ -175,9 +175,23 @@ module.exports = {
             res.redirect(previousPage);
           }
           else{
-            console.log(user);
-            console.log(documents);
-          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+						var wrapper = {};
+
+						for (var i = 0; i < userFields.length ; i++) {
+							wrapper[userFields[i]] = user[userFields[i]];
+						}
+
+						wrapper["suggest"] = { "input": user.username };
+						models.es.create({
+							index: 'users',
+							type: 'user',
+							id: user.id,
+							body: wrapper
+						}, function(error, response){
+							res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+						})
+
           }
         });
       });

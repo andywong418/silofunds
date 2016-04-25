@@ -312,7 +312,10 @@ var UserNav = Backbone.View.extend({
         if(splitNumber > 1){
           var index = description.indexOf(splitDescriptionArray[1]);
           if(index < 60){
-            index = description.indexOf(splitDescriptionArray[2])
+            index = description.indexOf(splitDescriptionArray[2]);
+            if (index < 60){
+              index = description.indexOf(splitDescriptionArray[3]);
+            }
           }
           var constant = description.substring(0, index);
           var readMore = description.substring(index);

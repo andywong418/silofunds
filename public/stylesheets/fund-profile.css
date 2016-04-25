@@ -3,7 +3,9 @@
 	z-index: 11;
 	display: none;
 }
-
+.search_form input{
+	font-size: 13px;
+}
 #brand-image{
   margin-top: -13px;
    height: auto;
@@ -92,6 +94,7 @@
 	text-align: center;
 	padding-top: 30px;
 	padding-bottom: 10px;
+	padding-right: 50px;
 }
 
 
@@ -103,7 +106,7 @@
 }
 
 #edit-description, #edit-dates{
-float: right;
+margin-left: 15px;
 color: #22A7F0;
 cursor: pointer;
 }
@@ -270,14 +273,11 @@ align-items: flex-end;
 	text-align: left;
 }
 
-#add-icon{
+#add-icon,#delete-icon{
 	font-size: 17px;
-	margin-left: 10%;
+	margin-left: 10px;
 }
- #delete-icon{
-	font-size: 17px;
-	margin-left: 5%;
-}
+
 
 
 #field-modal{
