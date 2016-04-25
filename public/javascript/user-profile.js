@@ -347,21 +347,23 @@ $(document).ready(function(){
 								$("textarea").not("#edit-work"+id).remove();
 							}
 							else{
-								$("#edit-work" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
+								$("#edit-work" + id).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
 								$("textarea").not("#edit-work"+id).remove();
 							}
 							return true;
 						}
 						else{
-							console.log("WHAT DID IT SAVE");
-
+							console.log($('.edit-work'));
 							var description = $("#work-description" + id).html();
-							console.log(description);
+							if($('.edit-work').attr('id')){
+								var saveTextDescription = $('.edit-work').html();
+								var saveTextIdArray = $('.edit-work').attr('id').split('k');
+								var saveTextId = saveTextIdArray[1];
+								$("#edit-work" + saveTextId).replaceWith("<p id = 'work-description" + saveTextId + "' class = 'work-description'>" + saveTextDescription + "</p> ");
+							};
 							$("#work-description" + id).replaceWith("<textarea class = 'edit-work' id = 'edit-work" + id + "'>" + description + "</textarea>");
-							$("#edit-work" + user).replaceWith("<p id = 'work-description" + user + "' class = 'work-description'>" + savedDescription + "</p> ");
-								$("textarea").not("#edit-work"+id).remove();
-								user = id;
-								savedDescription = description;
+							user = id;
+							savedDescription = description;
 						}
 
 				});
@@ -384,13 +386,26 @@ $(document).ready(function(){
 				});
 
 				$(document).click(function(e) {
-		    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {
-		        $("textarea").toggle(false);
 
-		    }
-		    else{
-		      		return true;
-		      	}
+				if(!$.trim($(".edit-work").val())){
+				    if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {
+				        $(".edit-work").remove();
+
+				    }
+
+				}
+				else{
+					if ( $(e.target).closest('textarea').length == 0 && e.target.closest('.add') === null) {
+						var savedText = $(".edit-work").html();
+						var idArray = $(".edit-work").attr('id').split('k');
+						var id = idArray[1];
+						console.log("ID", id);
+						$("textarea").replaceWith("<p id = 'work-description" + id + "' class = 'work-description'>" + savedText + "</p> ");
+
+					}
+
+
+					}
 				});
 		},
 		deleteWork: function(){
