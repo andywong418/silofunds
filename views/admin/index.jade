@@ -23,12 +23,10 @@ block content
           th ID
           th Link
           th Fund Title
-          th Tags
           th Minimum Age
           th Maximum Age
           th Minimum Amount
           th Maximum Amount
-          th Countries
           th Deadline
         each fund in funds
           tr
@@ -36,12 +34,10 @@ block content
           td
             a.btn.btn-default.btn-link(href=fund.link, role='button') Link
           td= fund.title
-          td= fund.tags
           td= fund.minimum_age
           td= fund.maximum_age
           td= fund.minimum_amount
           td= fund.maximum_amount
-          td= fund.countries
           td= fund.deadline
           td
             form(action='/admin/' + fund.id + '/edit', method='get', name='edit_fund')
