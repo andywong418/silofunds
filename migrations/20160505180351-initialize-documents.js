@@ -2,12 +2,14 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-      return queryInterface.createTable(
+    return queryInterface.createTable(
       'documents',
-        {
+      {
         id: {
           type: Sequelize.INTEGER,
+          field: 'id',
           primaryKey: true,
+          unique: true,
           autoIncrement: true
         },
         title: {
@@ -17,12 +19,17 @@ module.exports = {
         created_at: {
           type: Sequelize.DATE,
           field: 'created_at',
-          defaultValue: Sequelize.fn('NOW')
+          defaultValue: Sequelize.NOW
         },
         updated_at: {
           type: Sequelize.DATE,
           field: 'updated_at',
-          defaultValue: Sequelize.fn('NOW')
+          defaultValue: Sequelize.NOW
+        },
+        deleted_at: {
+          type: Sequelize.DATE,
+          field: 'deleted_at',
+          defaultValue: Sequelize.NOW
         },
         link: {
           type: Sequelize.TEXT,
@@ -37,11 +44,8 @@ module.exports = {
           type: Sequelize.INTEGER,
           field: 'user_id'
         }
-      }, {
-        timestamps: true,
-        underscored: true,
-        paranoid: true
-      });
+      }
+    );
   },
 
   down: function (queryInterface, Sequelize) {

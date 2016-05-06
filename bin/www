@@ -16,7 +16,7 @@ var fund_array_to_json = function(array) {
 var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
 var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
 
-models.sequelize.sync().then(function () {
+// models.sequelize.sync().then(function () {
   var port = normalizePort(process.env.PORT || '3001');
   app.set('port', port);
 
@@ -437,4 +437,4 @@ models.sequelize.sync().then(function () {
       : 'port ' + addr.port;
     debug('Listening on ' + bind);
   }
-});
+// });

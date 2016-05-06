@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes){
 		timestamps: true,
     underscored: true,
     paranoid: true,
-      classMethods: {
+    classMethods: {
       associate: function(models) {
         Application.hasOne(models.categories, {
           onDelete: "CASCADE",
@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes){
         });
       }
     }
-		
-	})
-  return Application
+
+	});
+  return Application;
 }
