@@ -1,0 +1,26 @@
+extends admin-layout
+
+block content
+  .container.text-center
+    .col-md-4
+      a.btn.btn-default.btn-warning(href='/admin/migrateUp?all=true', role='button') Execute all pending
+    .col-md-4
+      a.btn.btn-default.btn-success(href='/admin/migrateUp', role='button') Up One
+    .col-md-4
+      a.btn.btn-default.btn-danger(href='/admin/migrateDown', role='button') Down One
+  .container
+    h2 Executed migrations
+    table(class='table table-bordered')
+      tr
+        th Name
+      each migration in executedMigrations
+        tr
+          td= migration.file
+    hr
+    h2 Pending migrations
+    table(class='table table-bordered')
+      tr
+        th Name
+      each migration in pendingMigrations
+        tr
+          td= migration.file

@@ -13,6 +13,9 @@ router.post('/upload', admin.upload);
 router.post('/sync', admin.sync);
 router.post('/new/validate', admin.validate);
 router.post('/download', admin.download);
+router.get('/migrations', admin.migrations);
+router.get('/migrateUp?*', admin.migrateUp);
+router.get('/migrateDown', admin.migrateDown);
 
 router.get('/mc-list', admin_mc.index);
 router.get('/mc-list/:id', admin_mc.view);

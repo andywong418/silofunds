@@ -1,6 +1,23 @@
 var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
+var sequelize = models.sequelize;
+var Umzug = require('umzug');
+var umzugOptions = {
+  storage: 'sequelize',
+  storageOptions: { sequelize: sequelize },
+  logging: false,
+  upName: 'up',
+  downName: 'down',
+  migrations: {
+    // The params that gets passed to the migrations.
+    // Might be an array or a synchronous function which returns an array.
+    params: [sequelize.getQueryInterface(), sequelize.constructor],
+    path: 'migrations',
+    pattern: /^\d+[\w-]+\.js$/,
+  }
+};
+var umzug = new Umzug(umzugOptions);
 
 var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
 
@@ -37,6 +54,41 @@ module.exports = {
 
   new: function(req, res) {
     res.render('admin/new');
+  },
+
+  migrations: function(req, res) {
+    umzug.executed().then(function(executedMigrations) {
+      umzug.pending().then(function(pendingMigrations) {
+        res.render('admin/migrations', { executedMigrations: executedMigrations, pendingMigrations: pendingMigrations });
+      });
+    });
+  },
+
+  migrateUp: function(req, res) {
+    var all = req.query.all;
+
+    umzug.pending().then(function(migrations) {
+      pendingMigrations = migrations.map(function(migration) {
+        return migration.file;
+      });
+
+      if (!all) {
+        pendingMigrations = [pendingMigrations[0]];
+      }
+
+      umzug.execute({
+        migrations: pendingMigrations,
+        method: 'up'
+      }).then(function(migrations) {
+        res.redirect('../admin/migrations');
+      });
+    });
+  },
+
+  migrateDown: function(req, res) {
+    umzug.down().then(function(migration) {
+      res.redirect('../admin/migrations');
+    });
   },
 
   validate: function(req, res) {
