@@ -12,6 +12,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'tags'
     },
+    application_link: {
+      type: DataTypes.TEXT,
+      field: 'application_link'
+    },
     minimum_age: {
       type: DataTypes.INTEGER,
       field: 'minimum_age'
