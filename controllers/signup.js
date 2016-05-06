@@ -1,4 +1,5 @@
 var models = require('../models');
+var url = require('url');
 var AWS = require('aws-sdk');
 var fs = require('fs');
 var async = require('async');
@@ -15,7 +16,7 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_keyid = secrets.AWS_KEYID;
 	aws_key = secrets.AWS_KEY;
 }
-
+var previousPage;
 module.exports = {
   subscribe: function(req, res, next){
     var username = req.body.username;
@@ -23,7 +24,8 @@ module.exports = {
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1];
-
+		previousPage = url.parse(req.headers.referer).path;
+		console.log("HERE'S THE PREV PAge", previousPage);
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
@@ -170,12 +172,26 @@ module.exports = {
         }).then(function(documents){
           var newUser = true;
           if(req.session.redirect_user){
-            res.redirect('/results' + req.session.redirect_user);
+            res.redirect(previousPage);
           }
           else{
-            console.log(user);
-            console.log(documents);
-          res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+						var wrapper = {};
+
+						for (var i = 0; i < userFields.length ; i++) {
+							wrapper[userFields[i]] = user[userFields[i]];
+						}
+
+						wrapper["suggest"] = { "input": user.username };
+						models.es.create({
+							index: 'users',
+							type: 'user',
+							id: user.id,
+							body: wrapper
+						}, function(error, response){
+							res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+						})
+
           }
         });
       });

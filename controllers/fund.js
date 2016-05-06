@@ -1,5 +1,6 @@
 var models = require('../models');
 var query;
+var async = require('async')
 var emptyStringToNull = function(object) {
   var newArray = [];
   for (var field in object){
@@ -27,6 +28,9 @@ module.exports = {
     var searchAge = parseInt(req.query.age);
     var searchAmount = parseInt(req.query.amount);
     var query = emptyStringToNull(req.query);
+    var searchCountry = req.query.nationality;
+    var searchReligion = req.query.religion;
+    console.log("relgion", req.query);
     console.log("QUERY FOR REAL", searchAmount);
     var user = req.session.passport.user;
     var session = req.sessionID;
@@ -88,8 +92,49 @@ module.exports = {
         }
       };
     }
-
-    if (searchString !== '') {
+    if(searchString !== ''){
+      queryOptions.filtered["query"] = {
+        "bool": {
+        "should": [
+          {
+          "multi_match" : {
+            "query": searchString,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 3
+          }},
+          {
+          "match":{
+            "tags": "all-subjects"
+          }}
+        ]
+       }
+      };
+    }
+    if (searchCountry) {
+      queryOptions.filtered["query"] = {
+        "bool": {
+        "should": [
+          {
+          "multi_match" : {
+            "query": searchString,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 3
+          }},
+          {
+          "match":{
+            "tags": "all-subjects"
+          }},
+          {
+            "match":{
+            "countries": searchCountry
+          }}
+        ]
+       }
+      };
+    }
+    if(searchReligion){
       queryOptions.filtered["query"] = {
         "bool": {
         "should": [
@@ -102,7 +147,11 @@ module.exports = {
           }},
           {
           "match":{
-            "tags": "all-subjects",
+            "tags": "all-subjects"
+          }},
+          {
+            "match":{
+            "religion": searchReligion
           }}
         ]
        }
@@ -121,7 +170,6 @@ module.exports = {
     }).then(function(resp) {
       console.log("This is the response:");
       console.log(resp);
-
       var funds = resp.hits.hits.map(function(hit) {
         console.log("Hit:");
         console.log(hit);
@@ -134,20 +182,38 @@ module.exports = {
         // Sync id separately, because it is hit._id, NOT hit._source.id
         hash.id = hit._id;
 
+        // console.log("HASH AFTER", hash);
         return hash;
       });
-      var results_page = true;
-      console.log(funds);
-      if(user){
-        console.log("Checking the user",user);
-        models.users.findById(user.id).then(function(user){
-          res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+      async.map(funds, function(fund, callback){
+        fund.fund_user = false;
+        models.users.find({where: {fund_or_user: fund.id}}).then(function(user){
+          if(user){
+            console.log("FUND USER", user);
+            fund.fund_user = true;
+            console.log("HASH", fund);
+            callback(null, fund)
+          }
+          else{
+            console.log("HASH else", fund)
+            callback(null, fund)
+          }
         })
+      }, function(err, funds){
+        var results_page = true;
+        console.log("READ FUNDS", funds);
+        if(user){
+          console.log("Checking the user",user);
+          models.users.findById(user.id).then(function(user){
+            res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+          })
 
-      }
-      else{
-        res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
-      }
+        }
+        else{
+          res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
+        }
+      })
+
     }, function(err) {
       console.trace(err.message);
       res.render('error');
@@ -300,17 +366,26 @@ module.exports = {
         })
       }
       if('religion' in body){
+        body.religion = body.religion.replace(/\s*,\s*/g, ',');
+        console.log(body.religion);
+        var religion = [];
+        var religionArray = body.religion.split(",");
+        console.log("BODY", religionArray);
+        for(var i = 0; i < religionArray.length; i++){
+          religion.push(religionArray[i]);
+        }
+        body.religion = religion;
         models.users.findById(id).then(function(user){
           user.update({religion: body.religion}).then(function(user){
             models.funds.findById(user.fund_or_user).then(function(fund){
-            for (var attrname in fund['dataValues']){
-              if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                user["dataValues"][attrname] = fund[attrname];
-              }
-            }
-
-            res.render('fund-settings', {user: user, general: general_settings});
-
+              fund.update(body.religion).then(function(fund){
+                for (var attrname in fund['dataValues']){
+                  if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+                    user["dataValues"][attrname] = fund[attrname];
+                  }
+                }
+                res.render('fund-settings', {user: user, general: general_settings});
+              })
             });
           });
         })
@@ -329,18 +404,6 @@ module.exports = {
           console.log(countries);
           body.countries = countries;
         }
-        if('religion' in body){
-          body.religion = body.religion.replace(/\s*,\s*/g, ',');
-          console.log(body.religion);
-          var religion = [];
-          var religionArray = body.religion.split(",");
-          console.log("BODY", religionArray);
-          for(var i = 0; i < religionArray.length; i++){
-            religion.push(religionArray[i]);
-          }
-
-          body.religion = religion;
-        }
 
         models.users.findById(id).then(function(user){
           models.funds.findById(user.fund_or_user).then(function(fund){
@@ -350,7 +413,7 @@ module.exports = {
                   user["dataValues"][attrname] = fund[attrname];
                 }
               }
-              res.render('fund-settings', {user: fund, general: general_settings});
+              res.render('fund-settings', {user: user, general: general_settings});
             })
           })
         })
@@ -363,6 +426,38 @@ module.exports = {
   // cannot access session here
       res.redirect('/');
     });
+  },
+  public: function(req, res){
+    var loggedInUser;
+    var id = req.params.id;
+    if(req.session.passport.user){
+      loggedInUser = req.session.passport.user;
+    }
+    else{
+      loggedInUser = false;
+    }
+    models.users.find({where: {fund_or_user: id}}).then(function(user){
+      var fundUser = user;
+      models.funds.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+            user["dataValues"][attrname] = fund[attrname];
+
+          }
+        }
+        var fields= [];
+        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
+            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+            user["dataValues"]["categories"] = categories;
+            res.render('fund-public', {loggedInUser: loggedInUser, user: user, newUser: false});
+           })
+
+
+        })
+      })
+
+    })
+
   }
 
 

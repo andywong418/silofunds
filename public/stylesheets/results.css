@@ -11,7 +11,7 @@ body {
     font-size: 14px;
     line-height: 1.42857;
     color: #333333;
-    background-color: #f5f8fa;
+    background-color: #F6FAFE;
 }
 
 html {
@@ -26,7 +26,7 @@ h4,
 h5,
 h6 {
     margin: 0 0 35px;
-    text-transform: uppercase;
+
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     letter-spacing: 1px;
@@ -47,17 +47,12 @@ p {
 }
 
 a {
-    color: #42dca3;
+    /*color: #3266B2;*/
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
 
-a:hover,
-a:focus {
-    text-decoration: none;
-    color: #1d9b6c;
-}
 
 .light {
     font-weight: 400;
@@ -422,11 +417,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 .fund_list{
   background-color: white;
   border-radius: 15px;
-  padding-top: 30px;
+  padding: 30px;
   margin-bottom: 60px;
   margin-right: 35px;
   text-align: center;
-  padding-bottom: 30px;
+  border: 2px solid #DADFE1
 }
 
 .fund_link
@@ -461,8 +456,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 }
 
 .database p {
-  margin: 15px;
-
+  margin: 7px;
   font-size: 16px;
   text-align: left;
   display: inline-block;
@@ -501,7 +495,7 @@ list-style-type: none;
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 15px;
-  font-weight: bold;
+  font-weight: normal !important;
   white-space: nowrap;
   color: #ffffff;
   background-color: #999999;
@@ -511,12 +505,13 @@ list-style-type: none;
 }
 
 .badge-error {
-  background-color: #b94a48;
+  background-color: #4ECDC4;
   margin: 5px;
 }
 
 .badge-warning {
-  background-color: #f89406;
+  background-color: #4FDA9B;
+
 }
 
 .badge-success {
@@ -524,19 +519,19 @@ list-style-type: none;
 }
 
 .badge-info {
-  background-color: #3a87ad;
+  background-color: #56A0D4;
 }
 
 .badge-inverse {
   background-color: #333333;
 }
 .badge-tags{
-  background-color: #D2527F;
+  background-color: #FFB95D;
   margin: 5px 5px;
 }
 
 .badge-deadline{
-  background-color: #049372;
+  background-color: #E26A6A;
   margin: 0 5px;
 }
 .control, .description_control{
@@ -545,11 +540,23 @@ list-style-type: none;
 
 .description_control{
   text-align: left;
-    display:  none;
 }
-
+.description_control li{
+  list-style-type: disc;;
+}
+.description_control p{
+  margin-top: 10px;
+}
+.read-more{
+  display: none;
+  text-align: left;
+}
+.read-link{
+  cursor: pointer;
+  font-size: 16px;
+}
 .fund_info{
-    margin-top: -10px;
+    margin-top: -20px;
 }
 
 #checkbox{
@@ -619,7 +626,7 @@ list-style-type: none;
   width: 100%;
   height: 100%;
   background: rgba(52, 54, 66, 0.9);
-  z-index: 3;
+  z-index: 100;
   overflow-y: auto;
   cursor: pointer;
   visibility: hidden;
@@ -1110,16 +1117,29 @@ time, mark, audio, video {
 }
 
 #deadline-passed{
-  font-weight: bold;
+  font-weight: lighter;
   margin-bottom: 30px;
-  background-color: #C0392B;
+  background-color: #F64747;
   border-radius: 3px;
   color: white;
   padding: 5px 0px;
   margin-top: 0;
   display: none;
 }
+.display, .display:hover{
+  color: white;
+}
+.page-header{
+  padding-top: 5px;
+}
 
+#show-all{
+  margin-top: 5px;
+  background-color: #348AC7;
+}
+#show-all:active, #show-all:hover, #show-all:focus{
+  outline: 0
+}
 /* media queries for mobile opt */
 @media(max-width: 1065px){
   #advanced-search,#advanced-search-2{
@@ -1214,4 +1234,7 @@ time, mark, audio, video {
   margin-right: -120px;
 }
 
+}
+.fa-chevron-circle-down, .fa-chevron-circle-up{
+  margin-left: 5px;
 }

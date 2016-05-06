@@ -268,12 +268,56 @@ module.exports = {
 
 			}
 			else{
-				console.log("check if user-results is there");
+				console.log("check if user-results is there", query);
 				res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
 			}
 		}, function(err) {
 			console.trace(err.message);
 			res.render('error');
 		});
-	}
+	},
+  public: function(req, res){
+    var id = req.params.id;
+    var loggedInUser;
+    if(req.session.passport.user){
+      loggedInUser = req.session.passport.user;
+    }
+    else{
+      loggedInUser = false;
+    }
+    console.log("CHECKING ID",id)
+    models.users.findById(id).then(function(user){
+      models.applications.findAll({where: {user_id: user.id}}).then(function(application){
+        console.log("checking applications");
+        if(application.length != 0){
+          applied_funds = [];
+          async.each(application, function(app, callback){
+              var app_obj = {};
+              app_obj['status'] = app.dataValues.status;
+              models.funds.findById(app.dataValues.fund_id).then(function(fund){
+                app_obj['title'] = fund.title;
+                console.log("WHAT FUND", fund);
+                applied_funds.push(app_obj);
+                console.log("I'M HERE", applied_funds);
+                callback();
+              })
+
+          }, function done(){
+            models.documents.findAll({where: {user_id: id}}).then(function(documents){
+              res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: applied_funds});
+            });
+          })
+
+        }
+        else{
+          console.log("HI", loggedInUser);
+          models.documents.findAll({where: {user_id: id}}).then(function(documents){
+              res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: false});
+            });
+        }
+
+      })
+
+    });
+  }
 };

@@ -224,13 +224,14 @@ block content
 						div.results
 							h3
 								span='Your search returned ' + funds.length + ' results'
-
+							button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
 						div.page-header
 							script#fund-template(type='text/template')
 								ul.database
 									.fund_list
 										li
-											h3.fund_title <%= fund_title %>
+											a(id != 'profile_link' + '<%= fund_id %>')
+												h3.fund_title <%= fund_title %>
 											h4#deadline-passed(class!= 'deadline-passed' + '<%= fund_id %>') Oops the deadline has passed for this fund...
 										li.fund_info
 											p(class!= 'fund_tags' + '<%= fund_id %>') Tags:
@@ -245,9 +246,10 @@ block content
 											p(class!= 'nationalities'+ '<%= fund_id %>')
 											p(class!='deadline' + '<%= fund_id %>') Deadline:
 												span.control.badge.badge-deadline <%= deadline %>
-										label(id!='<%= fund_id %>') Additional Information
-												i.fa.fa-chevron-circle-down
-												span(class="description_control") <%= description %>
+										label(id!='<%= fund_id %>') Additional Information:
+												//
+													i.fa.fa-chevron-circle-down
+												span(class="description_control") 
 											h4.fund_link
 												a(href!='<%=fund_link %>', target='_blank') Apply Now
 
@@ -258,6 +260,7 @@ block scripts
 	script(src='javascript/results.js')
 	//Modernizr
 	script(src='javascript/lib/modernizr-custom.js')
+	//readmore
 	script.
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};

@@ -16,7 +16,7 @@ router.get('/', function(req,res) {
         text: query,
         completion: {
           "field": "suggest"
-        } 
+        }
       }
     }
   }).then(function(resp) {
@@ -33,4 +33,34 @@ router.get('/', function(req,res) {
   });
 });
 
+router.get('/users', function(req, res){
+  console.log(req.query);
+
+  var query = req.query.term.split(" ");
+  query = query[query.length - 1];
+  console.log("AUTO QUERY" + query);
+
+  models.es.suggest({
+    index: "users",
+    body: {
+      suggest: {
+        text: query,
+        completion: {
+          "field": "suggest"
+        }
+      }
+    }
+  }).then(function(resp) {
+
+    var results = resp.suggest[0].options.map(function(obj) {
+      return obj.text;
+    });
+
+    res.send(results);
+
+  }, function(err) {
+    console.trace(err.message);
+    res.send({ response: err.message });
+  });
+})
 module.exports = router;

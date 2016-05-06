@@ -1,5 +1,5 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
-$(function() {
+$(document).ready(function() {
    var $form_modal = $('.cd-user-modal'),
     $form_login = $form_modal.find('#cd-login'),
     $form_signup = $form_modal.find('#cd-signup'),
@@ -13,6 +13,7 @@ $(function() {
 
   //open modal
   $main_nav.on('click', function(event){
+    console.log("HEY");
     $('.cd-switcher').css('display', 'inline');
     if($(event.target).is($main_nav) ) {
       //set body to be static
@@ -175,7 +176,7 @@ jQuery.fn.putCursorAtEnd = function() {
       }
   });
 };
-  
+
   function split( val ) {
       return val.split(" ");
   };

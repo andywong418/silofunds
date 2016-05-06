@@ -1,20 +1,7 @@
 $(document).ready(function() {
   var bool = false;
 
-
-// Need user data to do this
-//    var UserNavView = Backbone.View.extend({
-//   tagname: 'ul',
-//   template: _.template($('#usernav-template').html()),
-//   render: function() {
-//         this.$el.html(this.template(this.model.toJSON()));
-//         return this; // enable chained calls
-//   }
-
-// });
-
-
-
+console.log(query);
 for(var field in query){
   $('.' + field).attr('value', query[field]);
   if(field == 'merit_or_finance'){
@@ -26,14 +13,37 @@ for(var field in query){
 }
 var advanced = true;
 var advanced_2 = true;
-
+function split( val ) {
+    return val.split(" ");
+};
 $("#grants").click(function(){
     $("#advanced-search").slideDown();
     $("#advanced-search-2").toggle(false);
     $("#grants span").css("display","inline");
     $("#users span").css("display","none");
     advanced = false;
-    $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level')
+    $("#search-form").attr('action', '/results');
+    $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level');
+    $("input#text_search" ).autocomplete({
+      source: "../autocomplete",
+      minLength: 1,
+      select: function( event, ui ) {
+        var terms = split( this.value );
+        // remove the current input
+        terms.pop();
+        // add the selected item
+        terms.push( ui.item.value );
+        // add placeholder to get the comma-and-space at the end
+        terms.push( "" );
+        this.value = terms.join(" ");
+        return false;
+      },
+      focus: function() {
+        // prevent value inserted on focus
+        return false;
+      }
+    });
+
     return true;
   });
 $(document).on('click', '#refine-search', function(){
@@ -42,6 +52,7 @@ $(document).on('click', '#refine-search', function(){
    advanced = false;
     return true;
 });
+
 $("#users").click(function(){
     $("#advanced-search-2").toggle(true);
     $("#advanced-search").toggle(false);
@@ -49,7 +60,26 @@ $("#users").click(function(){
     $("#grants span").css("display","none");
     advanced_2 = false;
     $("#search-form").attr('action', '/results/users');
-    $("#text_search").attr('placeholder', 'Search for users by name or by interests')
+    $("#text_search").attr('placeholder', 'Search for users by name or by interests');
+    $("input#text_search" ).autocomplete({
+      source: "../autocomplete/users",
+      minLength: 1,
+      select: function( event, ui ) {
+        var terms = split( this.value );
+        // remove the current input
+        terms.pop();
+        // add the selected item
+        terms.push( ui.item.value );
+        // add placeholder to get the comma-and-space at the end
+        terms.push( "" );
+        this.value = terms.join(" ");
+        return false;
+      },
+      focus: function() {
+        // prevent value inserted on focus
+        return false;
+      }
+    });
 });
 $(document).click(function(e) {
   if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
@@ -67,6 +97,27 @@ $(document).click(function(e) {
         return true;
   }
 });
+
+var allShown = true;
+$('#show-all').on('click', function(){
+  console.log(allShown);
+  if(allShown){
+    $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
+    console.log($(this));
+    $(this).html("Show all funds - including those which are expired");
+    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
+    allShown = false;
+  }
+  else{
+    console.log($('*[class*=fund_list]:hidden').length);
+    console.log($(this));
+    $('*[class*=fund_list]:hidden').css('display', 'block');
+    $(this).html("Only show funds which have not passed their deadline");
+    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results")
+    allShown = true;
+  }
+});
+
 var UserNav = Backbone.View.extend({
         el: ".nav li",
 
@@ -78,12 +129,12 @@ var UserNav = Backbone.View.extend({
             if(user.fund_or_user){
               $("#home").attr("href", '/funds/' + user.id );
               $(".settings").attr("href", '/funds/settings/' +user.id);
-              $(".logout").attr("href", 'funds/logout');
+              $(".logout").attr("href", '/funds/logout/' + user.id);
             }
             else{
               $("#home").attr("href", '/users/' + user.id);
               $(".settings").attr("href", '/users/settings/' +user.id );
-              $(".logout").attr("href", 'users/logout/' + user.id);
+              $(".logout").attr("href", '/users/logout/' + user.id);
             }
           }
           else{
@@ -127,6 +178,7 @@ var UserNav = Backbone.View.extend({
         this.fundDisplay();
         this.infoToggle();
         this.addApplication();
+        this.profileLink();
       },
 
       fundDisplay: function(){
@@ -153,10 +205,9 @@ var UserNav = Backbone.View.extend({
         // Do the date
         var dateNow = new Date();
         dateNow = dateNow.toISOString();
-        console.log(dateNow);
         if (fundData[i].deadline < dateNow){
-          console.log("DEADLINED");
           $('.deadline-passed' + fundData[i].id).css('display', 'block');
+          $('.deadline-passed' + fundData[i].id).closest('.fund_list').children().css('opacity', '0.4');
         };
         var tags = fundData[i].tags;
         if(!tags){
@@ -165,14 +216,16 @@ var UserNav = Backbone.View.extend({
         else{
           if(tags.length > 8){
             for(var x = 0; x < 7; x++){
-              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;' '>" + tags[x] + "</span>");
+              var searchTags = tags[x].split(" ").join("+");
+              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[x] + "</a></span>");
 
             }
             $(".fund_tags" + fundData[i].id).append("<span class = 'etc' style = 'margin-top: 10px;' '> ... </span>");
           }
           else{
             for(var y = 0; y < tags.length; y++){
-              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'>" + tags[y] + "</span>");
+              var searchTags = tags[y].split(" ").join("+");
+              $(".fund_tags" + fundData[i].id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
             }
           }
 
@@ -184,7 +237,7 @@ var UserNav = Backbone.View.extend({
         else{
           if(countries.length > 4){
             for(var k = 0; k < 4; k++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'>" + countries[k] + "</span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a class='display' href= '/results?tags=&age=&nationality='" + countries[k] + "'>" + countries[k] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
                if(k == 3){
@@ -194,7 +247,7 @@ var UserNav = Backbone.View.extend({
            }
            else{
              for(var j = 0; j < countries.length; j++){
-               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'>" + countries[j] + "</span>");
+               $(".nationalities" + fundData[i].id).append("<span class = 'badge badge-error'><a class = 'display' href= '/results?tags=&age=&nationality=" + countries[j] + "'>" + countries[j] + "</a></span>");
                $(".nationalities" + fundData[i].id+ " span").css("margin-left", "5px");
                $(".nationalities" + fundData[i].id).css('textTransform', 'capitalize');
              }
@@ -221,7 +274,7 @@ var UserNav = Backbone.View.extend({
            $(".fund_min_amount" + fundData[i].id).append("<span id='minus-sign'> - </span>");
             $(".fund_max_amount" + fundData[i].id).children('.control').addClass("max_amount"+ fundData[i].id);
            $(".max_amount" + fundData[i].id).addClass("label label-danger badge badge-warning");
-           $(".max_amount" + fundData[i].id).css("margin-left", "-26px");
+           $(".max_amount" + fundData[i].id).css("margin-left", "-10px");
          }
          if(!fundData[i].maximum_age){
            $(".fund_max_age"+ fundData[i].id).toggle(false);
@@ -240,30 +293,78 @@ var UserNav = Backbone.View.extend({
            $(".fund_min_age" + fundData[i].id).append("<span id='minus-sign'> - </span>");
            $(".fund_max_age" + fundData[i].id).children('.control').addClass("max_age"+ fundData[i].id);
            $(".max_age" + fundData[i].id).addClass("label label-success badge badge-info");
-           $(".max_age" + fundData[i].id).css("margin-left", "-26px");
+           $(".max_age" + fundData[i].id).css("margin-left", "-10px");
          }
       },
 
       infoToggle: function(){
-        $("#" + fundData[i].id).css("margin-top", "20px");
+        $("#" + fundData[i].id).css("margin-top", "7px");
         $("#" + fundData[i].id).css("margin-bottom", "15px");
         $("#" + fundData[i].id).css("font-size", "16px");
-        $("#" + fundData[i].id).on("click", function() {
-          if(bool){
-            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
-            $(this).children("span").slideUp();
-            bool = false;
 
+        var description = fundData[i].description;
+        var splitDescriptionArray = description.split(/<\/.*?>/g);
+        splitDescriptionArray = splitDescriptionArray.filter(function(element){
+          return element.length > 5
+        });
+        console.log(splitDescriptionArray);
+        console.log(description);
+        var splitNumber = Math.floor((splitDescriptionArray.length)/2);
+        if(splitNumber > 1){
+          var index = description.indexOf(splitDescriptionArray[1]);
+          if(index < 60){
+            index = description.indexOf(splitDescriptionArray[2]);
+            if (index < 60){
+              index = description.indexOf(splitDescriptionArray[3]);
+            }
+          }
+          var constant = description.substring(0, index);
+          var readMore = description.substring(index);
+          var finalDescription = constant + "<div id = 'read-more" + fundData[i].id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + fundData[i].id +  "'> Read more </a>";
+          console.log(finalDescription);
+          $("#" + fundData[i].id).children('.description_control').html(finalDescription);
+        }
+        else{
+          $("#" + fundData[i].id).children('.description_control').html(fundData[i].description);
+        }
+
+
+        //Conventionalised the styles in css
+        $("#" + fundData[i].id).children('.description_control').find('*').css('line-height', '2');
+        $("#" + fundData[i].id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
+        $("#" + fundData[i].id).children('.description_control').find('*').css('font-size', '12pt');
+
+        var fundId = fundData[i].id;
+        var readMore = true;
+        $('#read-link' + fundId).on('click', function(){
+          if(readMore){
+            $('#read-more' + fundId).slideDown();
+            $(this).html("Read less");
+            readMore = false;
           }
           else{
-            $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
-            $(this).children("span").slideDown();
-            $(this).children("span").css("margin-top" , "5px");
-            $(this).children("span").css("padding", "15px");
-            $(this).find("li").css("list-style-type", "disc");
-            bool = true;
+            $('#read-more' + fundId).slideUp();
+            $(this).html("Read more");
+            readMore = true;
           }
-        });
+        })
+
+        // $("#" + fundData[i].id).on("click", function() {
+        //   if(bool){
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
+        //     $(this).children("span").slideUp();
+        //     bool = false;
+        //
+        //   }
+        //   else{
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
+        //     $(this).children("span").slideDown();
+        //     $(this).children("span").css("margin-top" , "5px");
+        //     $(this).children("span").css("padding", "15px");
+        //     $(this).find("li").css("list-style-type", "disc");
+        //     bool = true;
+        //   }
+        // });
       },
       addApplication: function(){
         if(user && !user.fund_or_user){
@@ -273,6 +374,17 @@ var UserNav = Backbone.View.extend({
             $.post('/users/add-application/'+ user.id, parameters, function(data){
             })
           })
+        }
+      },
+      profileLink: function(){
+        var fundId = fundData[i].id;
+        var link = fundData[i].link;
+        if (fundData[i].fund_user){
+          $("#profile_link" + fundId).attr('href', '/funds/public/' + fundId);
+        }
+        else{
+          $("#profile_link" + fundId).attr('href',  link)
+          $("#profile_link" + fundId).attr('target',  "_blank")
         }
       }
    });
