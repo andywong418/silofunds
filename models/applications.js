@@ -27,17 +27,6 @@ module.exports = function(sequelize, DataTypes){
 		timestamps: true,
     underscored: true,
     paranoid: true,
-    classMethods: {
-      associate: function(models) {
-        Application.hasOne(models.categories, {
-          onDelete: "CASCADE",
-          as: 'category',
-          through: "categories",
-          foreignKey: 'application_id'
-        });
-      }
-    }
-
 	});
   return Application;
 }
