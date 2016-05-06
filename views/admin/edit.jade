@@ -86,6 +86,11 @@ block content
                 input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
           .row
             tr
+              .col-md-6.form-group
+                label(for='application_link') Application Link
+                input#application_link.form-control(type='text', name='application_link', value=fund.application_link)
+          .row
+            tr
               .col-md-12.form-group
                 button.btn.btn-danger(type='submit') Update fund!
 

@@ -2,7 +2,7 @@ var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
 
-var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -103,6 +103,7 @@ module.exports = {
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
+    var application_link = fund.application_link ? fund.application_link : null;
 
     var parseIfInt = function(string) {
       if (string !== '') {
@@ -121,6 +122,7 @@ module.exports = {
         tags: tags,
         invite_only: invite,
         link: link,
+        application_link: application_link,
         minimum_age: min_age,
         maximum_age: max_age,
         minimum_amount: min_amount,
@@ -204,6 +206,7 @@ module.exports = {
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
+    var application_link = fund.application_link ? fund.application_link : null;
 
     var parseIfInt = function(string) {
       if (string !== '') {
@@ -221,6 +224,7 @@ module.exports = {
       tags: tags,
       invite_only: invite,
       link: link,
+      application_link: application_link,
       minimum_age: min_age,
       maximum_age: max_age,
       minimum_amount: min_amount,
