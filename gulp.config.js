@@ -22,7 +22,7 @@ module.exports = function() {
       '!' + migrations + '**/*.*'
     ],
 
-    scssDist: dist + 'css/',
+    scssDist: dist + 'stylesheets/',
     scss: public + 'stylesheets/*.scss'
   };
 
