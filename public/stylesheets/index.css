@@ -164,7 +164,7 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../images/graduation.jpg) no-repeat bottom center scroll;
+    background: url(../images/graduation.png) no-repeat bottom center scroll;
     background-color: #000;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -1490,7 +1490,7 @@ time, mark, audio, video {
       margin-right: -30px;
     }
     .footer-distributed .footer-right a{
-  
+
       width: 30px;
       height: 30px;
       border-radius: 15px;
@@ -1499,7 +1499,7 @@ time, mark, audio, video {
     }
 }
 @media(max-width: 512px){
- 
+
   .footer-distributed .footer-right a{
       margin-top: 5px;
   }

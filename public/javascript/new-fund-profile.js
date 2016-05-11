@@ -9,7 +9,7 @@ $(document).ready(function(){
 		template: _.template($('#account-template').html()),
 		render: function() {
         this.$el.html(this.template(this.model.toJSON()));
-       
+
         return this; // enable chained calls
       }
 
@@ -25,28 +25,28 @@ $(document).ready(function(){
   		var model = this.model;
   		var view = new AccountView({model: account});
   		this.$el.append(view.render().el);
-  		
+
 
   		if(this.model.get('profile_picture')){
 				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
 			}
 			if(this.model.get('description')){
 				this.$("#description-area").val( this.model.get('description'));
+				this.$("#description-area").css("border", "2px #16a085 solid")
 			}
 			if(this.model.get('charity_number')){
 				this.$("#charity-input").val( this.model.get('charity_number'));
+				this.$("#charity-input").css("border", "2px #16a085 solid");
 			}
-			
-			var categoriesArray = this.model.get('categories');
-			console.log(categoriesArray);
 
+			var categoriesArray = this.model.get('categories');
 			if(!categoriesArray){
 				parameters = {title: "General", status: "setup" };
   			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
   			console.log(data);
   			});
 			}
-			
+			$(document).off('click', '#profile-picture');
   		$(document).on('click', '#profile-picture', function(){
   			console.log('HI');
 			    $("input[id='my_file']").click();
@@ -94,7 +94,7 @@ $(document).ready(function(){
   			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
-  		}) 	
+  		})
   	},
   	uploadCharityNumber: function(){
   		$(document).on('keypress', '#charity-input', function(e){
@@ -117,7 +117,7 @@ $(document).ready(function(){
   				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
-  			
+
   		})
   	}
   });
@@ -152,24 +152,31 @@ $(document).ready(function(){
         };
   		if(this.model.get("tags")){
   			this.$("#tags-input").val(this.model.get("tags"));
+				this.$("#tags-input").css("border", "2px #16a085 solid")
   		}
   		if(this.model.get("countries")){
   			this.$("#nationality-input").val(this.model.get("countries"));
+				this.$("#nationality-input").css("border", "2px #16a085 solid");
   		}
   		if(this.model.get("religion")){
   			this.$("#religion-input").val(this.model.get("religion"));
+				this.$("#religion-input").css("border", "2px #16a085 solid");
   		}
   		if(this.model.get("maximum_age")){
   			this.$("#maximum_age").val(this.model.get("maximum_age"));
+				this.$("#maximum_age").css("border", "2px #16a085 solid");
   		}
   		if(this.model.get("minimum_age")){
   			this.$("#minimum_age").val(this.model.get("minimum_age"));
+				this.$("#minimum_age").css("border", "2px #16a085 solid")
   		}
   		if(this.model.get("maximum_amount")){
-  			this.$("#maximum_amount").val(this.model.get("maximum_amount")); 			
+  			this.$("#maximum_amount").val(this.model.get("maximum_amount"));
+				this.$("#maximum_amount").css("border", "2px #16a085 solid")
   		}
   		if(this.model.get("minimum_amount")){
-  			this.$("#minimum_amount").val(this.model.get("minimum_amount")); 			
+  			this.$("#minimum_amount").val(this.model.get("minimum_amount"));
+				this.$("#minimum_amount").css("border", "2px #16a085 solid");
   		}
 			if(this.model.get('merit_or_finance')){
 				if(this.model.get('merit_or_finance') == "merit"){
@@ -195,11 +202,13 @@ $(document).ready(function(){
 				var dateArray = this.model.get('start_date').split("T");
 				var date = dateArray[0];
 				this.$("#start_date").val(date);
+				this.$("#start_date").css("border", "2px #16a085 solid")
 			}
 			if(this.model.get('deadline')){
 				var dateArray = this.model.get('deadline').split("T");
 				var date = dateArray[0];
 				this.$("#deadline").val(date);
+				this.$("#deadline").css("border", "2px #16a085 solid")
 			}
   		$(document).on('blur', '#tags-input', function(){
 	  		if($(this).val()){
@@ -292,7 +301,7 @@ $(document).ready(function(){
   		})
   	}
   });
-	
+
 	var ApplicationView = Backbone.View.extend({
   	id: 'application-setup',
   	template: _.template($('#application-template').html()),
@@ -326,7 +335,7 @@ $(document).ready(function(){
 					// 	console.log("hey")
 					// 	$('.instruction-pointer-2').css('display', 'none');
 					// }
-					
+
 				});
 
   			$( window ).resize(function() {
@@ -343,8 +352,8 @@ $(document).ready(function(){
   			this.editField();
 			},
 			editCategory: function(){
-				
-				categoriesArray= this.model.get("categories");		
+
+				categoriesArray= this.model.get("categories");
 					for(var i = categoriesArray.length -1; i >= 0; i--){
 					this.$(".cd-switcher").prepend("<li class = 'category' id = '" + categoriesArray[i].id + "'>" + categoriesArray[i].title + "</li>");
 					}
@@ -380,7 +389,7 @@ $(document).ready(function(){
 							var formLength = $("#application-form").width();
 							console.log("-" + (formLength - savedLength) + "px");
 							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
-							
+
 						}
 						else{
 						var savedLength = $("ul.cd-switcher").width();
@@ -398,7 +407,7 @@ $(document).ready(function(){
 					$(".cd-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
 					$(".cd-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
 					console.log($("#add-field").siblings());
-					
+
 					$.get('/signup/fund_signup/get_fields/' + categoryId, function(data){
 						$("#add-field").siblings().not("#delete-category").remove();
 						if(data){
@@ -441,8 +450,8 @@ $(document).ready(function(){
 
 				$(document).off('blur', '#addition');
 				$(document).on('blur', "#addition", function(){
-					var newTitle = $(this).val();		
-					console.log($(this).parent());	
+					var newTitle = $(this).val();
+					console.log($(this).parent());
 					if($(this).val()){
 						var parent = $(this).parent();
 						$(".cd-switcher li").not(this).removeClass("active");
@@ -464,13 +473,13 @@ $(document).ready(function(){
 					else{
 						closestCategory = $(".active").prev("li");
 					}
-					
+
 						console.log(closestCategory);
 						$(".active").remove();
 						closestCategory.click();
 
 					$.get('/signup/fund_signup/delete_category/'+ categoryId, function(data){
-			
+
 					})
 				})
 			},
@@ -584,7 +593,7 @@ $(document).ready(function(){
 					  	else{
 					  		$(this).parent().prev().html("<input value = '" + val+ "' id = '" + fieldId + "' class = 'edit-text-question'></input>");
 					  	}
-						
+
 						}
 				})
 				$(document).off('blur', '.edit-text-question, .edit-text-description');
@@ -633,14 +642,14 @@ $(document).ready(function(){
 							question.remove();
 							answer.remove();
 						}
-						
+
 					})
 
 				})
 
 			}
   })
-	
+
 
   var Router = Backbone.Router.extend({
 	routes : {
@@ -681,11 +690,11 @@ $(document).ready(function(){
 				console.log(JSON.stringify(applicationModel));
 				router.loadView(new ApplicationDisplay({model: applicationModel }));
 			}
-			
+
 		})
 	},
 	loadView : function(viewing) {
-	
+
 		this.view && this.view.remove();
 		this.view = viewing;
 		$('body').append(viewing.el);
