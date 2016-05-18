@@ -427,6 +427,9 @@ img#profile-picture{
 	display: inline;
 
 }
+#nationality{
+	margin-left: 5px;
+}
 
 #description{
 	background-color: white;

@@ -26,6 +26,9 @@ a:active, a:hover{
 img#profile-picture{
   cursor: auto
 }
+p{
+  margin: 5px;
+}
 .ui-autocomplete {
   position: absolute;
   top: 100%;
@@ -75,9 +78,7 @@ img#profile-picture{
     }
   }
 }
-#nationality{
-  margin-left: 5px;
-}
+
 .cd-form-bottom-message{
   position: fixed;
   width: 100%;

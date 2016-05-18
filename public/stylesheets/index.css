@@ -862,6 +862,11 @@ time, mark, audio, video {
 }
 
 
+#fund-option label{
+  margin-left: 10px;
+  font-size: 13px;
+}
+
 #terms{
     margin-bottom: 25px;
     margin-top:-2px;

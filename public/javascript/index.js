@@ -13,7 +13,6 @@ $(document).ready(function() {
 
   //open modal
   $main_nav.on('click', function(event){
-    console.log("HEY");
     $('.cd-switcher').css('display', 'inline');
     if($(event.target).is($main_nav) ) {
       //set body to be static
@@ -129,6 +128,10 @@ $(document).ready(function() {
     $('#signup-terms').css('display', 'inline');
     $('#signup-btn').css('display', 'block');
   }
+
+  $('#fund-signup').change(function() {
+  $('#signup-username').attr('placeholder', $(this).is(':checked') ? 'Name of Institution' : 'Full Name');
+});
 
   function forgot_password_selected(){
     $form_login.removeClass('is-selected');
