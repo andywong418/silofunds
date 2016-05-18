@@ -8,6 +8,9 @@ a:hover{
 text-decoration: underline;
 }
 
+p{
+  margin: 5px;
+}
 a:active, a:hover{
   outline: 0
 }
