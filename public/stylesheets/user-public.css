@@ -8,7 +8,7 @@ a:hover{
 text-decoration: underline;
 }
 
-p{
+#age, #nationality, #username{
   margin: 5px;
 }
 a:active, a:hover{
@@ -85,6 +85,9 @@ img#profile-picture{
   position: fixed;
   width: 100%;
   margin: 0 auto
+}
+#progress-label{
+  padding-top: 5px;
 }
 .work-description{
   font-size: 14px;
