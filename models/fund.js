@@ -87,10 +87,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       field: 'merit_or_finance'
     },
-    charity_number:{
-      type: DataTypes.INTEGER,
-      field: 'charity_number'
-    },
     subject: {
       type: DataTypes.TEXT,
       field: 'subject'
