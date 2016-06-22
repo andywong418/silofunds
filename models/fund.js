@@ -112,6 +112,13 @@ module.exports = function(sequelize, DataTypes) {
           through: "applications",
           foreignKey: 'fund_id'
         });
+
+        Fund.belongsToMany(models.organisations, {
+          onDelete: 'CASCADE',
+          as: 'Fund',
+          through: 'organisations',
+          foreignKey: 'id'
+        });
       }
     }
   });
