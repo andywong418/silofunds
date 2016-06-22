@@ -90,6 +90,18 @@ module.exports = function(sequelize, DataTypes) {
     charity_number:{
       type: DataTypes.INTEGER,
       field: 'charity_number'
+    },
+    subject: {
+      type: DataTypes.TEXT,
+      field: 'subject'
+    },
+    degree: {
+      type: DataTypes.TEXT,
+      field: 'degree'
+    },
+    university: {
+      type: DataTypes.TEXT,
+      field: 'university'
     }
   }, {
     timestamps: true,
