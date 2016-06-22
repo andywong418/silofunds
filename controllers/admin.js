@@ -19,7 +19,7 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 
-var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","merit_or_finance","deadline"];
+var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","degree","university","merit_or_finance","deadline"];
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -143,7 +143,6 @@ module.exports = {
     var id = req.params.id;
 
     var fund = req.body;
-    console.log(fund);
     var title = fund.title;
     var tags = fund.keywords.split(",");
     var invite = ("invite" in fund);
@@ -152,6 +151,9 @@ module.exports = {
     var countries = fund.countries[0] ? fund.countries.split(",") : null; // Return null if empty array
     var religion = fund.religion[0] ? fund.religion.split(",") : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var subject = fund.subject ? fund.subject : null;
+    var degree = fund.degree ? fund.degree : null;
+    var university = fund.university ? fund.university : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -183,6 +185,9 @@ module.exports = {
         countries: countries,
         religion: religion,
         financial_situation: financial_situation,
+        subject: subject,
+        degree: degree,
+        university: university,
         merit_or_finance: merit_or_finance,
         gender: gender,
         deadline: deadline
@@ -246,7 +251,6 @@ module.exports = {
 
   create: function(req, res) {
     var fund = req.body;
-    console.log(fund);
     var title = fund.title;
     var tags = fund.keywords.split(",");
     var invite = ("invite" in fund);
@@ -255,6 +259,9 @@ module.exports = {
     var countries = fund.countries[0] ? fund.countries.split(",") : null;
     var religion = fund.religion[0] ? fund.religion.split(",") : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var subject = fund.subject ? fund.subject : null;
+    var degree = fund.degree ? fund.degree : null;
+    var university = fund.university ? fund.university : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -285,6 +292,9 @@ module.exports = {
       countries: countries,
       religion: religion,
       financial_situation: financial_situation,
+      subject: subject,
+      degree: degree,
+      university: university,
       merit_or_finance: merit_or_finance,
       gender: gender,
       deadline: deadline
