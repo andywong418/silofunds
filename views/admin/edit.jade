@@ -20,6 +20,17 @@ block content
           .row
             tr
               .col-md-3.form-group
+                label(for='subject') Subject
+                input#subject.form-control(type='text', name='subject', value=fund.subject)
+              .col-md-3.form-group
+                label(for='degree') Degree
+                input#degree.form-control(type='text', name='degree', value=fund.degree)
+              .col-md-6.form-group
+                label(for='university') University
+                input#university.form-control(type='text', name='university', value=fund.university)
+          .row
+            tr
+              .col-md-3.form-group
                 label(for='min_age') Minimum Age
                 input#min_age.form-control(type='number', name='min_age', value=fund.minimum_age)
               .col-md-3.form-group

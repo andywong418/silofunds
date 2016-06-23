@@ -56,6 +56,18 @@ module.exports = function(sequelize, DataTypes) {
     email_updates:{
       type: DataTypes.BOOLEAN,
       field: 'email_updates'
+    },
+    subject: {
+      type: DataTypes.TEXT,
+      field: 'subject'
+    },
+    degree: {
+      type: DataTypes.TEXT,
+      field: 'degree'
+    },
+    university: {
+      type: DataTypes.TEXT,
+      field: 'university'
     }
   }, {
     timestamps: true,

@@ -1,0 +1,29 @@
+{
+  "name": "silofunds",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "howard611 <howard.tam.95@gmail.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "http://www.silofunds.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.6.2",
+    "jquery-ui": "^1.11.4",
+    "bootstrap-social": "^5.0.0",
+    "backbone": "^1.3.3"
+  },
+  "resolutions": {
+    "font-awesome": "^4.6.2"
+  }
+}

@@ -196,9 +196,12 @@ var UserNav = Backbone.View.extend({
           fund_id: fundData[i].id,
           description: fundData[i].description,
           fund_link: fundData[i].link,
+          application_link: fundData[i].application_link,
           deadline: deadline
         });
-
+        if(!fundData[i].application_link){
+          fund.set("application_link", fundData[i].link);
+        }
         var view = new FundView({ model: fund });
 
         this.$el.append(view.render().el);

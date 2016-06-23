@@ -428,6 +428,10 @@ img#profile-picture{
 
 }
 
+#nationality{
+	margin-left: 5px;
+}
+
 #description{
 	background-color: white;
 	margin-top: 5px;
