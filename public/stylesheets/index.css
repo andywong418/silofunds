@@ -47,23 +47,6 @@ p {
     }
 }
 
-a {
-    color: #42dca3;
-    -webkit-transition: all .2s ease-in-out;
-    -moz-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out;
-}
-
-a:hover,
-a:focus {
-    text-decoration: none;
-    color: #1d9b6c;
-}
-
-.light {
-    font-weight: 400;
-}
-
 .navbar-custom {
     position: fixed;
     margin-bottom: 0;
@@ -191,21 +174,13 @@ a:focus {
     font-weight: 100;
 }
 
-.intro .intro-body .intro-text-2{
+.intro-text-2{
   margin-top: -30px;
   font-size: 24px;
   font-weight: lighter;
 }
 
-#emphasis{
-  font-weight: bold;
-}
 
-.intro .intro-body .intro-text-2{
-  margin-top: -30px;
-  font-size: 24px;
-  font-weight: lighter;
-}
 
 #emphasis{
   font-weight: bold;
@@ -274,23 +249,6 @@ a:focus {
     background-color: #42dca3;
 }
 
-ul.banner-social-buttons {
-    margin-top: 0;
-}
-
-
-
-@media(max-width:767px) {
-    ul.banner-social-buttons li {
-        display: block;
-        margin-bottom: 20px;
-        padding: 0;
-    }
-
-    ul.banner-social-buttons li:last-child {
-        margin-bottom: 0;
-    }
-}
 
 footer {
     padding: 50px 0;
@@ -891,7 +849,7 @@ time, mark, audio, video {
 }
 
 #signup-button, #login-button, #reset-password{
-    padding: padding: 16px 20px 16px 50px;
+    padding: 16px 20px 16px 50px;
     width: 100%;
     margin: 0;
    border-radius: 0.25em;
@@ -1036,8 +994,8 @@ time, mark, audio, video {
   background-clip: padding-box;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
-
-  .ui-menu-item > a.ui-corner-all {
+}
+  .ui-menu-item  a.ui-corner-all {
     display: block;
     padding: 3px 15px;
     clear: both;
@@ -1045,8 +1003,8 @@ time, mark, audio, video {
     line-height: 18px;
     color: #555555;
     white-space: nowrap;
-
-    &.ui-state-hover, &.ui-state-active {
+}
+    .ui-state-hover, .ui-state-active {
       color: #ffffff;
       text-decoration: none;
       background-color: #0088cc;
@@ -1055,8 +1013,8 @@ time, mark, audio, video {
       -moz-border-radius: 0px;
       background-image: none;
     }
-  }
-}
+
+
 .center-block{
   text-align: center;
   float: none;

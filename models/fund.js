@@ -87,9 +87,17 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       field: 'merit_or_finance'
     },
-    charity_number:{
-      type: DataTypes.INTEGER,
-      field: 'charity_number'
+    subject: {
+      type: DataTypes.TEXT,
+      field: 'subject'
+    },
+    degree: {
+      type: DataTypes.TEXT,
+      field: 'degree'
+    },
+    university: {
+      type: DataTypes.TEXT,
+      field: 'university'
     }
   }, {
     timestamps: true,
@@ -103,6 +111,13 @@ module.exports = function(sequelize, DataTypes) {
           as: 'Fundees',
           through: "applications",
           foreignKey: 'fund_id'
+        });
+
+        Fund.belongsToMany(models.organisations, {
+          onDelete: 'CASCADE',
+          as: 'Fund',
+          through: 'organisations',
+          foreignKey: 'id'
         });
       }
     }
