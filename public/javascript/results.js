@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var bool = false;
 
-console.log(query);
+
 for(var field in query){
   $('.' + field).attr('value', query[field]);
   if(field == 'merit_or_finance'){
@@ -100,17 +100,13 @@ $(document).click(function(e) {
 
 var allShown = true;
 $('#show-all').on('click', function(){
-  console.log(allShown);
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
-    console.log($(this));
     $(this).html("Show all funds - including those which are expired");
     $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
     allShown = false;
   }
   else{
-    console.log($('*[class*=fund_list]:hidden').length);
-    console.log($(this));
     $('*[class*=fund_list]:hidden').css('display', 'block');
     $(this).html("Only show funds which have not passed their deadline");
     $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results")
@@ -310,8 +306,6 @@ var UserNav = Backbone.View.extend({
         splitDescriptionArray = splitDescriptionArray.filter(function(element){
           return element.length > 5
         });
-        console.log(splitDescriptionArray);
-        console.log(description);
         var splitNumber = Math.floor((splitDescriptionArray.length)/2);
         if(splitNumber > 1){
           var index = description.indexOf(splitDescriptionArray[1]);
@@ -324,7 +318,6 @@ var UserNav = Backbone.View.extend({
           var constant = description.substring(0, index);
           var readMore = description.substring(index);
           var finalDescription = constant + "<div id = 'read-more" + fundData[i].id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + fundData[i].id +  "'> Read more </a>";
-          console.log(finalDescription);
           $("#" + fundData[i].id).children('.description_control').html(finalDescription);
         }
         else{

@@ -345,6 +345,10 @@
 }
 
 #cd-signup {
+  font-size: 20px;
+  position: relative;
+  z-index: 100;
+  border-radius: 10px;
   input {
     font-family: "Montserrat", sans-serif;
     font-size: 15px;
@@ -430,4 +434,119 @@
   margin-left: 20px;
   color: red;
   display: none;
+}
+
+#email-option {
+  font-size: 17px;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.login-social-btn, .signup-social-btn {
+  width: 90%;
+  margin: 7% auto;
+  display: none;
+}
+
+#signup-btn {
+  margin-top: 0;
+}
+
+.signin-icon {
+  font-size: 20px;
+  margin: 10px 5px 0;
+  button {
+    color: white;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    outline: 0;
+  }
+}
+
+#settings-button {
+  border: none;
+  &:hover, &:active, &:visited, &:link, &:focus {
+    background-color: transparent;
+    color: #D2D7D3;
+  }
+}
+
+
+
+#home {
+  &:active {
+    outline: 0;
+  }
+  &:hover {
+    background-color: transparent;
+    color: #D2D7D3;
+  }
+}
+
+#settings:hover {
+  background-color: transparent;
+}
+
+#settings-button {
+  font-size: 20px;
+  margin-top: -4px;
+  text-transform: capitalize;
+}
+
+.settings, #logout {
+  text-transform: capitalize;
+}
+
+#settings:hover, #logout:hover {
+  background-color: #f5f5f5 !important;
+}
+
+
+#settings-menu a:hover {
+  color: black;
+}
+
+.fa-comment-o {
+  display: none;
+}
+
+.fa-cog, .fa-user {
+  font-size: 20px;
+  &:hover {
+    cursor: pointer;
+    font-size: 20px;
+    color: #D2D7D3;
+  }
+  &:active, &:visited {
+    color: #D2D7D3;
+  }
+}
+
+/*.fa-user{
+margin-right: -40px;
+}*/
+
+#home {
+  color: white;
+  &:hover {}
+}
+
+.center-block {
+  text-align: center;
+  float: none;
+  display: table;
+  margin: 0 auto;
+}
+.post-signin {
+  font-size: 20px;
+  margin: 10px 5px 0;
+  display: none;
+  button {
+    background-color: transparent !important;
+    border: none;
+    &:focus {
+      outline: 0;
+    }
+  }
 }

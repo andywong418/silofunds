@@ -1,0 +1,434 @@
+/* New search bar */
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+
+/*customised code*/
+#brand-image{
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .navbar-custom {
+    background-color: rgba(45, 74, 118, 1);
+    padding: 0;
+    border-bottom: 0;
+    letter-spacing: 1px;
+    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
+    -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
+    transition: background .5s ease-in-out,padding .5s ease-in-out;
+    padding: 0;
+    background: rgba(45, 74, 118, 1);
+  }
+
+  .search_form {
+    font-family: "Montserrat";
+    color: black;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    display: inline-block;
+    float: left;
+  }
+  #container {
+    margin-top: 5px;
+  }
+}
+
+i {
+  color: white;
+}
+
+.fa {
+  &.fa-chevron-circle-down, &.fa-chevron-circle-up {
+    color: black;
+    margin-left: 5px;
+  }
+}
+
+#title {
+  text-transform: lowercase;
+}
+
+#about {
+  margin-top: 100px;
+}
+
+.results {
+  height: 50px;
+  padding-top: 8px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #3c547a;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2989d8+50,207cca+51,7db9e8+100;Blue+Gloss+Default */
+  border-color: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+  /* FF3.6+ */
+  border-color: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1e5799), color-stop(50%, #2989d8), color-stop(51%, #207cca), color-stop(100%, #7db9e8));
+  /* Chrome,Safari4+ */
+  border-color: -webkit-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+  /* Chrome10+,Safari5.1+ */
+  border-color: -o-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+  /* Opera 11.10+ */
+  border-color: -ms-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+  /* IE10+ */
+  border-color: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
+  /* IE6-9 */
+  > h3 {
+    color: #3C5675;
+  }
+}
+
+.fund_list {
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 60px;
+  margin-right: 35px;
+  text-align: center;
+  border: 2px solid #DADFE1;
+}
+
+.fund_link {
+  background-color: #3266B2;
+  margin: 0 auto;
+  width: 150px;
+  height: 40px;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-radius: 3px;
+  box-shadow: inset 0px -2px 3px 0px #2C3E50;
+  a {
+    color: white;
+  }
+  &:active {
+    background-color: #305c9c;
+    box-shadow: none;
+  }
+}
+
+.database {
+  font-family: 'sans-serif';
+  margin-top: 50px;
+  font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
+  text-align: left;
+  p {
+    margin: 7px;
+    font-size: 16px;
+    text-align: left;
+    display: inline-block;
+  }
+  li {
+    list-style-type: none;
+  }
+  label {
+    font-weight: bold;
+  }
+}
+
+.fund_amount, .fund_min_age, .fund_max_age, .fund_description {
+  font-weight: bold;
+}
+
+#refine-search {
+  position: absolute;
+  left: -140px;
+  width: 150px;
+  top: 2px;
+  color: white;
+  font-size: 11px;
+  letter-spacing: 1px;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.badge {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 15px;
+  font-weight: normal !important;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #999999;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.badge-error {
+  background-color: #4ECDC4;
+  margin: 5px;
+}
+
+.badge-warning {
+  background-color: #4FDA9B;
+}
+
+.badge-success {
+  background-color: #468847;
+}
+
+.badge-info {
+  background-color: #56A0D4;
+}
+
+.badge-inverse {
+  background-color: #333333;
+}
+
+.badge-tags {
+  background-color: #FFB95D;
+  margin: 5px 5px;
+}
+
+.badge-deadline {
+  background-color: #E26A6A;
+  margin: 0 5px;
+}
+
+.control {
+  font-weight: normal;
+}
+
+.description_control {
+  font-weight: normal;
+  text-align: left;
+  li {
+    list-style-type: disc;
+  }
+  p {
+    margin-top: 10px;
+  }
+}
+
+.read-more {
+  display: none;
+  text-align: left;
+}
+
+.read-link {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.fund_info {
+  margin-top: -20px;
+}
+
+#checkbox, #cd-login, #cd-signup, #cd-reset-password, .cd-switcher {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .results {
+    margin-top: 80px;
+  }
+  .search_form {
+    width: 100%;
+  }
+  #search_button {
+    margin-top: -1px;
+  }
+  #brand-heading {
+    font-size: 25px;
+    margin-left: 0px;
+  }
+  #text_search, #amount_req, #age {
+    border-color: rgba(45, 74, 118, 0.55);
+  }
+}
+
+@media (max-width: 767px) {
+  .search_form {
+    margin-top: 15px;
+    margin-left: -5px;
+  }
+  .results {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 531px) {
+  .results {
+    height: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .results {
+    padding: 0 10px;
+    padding-top: 5px;
+  }
+}
+
+/* form sign in */
+
+@media only screen and (min-width: 600px) {
+  .cd-form {
+    padding: 2em;
+    .fieldset {
+      margin: 2em 0;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    input.has-padding {
+      padding: 16px 20px 16px 50px;
+    }
+    button[type=submit] {
+      padding: 16px 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .cd-close-form {
+    display: none;
+  }
+}
+.ui-menu .ui-menu-item {
+  margin-top: 13px;
+}
+#deadline-passed {
+  font-weight: lighter;
+  margin-bottom: 30px;
+  background-color: #F64747;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 0px;
+  margin-top: 0;
+  display: none;
+}
+
+.display {
+  color: white;
+  &:hover {
+    color: white;
+  }
+}
+
+.page-header {
+  padding-top: 5px;
+}
+
+#show-all {
+  margin-top: 5px;
+  background-color: #348AC7;
+  &:active, &:hover, &:focus {
+    outline: 0;
+  }
+}
+
+/* media queries for mobile opt */
+@media (max-width: 1065px) {
+  #advanced-search, #advanced-search-2 {
+    margin-top: -40px;
+  }
+  #brand-image {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 991px) {
+  #brand-image {
+    margin-left: -30px;
+  }
+  .cd-signup {
+    margin-right: -50px;
+  }
+  #advanced-age, #advanced-nationality, #religion {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #merit, #finance, #male, #female {
+    margin-top: 1.5px;
+  }
+  .radio-inline {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 920px) {
+  #brand-image {
+    margin-left: -80px;
+  }
+  #refine-search {
+    left: -130px;
+  }
+}
+
+@media (max-width: 850px) {
+  #text_search {
+    width: 250px;
+    font-size: 12px;
+  }
+  #brand-image {
+    margin-left: -50px;
+  }
+}
+
+@media (max-width: 790px) {
+  .cd-signup {
+    margin-right: -30px;
+    font-size: 13px;
+  }
+  .cd-login {
+    font-size: 13px;
+  }
+  #search_button {
+    margin-right: -60px;
+  }
+  #brand-image {
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 767px) {
+  #search-dropdown {
+    display: none;
+  }
+  #brand-image {
+    margin-left: 0;
+    margin-top: -10px;
+  }
+  #search_button {
+    margin-right: -80px;
+  }
+  #advanced-search {
+    margin-top: -50px;
+  }
+  .post-signin {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 719px) {
+  .search_form {
+    margin-top: -20px;
+  }
+  #refine-search {
+    color: #2C3E50;
+  }
+}
+
+@media (max-width: 470px) {
+  #text_search {
+    width: 210px;
+    margin-left: 0;
+  }
+  #search_button {
+    margin-right: -120px;
+  }
+}
+
+.fa-chevron-circle-down, .fa-chevron-circle-up {
+  margin-left: 5px;
+}

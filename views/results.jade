@@ -1,7 +1,7 @@
 extends layout
 
 block extraHeader
-	link(href='stylesheets/results.css', rel='stylesheet')
+	link(href='/stylesheets/results.css', rel='stylesheet')
 
 block content
 		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
@@ -34,9 +34,9 @@ block content
 				#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
 					ul.nav.navbar-nav
 						li
-							a.cd-login.page-scroll.pre-signin(href='#0') Log in
+							a.cd-login.pre-signin(href='#0') Log in
 						li
-							a.cd-signup.page-scroll.pre-signin(href='#0') Sign up
+							a.cd-signup.pre-signin(href='#0') Sign up
 						li.post-signin
 							button
 								a#home(href="#0")
@@ -255,7 +255,7 @@ block content
 
 block scripts
 	// Custom Theme JavaScript
-	script(src='javascript/index.js')
+	script(src='javascript/signup-login.js')
 	//search functions
 	script(src='javascript/results.js')
 	//Modernizr

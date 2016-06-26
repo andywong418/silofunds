@@ -4,9 +4,9 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 @import url(http://fonts.googleapis.com/css?family=Lato:700);
-@import "general";
-@import "navbar";
-@import "signup";
+@import "general.scss";
+@import "navbar.scss";
+@import "signup.scss";
 
 //Intro space
 .intro {
@@ -127,12 +127,6 @@ footer {
   }
 }
 
-.navbar-custom .nav li a {
-  &.cd-signup:hover, &.cd-login:hover, &:focus, &.active {
-    outline: none;
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-}
 
 //search area
 .search_form {
@@ -318,21 +312,6 @@ a.cd-login {
 }
 */
 
-#email-option {
-  font-size: 17px;
-  text-decoration: underline;
-  text-align: center;
-}
-
-.login-social-btn, .signup-social-btn {
-  width: 90%;
-  margin: 7% auto;
-  display: none;
-}
-
-#signup-btn {
-  margin-top: 0;
-}
 
 .ui-autocomplete {
   position: absolute;

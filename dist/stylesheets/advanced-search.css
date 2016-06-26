@@ -1,0 +1,168 @@
+.search_form {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: auto;
+  margin-top: 9px; }
+  .search_form input {
+    margin: 0px 7px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    width: 313px;
+    font-size: 13px; }
+
+#dropdown {
+  display: inline; }
+
+#dropdown-menu {
+  margin-top: 5px; }
+
+#search-dropdown {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+  margin-top: -3px;
+  margin-right: -3px;
+  padding: 0;
+  padding-left: 5px;
+  /*Choose colors for your button here: http://www.colorzilla.com/gradient-editor and replace from here to filter:*/
+  background: #2d4a76;
+  border: none; }
+  #search-dropdown:focus {
+    outline: 0; }
+  #search-dropdown i {
+    margin: 0px 2px;
+    position: relative;
+    z-index: 5; }
+
+#grants, #users {
+  cursor: pointer;
+  margin: 10px;
+  padding-left: 10px;
+  padding-top: 2px;
+  height: 25px;
+  text-transform: capitalize; }
+
+#grants:hover, #users:hover {
+  background-color: #f5f5f5; }
+
+#grants span, #users span {
+  float: right;
+  display: none; }
+
+#grants span i, #users span i {
+  color: #2ABB9B; }
+
+.signin-icon {
+  font-size: 20px;
+  margin: 10px 5px 0; }
+  .signin-icon button {
+    color: white;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    outline: 0; }
+
+#settings-button:hover, #settings-button:active, #settings-button:visited, #settings-button:link, #settings-button:focus {
+  background-color: transparent;
+  color: #D2D7D3; }
+
+#home:active {
+  outline: 0; }
+
+#home:hover {
+  background-color: transparent; }
+
+#settings:hover {
+  background-color: transparent; }
+
+#settings-button {
+  font-size: 20px;
+  margin-top: -4px;
+  text-transform: capitalize; }
+
+.settings, #logout {
+  text-transform: capitalize; }
+
+#settings:hover, #logout:hover {
+  background-color: #f5f5f5 !important; }
+
+#settings-menu a:hover {
+  color: black; }
+
+.fa-comment-o {
+  display: none; }
+
+.fa-cog {
+  font-size: 20px; }
+  .fa-cog:hover {
+    cursor: pointer;
+    font-size: 20px;
+    color: #D2D7D3; }
+  .fa-cog:active, .fa-cog:visited {
+    color: #D2D7D3; }
+
+/*.fa-user{
+margin-right: -40px;
+}*/
+#home {
+  color: white; }
+
+.center-block {
+  text-align: center;
+  float: none;
+  display: table;
+  margin: 0 auto; }
+
+/*advanced search */
+#advanced-search, #advanced-search-2 {
+  margin: -3.5% 17%;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  width: 46%;
+  position: fixed;
+  z-index: 20;
+  background-color: #E4F1FE;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 30px;
+  display: none; }
+
+#advanced-nationality, #advanced-age, #advanced-age-2, #religion, #input-amount {
+  border-radius: 5px;
+  border: none;
+  padding: 3px 5px;
+  margin-top: 5px; }
+
+#advanced-age, #advanced-age-2 {
+  width: 60%;
+  display: block;
+  margin: 0 auto; }
+
+#advanced-nationality {
+  width: 65%;
+  display: block;
+  margin: 0 auto; }
+
+#religion {
+  width: 50%;
+  display: block;
+  margin: 0 auto; }
+
+#input-amount {
+  width: 60%;
+  display: block;
+  margin: 0 auto; }
+
+#amount_needed, #gender, #merit-or-finance {
+  margin: 20px auto;
+  margin-bottom: 5px; }
