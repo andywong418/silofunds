@@ -6,21 +6,21 @@ module.exports = {
       'funds',
       'target_country',
       {
-        type: Sequelize.TEXT
+        type: Sequelize.ARRAY(Sequelize.TEXT)
       }
     ).then(function() {
       return queryInterface.addColumn(
         'funds',
         'required_university',
         {
-          type: Sequelize.TEXT
+          type: Sequelize.ARRAY(Sequelize.TEXT)
         }
       ).then(function() {
         return queryInterface.addColumn(
           'funds',
           'required_degree',
           {
-            type: Sequelize.TEXT
+            type: Sequelize.ARRAY(Sequelize.TEXT)
           }
         );
       });

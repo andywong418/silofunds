@@ -58,15 +58,15 @@ module.exports = function(sequelize, DataTypes) {
       field: 'email_updates'
     },
     subject: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'subject'
     },
     degree: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'degree'
     },
     university: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'university'
     }
   }, {

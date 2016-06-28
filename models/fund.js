@@ -88,27 +88,27 @@ module.exports = function(sequelize, DataTypes) {
       field: 'merit_or_finance'
     },
     subject: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'subject'
     },
     target_degree: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'target_degree'
     },
     target_university: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'target_university'
     },
     target_country: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'target_country'
     },
     required_university: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'required_university'
     },
     required_degree: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'required_degree'
     }
   }, {
