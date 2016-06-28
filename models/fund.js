@@ -88,15 +88,15 @@ module.exports = function(sequelize, DataTypes) {
       field: 'merit_or_finance'
     },
     subject: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'subject'
     },
     degree: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'degree'
     },
     university: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'university'
     }
   }, {

@@ -346,4 +346,34 @@ $("#login-form").submit(function(e){
      }
    });
  });
+
+ var UserNav = Backbone.View.extend({
+         el: ".nav li",
+
+         initialize: function(){
+           if(typeof user ==='undefined' || user ==false){
+             $('.post-signin').css("display","none");
+           }
+           else{
+             $('.pre-signin').css("display", "none");
+             $('.post-signin').css("display","inline");
+             $('.post-signin').css("z-index", "11");
+             if(user.fund_or_user){
+               $("#home").attr("href", '/funds/' + user.id );
+               $(".settings").attr("href", '/funds/settings/' +user.id);
+               $(".logout").attr("href", '/funds/logout/' + user.id);
+             }
+             else{
+               $("#home").attr("href", '/users/' + user.id);
+               $(".settings").attr("href", '/users/settings/' +user.id );
+               $(".logout").attr("href", '/users/logout/' + user.id);
+             }
+           }
+
+
+         // $('.pre-signin').css("display","none");
+       }
+
+   });
+  var userNav = new UserNav();
 })
