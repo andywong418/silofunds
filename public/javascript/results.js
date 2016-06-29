@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
+console.log(fundData);
 
-  for (var i = 0; i < fundData.length; i++) {
     var FundModel = Backbone.Model.extend({
       defaults: {
         fund_title: '',
@@ -203,22 +203,6 @@ $(document).ready(function() {
           }
         })
 
-        // $("#" + fundData[i].id).on("click", function() {
-        //   if(bool){
-        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
-        //     $(this).children("span").slideUp();
-        //     bool = false;
-        //
-        //   }
-        //   else{
-        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
-        //     $(this).children("span").slideDown();
-        //     $(this).children("span").css("margin-top" , "5px");
-        //     $(this).children("span").css("padding", "15px");
-        //     $(this).find("li").css("list-style-type", "disc");
-        //     bool = true;
-        //   }
-        // });
       },
       addApplication: function(){
         if(user && !user.fund_or_user){
@@ -244,7 +228,7 @@ $(document).ready(function() {
    });
 
   var FundList = new FundList();
-  }
+
 
 
 
