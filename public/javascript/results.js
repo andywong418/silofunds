@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-console.log(fundData);
-
+  for (var i = 0; i < fundData.length; i++) {
     var FundModel = Backbone.Model.extend({
       defaults: {
         fund_title: '',
@@ -164,6 +163,8 @@ console.log(fundData);
         splitDescriptionArray = splitDescriptionArray.filter(function(element){
           return element.length > 5
         });
+        console.log(splitDescriptionArray);
+        console.log(description);
         var splitNumber = Math.floor((splitDescriptionArray.length)/2);
         if(splitNumber > 1){
           var index = description.indexOf(splitDescriptionArray[1]);
@@ -176,6 +177,7 @@ console.log(fundData);
           var constant = description.substring(0, index);
           var readMore = description.substring(index);
           var finalDescription = constant + "<div id = 'read-more" + fundData[i].id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + fundData[i].id +  "'> Read more </a>";
+          console.log(finalDescription);
           $("#" + fundData[i].id).children('.description_control').html(finalDescription);
         }
         else{
@@ -203,6 +205,22 @@ console.log(fundData);
           }
         })
 
+        // $("#" + fundData[i].id).on("click", function() {
+        //   if(bool){
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-down"></i>')
+        //     $(this).children("span").slideUp();
+        //     bool = false;
+        //
+        //   }
+        //   else{
+        //     $(this).children('i').replaceWith('<i class="fa fa-chevron-circle-up"></i>')
+        //     $(this).children("span").slideDown();
+        //     $(this).children("span").css("margin-top" , "5px");
+        //     $(this).children("span").css("padding", "15px");
+        //     $(this).find("li").css("list-style-type", "disc");
+        //     bool = true;
+        //   }
+        // });
       },
       addApplication: function(){
         if(user && !user.fund_or_user){
@@ -228,7 +246,7 @@ console.log(fundData);
    });
 
   var FundList = new FundList();
-
+  }
 
 
 
