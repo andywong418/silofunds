@@ -13,8 +13,8 @@ var fund_array_to_json = function(array) {
   return funds;
 };
 
-var fields = ["title","tags","maximum_amount","minimum_amount","countries","religion","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","degree","university","merit_or_finance","deadline"];
-var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
+var userFields =  ["username","profile_picture","description","past_work","date_of_birth","country_of_residence","religion","funding_needed","fund_or_user"];
 
 // models.sequelize.sync().then(function () {
   var port = normalizePort(process.env.PORT || '3001');
@@ -125,7 +125,25 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   "merit_or_finance": {
                     "type": "string"
                   },
-                  "countries": {
+                  "country_of_residence": {
+                    "type": "string"
+                  },
+                  "target_country": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "target_degree": {
+                    "type": "string"
+                  },
+                  "target_university": {
+                    "type": "string"
+                  },
+                  "required_degree": {
+                    "type": "string"
+                  },
+                  "required_university": {
                     "type": "string"
                   },
                   "description": {
@@ -354,7 +372,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         funds.forEach(function(fund) {
           body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
           var wrapper = {};
-          var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","degree","university","merit_or_finance","deadline"];
+          var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
 
           for (var i = 0; i < fields.length ; i++) {
             wrapper[fields[i]] = fund[fields[i]];

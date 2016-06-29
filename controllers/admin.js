@@ -19,7 +19,7 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 
-var fields = ["title","tags","maximum_amount","minimum_amount","countries","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","degree","university","merit_or_finance","deadline"];
+var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -148,12 +148,15 @@ module.exports = {
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
-    var countries = fund.countries[0] ? fund.countries.split(",") : null; // Return null if empty array
+    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null; // Return null if empty array
+    var country_of_residence = fund.country_of_residence[0] ? fund.country_of_residence.split(",") : null; // Return null if empty array
     var religion = fund.religion[0] ? fund.religion.split(",") : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
-    var subject = fund.subject ? fund.subject : null;
-    var degree = fund.degree ? fund.degree : null;
-    var university = fund.university ? fund.university : null;
+    var subject = fund.subject[0] ? fund.subject.split(",") : null;
+    var target_degree = fund.target_degree[0] ? fund.target_degree.split(",") : null;
+    var target_university = fund.target_university[0] ? fund.target_university.split(",") : null;
+    var required_degree = fund.required_degree[0] ? fund.required_degree.split(",") : null;
+    var required_university = fund.required_university[0] ? fund.required_university.split(",") : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -182,12 +185,15 @@ module.exports = {
         minimum_amount: min_amount,
         maximum_amount: max_amount,
         description: description,
-        countries: countries,
+        country_of_residence: country_of_residence,
+        target_country: target_country,
         religion: religion,
         financial_situation: financial_situation,
         subject: subject,
-        degree: degree,
-        university: university,
+        target_degree: target_degree,
+        target_university: target_university,
+        required_degree: required_degree,
+        required_university: required_university,
         merit_or_finance: merit_or_finance,
         gender: gender,
         deadline: deadline
@@ -256,12 +262,15 @@ module.exports = {
     var invite = ("invite" in fund);
     var link = fund.link ? fund.link : null; // Return null if empty string ""
     var description = fund.description ? fund.description : null;
-    var countries = fund.countries[0] ? fund.countries.split(",") : null;
+    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null; // Return null if empty array
+    var country_of_residence = fund.country_of_residence[0] ? fund.country_of_residence.split(",") : null; // Return null if empty array
     var religion = fund.religion[0] ? fund.religion.split(",") : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
-    var subject = fund.subject ? fund.subject : null;
-    var degree = fund.degree ? fund.degree : null;
-    var university = fund.university ? fund.university : null;
+    var subject = fund.subject[0] ? fund.subject.split(",") : null;
+    var target_degree = fund.target_degree[0] ? fund.target_degree.split(",") : null;
+    var target_university = fund.target_university[0] ? fund.target_university.split(",") : null;
+    var required_degree = fund.required_degree[0] ? fund.required_degree.split(",") : null;
+    var required_university = fund.required_university[0] ? fund.required_university.split(",") : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -289,12 +298,15 @@ module.exports = {
       minimum_amount: min_amount,
       maximum_amount: max_amount,
       description: description,
-      countries: countries,
+      country_of_residence: country_of_residence,
+      target_country: target_country,
       religion: religion,
       financial_situation: financial_situation,
       subject: subject,
-      degree: degree,
-      university: university,
+      target_degree: target_degree,
+      target_university: target_university,
+      required_degree: required_degree,
+      required_university: required_university,
       merit_or_finance: merit_or_finance,
       gender: gender,
       deadline: deadline
