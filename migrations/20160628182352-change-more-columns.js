@@ -5,14 +5,14 @@ module.exports = {
         'funds',
         'target_university',
         {
-          type: 'TEXT[] USING ARRAY[university]'
+          type: 'TEXT[] USING ARRAY[target_university]'
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
           'target_degree',
           {
-            type: 'TEXT[] USING ARRAY[degree]'
+            type: 'TEXT[] USING ARRAY[target_degree]'
           }
         );
       });
