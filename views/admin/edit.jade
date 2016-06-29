@@ -15,19 +15,29 @@ block content
                 label(for='title') Title
                 input#title.form-control(type='text', name='title', value=fund.title, required)
               .col-md-6.form-group
+                label(for='subject') Subject (separate with comma, no space)
+                input#subject.form-control(type='text', name='subject', value=fund.subject style="text-transform: lowercase;")
+          .row
+            tr
+              .col-md-12.form-group
                 label(for='tags') Tags (separate with comma, no space)
                 input#tags.form-control(type='text', name='keywords', value=fund.tags, style="text-transform: lowercase;" required)
           .row
             tr
-              .col-md-3.form-group
-                label(for='subject') Subject
-                input#subject.form-control(type='text', name='subject', value=fund.subject)
-              .col-md-3.form-group
-                label(for='degree') Degree
-                input#degree.form-control(type='text', name='degree', value=fund.degree)
               .col-md-6.form-group
-                label(for='university') University
-                input#university.form-control(type='text', name='university', value=fund.university)
+                label(for='target_degree') Target Degree (separate with comma, no space)
+                input#target_degree.form-control(type='text', name='target_degree', value=fund.target_degree, style="text-transform: lowercase;")
+              .col-md-6.form-group
+                label(for='target_university') Target University (separate with comma, no space)
+                input#target_university.form-control(type='text', name='target_university', value=fund.target_university, style="text-transform: lowercase;")
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='required_degree') Required Degree (separate with comma, no space)
+                input#required_degree.form-control(type='text', name='required_degree', value=fund.required_degree, style="text-transform: lowercase;")
+              .col-md-6.form-group
+                label(for='required_university') Required University (separate with comma, no space)
+                input#required_university.form-control(type='text', name='required_university', value=fund.required_university, style="text-transform: lowercase;")
           .row
             tr
               .col-md-3.form-group
@@ -44,10 +54,12 @@ block content
                 input#max_amount.form-control(type='number', name='max_amount', value=fund.maximum_amount)
           .row
             tr
-              .col-md-6.form-group
+              .col-md-12.form-group
                 label(for='description') Description
                 textarea#description.form-control(rows='3', name='description')= fund.description
-              .col-md-6.form-group
+          .row
+            tr
+              .col-md-12.form-group
                 label(for='financial_situation') Financial Situation
                 textarea#financial_situation.form-control(rows='3', name='financial_situation')= fund.financial_situation
           .row
@@ -78,10 +90,17 @@ block content
                       |  Finance
                   .col-md-4
                     a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
-              .col-md-3.form-group
-                label(for='countries') Countries (separate with comma, no space)
-                input#countries.form-control(type='text', name='countries', style="text-transform: lowercase;", value=fund.countries)
-              .col-md-3.form-group
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='target_country') Target Countries (separate with comma, no space)
+                input#target_country.form-control(type='text', name='target_country', style="text-transform: lowercase;", value=fund.target_country)
+              .col-md-6.form-group
+                label(for='country_of_residence') Countries of Residence (separate with comma, no space)
+                input#country_of_residence.form-control(type='text', name='country_of_residence', style="text-transform: lowercase;", value=fund.country_of_residence)
+          .row
+            tr
+              .col-md-6.form-group
                 label(for='religion') Religion (separate with comma, no space)
                 input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;", value=fund.religion)
           .row

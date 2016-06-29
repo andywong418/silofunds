@@ -5,17 +5,17 @@ module.exports = {
       'funds',
       'subject',
       {
-        type: 'TEXT[] USING ARRAY[subject]'
+        type: 'TEXT[] USING case when subject is not null then array[subject] end'
       }
-    )
+    );
   },
   down: function (queryInterface, Sequelize) {
     return queryInterface.changeColumn(
       'funds',
       'subject',
       {
-        type: Sequelize.TEXT
+        type: "TEXT USING case when subject is not null then array_to_string(subject,',') end"
       }
-    )
+    );
   }
 };

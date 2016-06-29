@@ -3,16 +3,16 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
       return queryInterface.changeColumn(
         'funds',
-        'university',
+        'target_university',
         {
-          type: 'TEXT[] USING ARRAY[university]'
+          type: 'TEXT[] USING case when target_university is not null then array[target_university] end'
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
-          'degree',
+          'target_degree',
           {
-            type: 'TEXT[] USING ARRAY[degree]'
+            type: 'TEXT[] USING case when target_degree is not null then array[target_degree] end'
           }
         );
       });
@@ -21,16 +21,16 @@ module.exports = {
   down: function (queryInterface, Sequelize) {
       return queryInterface.changeColumn(
         'funds',
-        'university',
+        'target_university',
         {
-          type: Sequelize.TEXT
+          type: "TEXT USING case when target_university is not null then array_to_string(target_university,',') end"
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
-          'degree',
+          'target_degree',
           {
-            type: Sequelize.TEXT
+            type: "TEXT USING case when target_degree is not null then array_to_string(target_degree,',') end"
           }
         );
       });
