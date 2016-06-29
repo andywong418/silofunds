@@ -7,7 +7,7 @@ module.exports = {
       {
         type: 'TEXT[] USING ARRAY[subject]'
       }
-    )
+    );
   },
   down: function (queryInterface, Sequelize) {
     return queryInterface.changeColumn(
@@ -16,6 +16,6 @@ module.exports = {
       {
         type: Sequelize.TEXT
       }
-    )
+    );
   }
 };

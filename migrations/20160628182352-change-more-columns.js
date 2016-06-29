@@ -3,14 +3,14 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
       return queryInterface.changeColumn(
         'funds',
-        'university',
+        'target_university',
         {
           type: 'TEXT[] USING ARRAY[university]'
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
-          'degree',
+          'target_degree',
           {
             type: 'TEXT[] USING ARRAY[degree]'
           }
@@ -21,14 +21,14 @@ module.exports = {
   down: function (queryInterface, Sequelize) {
       return queryInterface.changeColumn(
         'funds',
-        'university',
+        'target_university',
         {
           type: Sequelize.TEXT
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
-          'degree',
+          'target_degree',
           {
             type: Sequelize.TEXT
           }
