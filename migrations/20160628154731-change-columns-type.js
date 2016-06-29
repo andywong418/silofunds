@@ -5,7 +5,7 @@ module.exports = {
       'funds',
       'subject',
       {
-        type: 'TEXT[] USING case when subject is not null then array[subject] end'
+        type: "TEXT[] USING case when subject is not null then string_to_array(subject,',') end"
       }
     );
   },

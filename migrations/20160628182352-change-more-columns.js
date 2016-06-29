@@ -5,14 +5,14 @@ module.exports = {
         'funds',
         'target_university',
         {
-          type: 'TEXT[] USING case when target_university is not null then array[target_university] end'
+          type: "TEXT[] USING case when target_university is not null then string_to_array(target_university,',') end"
         }
       ).then(function() {
         return queryInterface.changeColumn(
           'funds',
           'target_degree',
           {
-            type: 'TEXT[] USING case when target_degree is not null then array[target_degree] end'
+            type: "TEXT[] USING case when target_degree is not null then string_to_array(target_degree,',') end"
           }
         );
       });
