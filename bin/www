@@ -175,9 +175,6 @@ var userFields =  ["username","profile_picture","description","past_work","date_
             var body = [];
             funds = fund_array_to_json(funds);
 
-            console.log(funds);
-            console.log('\n\n');
-
             // Prepare body for _bulk processing. Each element in body array HAS to be an object.
             funds.forEach(function(fund) {
               body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
@@ -195,13 +192,13 @@ var userFields =  ["username","profile_picture","description","past_work","date_
             models.es.bulk({
               body: body
             }, function (err, resp) {
-              console.log(resp);
+              console.log('Bulk sync on restart finished.');
             });
           }).then(function() {
-            models.es.exists({index: 'users'}, function(err, resp){
+            models.es.exists({ index: 'users' }, function(err, resp){
               if (err) {
                 console.log(err);
-              };
+              }
 
               console.log("Does the USER ES index exist?:");
               console.log(resp);
@@ -300,9 +297,6 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     var userBody = [];
                     users = fund_array_to_json(users);
 
-                    console.log(users);
-                    console.log('\n\n');
-
                     // Prepare body for _bulk processing. Each element in body array HAS to be an object.
                     users.forEach(function(user) {
                       userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
@@ -341,9 +335,9 @@ var userFields =  ["username","profile_picture","description","past_work","date_
   var lastUpdate = new Date();
 
   var checkForChanges = function checkForChanges() {
-    console.log('You will see this message every 30 second');
+    // console.log('You will see this message every 30 second');
     var log = 'Last updated: ' + lastUpdate;
-    console.log(log);
+    // console.log(log);
 
     models.funds.findAll({
       where: {
@@ -361,9 +355,6 @@ var userFields =  ["username","profile_picture","description","past_work","date_
           var json = fund.toJSON();
           return json;
         });
-
-        console.log(funds);
-        console.log('\n\n');
 
         // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
         // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.

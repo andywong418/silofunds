@@ -23,7 +23,10 @@ var sequelize = new Sequelize(pgConnectionString);
 
 var es = new elasticsearch.Client({
   host: esConnectionString,
-  log: 'trace'
+  log: [{
+    type: 'stdio',
+    levels: ['error', 'warning']
+  }]
 });
 
 fs
