@@ -5,7 +5,7 @@ block content
       .alert.alert-danger.alert-dismissible.hidden(role='alert')
         strong Oops!
         |  That fund has already been entered. Please try again.
-      a.btn.btn-default.btn-link(href='/admin', role='button') Back to fund listings
+      a.btn.btn-default.btn-link(href='/admin/funds', role='button') Back to fund listings
       h1 Create a new fund here:
       table.table.table-responsive
         form(action='/admin', method='post', name='create_fund')
@@ -127,5 +127,5 @@ block content
     // jQuery (necessary for Bootstrap's JavaScript plugins)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
-    script(src='../javascript/lib/bootstrap.min.js')
-    script(src='../javascript/admin.js')
+    script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/admin.js')

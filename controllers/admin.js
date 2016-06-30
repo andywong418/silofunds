@@ -44,15 +44,23 @@ var reformatDate = function(date) {
 
 module.exports = {
   index: function(req, res) {
-    console.log("IT'S HERE");
-    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
-      funds = fund_array_to_json(funds);
-      res.render('admin/index', { funds: funds });
-    });
+    res.render('admin/index');
   },
 
   new: function(req, res) {
     res.render('admin/new');
+  },
+
+  funds: function(req, res) {
+    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+      console.log('through');
+      funds = fund_array_to_json(funds);
+      res.render('admin/funds', { funds: funds });
+    });
+  },
+
+  organisations: function(req, res) {
+    res.render('admin/organisations');
   },
 
   migrations: function(req, res) {

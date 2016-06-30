@@ -7,9 +7,9 @@ html(lang='en')
     // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
     title Silo - Admin Portal
     // Bootstrap
-    link(href='../../stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='/bower_components/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     // Custom css
-    link(href='../../stylesheets/admin.css', rel='stylesheet')
+    link(href='/stylesheets/admin.css', rel='stylesheet')
     // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
     // WARNING: Respond.js doesn't work if you view the page via file://
     //if lt IE 9
@@ -31,7 +31,7 @@ html(lang='en')
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
             li
-              a(href='/admin') Admin
+              a(href='/admin') Admin Homepage
           ul.nav.navbar-nav.navbar-right
             li
               a(href='/admin/mc-list') Mailchimp

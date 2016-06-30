@@ -4,6 +4,8 @@ var admin_mc = require('../controllers/admin-mc');
 var router = express.Router();
 
 router.get('/', admin.index);
+router.get('/funds', admin.funds);
+router.get('/organisations', admin.organisations);
 router.get('/new', admin.new);
 router.post('/', admin.create);
 router.get('/:id/edit', admin.edit);

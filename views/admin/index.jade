@@ -5,54 +5,7 @@ block content
       h1.text-center Welcome to the Admin Portal!
       hr
       .row
-        .col-md-3
-          a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
-        .col-md-3
-          form(action="/admin/upload", method="post", enctype="multipart/form-data")
-            input(type="file", name="jsonData")
-            button.btn.btn-default.btn-primary(type='submit') Upload JSON!
-        .col-md-3
-          form(action="/admin/sync", method="post", name="sync_db")
-            button.btn.btn-warning(type="submit") Sync ES to PG
-        .col-md-3
-          a.btn.btn-default.btn-link#downloader(href='/admin/download' download) Generate download link
-          .downloader#generated_download_link
-      hr
-      a.back-to-top(href='#')
-      table.table.table-bordered.table-responsive
-        tr
-          th ID
-          th Link
-          th Fund Title
-          th Minimum Age
-          th Maximum Age
-          th Minimum Amount
-          th Maximum Amount
-          th Deadline
-        each fund in funds
-          tr
-          td= fund.id
-          td
-            a.btn.btn-default.btn-link(href=fund.link, role='button') Link
-          td= fund.title
-          td= fund.minimum_age
-          td= fund.maximum_age
-          td= fund.minimum_amount
-          td= fund.maximum_amount
-          td= fund.deadline
-          td
-            form(action='/admin/' + fund.id + '/edit', method='get', name='edit_fund')
-              button.btn.btn-primary(type='submit') Edit
-          td
-            form(action='/admin/' + fund.id + '/destroy', method='post', name='destroy_fund')
-              button.btn.btn-danger(type='submit') Destroy
-    .container
-      hr
-
-    // jQuery (necessary for Bootstrap's JavaScript plugins)
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
-    // Include all compiled plugins (below), or include individual files as needed
-    script(src='javascript/lib/bootstrap.min.js')
-    script(src='javascript/admin.js')
-    script.
-      var fundData =!{JSON.stringify(funds)};
+        .col-md-6.text-center
+          a.btn.btn-default.btn-primary(href='/admin/funds', role='button') Funds
+        .col-md-6.text-center
+          a.btn.btn-default.btn-primary(href='/admin/organisations', role='button') Organisations 
