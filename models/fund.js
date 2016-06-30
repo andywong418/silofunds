@@ -83,6 +83,10 @@ module.exports = function(sequelize, DataTypes) {
       field: 'email',
       unique: true
     },
+    organisation_id: {
+      type: DataTypes.INTEGER,
+      field: 'organisation_id'
+    },
     merit_or_finance: {
       type: DataTypes.TEXT,
       field: 'merit_or_finance'
