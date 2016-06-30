@@ -103,6 +103,15 @@ block content
               .col-md-6.form-group
                 label(for='religion') Religion (separate with comma, no space)
                 input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;")
+              .col-md-6.form-group
+                .col-md-12.form-group
+                  .row
+                    label(for='organisation_id') Charity ID (if not present, create organisation first)
+                  .row
+                    select#organisation_id(name='organisation_id')
+                      option(value='') Please select
+                      each organisation in organisations
+                        option(value=organisation.id)=organisation.charity_id + ' - ' + organisation.name
           .row
             tr
               .col-md-6.form-group

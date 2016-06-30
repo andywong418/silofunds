@@ -54,7 +54,10 @@ module.exports = {
   },
 
   new: function(req, res) {
-    res.render('admin/new');
+    models.organisations.findAll({ order: 'charity_id ASC' }).then(function(organisations) {
+      organisations = fund_array_to_json(organisations);
+      res.render('admin/new', { organisations: organisations });
+    });
   },
 
   funds: function(req, res) {
@@ -136,7 +139,10 @@ module.exports = {
         reformattedDate = reformatDate(date);
       }
 
-      res.render('admin/edit', { fund: fund, deadline: reformattedDate });
+      models.organisations.findAll({ order: 'charity_id ASC' }).then(function(organisations) {
+        organisations = fund_array_to_json(organisations);
+        res.render('admin/edit', { fund: fund, deadline: reformattedDate, organisations: organisations });
+      });
     });
   },
 
@@ -162,13 +168,7 @@ module.exports = {
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
     var application_link = fund.application_link ? fund.application_link : null;
-
-    var parseIfInt = function(string) {
-      if (string !== '') {
-        return parseInt(string);
-      }
-    };
-
+    var organisation_id = parseIfInt(fund.organisation_id);
     var min_age = parseIfInt(fund.min_age);
     var max_age = parseIfInt(fund.max_age);
     var min_amount = parseIfInt(fund.min_amount);
@@ -190,6 +190,7 @@ module.exports = {
         target_country: target_country,
         religion: religion,
         financial_situation: financial_situation,
+        organisation_id: organisation_id,
         subject: subject,
         target_degree: target_degree,
         target_university: target_university,
@@ -199,7 +200,7 @@ module.exports = {
         gender: gender,
         deadline: deadline
       }).then(function() {
-        res.redirect('../../admin');
+        res.redirect('/admin/funds');
       });
     });
   },
@@ -209,7 +210,7 @@ module.exports = {
 
     models.funds.findById(id).then(function(fund) {
       fund.destroy().then(function() {
-        res.redirect('../../admin');
+        res.redirect('/admin/funds');
       });
     });
   },
@@ -276,13 +277,7 @@ module.exports = {
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
     var application_link = fund.application_link ? fund.application_link : null;
-
-    var parseIfInt = function(string) {
-      if (string !== '') {
-        return parseInt(string);
-      }
-    };
-
+    var organisation_id = parseIfInt(fund.organisation_id);
     var min_age = parseIfInt(fund.min_age);
     var max_age = parseIfInt(fund.max_age);
     var min_amount = parseIfInt(fund.min_amount);
@@ -303,6 +298,7 @@ module.exports = {
       target_country: target_country,
       religion: religion,
       financial_situation: financial_situation,
+      organisation_id: organisation_id,
       subject: subject,
       target_degree: target_degree,
       target_university: target_university,
@@ -314,7 +310,7 @@ module.exports = {
     }).catch(function(err) {
       console.log("There seems to have been an error: " + err);
     }).then(function() {
-      res.redirect('admin');
+      res.redirect('/admin/funds');
     });
   },
 
