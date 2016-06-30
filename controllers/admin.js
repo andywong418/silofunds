@@ -46,7 +46,6 @@ module.exports = {
   index: function(req, res) {
     console.log("IT'S HERE");
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
-      console.log(funds);
       funds = fund_array_to_json(funds);
       res.render('admin/index', { funds: funds });
     });
@@ -99,14 +98,7 @@ module.exports = {
         title: title
       }
     }).then(function(fund) {
-      console.log("CHECKS");
-      console.log(fund);
-      console.log(fund.length);
-
       if (fund.length) {
-        console.log("FUND ID:");
-        console.log(fund[0].id);
-
         res.send(fund);
       } else {
         res.send(null);
@@ -321,9 +313,6 @@ module.exports = {
     models.funds.findAll().then(function(funds) {
       var body = [];
       funds = fund_array_to_json(funds);
-
-      console.log(funds);
-      console.log('\n\n');
 
       // Prepare body for _bulk processing. Each element in body array HAS to be an object.
       funds.forEach(function(fund) {
