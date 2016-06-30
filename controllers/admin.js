@@ -348,10 +348,10 @@ module.exports = {
 
   organisations: {
     index: function(req, res) {
-      // models.organisations.findAll({ order: 'id ASC' }).then(function(organisation) {
-      //   organisations = fund_array_to_json(organisations);
-        res.render('admin/organisations');//, { organisations: {id: 1, name: 'test', charity_id: 123} });
-      // });
+      models.organisations.findAll({ order: 'id ASC' }).then(function(organisations) {
+        organisations = fund_array_to_json(organisations);
+        res.render('admin/organisations', { organisations: organisations });
+      });
     },
 
     new: function(req, res) {
@@ -371,6 +371,41 @@ module.exports = {
       }).then(function() {
         res.redirect('/admin/organisations');
       });
-    }
+    },
+
+    destroy: function(req, res) {
+      var id = req.params.id;
+
+      models.organisations.findById(id).then(function(organisation) {
+        organisation.destroy().then(function() {
+          res.redirect('/admin/organisations');
+        });
+      });
+    },
+
+    edit: function(req, res) {
+      var id = req.params.id;
+
+      models.organisations.findById(id).then(function(organisation) {
+        res.render('admin/organisations-edit', { organisation: organisation });
+      });
+    },
+
+    update: function(req, res) {
+      var id = req.params.id;
+
+      var organisation = req.body;
+      var name = organisation.name;
+      var charity_id = parseIfInt(organisation.charity_id);
+
+      models.organisations.findById(id).then(function(organisation) {
+        organisation.update({
+          name: name,
+          charity_id: charity_id
+        }).then(function() {
+          res.redirect('/admin/organisations');
+        });
+      });
+    },
   }
 };

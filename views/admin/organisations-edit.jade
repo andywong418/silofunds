@@ -1,0 +1,29 @@
+extends admin-layout
+
+block content
+    .container
+      .alert.alert-danger.alert-dismissible.hidden(role='alert')
+        strong Oops!
+        |  That organisation has already been entered. Please try again.
+      a.btn.btn-default.btn-link(href='/admin/organisations', role='button') Back to fund listings
+      h1 Create a new organisation here:
+      table.table.table-responsive
+        form(action='/admin/organisations/' + organisation.id + '/edit', method='post', name='update_organisation')
+          .row
+            tr
+              .col-md-9.form-group
+                label(for='name') Name of Organisation
+                input#name.form-control(type='text', name='name', autofocus, value=organisation.name required)
+              .col-md-3.form-group
+                label(for='charity_id') Charity ID
+                input#charity_id.form-control(type='number', name='charity_id', value=organisation.charity_id)
+          .row
+            tr
+              .col-md-12.form-group
+                button.btn.btn-danger(type='submit') Update organisation!
+
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/admin.js')

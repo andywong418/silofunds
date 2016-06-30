@@ -18,17 +18,24 @@ block content
           a.btn.btn-default.btn-link#downloader(href='/admin/download' download disabled) Generate download link
           .downloader#generated_download_link
       hr
-      //- a.back-to-top(href='#')
-      //- table.table.table-bordered.table-responsive
-      //-   tr
-      //-     th ID
-      //-     th Name
-      //-     th Charity ID
-      //-   each organisation in organisations
-      //-     tr
-      //-     td= organisation.id
-      //-     td= organisation.name
-      //-     td= organisation.charity_id
+      a.back-to-top(href='#')
+      table.table.table-bordered.table-responsive
+        tr
+          th ID
+          th Name
+          th Charity ID
+        each organisation in organisations
+          tr
+          td= organisation.id
+          td= organisation.name
+          td= organisation.charity_id
+          td
+            form(action='/admin/organisations/' + organisation.id + '/edit', method='get', name='edit_organisation')
+              button.btn.btn-primary(type='submit') Edit
+          td
+            form(action='/admin/organisations/' + organisation.id + '/destroy', method='post', name='destroy_organisation')
+              button.btn.btn-danger(type='submit') Destroy
+
     .container
       hr
     

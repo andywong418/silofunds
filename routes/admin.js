@@ -24,5 +24,8 @@ router.get('/mc-list/:id', admin_mc.view);
 router.get('/organisations', admin.organisations.index);
 router.get('/organisations/new', admin.organisations.new);
 router.post('/organisations', admin.organisations.create);
+router.get('/organisations/:id/edit', admin.organisations.edit);
+router.post('/organisations/:id/edit', admin.organisations.update);
+router.post('/organisations/:id/destroy', admin.organisations.destroy);
 
 module.exports = router;

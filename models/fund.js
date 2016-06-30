@@ -129,10 +129,9 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'fund_id'
         });
 
-        Fund.belongsToMany(models.organisations, {
+        Fund.belongsTo(models.organisations, {
           onDelete: 'CASCADE',
           as: 'Fund',
-          through: 'organisations',
           foreignKey: 'id'
         });
       }
