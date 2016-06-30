@@ -29,6 +29,12 @@ var fund_array_to_json = function(array) {
   return funds;
 };
 
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+};
+
 var reformatDate = function(date) {
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();
@@ -53,14 +59,9 @@ module.exports = {
 
   funds: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
-      console.log('through');
       funds = fund_array_to_json(funds);
       res.render('admin/funds', { funds: funds });
     });
-  },
-
-  organisations: function(req, res) {
-    res.render('admin/organisations');
   },
 
   migrations: function(req, res) {
@@ -343,5 +344,33 @@ module.exports = {
       console.log('...Finished sync');
       res.redirect('../admin');
     });
+  },
+
+  organisations: {
+    index: function(req, res) {
+      // models.organisations.findAll({ order: 'id ASC' }).then(function(organisation) {
+      //   organisations = fund_array_to_json(organisations);
+        res.render('admin/organisations');//, { organisations: {id: 1, name: 'test', charity_id: 123} });
+      // });
+    },
+
+    new: function(req, res) {
+      res.render('admin/organisations-new');
+    },
+
+    create: function(req, res) {
+      var organisation = req.body;
+      var name = organisation.name;
+      var charity_id = parseIfInt(organisation.charity_id);
+
+      models.organisations.create({
+        name: name,
+        charity_id: charity_id
+      }).catch(function(err) {
+        console.log("There seems to have been an error: " + err);
+      }).then(function() {
+        res.redirect('/admin/organisations');
+      });
+    }
   }
 };

@@ -5,7 +5,6 @@ var router = express.Router();
 
 router.get('/', admin.index);
 router.get('/funds', admin.funds);
-router.get('/organisations', admin.organisations);
 router.get('/new', admin.new);
 router.post('/', admin.create);
 router.get('/:id/edit', admin.edit);
@@ -21,5 +20,9 @@ router.get('/migrateDown', admin.migrateDown);
 
 router.get('/mc-list', admin_mc.index);
 router.get('/mc-list/:id', admin_mc.view);
+
+router.get('/organisations', admin.organisations.index);
+router.get('/organisations/new', admin.organisations.new);
+router.post('/organisations', admin.organisations.create);
 
 module.exports = router;
