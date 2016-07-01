@@ -114,6 +114,8 @@ i {
 .database {
   font-family: 'sans-serif';
   margin-top: 50px;
+  width: 66%;
+  margin-left: 17%;
   font-family: "Helvetica Neue", "Helvetica,Arial,sans-serif";
   text-align: left;
   p {
@@ -241,6 +243,10 @@ i {
   #text_search, #amount_req, #age {
     border-color: rgba(45, 74, 118, 0.55);
   }
+  .database {
+    width: 90%;
+    margin-left: 5%;
+  }
 }
 
 @media (max-width: 767px) {
@@ -250,6 +256,10 @@ i {
   }
   .results {
     margin-top: 30px;
+  }
+  .database {
+    width: auto;
+    margin-left:0;
   }
 }
 

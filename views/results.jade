@@ -230,23 +230,23 @@ block content
 								ul.database
 									.fund_list
 										li
-											a(id != 'profile_link' + '<%= fund_id %>')
-												h3.fund_title <%= fund_title %>
-											h4#deadline-passed(class!= 'deadline-passed' + '<%= fund_id %>') Oops the deadline has passed for this fund...
+											a(id != 'profile_link' + '<%= id %>')
+												h3.fund_title <%= title %>
+											h4#deadline-passed(class!= 'deadline-passed' + '<%= id %>') Oops the deadline has passed for this fund...
 										li.fund_info
-											p(class!= 'fund_tags' + '<%= fund_id %>') Tags:
-											p(class!= 'fund_min_amount' + '<%= fund_id %>' )
+											p(class!= 'fund_tags' + '<%= id %>') Tags:
+											p(class!= 'fund_min_amount' + '<%= id %>' )
 												span.control
-											p(class!= 'fund_max_amount' + '<%= fund_id %>')
+											p(class!= 'fund_max_amount' + '<%= id %>')
 												span.control <%= maximum_amount %>
-											p(class!='fund_min_age' + '<%= fund_id %>' )
+											p(class!='fund_min_age' + '<%= id %>' )
 												span.control <%= minimum_age %>
-											p(class!= 'fund_max_age' +  '<%= fund_id %>')
+											p(class!= 'fund_max_age' +  '<%= id %>')
 												span.control <%= maximum_age %>
-											p(class!= 'nationalities'+ '<%= fund_id %>')
-											p(class!='deadline' + '<%= fund_id %>') Deadline:
+											p(class!= 'nationalities'+ '<%= id %>')
+											p(class!='deadline' + '<%= id %>') Deadline:
 												span.control.badge.badge-deadline <%= deadline %>
-										label(id!='<%= fund_id %>') Additional Information:
+										label(id!='<%= id %>') Additional Information:
 												//
 													i.fa.fa-chevron-circle-down
 												span(class="description_control")

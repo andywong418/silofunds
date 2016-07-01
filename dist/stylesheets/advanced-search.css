@@ -55,67 +55,6 @@
 #grants span i, #users span i {
   color: #2ABB9B; }
 
-.signin-icon {
-  font-size: 20px;
-  margin: 10px 5px 0; }
-  .signin-icon button {
-    color: white;
-    background-color: transparent;
-    border: none;
-    position: relative;
-    outline: 0; }
-
-#settings-button:hover, #settings-button:active, #settings-button:visited, #settings-button:link, #settings-button:focus {
-  background-color: transparent;
-  color: #D2D7D3; }
-
-#home:active {
-  outline: 0; }
-
-#home:hover {
-  background-color: transparent; }
-
-#settings:hover {
-  background-color: transparent; }
-
-#settings-button {
-  font-size: 20px;
-  margin-top: -4px;
-  text-transform: capitalize; }
-
-.settings, #logout {
-  text-transform: capitalize; }
-
-#settings:hover, #logout:hover {
-  background-color: #f5f5f5 !important; }
-
-#settings-menu a:hover {
-  color: black; }
-
-.fa-comment-o {
-  display: none; }
-
-.fa-cog {
-  font-size: 20px; }
-  .fa-cog:hover {
-    cursor: pointer;
-    font-size: 20px;
-    color: #D2D7D3; }
-  .fa-cog:active, .fa-cog:visited {
-    color: #D2D7D3; }
-
-/*.fa-user{
-margin-right: -40px;
-}*/
-#home {
-  color: white; }
-
-.center-block {
-  text-align: center;
-  float: none;
-  display: table;
-  margin: 0 auto; }
-
 /*advanced search */
 #advanced-search, #advanced-search-2 {
   margin: -3.5% 17%;

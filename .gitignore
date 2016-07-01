@@ -1,5 +1,5 @@
 app/secrets.js
-
+database-fix.js
 # Ignore Node & Bower
 ###################
 node_modules
