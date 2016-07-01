@@ -29,6 +29,13 @@ var fund_array_to_json = function(array) {
   return funds;
 };
 
+var lowercaseArray = function(array) {
+  var loweredArray = array.map(function(string) {
+    return string.toLowerCase();
+  });
+  return loweredArray;
+};
+
 var parseIfInt = function(string) {
   if (string !== '') {
     return parseInt(string);
@@ -151,19 +158,19 @@ module.exports = {
 
     var fund = req.body;
     var title = fund.title;
-    var tags = fund.keywords.split(",");
+    var tags = fund.keywords[0] ? lowercaseArray(fund.keywords.split(",")) : null;
     var invite = ("invite" in fund);
-    var link = fund.link ? fund.link : null; // Return null if empty string ""
+    var link = fund.link ? fund.link : null;
     var description = fund.description ? fund.description : null;
-    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null; // Return null if empty array
-    var country_of_residence = fund.country_of_residence[0] ? fund.country_of_residence.split(",") : null; // Return null if empty array
-    var religion = fund.religion[0] ? fund.religion.split(",") : null;
+    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null;
+    var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
+    var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
-    var subject = fund.subject[0] ? fund.subject.split(",") : null;
-    var target_degree = fund.target_degree[0] ? fund.target_degree.split(",") : null;
-    var target_university = fund.target_university[0] ? fund.target_university.split(",") : null;
-    var required_degree = fund.required_degree[0] ? fund.required_degree.split(",") : null;
-    var required_university = fund.required_university[0] ? fund.required_university.split(",") : null;
+    var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
+    var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
+    var target_university = fund.target_university[0] ? lowercaseArray(fund.target_university.split(",")) : null;
+    var required_degree = fund.required_degree[0] ? lowercaseArray(fund.required_degree.split(",")) : null;
+    var required_university = fund.required_university[0] ? lowercaseArray(fund.required_university.split(",")) : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -260,19 +267,19 @@ module.exports = {
   create: function(req, res) {
     var fund = req.body;
     var title = fund.title;
-    var tags = fund.keywords.split(",");
+    var tags = fund.keywords[0] ? lowercaseArray(fund.keywords.split(",")) : null;
     var invite = ("invite" in fund);
-    var link = fund.link ? fund.link : null; // Return null if empty string ""
+    var link = fund.link ? fund.link : null;
     var description = fund.description ? fund.description : null;
-    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null; // Return null if empty array
-    var country_of_residence = fund.country_of_residence[0] ? fund.country_of_residence.split(",") : null; // Return null if empty array
-    var religion = fund.religion[0] ? fund.religion.split(",") : null;
+    var target_country = fund.target_country[0] ? fund.target_country.split(",") : null;
+    var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
+    var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
-    var subject = fund.subject[0] ? fund.subject.split(",") : null;
-    var target_degree = fund.target_degree[0] ? fund.target_degree.split(",") : null;
-    var target_university = fund.target_university[0] ? fund.target_university.split(",") : null;
-    var required_degree = fund.required_degree[0] ? fund.required_degree.split(",") : null;
-    var required_university = fund.required_university[0] ? fund.required_university.split(",") : null;
+    var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
+    var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
+    var target_university = fund.target_university[0] ? lowercaseArray(fund.target_university.split(",")) : null;
+    var required_degree = fund.required_degree[0] ? lowercaseArray(fund.required_degree.split(",")) : null;
+    var required_university = fund.required_university[0] ? lowercaseArray(fund.required_university.split(",")) : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
