@@ -16,6 +16,48 @@ $(document).ready(function() {
     allShown = true;
   }
   });
+  //Use modernizr to move search bar when screen is mobile
+  function doneResizing() {
+    var form = document.getElementsByClassName("search_form");
+    console.log("CHECKMATe");
+    if(Modernizr.mq('screen and (min-width:720px)')) {
+      // action for screen widths including and above 768 pixels
+      $(".navbar-header").append(form);
+    }
+    else if(Modernizr.mq('screen and (max-width:720px)')) {
+      // action for screen widths below 768 pixels
+      $("#about").prepend(form);
+    }
+
+    if(Modernizr.mq('screen and (max-width:851px)')) {
+      $("#text_search").attr('placeholder', 'Subject, University, Degree level');
+    }
+    else if(Modernizr.mq('screen and (min-width:851px)')) {
+      $("#text_search").attr('placeholder', 'Keywords-Subject, University, Degree level');
+    }
+
+    if(user && Modernizr.mq('screen and (max-width:767px)')) {
+      $('.navbar-header').css('float', 'left');
+      $('.navbar-collapse.collapse').css('display', 'block');
+      $('.navbar-toggle').css('display', 'none');
+      $('.navbar-nav li').css('float', 'left');
+      $('.navbar-nav li a').css('padding-top', '15px');
+      $('.navbar-nav.navbar-right:last-child').css('margin-right', '-15px');
+      $('.navbar-right').css('float', 'right');
+      $('.navbar-nav').css('margin', '0');
+      $('#container').css('padding-bottom', '5px');
+    }
+  }
+
+  var id;
+
+  $(window).resize(function() {
+    clearTimeout(id);
+    id = setTimeout(doneResizing, 0);
+  });
+
+  doneResizing();
+
   //fund display backbone stuff
   var FundModel = Backbone.Model.extend({
     defaults: {
@@ -68,9 +110,7 @@ $(document).ready(function() {
       var dateNow = new Date();
       dateNow = dateNow.toISOString();
       var deadline = this.model.get('deadline');
-      console.log(deadline);
       var id = this.model.get('id');
-      console.log(id);
       var tags = this.model.get('tags');
       var countries = this.model.get('country_of_residence');
       var minimum_amount = this.model.get('minimum_amount');
@@ -171,7 +211,6 @@ $(document).ready(function() {
     },
     infoToggle: function(){
       var id = this.model.get('id');
-      console.log(id);
       var description = this.model.get('description');
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
@@ -269,47 +308,6 @@ var fundCollection = new FundCollection(fundData);
 var fundList = new FundList({collection: fundCollection});
 $(document.body).append(fundList.render().el);
 
-//Use modernizr to move search bar when screen is mobile
-function doneResizing() {
-  var form = document.getElementsByClassName("search_form");
-
-  if(Modernizr.mq('screen and (min-width:720px)')) {
-    // action for screen widths including and above 768 pixels
-    $(".navbar-header").append(form);
-  }
-  else if(Modernizr.mq('screen and (max-width:720px)')) {
-    // action for screen widths below 768 pixels
-    $("#about").prepend(form);
-  }
-
-  if(Modernizr.mq('screen and (max-width:851px)')) {
-    $("#text_search").attr('placeholder', 'Subject, University, Degree level');
-  }
-  else if(Modernizr.mq('screen and (min-width:851px)')) {
-    $("#text_search").attr('placeholder', 'Keywords-Subject, University, Degree level');
-  }
-
-  if(user && Modernizr.mq('screen and (max-width:767px)')) {
-    $('.navbar-header').css('float', 'left');
-    $('.navbar-collapse.collapse').css('display', 'block');
-    $('.navbar-toggle').css('display', 'none');
-    $('.navbar-nav li').css('float', 'left');
-    $('.navbar-nav li a').css('padding-top', '15px');
-    $('.navbar-nav.navbar-right:last-child').css('margin-right', '-15px');
-    $('.navbar-right').css('float', 'right');
-    $('.navbar-nav').css('margin', '0');
-    $('#container').css('padding-bottom', '5px');
-  }
-}
-
-var id;
-
-$(window).resize(function() {
-  clearTimeout(id);
-  id = setTimeout(doneResizing, 0);
-});
-
-doneResizing();
 
 
 
