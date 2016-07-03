@@ -7,7 +7,6 @@ module.exports = function(passport) {
 
           //simple way to set req.user and to persist user's session via a cookie
       passport.serializeUser(function(user, done){
-         console.log("This is the user", user);
          done(null, user);
       });
 
@@ -54,7 +53,6 @@ module.exports = function(passport) {
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        console.log("PASSPORT REQ", req);
         models.users.find({
           where: {email: email}
         }).then(function(user){
@@ -72,7 +70,7 @@ module.exports = function(passport) {
           }
         });
 
-  
+
 
         });
 
@@ -105,5 +103,3 @@ module.exports = function(passport) {
       });
     }));
 };
-
-

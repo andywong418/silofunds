@@ -24,14 +24,51 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
     var username = req.body.username;
     var useremail = req.body.useremail;
     var userpassword = req.body.userpassword;
+    var fundOption = req.body.fundOption;
 
 		req.session.lastPage = '/signup';
-    console.log("REQ FOR REDIRECT", req);
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
-    	console.log("AM I HERE?");
-      res.render('signup/signup', {user: user});      
+      if(typeof fundOption == 'undefined'){
+        res.render('signup/new-user-profile', {user: user});
+      }
+      else{
+        var fundId = user.id;
+        var scholarshipName = user.username;
+        var email = user.email;
+        models.funds.findOrCreate({where:{title: scholarshipName}, defaults:{email: email}}).spread(function(fund, created){
+          console.log("EVEN HERE", created);
+          if(created){
+            console.log("LOOK AT ME", fund);
+            var fund_id = fund.id;
+            models.users.findById(fundId).then(function(fund){
+              fund.update({
+                fund_or_user: fund_id
+              }).then(function(fund){
+                res.render('signup/new-fund-profile', {user: fund});
+              })
+
+            })
+          }
+
+          else{
+            var fundTableId = fund.id;
+            fund.update({
+              email: email
+            }).then(function(fund){
+              models.users.findById(fundId).then(function(fund){
+                fund.update({
+                  fund_or_user: fundTableId
+                }).then(function(fund){
+                  res.render('signup/new-fund-profile', {user: fund});
+                })
+              })
+            })
+          }
+        })
+      }
+
     });
 });
 router.post('/results', function(req,res){
@@ -42,8 +79,8 @@ router.post('/user_signup/profile_picture/:id', upload.single('profile_picture')
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);
 router.post('/user_signup_complete/:id', signup.uploadInfo);
 router.get('/fund/:id', signup.fundProfile);
-router.get('/fund/fund_account/:id', signup.get);
-router.get('/fund/fund_account/application/:id', signup.getApplication);
+router.get('/fund_account/:id', signup.get);
+router.get('/fund_account/application/:id', signup.getApplication);
 router.post('/fund_signup/tags/:id', signup.getTags);
 router.post('/fund_signup/countries/:id', signup.getCountries);
 router.post('/fund_signup/religion/:id', signup.getReligion);

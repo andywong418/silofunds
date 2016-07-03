@@ -25,14 +25,11 @@ module.exports = {
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
-		console.log("HERE'S THE PREV PAge", previousPage);
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
         LNAME: lastName
         }}, function(data) {
-      console.log("Successfully subscribed!");
-      console.log('ending AJAX post request...');
       next();
     }, function(error) {
       if (error.error) {
@@ -46,29 +43,6 @@ module.exports = {
 			res.redirect('/');
     });
   },
-  addUser: function(req, res, next){
-    var username = req.body.username;
-    var useremail = req.body.useremail;
-    var userpassword = req.body.userpassword;
-
-		req.session.lastPage = '/signup';
-    console.log("REQ FOR REDIRECT", req);
-    models.users.find({
-      where: {email: useremail}
-    }).then(function(user){
-      if(!user) {
-        models.users.create({
-          username: username,
-          email: useremail,
-          password: userpassword,
-          email_updates: true
-        }).then(function(user){
-          res.render('signup/signup', {user: user});
-        });
-      }
-    });
-  },
-
   userProfile: function(req, res){
     var userId = req.params.id;
 
@@ -83,13 +57,10 @@ module.exports = {
   },
 
   uploadPicture: function(req,res){
-    console.log("I'm HERE");
     var userId = req.params.id;
     var idString = req.params.id.toString();
     var bucketString = "silo-user-profile-";
     var bucketName = bucketString.concat(idString);
-    console.log('body', req.body);
-    console.log('req file', req.file);
     AWS.config.update({
     accessKeyId: aws_keyid,
     secretAccessKey: aws_key
@@ -128,21 +99,14 @@ module.exports = {
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
-    console.log("HI HI",req.files[1]);
-    console.log("WHOLE THING", req.files);
     async.eachSeries(req.files, function iterator(item, callback){
-      console.log('check', item);
-        console.log("CHECKING THE ASYNC", item.originalname);
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
-          console.log("Uploading work...");
-          console.log("https://s3.amazonaws.com/" + bucketName + "/" + item.originalname);
-          console.log(userId);
           models.documents.upsert({
             link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
             user_id: userId
           }).then(function(document){
-            console.log("CHECKING HERE", document);
+
             callback();
           });
         });
@@ -206,10 +170,7 @@ module.exports = {
       var userId = user.id
       //see if fund already exists on fund table
       models.funds.findOrCreate({where:{title: scholarshipName}, defaults:{email: email}}).spread(function(user, created){
-        console.log("EVEN HERE", created);
-
         if(created){
-          console.log("LOOK AT ME", user);
           var fund_id = user.id;
           models.users.findById(fundId).then(function(user){
             user.update({
@@ -222,7 +183,6 @@ module.exports = {
         }
 
         else{
-          console.log("JUST KIDDING WE HERE")
           var fundTableId = user.id;
           user.update({
             email: email
@@ -241,6 +201,7 @@ module.exports = {
   },
   get: function(req, res){
     var id = req.params.id;
+		console.log(id);
     models.users.findById(id).then(function(user){
       var fundUser = user;
       models.funds.findById(user.fund_or_user).then(function(fund){

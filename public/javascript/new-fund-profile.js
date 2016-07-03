@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	var FundModel = Backbone.Model.extend({
-		url: 'fund_account/' + fund_setup.id
+		url: '/signup/fund_account/' + fund_setup.id
 	});
 
 	var AccountView = Backbone.View.extend({
@@ -682,7 +682,7 @@ $(document).ready(function(){
 	},
 	application: function() {
 		var ApplicationModel = Backbone.Model.extend({
-			url: "fund_account/application/" + fund_setup.id
+			url: "/signup/fund_account/application/" + fund_setup.id
 		})
 		var applicationModel = new ApplicationModel();
 		applicationModel.fetch({
