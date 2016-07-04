@@ -19,9 +19,9 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 
-var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
+var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country","created_at","updated_at"];
 
-var organisationsTableFields = ["name","charity_id"];
+var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
