@@ -203,18 +203,17 @@ module.exports = {
     var id = req.params.id;
 		console.log(id);
     models.users.findById(id).then(function(user){
-      var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
-        for (var attrname in fund['dataValues']){
-          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-            console.log(attrname);
-            user["dataValues"][attrname] = fund[attrname];
-
-          }
-        }
-        res.json(user);
-      })
-
+      // models.funds.findById(user.fund_or_user).then(function(fund){
+      //   for (var attrname in fund['dataValues']){
+      //     if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+      //       console.log(attrname);
+      //       user["dataValues"][attrname] = fund[attrname];
+			//
+      //     }
+      //   }
+      //   res.json(user);
+      // })
+			res.json(user);
     })
 
   },
@@ -383,6 +382,7 @@ module.exports = {
     }
   },
   insertFundData: function(req, res){
+		//edit for organisations
     var userId = req.params.id;
     console.log("KENDRICK", req.body);
     models.users.findById(userId).then(function(user){

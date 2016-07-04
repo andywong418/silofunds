@@ -34,19 +34,18 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
         res.render('signup/new-user-profile', {user: user});
       }
       else{
-        var fundId = user.id;
+        var organisationId = user.id;
         var scholarshipName = user.username;
-        var email = user.email;
-        models.funds.findOrCreate({where:{title: scholarshipName}, defaults:{email: email}}).spread(function(fund, created){
+        models.organisations.findOrCreate({where:{name: scholarshipName}}).spread(function(organisation, created){
           console.log("EVEN HERE", created);
           if(created){
-            console.log("LOOK AT ME", fund);
-            var fund_id = fund.id;
-            models.users.findById(fundId).then(function(fund){
-              fund.update({
-                fund_or_user: fund_id
-              }).then(function(fund){
-                res.render('signup/new-fund-profile', {user: fund});
+            console.log("LOOK AT ME", organisation);
+            var organisation_id = organisation.id;
+            models.users.findById(organisationId).then(function(organisation){
+              organisation.update({
+                fund_or_user: organisation_id
+              }).then(function(organisation){
+                res.render('signup/new-fund-profile', {user: organisation});
               })
 
             })

@@ -2,6 +2,8 @@ extends layout
 
 block extraHeader
 	link(href='/stylesheets/results.css', rel='stylesheet')
+	script.
+		var postSignin = document.getElementsByClassName('post-signin')
 
 block content
 		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
@@ -162,7 +164,7 @@ block content
 											span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
 									p#fund-option
 										input#fund-signup(type='checkbox', name='fundOption', form="signup-form")
-										label(for='fund-signup') Sign up as an funding institution		
+										label(for='fund-signup') Sign up as an funding institution
 									p#signup-terms.fieldset
 										input#accept-terms(type='checkbox')
 										label(for='accept-terms' id = "terms")
