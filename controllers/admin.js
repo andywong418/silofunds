@@ -351,7 +351,7 @@ module.exports = {
 
   organisations: {
     index: function(req, res) {
-      models.organisations.findAll({ order: 'id ASC' }).then(function(organisations) {
+      models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
         organisations = fund_array_to_json(organisations);
         res.render('admin/organisations', { organisations: organisations });
       });
