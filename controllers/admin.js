@@ -366,7 +366,7 @@ module.exports = {
     create: function(req, res) {
       var organisation = req.body;
       var name = organisation.name;
-      var charity_id = parseIfInt(organisation.charity_id);
+      var charity_id = organisation.charity_id ? organisation.charity_id : null;
 
       models.organisations.create({
         name: name,
@@ -411,7 +411,7 @@ module.exports = {
 
       var organisation = req.body;
       var name = organisation.name;
-      var charity_id = parseIfInt(organisation.charity_id);
+      var charity_id = organisation.charity_id ? organisation.charity_id : null;
 
       models.organisations.findById(id).then(function(organisation) {
         organisation.update({
