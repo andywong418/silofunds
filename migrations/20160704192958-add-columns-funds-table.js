@@ -50,7 +50,15 @@ module.exports = {
                   {
                     type: Sequelize.DATE
                   }
-                );
+                ).then(function() {
+                  return queryInterface.addColumn(
+                    'funds',
+                    'specific_location',
+                    {
+                      type: Sequelize.ARRAY(Sequelize.TEXT)
+                    }
+                  );
+                });
               });
             });
           });
@@ -66,7 +74,9 @@ module.exports = {
           return queryInterface.removeColumn('funds', 'application_open_date').then(function() {
             return queryInterface.removeColumn('funds', 'application_documents').then(function() {
               return queryInterface.removeColumn('funds', 'interview_date').then(function() {
-                return queryInterface.removeColumn('funds', 'application_decision_date');
+                return queryInterface.removeColumn('funds', 'application_decision_date').then(function() {
+                  return queryInterface.removeColumn('funds', 'specific_location');
+                });
               });
             });
           });

@@ -114,6 +114,38 @@ module.exports = function(sequelize, DataTypes) {
     required_degree: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'required_degree'
+    },
+    number_of_places: {
+      type: DataTypes.INTEGER,
+      field: 'number_of_places'
+    },
+    duration_of_scholarship: {
+      type: DataTypes.TEXT,
+      field: 'duration_of_scholarship'
+    },
+    required_grade: {
+      type: DataTypes.TEXT,
+      field: 'required_grade'
+    },
+    application_open_date: {
+      type: DataTypes.DATE,
+      field: 'application_open_date'
+    },
+    application_documents: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'application_documents'
+    },
+    interview_date: {
+      type: DataTypes.DATE,
+      field: 'interview_date'
+    },
+    application_decision_date: {
+      type: DataTypes.DATE,
+      field: 'application_decision_date'
+    },
+    specific_location: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'specific_location'
     }
   }, {
     timestamps: true,
