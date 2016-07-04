@@ -386,6 +386,16 @@ module.exports = {
       });
     },
 
+    download: function(req, res, next) {
+      // For generating the download link and transferring ALL data to front-end
+      // (including deleted_at == NOT NULL)
+      models.organisations.findAll({ order: 'name ASC', paranoid: false }).then(function(organisations) {
+        organisations = fund_array_to_json(organisations);
+        res.send(organisations);
+        res.end();
+      });
+    },
+
     edit: function(req, res) {
       var id = req.params.id;
 

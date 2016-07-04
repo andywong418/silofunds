@@ -27,5 +27,6 @@ router.post('/organisations', admin.organisations.create);
 router.get('/organisations/:id/edit', admin.organisations.edit);
 router.post('/organisations/:id/edit', admin.organisations.update);
 router.post('/organisations/:id/destroy', admin.organisations.destroy);
+router.post('/organisations/download', admin.organisations.download);
 
 module.exports = router;
