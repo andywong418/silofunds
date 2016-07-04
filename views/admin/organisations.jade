@@ -9,8 +9,8 @@ block content
           a.btn.btn-default.btn-success(href='/admin/organisations/new', role='button') Create a new organisation
         .col-md-3
           form(action="/admin/organisations/upload", method="post", enctype="multipart/form-data")
-            input(type="file", name="jsonData" disabled)
-            button.btn.btn-default.btn-primary(type='submit' disabled) Upload JSON!
+            input(type="file", name="jsonData")
+            button.btn.btn-default.btn-primary(type='submit') Upload JSON!
         .col-md-3
           form(action="/admin/organisations/sync", method="post", name="sync_db")
             button.btn.btn-warning(type="submit" disabled) Sync ES to PG

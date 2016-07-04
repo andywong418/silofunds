@@ -21,6 +21,8 @@ var umzug = new Umzug(umzugOptions);
 
 var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
 
+var organisationsTableFields = ["name","charity_id"];
+
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
     var json = fund.toJSON();
@@ -420,5 +422,47 @@ module.exports = {
         });
       });
     },
+
+    upload: function(req, res) {
+      var busboy = new Busboy({ headers: req.headers });
+      var jsonData = '';
+      busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        file.on('data', function(data) {
+          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+          jsonData += data.toString();
+        });
+        file.on('end', function() {
+          console.log('File [' + fieldname + '] Finished');
+        });
+      });
+      busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      });
+      busboy.on('finish', function() {
+        console.log('Done parsing form! Injecting into database...');
+        var json_array = JSON.parse(jsonData);
+
+        for (var ind = 0; ind < json_array.length; ind++) {
+          var organisation = json_array[ind];
+          var create_options = {};
+
+          for (var i=0; i<organisationsTableFields.length; i++) {
+            var field = organisationsTableFields[i];
+            create_options[field] = organisation[field];
+
+            if (organisation.deleted_at) {
+              create_options["deleted_at"] = organisation.deleted_at;
+            }
+          }
+
+          models.organisations.create( create_options ).then(function() {
+            console.log('Created fund.');
+          });
+        }
+        res.redirect('/admin/organisations');
+      });
+      req.pipe(busboy);
+    }
   }
 };
