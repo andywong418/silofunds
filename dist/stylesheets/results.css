@@ -651,12 +651,19 @@ margin-right: -40px;
 .post-signin {
   font-size: 20px;
   margin: 10px 5px 0;
-  display: none; }
+  display: none !important; }
   .post-signin button {
     background-color: transparent !important;
     border: none; }
     .post-signin button:focus {
       outline: 0; }
+
+.jsEnabled li.post-signin {
+  display: inline !important;
+  z-index: 11; }
+
+.jsEnabled .pre-signin {
+  display: none; }
 
 /*customised code*/
 #brand-image {
