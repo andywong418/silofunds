@@ -40,6 +40,11 @@ block content
                 input#required_university.form-control(type='text', name='required_university', value=fund.required_university, style="text-transform: lowercase;")
           .row
             tr
+              .col-md-6.form-group
+                label(for='required_grade') Required Grade
+                input#required_grade.form-control(type='text', name='required_grade', value=fund.required_grade, style="text-transform: lowercase;")
+          .row
+            tr
               .col-md-3.form-group
                 label(for='min_age') Minimum Age
                 input#min_age.form-control(type='number', name='min_age', value=fund.minimum_age)
@@ -90,6 +95,12 @@ block content
                       |  Finance
                   .col-md-4
                     a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
+              .col-md-3.form-group
+                label(for='number_of_places') Number of Places Offered
+                input#number_of_places.form-control(type='number', name='number_of_places', value=fund.number_of_places)
+              .col-md-3.form-group
+                label(for='duration_of_scholarship') Duration of Scholarship
+                input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', value=fund.duration_of_scholarship, placeholder="eg. '5 months', '2 years'")
           .row
             tr
               .col-md-6.form-group
@@ -98,6 +109,14 @@ block content
               .col-md-6.form-group
                 label(for='country_of_residence') Countries of Residence (separate with comma, no space)
                 input#country_of_residence.form-control(type='text', name='country_of_residence', style="text-transform: lowercase;", value=fund.country_of_residence)
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='specific_location') Specific locations (separate with comma, no space)
+                input#specific_location.form-control(type='text', name='specific_location', value=fund.specific_location, style="text-transform: lowercase;", placeholder="eg. 'oxfordshire'")
+              .col-md-6.form-group
+                label(for='email') Email
+                input#email.form-control(type='email', name='email', value=fund.email)
           .row
             tr
               .col-md-6.form-group
@@ -121,7 +140,7 @@ block content
                 label(for='link') Link
                 input#link.form-control(type='text', name='link', value=fund.link)
               .col-md-3.form-group
-                label(for='link') Deadline
+                label(for='deadline') Deadline
                 input#deadline.form-control(type='date', name='deadline', value=deadline)
               .col-md-3.form-group
                 label(for='invite') Invite Only?
@@ -131,6 +150,20 @@ block content
               .col-md-6.form-group
                 label(for='application_link') Application Link
                 input#application_link.form-control(type='text', name='application_link', value=fund.application_link)
+              .col-md-3.form-group
+                label(for='application_open_date') Application Open Date
+                input#application_open_date.form-control(type='date', name='application_open_date', value=application_open_date)
+              .col-md-3.form-group
+                label(for='application_decision_date') Application Decision Date
+                input#application_decision_date.form-control(type='date', name='application_decision_date', value=application_decision_date)
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='application_documents') Application Documents (separate with comma, no space)
+                input#application_documents.form-control(type='text', name='application_documents', value=fund.application_documents, tyle="text-transform: lowercase;", placeholder="eg. 'resume,cv,thesis,essay,financial proof'")
+              .col-md-3.form-group
+                label(for='interview_date') Interview Date
+                input#interview_date.form-control(type='date', name='interview_date', value=interview_date)
           .row
             tr
               .col-md-12.form-group

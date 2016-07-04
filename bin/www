@@ -13,7 +13,7 @@ var fund_array_to_json = function(array) {
   return funds;
 };
 
-var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
+var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
 var userFields =  ["username","profile_picture","description","past_work","date_of_birth","country_of_residence","religion","funding_needed","fund_or_user"];
 
 // models.sequelize.sync().then(function () {
@@ -85,6 +85,15 @@ var userFields =  ["username","profile_picture","description","past_work","date_
             'mappings': {
               'fund': {
                 'properties': {
+                  "application_decision_date": {
+                    "type": "date"
+                  },
+                  "application_documents": {
+                    "type": "string"
+                  },
+                  "application_open_date": {
+                    "type": "date"
+                  },
                   'title': {
                     'type': 'string',
                     'fields': {
@@ -94,6 +103,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   "tags": {
                     "type": "string",
                     "index_name": "tag"
+                  },
+                  "duration_of_scholarship": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
                   },
                   "maximum_amount": {
                     "type": "long"
@@ -106,6 +121,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   },
                   "minimum_age": {
                     "type": "integer"
+                  },
+                  "number_of_places": {
+                    "type": "integer"
+                  },
+                  "interview_date": {
+                    "type": "date"
                   },
                   "invite_only": {
                     "type": "boolean"
@@ -129,6 +150,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     "type": "string"
                   },
                   "target_country": {
+                    "type": "string"
+                  },
+                  "required_grade": {
+                    "type": "string"
+                  },
+                  "specific_location": {
                     "type": "string"
                   },
                   "subject": {
@@ -363,7 +390,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         funds.forEach(function(fund) {
           body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
           var wrapper = {};
-          var fields = ["title","tags","maximum_amount","minimum_amount","country_of_residence","description","application_link","maximum_age","minimum_age","invite_only","link","religion","gender","financial_situation","subject","target_degree","target_university","required_degree","required_university","merit_or_finance","deadline","target_country"];
+          var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
 
           for (var i = 0; i < fields.length ; i++) {
             wrapper[fields[i]] = fund[fields[i]];
