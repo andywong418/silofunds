@@ -61,7 +61,7 @@ module.exports = {
   },
 
   new: function(req, res) {
-    models.organisations.findAll({ order: 'charity_id ASC' }).then(function(organisations) {
+    models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
       organisations = fund_array_to_json(organisations);
       res.render('admin/new', { organisations: organisations });
     });
@@ -146,7 +146,7 @@ module.exports = {
         reformattedDate = reformatDate(date);
       }
 
-      models.organisations.findAll({ order: 'charity_id ASC' }).then(function(organisations) {
+      models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
         organisations = fund_array_to_json(organisations);
         res.render('admin/edit', { fund: fund, deadline: reformattedDate, organisations: organisations });
       });

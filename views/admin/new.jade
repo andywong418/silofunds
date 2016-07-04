@@ -111,7 +111,7 @@ block content
                     select#organisation_id(name='organisation_id')
                       option(value='') Please select
                       each organisation in organisations
-                        option(value=organisation.id)=organisation.charity_id + ' - ' + organisation.name
+                        option(value=organisation.id)=organisation.name + ' - ' + organisation.charity_id
           .row
             tr
               .col-md-6.form-group
