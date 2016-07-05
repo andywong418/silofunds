@@ -1,0 +1,51 @@
+nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+  #container.container
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+        i.fa.fa-bars
+      a#brand-heading.navbar-brand
+        img#brand-image(src="../../../images/transparent silo icon graphic.png")
+      form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+        #dropdown.dropdown
+          button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+            i.fa.et-down.fa-bars
+            i.fa.et-down.fa-angle-down
+          ul#dropdown-menu.dropdown-menu
+            li.dropdown-header type of profile search
+            li#grants
+              | Grants
+              span
+                i.fa.fa-check        
+            li#users
+              | Users
+              span
+                i.fa.fa-check
+        input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
+        button#search_button.btn.btn-info(type='submit')
+          i.fa.fa-search
+      .instruction-pointer
+        p Search for grants by entering your desired subject, university and/or degree level
+      .instruction-pointer-2
+        p Use advanced search to look at specific fields for funds or other users.
+    #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+        ul.nav.navbar-nav
+          li.signin-icon
+            button
+              a#home(href='/funds/' + user.id + '/')
+                i.fa.fa-user
+          //
+            li.signin-icon
+              button
+               i.fa.fa-comment-o
+          li.signin-icon
+            .dropdown
+              button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                i.fa.fa-cog
+              ul#settings-menu.dropdown-menu
+                li#settings
+                  a(href="/funds/settings/" + user.id + "/")
+                    | Settings
+                li.divider(role='separator')
+                li#logout
+                  a#logout(href='/funds/logout/'+ user.id)
+                    | Log out
