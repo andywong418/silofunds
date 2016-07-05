@@ -2,15 +2,6 @@ $(document).ready(function(){
   var bool = false;
 
 
-  for(var field in query){
-    $('.' + field).attr('value', query[field]);
-    if(field == 'merit_or_finance'){
-        $('#' + query[field]).attr("checked", "true");
-    }
-    if(field == 'gender'){
-      $('#' + query[field]).attr("checked", "true");
-    }
-  }
   var advanced = true;
   var advanced_2 = true;
   function split( val ) {

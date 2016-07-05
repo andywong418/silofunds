@@ -1,5 +1,16 @@
 $(document).ready(function() {
-
+//queryOptions for search
+if(typeof query != 'undefined' && query){
+  for(var field in query){
+    $('.' + field).attr('value', query[field]);
+    if(field == 'merit_or_finance'){
+        $('#' + query[field]).attr("checked", "true");
+    }
+    if(field == 'gender'){
+      $('#' + query[field]).attr("checked", "true");
+    }
+  }
+}
 //show and hide past deadline funds
   var allShown = true;
   $('#show-all').on('click', function(){

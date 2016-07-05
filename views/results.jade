@@ -56,70 +56,7 @@ block content
 									li#logout
 										a.logout(href="#0")
 											| Log out
-		section#advanced-search.container.content-section.text-center
-			.row
-				.col-md-4
-					label(for='age') Age:
-					input#advanced-age.age(type = "number", name = "age", form = "search-form")
-				.col-md-4
-					label(for= 'nationality') Nationality:
-					input#advanced-nationality.nationality(type = "text", name = "nationality", form = "search-form")
-				.col-md-4
-					label(for= 'religion') Religion:
-					input#religion.religion(type = "text", name = "religion", form = "search-form")
-			.row
-				.col-md-4
-					label#amount_needed(for= 'amount_needed') Amount:
-					input#input-amount.amount_needed(type = "text", name = "funding_needed", form = "search-form")
-				.col-md-4
-					label#merit-or-finance Merit or Finance
-					.row
-						.col-md-6
-							label.radio-inline
-								input#merit.merit(type='radio', name='merit_or_finance', value='merit', form = "search-form")
-								| Merit
-						.col-md-6
-								label.radio-inline
-										input#finance.finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
-										| Finance
-				.col-md-4
-					label#gender Gender
-					.row
-						.col-md-6
-							label.radio-inline
-								input#male.male(type='radio', name = 'gender', value= 'male', form = "search-form")
-								| Male
-						.col-md-6
-							label.radio-inline
-								input#female.female(type='radio', name = 'gender', value = 'female', form = "search-form")
-								| Female
-		section#advanced-search-2.container.content-section.text-center
-			.row
-				.col-md-4
-					label(for='age') Age:
-					input#advanced-age-2(type = "number", name = "user_age", form = "search-form")
-
-				.col-md-4
-					label(for= 'nationality') Nationality:
-					input#advanced-nationality(type = "text", name = "user_nationality", form = "search-form")
-				.col-md-4
-					label(for= 'religion') Religion:
-					input#religion(type = "text", name = "user_religion", form = "search-form")
-			.row
-				.col-md-4
-					label#amount_needed(for= 'amount_needed') Amount:
-					input#input-amount(type = "text", name = "user_funding_needed", form = "search-form")
-				.col-md-4
-					label#gender Gender
-					.row
-						.col-md-6
-							label.radio-inline
-								input#male(type='radio', name = 'user_gender', value= 'male', form = "search-form")
-								| Male
-						.col-md-6
-							label.radio-inline
-								input#female(type='radio', name = 'user_gender', value = 'female', form = "search-form")
-								| Female
+		include advanced-search.jade
 		section#about.container.content-section.text-center
 				.row
 					.cd-user-modal

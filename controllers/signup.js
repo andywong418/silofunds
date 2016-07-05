@@ -205,7 +205,7 @@ module.exports = {
     models.users.findById(id).then(function(user){
       models.organisations.findById(user.fund_or_user).then(function(organisation){
         for (var attrname in organisation['dataValues']){
-          if(attrname != "id" && attrname != "created_at" && attrname != "updated_at"){
+          if(attrname != "id" && attrname != "description" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = organisation[attrname];
           }
         }
@@ -402,109 +402,6 @@ module.exports = {
           })
         })
 
-    })
-  },
-  applicationCategory: function(req, res){
-    var fundId = req.params.id;
-    var status = req.body.status;
-    var title = req.body.title;
-    console.log(fundId);
-    models.applications.findOrCreate({
-      where:{
-      fund_id: fundId
-    }, defaults: { status: status}}).spread(function(user, created){
-      if(created){
-        models.categories.create({
-          title: title,
-          application_id: user.id
-        }).then(function(data){
-          res.send(data);
-        })
-      }
-      else{
-        models.categories.find({where: {application_id: user.id}}).then(function(data){
-        })
-      }
-    })
-  },
-  changeCategory: function(req, res){
-    var fundId = req.params.id;
-    var title = req.body.title;
-    var categoryId = req.body.category_id;
-
-    models.categories.findById(categoryId).then(function(category){
-      category.update({
-        title: title
-      }).then(function(data){
-        res.send(data);
-      })
-    })
-
-  },
-  deleteCategory: function(req, res){
-    var categoryId = req.params.id;
-    console.log("SOMETHING", categoryId);
-    models.categories.findById(categoryId).then(function(category){
-      category.destroy().then(function(){
-        res.send("DESTROYED cateogory");
-      })
-    })
-  },
-  addCategory: function(req, res){
-    var fundId = req.params.id;
-    var title = req.body.title;
-    models.applications.find({where: {fund_id: fundId, status: 'setup'}}).then(function(application){
-      models.categories.create({
-        title: title,
-        application_id: application.id
-      }).then(function(data){
-        res.send(data);
-      })
-    })
-  },
-
-  addField: function(req, res){
-    var categoryId = req.params.id;
-    var html = JSON.stringify(req.body);
-    console.log(html);
-    // REMEMBER TO CHANGE TITLE TO HTML
-    models.categories.findById(categoryId).then(function(category){
-      models.fields.create({
-        html: html,
-        category_id: category.id
-    }).then(function(data){
-      res.send(data);
-    })
-    })
-
-  },
-  editField: function(req, res){
-    var fieldId = req.params.id;
-    var html = JSON.stringify(req.body);
-    models.fields.findById(fieldId).then(function(field){
-      field.update({
-        html: html
-      }).then(function(data){
-        res.send(data);
-      })
-    })
-  },
-
-  getFields: function(req, res){
-    console.log("SOMETGHIN");
-    var catgoryId = req.params.id;
-    models.fields.findAll({where: {category_id: catgoryId}}).then(function(data){
-      if(data){
-      res.send(data);
-      }
-    })
-  },
-  deleteField: function(req, res){
-    var fieldId = req.params.id;
-    models.fields.findById(fieldId).then(function(field){
-      field.destroy().then(function(){
-        res.send("DESTROYED IT");
-      })
     })
   },
   signupFundComplete: function(req, res){
