@@ -178,53 +178,48 @@ p {
 /*advanced search */
 #advanced-search, #advanced-search-2 {
   margin: -3.5% 17%;
-  border-color: #ccc;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: #ebe2e2;
   border-style: solid;
   border-width: 1px;
-  border-radius: 5px;
+  border-radius: 1px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   background-clip: padding-box;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
-  width: 46%;
+  width: 66%;
   position: fixed;
   z-index: 20;
-  background-color: #E4F1FE;
+  background-color: #f2f2f2;
   padding-top: 25px;
   padding-bottom: 25px;
   padding-right: 30px;
   display: none; }
-
-#advanced-nationality, #advanced-age, #advanced-age-2, #religion, #input-amount {
-  border-radius: 5px;
-  border: none;
-  padding: 3px 5px;
-  margin-top: 5px; }
-
-#advanced-age, #advanced-age-2 {
-  width: 60%;
-  display: block;
-  margin: 0 auto; }
-
-#advanced-nationality {
-  width: 65%;
-  display: block;
-  margin: 0 auto; }
-
-#religion {
-  width: 50%;
-  display: block;
-  margin: 0 auto; }
-
-#input-amount {
-  width: 60%;
-  display: block;
-  margin: 0 auto; }
-
-#amount_needed, #gender, #merit-or-finance {
-  margin: 20px auto;
-  margin-bottom: 5px; }
+  #advanced-search .header, #advanced-search-2 .header {
+    margin-bottom: 30px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #d7d7d7; }
+    #advanced-search .header .col-md-4 h5, #advanced-search-2 .header .col-md-4 h5 {
+      margin-bottom: 10px; }
+  #advanced-search .footer, #advanced-search-2 .footer {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #d7d7d7;
+    padding-top: 20px;
+    margin-bottom: -5px; }
+  #advanced-search input:not(.gender):not(.merit-or-finance), #advanced-search-2 input:not(.gender):not(.merit-or-finance) {
+    border-width: 1px;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: #C1C1C1;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
+    padding: 3px 5px;
+    margin-bottom: 10px;
+    width: 80%;
+    display: block; }
+  #advanced-search select, #advanced-search-2 select {
+    display: block;
+    float: left; }
 
 .cd-user-modal {
   position: fixed;
