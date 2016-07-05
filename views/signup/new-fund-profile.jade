@@ -9,10 +9,10 @@ block content
 					nav.navbar.navbar-custom.navbar-fixed-top
 						.col-sm-3
 						.col-sm-5.col-xs-12
-							p#almost Update and verify your grant details here.
+							p#almost Finish the signup by entering details about your trust.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
-							a#next.account-submit(href= "#eligible", type = "button") Next
+							a#next.account-submit(href= "#eligible", type = "button") Done
 					section#account-info.container.content-section
 						h4#name <%= fundName %>
 							.row
@@ -20,11 +20,11 @@ block content
 									figure#profile-figure
 											input#my_file(type='file', style='display: none;', name = 'profile_picture')
 											img#profile-picture(src="../../images/fund_img_placeholder.jpg")
-										figcaption#add-profile Upload a profile picture 
+										figcaption#add-profile Upload a profile picture
 							.row
 								.col-md-12.center-block
 									p#description 1. Please enter a brief overview of your grant organisation:
-									textarea#description-area 
+									textarea#description-area
 							.row
 								.col-md-12.center-block
 									p#charity-number 2. Please enter your registered charity number:
@@ -54,17 +54,17 @@ block content
 						.row
 							.col-md-12.center-block
 									p#age 6. Please enter any age requirements of your institution if applicable
-									.row                  
+									.row
 										.col-xs-6
-											input#minimum_age(type='number', placeholder = 'Minimum age', value = "minimum_age") 
+											input#minimum_age(type='number', placeholder = 'Minimum age', value = "minimum_age")
 										.col-xs-6
 											input#maximum_age(type='number', placeholder = 'Maximum age', value = "maximum_age")
 						.row
 							.col-md-12.center-block
 									p#amount 7. Please enter the minimum and/or maximum amount of funding given if applicable
-									.row                  
+									.row
 										.col-xs-6
-											input#minimum_amount(type='number', placeholder = 'Minimum amount', value = "minimum_amount") 
+											input#minimum_amount(type='number', placeholder = 'Minimum amount', value = "minimum_amount")
 										.col-xs-6
 											input#maximum_amount(type='number', placeholder = 'Maximum amount', value = "maximum_amount")
 						.row
@@ -73,11 +73,11 @@ block content
 								.row
 									.col-xs-3.radio
 										label#merit-column
-											input#merit(type='radio', value = "merit", name = "merit_or_finance") 
+											input#merit(type='radio', value = "merit", name = "merit_or_finance")
 											span Merit
 									.col-xs-5.radio
 										label#finance-column
-											input#finance(type='radio', value = "finance", name = "merit_or_finance") 
+											input#finance(type='radio', value = "finance", name = "merit_or_finance")
 											span Financial situation
 									#clear-radio.col-xs-3.radio
 										span#clear1 Clear
@@ -87,15 +87,15 @@ block content
 								.row
 									.col-xs-3.radio
 										label#male-column
-											input#male(type='radio', value = "male", name = "gender") 
+											input#male(type='radio', value = "male", name = "gender")
 											span Male
 									.col-xs-3.radio
 										label#female-column
-											input#female(type='radio', value = "female", name = "gender") 
+											input#female(type='radio', value = "female", name = "gender")
 											span Female
 									#clear-radio.col-xs-3.radio
 										span#clear2 Clear
-										
+
 						.row
 							.col-md-12.center-block
 								p#dates 10. Please enter a date when students can start handing in applications and a deadline for applications
@@ -115,7 +115,7 @@ block content
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
 							a#previous(href = "#eligible", type = "button") Previous
-							a#next.application-submit(href = '/signup/fund_signup_complete/' + user.id, type = "button") Finish    
+							a#next.application-submit(href = '/signup/fund_signup_complete/' + user.id, type = "button") Finish
 				section#application-info.container.content-section
 					ul.cd-switcher
 						li#add-category
@@ -138,22 +138,22 @@ block content
 							.col-md-4.center-block
 								h4 Your input
 							.col-md-6
-								input#questions(type="radio", name = "question-type") 
+								input#questions(type="radio", name = "question-type")
 								| Questions for applicants
 							.col-md-6
-								input#description-text(type="radio", name="question-type") 
+								input#description-text(type="radio", name="question-type")
 								| Description Text field
 						.row
 							.col-md-4.center-block
 								h4 Applicant input
 							.col-md-4
-								input#text(type="radio", name = "answer-type") 
+								input#text(type="radio", name = "answer-type")
 								| Text answer
 							.col-md-4
-								input#upload(type="radio", name = "answer-type") 
+								input#upload(type="radio", name = "answer-type")
 								| File upload
 							.col-md-4
-								input#checkbox(type="radio", name = "answer-type") 
+								input#checkbox(type="radio", name = "answer-type")
 								| Checkbox
 						.row
 							.col-md-4.center-block

@@ -1,4 +1,4 @@
- var express = require('express');
+var express = require('express');
 var signup = require('../controllers/signup');
 var router = express.Router();
 var multer = require('multer');
@@ -84,6 +84,7 @@ router.post('/fund_signup/tags/:id', signup.getTags);
 router.post('/fund_signup/countries/:id', signup.getCountries);
 router.post('/fund_signup/religion/:id', signup.getReligion);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
+router.post('/fund_signup/charity_no/:id', signup.insertCharityNumber);
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
 router.post('/fund_signup/fund_application/:id', signup.applicationCategory);
 router.post('/fund_signup/change_category/:id', signup.changeCategory);

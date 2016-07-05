@@ -203,17 +203,14 @@ module.exports = {
     var id = req.params.id;
 		console.log(id);
     models.users.findById(id).then(function(user){
-      // models.funds.findById(user.fund_or_user).then(function(fund){
-      //   for (var attrname in fund['dataValues']){
-      //     if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-      //       console.log(attrname);
-      //       user["dataValues"][attrname] = fund[attrname];
-			//
-      //     }
-      //   }
-      //   res.json(user);
-      // })
-			res.json(user);
+      models.organisations.findById(user.fund_or_user).then(function(organisation){
+        for (var attrname in organisation['dataValues']){
+          if(attrname != "id" && attrname != "created_at" && attrname != "updated_at"){
+            user["dataValues"][attrname] = organisation[attrname];
+          }
+        }
+        res.json(user);
+      })
     })
 
   },
@@ -368,28 +365,37 @@ module.exports = {
       });
     }
     else{
+			//description
       console.log("BIG TINGS", req.body);
       models.users.findById(userId).then(function(user){
         user.update(req.body).then(function(user){
-          models.funds.findById(user.fund_or_user).then(function(fund){
-            fund.update(req.body).then(function(user){
-              res.send(user);
-            })
-          })
-
+          res.send(user);
         })
       })
     }
   },
+	insertCharityNumber: function(req, res){
+		var userId = req.params.id;
+		var charityId = req.body.charity_number;
+		console.log(charityId);
+		models.users.findById(userId).then(function(user){
+			var fundId = user.fund_or_user;
+			models.organisations.findById(fundId).then(function(fund){
+				fund.update({
+					charity_id: charityId
+				}).then(function(fund){
+					res.send(fund);
+				})
+			})
+		})
+	},
   insertFundData: function(req, res){
 		//edit for organisations
     var userId = req.params.id;
-    console.log("KENDRICK", req.body);
     models.users.findById(userId).then(function(user){
         var fundId = user.fund_or_user;
         console.log(fundId);
         models.funds.findById(fundId).then(function(user){
-          console.log("HMMMMMMMMMMM", user);
           user.update(req.body).then(function(user){
             console.log("ERROR");
             res.send(user);

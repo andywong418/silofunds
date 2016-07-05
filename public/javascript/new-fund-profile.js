@@ -25,8 +25,8 @@ $(document).ready(function(){
   		var model = this.model;
   		var view = new AccountView({model: account});
   		this.$el.append(view.render().el);
-
-
+			//Turn off all events in case of ghost views
+			$(document).unbind('*');
   		if(this.model.get('profile_picture')){
 				this.$("#profile-picture").attr('src', this.model.get('profile_picture'));
 			}
@@ -34,21 +34,18 @@ $(document).ready(function(){
 				this.$("#description-area").val( this.model.get('description'));
 				this.$("#description-area").css("border", "2px #16a085 solid")
 			}
-			if(this.model.get('charity_number')){
-				this.$("#charity-input").val( this.model.get('charity_number'));
+			if(this.model.get('charity_id')){
+				this.$("#charity-input").val( this.model.get('charity_id'));
 				this.$("#charity-input").css("border", "2px #16a085 solid");
 			}
-
 			var categoriesArray = this.model.get('categories');
 			if(!categoriesArray){
 				parameters = {title: "General", status: "setup" };
   			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
-  			console.log(data);
   			});
 			}
-			$(document).off('click', '#profile-picture');
+
   		$(document).on('click', '#profile-picture', function(){
-  			console.log('HI');
 			    $("input[id='my_file']").click();
   		});
   		$(document).on('change', "input[id='my_file']", function(){
@@ -57,7 +54,6 @@ $(document).ready(function(){
 	          var reader = new FileReader();
 
 	          reader.onload = function (e) {
-	          console.log(model);
 	          model.set({imageLink: e.target.result});
 	          $('#profile-picture')
 	            .attr('src', e.target.result)
@@ -78,7 +74,6 @@ $(document).ready(function(){
 							console.log(data);
 
 						});
-	          console.log(this.files[0].name);
 	   		 		reader.readAsDataURL(this.files[0]);
 	   		 		$("#add-profile").css("display", "none");
   				}
@@ -100,12 +95,10 @@ $(document).ready(function(){
   		$(document).on('keypress', '#charity-input', function(e){
   			$("#charity-input").css("border", "2px #16a085 solid");
   			var code = e.keycode || e.which;
-  			console.log($("#charity-input").val());
-  			console.log(code);
   			if (code == 13){
 
   				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  				$.post('/signup/fund_signup/charity_no/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
   			}
@@ -114,7 +107,7 @@ $(document).ready(function(){
 
   				$("#charity-input").css("border", "2px #16a085 solid");
   				parameters = {charity_number: $("#charity-input").val() };
-  				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
+  				$.post('/signup/fund_signup/charity_no/' + fund_setup.id, parameters, function(data){
   				console.log(data);
   			})
 
@@ -140,6 +133,8 @@ $(document).ready(function(){
   		})
   		var view = new EligibleView({model: eligible});
   		this.$el.append(view.render().el);
+			//Turn off all events in case of ghost views
+			$(document).unbind('*');
 			if (!Modernizr.inputtypes.date) {
         // If not native HTML5 support, fallback to jQuery datePicker
             $('input[type=date]').datepicker({
@@ -180,7 +175,6 @@ $(document).ready(function(){
   		}
 			if(this.model.get('merit_or_finance')){
 				if(this.model.get('merit_or_finance') == "merit"){
-					console.log(this.model.get('merit_or_finance'));
 					this.$("#merit").prop("checked", true);
 				}
 				else{
@@ -198,7 +192,6 @@ $(document).ready(function(){
 
 
 			if(this.model.get('start_date')){
-				console.log(this.model.get('start_date'));
 				var dateArray = this.model.get('start_date').split("T");
 				var date = dateArray[0];
 				this.$("#start_date").val(date);
@@ -246,7 +239,6 @@ $(document).ready(function(){
 	  			var religionArray = value.split(',');
 	  			var parameters = {};
 	  			parameters[field] = religionArray;
-	  			console.log(religionArray);
 	  			$.post('/signup/fund_signup/religion/' + fund_setup.id, parameters, function(data){
 	  				console.log(data);
 	  			})
@@ -260,7 +252,6 @@ $(document).ready(function(){
   				var value = $(this).val();
   				var parameters = {};
   				parameters[field] = value;
-  				console.log(field);
   				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   					console.log(data);
   				})
@@ -272,10 +263,8 @@ $(document).ready(function(){
   				$(this).css("border", "2px #16a085 solid");
   				var field = $(this).attr("name");
   				var value = $(this).val();
-  				console.log(value);
   				var parameters = {};
   				parameters[field] = value;
-  				console.log(parameters);
   				$.post('/signup/fund_signup/fund_data/' + fund_setup.id, parameters, function(data){
   					console.log(data);
   				})
@@ -326,23 +315,16 @@ $(document).ready(function(){
 				$(document).on('click', function(){
 					console.log(counter);
 					if(counter ==0){
-						console.log("BITCH");
 						$('.instruction-pointer').css('display', 'none');
 						$('.instruction-pointer-2').css('display', 'none');
 
 					}
-					// if(counter == 1){
-					// 	console.log("hey")
-					// 	$('.instruction-pointer-2').css('display', 'none');
-					// }
-
 				});
 
   			$( window ).resize(function() {
 				  var savedLength = $("ul.cd-switcher").width();
 							$("ul.cd-switcher").width($("#application-form").width());
 							var formLength = $("#application-form").width();
-							console.log("-" + (formLength - savedLength) + "px");
 							if(formLength = savedLength != 0){
 								$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 							}
@@ -360,17 +342,12 @@ $(document).ready(function(){
 					this.$(".cd-switcher li").first().css("background-color", "#BFBFBF");
 					this.$(".cd-switcher li").first().addClass("active");
 					var onLoadCategory = this.$(".cd-switcher li").first().attr("id");
-					console.log(onLoadCategory);
 					$.get('/signup/fund_signup/get_fields/' + onLoadCategory, function(data){
 						console.log(data);
 						if(data.length != 0){
 							var parsedData = JSON.parse(data[0].html);
-							console.log(parsedData.question_tag);
-							console.log(parsedData);
-							console.log(data[1]);
 							for (var i = 0; i < data.length; i++){
 								var parsed = JSON.parse(data[i].html);
-								console.log(parsed);
 								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
 									$("#add-field").before("<p class = 'paragraph-filler' id = '" + data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" +  data[i].id + "'></textarea> <hr>");
 								}
@@ -387,7 +364,6 @@ $(document).ready(function(){
 							var savedLength = $("ul.cd-switcher").width();
 							$("ul.cd-switcher").width($("#application-form").width());
 							var formLength = $("#application-form").width();
-							console.log("-" + (formLength - savedLength) + "px");
 							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 
 						}
@@ -395,25 +371,21 @@ $(document).ready(function(){
 						var savedLength = $("ul.cd-switcher").width();
 							$("ul.cd-switcher").width($("#application-form").width());
 							var formLength = $("#application-form").width();
-							console.log("-" + (formLength - savedLength) + "px");
 							$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 						}
 					});
-				$(document).off('click', '.category');
 				$(document).on('click', '.category', function(){
 					var categoryId = $(this).attr('id');
 					$("#" + categoryId).css("background-color", "#BFBFBF");
 					$("#" + categoryId).addClass("active");
 					$(".cd-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
 					$(".cd-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
-					console.log($("#add-field").siblings());
 
 					$.get('/signup/fund_signup/get_fields/' + categoryId, function(data){
 						$("#add-field").siblings().not("#delete-category").remove();
 						if(data){
 							for (var i = 0; i < data.length; i++){
 								var parsed = JSON.parse(data[i].html);
-								console.log(parsed);
 								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
 									$("#add-field").before("<p class = 'paragraph-filler' id = '" +  data[i].id + "'><span class = question-pointer>" + parsed.question + "</span><span><i class = 'fa fa-times delete' id= '" + data[i].id + "'></i><i class = 'fa fa-pencil add' id = '" + data[i].id + "'></i> </span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" + data[i].id + "'></textarea> <hr>");
 								}
@@ -430,7 +402,6 @@ $(document).ready(function(){
 						}
 					})
 				})
-				$(document).off('click', '#add-category');
 				$(document).on('click', '#add-category', function(){
 					var savedLength = $("ul.cd-switcher").width();
 					$("ul.cd-switcher").width($("#application-form").width());
@@ -438,9 +409,6 @@ $(document).ready(function(){
 					if(formLength = savedLength != 0){
 					$("ul.cd-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 					}
-					console.log($(this).prev("li").attr("id"));
-					// var w = 50/n;
-					// if($(this).prev("li"))
 					if($(this).prev("li").attr("id")){
 					$(".active").removeClass("active");
 					$(this).before("<li class = 'active'><input style = 'height: 20px;' id = 'addition', type = 'text'></input></li>");
@@ -448,17 +416,14 @@ $(document).ready(function(){
 					}
 				})
 
-				$(document).off('blur', '#addition');
 				$(document).on('blur', "#addition", function(){
 					var newTitle = $(this).val();
-					console.log($(this).parent());
 					if($(this).val()){
 						var parent = $(this).parent();
 						$(".cd-switcher li").not(this).removeClass("active");
 						$(".cd-switcher li").not(this).css("background-color", "white");
 						var parameters = {title: newTitle};
 						$.post('/signup/fund_signup/add_category/'+ fund_setup.fund_or_user, parameters, function(data){
-							console.log(data);
 							parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
 						})
 					}
@@ -473,8 +438,6 @@ $(document).ready(function(){
 					else{
 						closestCategory = $(".active").prev("li");
 					}
-
-						console.log(closestCategory);
 						$(".active").remove();
 						closestCategory.click();
 
@@ -484,7 +447,6 @@ $(document).ready(function(){
 				})
 			},
 			editField: function(){
-				$(document).off('click', '#add-field');
 				$(document).on('click', '#add-field', function(){
 					$("#application-info").css("z-index", "-1");
 					$("#field-modal").css("display", "block");
@@ -503,16 +465,13 @@ $(document).ready(function(){
 					$("#text, #upload, #checkbox").attr('disabled', false);
 				});
 
-				$(document).off('click', '#submit');
 				$(document).on('click', '#submit', function(){
 					var questions = $("#questions").prop("checked");
 					var descriptionText = $("#description-text").prop("checked");
 					var text = $("#text").prop("checked");
 					var upload = $("#upload").prop("checked");
 					var checkbox = $("#checkbox").prop("checked");
-					console.log(questions);
 					var id = $(".active").attr("id");
-					console.log("ID FOUND", id);
 					if(questions && text ){
 						$("#application-info").css("z-index", "5");
 						$("#field-modal").css("display", "none");
@@ -534,7 +493,7 @@ $(document).ready(function(){
 						$("#add-field").before("<textarea placeholder = 'Type your description here' id = '" + id + "' class = 'add-description-field'></textarea> ")
 					}
 				})
-				$(document).off('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field');
+
 				$(document).on('blur', '.add-text-question, .add-file-question, .add-checkbox-question, .add-description-field', function(){
 						var categoryId = $(this).attr('id');
 						var questionClass = $(this).attr('class');
@@ -554,7 +513,6 @@ $(document).ready(function(){
 								applicant_input_type: applicantInputType
 							}
 							$.post('/signup/fund_signup/add_field/' + categoryId, parameters, function(data){
-								console.log(data);
 								saveInput.replaceWith("<p id = '" + data.id + "' class = 'paragraph-filler'><span class = question-pointer>" + question + "</span><span><i class = 'fa fa-times delete' id= '" + data.id + "'></i><i class = 'fa fa-pencil add' id = '" + data.id + "'></i> </span></p> <hr> ")
 							})
 						}
@@ -564,19 +522,14 @@ $(document).ready(function(){
 								description: question
 							}
 							$.post('/signup/fund_signup/add_field/' + categoryId, parameters, function(data){
-								console.log(data);
 								saveInput.replaceWith("<p id = '" + data.id + "' class = 'description-filler'><span class = question-pointer>" + question + "</span><span><i class = 'fa fa-times delete' id= '" + data.id + "'></i><i class = 'fa fa-pencil add' id = '" + data.id + "'></i> </span></p> <hr>");
 							})
 						}
 				})
-				$(document).off('click', '.add');
 				$(document).on('click', '.add', function(){
 						var fieldId = $(this).attr("id");
 						var val = $(this).parent().prev().html();
 						var question_or_description = $(this).parent().parent();
-						console.log(question_or_description);
-						console.log(fieldId);
-						console.log(val);
 					  if(question_or_description.attr('class') == 'paragraph-filler' || question_or_description.attr('class') == 'input-filler'){
 					  	if($(this).parent().prev().children('input').length >0){
 					  		return true
@@ -596,13 +549,11 @@ $(document).ready(function(){
 
 						}
 				})
-				$(document).off('blur', '.edit-text-question, .edit-text-description');
 				$(document).on('blur', '.edit-text-question, .edit-text-description', function(){
 					var fieldId = $(this).attr("id");
 					var value = $(this).val();
 					var inputClass = $(this).attr("class");
 					var applicantInputType = $(this).parent().parent().next().prop('type');
-					console.log(applicantInputType);
 					var saveInput = $(this);
 					if(inputClass == 'edit-text-question'){
 							var parameters = {
@@ -659,13 +610,11 @@ $(document).ready(function(){
 		"application": "application"
 	},
 	account : function() {
-		console.log(fund_setup.id);
 		// var link = window.location.hostname;
 		var router = this;
 		var accountModel = new FundModel();
 		accountModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(accountModel));
 				router.loadView(new AccountDisplay({model: accountModel}));
 			}
 		});
@@ -674,7 +623,6 @@ $(document).ready(function(){
 		var eligibleModel = new FundModel();
 		eligibleModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(eligibleModel));
 				router.loadView(new EligibleDisplay({model: eligibleModel}));
 			}
 
@@ -687,14 +635,12 @@ $(document).ready(function(){
 		var applicationModel = new ApplicationModel();
 		applicationModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(applicationModel));
 				router.loadView(new ApplicationDisplay({model: applicationModel }));
 			}
 
 		})
 	},
 	loadView : function(viewing) {
-
 		this.view && this.view.remove();
 		this.view = viewing;
 		$('body').append(viewing.el);
