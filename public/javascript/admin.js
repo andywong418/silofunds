@@ -13,7 +13,7 @@ $(function() {
   	$('html, body').animate({
   		scrollTop: 0
   	}, 700);
-    
+
   	return false;
   });
 
@@ -29,7 +29,7 @@ $(function() {
     $("#merit, #finance").prop("checked", false);
   });
 
-  $("form[name='destroy_fund']").submit(function(e) {
+  $("form[name='destroy_fund'], form[name='destroy_organisation']").submit(function(e) {
     e.preventDefault();
     var currentTarget = event.target;
     var result = confirm("You sure you want to delete?");

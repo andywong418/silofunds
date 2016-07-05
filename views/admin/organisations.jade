@@ -9,13 +9,13 @@ block content
           a.btn.btn-default.btn-success(href='/admin/organisations/new', role='button') Create a new organisation
         .col-md-3
           form(action="/admin/organisations/upload", method="post", enctype="multipart/form-data")
-            input(type="file", name="jsonData" disabled)
-            button.btn.btn-default.btn-primary(type='submit' disabled) Upload JSON!
+            input(type="file", name="jsonData")
+            button.btn.btn-default.btn-primary(type='submit') Upload JSON!
         .col-md-3
           form(action="/admin/organisations/sync", method="post", name="sync_db")
             button.btn.btn-warning(type="submit" disabled) Sync ES to PG
         .col-md-3
-          a.btn.btn-default.btn-link#downloader(href='/admin/download' download disabled) Generate download link
+          a.btn.btn-default.btn-link#downloader(href='/admin/organisations/download' download) Generate download link
           .downloader#generated_download_link
       hr
       a.back-to-top(href='#')
@@ -43,6 +43,6 @@ block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='/javascript/lib/bootstrap.min.js')
-    //- script(src='/javascript/admin.js')
+    script(src='/javascript/admin.js')
     //- script.
     //-   var fundData =!{JSON.stringify(funds)};
