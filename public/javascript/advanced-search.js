@@ -53,11 +53,11 @@ $(document).ready(function(){
   });
 
   // remove parameter from query string if value === ''
-  $("form#advs-grant-form").submit(function(event) {
+  $("form#advs-funding-form").submit(function(event) {
     event.preventDefault();
     var currentTarget = event.target;
     var emptyInputFields = 0;
-    var searchFormInputs = $("input[form='advs-grant-form']");
+    var searchFormInputs = $("input[form='advs-funding-form']");
 
     for (var i = 0; i < searchFormInputs.length; i++) {
       var id = searchFormInputs[i].id;
@@ -74,7 +74,7 @@ $(document).ready(function(){
 
     if (emptyInputFields === searchFormInputs.length) {
       console.log("appended");
-      $("form#advs-grant-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='advs-grant-form'>");
+      $("form#advs-funding-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='advs-funding-form'>");
     }
 
     currentTarget.submit();
