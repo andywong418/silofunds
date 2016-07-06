@@ -146,6 +146,10 @@ module.exports = function(sequelize, DataTypes) {
     specific_location: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'specific_location'
+    },
+    support_type: {
+      type: DataTypes.TEXT,
+      field: 'support_type'
     }
   }, {
     timestamps: true,

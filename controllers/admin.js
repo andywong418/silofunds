@@ -19,7 +19,7 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 
-var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","created_at","updated_at"];
+var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
 
@@ -196,6 +196,7 @@ module.exports = {
     var min_amount = parseIfInt(fund.min_amount);
     var max_amount = parseIfInt(fund.max_amount);
     var number_of_places = parseIfInt(fund.number_of_places);
+    var support_type = fund.support_type ? fund.support_type : null;
 
     models.funds.findById(id).then(function(fund) {
       fund.update({
@@ -224,6 +225,7 @@ module.exports = {
         organisation_id: organisation_id,
         specific_location: specific_location,
         subject: subject,
+        support_type: support_type,
         target_degree: target_degree,
         target_university: target_university,
         required_degree: required_degree,
@@ -323,6 +325,7 @@ module.exports = {
     var min_amount = parseIfInt(fund.min_amount);
     var max_amount = parseIfInt(fund.max_amount);
     var number_of_places = parseIfInt(fund.number_of_places);
+    var support_type = fund.support_type ? fund.support_type : null;
 
     models.funds.create({
       application_decision_date: application_decision_date,
@@ -350,6 +353,7 @@ module.exports = {
       organisation_id: organisation_id,
       specific_location: specific_location,
       subject: subject,
+      support_type: support_type,
       target_degree: target_degree,
       target_university: target_university,
       required_degree: required_degree,

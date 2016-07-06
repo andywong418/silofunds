@@ -351,13 +351,10 @@ $("#login-form").submit(function(e){
          el: ".nav li",
 
          initialize: function(){
-          //  if(typeof user ==='undefined' || user ==false){
-          //    $('.post-signin').css("display","none");
-          //  }
-          //  else{
-            //  $('.pre-signin').css("display", "none");
-            //  $('.post-signin').css("display","inline");
-            //  $('.post-signin').css("z-index", "11");
+           if(typeof user ==='undefined' || user ==false){
+             
+           }
+           else{
              if(user.fund_or_user){
                $("#home").attr("href", '/funds/' + user.id );
                $(".settings").attr("href", '/funds/settings/' +user.id);
@@ -369,7 +366,7 @@ $("#login-form").submit(function(e){
                $(".logout").attr("href", '/users/logout/' + user.id);
              }
 
-
+          }
 
          // $('.pre-signin').css("display","none");
        }
