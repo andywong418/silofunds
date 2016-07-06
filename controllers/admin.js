@@ -501,6 +501,8 @@ module.exports = {
             if (organisation.deleted_at) {
               create_options["deleted_at"] = organisation.deleted_at;
             }
+
+            create_options["id"] = organisation.id;
           }
 
           models.organisations.create( create_options ).then(function() {
