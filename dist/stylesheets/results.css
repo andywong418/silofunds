@@ -193,7 +193,10 @@ p {
   padding-top: 25px;
   padding-bottom: 25px;
   padding-right: 30px;
-  display: none; }
+  display: none;
+  font-size: 12px; }
+  #advanced-search .keyword {
+    margin-bottom: 30px; }
   #advanced-search .header {
     margin-bottom: 30px;
     border-bottom-width: 1px;
@@ -223,6 +226,8 @@ p {
     margin-bottom: 10px;
     width: 80%;
     display: block; }
+  #advanced-search input#advanced-tags {
+    width: 100%; }
   #advanced-search select {
     display: block;
     float: left; }

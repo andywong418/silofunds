@@ -95,6 +95,11 @@ $linkedin-advs-border: #ebe2e2;
   padding-bottom: 25px;
   padding-right: 30px;
   display: none;
+  font-size: 12px;
+
+  .keyword {
+    margin-bottom: 30px;
+  }
 
   .header {
     margin-bottom: 30px;
@@ -135,6 +140,10 @@ $linkedin-advs-border: #ebe2e2;
     margin-bottom: 10px;
     width: 80%;
     display: block;
+  }
+
+  input#advanced-tags {
+    width: 100%;
   }
 
   select {
