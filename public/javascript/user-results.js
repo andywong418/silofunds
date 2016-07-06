@@ -46,7 +46,7 @@ $(document).ready(function(){
       });
       return true;
     });
-  $(document).on('click', '#refine-search', function(){
+  $(document).on('click', '#advs-link', function(){
 
     $("#advanced-search").slideDown();
      advanced = false;
@@ -82,7 +82,7 @@ $(document).ready(function(){
       });
   });
   $(document).click(function(e) {
-    if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+    if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#advs-link') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
         $("#advanced-search").toggle(false);
 
     }
@@ -90,7 +90,7 @@ $(document).ready(function(){
           return true;
         }
 
-    if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null && e.target.closest('#refine-search') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
+    if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null && e.target.closest('#advs-link') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
       $("#advanced-search-2").toggle(false);
     }
     else{
