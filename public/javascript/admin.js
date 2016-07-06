@@ -119,6 +119,14 @@ $(function() {
     if(fund.invite_only) {
       $("#invite").prop("checked", true);
     }
+    if(fund.support_type){
+      var options = $("#support_type").children()
+      for (i = 0; i < options.length; i++){
+        if(fund.support_type == options[i].value){
+          options[i].selected = true;
+        }
+      }
+    }
   } catch (e) {
     console.log("Caught the error.");
   }

@@ -161,6 +161,14 @@ block content
               .col-md-3.form-group
                 label(for='interview_date') Interview Date
                 input#interview_date.form-control(type='date', name='interview_date')
+              .col-md-3.form-group
+                label(for='support_type') Type of funding offered
+                select#support_type.form-control(name="support_type")
+                  option(value='') Please Select from
+                  option(value='scholarship') Scholarship
+                  option(value='bursary') Bursary
+                  option(value='grant') Grant
+                  option(value='prize') Prize
           .row
             tr
               .col-md-12.form-group
