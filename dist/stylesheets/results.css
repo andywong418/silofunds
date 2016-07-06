@@ -130,15 +130,17 @@ p {
     width: 313px;
     font-size: 13px; }
 
-#refine-search {
+a#refine-search {
   position: relative;
   width: 150px;
   top: 2px;
   color: white;
   font-size: 9px;
-  letter-spacing: 1px; }
-  #refine-search:hover {
-    text-decoration: underline; }
+  letter-spacing: 1px;
+  text-decoration: none; }
+  a#refine-search:hover, a#refine-search:active, a#refine-search:visited {
+    text-decoration: none;
+    color: #d5d0d0; }
 
 #dropdown {
   display: inline; }

@@ -1,5 +1,6 @@
 $linkedin-advs-background: #f2f2f2;
 $linkedin-advs-border: #ebe2e2;
+$hover-on-link: #d5d0d0;
 
 .search_form {
   position: absolute;
@@ -16,15 +17,18 @@ $linkedin-advs-border: #ebe2e2;
   }
 }
 
-#refine-search {
+a#refine-search {
   position: relative;
   width: 150px;
   top: 2px;
   color: white;
   font-size: 9px;
   letter-spacing: 1px;
-  &:hover {
-    text-decoration: underline;
+  text-decoration: none;
+
+  &:hover, &:active, &:visited {
+    text-decoration: none;
+    color: $hover-on-link;
   }
 }
 
