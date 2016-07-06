@@ -71,7 +71,7 @@ $linkedin-advs-border: #ebe2e2;
 
 /*advanced search */
 
-#advanced-search, #advanced-search-2 {
+#advanced-search {
   margin: -3.5% 17%;
   border-color: $linkedin-advs-border;
   border-style: solid;
@@ -102,8 +102,18 @@ $linkedin-advs-border: #ebe2e2;
     border-bottom-style: solid;
     border-bottom-color: #d7d7d7;
 
-    .col-md-4 h5 {
+    h5 {
       margin-bottom: 10px;
+    }
+  }
+
+  ul {
+    margin-bottom: 30px;
+
+    li#search-for {
+      padding-top: 12px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
   }
 

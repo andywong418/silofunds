@@ -176,7 +176,7 @@ p {
   color: #2ABB9B; }
 
 /*advanced search */
-#advanced-search, #advanced-search-2 {
+#advanced-search {
   margin: -3.5% 17%;
   border-color: #ebe2e2;
   border-style: solid;
@@ -194,20 +194,26 @@ p {
   padding-bottom: 25px;
   padding-right: 30px;
   display: none; }
-  #advanced-search .header, #advanced-search-2 .header {
+  #advanced-search .header {
     margin-bottom: 30px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: #d7d7d7; }
-    #advanced-search .header .col-md-4 h5, #advanced-search-2 .header .col-md-4 h5 {
+    #advanced-search .header h5 {
       margin-bottom: 10px; }
-  #advanced-search .footer, #advanced-search-2 .footer {
+  #advanced-search ul {
+    margin-bottom: 30px; }
+    #advanced-search ul li#search-for {
+      padding-top: 12px;
+      padding-left: 10px;
+      padding-right: 10px; }
+  #advanced-search .footer {
     border-top-width: 1px;
     border-top-style: solid;
     border-top-color: #d7d7d7;
     padding-top: 20px;
     margin-bottom: -5px; }
-  #advanced-search input:not(.gender):not(.merit-or-finance), #advanced-search-2 input:not(.gender):not(.merit-or-finance) {
+  #advanced-search input:not(.gender):not(.merit-or-finance) {
     border-width: 1px;
     border-radius: 3px;
     border-style: solid;
@@ -217,7 +223,7 @@ p {
     margin-bottom: 10px;
     width: 80%;
     display: block; }
-  #advanced-search select, #advanced-search-2 select {
+  #advanced-search select {
     display: block;
     float: left; }
 
