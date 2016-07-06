@@ -11,6 +11,12 @@ var emptyStringToNull = function(object) {
   return object;
 };
 
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+};
+
 module.exports = {
   index: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
@@ -24,14 +30,12 @@ module.exports = {
   },
 
   search: function(req, res) {
-    var searchString = req.query.tags;
-    var searchAge = parseInt(req.query.age);
-    var searchAmount = parseInt(req.query.amount);
-    var query = emptyStringToNull(req.query);
-    var searchCountry = req.query.nationality;
-    var searchReligion = req.query.religion;
-    console.log("relgion", req.query);
-    console.log("QUERY FOR REAL", searchAmount);
+    var query = req.query;
+    var searchTags = query.tags ? query.tags : null;
+    var searchAge = query.age ? parseIfInt(query.age) : null;
+    var searchAmount = query.amount ? parseIfInt(query.amount) : null;
+    var searchCountry = query.nationality ? query.nationality : null;
+    var searchReligion = query.religion ? query.religion : null;
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
@@ -68,10 +72,8 @@ module.exports = {
           }
         }
       }
-
     ];
 
-    console.log("I'm here")
     var queryOptions = {
       "filtered": {
         "filter": {
@@ -92,13 +94,13 @@ module.exports = {
         }
       };
     }
-    if(searchString !== ''){
+    if(searchTags){
       queryOptions.filtered["query"] = {
         "bool": {
         "should": [
           {
           "multi_match" : {
-            "query": searchString,
+            "query": searchTags,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
             "boost": 3
@@ -117,7 +119,7 @@ module.exports = {
         "should": [
           {
           "multi_match" : {
-            "query": searchString,
+            "query": searchTags,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
             "boost": 3
@@ -140,7 +142,7 @@ module.exports = {
         "should": [
           {
           "multi_match" : {
-            "query": searchString,
+            "query": searchTags,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
             "boost": 10
@@ -157,8 +159,6 @@ module.exports = {
        }
       };
     }
-
-    console.log("QUERY OPTIONS ARE HERE: " + queryOptions);
 
     models.es.search({
       index: "funds",
