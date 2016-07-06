@@ -52,10 +52,32 @@ $(document).ready(function(){
     return false;
   });
 
-  $("#advs-submit").click(function(e) {
-    e.preventDefault();
+  // remove parameter from query string if value === ''
+  $("form#advs-grant-form").submit(function(event) {
+    event.preventDefault();
+    var currentTarget = event.target;
+    var emptyInputFields = 0;
+    var searchFormInputs = $("input[form='advs-grant-form']");
 
-    $("form#search-form").trigger("submit");
+    for (var i = 0; i < searchFormInputs.length; i++) {
+      var id = searchFormInputs[i].id;
+      var input = $("#" + id);
+      var isRadioButton = input[0].type === "radio";
+      var isRadioButtonUnchecked = input.prop("checked") !== true;
+
+      if(input.val() === "" || (isRadioButton && isRadioButtonUnchecked)) {
+        $("#" + id).attr("name", "");
+
+        emptyInputFields++;
+      }
+    }
+
+    if (emptyInputFields === searchFormInputs.length) {
+      console.log("appended");
+      $("form#advs-grant-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='advs-grant-form'>");
+    }
+
+    currentTarget.submit();
   });
 
   $("#users").click(function(){
