@@ -123,15 +123,22 @@ p {
   width: 100%;
   left: 0;
   text-align: center;
-  margin: auto;
-  margin-top: 9px; }
-  .search_form input {
-    margin: 0px 7px;
-    border: none;
-    border-radius: 5px;
+  margin-top: 6px; }
+  .search_form input#text_search {
+    margin-left: 0px;
     padding: 5px;
     width: 313px;
     font-size: 13px; }
+
+#refine-search {
+  position: relative;
+  width: 150px;
+  top: 2px;
+  color: white;
+  font-size: 9px;
+  letter-spacing: 1px; }
+  #refine-search:hover {
+    text-decoration: underline; }
 
 #dropdown {
   display: inline; }
@@ -771,17 +778,6 @@ i {
 
 .fund_amount, .fund_min_age, .fund_max_age, .fund_description {
   font-weight: bold; }
-
-#refine-search {
-  position: absolute;
-  left: -140px;
-  width: 150px;
-  top: 2px;
-  color: white;
-  font-size: 11px;
-  letter-spacing: 1px; }
-  #refine-search:hover {
-    text-decoration: underline; }
 
 .badge {
   padding-top: 5px;

@@ -11,23 +11,20 @@ block content
 						img#brand-image(src="images/transparent silo icon graphic.png")
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
 						i.fa.fa-bars
-					form.search_form(id = "search-form", action='/results', method='get', name='search_form')
-						#dropdown.dropdown
-							a#refine-search(href='#0') Refine search
-							button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-								i.fa.et-down.fa-bars
-								i.fa.et-down.fa-angle-down
-							ul#dropdown-menu.dropdown-menu
-								li.dropdown-header type of profile search
-								li#grants
-									| Grants
-									span
-										i.fa.fa-check
-								li#users
-									| Users
-									span
-										i.fa.fa-check
-						input#text_search.tags(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level', form="search-form")
+					form.navbar-form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+						a#refine-search(href='#0') Refine search
+						.form-group
+							.col-md-12
+								.input-group
+									.input-group-btn
+										button#category.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Funding
+											span.caret
+										ul.dropdown-menu
+											li
+												a(href='#') Funding
+											li
+												a(href='#') Users
+									input#text_search.tags.form-control(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level', form="search-form")
 						button#search_button.btn.btn-info(type='submit')
 							i.fa.fa-search
 				// Collect the nav links, forms, and other content for toggling
