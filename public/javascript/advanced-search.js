@@ -46,11 +46,16 @@ $(document).ready(function(){
 
       return true;
     });
-  $(document).on('click', '#refine-search', function(){
-
+  $('#refine-search').click(function(){
     $("#advanced-search").slideDown();
-     advanced = false;
-      return true;
+    advanced = false;
+    return false;
+  });
+
+  $("#advs-submit").click(function(e) {
+    e.preventDefault();
+
+    $("form#search-form").trigger("submit");
   });
 
   $("#users").click(function(){
