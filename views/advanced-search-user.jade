@@ -1,0 +1,32 @@
+//- includes/advanced-search-user.jade
+.tab-pane#advanced-search-user
+  section.header
+    .row
+      .col-md-12
+        h5 About the user
+  section.content-section
+    .row
+      .col-md-4
+        label(for='user_age') Age
+        input#advanced-user-age(type = "number", name = "user_age", form = "search-form")
+      .col-md-4
+        label(for= 'user_country_of_residence') Country of Residence
+        input#advanced-user-country-of-residence(type = "text", name = "user_country_of_residence", form = "search-form")
+      .col-md-4
+        label(for='user_religion') Religion
+        input#advanced-user-religion(type = "text", name = "user_religion", form = "search-form")
+    .row
+      .col-md-4
+        label(for='user_amount_needed') Amount Needed
+        input#advanced-user-amount-needed(type = "number", name = "user_amount_needed", form = "search-form")
+      .col-md-4
+        label(for='gender') Gender
+        .row
+          .col-md-5
+            label.radio-inline
+              input#male.gender(type='radio', name = 'user_gender', value= 'male', form = "search-form")
+              | Male
+          .col-md-5
+            label.radio-inline
+              input#female.gender(type='radio', name = 'User_gender', value = 'female', form = "search-form")
+              | Female

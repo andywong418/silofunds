@@ -1,0 +1,87 @@
+//- includes/advanced-search-grant.jade
+.tab-pane.active#advanced-search-grant
+  section.header
+    .row
+      .col-md-4
+        h5 About you
+      .col-md-4
+        h5 About the grant
+      .col-md-4
+        h5 About the study
+  section.content-section
+    .row
+      .col-md-4
+        label(for='age') Age
+        input#advanced-age(type = "number", name = "age", form = "search-form")
+      .col-md-4
+        label(for='title') Title
+        input#advanced-title(type = "text", name = "title", form = "search-form")
+      .col-md-4
+        label(for='target_country') Country
+        input#advanced-target-country(type = "text", name = "target_country", form = "search-form")
+    .row
+      .col-md-4
+        label(for= 'country_of_residence') Country of Residence
+        input#advanced-country-of-residence(type = "text", name = "country_of_residence", form = "search-form")
+      .col-md-4
+        label(for= 'amount_offered') Amount Offered
+        input#advanced-amount-offered(type= "number", name="amount_offered", form="search-form")
+      .col-md-4
+        label(for='specific_location') Borough / State / Province
+        input#advanced-specific-location(type = "text", name = "specific_location", form = "search-form")
+    .row
+      .col-md-4
+        label(for='religion') Religion
+        input#advanced-religion(type = "text", name = "religion", form = "search-form")
+      .col-md-4
+        label(for='subject') Subject offered for
+        input#advanced-subject(type = "text", name = "subject", form = "search-form")
+      .col-md-4
+        label(for="target_university") Institution
+        input#advanced-target-university(type="text", name="target_university", form="search-form")
+    .row
+      .col-md-4
+        label(for='acquired_grade') Grade Acquired
+        input#advanced-acquired-grade(type = "text", name = "acquired_grade", form = "search-form")
+      .col-md-4
+        label(for='duration_of_scholarship') Duration
+        input#advanced-duration(type = "text", name = "duration_of_scholarship", form = "search-form")
+      .col-md-4
+        label(for='target_degree') Degree
+        input#advanced-target-degree(type = "text", name = "target_degree", form = "search-form")
+    .row
+      .col-md-4
+        label(for='completed_university') Institution graduated from
+        input#advanced-completed-university(type = "text", name = "completed_university", form = "search-form")
+      .col-md-4
+        label(for='deadline') Deadline
+        input#advanced-deadline(type = "date", name = "deadline", form = "search-form")
+    .row
+      .col-md-4
+        label(for='completed_degree') Completed Degrees
+        input#advanced-completed-degree(type = "text", name = "completed_degree", form = "search-form")
+      .col-md-4
+        label(for="merit_or_finance") Merit or finance based
+        .row
+          .col-md-6
+            label.radio-inline
+              input#merit.merit-or-finance(type='radio', name='merit_or_finance', value='merit', form = "search-form")
+              | Merit
+          .col-md-6
+            label.radio-inline
+              input#finance.merit-or-finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
+              | Finance
+    .row
+      .col-md-4
+        label(for='gender') Gender
+        .row
+          .col-md-5
+            label.radio-inline
+              input#male.gender(type='radio', name = 'gender', value= 'male', form = "search-form")
+              | Male
+          .col-md-5
+            label.radio-inline
+              input#female.gender(type='radio', name = 'gender', value = 'female', form = "search-form")
+              | Female
+  section.footer.text-center
+    button#advs-submit.btn.btn-primary(type='submit') Search
