@@ -14,19 +14,30 @@ block content
     #scholarships.option.col-md-3
       p.option-description Scholarships are awarded on the basis of academic merit or other achievements and will normally be competitive.
       img.funding-img(src='/images/scholarship.svg')
-      h3 Scholarships
+      button.btn.btn-secondary.create(type='button')
+        a#scholarship-link(href='/funds/funding-creation/' + user.id + '/scholarships') Create a Scholarship
+      h4 Scholarships
     #bursaries.option.col-md-3
       p.option-description.center-block Bursaries are given based on financial need and are usually non-competitive.
       img.funding-img(src='/images/bursary.svg')
-      h3 Bursaries
+      button.btn.btn-secondary.create(type='button')
+        a#bursary-link(href='/funds/funding-creation/' + user.id + '/bursaries') Create a Bursary
+      h4 Bursaries
     #grant.option.col-md-3
       p.option-description Grants can be given based on either merit or financial needs, but can also be awarded for research projects and other miscellaneous reasons.
       img.funding-img(src='/images/grant.svg')
-      h3 Grants
+      button.btn.btn-secondary.create(type='button')
+        a#grant-link(href='/funds/funding-creation/' + user.id + '/grants') Create a Grant
+      h4 Grants
     #prizes.option.col-md-3
-      p.option-description Prizes are usually awarded based on specific topics determined by funding institutions and requires submitted work from applicants. This will then determine the allocation of prizes.
+      p.option-description Prizes are usually awarded based on specific topics determined by funding institutions and requires submitted work from applicants. This work will then determine the allocation of prizes.
       img.funding-img(src='/images/prize.svg')
-      h3 Prizes
+      button.btn.btn-secondary.create(type='button')
+        a#prize-link(href='/funds/funding-creation/' + user.id + '/prizes') Create a Prize
+      h4 Prizes
+  #last-option.row.container.center-block
+    a#later(href='/funds/' + user.id) Take me to the dashboard. I will decide later
+      i.fa.fa-long-arrow-right
 
 block scripts
   script(src='/javascript/signup-login.js')
