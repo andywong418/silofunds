@@ -1,7 +1,7 @@
 $(document).ready(function(){
   var bool = false;
 
-
+  // for retaining advs form fields
   for(var field in query){
     $('.' + field).attr('value', query[field]);
     if(field == 'merit_or_finance'){
@@ -11,11 +11,10 @@ $(document).ready(function(){
       $('#' + query[field]).attr("checked", "true");
     }
   }
-  var advanced = true;
-  var advanced_2 = true;
+
   function split( val ) {
       return val.split(" ");
-  };
+  }
 
   $("a.category").click(function(event) {
     var currentTarget = event.target;
@@ -127,7 +126,4 @@ $(document).ready(function(){
       return true;
     }
   });
-
-
-
-})
+});
