@@ -248,10 +248,41 @@ module.exports = {
           }
         }
         var fields= [];
-        res.render('funding-creation', {user: user, newUser: false})
+        res.render('funding-creation', {user: user})
       })
 
     })
+  },
+  fundingSignupProcess: function(req,res){
+    var id = req.params.id;
+    var option = req.params.option;
+    console.log("Check params", req.params);
+    models.users.findById(id).then(function(user){
+      models.organisations.findById(user.fund_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
+            user["dataValues"][attrname] = fund[attrname];
+          }
+        }
+        switch(option){
+          case 'scholarships':
+            res.render('signup/option-signup', {user: user, support_type: 'scholarship' });
+            break;
+          case 'bursaries':
+            res.render('signup/option-signup', {user: user, support_type: 'bursary' });
+            break;
+          case 'grants':
+            res.render('signup/option-signup', {user: user, support_type: 'grant'});
+            break;
+          case 'prizes':
+            res.render('signup/option-signup',{user: user, support_type: 'prize'});
+            break;
+          default:
+            res.render('signup/fund-profile', {user: user, newUser: false});
+        }
+      })
+    })
+
   },
   editDescription: function(req, res){
     var fundId = req.params.id;

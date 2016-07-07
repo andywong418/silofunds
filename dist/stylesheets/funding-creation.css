@@ -52,7 +52,8 @@
   position: absolute;
   text-align: left;
   display: none;
-  margin-right: 10px; }
+  margin-right: 10px;
+  margin-top: 20px; }
 
 #bursaries {
   border-color: #00da8d;

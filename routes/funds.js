@@ -4,6 +4,7 @@ var router = express.Router();
 
 router.get('/:id', fund.home);
 router.get('/funding_creation/:id', fund.createFunding);
+router.get('/funding_creation/:id/:option', fund.fundingSignupProcess);
 router.post('/edit_description/:id', fund.editDescription);
 router.post('/edit_dates/:id', fund.editDates)
 router.get('/settings/:id/', fund.settings);
