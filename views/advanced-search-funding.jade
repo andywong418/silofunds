@@ -60,13 +60,6 @@
           label(for='completed_university') Institution graduated from
           input#advanced-completed-university(type = "text", name = "completed_university", form = "advs-funding-form")
         .col-md-4
-          label(for='deadline') Deadline
-          input#advanced-deadline(type = "date", name = "deadline", form = "advs-funding-form")
-      .row
-        .col-md-4
-          label(for='completed_degree') Completed Degrees
-          input#advanced-completed-degree(type = "text", name = "completed_degree", form = "advs-funding-form")
-        .col-md-4
           label(for="merit_or_finance") Merit or finance based
           .row
             .col-md-6
@@ -77,6 +70,10 @@
               label.radio-inline
                 input#finance.merit-or-finance(type='radio', name='merit_or_finance', value='finance', form = "advs-funding-form")
                 | Finance
+      .row
+        .col-md-4
+          label(for='completed_degree') Completed Degrees
+          input#advanced-completed-degree(type = "text", name = "completed_degree", form = "advs-funding-form")
       .row
         .col-md-4
           label(for='gender') Gender
