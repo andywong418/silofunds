@@ -24,7 +24,9 @@ $(document).ready(function(){
       $("button#category").html("Funding <span class='caret'></span>");
       $("form.search_form .input-group-btn").removeClass("open");
       $("#advanced-search .tab-pane#advs-user, #advanced-search li#search-for-users").removeClass("active");
+      $("#advanced-search .tab-pane#advs-user").removeClass("in");
       $("#advanced-search .tab-pane#advs-funding, #advanced-search li#search-for-funding").addClass("active");
+      $("#advanced-search .tab-pane#advs-funding").addClass("in");
       $("#search-form").attr('action', '/results');
       $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level');
       $("input#text_search" ).autocomplete({
@@ -50,7 +52,9 @@ $(document).ready(function(){
       $("button#category").html("Users <span class='caret'></span>");
       $("form.search_form .input-group-btn").removeClass("open");
       $("#advanced-search .tab-pane#advs-user, #advanced-search li#search-for-users").addClass("active");
+      $("#advanced-search .tab-pane#advs-user").addClass("in");
       $("#advanced-search .tab-pane#advs-funding, #advanced-search li#search-for-funding").removeClass("active");
+      $("#advanced-search .tab-pane#advs-funding").removeClass("in");
       $("#search-form").attr('action', '/results/users');
       $("#text_search").attr('placeholder', 'Search for users by name or by interests');
       $("input#text_search" ).autocomplete({
@@ -115,7 +119,7 @@ $(document).ready(function(){
     var clickOnAdvsForm = $(e.target).closest('#advanced-search').length === 0;
     var clickOnAdvsLink = e.target.closest('#advs-link') === null;
     var clickOnSearchFormSubmit = e.target.closest('#search_button') === null;
-    
+
     if ( clickOnAdvsForm && clickOnAdvsLink && clickOnSearchFormSubmit) {
       $("#advanced-search").toggle(false);
     }
