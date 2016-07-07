@@ -17,22 +17,32 @@ $hover-on-link: #d5d0d0;
   }
 }
 
-a#advs-link {
-  position: relative;
-  width: 150px;
-  top: 2px;
-  color: white;
-  font-size: 9px;
-  letter-spacing: 1px;
-  text-decoration: none;
+.col-md-2#advs-link {
+  margin-top: 5px;
+  right: -25px;
 
-  &:hover, &:active, &:visited {
+  a#advs-link {
+    position: relative;
+    width: 150px;
+    top: 2px;
+    color: white;
+    font-size: 9px;
+    letter-spacing: 1px;
     text-decoration: none;
-  }
+    white-space: nowrap;
 
-  &:hover {
-    color: $hover-on-link;
+    &:hover, &:active, &:visited {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $hover-on-link;
+    }
   }
+}
+
+.col-md-2#submit-navbar-form {
+  left: -70px;
 }
 
 #dropdown {
