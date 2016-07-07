@@ -7,11 +7,10 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
           img#brand-image(src="images/transparent silo icon graphic.png")
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
           i.fa.fa-bars
-      .col-md-offset-2.col-md-8
-        form#search-form.navbar-form.search_form(action='/results', method='get', name='search_form')
+        form#search-form.col-md-offset-2.col-md-8.search_form(action='/results', method='get', name='search_form')
           .col-md-2#advs-link
             a#advs-link(href='#') Advanced search
-          .col-md-8.form-group
+          .col-md-6.form-group#navbar-form
             .col-md-12
               .input-group
                 .input-group-btn

@@ -120,7 +120,6 @@ p {
 
 .search_form {
   position: absolute;
-  width: 100%;
   left: 0;
   text-align: center;
   margin-top: 6px; }
@@ -132,7 +131,9 @@ p {
 
 .col-md-2#advs-link {
   margin-top: 5px;
-  right: -25px; }
+  text-align: right;
+  padding-right: 0px;
+  width: 24%; }
   .col-md-2#advs-link a#advs-link {
     position: relative;
     width: 150px;
@@ -147,8 +148,13 @@ p {
     .col-md-2#advs-link a#advs-link:hover {
       color: #d5d0d0; }
 
+.col-md-6#navbar-form {
+  padding-left: 0px;
+  padding-right: 0px; }
+
 .col-md-2#submit-navbar-form {
-  left: -70px; }
+  text-align: left;
+  padding-left: 0px; }
 
 #dropdown {
   display: inline; }
