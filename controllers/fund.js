@@ -141,6 +141,7 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
+      var fund_id_list = [];
       var funds = resp.hits.hits.map(function(hit) {
         var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
         var hash = {};
@@ -151,24 +152,24 @@ module.exports = {
         // Sync id separately, because it is hit._id, NOT hit._source.id
         hash.id = hit._id;
 
-        // console.log("HASH AFTER", hash);
+        fund_id_list.push(hash.id); // for the WHERE ___ IN ___ query on users table later
+        hash.fund_user = false; // for the user logic later
+
         return hash;
       });
-      async.map(funds, function(fund, callback){
-        fund.fund_user = false;
-        models.users.find({where: {fund_or_user: fund.id}}).then(function(user){
-          if(user){
-            fund.fund_user = true;
-            callback(null, fund);
+
+      models.users.find({ where: { fund_or_user: { $in: fund_id_list }}}).then(function(user) {
+        if (user) {
+          for (var i=0; i < funds.length; i++) {
+            if (funds[i].id == user.fund_or_user) {
+              funds[i].fund_user = true;
+            }
           }
-          else{
-            callback(null, fund);
-          }
-        });
-      }, function(err, funds){
+        }
+      }).then(function() {
         var results_page = true;
-        if(user){
-          models.users.findById(user.id).then(function(user){
+        if (user) {
+          models.users.findById(user.id).then(function(user) {
             res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
           });
         } else {
