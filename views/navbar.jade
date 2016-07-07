@@ -7,19 +7,19 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
           img#brand-image(src="images/transparent silo icon graphic.png")
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
           i.fa.fa-bars
-        form.navbar-form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+        form#search-form.navbar-form.search_form(action='/results', method='get', name='search_form')
           a#advs-link(href='#') Advanced search
           .form-group
             .col-md-12
               .input-group
                 .input-group-btn
-                  button#category.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Funding
+                  button#category.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Funding 
                     span.caret
                   ul.dropdown-menu
                     li
-                      a(href='#') Funding
+                      a#category-funding.category(href='#') Funding
                     li
-                      a(href='#') Users
+                      a#category-users.category(href='#') Users
                 input#text_search.tags.form-control(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level', form="search-form")
           button#search_button.btn.btn-info(type='submit')
             i.fa.fa-search
