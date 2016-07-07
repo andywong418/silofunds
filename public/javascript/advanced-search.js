@@ -112,19 +112,15 @@ $(document).ready(function(){
   });
 
   $(document).click(function(e) {
-    if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#advs-link') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
-        $("#advanced-search").toggle(false);
-
+    var clickOnAdvsForm = $(e.target).closest('#advanced-search').length === 0;
+    var clickOnAdvsLink = e.target.closest('#advs-link') === null;
+    var clickOnSearchFormSubmit = e.target.closest('#search_button') === null;
+    
+    if ( clickOnAdvsForm && clickOnAdvsLink && clickOnSearchFormSubmit) {
+      $("#advanced-search").toggle(false);
     }
     else{
-          return true;
-        }
-
-    if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users') === null && e.target.closest('#advs-link') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
-      $("#advanced-search-2").toggle(false);
-    }
-    else{
-          return true;
+      return true;
     }
   });
 
