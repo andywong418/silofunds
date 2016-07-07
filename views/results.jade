@@ -4,56 +4,7 @@ block extraHeader
 	link(href='/stylesheets/results.css', rel='stylesheet')
 
 block content
-		nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-			#container.container
-				.row
-					.navbar-header
-						a#brand-heading.navbar-brand(href='/')
-							img#brand-image(src="images/transparent silo icon graphic.png")
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
-							i.fa.fa-bars
-						form.navbar-form.search_form(id = "search-form", action='/results', method='get', name='search_form')
-							a#advs-link(href='#') Advanced search
-							.form-group
-								.col-md-12
-									.input-group
-										.input-group-btn
-											button#category.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Funding
-												span.caret
-											ul.dropdown-menu
-												li
-													a(href='#') Funding
-												li
-													a(href='#') Users
-										input#text_search.tags.form-control(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level', form="search-form")
-							button#search_button.btn.btn-info(type='submit')
-								i.fa.fa-search
-					// Collect the nav links, forms, and other content for toggling
-					#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
-						ul.nav.navbar-nav
-							li
-								a.cd-login.pre-signin(href='#0') Log in
-							li
-								a.cd-signup.pre-signin(href='#0') Sign up
-							li.post-signin
-								button
-									a#home(href="#0")
-										i.fa.fa-user
-							//
-								li.post-signin
-								 i.fa.fa-comment-o
-							li.post-signin
-								.dropdown
-									button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-										i.fa.fa-cog
-									ul#settings-menu.dropdown-menu
-										li#settings
-											a.settings(href="#0")
-												| Settings
-										li.divider(role='separator')
-										li#logout
-											a.logout(href="#0")
-												| Log out
+		include ./navbar.jade
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				.row
