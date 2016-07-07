@@ -139,7 +139,8 @@ a#advs-link {
   letter-spacing: 1px;
   text-decoration: none; }
   a#advs-link:hover, a#advs-link:active, a#advs-link:visited {
-    text-decoration: none;
+    text-decoration: none; }
+  a#advs-link:hover {
     color: #d5d0d0; }
 
 #dropdown {

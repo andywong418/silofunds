@@ -28,6 +28,9 @@ a#advs-link {
 
   &:hover, &:active, &:visited {
     text-decoration: none;
+  }
+
+  &:hover {
     color: $hover-on-link;
   }
 }
