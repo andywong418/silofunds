@@ -1,10 +1,10 @@
 var models = require('../models');
 var query;
-var async = require('async')
+var async = require('async');
 var emptyStringToNull = function(object) {
   var newArray = [];
   for (var field in object){
-    if(object[field] == ''){
+    if(object[field] === ''){
       delete object[field];
     }
   }
@@ -31,48 +31,21 @@ module.exports = {
 
   search: function(req, res) {
     var query = req.query;
-    var searchTags = query.tags ? query.tags : null;
-    var searchAge = query.age ? parseIfInt(query.age) : null;
-    var searchAmount = query.amount ? parseIfInt(query.amount) : null;
-    var searchCountry = query.nationality ? query.nationality : null;
-    var searchReligion = query.religion ? query.religion : null;
+
+    // Parse integer fields
+    if (query.age) {
+      query.age = parseIfInt(query.age);
+    }
+    if (query.amount_offered) {
+      query.amount_offered = parseIfInt(query.amount_offered);
+    }
+
+    var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
+
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
-    req.session["redirect_user"] = search_url_array[1];
-    console.log(req.session);
-
-
-    var queryOptionsShouldArr = [
-      {
-        "range": {
-          "minimum_amount": {
-            "lte": searchAmount
-          }
-        }
-      },
-      {
-        "range": {
-          "maximum_amount": {
-            "gte": searchAmount
-          }
-        }
-      },
-      {
-        "range": {
-          "minimum_age": {
-            "lte": searchAge
-          }
-        }
-      },
-      {
-        "range": {
-          "maximum_amount": {
-            "gte": searchAge
-          }
-        }
-      }
-    ];
+    req.session.redirect_user = search_url_array[1];
 
     var queryOptions = {
       "filtered": {
@@ -83,81 +56,81 @@ module.exports = {
         }
       }
     };
-    if(searchAmount || searchAge){
-      var queryOptions = {
-        "filtered": {
-          "filter": {
-            "bool": {
-              "should": queryOptionsShouldArr
+
+    if (query.all !== "true" || emptyQueryObj) {
+      if (query.amount_offered || query.age) {
+        var queryOptionsShouldArr = [
+          {
+            "range": {
+              "minimum_amount": {
+                "lte": query.amount_offered
+              }
+            }
+          },
+          {
+            "range": {
+              "maximum_amount": {
+                "gte": query.amount_offered
+              }
+            }
+          },
+          {
+            "range": {
+              "minimum_age": {
+                "lte": query.age
+              }
+            }
+          },
+          {
+            "range": {
+              "maximum_amount": {
+                "gte": query.age
+              }
             }
           }
+        ];
+
+        queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+      }
+
+      queryOptions.filtered.query = {
+        "bool": {
+          "should": []
         }
       };
-    }
-    if(searchTags){
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
+
+      if (query.tags) {
+        queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
-            "query": searchTags,
+            "query": query.tags,
             "fields": ["tags","title.autocomplete"],
             "operator":   "and",
             "boost": 3
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }}
-        ]
-       }
-      };
-    }
-    if (searchCountry) {
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
-          "multi_match" : {
-            "query": searchTags,
-            "fields": ["tags","title.autocomplete"],
-            "operator":   "and",
-            "boost": 3
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }},
-          {
-            "match":{
-            "countries": searchCountry
-          }}
-        ]
-       }
-      };
-    }
-    if(searchReligion){
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
-          "multi_match" : {
-            "query": searchTags,
-            "fields": ["tags","title.autocomplete"],
-            "operator":   "and",
-            "boost": 10
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }},
-          {
-            "match":{
-            "religion": searchReligion
-          }}
-        ]
-       }
-      };
+          }
+        });
+      }
+
+      // Build "match" objects for each field present in query.
+      for (var key in query) {
+        var notTags = key !== "tags";
+        var notAge = key !== "age";
+        var notAmount = key !== "amount_offered";
+        var notTitle = key !== "title";
+
+        if (notTags && notAge && notAmount) {
+          var matchObj = {
+            "match": {}
+          };
+
+          matchObj.match[key] = query[key];
+          queryOptions.filtered.query.bool.should.push(matchObj);
+
+          if (notTitle) {
+            // Push the field name into the "multi_match" fields array for matching tags
+            queryOptions.filtered.query.bool.should[0].multi_match.fields.push(key);
+          }
+        }
+      }
     }
 
     models.es.search({
@@ -168,11 +141,7 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
-      console.log("This is the response:");
-      console.log(resp);
       var funds = resp.hits.hits.map(function(hit) {
-        console.log("Hit:");
-        console.log(hit);
         var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
         var hash = {};
 
@@ -189,36 +158,29 @@ module.exports = {
         fund.fund_user = false;
         models.users.find({where: {fund_or_user: fund.id}}).then(function(user){
           if(user){
-            console.log("FUND USER", user);
             fund.fund_user = true;
-            console.log("HASH", fund);
-            callback(null, fund)
+            callback(null, fund);
           }
           else{
-            console.log("HASH else", fund)
-            callback(null, fund)
+            callback(null, fund);
           }
-        })
+        });
       }, function(err, funds){
         var results_page = true;
-        console.log("READ FUNDS", funds);
         if(user){
-          console.log("Checking the user",user);
           models.users.findById(user.id).then(function(user){
             res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
-          })
-
-        }
-        else{
+          });
+        } else {
           res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
         }
-      })
-
+      });
     }, function(err) {
       console.trace(err.message);
       res.render('error');
     });
   },
+
   home: function(req, res){
     var session = req.params.session;
     var id = req.params.id;
