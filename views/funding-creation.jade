@@ -1,9 +1,33 @@
 extends layout
 
 block extraHeader
+  link(href='/stylesheets/user-profile.css', rel = 'stylesheet')
+  link(href='/stylesheets/funding-creation.css', rel = 'stylesheet')
 
 
 block content
-  h1 hello world
+  include ./navbar-fund.jade
+  h2#welcome.center-block Welcome to Silo, #{user.username}
+  h3#choose.center-block Please create a funding opportunity from the following options:
+  // options 4 - scholarships (explain), bursaries, grants, default
+  #funding-options.row.container.center-block
+    #scholarships.option.col-md-3
+      p.option-description Scholarships are awarded on the basis of academic merit or other achievements and will normally be competitive.
+      img.funding-img(src='/images/scholarship.svg')
+      h3 Scholarships
+    #bursaries.option.col-md-3
+      p.option-description.center-block Bursaries are given based on financial need and are usually non-competitive.
+      img.funding-img(src='/images/bursary.svg')
+      h3 Bursaries
+    #grant.option.col-md-3
+      p.option-description Grants can be given based on either merit or financial needs, but can also be awarded for research projects and other miscellaneous reasons.
+      img.funding-img(src='/images/grant.svg')
+      h3 Grants
+    #prizes.option.col-md-3
+      p.option-description Prizes are usually awarded based on specific topics determined by funding institutions and requires submitted work from applicants. This will then determine the allocation of prizes.
+      img.funding-img(src='/images/prize.svg')
+      h3 Prizes
 
 block scripts
+  script(src='/javascript/signup-login.js')
+  script(src='/javascript/funding-creation.js')

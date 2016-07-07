@@ -7,3 +7,76 @@
 
 #choose, #welcome {
   color: #34495e; }
+
+#funding-options {
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 300px;
+  width: 90%;
+  margin-left: 5%; }
+
+.option {
+  cursor: pointer;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  background-color: white;
+  width: 20%;
+  height: 100%;
+  margin: 1%;
+  border: solid 2px #CDCDCF;
+  box-shadow: 0px 1px 5px 0px rgba(36, 49, 71, 0.15);
+  border-radius: 5px;
+  vertical-align: top;
+  position: relative;
+  padding: 10px 20px 20px;
+  text-align: center;
+  -webkit-transition: 0s;
+  transition: 0s; }
+
+#scholarships {
+  border-color: #3399FF;
+  color: #3399FF; }
+
+#scholarships:hover {
+  background-color: #3399FF; }
+
+.option-description {
+  position: absolute;
+  text-align: left;
+  display: none; }
+
+#bursaries {
+  border-color: #00da8d;
+  color: #00da8d; }
+
+#bursaries:hover {
+  background-color: #00da8d; }
+
+#grant {
+  border-color: #7068FF;
+  color: #7068FF; }
+
+#grant:hover {
+  background-color: #7068FF; }
+
+#prizes {
+  border-color: #FFC300;
+  color: #FFC300; }
+
+#prizes:hover {
+  background-color: #FFC300; }
+
+.funding-img {
+  width: 210px;
+  height: auto; }
+
+.create {
+  position: relative;
+  margin-top: 60%;
+  display: none; }
