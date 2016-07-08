@@ -16,6 +16,20 @@ $(document).ready(function(){
       return val.split(" ");
   }
 
+  $("a.search-for").click(function(event) {
+    var currentTarget = event.target;
+
+    if (currentTarget.id === "search-for-funding") {
+      $("button#category").html("Funding <span class='caret'></span>");
+      $("#search-form").attr('action', '/results');
+      $("#text_search").attr('placeholder', 'Keywords - Subject, University, Degree level');
+    } else {
+      $("button#category").html("Users <span class='caret'></span>");
+      $("#search-form").attr('action', '/results/users');
+      $("#text_search").attr('placeholder', 'Search for users by name or by interests');
+    }
+  });
+
   $("a.category").click(function(event) {
     var currentTarget = event.target;
 
