@@ -118,43 +118,51 @@ p {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
-.search_form {
-  position: absolute;
-  left: 0;
-  text-align: center;
-  margin-top: 6px; }
-  .search_form input#text_search {
-    margin-left: 0px;
-    padding: 5px;
-    width: 313px;
-    font-size: 13px; }
-
-.col-md-2#advs-link {
-  margin-top: 5px;
-  text-align: right;
-  padding-right: 0px;
-  width: 24%; }
-  .col-md-2#advs-link a#advs-link {
-    position: relative;
-    width: 150px;
-    top: 2px;
-    color: white;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    white-space: nowrap; }
-    .col-md-2#advs-link a#advs-link:hover, .col-md-2#advs-link a#advs-link:active, .col-md-2#advs-link a#advs-link:visited {
-      text-decoration: none; }
-    .col-md-2#advs-link a#advs-link:hover {
-      color: #d5d0d0; }
-
-.col-md-6#navbar-form {
-  padding-left: 0px;
-  padding-right: 0px; }
-
-.col-md-2#submit-navbar-form {
-  text-align: left;
-  padding-left: 0px; }
+div.navbar-center-container {
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  position: fixed;
+  left: 50%;
+  width: 50%;
+  display: inline-block;
+  height: 50px; }
+  div.navbar-center-container form.search_form {
+    width: 100%;
+    text-align: center;
+    margin-top: 7.4px; }
+    div.navbar-center-container form.search_form div.advs-link {
+      display: inline-block;
+      -webkit-transform: translate(-220%, 0);
+              transform: translate(-220%, 0); }
+      div.navbar-center-container form.search_form div.advs-link a#advs-link {
+        color: white;
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        white-space: nowrap; }
+        div.navbar-center-container form.search_form div.advs-link a#advs-link:hover, div.navbar-center-container form.search_form div.advs-link a#advs-link:active, div.navbar-center-container form.search_form div.advs-link a#advs-link:visited {
+          text-decoration: none; }
+        div.navbar-center-container form.search_form div.advs-link a#advs-link:hover {
+          color: #d5d0d0; }
+    div.navbar-center-container form.search_form div#navbar-form {
+      display: inline-block;
+      -webkit-transform: translate(-50%, 0);
+              transform: translate(-50%, 0);
+      width: 375px;
+      position: fixed;
+      left: 50%; }
+      div.navbar-center-container form.search_form div#navbar-form button#category {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px; }
+      div.navbar-center-container form.search_form div#navbar-form input#text_search {
+        padding: 5px;
+        font-size: 12px; }
+    div.navbar-center-container form.search_form div.submit-navbar-form {
+      display: inline-block;
+      -webkit-transform: translate(480%, 0);
+              transform: translate(480%, 0); }
+      div.navbar-center-container form.search_form div.submit-navbar-form button {
+        border-radius: 3px; }
 
 #dropdown {
   display: inline; }

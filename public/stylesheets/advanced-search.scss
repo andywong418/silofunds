@@ -2,54 +2,67 @@ $linkedin-advs-background: #f2f2f2;
 $linkedin-advs-border: #ebe2e2;
 $hover-on-link: #d5d0d0;
 
-.search_form {
-  position: absolute;
-  left: 0;
-  text-align: center;
-  margin-top: 6px;
+div.navbar-center-container {
+  transform: translate(-50%, 0);
+  position: fixed;
+  left: 50%;
+  width: 50%;
+  display: inline-block;
+  height: 50px;
 
-  input#text_search {
-    margin-left: 0px;
-    padding: 5px;
-    width: 313px;
-    font-size: 13px;
-  }
-}
+  form.search_form {
+    width: 100%;
+    text-align: center;
+    margin-top: 7.4px;
 
-.col-md-2#advs-link {
-  margin-top: 5px;
-  text-align: right;
-  padding-right: 0px;
-  width: 24%;
+    div.advs-link {
+      display: inline-block;
+      transform: translate(-220%, 0);
 
-  a#advs-link {
-    position: relative;
-    width: 150px;
-    top: 2px;
-    color: white;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-decoration: none;
-    white-space: nowrap;
+      a#advs-link {
+        color: white;
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        white-space: nowrap;
 
-    &:hover, &:active, &:visited {
-      text-decoration: none;
+        &:hover, &:active, &:visited {
+          text-decoration: none;
+        }
+
+        &:hover {
+          color: $hover-on-link;
+        }
+      }
     }
 
-    &:hover {
-      color: $hover-on-link;
+    div#navbar-form {
+      display: inline-block;
+      transform: translate(-50%, 0);
+      width: 375px;
+      position: fixed;
+      left: 50%;
+
+      button#category {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+
+      input#text_search {
+        padding: 5px;
+        font-size: 12px;
+      }
+    }
+
+    div.submit-navbar-form {
+      display: inline-block;
+      transform: translate(+480%, 0);
+
+      button {
+        border-radius: 3px;
+      }
     }
   }
-}
-
-.col-md-6#navbar-form {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-.col-md-2#submit-navbar-form {
-  text-align: left;
-  padding-left: 0px;
 }
 
 #dropdown {
