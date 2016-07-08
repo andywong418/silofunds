@@ -68,9 +68,7 @@ $(document).ready(function() {
       var dateNow = new Date();
       dateNow = dateNow.toISOString();
       var deadline = this.model.get('deadline');
-      console.log(deadline);
       var id = this.model.get('id');
-      console.log(id);
       var tags = this.model.get('tags');
       var countries = this.model.get('country_of_residence');
       var minimum_amount = this.model.get('minimum_amount');
@@ -171,7 +169,7 @@ $(document).ready(function() {
     },
     infoToggle: function(){
       var id = this.model.get('id');
-      console.log(id);
+
       var description = this.model.get('description');
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");

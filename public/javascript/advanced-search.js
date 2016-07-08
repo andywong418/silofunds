@@ -86,6 +86,41 @@ $(document).ready(function(){
     return false;
   });
 
+  // remove parameter from query string if value === '' for search-form
+  $("form#search-form").submit(function(event) {
+    event.preventDefault();
+    var currentTarget = event.target;
+    var emptyInputFields = 0;
+    var searchFormInputs = $("input[form='search-form']");
+
+    for (var i = 0; i < searchFormInputs.length; i++) {
+      var id = searchFormInputs[i].id;
+      var input = $("#" + id);
+
+      if(input.val() === "") {
+        $("form#search-form #" + id).attr("name", "");
+
+        emptyInputFields++;
+      }
+    }
+
+    //TODO: Resole this fucking bug anyone please. When I am on /results/users?all=true,
+    //      and I trigger 'all=true' again by having empty search-form field,
+    //      it returns another 'all=true' parameter giving fucking
+    //      '/results/users?all=true&all=true' or '/results?all=true&all=true' like WTF.
+    //
+    //      But everything works fine if I submit the form a million times on '/results?all=true'
+    //      Here is a temporary brute force workaround:
+    var pathname = window.location.pathname;
+    var dangerZoneEntered = pathname === "/results/users";
+
+    if ((emptyInputFields === searchFormInputs.length) && (!dangerZoneEntered)) {
+      $("form#search-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='search-form'>");
+    }
+
+    currentTarget.submit();
+  });
+
   // remove parameter from query string if value === '' for advs-funding-form
   $("form#advs-funding-form").submit(function(event) {
     event.preventDefault();
