@@ -5,7 +5,7 @@
       .row
         .col-md-offset-2.col-md-8
           label(for='tags') Keywords
-          input#advanced-tags(type="text", name="tags", form="advs-user-form")
+          input#advanced-user-tags(type="text", name="tags", form="advs-user-form")
     section.header
       .row
         .col-md-12
@@ -14,27 +14,27 @@
       .row
         .col-md-4
           label(for='user_age') Age
-          input#advanced-user-age(type = "number", name = "user_age", form = "advs-user-form")
+          input#advanced-user-age(type = "number", name = "age", form = "advs-user-form")
         .col-md-4
           label(for= 'user_country_of_residence') Country of Residence
-          input#advanced-user-country-of-residence(type = "text", name = "user_country_of_residence", form = "advs-user-form")
+          input#advanced-user-country-of-residence(type = "text", name = "country_of_residence", form = "advs-user-form")
         .col-md-4
           label(for='user_religion') Religion
-          input#advanced-user-religion(type = "text", name = "user_religion", form = "advs-user-form")
+          input#advanced-user-religion(type = "text", name = "religion", form = "advs-user-form")
       .row
         .col-md-4
-          label(for='user_amount_needed') Amount Needed
-          input#advanced-user-amount-needed(type = "number", name = "user_amount_needed", form = "advs-user-form")
-        .col-md-4
-          label(for='gender') Gender
-          .row
-            .col-md-5
-              label.radio-inline
-                input#male.gender(type='radio', name = 'user_gender', value= 'male', form = "advs-user-form")
-                | Male
-            .col-md-5
-              label.radio-inline
-                input#female.gender(type='radio', name = 'User_gender', value = 'female', form = "advs-user-form")
-                | Female
+          label(for='funding_needed') Amount Needed
+          input#advanced-user-funding-needed(type = "number", name = "funding_needed", form = "advs-user-form")
+        //- .col-md-4
+        //-   label(for='gender') Gender
+        //-   .row
+        //-     .col-md-5
+        //-       label.radio-inline
+        //-         input#male.gender(type='radio', name = 'gender', value= 'male', form = "advs-user-form")
+        //-         | Male
+        //-     .col-md-5
+        //-       label.radio-inline
+        //-         input#female.gender(type='radio', name = 'gender', value = 'female', form = "advs-user-form")
+        //-         | Female
     section.footer.text-center
       button#advs-user-submit.btn.btn-primary(type='submit') Search

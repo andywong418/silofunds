@@ -86,7 +86,7 @@ $(document).ready(function(){
     return false;
   });
 
-  // remove parameter from query string if value === ''
+  // remove parameter from query string if value === '' for advs-funding-form
   $("form#advs-funding-form").submit(function(event) {
     event.preventDefault();
     var currentTarget = event.target;
@@ -100,19 +100,46 @@ $(document).ready(function(){
       var isRadioButtonUnchecked = input.prop("checked") !== true;
 
       if(input.val() === "" || (isRadioButton && isRadioButtonUnchecked)) {
-        $("#" + id).attr("name", "");
+        $("form#advs-funding-form #" + id).attr("name", "");
 
         emptyInputFields++;
       }
     }
 
     if (emptyInputFields === searchFormInputs.length) {
-      console.log("appended");
       $("form#advs-funding-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='advs-funding-form'>");
     }
 
     currentTarget.submit();
   });
+
+  // remove parameter from query string if value === '' for advs-user-form
+  $("form#advs-user-form").submit(function(event) {
+    event.preventDefault();
+    var currentTarget = event.target;
+    var emptyInputFields = 0;
+    var searchFormInputs = $("input[form='advs-user-form']");
+
+    for (var i = 0; i < searchFormInputs.length; i++) {
+      var id = searchFormInputs[i].id;
+      var input = $("#" + id);
+      var isRadioButton = input[0].type === "radio";
+      var isRadioButtonUnchecked = input.prop("checked") !== true;
+
+      if(input.val() === "" || (isRadioButton && isRadioButtonUnchecked)) {
+        $("form#advs-user-form #" + id).attr("name", "");
+
+        emptyInputFields++;
+      }
+    }
+
+    if (emptyInputFields === searchFormInputs.length) {
+      $("form#advs-user-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='advs-user-form'>");
+    }
+
+    currentTarget.submit();
+  });
+
 
   $(document).click(function(e) {
     var clickOnAdvsForm = $(e.target).closest('#advanced-search').length === 0;
