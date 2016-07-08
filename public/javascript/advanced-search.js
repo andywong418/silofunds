@@ -2,8 +2,7 @@ $(document).ready(function(){
   var bool = false;
 
   // for retaining advs form fields
-  for(var field in query){
-    $('.' + field).attr('value', query[field]);
+  for( var field in query) {
     if(field == 'merit_or_finance'){
         $('#' + query[field]).attr("checked", "true");
     }
