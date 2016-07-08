@@ -1,15 +1,6 @@
 var models = require('../models');
 var query;
 var async = require('async');
-var emptyStringToNull = function(object) {
-  var newArray = [];
-  for (var field in object){
-    if(object[field] === ''){
-      delete object[field];
-    }
-  }
-  return object;
-};
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -99,6 +90,7 @@ module.exports = {
         }
       };
 
+      //TODO: consider using type:"most_fields"; it is now by default "best_fields"
       if (query.tags) {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
@@ -125,7 +117,8 @@ module.exports = {
           matchObj.match[key] = query[key];
           queryOptions.filtered.query.bool.should.push(matchObj);
 
-          if (notTitle) {
+          // if query.tags doesn't exist, multi_match query won't exist
+          if (notTitle && query.tags) {
             // Push the field name into the "multi_match" fields array for matching tags
             queryOptions.filtered.query.bool.should[0].multi_match.fields.push(key);
           }
