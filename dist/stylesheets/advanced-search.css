@@ -137,7 +137,7 @@ div.navbar-center-container {
     margin-bottom: 10px;
     width: 80%;
     display: block; }
-  #advanced-search input#advanced-tags {
+  #advanced-search input#advanced_tags {
     width: 100%; }
   #advanced-search select {
     display: block;
