@@ -1,6 +1,12 @@
 var models = require('../models');
 var async = require('async');
 
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+};
+
 module.exports = {
 	home: function(req, res){
 		var id = req.params.id;
@@ -148,7 +154,7 @@ module.exports = {
     var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
 
     // Parse integer fields
-    if (query.user_age) {
+    if (query.age) {
       query.age = parseIfInt(query.age);
     }
     if (query.funding_needed) {
