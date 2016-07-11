@@ -80,8 +80,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING(40),
-      field: 'email',
-      unique: true
+      field: 'email'
     },
     organisation_id: {
       type: DataTypes.INTEGER,
