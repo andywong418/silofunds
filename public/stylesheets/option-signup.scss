@@ -201,7 +201,7 @@ input {
 
 
 .criteria-container{
-  display: none;
+  display: flex;
   width: 70%;
   margin-top: 30px;
   transition: 0.5s;
@@ -238,13 +238,13 @@ input {
   #personal-form{
     display:none;
     label{
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
   #education-form{
     display:none;
     label{
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
   #location-form{
@@ -260,5 +260,9 @@ input {
   }
   #separate-message{
     margin-top: 30px;
+  }
+  .selected-form{
+    display: inline !important;
+    transition: 0.5s;
   }
 }

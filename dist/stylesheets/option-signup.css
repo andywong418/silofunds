@@ -147,7 +147,9 @@ input {
     font-size: 16px; }
 
 .criteria-container {
-  display: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   width: 70%;
   margin-top: 30px;
   -webkit-transition: 0.5s;
@@ -178,11 +180,11 @@ input {
   .criteria-form #personal-form {
     display: none; }
     .criteria-form #personal-form label {
-      margin-top: 10px; }
+      margin-top: 15px; }
   .criteria-form #education-form {
     display: none; }
     .criteria-form #education-form label {
-      margin-top: 10px; }
+      margin-top: 15px; }
   .criteria-form #location-form {
     display: none; }
   .criteria-form #other-form {
@@ -193,3 +195,7 @@ input {
       margin-top: 10px; }
   .criteria-form #separate-message {
     margin-top: 30px; }
+  .criteria-form .selected-form {
+    display: inline !important;
+    -webkit-transition: 0.5s;
+    transition: 0.5s; }

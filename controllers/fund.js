@@ -7,6 +7,23 @@ var parseIfInt = function(string) {
     return parseInt(string);
   }
 };
+function moderateObject(objectFields){
+  for(var key in objectFields){
+    if(objectFields[key] === ''){
+      delete objectFields[key];
+    }
+  }
+  return objectFields;
+}
+function changeArrayfields(fields, arrayFields){
+  for(var i =0 ; i <arrayFields.length; i++){
+    if(fields[arrayFields[i] + '[]']){
+      var emptyArray = []
+      fields[arrayFields[i]] = emptyArray.concat(fields[arrayFields[i] + '[]']);
+    }
+  }
+  return fields;
+}
 
 module.exports = {
   index: function(req, res) {
@@ -281,10 +298,14 @@ module.exports = {
       res.json(fund);
     })
   },
-  createGeneralInfo: function(req, res){
+  createNewFund: function(req, res){
     var fields = req.body;
-    console.log(fields['tags[]']);
-    fields['tags'] = fields['tags[]'];
+    console.log(req.body);
+    var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location'];
+    console.log("HELLO");
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
+    console.log("FIELDS", fields );
     models.funds.create(fields).then(function(fund){
       res.send(fund);
     })
@@ -292,10 +313,33 @@ module.exports = {
   updateGeneralInfo: function(req, res){
     var id = req.params.fund_id;
     var fields = req.body;
-    fields['tags'] = fields['tags[]'];
-    models.funds.findbyId(id).then(function(fund){
-      res.send(fund);
+    console.log(fields);
+    fields = moderateObject(fields);
+    if(fields['tags[]']){
+      fields['tags'] = fields['tags[]'];
+    }
+    models.funds.findById(id).then(function(fund){
+      fund.update(req.body).then(function(fund){
+        res.send(fund);
+      })
     })
+  },
+  updateEligibility: function(req, res){
+    console.log("Check it again")
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    console.log(req.body);
+    var arrayFields = ['subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location'];
+    fields = moderateObject(fields);
+    console.log("again",fields);
+    fields = changeArrayfields(fields, arrayFields);
+    console.log('test',fields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
+
   },
   editDescription: function(req, res){
     var fundId = req.params.id;

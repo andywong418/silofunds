@@ -54,11 +54,8 @@ block content
           a#skip(href='#eligible') Skip
       script#eligible-template(type='text/template')
         span#helpBlock.help-block.center-block Only add a field if it does not apply to all aspects of the category. E.g. Do not add a subject field if the fund applies to all subjects. 
-        .container.center-block.eligible-container
-          i.fa.fa-plus
-          h5#add-field Add/edit a field of eligibility criteria
         .criteria-container.container.center-block
-          #subject.criteria-item
+          #subject.criteria-item.item-selected
             span.glyphicon.glyphicon-book
             p Subject
           #personal.criteria-item
@@ -74,18 +71,18 @@ block content
             span.glyphicon.glyphicon-option-horizontal
             p Other
         .criteria-form.container.center-block
-          form#subject-form
-            label(for='subject-input') Separate by comma and no space if more than one subject is specified
-            input#subject-input.form-control(name='subject')
+          form#subject-form.selected-form
+            label(for='subject') Separate by comma and no space if more than one subject is specified
+            input#subject.form-control(name='subject')
           form#personal-form
             .row
               .col-md-6
                 label Age
                 .row
                   .col-md-6
-                    input#min-age-input.form-control(name='minimum_age', placeholder='Minimum age')
+                    input#minimum_age.form-control(name='minimum_age', placeholder='Minimum age')
                   .col-md-6
-                    input#max-age-input.form-control(name='maximum_age', placeholder = 'Maximum age')
+                    input#maximum_age.form-control(name='maximum_age', placeholder = 'Maximum age')
               .col-md-6
                 label(for='gender-input') Gender
                 .row
@@ -100,7 +97,7 @@ block content
             .row
               .col-md-6
                 label(for='religion-input') Religion*
-                input#religion-input.form-control(name='religion')
+                input#religion.form-control(name='religion')
               .col-md-6
                 label(for='gender-input') Merit or Finance
                 .row
@@ -109,46 +106,46 @@ block content
                       input#merit-input(type='radio', name='merit_or_finance', value='merit')
                       | Merit
                   .col-md-6
-                      label.radio-inline
-                          input#finance-input.finance(type='radio', name='merit_or_finance', value='finance')
-                          | Finance
-            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+                    label.radio-inline
+                      input#finance-input.finance(type='radio', name='merit_or_finance', value='finance')
+                      | Finance
+            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
 
           form#education-form
             .row
               .col-md-4
                 label(for='target-university') Target university*
-                input#target-university.form-control(name='target_university')
+                input#target_university.form-control(name='target_university')
               .col-md-4
                 label(for='target-degree')  Intended degree of study*
-                input#target-degree.form-control(name='target_degree')
+                input#target_degree.form-control(name='target_degree')
               .col-md-4
                 label(for='required-degree') Required degree*
-                input#required-degree.form-control(name='required_degree')
+                input#required_degree.form-control(name='required_degree')
             .row
               .col-md-6
                 label(for='required-university') Previous university*
-                input#require-university.form-control(name='required_university')
+                input#required_university.form-control(name='required_university')
               .col-md-6
                 label(for='required-grade') Required grade
-                input#required-grade.form-control(name='required_grade')
-            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+                input#required_grade.form-control(name='required_grade')
+            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
           form#location-form
             .row
               .col-md-4
                 label(for='target-country') Country of study*
-                input#target-country.form-control(name='target_country')
+                input#target_country.form-control(name='target_country')
               .col-md-4
                 label(for='country_of_residence') Country of residence*
                 input#country_of_residence.form-control(name='country_of_residence')
               .col-md-4
-                label(for='borough') Borough*
-                input#borough.form-control(name='specific_location')
-            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+                label(for='specific_location') Borough/state*
+                input#specific_location.form-control(name='specific_location')
+            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
 
           form#other-form
-            label(for='other') Describe any other eligibility requirements not listed
-            input#other.form-control(name = 'other_eligibility')
+            label(for='other_eligibility') Describe any other eligibility requirements not listed
+            input#other_eligibility.form-control(name = 'other_eligibility')
              
         div.container.next.description
           button#save(type='submit', form='save-eligible')
