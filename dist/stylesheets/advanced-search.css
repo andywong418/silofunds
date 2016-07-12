@@ -88,7 +88,7 @@ div.navbar-center-container {
 
 /*advanced search */
 #advanced-search {
-  margin: -3.5% 17%;
+  margin-top: -28px;
   border-color: #ebe2e2;
   border-style: solid;
   border-width: 1px;
@@ -105,7 +105,10 @@ div.navbar-center-container {
   padding-bottom: 25px;
   padding-right: 30px;
   display: none;
-  font-size: 12px; }
+  font-size: 12px;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  left: 50%; }
   #advanced-search .keyword {
     margin-bottom: 30px; }
   #advanced-search .header {
