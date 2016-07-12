@@ -191,3 +191,5 @@ input {
       width: 80%;
       margin-left: 10%;
       margin-top: 10px; }
+  .criteria-form #separate-message {
+    margin-top: 30px; }

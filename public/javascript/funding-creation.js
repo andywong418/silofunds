@@ -10,7 +10,8 @@ $(document).ready(function(){
     $('#' + id).find('.option-description').css('display','none');
     $('#' + id).find('.funding-img').css('visibility', 'visible');
     $('#' + id).find('.create').css('display','none');
-  })
+  });
+
   $('.create').hover(function(){
     var id = $(this).find('a').attr('id');
     $('#' + id).css('color', '#5c6d7e')
@@ -18,4 +19,5 @@ $(document).ready(function(){
     var id = $(this).find('a').attr('id');
     $('#' + id).css('color', 'white')
   })
+
 })

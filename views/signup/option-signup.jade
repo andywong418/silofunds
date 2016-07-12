@@ -2,11 +2,166 @@ extends ../layout
 
 block extraHeader
   link(href='/stylesheets/user-profile.css', rel = 'stylesheet')
+  link(href='/stylesheets/option-signup.css', rel = 'stylesheet')
 
 block content
-  h1 Hello world
+  include ../navbar-fund.jade
+  section#signup-wrapper.content-section.container.center-block
+    .container
+      h4=support_type.charAt(0).toUpperCase() + support_type.slice(1) + ' Creation'
+      button#general.progress-track.btn.btn-default
+        a(href='#general') General information
+          span.glyphicon.glyphicon-menu-right
+      button#eligible.progress-track.btn.btn-default
+        a(href='#eligible') Eligibility requirements
+          span.glyphicon.glyphicon-menu-right
+      button#application.progress-track.btn.btn-default
+        a(href='#application') Application Process
+          span.glyphicon.glyphicon-menu-right
+      hr
+    div.template-container
+      script#general-template(type='text/template')
+        div.container.description.name-container
+          p#name= 'Name of ' + support_type
+        div.container.name
+          input#fund-name(name='title')
+        div.container.description.bio-container
+          p#bio Add a few sentences to tell potential applicants and donors what this fund is about.
+          textarea#bio-area.form-control(form='save-general', name='description')
+        div.container.description.form-group
+          p.amount-offer Amount offered
+            span.glyphicon.glyphicon-info-sign
+        div.container.amount.form-group
+          .col-md-3
+            input#min-amount.form-control(placeholder='Minimum amount', form='save-general', name='minimum_amount')
+          .col-md-3
+            input#max-amount.form-control(placeholder='Maximum amount', form='save-general', name= 'maximum_amount')
+        div.container.description.extra-info
+          .col-md-3.form-group
+            p.fund-duration Duration of funding
+            input#duration.form-control(placeholder='E.g. 1 year, 6 months, etc',form='save-general', name='duration_of_scholarship')
+          .col-md-3.form-group
+            p.places-number Number of places offered
+            input.form-control#place(form='save-general/',name='number_of_places')
+        div.container.description
+          p#tags-description Tags (separate each tag by a comma and no space)
+            span.glyphicon.glyphicon-info-sign
+        div.container.tags
+          input#tags.form-control(form='save-general', name='tags')
+        div.container.next.description
+          button#save(type='submit', form='save-general')
+            a#save-progress(href="#eligible") Save progress
+          a#skip(href='#eligible') Skip
+      script#eligible-template(type='text/template')
+        span#helpBlock.help-block.center-block Only add a field if it does not apply to all aspects of the category. E.g. Do not add a subject field if the fund applies to all subjects. 
+        .container.center-block.eligible-container
+          i.fa.fa-plus
+          h5#add-field Add/edit a field of eligibility criteria
+        .criteria-container.container.center-block
+          #subject.criteria-item
+            span.glyphicon.glyphicon-book
+            p Subject
+          #personal.criteria-item
+            span.glyphicon.glyphicon-user
+            p Personal
+          #education.criteria-item
+            span.glyphicon.glyphicon-education
+            p Education
+          #location.criteria-item
+            span.glyphicon.glyphicon-globe
+            p Location
+          #other.criteria-item
+            span.glyphicon.glyphicon-option-horizontal
+            p Other
+        .criteria-form.container.center-block
+          form#subject-form
+            label(for='subject-input') Separate by comma and no space if more than one subject is specified
+            input#subject-input.form-control(name='subject')
+          form#personal-form
+            .row
+              .col-md-6
+                label Age
+                .row
+                  .col-md-6
+                    input#min-age-input.form-control(name='minimum_age', placeholder='Minimum age')
+                  .col-md-6
+                    input#max-age-input.form-control(name='maximum_age', placeholder = 'Maximum age')
+              .col-md-6
+                label(for='gender-input') Gender
+                .row
+                  .col-md-6 
+                    label.radio-inline 
+                      input#male-input(type='radio', name= 'gender', value= 'male')
+                      | Male
+                  .col-md-6
+                    label.radio-inline 
+                      input#female-input(type='radio', name='gender', value='female')
+                      | Female
+            .row
+              .col-md-6
+                label(for='religion-input') Religion*
+                input#religion-input.form-control(name='religion')
+              .col-md-6
+                label(for='gender-input') Merit or Finance
+                .row
+                  .col-md-6
+                    label.radio-inline
+                      input#merit-input(type='radio', name='merit_or_finance', value='merit')
+                      | Merit
+                  .col-md-6
+                      label.radio-inline
+                          input#finance-input.finance(type='radio', name='merit_or_finance', value='finance')
+                          | Finance
+            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+
+          form#education-form
+            .row
+              .col-md-4
+                label(for='target-university') Target university*
+                input#target-university.form-control(name='target_university')
+              .col-md-4
+                label(for='target-degree')  Intended degree of study*
+                input#target-degree.form-control(name='target_degree')
+              .col-md-4
+                label(for='required-degree') Required degree*
+                input#required-degree.form-control(name='required_degree')
+            .row
+              .col-md-6
+                label(for='required-university') Previous university*
+                input#require-university.form-control(name='required_university')
+              .col-md-6
+                label(for='required-grade') Required grade
+                input#required-grade.form-control(name='required_grade')
+            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+          form#location-form
+            .row
+              .col-md-4
+                label(for='target-country') Country of study*
+                input#target-country.form-control(name='target_country')
+              .col-md-4
+                label(for='country_of_residence') Country of residence*
+                input#country_of_residence.form-control(name='country_of_residence')
+              .col-md-4
+                label(for='borough') Borough*
+                input#borough.form-control(name='specific_location')
+            p#separate-message.center-block These fields require separation by a comma and no space if more than one is specified.
+
+          form#other-form
+            label(for='other') Describe any other eligibility requirements not listed
+            input#other.form-control(name = 'other_eligibility')
+             
+        div.container.next.description
+          button#save(type='submit', form='save-eligible')
+            a#save-progress(href="#application") Save progress
+          a#skip(href='#application') Skip
+      script#application-template(type='text/template')
+        h1 Application Stuff
+
+
 
 block scripts
+  script(src='/javascript/option-signup.js')
   script.
     var support_type = !{JSON.stringify(support_type)};
-    console.log(support_type);
+    var user = !{JSON.stringify(user)};
+    var fund = !{JSON.stringify(fund)};

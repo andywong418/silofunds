@@ -220,25 +220,82 @@ module.exports = {
             user["dataValues"][attrname] = fund[attrname];
           }
         }
-        switch(option){
-          case 'scholarships':
-            res.render('signup/option-signup', {user: user, support_type: 'scholarship' });
-            break;
-          case 'bursaries':
-            res.render('signup/option-signup', {user: user, support_type: 'bursary' });
-            break;
-          case 'grants':
-            res.render('signup/option-signup', {user: user, support_type: 'grant'});
-            break;
-          case 'prizes':
-            res.render('signup/option-signup',{user: user, support_type: 'prize'});
-            break;
-          default:
-            res.render('signup/fund-profile', {user: user, newUser: false});
-        }
+          switch(option){
+            case 'scholarship':
+              res.render('signup/option-signup', {user: user,fund: false, support_type: 'scholarship' });
+              break;
+            case 'bursary':
+              res.render('signup/option-signup', {user: user,fund:false, support_type: 'bursary' });
+              break;
+            case 'grant':
+              res.render('signup/option-signup', {user: user,fund:false, support_type: 'grant'});
+              break;
+            case 'prize':
+              res.render('signup/option-signup',{user: user, fund: false, support_type: 'prize'});
+              break;
+            default:
+              res.render('signup/fund-profile', {user: user, fund: false,newUser: false});
+          }
+
       })
     })
 
+  },
+  fundCreatedSignup: function(req, res){
+    var userId = req.params.id;
+    var option = req.params.option;
+    var fundId = req.params.fund_id;
+    console.log(req.params.fund_id);
+    models.users.findById(userId).then(function(user){
+      models.organisations.findById(user.fund_or_user).then(function(organisation){
+        models.funds.findById(fundId).then(function(fund){
+          for (var attrname in organisation['dataValues']){
+            if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
+              user["dataValues"][attrname] = organisation[attrname];
+            }
+          }
+            switch(option){
+              case 'scholarship':
+                res.render('signup/option-signup', {user: user,fund: fund, support_type: 'scholarship' });
+                break;
+              case 'bursary':
+                res.render('signup/option-signup', {user: user,fund:fund, support_type: 'bursary' });
+                break;
+              case 'grant':
+                res.render('signup/option-signup', {user: user,fund:fund, support_type: 'grant'});
+                break;
+              case 'prize':
+                res.render('signup/option-signup',{user: user, fund: fund, support_type: 'prize'});
+                break;
+              default:
+                res.render('signup/fund-profile', {user: user, fund: fund,newUser: false});
+            }
+        })
+      })
+    })
+
+  },
+  getOptionInfo: function(req, res){
+    var fundId = req.params.id;
+    models.funds.findById(fundId).then(function(fund){
+      res.json(fund);
+    })
+  },
+  createGeneralInfo: function(req, res){
+    var fields = req.body;
+    console.log(fields['tags[]']);
+    fields['tags'] = fields['tags[]'];
+    models.funds.create(fields).then(function(fund){
+      res.send(fund);
+    })
+  },
+  updateGeneralInfo: function(req, res){
+    var id = req.params.fund_id;
+    var fields = req.body;
+    fields['tags'] = fields['tags[]'];
+    models.funds.findbyId(id).then(function(fund){
+      res.send(fund);
+    })
   },
   editDescription: function(req, res){
     var fundId = req.params.id;

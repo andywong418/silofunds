@@ -44,11 +44,11 @@ $(document).ready(function(){
     tagName: 'div',
     id: 'general-handler',
     events:{
-      'click #save-progress': 'saveGeneral'
+      'click #save': 'saveGeneral'
     },
     initialize: function(){
       console.log("WHY NOT HERE");
-      var generalModel = new OptionModel();
+      var generalModel = this.model;
       var view = new GeneralView({model: generalModel});
       this.$el.append(view.render().el);
       $('.selected').removeClass('selected');
@@ -93,7 +93,6 @@ $(document).ready(function(){
     },
     saveGeneral: function(e){
       e.preventDefault();
-      console.log("CHECK 1");
       var tags = $('#tags').val().split(',');
       var formData = {
         'title': $('input[name=title]').val(),
@@ -106,8 +105,14 @@ $(document).ready(function(){
         'tags': tags
       }
       if(!fund){
-        $.post('/funds/funding_creation/2/' + support_type + '/save_general', formData, function(data){
+        $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_general', formData, function(data){
           console.log(data);
+          fund = data;
+          window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#eligible';
+        })
+      }
+      else{
+        $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_general/' + fund.id, formData, function(data){
           fund = data;
           window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#eligible';
         })
@@ -136,7 +141,8 @@ var EligibleDisplay = Backbone.View.extend({
   id: 'eligible-handler',
   events: {
     'click .eligible-container': 'showCriteriaSelection',
-    'click .criteria-item': 'showItem'
+    'click .criteria-item': 'showItem',
+    'click #save': 'saveEligible'
   },
   initialize: function(){
     console.log("HELLO BUD");
@@ -183,8 +189,59 @@ var EligibleDisplay = Backbone.View.extend({
     $('.criteria-form form').not('#' + id + '-form').css('display', 'none');
     $('#' + id + '-form').show();
 
-  }
+  },
+  saveEligible: function(e){
+    e.preventDefault();
+    var subject = $('#subject-input').val().split(',');
+    var religion = $('#religion-input').val().split(',');
+    var targetUniversity = $('input[name=target_university]').val().split(',');
+    var targetDegree = $('input[name=target_degree]').val().split(',');
+    var requiredDegree = $('input[name=required_degree]').val().split(',');
+    var requiredUniversity = $('input[name=required_university]').val().split(',');
+    var targetCountry = $('input[name=target_country]').val().split(',');
+    var country_of_residence = $('input[name=country_of_residence]').val().split(',');
+    var specific_location = $('input[name=specific_location]').val().split(',');
 
+    var formData = {
+      'subject': subject,
+      'minimum_age': $('input[name=minimum_age]').val(),
+      'maximum_age': $('input[name=maximum_age]').val(),
+      'gender': $('input[name=gender]').val(),
+      'merit_or_finance': $('input[name=merit_or_finance]').val(),
+      'religion': religion,
+      'target_university': targetUniversity,
+      'target_degree': targetDegree,
+      'required_degree': requiredDegree,
+      'required_university': requiredUniversity,
+      'required_grade': $('input[name=required_grade]').val(),
+      'target_country': targetCountry,
+      'country_of_residence': country_of_residence,
+      'specific_location': specific_location
+    }
+    if(!fund){
+      $.post()
+    }
+  }
+})
+var ApplicationView = Backbone.View.extend({
+    id: 'application-form',
+    template: _.template($('#application-template').html()),
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this; // enable chained calls
+      }
+})
+
+var ApplicationDisplay = Backbone.View.extend({
+  tagName: 'div',
+  id: 'application-handler',
+  initialize: function(){
+    var applicationModel = new OptionModel();
+    var view = new ApplicationView({model: applicationModel});
+    this.$el.append(view.render().el);
+    $('.selected').removeClass('selected');
+    $('#application').addClass('selected')
+  }
 })
 // router config
 var Router = Backbone.Router.extend({
@@ -225,6 +282,23 @@ var Router = Backbone.Router.extend({
     }
     else{
       router.loadView(new EligibleDisplay({model: eligibleModel}));
+    }
+
+  },
+  application: function(){
+    var router = this;
+    var applicationeModel = new OptionModel();
+    if(fund){
+      console.log(fund.id);
+      var applicationModel = new OptionModel({id: fund.id});
+      applicationModel.fetch({
+        success:function(){
+          router.loadView(new ApplicationDisplay({model: applicationModel}));
+        }
+      });
+    }
+    else{
+      router.loadView(new ApplicationDisplay({model: applicationModel}));
     }
 
   },
