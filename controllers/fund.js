@@ -1,14 +1,11 @@
 var models = require('../models');
 var query;
-var async = require('async')
-var emptyStringToNull = function(object) {
-  var newArray = [];
-  for (var field in object){
-    if(object[field] == ''){
-      delete object[field];
-    }
+var async = require('async');
+
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
   }
-  return object;
 };
 
 module.exports = {
@@ -24,54 +21,23 @@ module.exports = {
   },
 
   search: function(req, res) {
-    var searchString = req.query.tags;
-    var searchAge = parseInt(req.query.age);
-    var searchAmount = parseInt(req.query.amount);
-    var query = emptyStringToNull(req.query);
-    var searchCountry = req.query.nationality;
-    var searchReligion = req.query.religion;
-    console.log("relgion", req.query);
-    console.log("QUERY FOR REAL", searchAmount);
+    var query = req.query;
+
+    // Parse integer fields
+    if (query.age) {
+      query.age = parseIfInt(query.age);
+    }
+    if (query.amount_offered) {
+      query.amount_offered = parseIfInt(query.amount_offered);
+    }
+
+    var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
+
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
-    req.session["redirect_user"] = search_url_array[1];
-    console.log(req.session);
+    req.session.redirect_user = search_url_array[1];
 
-
-    var queryOptionsShouldArr = [
-      {
-        "range": {
-          "minimum_amount": {
-            "lte": searchAmount
-          }
-        }
-      },
-      {
-        "range": {
-          "maximum_amount": {
-            "gte": searchAmount
-          }
-        }
-      },
-      {
-        "range": {
-          "minimum_age": {
-            "lte": searchAge
-          }
-        }
-      },
-      {
-        "range": {
-          "maximum_amount": {
-            "gte": searchAge
-          }
-        }
-      }
-
-    ];
-
-    console.log("I'm here")
     var queryOptions = {
       "filtered": {
         "filter": {
@@ -81,84 +47,84 @@ module.exports = {
         }
       }
     };
-    if(searchAmount || searchAge){
-      var queryOptions = {
-        "filtered": {
-          "filter": {
-            "bool": {
-              "should": queryOptionsShouldArr
+
+    if (query.all !== "true" || emptyQueryObj) {
+      if (query.amount_offered || query.age) {
+        var queryOptionsShouldArr = [
+          {
+            "range": {
+              "minimum_amount": {
+                "lte": query.amount_offered
+              }
+            }
+          },
+          {
+            "range": {
+              "maximum_amount": {
+                "gte": query.amount_offered
+              }
+            }
+          },
+          {
+            "range": {
+              "minimum_age": {
+                "lte": query.age
+              }
+            }
+          },
+          {
+            "range": {
+              "maximum_amount": {
+                "gte": query.age
+              }
             }
           }
+        ];
+
+        queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+      }
+
+      queryOptions.filtered.query = {
+        "bool": {
+          "should": []
         }
       };
-    }
-    if(searchString !== ''){
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
-          "multi_match" : {
-            "query": searchString,
-            "fields": ["tags","title.autocomplete"],
-            "operator":   "and",
-            "boost": 3
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }}
-        ]
-       }
-      };
-    }
-    if (searchCountry) {
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
-          "multi_match" : {
-            "query": searchString,
-            "fields": ["tags","title.autocomplete"],
-            "operator":   "and",
-            "boost": 3
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }},
-          {
-            "match":{
-            "countries": searchCountry
-          }}
-        ]
-       }
-      };
-    }
-    if(searchReligion){
-      queryOptions.filtered["query"] = {
-        "bool": {
-        "should": [
-          {
-          "multi_match" : {
-            "query": searchString,
-            "fields": ["tags","title.autocomplete"],
-            "operator":   "and",
-            "boost": 10
-          }},
-          {
-          "match":{
-            "tags": "all-subjects"
-          }},
-          {
-            "match":{
-            "religion": searchReligion
-          }}
-        ]
-       }
-      };
-    }
 
-    console.log("QUERY OPTIONS ARE HERE: " + queryOptions);
+      //TODO: consider using type:"most_fields"; it is now by default "best_fields"
+      if (query.tags) {
+        queryOptions.filtered.query.bool.should.push({
+          "multi_match" : {
+            "query": query.tags,
+            "fields": ["tags","title.autocomplete"],
+            "operator":   "and",
+            "boost": 3
+          }
+        });
+      }
+
+      // Build "match" objects for each field present in query.
+      for (var key in query) {
+        var notTags = key !== "tags";
+        var notAge = key !== "age";
+        var notAmount = key !== "amount_offered";
+        var notTitle = key !== "title";
+
+        if (notTags && notAge && notAmount) {
+          var matchObj = {
+            "match": {}
+          };
+
+          matchObj.match[key] = query[key];
+          queryOptions.filtered.query.bool.should.push(matchObj);
+
+          // if query.tags doesn't exist, multi_match query won't exist
+          if (notTitle && query.tags) {
+            // Push the field name into the "multi_match" fields array for matching tags
+            queryOptions.filtered.query.bool.should[0].multi_match.fields.push(key);
+          }
+        }
+      }
+    }
 
     models.es.search({
       index: "funds",
@@ -168,11 +134,8 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
-      console.log("This is the response:");
-      console.log(resp);
+      var fund_id_list = [];
       var funds = resp.hits.hits.map(function(hit) {
-        console.log("Hit:");
-        console.log(hit);
         var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
         var hash = {};
 
@@ -182,43 +145,36 @@ module.exports = {
         // Sync id separately, because it is hit._id, NOT hit._source.id
         hash.id = hit._id;
 
-        // console.log("HASH AFTER", hash);
+        fund_id_list.push(hash.id); // for the WHERE ___ IN ___ query on users table later
+        hash.fund_user = false; // for the user logic later
+
         return hash;
       });
-      async.map(funds, function(fund, callback){
-        fund.fund_user = false;
-        models.users.find({where: {fund_or_user: fund.id}}).then(function(user){
-          if(user){
-            console.log("FUND USER", user);
-            fund.fund_user = true;
-            console.log("HASH", fund);
-            callback(null, fund)
-          }
-          else{
-            console.log("HASH else", fund)
-            callback(null, fund)
-          }
-        })
-      }, function(err, funds){
-        var results_page = true;
-        console.log("READ FUNDS", funds);
-        if(user){
-          console.log("Checking the user",user);
-          models.users.findById(user.id).then(function(user){
-            res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
-          })
 
+      models.users.find({ where: { fund_or_user: { $in: fund_id_list }}}).then(function(user) {
+        if (user) {
+          for (var i=0; i < funds.length; i++) {
+            if (funds[i].id == user.fund_or_user) {
+              funds[i].fund_user = true;
+            }
+          }
         }
-        else{
+      }).then(function() {
+        var results_page = true;
+        if (user) {
+          models.users.findById(user.id).then(function(user) {
+            res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+          });
+        } else {
           res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
         }
-      })
-
+      });
     }, function(err) {
       console.trace(err.message);
       res.render('error');
     });
   },
+
   home: function(req, res){
     var session = req.params.session; // use it for authentication
     var id = req.params.id;

@@ -89,8 +89,7 @@ module.exports = {
         },
         email: {
           type: Sequelize.STRING(40),
-          field: 'email',
-          unique: true
+          field: 'email'
         },
         merit_or_finance: {
           type: Sequelize.TEXT,

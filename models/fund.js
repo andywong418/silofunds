@@ -80,8 +80,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING(40),
-      field: 'email',
-      unique: true
+      field: 'email'
     },
     organisation_id: {
       type: DataTypes.INTEGER,
@@ -150,6 +149,14 @@ module.exports = function(sequelize, DataTypes) {
     support_type: {
       type: DataTypes.TEXT,
       field: 'support_type'
+    },
+    other_eligibility: {
+      type: DataTypes.TEXT,
+      field: 'other_eligibility'
+    },
+    other_application_steps: {
+      type: DataTypes.TEXT,
+      field: 'other_application_steps'
     }
   }, {
     timestamps: true,

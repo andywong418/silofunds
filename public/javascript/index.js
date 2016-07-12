@@ -3,7 +3,8 @@ $(document).ready(function() {
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
     events: {
-      "click #features": "scrollTo"
+      "click #features": "scrollToFeatures",
+      "click #about-scroll": "scrollToAbout"
     },
     initialize: function() {
       _.bindAll(this, "render", "collapseNavbar");
@@ -29,10 +30,20 @@ $(document).ready(function() {
         }
       }
     },
-    scrollTo: function(){
-        $('html, body').animate({
+    scrollToFeatures: function(){
+      $('html, body').animate({
         scrollTop: $("#showcase").offset().top -20
-        }, 1500, "easeOutQuart");
+      }, 1500, "easeOutQuart");
+
+      return false;
+    },
+
+    scrollToAbout: function() {
+      $('html, body').animate({
+        scrollTop: $("#about-us").offset().top-80
+      }, 1500, "easeOutQuart");
+
+      return false;
     }
   });
 
@@ -67,10 +78,29 @@ $(document).ready(function() {
 
   var scrollView = new Scrollview();
   var menuView = new Menuview();
-  $("#about-scroll").click(function(){
-    $('html, body').animate({
-        scrollTop: $("#about-us").offset().top-80
-        }, 1500, "easeOutQuart");
+
+  // remove parameter from query string if value === ''
+  $("form#search-form").submit(function(event) {
+    event.preventDefault();
+    var currentTarget = event.target;
+    var emptyInputFields = 0;
+    var searchFormInputs = $("form#search-form input");
+
+    for (var i = 0; i < searchFormInputs.length; i++) {
+      var id = searchFormInputs[i].id;
+
+      if($("#" + id).val() === "") {
+        $("#" + id).attr("name", "");
+
+        emptyInputFields++;
+      }
+    }
+
+    if (emptyInputFields === searchFormInputs.length) {
+      $("button#search_button").prepend("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;'>");
+    }
+
+    currentTarget.submit();
   });
 
   $(function() {

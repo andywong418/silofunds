@@ -21,7 +21,7 @@ block content
             tr
               .col-md-12.form-group
                 label(for='tags') Tags (separate with comma, no space)
-                input#tags.form-control(type='text', name='keywords', value=fund.tags, style="text-transform: lowercase;" required)
+                input#tags.form-control(type='text', name='keywords', value=fund.tags, style="text-transform: lowercase;")
           .row
             tr
               .col-md-6.form-group
@@ -133,7 +133,7 @@ block content
                         if organisation.id === fund.organisation_id
                           option(value=organisation.id, selected='selected')=organisation.name + ' - ' + organisation.charity_id
                         else
-                          option(value=organisation.id)=organisation.charity_id + ' - ' + organisation.name
+                          option(value=organisation.id)=organisation.name + ' - ' + organisation.charity_id
           .row
             tr
               .col-md-6.form-group

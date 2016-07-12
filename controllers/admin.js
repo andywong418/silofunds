@@ -19,7 +19,7 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 
-var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","created_at","updated_at"];
+var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
 
@@ -500,6 +500,8 @@ module.exports = {
             if (organisation.deleted_at) {
               create_options["deleted_at"] = organisation.deleted_at;
             }
+
+            create_options["id"] = organisation.id;
           }
 
           models.organisations.create( create_options ).then(function() {
