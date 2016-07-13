@@ -179,19 +179,16 @@ module.exports = {
     var session = req.params.session; // use it for authentication
     var id = req.params.id;
     models.users.findById(id).then(function(user){
-      var fundUser = user;
-      models.organisations.findById(user.fund_or_user).then(function(fund){
-        for (var attrname in fund['dataValues']){
-          if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
-            user["dataValues"][attrname] = fund[attrname];
-          }
-        }
-        var fields= [];
-        res.render('signup/fund-profile', {user: user, newUser: false})
-      })
+      var organisation_id = user.get().organisation_or_user;
 
-    })
+      models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+        funds = funds.map(function(fund) {
+          return fund.get();
+        });
 
+        res.render('signup/fund-profile', { user: user, funds: funds });
+      });
+    });
   },
   createFunding: function(req, res){
     var id = req.params.id;

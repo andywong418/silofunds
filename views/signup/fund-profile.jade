@@ -1,33 +1,19 @@
 extends layout-signup
 
 block extraHeader
-	link(href='/stylesheets/user-profile.css', rel = 'stylesheet')
-	link(href='/stylesheets/fund-profile.css', rel='stylesheet')
-
+	link(href='/stylesheets/fund-dashboard.css', rel='stylesheet')
 block content
-		include ../navbar-fund.jade
+		include ../navbar.jade
 		include ../advanced-search.jade
-		section#fund-info.container.content-section.text-center
+		section#fund-dashboard.container.content-section.text-center
 			.row
-				.col-md-5.center-block
-					h4#name <%= name %>
-			.row
-				.col-md-4.center-block
-					figure#profile-figure
-						input#my_file(type='file', style='display: none;', name = 'profile_picture')
-						img#fund-picture(src= user.profile_picture)
-						figcaption#add-profile
-							i.fa.fa-camera
-			ul.switcher
-
-
+				.col-md-12
+					h2#name Welcome to your dashboard
+					p#listings-header Your list of funding opportunities 
+						span.badge= funds.length
+					hr
 block scripts
 	script(src='/javascript/advanced-search.js')
-	script(src='../../javascript/lib/modernizr-input.js')
-	script(src= '/javascript/fund-profile.js')
-	script.
-		var fund = !{JSON.stringify(user)};
-		var newUser = !{JSON.stringify(newUser)};
 	// Google Analytics
 	script.
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -36,3 +22,8 @@ block scripts
 		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 		ga('create', 'UA-74497958-1', 'auto');
 		ga('send', 'pageview');
+//- 	script(src='../../javascript/lib/modernizr-input.js')
+//- 	script(src= '/javascript/fund-profile.js')
+//- 	script.
+//- 		var fund = !{JSON.stringify(user)};
+//- 		var newUser = !{JSON.stringify(newUser)};
