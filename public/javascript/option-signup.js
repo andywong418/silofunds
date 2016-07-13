@@ -140,60 +140,80 @@ var EligibleDisplay = Backbone.View.extend({
   tagName: 'div',
   id: 'eligible-handler',
   events: {
-    'click .eligible-container': 'showCriteriaSelection',
     'click .criteria-item': 'showItem',
     'click #save': 'saveEligible'
   },
   initialize: function(){
-    console.log("HELLO BUD");
     var eligibleModel = new OptionModel();
     var view = new EligibleView({model: eligibleModel});
     this.$el.append(view.render().el);
+    var arrayFields = ['subject','religion','minimum_age', 'maximum_age', 'gender','merit_or_finance','target_university','target_degree','required_degree','required_university','required_grade','target_country','country_of_residence','specific_location','other_eligibility']
+    for(var i = 0; i< arrayFields.length; i++){
+      if(this.model.get(arrayFields[i])){
+        var value = this.model.get(arrayFields[i]);
+        switch(arrayFields[i]){
+          case 'gender':
+            switch(value){
+              case 'male':
+                this.$('#male-input').prop("checked", true);
+                break;
+              case 'female':
+                this.$('#female-input').prop("checked", true);
+                break;
+            };
+            break;
+          case 'merit_or_finance':
+            switch(value){
+              case 'merit':
+                this.$('#merit-input').prop("checked", true);
+                break;
+              case 'finance':
+                this.$('#finance-input').prop("checked", true);
+                break;
+            };
+            break;
+          default:
+            this.$('#' + arrayFields[i]).val(value);
+        }
+      }
+    }
     $('.selected').removeClass('selected');
     $('#eligible').addClass('selected');
     //support type switch
-    switch(support_type){
-      case 'scholarship':
-        this.$("#merit-input").prop("checked", true);
-        break;
-      case 'bursary':
-        this.$("#finance-input").prop("checked", true);
+    if(!this.model.get('merit_or_finance')){
+      console.log('its getting through');
+      switch(support_type){
+        case 'scholarship':
+          this.$("#merit-input").prop("checked", true);
+          break;
+        case 'bursary':
+          this.$("#finance-input").prop("checked", true);
+      }
     }
+
     if(this.model.get('id')){
-      console.log(this.model.get('id'));
       var id = this.model.get('id');
       fundCreated(id);
-      console.log(this.model);
     }
     else{
       noFundcreated();
-    }
-  },
-  showCriteriaSelection: function(){
-    if($('.criteria-container').is(":visible")){
-      $('.criteria-container, .criteria-form').css('display', 'none');
-
-    }
-    else{
-      $('.criteria-container').css('display' ,'flex');
     }
   },
   showItem: function(e){
     if(!$('.criteria-form').is(":visible")){
       $('.criteria-form').show();
     }
-    console.log($(e.currentTarget));
     var id = $(e.currentTarget).attr('id');
     $('.criteria-item').not('#' + id).removeClass('item-selected');
     $('#' + id).addClass('item-selected');
-    $('.criteria-form form').not('#' + id + '-form').css('display', 'none');
-    $('#' + id + '-form').show();
+    $('.criteria-form form').not('#' + id + '-form').removeClass('selected-form');
+    $('#' + id + '-form').addClass('selected-form');
 
   },
   saveEligible: function(e){
     e.preventDefault();
-    var subject = $('#subject-input').val().split(',');
-    var religion = $('#religion-input').val().split(',');
+    var subject = $('input[name=subject]').val().split(',');
+    var religion = $('#religion').val().split(',');
     var targetUniversity = $('input[name=target_university]').val().split(',');
     var targetDegree = $('input[name=target_degree]').val().split(',');
     var requiredDegree = $('input[name=required_degree]').val().split(',');
@@ -201,13 +221,26 @@ var EligibleDisplay = Backbone.View.extend({
     var targetCountry = $('input[name=target_country]').val().split(',');
     var country_of_residence = $('input[name=country_of_residence]').val().split(',');
     var specific_location = $('input[name=specific_location]').val().split(',');
-
+    var merit_or_finance = '';
+    if($('#merit-input').is(":checked")){
+      merit_or_finance = 'merit';
+    }
+    if($('#finance-input').is(":checked")){
+      merit_or_finance = 'finance';
+    };
+    var gender = '';
+    if($('#male-input').is(":checked")){
+      gender = 'male';
+    }
+    if($('#female-input').is(":checked")){
+      gender= 'female';
+    }
     var formData = {
       'subject': subject,
       'minimum_age': $('input[name=minimum_age]').val(),
       'maximum_age': $('input[name=maximum_age]').val(),
-      'gender': $('input[name=gender]').val(),
-      'merit_or_finance': $('input[name=merit_or_finance]').val(),
+      'gender': gender,
+      'merit_or_finance': merit_or_finance,
       'religion': religion,
       'target_university': targetUniversity,
       'target_degree': targetDegree,
@@ -216,10 +249,20 @@ var EligibleDisplay = Backbone.View.extend({
       'required_grade': $('input[name=required_grade]').val(),
       'target_country': targetCountry,
       'country_of_residence': country_of_residence,
-      'specific_location': specific_location
+      'specific_location': specific_location,
+      'other_eligibility': $('textarea#other_eligibility').val()
     }
     if(!fund){
-      $.post()
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_eligible', formData, function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
+    }
+    else{
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_eligible/' + fund.id, formData, function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
     }
   }
 })
@@ -235,12 +278,59 @@ var ApplicationView = Backbone.View.extend({
 var ApplicationDisplay = Backbone.View.extend({
   tagName: 'div',
   id: 'application-handler',
+  events:{
+    'click #save': 'saveApplication'
+  },
   initialize: function(){
     var applicationModel = new OptionModel();
     var view = new ApplicationView({model: applicationModel});
     this.$el.append(view.render().el);
+    console.log(applicationModel);
     $('.selected').removeClass('selected');
-    $('#application').addClass('selected')
+    $('#application').addClass('selected');
+    var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps'];
+
+    if(this.model.get('id')){
+      var id = this.model.get('id');
+      fundCreated(id);
+      for (var i = 0; i< arrayFields.length; i++){
+        if(this.model.get(arrayFields[i])){
+          var value = this.model.get(arrayFields[i]);
+          if(Date.parse(value)){
+            console.log(value);
+            value = value.split('T')[0]
+          }
+          this.$('#' + arrayFields[i]).val(value);
+        }
+      }
+    }
+    else{
+      noFundcreated();
+    }
+  },
+  saveApplication: function(){
+    var applicationDocuments = $('input[name=application_documents]').val().split(',');
+    var formData={
+      'application_open_date': $('input[name=start_date]').val(),
+      'deadline': $('input[name=deadline]').val(),
+      'interview_date': $('input[name=interview_date]').val(),
+      'application_decision_date':$('input[name=application_decision_date]').val(),
+      'application_link': $('input[name=application_link]').val(),
+      'application_documents': applicationDocuments,
+      'other_application_steps': $('textarea#other_application_steps').val()
+    }
+    if(!fund){
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application', formData,function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
+    }
+    else{
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application/' + fund.id, formData, function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
+    }
   }
 })
 // router config
@@ -287,7 +377,7 @@ var Router = Backbone.Router.extend({
   },
   application: function(){
     var router = this;
-    var applicationeModel = new OptionModel();
+    var applicationModel = new OptionModel();
     if(fund){
       console.log(fund.id);
       var applicationModel = new OptionModel({id: fund.id});
