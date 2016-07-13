@@ -265,7 +265,7 @@ module.exports = {
 			var users = resp.hits.hits.map(function(hit) {
 				console.log("Hit:");
 				console.log(hit);
-				var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+				var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
 				var hash = {};
 
 				for (var i = 0; i < fields.length ; i++) {

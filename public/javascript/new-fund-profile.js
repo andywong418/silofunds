@@ -41,7 +41,7 @@ $(document).ready(function(){
 			var categoriesArray = this.model.get('categories');
 			if(!categoriesArray){
 				parameters = {title: "General", status: "setup" };
-  			$.post('/signup/fund_signup/fund_application/' + fund_setup.fund_or_user, parameters, function(data){
+  			$.post('/signup/fund_signup/fund_application/' + fund_setup.organisation_or_user, parameters, function(data){
   			});
 			}
 

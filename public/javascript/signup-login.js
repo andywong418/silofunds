@@ -355,7 +355,7 @@ $("#login-form").submit(function(e){
              
            }
            else{
-             if(user.fund_or_user){
+             if(user.organisation_or_user){
                $("#home").attr("href", '/funds/' + user.id );
                $(".settings").attr("href", '/funds/settings/' +user.id);
                $(".logout").attr("href", '/funds/logout/' + user.id);

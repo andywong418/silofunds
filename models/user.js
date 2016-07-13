@@ -49,9 +49,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       field: 'funding_needed',
     },
-    fund_or_user: {
+    organisation_or_user: {
       type: DataTypes.INTEGER,
-      field: 'fund_or_user'
+      field: 'organisation_or_user'
     },
     email_updates:{
       type: DataTypes.BOOLEAN,

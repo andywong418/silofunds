@@ -271,7 +271,7 @@ if(typeof query != 'undefined' && query){
       })
     },
     addApplication: function(){
-      if(user && !user.fund_or_user){
+      if(user && !user.organisation_or_user){
           var fund_id = this.model.get('id');
           parameters = {"fund_id": fund_id};
           $.post('/users/add-application/'+ user.id, parameters, function(data){
