@@ -301,7 +301,7 @@ module.exports = {
   createNewFund: function(req, res){
     var fields = req.body;
     console.log(req.body);
-    var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location'];
+    var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
     console.log("HELLO");
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
@@ -340,6 +340,18 @@ module.exports = {
       })
     })
 
+  },
+  updateApplication: function(req, res){
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    var arrayFields = ['application_documents'];
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
   },
   editDescription: function(req, res){
     var fundId = req.params.id;

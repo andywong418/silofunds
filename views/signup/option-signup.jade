@@ -144,17 +144,42 @@ block content
             p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
 
           form#other-form
-            label(for='other_eligibility') Describe any other eligibility requirements not listed
-            input#other_eligibility.form-control(name = 'other_eligibility')
+            label(for='other_eligibility') Please any other eligibility requirements not listed
+            textarea#other_eligibility.form-control(name = 'other_eligibility')
              
         div.container.next.description
           button#save(type='submit', form='save-eligible')
             a#save-progress(href="#application") Save progress
           a#skip(href='#application') Skip
       script#application-template(type='text/template')
-        h1 Application Stuff
-
-
+        .container.form-group.date-container
+          .col-md-3
+            p#start_description Date when applications are open
+            input#application_open_date.form-control(name='start_date', type='date')
+          .col-md-3
+            p#deadline_description Deadline
+            input#deadline.form-control(name='deadline', type='date')
+        .container.form-group.decision-times.description
+          .col-md-3
+            p#interview Interview date
+            input#interview_date.form-control(name='interview_date', type='date')
+          .col-md-3
+            p#decision Decision time
+            input#application_decision_date.form-control(name='application_decision_date', type='date')
+        .container.form-group.application-documents.description
+          .col-md-3
+            p#application_link Link to application form
+            input#application_link.form-control(name='application_link',placeholder='E.g. www.tester.com/application.pdf')
+          .col-md-3
+            p#application_description Application documents
+            input#application_documents.form-control(name='application_documents', placeholder='E.g. application form, references, CV')
+        .container.description
+          p#other_application_description Please specify other application processes not listed.
+        .other_application.center-block.container
+          textarea#other_application_steps
+        div.container.next.description
+          button#save(type='submit', form='save-eligible')
+            a#save-progress(href="#application") Finish
 
 block scripts
   script(src='/javascript/option-signup.js')

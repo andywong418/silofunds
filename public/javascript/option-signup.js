@@ -250,7 +250,7 @@ var EligibleDisplay = Backbone.View.extend({
       'target_country': targetCountry,
       'country_of_residence': country_of_residence,
       'specific_location': specific_location,
-      'other_eligibility': $('input[name=other_eligibility]').val()
+      'other_eligibility': $('textarea#other_eligibility').val()
     }
     if(!fund){
       $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_eligible', formData, function(data){
@@ -278,12 +278,59 @@ var ApplicationView = Backbone.View.extend({
 var ApplicationDisplay = Backbone.View.extend({
   tagName: 'div',
   id: 'application-handler',
+  events:{
+    'click #save': 'saveApplication'
+  },
   initialize: function(){
     var applicationModel = new OptionModel();
     var view = new ApplicationView({model: applicationModel});
     this.$el.append(view.render().el);
+    console.log(applicationModel);
     $('.selected').removeClass('selected');
-    $('#application').addClass('selected')
+    $('#application').addClass('selected');
+    var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps'];
+
+    if(this.model.get('id')){
+      var id = this.model.get('id');
+      fundCreated(id);
+      for (var i = 0; i< arrayFields.length; i++){
+        if(this.model.get(arrayFields[i])){
+          var value = this.model.get(arrayFields[i]);
+          if(Date.parse(value)){
+            console.log(value);
+            value = value.split('T')[0]
+          }
+          this.$('#' + arrayFields[i]).val(value);
+        }
+      }
+    }
+    else{
+      noFundcreated();
+    }
+  },
+  saveApplication: function(){
+    var applicationDocuments = $('input[name=application_documents]').val().split(',');
+    var formData={
+      'application_open_date': $('input[name=start_date]').val(),
+      'deadline': $('input[name=deadline]').val(),
+      'interview_date': $('input[name=interview_date]').val(),
+      'application_decision_date':$('input[name=application_decision_date]').val(),
+      'application_link': $('input[name=application_link]').val(),
+      'application_documents': applicationDocuments,
+      'other_application_steps': $('textarea#other_application_steps').val()
+    }
+    if(!fund){
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application', formData,function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
+    }
+    else{
+      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application/' + fund.id, formData, function(data){
+        fund = data;
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+      })
+    }
   }
 })
 // router config
@@ -330,7 +377,7 @@ var Router = Backbone.Router.extend({
   },
   application: function(){
     var router = this;
-    var applicationeModel = new OptionModel();
+    var applicationModel = new OptionModel();
     if(fund){
       console.log(fund.id);
       var applicationModel = new OptionModel({id: fund.id});

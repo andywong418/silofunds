@@ -10,6 +10,8 @@ router.post('/funding_creation/:id/:option/save_general/', fund.createNewFund);
 router.post('/funding_creation/:id/:option/save_general/:fund_id', fund.updateGeneralInfo);
 router.post('/funding_creation/:id/:option/save_eligible/', fund.createNewFund);
 router.post('/funding_creation/:id/:option/save_eligible/:fund_id', fund.updateEligibility);
+router.post('/funding_creation/:id/:option/save_application/', fund.createNewFund);
+router.post('/funding_creation/:id/:option/save_application/:fund_id', fund.updateApplication)
 router.get('/option_creation/:id', fund.getOptionInfo);
 router.post('/edit_description/:id', fund.editDescription);
 router.post('/edit_dates/:id', fund.editDates)
