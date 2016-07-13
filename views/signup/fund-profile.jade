@@ -11,7 +11,11 @@ block content
 					h2#name Welcome to your dashboard
 					p#listings-header Your list of funding opportunities 
 						span.badge= funds.length
-					hr
+			each fund in funds
+				.row
+					#funding-card.col-md-12
+						h4= fund.title
+						h6= fund.description
 block scripts
 	script(src='/javascript/advanced-search.js')
 	// Google Analytics

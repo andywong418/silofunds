@@ -12,13 +12,28 @@
   cursor: pointer;
 }
 
+body {
+  font-family: 'Source Sans Pro';
+  background-color: #e9f0f4;
+}
+
 #fund-dashboard {
   padding-top: 100px;
   margin: auto;
 
   p#listings-header {
     text-align: left;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     font-size: 16px;
+  }
+
+  #funding-card {
+    display: block;
+    background-color: white;
+    border: 2px solid #DADFE1;
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 15px 0px;
   }
 }
