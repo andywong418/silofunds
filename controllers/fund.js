@@ -300,11 +300,13 @@ module.exports = {
   },
   createNewFund: function(req, res){
     var fields = req.body;
+    var userId = req.params.id;
     console.log(req.body);
     var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
     console.log("HELLO");
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
+    fields['organisation_id'] = userId;
     console.log("FIELDS", fields );
     models.funds.create(fields).then(function(fund){
       res.send(fund);
