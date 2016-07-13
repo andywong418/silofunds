@@ -72,10 +72,6 @@ module.exports = {
           type: Sequelize.INTEGER,
           field: 'funding_needed',
         },
-        fund_or_user: {
-          type: Sequelize.INTEGER,
-          field: 'fund_or_user'
-        },
         email_updates:{
           type: Sequelize.BOOLEAN,
           field: 'email_updates'
