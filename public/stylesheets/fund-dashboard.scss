@@ -1,0 +1,24 @@
+/* New search bar */
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+
+/*customised code*/
+#brand-image{
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
+#fund-dashboard {
+  padding-top: 100px;
+  margin: auto;
+
+  p#listings-header {
+    text-align: left;
+    margin-bottom: 0px;
+    font-size: 16px;
+  }
+}
