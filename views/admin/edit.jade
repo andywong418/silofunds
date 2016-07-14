@@ -134,34 +134,31 @@ block content
                 input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;", value=fund.religion)
           .row
             tr
-              .col-md-6.form-group
-                label(for='link') Link
-                input#link.form-control(type='text', name='link', value=fund.link)
               .col-md-3.form-group
                 label(for='deadline') Deadline
                 input#deadline.form-control(type='date', name='deadline', value=deadline)
-              .col-md-3.form-group
-                label(for='invite') Invite Only?
-                input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='application_link') Application Link
-                input#application_link.form-control(type='text', name='application_link', value=fund.application_link)
               .col-md-3.form-group
                 label(for='application_open_date') Application Open Date
                 input#application_open_date.form-control(type='date', name='application_open_date', value=application_open_date)
               .col-md-3.form-group
                 label(for='application_decision_date') Application Decision Date
                 input#application_decision_date.form-control(type='date', name='application_decision_date', value=application_decision_date)
+              .col-md-3.form-group
+                label(for='interview_date') Interview Date
+                input#interview_date.form-control(type='date', name='interview_date', value=interview_date)
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='link') Link
+                input#link.form-control(type='text', name='link', value=fund.link)
+              .col-md-6.form-group
+                label(for='application_link') Application Link
+                input#application_link.form-control(type='text', name='application_link', value=fund.application_link)
           .row
             tr
               .col-md-6.form-group
                 label(for='application_documents') Application Documents (separate with comma, no space)
                 input#application_documents.form-control(type='text', name='application_documents', value=fund.application_documents, tyle="text-transform: lowercase;", placeholder="eg. 'resume,cv,thesis,essay,financial proof'")
-              .col-md-3.form-group
-                label(for='interview_date') Interview Date
-                input#interview_date.form-control(type='date', name='interview_date', value=interview_date)
               .col-md-3.form-group
                 label(for='support_type') Type of funding offered
                 select#support_type.form-control(name="support_type")
@@ -170,8 +167,9 @@ block content
                   option(value='bursary') Bursary
                   option(value='grant') Grant
                   option(value='prize') Prize
-
-
+              .col-md-3.form-group
+                label(for='invite') Invite Only?
+                input#invite.form-control(type='checkbox', name='invite', value=fund.invite_only)
           .row
             tr
               .col-md-12.form-group

@@ -17,6 +17,14 @@ $(function() {
   	return false;
   });
 
+  // Hide and toggle unimportant fields
+  $("label a").click(function(e) {
+    $('input#' + e.target.id).toggleClass('hide-this-shit');
+    $('textarea#' + e.target.id).toggleClass('hide-this-shit');
+    
+    return false;
+  });
+
   $("#clear_gender").click(function(evt) {
     evt.preventDefault();
 

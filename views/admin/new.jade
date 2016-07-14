@@ -40,30 +40,37 @@ block content
           .row
             tr
               .col-md-6.form-group
-                label(for='subject') Subject (separate with comma, no space)
-                input#subject.form-control(type='text', name='subject', style="text-transform: lowercase;")
+                label(for='subject')
+                  a#subject(href='#') Subject (separate with comma, no space)
+                input#subject.form-control.hide-this-shit(type='text', name='subject', style="text-transform: lowercase;")
               .col-md-6.form-group
-                label(for='tags') Tags (separate with comma, no space)
-                input#tags.form-control(type='text', name='keywords', style="text-transform: lowercase;")
+                label(for='tags')
+                  a#tags(href='#') Tags (separate with comma, no space)
+                input#tags.form-control.hide-this-shit(type='text', name='keywords', style="text-transform: lowercase;")
           .row
             tr
               .col-md-6.form-group
-                label(for='target_degree') Target Degree (separate with comma, no space)
-                input#target_degree.form-control(type='text', name='target_degree', style="text-transform: lowercase;")
+                label(for='target_degree') 
+                  a#target_degree(href='#') Target Degree (separate with comma, no space)
+                input#target_degree.form-control.hide-this-shit(type='text', name='target_degree', style="text-transform: lowercase;")
               .col-md-6.form-group
-                label(for='target_university') Target University (separate with comma, no space)
-                input#target_university.form-control(type='text', name='target_university', style="text-transform: lowercase;")
+                label(for='target_university')
+                  a#target_university(href='#') Target University (separate with comma, no space)
+                input#target_university.form-control.hide-this-shit(type='text', name='target_university', style="text-transform: lowercase;")
           .row
             tr
               .col-md-5.form-group
-                label(for='required_degree') Required Degree (separate with comma, no space)
-                input#required_degree.form-control(type='text', name='required_degree', style="text-transform: lowercase;")
+                label(for='required_degree')
+                  a#required_degree(href='#') Required Degree (separate with comma, no space)
+                input#required_degree.form-control.hide-this-shit(type='text', name='required_degree', style="text-transform: lowercase;")
               .col-md-5.form-group
-                label(for='required_university') Required University (separate with comma, no space)
-                input#required_university.form-control(type='text', name='required_university', style="text-transform: lowercase;")
+                label(for='required_university')
+                  a#required_university(href='#') Required University (separate with comma, no space)
+                input#required_university.form-control.hide-this-shit(type='text', name='required_university', style="text-transform: lowercase;")
               .col-md-2.form-group
-                label(for='required_grade') Required Grade
-                input#required_grade.form-control(type='text', name='required_grade', style="text-transform: lowercase;")
+                label(for='required_grade')
+                  a#required_grade(href='#') Required Grade
+                input#required_grade.form-control.hide-this-shit(type='text', name='required_grade', style="text-transform: lowercase;")
           .row
             tr
               .col-md-3.form-group
@@ -106,59 +113,66 @@ block content
           .row
             tr
               .col-md-12.form-group
-                label(for='financial_situation') Financial Situation
-                textarea#financial_situation.form-control(rows='3', name='financial_situation')
+                label(for='financial_situation')
+                  a#financial_situation(href='#') Financial Situation
+                textarea#financial_situation.form-control.hide-this-shit(rows='3', name='financial_situation')
           .row
             tr
               .col-md-6.form-group
-                label(for='target_country') Target Countries (separate with comma, no space)
-                input#target_country.form-control(type='text', name='target_country', style="text-transform: lowercase;")
+                label(for='target_country')
+                  a#target_country(href='#') Target Countries (separate with comma, no space)
+                input#target_country.form-control.hide-this-shit(type='text', name='target_country', style="text-transform: lowercase;")
               .col-md-6.form-group
-                label(for='country_of_residence') Countries of Residence (separate with comma, no space)
-                input#country_of_residence.form-control(type='text', name='country_of_residence', style="text-transform: lowercase;")
+                label(for='country_of_residence')
+                  a#country_of_residence(href='#') Countries of Residence (separate with comma, no space)
+                input#country_of_residence.form-control.hide-this-shit(type='text', name='country_of_residence', style="text-transform: lowercase;")
           .row
             tr
               .col-md-6.form-group
-                label(for='specific_location') Specific locations (separate with comma, no space)
-                input#specific_location.form-control(type='text', name='specific_location', style="text-transform: lowercase;", placeholder="eg. 'oxfordshire'")
+                label(for='specific_location')
+                  a#specific_location(href='#') Specific locations (separate with comma, no space)
+                input#specific_location.form-control.hide-this-shit(type='text', name='specific_location', style="text-transform: lowercase;", placeholder="eg. 'oxfordshire'")
               .col-md-6.form-group
-                label(for='email') Email
-                input#email.form-control(type='email', name='email')
+                label(for='email')
+                  a#email(href='#') Email
+                input#email.form-control.hide-this-shit(type='email', name='email')
           .row
             tr
               .col-md-6.form-group
-                label(for='religion') Religion (separate with comma, no space)
-                input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;")
+                label(for='religion')
+                  a#religion(href='#') Religion (separate with comma, no space)
+                input#religion.form-control.hide-this-shit(type='text', name='religion', style="text-transform: lowercase;")
+          .row
+            tr
+              .col-md-3.form-group
+                label(for='deadline')
+                  a#deadline(href='#') Deadline
+                input#deadline.form-control.hide-this-shit(type='date', name='deadline')
+              .col-md-3.form-group
+                label(for='application_open_date')
+                  a#application_open_date(href='#') Application Open Date
+                input#application_open_date.form-control.hide-this-shit(type='date', name='application_open_date')
+              .col-md-3.form-group
+                label(for='application_decision_date')
+                  a#application_decision_date(href='#') Application Decision Date
+                input#application_decision_date.form-control.hide-this-shit(type='date', name='application_decision_date')
+              .col-md-3.form-group
+                label(for='interview_date')
+                  a#interview_date(href='#') Interview Date
+                input#interview_date.form-control.hide-this-shit(type='date', name='interview_date')
           .row
             tr
               .col-md-6.form-group
                 label(for='link') Link
                 input#link.form-control(type='text', name='link')
-              .col-md-3.form-group
-                label(for='deadline') Deadline
-                input#deadline.form-control(type='date', name='deadline')
-              .col-md-3.form-group
-                label(for='invite') Invite Only?
-                input#invite.form-control(type='checkbox', name='invite')
-          .row
-            tr
               .col-md-6.form-group
                 label(for='application_link') Application Link
                 input#application_link.form-control(type='text', name='application_link')
-              .col-md-3.form-group
-                label(for='application_open_date') Application Open Date
-                input#application_open_date.form-control(type='date', name='application_open_date')
-              .col-md-3.form-group
-                label(for='application_decision_date') Application Decision Date
-                input#application_decision_date.form-control(type='date', name='application_decision_date')
           .row
             tr
               .col-md-6.form-group
                 label(for='application_documents') Application Documents (separate with comma, no space)
                 input#application_documents.form-control(type='text', name='application_documents', style="text-transform: lowercase;", placeholder="eg. 'resume,cv,thesis,essay,financial proof'")
-              .col-md-3.form-group
-                label(for='interview_date') Interview Date
-                input#interview_date.form-control(type='date', name='interview_date')
               .col-md-3.form-group
                 label(for='support_type') Type of funding offered
                 select#support_type.form-control(name="support_type")
@@ -167,6 +181,10 @@ block content
                   option(value='bursary') Bursary
                   option(value='grant') Grant
                   option(value='prize') Prize
+              .col-md-3.form-group
+                label(for='invite')
+                  a#invite(href='#') Invite Only?
+                input#invite.form-control.hide-this-shit(type='checkbox', name='invite')
           .row
             tr
               .col-md-12.form-group
