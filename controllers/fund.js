@@ -25,6 +25,19 @@ function changeArrayfields(fields, arrayFields){
   return fields;
 }
 
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear().toString();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = dd + "/" + mm + "/" + yyyy.slice(-2);
+  return reformattedDate;
+}
+
 module.exports = {
   index: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
@@ -200,7 +213,12 @@ module.exports = {
 
       models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
         funds = funds.map(function(fund) {
-          return fund.get();
+          var json = fund.get();
+          json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+          json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+          json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
+
+          return json;
         });
 
         res.render('signup/fund-profile', { user: user, funds: funds });

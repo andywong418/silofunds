@@ -148,6 +148,7 @@ input {
 
 .criteria-container {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 70%;

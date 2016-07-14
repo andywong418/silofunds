@@ -4,6 +4,10 @@
 @import 'advanced-search.scss';
 @import 'signup.scss';
 
+$scholarship-color: #3399FF;
+$bursary-color: #00da8d;
+$grant-color: #7068FF;
+$prize-color: #FFC300;
 
 /*customised code*/
 #brand-image{
@@ -24,16 +28,55 @@ body {
   p#listings-header {
     text-align: left;
     margin-bottom: 15px;
-    font-size: 16px;
+    font-size: 18px;
   }
 
-  #funding-card {
+  .row#funding-card {
     display: block;
     background-color: white;
-    border: 2px solid #DADFE1;
-    border-radius: 5px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    border-radius: 3px;
     margin: 15px 0px;
+    padding: 20px 0px;
+    text-align: left;
+
+    #edit {
+      text-align: center;
+    }
+
+    div {
+      padding: 0px 15px;
+    }
+
+    // Labels
+    div#support_type {
+      text-align: center;
+    }
+
+    #scholarship {
+      background-color: $scholarship-color;
+    }
+
+    #grant {
+      background-color: $grant-color;
+    }
+
+    #bursary {
+      background-color: $bursary-color;
+    }
+
+    #prize {
+      background-color: $prize-color;
+    }
+    // end:labels
+  }
+}
+
+table#header {
+  margin-bottom: -10px;
+
+  th {
+    border: none;
+    padding-left: 15px;
+    padding-right: 0px;
   }
 }

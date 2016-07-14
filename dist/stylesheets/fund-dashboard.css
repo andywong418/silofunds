@@ -709,12 +709,32 @@ body {
   #fund-dashboard p#listings-header {
     text-align: left;
     margin-bottom: 15px;
-    font-size: 16px; }
-  #fund-dashboard #funding-card {
+    font-size: 18px; }
+  #fund-dashboard .row#funding-card {
     display: block;
     background-color: white;
-    border: 2px solid #DADFE1;
-    border-radius: 5px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin: 15px 0px; }
+    border-radius: 3px;
+    margin: 15px 0px;
+    padding: 20px 0px;
+    text-align: left; }
+    #fund-dashboard .row#funding-card #edit {
+      text-align: center; }
+    #fund-dashboard .row#funding-card div {
+      padding: 0px 15px; }
+    #fund-dashboard .row#funding-card div#support_type {
+      text-align: center; }
+    #fund-dashboard .row#funding-card #scholarship {
+      background-color: #3399FF; }
+    #fund-dashboard .row#funding-card #grant {
+      background-color: #7068FF; }
+    #fund-dashboard .row#funding-card #bursary {
+      background-color: #00da8d; }
+    #fund-dashboard .row#funding-card #prize {
+      background-color: #FFC300; }
+
+table#header {
+  margin-bottom: -10px; }
+  table#header th {
+    border: none;
+    padding-left: 15px;
+    padding-right: 0px; }
