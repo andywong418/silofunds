@@ -15,34 +15,14 @@ block content
                 label(for='title') Title
                 input#title.form-control(type='text', name='title', autofocus, required)
               .col-md-6.form-group
-                label(for='subject') Subject (separate with comma, no space)
-                input#subject.form-control(type='text', name='subject', style="text-transform: lowercase;")
-          .row
-            tr
-              .col-md-12.form-group
-                label(for='tags') Tags (separate with comma, no space)
-                input#tags.form-control(type='text', name='keywords', style="text-transform: lowercase;")
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='target_degree') Target Degree (separate with comma, no space)
-                input#target_degree.form-control(type='text', name='target_degree', style="text-transform: lowercase;")
-              .col-md-6.form-group
-                label(for='target_university') Target University (separate with comma, no space)
-                input#target_university.form-control(type='text', name='target_university', style="text-transform: lowercase;")
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='required_degree') Required Degree (separate with comma, no space)
-                input#required_degree.form-control(type='text', name='required_degree', style="text-transform: lowercase;")
-              .col-md-6.form-group
-                label(for='required_university') Required University (separate with comma, no space)
-                input#required_university.form-control(type='text', name='required_university', style="text-transform: lowercase;")
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='required_grade') Required Grade
-                input#required_grade.form-control(type='text', name='required_grade', style="text-transform: lowercase;")
+                .col-md-12.form-group
+                  .row
+                    label(for='organisation_id') Charity ID (if not present, create organisation first)
+                  .row
+                    select#organisation_id(name='organisation_id')
+                      option(value='') Please select
+                      each organisation in organisations
+                        option(value=organisation.id)=organisation.name + ' - ' + organisation.charity_id
           .row
             tr
               .col-md-3.form-group
@@ -59,14 +39,31 @@ block content
                 input#max_amount.form-control(type='number', name='max_amount')
           .row
             tr
-              .col-md-12.form-group
-                label(for='description') Description
-                textarea#description.form-control(rows='3', name='description')
+              .col-md-6.form-group
+                label(for='subject') Subject (separate with comma, no space)
+                input#subject.form-control(type='text', name='subject', style="text-transform: lowercase;")
+              .col-md-6.form-group
+                label(for='tags') Tags (separate with comma, no space)
+                input#tags.form-control(type='text', name='keywords', style="text-transform: lowercase;")
           .row
             tr
-              .col-md-12.form-group
-                label(for='financial_situation') Financial Situation
-                textarea#financial_situation.form-control(rows='3', name='financial_situation')
+              .col-md-6.form-group
+                label(for='target_degree') Target Degree (separate with comma, no space)
+                input#target_degree.form-control(type='text', name='target_degree', style="text-transform: lowercase;")
+              .col-md-6.form-group
+                label(for='target_university') Target University (separate with comma, no space)
+                input#target_university.form-control(type='text', name='target_university', style="text-transform: lowercase;")
+          .row
+            tr
+              .col-md-5.form-group
+                label(for='required_degree') Required Degree (separate with comma, no space)
+                input#required_degree.form-control(type='text', name='required_degree', style="text-transform: lowercase;")
+              .col-md-5.form-group
+                label(for='required_university') Required University (separate with comma, no space)
+                input#required_university.form-control(type='text', name='required_university', style="text-transform: lowercase;")
+              .col-md-2.form-group
+                label(for='required_grade') Required Grade
+                input#required_grade.form-control(type='text', name='required_grade', style="text-transform: lowercase;")
           .row
             tr
               .col-md-3.form-group
@@ -103,6 +100,16 @@ block content
                 input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', placeholder="eg. '5 months', '2 years'")
           .row
             tr
+              .col-md-12.form-group
+                label(for='description') Description
+                textarea#description.form-control(rows='3', name='description')
+          .row
+            tr
+              .col-md-12.form-group
+                label(for='financial_situation') Financial Situation
+                textarea#financial_situation.form-control(rows='3', name='financial_situation')
+          .row
+            tr
               .col-md-6.form-group
                 label(for='target_country') Target Countries (separate with comma, no space)
                 input#target_country.form-control(type='text', name='target_country', style="text-transform: lowercase;")
@@ -122,15 +129,6 @@ block content
               .col-md-6.form-group
                 label(for='religion') Religion (separate with comma, no space)
                 input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;")
-              .col-md-6.form-group
-                .col-md-12.form-group
-                  .row
-                    label(for='organisation_id') Charity ID (if not present, create organisation first)
-                  .row
-                    select#organisation_id(name='organisation_id')
-                      option(value='') Please select
-                      each organisation in organisations
-                        option(value=organisation.id)=organisation.name + ' - ' + organisation.charity_id
           .row
             tr
               .col-md-6.form-group
