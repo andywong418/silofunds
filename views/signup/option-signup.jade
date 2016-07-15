@@ -1,13 +1,14 @@
 extends ../layout
 
 block extraHeader
+  link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
   link(href='/stylesheets/user-profile.css', rel = 'stylesheet')
   link(href='/stylesheets/option-signup.css', rel = 'stylesheet')
 
 block content
   include ../navbar-fund.jade
   section#signup-wrapper.content-section.container.center-block
-    .container
+    .container.progress-buttons
       h4=support_type.charAt(0).toUpperCase() + support_type.slice(1) + ' Creation'
       button#general.progress-track.btn.btn-default
         a(href='#general') General information
@@ -132,13 +133,15 @@ block content
             p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
           form#location-form
             .row
-              .col-md-4
+              .col-md-12
                 label(for='target-country') Country of study*
                 input#target_country.form-control(name='target_country')
-              .col-md-4
+            .row
+              .col-md-12
                 label(for='country_of_residence') Country of residence*
                 input#country_of_residence.form-control(name='country_of_residence')
-              .col-md-4
+            .row
+              .col-md-12
                 label(for='specific_location') Borough/state*
                 input#specific_location.form-control(name='specific_location')
             p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
@@ -183,6 +186,7 @@ block content
 
 block scripts
   script(src='/javascript/option-signup.js')
+  script(src='/javascript/lib/jquery.tokeninput.js')
   script.
     var support_type = !{JSON.stringify(support_type)};
     var user = !{JSON.stringify(user)};

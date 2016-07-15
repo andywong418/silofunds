@@ -147,6 +147,9 @@ var EligibleDisplay = Backbone.View.extend({
     var eligibleModel = new OptionModel();
     var view = new EligibleView({model: eligibleModel});
     this.$el.append(view.render().el);
+    this.$('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+    this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+
     var arrayFields = ['subject','religion','minimum_age', 'maximum_age', 'gender','merit_or_finance','target_university','target_degree','required_degree','required_university','required_grade','target_country','country_of_residence','specific_location','other_eligibility']
     for(var i = 0; i< arrayFields.length; i++){
       if(this.model.get(arrayFields[i])){
@@ -171,6 +174,18 @@ var EligibleDisplay = Backbone.View.extend({
                 this.$('#finance-input').prop("checked", true);
                 break;
             };
+            break;
+          case 'target_country':
+            for(var j = 0; j < value.length; j++){
+                console.log(this.$('ul.token-input-list-facebook').html());
+                this.$('#location-form .row:nth-child(1) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
+            }
+            break;
+          case 'country_of_residence':
+            for(var j = 0; j < value.length; j++){
+                console.log(this.$('ul.token-input-list-facebook').html());
+                this.$('#location-form .row:nth-child(2) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
+            }
             break;
           default:
             this.$('#' + arrayFields[i]).val(value);
@@ -208,10 +223,10 @@ var EligibleDisplay = Backbone.View.extend({
     $('#' + id).addClass('item-selected');
     $('.criteria-form form').not('#' + id + '-form').removeClass('selected-form');
     $('#' + id + '-form').addClass('selected-form');
-
   },
   saveEligible: function(e){
     e.preventDefault();
+    console.log($('input[name=target_country]').val());
     var subject = $('input[name=subject]').val().split(',');
     var religion = $('#religion').val().split(',');
     var targetUniversity = $('input[name=target_university]').val().split(',');
@@ -328,7 +343,7 @@ var ApplicationDisplay = Backbone.View.extend({
     else{
       $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application/' + fund.id, formData, function(data){
         fund = data;
-        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'#application';
+        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'/completed';
       })
     }
   }
@@ -405,4 +420,8 @@ var Router = Backbone.Router.extend({
 var router = new Router();
 Backbone.history.start();
 
-})
+function split(val) {
+  return val.split(" ");
+}
+
+});

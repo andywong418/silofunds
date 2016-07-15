@@ -1,6 +1,7 @@
 var models = require('../models');
 var query;
 var async = require('async');
+var countries = require('../resources/countries')
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -352,6 +353,20 @@ module.exports = {
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
         res.send(fund);
+      })
+    })
+  },
+  newOptionProfile: function(req, res){
+    console.log("Got in");
+    var userId = req.params.id;
+    var fundId = req.params.fund_id;
+    var session = req.session;
+    console.log(session);
+    models.users.findById(userId).then(function(user){
+      console.log(user);
+      models.funds.findById(fundId).then(function(fund){
+        console.log(fund);
+        res.render('option-profile', {user: user, fund: fund, newUser: true, countries: countries});
       })
     })
   },

@@ -1,6 +1,13 @@
 #bio {
   text-align: left; }
 
+.progress-buttons hr {
+  width: 100%;
+  margin-left: -20px; }
+
+.container {
+  padding-left: 8px; }
+
 #bio-area {
   float: left;
   width: 50%;
@@ -87,16 +94,10 @@ input {
 .glyphicon {
   padding-top: 1px; }
 
-.amount {
-  padding-left: 0; }
-
 #min-amount, #max-amount, #duration, #place {
   width: 100%;
   float: left;
   padding-left: 5px; }
-
-.extra-info {
-  padding-left: 0; }
 
 .next {
   width: 90%; }
@@ -187,6 +188,8 @@ input {
       margin-top: 15px; }
   .criteria-form #location-form {
     display: none; }
+    .criteria-form #location-form .col-md-12 {
+      margin-top: 15px; }
   .criteria-form #other-form {
     display: none; }
     .criteria-form #other-form #other {
@@ -199,6 +202,9 @@ input {
     display: inline !important;
     -webkit-transition: 0.5s;
     transition: 0.5s; }
+
+.container .col-md-3 {
+  padding-left: 0; }
 
 #other_application_steps {
   float: left;

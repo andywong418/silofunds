@@ -1,7 +1,15 @@
 #bio {
   text-align: left;
 }
-
+.progress-buttons{
+  hr{
+    width: 100%;
+    margin-left:-20px
+  }
+}
+.container{
+  padding-left: 8px;
+}
 #bio-area {
   float: left;
   width: 50%;
@@ -126,9 +134,6 @@ input {
 
 
 
-.amount {
-  padding-left: 0;
-}
 
 #min-amount, #max-amount, #duration, #place {
   width: 100%;
@@ -136,9 +141,6 @@ input {
   padding-left: 5px;
 }
 
-.extra-info {
-  padding-left: 0;
-}
 
 .next {
   width: 90%;
@@ -249,6 +251,10 @@ input {
   }
   #location-form{
     display: none;
+
+    .col-md-12 {
+      margin-top: 15px;
+    }
   }
   #other-form{
     #other{
@@ -268,6 +274,11 @@ input {
 }
 //application process
 
+.container{
+  .col-md-3{
+    padding-left: 0;
+  }
+}
 
 #other_application_steps{
   float: left;

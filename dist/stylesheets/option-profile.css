@@ -1,0 +1,347 @@
+body {
+  font-size: 14px;
+  font-family: "PT Sans" !important;
+  margin: 0px;
+  padding: 0px;
+  background-color: #e9f0f4; }
+
+a {
+  color: #00B7FF; }
+
+h1 {
+  font-size: 40px;
+  margin-left: 2.5%; }
+
+#big_flex_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-top: 50px; }
+
+/* Left div */
+#left_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 23%;
+  margin-left: 3%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: auto;
+  margin-top: 4%; }
+
+#fundImage {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  cursor: pointer; }
+
+#box_2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px; }
+  #box_2 #bio {
+    text-align: left;
+    font-weight: 900;
+    font-family: 'Helvetica Neue';
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  #box_2 #fundBio {
+    width: 90%;
+    font-size: 15px; }
+
+#message {
+  width: 60%;
+  background: rgba(0, 153, 153, 0.8);
+  color: white;
+  border: 0;
+  font-family: 'Helvetica Neue';
+  text-transform: none; }
+  #message:hover {
+    background: #008989; }
+  #message i {
+    font-size: 20px;
+    margin-right: 7px; }
+
+#box_3_left {
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 8px;
+  height: auto;
+  padding-left: 3%;
+  padding-right: 3%;
+  margin-bottom: 6%; }
+
+#eligibility_para_left {
+  font-size: 16px;
+  text-decoration: underline; }
+
+/* Right div */
+#right_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 73%;
+  float: right;
+  margin-right: 3%;
+  margin-top: 3%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end; }
+
+#fundName_div {
+  width: 100%;
+  margin-top: 4%;
+  margin-left: 4%; }
+
+#fundName {
+  margin-left: 4%;
+  font-size: 35px;
+  text-align: left; }
+
+#eligibility_div {
+  width: 94%;
+  height: auto;
+  background-color: #2F9F59;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px; }
+  #eligibility_div p {
+    margin: 2%;
+    margin-left: 3%;
+    font-size: 25px; }
+
+#box_3_right {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 93%;
+  margin-top: 4%;
+  margin-bottom: -3%;
+  background-color: white;
+  padding-top: 1%;
+  padding-bottom: 15px;
+  border: 1px solid #e1e8ed; }
+  #box_3_right #eligibility_para_right {
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-left: 2%; }
+  #box_3_right hr {
+    width: 100%;
+    margin-top: 5px; }
+  #box_3_right .eligibility-display .criteria-box {
+    margin-top: 25px; }
+    #box_3_right .eligibility-display .criteria-box img {
+      width: 40px;
+      height: auto; }
+    #box_3_right .eligibility-display .criteria-box .criteria {
+      font-weight: bold;
+      font-size: 15px;
+      text-transform: capitalize;
+      margin-left: 8px; }
+      #box_3_right .eligibility-display .criteria-box .criteria #to {
+        color: red; }
+  #box_3_right .eligibility-display #criteria-handler:nth-child(4n+2) .criteria-box {
+    clear: both; }
+
+/* Applicaton form */
+#application_form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 93%;
+  background-color: #B9D3EE;
+  margin-top: 6%;
+  font-weight: bold;
+  margin-bottom: 6%; }
+
+.head {
+  margin-top: 3%;
+  font-size: 20px;
+  text-decoration: underline; }
+
+#start_date, #documents_deadline, #interviews, #decision_date {
+  width: 90%;
+  font-size: 14px;
+  padding: 1%;
+  text-align: center;
+  border: 1px solid black;
+  font-weight: normal; }
+
+.arrow {
+  font-size: 25px;
+  margin: 1%; }
+
+#apply_now_p {
+  font-size: 14px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 20px;
+  padding: 8px;
+  background-color: #8CCFDB; }
+
+#apply_now_link {
+  text-decoration: none;
+  color: black; }
+
+#apply_now_p:hover {
+  background-color: #C7EEF5;
+  -webkit-transition: background-color 1.2s ease; }
+
+#tips {
+  width: 90%;
+  border: 1px solid black;
+  margin-bottom: 3%;
+  height: 200px; }
+  #tips p {
+    font-size: 18px;
+    margin: 3%;
+    margin-left: 4%; }
+
+/* Scholars div */
+#scholars_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: 5%; }
+
+#scholars_main_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+#scholars_second_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%; }
+  #scholars_second_div img {
+    border-radius: 50%; }
+
+#pic1_image, #pic2_image, #pic3_image, #pic4_image {
+  width: auto;
+  height: 180px; }
+
+#scholars_info_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 94%; }
+
+.boldIt {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold; }
+
+#scholars_div #previous_scholars {
+  margin-top: 4%;
+  font-size: 30px; }
+
+#pic1_div, #pic2_div, #pic3_div, #pic4_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 3%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center; }
+
+#pic1, #pic2, #pic3, #pic4 {
+  height: 200px; }
+
+#info_1, #info_2, #info_3, #info_4 {
+  margin-top: 3%; }
+
+/* Reviews */
+#review_div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 700px;
+  padding-left: 2%;
+  padding-right: 2%; }
+
+/* Separators */
+#separator_1 {
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background-color: #506987; }
+
+#separator_2 {
+  margin-top: 6%;
+  margin-bottom: 3%;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background-color: #506987; }

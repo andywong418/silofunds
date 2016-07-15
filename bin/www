@@ -220,6 +220,109 @@ var userFields =  ["username","profile_picture","description","past_work","date_
               body: body
             }, function (err, resp) {
               console.log('Bulk sync on restart finished.');
+
+              models.es.exists({ index: 'signup_fields' }, function(err, resp){
+                if (err) {
+                  console.log(err);
+                }
+
+                console.log("Does the signupFields ES index exist?:");
+                console.log(resp);
+                models.es.indices.delete({
+                  index: 'signup_fields',
+                  ignore: [404]
+                }).then(function(err, resp){
+                  if (err) {
+                    console.log("ERROR IN HERE: " + err);
+                  } else if (resp) {
+                    console.log("RESPONSE IN HERE: " + resp);
+                  }
+                  models.es.indices.create({
+                    index: 'signup_fields',
+                    body: {
+                      "settings": {
+                        "analysis": {
+                          "filter": {
+                            "autocomplete_filter": {
+                              "type": "edge_ngram",
+                              "min_gram": 1,
+                              "max_gram": 20
+                            }
+                          },
+                          "analyzer": {
+                            "autocomplete": {
+                              "type": "custom",
+                              "tokenizer": "standard",
+                              "filter": [
+                                "lowercase",
+                                "autocomplete_filter"
+                              ]
+                            },
+                            "my_english": {
+                              "type":      "english",
+                              "stopwords": "_english_"
+                            }
+                          }
+                        }
+                      },
+                      'mappings': {
+                        'signup_form': {
+                          'properties': {
+                            'country': {
+                              'type': 'string',
+                              'fields': {
+                                "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
+                              }
+                            },
+                            "suggest": {
+                              "type": "completion",
+                              "index_analyzer": "simple",
+                              "search_analyzer": "simple",
+                              "payloads": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }).then(function(err, resp){
+                    if (err) {
+                      console.log("ERROR IN HERE: ");
+                      console.log(err);
+                    } else if (resp) {
+                      console.log("RESPONSE IN HERE: " + resp);
+                    }
+
+                    // Automatically sync ALL on restart
+                    var signupFieldsBody = [];
+                    var list_of_countries = require('../resources/countries.js');
+                    var country_id = 0;
+
+                    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+                    list_of_countries.forEach(function(country) {
+                      country_id++;
+                      signupFieldsBody.push({'index': {'_index': 'signup_fields', '_type': 'signup_form', '_id': country_id }});
+                      var wrapper = {};
+
+                      wrapper["country"] = country;
+                      wrapper["suggest"] = { "input": country, "payload": { "country_id": country }};
+
+                      signupFieldsBody.push(wrapper);
+                    });
+
+                    models.es.bulk({
+                      body: signupFieldsBody
+                    }, function (err, resp) {
+                      // console.log(resp);
+                      if (err) {
+                        console.log(err);
+                      }
+                    });
+                  });
+                  //////
+                });
+                /////
+              });
+              //////
             });
           }).then(function() {
             models.es.exists({ index: 'users' }, function(err, resp){
