@@ -5,6 +5,7 @@ $(document).ready(function(){
   function noIcon(){
     $('*[id*=icon-image]:visible').each(function() {
       if($(this).attr('src').length === 0){
+        $(this).parent().css('margin-top', '15px');
         $(this).css('display', 'none');
       }
     });
@@ -47,6 +48,17 @@ $(document).ready(function(){
     render: function(){
       this.$el.html(this.template(this.model.toJSON()));
       return this; // enable chained calls
+    }
+  })
+
+  var OtherEligibilityView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'other-criteria-handler',
+    template: _.template($('#other-eligibility-template').html()),
+    render: function() {
+      console.log('is it in here?')
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
     }
   })
 
@@ -111,7 +123,7 @@ $(document).ready(function(){
                         section: 'Science subjects'
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       scienceCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -127,7 +139,7 @@ $(document).ready(function(){
                         section: 'Humanities subjects',
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       humanitiesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -144,7 +156,7 @@ $(document).ready(function(){
                         section: 'Foreign Languages'
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       foreignLanguagesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -161,7 +173,7 @@ $(document).ready(function(){
                         section: "Maths subjects"
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       mathsCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -176,7 +188,7 @@ $(document).ready(function(){
                       section: 'Sports'
                     })
                     var view = new ImageView({model: imageModel});
-                    this.$el.append(view.render().el);
+                    this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else if(subject[i].toLowerCase() == 'music'){
@@ -186,7 +198,7 @@ $(document).ready(function(){
                       section: "Music"
                     })
                     var view = new ImageView({model: imageModel});
-                    this.$el.append(view.render().el);
+                    this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else if (subject[i].toLowerCase() == 'economics'){
@@ -196,7 +208,7 @@ $(document).ready(function(){
                       section: "Economics"
                     })
                     var view = new ImageView({model: imageModel});
-                    this.$el.append(view.render().el);
+                    this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else if(subject[i].toLowerCase() == 'law'){
@@ -206,7 +218,7 @@ $(document).ready(function(){
                       section: "Law"
                     })
                     var view = new ImageView({model: imageModel});
-                    this.$el.append(view.render().el);
+                    this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else if(subject[i].toLowerCase().indexOf('compute') > -1){
@@ -217,7 +229,7 @@ $(document).ready(function(){
                         section: 'Computing'
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       computingCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -234,7 +246,7 @@ $(document).ready(function(){
                         section: 'Arts'
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       artCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
 
@@ -251,7 +263,7 @@ $(document).ready(function(){
                         section: 'Other subjects',
                       })
                       var view = new ImageView({model: imageModel});
-                      this.$el.append(view.render().el);
+                      this.$('#subject-handler').append(view.render().el);
                       console.log(view);
                       otherCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
@@ -278,7 +290,7 @@ $(document).ready(function(){
                       section: 'Religion'
                     })
                     var view = new ImageView({model: imageModel});
-                    this.$el.append(view.render().el);
+                    this.$('#personal-handler').append(view.render().el);
                     religionCounter = view;
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
@@ -301,7 +313,7 @@ $(document).ready(function(){
                     section: 'age'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#personal-handler').append(view.render().el);
                   noIcon();
                 }
                 else{
@@ -326,7 +338,7 @@ $(document).ready(function(){
                     section: 'age'
                   });
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#personal-handler').append(view.render().el);
                   noIcon()
                 }
               }
@@ -340,7 +352,7 @@ $(document).ready(function(){
                   section: 'gender'
                 })
                 var view = new ImageView({model:imageModel});
-                this.$el.append(view.render().el);
+                this.$('#personal-handler').append(view.render().el);
                 noIcon();
               }
               break;
@@ -353,7 +365,7 @@ $(document).ready(function(){
                   section: 'Funding given on merit or finance?'
                 })
                 var view = new ImageView({model: imageModel});
-                this.$el.append(view.render().el);
+                this.$('#personal-handler').append(view.render().el);
               }
               if(merit_or_finance == 'finance'){
                 var imageModel = new ImageModel({
@@ -362,7 +374,7 @@ $(document).ready(function(){
                   section: 'Funding given on merit or finance?'
                 })
                 var view = new ImageView({model: imageModel});
-                this.$el.append(view.render().el);
+                this.$('#personal-handler').append(view.render().el);
                 this.$('[data-toggle="tooltip"]').tooltip();
 
               }
@@ -376,11 +388,11 @@ $(document).ready(function(){
                   requiredUniversityString = returnStringfromArray(requiredUniversity)
                   var imageModel = new ImageModel({
                     imageSource: '/images/university.png',
-                    criteria: requiredUniversityString.capitalize() + " <span id= 'to'>to</span> " +targetUniversityString.capitalize(),
+                    criteria: requiredUniversityString.capitalize() + " <br><span id= 'to'>to: </span>  " +targetUniversityString.capitalize(),
                     section: 'University'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#education-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
                 }
                 else{
@@ -390,7 +402,7 @@ $(document).ready(function(){
                     section: 'University'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#education-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
                 }
               }
@@ -407,7 +419,7 @@ $(document).ready(function(){
                     section: 'University'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#education-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
                 }
               }
@@ -421,11 +433,11 @@ $(document).ready(function(){
                   var requiredDegreeString = returnStringfromArray(requiredDegree);
                   var imageModel = new ImageModel({
                     imageSource: '/images/education.png',
-                    criteria: 'Required degrees: ' + requiredDegreeString + ' <br> ' + 'For: ' + targetDegreeString,
+                    criteria: 'Required degrees: ' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
                     section: 'Degree specification'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#education-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
                 }
                 else{
@@ -435,7 +447,7 @@ $(document).ready(function(){
                     section: 'Degree specification'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#education-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
                 }
               }
@@ -448,36 +460,74 @@ $(document).ready(function(){
                 section:'required grade'
               })
               var view = new ImageView({model: imageModel});
-              this.$el.append(view.render().el);
+              this.$('#education-handler').append(view.render().el);
               noIcon();
               break;
             case 'target_country':
-              var target_country = fund.target_country;
-              var imageModel = new ImageModel({
-                imageSource: '/images/education.png',
-                criteria: 'Hi',
-                section: 'lol'
-              });
-              var view = new ImageView({ model: imageModel });
-              this.$el.append(view.render().el);
-              this.$('[data-toggle="tooltip"]').tooltip();
+              var targetCountry = fund.target_country;
+              if(targetCountry){
+                for(var i =0; i < targetCountry.length; i++){
+                  var imageModel = new ImageModel({
+                    imageSource: '/images/128/' + targetCountry[i] + '.png',
+                    criteria: 'For ' + targetCountry[i],
+                    section: targetCountry[i]
+                  });
+                  var view = new ImageView({ model: imageModel });
+                  this.$('#location-handler').append(view.render().el);
+                  this.$('[data-toggle="tooltip"]').tooltip();
+                }
+              }
 
               break;
             case 'country_of_residence':
-
+              var requiredCountry = fund.country_of_residence;
+              if(requiredCountry){
+                for(var i =0; i < requiredCountry.length; i++){
+                  var imageModel = new ImageModel({
+                    imageSource: '/images/128/' + requiredCountry[i] + '.png',
+                    criteria: 'From ' + requiredCountry[i],
+                    section: requiredCountry[i]
+                  });
+                  var view = new ImageView({ model: imageModel });
+                  this.$('#location-handler').append(view.render().el);
+                  this.$('[data-toggle="tooltip"]').tooltip();
+                }
+              }
               break;
             case 'specific_location':
-
+              var specific_location = fund.specific_location;
+              if(specific_location){
+                for (var i =0; i<specific_location.length; i++){
+                  var imageModel = new ImageModel({
+                    imageSource: '/images/specific_location.svg',
+                    criteria: specific_location,
+                    section: 'Specific locations'
+                  })
+                  var view = new ImageView({ model: imageModel });
+                  this.$('#location-handler').append(view.render().el);
+                  this.$('[data-toggle="tooltip"]').tooltip();
+                }
+              }
               break;
             case 'other_eligibility':
+              var other_eligibility = fund.other_eligibility;
+              if (other_eligibility) {
+                var imageModel = new ImageModel({
+                  criteria: other_eligibility,
+                  section: 'Other eligibility requirements'
+                });
 
+                var view = new OtherEligibilityView({ model: imageModel });
+                this.$('#other-handler').append(view.render().el);
+                // view.$('.criteria-box').removeClass('col-md-4').addClass('col-md-12');
+                // var section = view.model.get('section');
+                // view.$('.criteria-box').prepend('<span data-toggle="tooltip" title="'+ section+'" class="glyphicon glyphicon-option-horizontal"></span>');
+                this.$('[data-toggle="tooltip"]').tooltip();
+
+              }
               break;
           }
         }
-
-
-
-
     }
   })
   var eligibilityDisplay = new EligibilityDisplay();

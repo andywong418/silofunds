@@ -185,7 +185,8 @@ input {
   .criteria-form #education-form {
     display: none; }
     .criteria-form #education-form label {
-      margin-top: 15px; }
+      margin-top: 15px;
+      white-space: nowrap; }
   .criteria-form #location-form {
     display: none; }
     .criteria-form #location-form .col-md-12 {

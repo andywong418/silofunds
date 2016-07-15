@@ -147,21 +147,53 @@ h1 {
     padding-left: 2%; }
   #box_3_right hr {
     width: 100%;
-    margin-top: 5px; }
+    margin-top: 5px;
+    margin-bottom: 0px; }
   #box_3_right .eligibility-display .criteria-box {
-    margin-top: 25px; }
+    margin: 10px 0; }
     #box_3_right .eligibility-display .criteria-box img {
-      width: 40px;
+      width: 35px;
       height: auto; }
     #box_3_right .eligibility-display .criteria-box .criteria {
       font-weight: bold;
       font-size: 15px;
       text-transform: capitalize;
-      margin-left: 8px; }
+      margin-left: 8px;
+      content: "";
+      clear: both;
+      display: block;
+      margin-top: 5px; }
       #box_3_right .eligibility-display .criteria-box .criteria #to {
-        color: red; }
-  #box_3_right .eligibility-display #criteria-handler:nth-child(4n+2) .criteria-box {
+        color: #2980b9; }
+      #box_3_right .eligibility-display .criteria-box .criteria #for {
+        color: #2980b9; }
+  #box_3_right .eligibility-display .glyphicon {
+    font-size: 20px;
+    margin-right: 10px; }
+  #box_3_right .eligibility-display .description {
+    font-weight: bold;
+    display: inline; }
+  #box_3_right .eligibility-display #subject-handler #criteria-handler:nth-child(3n+2) .criteria-box {
     clear: both; }
+  #box_3_right .eligibility-display #personal-handler #criteria-handler:nth-child(3n+2) .criteria-box {
+    clear: both; }
+  #box_3_right .eligibility-display #location-handler #criteria-handler:nth-child(3n+2) .criteria-box {
+    clear: both; }
+  #box_3_right .eligibility-display #education-handler #criteria-handler:nth-child(3n+2) .criteria-box {
+    clear: both; }
+  #box_3_right .eligibility-display .col-md-12 {
+    margin-top: 15px;
+    height: 40px; }
+  #box_3_right .eligibility-display #other-criteria-handler .other-box {
+    padding-top: 5px;
+    padding-bottom: 10px; }
+    #box_3_right .eligibility-display #other-criteria-handler .other-box .col-md-12 span.glyphicon {
+      font-size: 30px;
+      padding-top: 10px;
+      top: 10px; }
+    #box_3_right .eligibility-display #other-criteria-handler .other-box .col-md-12 span.criteria {
+      margin-left: 17px;
+      font-size: 15px; }
 
 /* Applicaton form */
 #application_form {

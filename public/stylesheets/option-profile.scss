@@ -149,12 +149,13 @@ h1 {
   hr{
     width:100%;
     margin-top:5px;
+    margin-bottom: 0px;
   }
   .eligibility-display{
       .criteria-box{
-        margin-top:25px;
+          margin: 10px 0;
           img{
-            width: 40px;
+            width: 35px;
             height: auto;
           }
           .criteria{
@@ -162,8 +163,15 @@ h1 {
             font-size: 15px;
             text-transform: capitalize;
             margin-left: 8px;
+            content:"";
+            clear:both;
+            display:block;
+            margin-top: 5px;
             #to{
-              color: red;
+              color: #2980b9;
+            }
+            #for{
+              color: #2980b9
             }
           }
 
@@ -172,9 +180,65 @@ h1 {
   }
 
 .eligibility-display{
-  #criteria-handler:nth-child(4n+2){
-    .criteria-box {
-      clear: both;
+  .glyphicon{
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  .description{
+    font-weight: bold;
+    display: inline
+  }
+  #subject-handler {
+    #criteria-handler:nth-child(3n+2){
+      .criteria-box {
+        clear: both;
+      }
+    }
+
+  }
+  #personal-handler {
+    #criteria-handler:nth-child(3n+2){
+      .criteria-box {
+        clear: both;
+      }
+    }
+  }
+  #location-handler {
+    #criteria-handler:nth-child(3n+2){
+      .criteria-box {
+        clear: both;
+      }
+    }
+  }
+  #education-handler {
+    #criteria-handler:nth-child(3n+2){
+      .criteria-box {
+        clear: both;
+      }
+    }
+
+  }
+  .col-md-12 {
+    margin-top: 15px;
+    height: 40px;
+  }
+
+  #other-criteria-handler {
+    .other-box {
+      padding-top: 5px;
+      padding-bottom: 10px;
+      .col-md-12{
+        span.glyphicon {
+          font-size: 30px;
+          padding-top: 10px;
+          top: 10px;
+        }
+        span.criteria {
+          margin-left: 17px;
+          font-size: 15px;
+        }
+      }
+
     }
   }
 }
