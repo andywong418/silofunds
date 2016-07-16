@@ -38,6 +38,40 @@ $(document).ready(function(){
     }
     return emptyString;
   }
+  function returnStringfromArray2(array){
+    var emptyString = '';
+    // Case 1: arr has 1 value
+    if (array.length === 1) {
+      return array[0];
+    }
+    reverseArray = array.reverse();
+    // Case 2: arr > 1
+    for (var i = 0; i < reverseArray.length; i++){
+      // Handle 1st string
+      if (i === 0) {
+        emptyString = reverseArray[i] + emptyString;
+      }
+
+      // Handle 2nd string
+      else if (i === 1) {
+        emptyString = reverseArray[i] + " and " + emptyString;
+      }
+
+
+      // Handle rest
+      else {
+        emptyString = reverseArray[i] + ', ' + emptyString;
+      }
+
+    }
+    return emptyString;
+  }
+  var reformatDate = function(date) {
+    console.log(date);
+    date = date.split('T')[0];
+    date = new Date(date);
+    return date.toDateString();
+  };
   var subject = fund['subject'];
   var ImageModel = Backbone.Model.extend();
 
@@ -309,7 +343,7 @@ $(document).ready(function(){
                   var maximumAge = fund['maximum_age'];
                   var imageModel = new ImageModel({
                     imageSource: '',
-                    criteria: '' + minimumAge + ' - ' + maximumAge,
+                    criteria: 'Ages:  ' + minimumAge + ' - ' + maximumAge,
                     section: 'age'
                   })
                   var view = new ImageView({model: imageModel});
@@ -319,7 +353,7 @@ $(document).ready(function(){
                 else{
                   var imageModel = new ImageModel({
                     imageSource: '',
-                    criteria: '' + minimumAge + '+',
+                    criteria: 'Ages: ' + minimumAge + '+',
                     section: 'age'
                   })
                   var view = new ImageView({model: imageModel});
@@ -334,7 +368,7 @@ $(document).ready(function(){
                 if(!fund['minimum_age']){
                   var imageModel = new ImageModel({
                     imageSource: '',
-                    criteria: '<' + maximumAge,
+                    criteria: 'Ages: <' + maximumAge,
                     section: 'age'
                   });
                   var view = new ImageView({model: imageModel});
@@ -452,6 +486,20 @@ $(document).ready(function(){
                 }
               }
               break;
+            case 'required_degree':
+              var requiredDegree = fund['required_degree'];
+              if(requiredDegree){
+                var requiredDegreeString = returnStringfromArray(requiredDegree);
+                var imageModel = new ImageModel({
+                  imageSource: '/images/education.png',
+                  criteria: 'Required degrees: ' + requiredDegreeString,
+                  section: 'Degree specification'
+                })
+                var view = new ImageView({model: imageModel});
+                this.$('#education-handler').append(view.render().el);
+                this.$('[data-toggle="tooltip"]').tooltip();
+              }
+              break;
             case 'required_grade':
               var requiredGrade = fund['required_grade'];
               var imageModel = new ImageModel({
@@ -528,9 +576,61 @@ $(document).ready(function(){
               break;
           }
         }
+        if(!fund.subject){
+          this.$('#subject-handler').css('display', 'none');
+        }
+        if(!fund.religion && !fund.minimum_age && !fund.maximum_age && !fund.gender && !fund.merit_or_finance){
+          this.$('#personal-handler').css('display', 'none');
+        }
+        if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required){
+          this.$('#education-handler').css('display','none');
+        }
+        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location){
+          this.$('#location-handler').css('display','none');
+        }
+        if(!fund.other_eligibility){
+          this.$('#other-handler').css('display', 'none')
+        }
+        this.$el.readmore({
+          moreLink: '<div class="readmore"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>',
+          lessLink: '<div class="readless"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>',
+          speed: 500
+        });
     }
   })
+
+
+  var ApplicationModel = Backbone.Model.extend();
+  var ApplicationView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'application-handler',
+    template: _.template($('#application-process').html()),
+    render: function() {
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    }
+  });
+  var ApplicationDisplay = Backbone.View.extend({
+    el: '#application_form',
+    initialize: function() {
+      if(!fund.application_link){
+        fund.application_link = fund.link;
+      }
+      var applicationModel = new ApplicationModel({
+        application_decision_date : 'Application decisions are on ' + reformatDate(fund.application_decision_date),
+        application_documents : returnStringfromArray2(fund.application_documents).capitalize() + ' are required by ' + reformatDate(fund.deadline),
+        application_open_date : 'Applications open on ' + reformatDate(fund.application_open_date),
+        interview_date : 'Interviews occur on ' + reformatDate(fund.interview_date),
+        application_link : fund.application_link
+      })
+
+      var view = new ApplicationView({ model: applicationModel });
+      this.$el.append(view.render().el);
+    }
+  })
+
   var eligibilityDisplay = new EligibilityDisplay();
+  var applicationFormDisplay = new ApplicationDisplay();
 
 }
 )

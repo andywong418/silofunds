@@ -57,24 +57,35 @@ block content
                   span.criteria <%= criteria %>
               
       #application_form
-        p.head Application process:
-        #start_date= fund.application_open_date
-        p.arrow#arrow_1 &#8595;
-        #documents_deadline= fund.application_documents
-        p.arrow#arrow_2 &#8595;
-        #interviews= fund.interview_date
-        p.arrow#arrow3 &#8595;
-        #decision_date= fund.application_decision_date
-        a#apply_now_link(href=fund.application_link)
-          p#apply_now_p Apply now
-        
-        #tips
-          p Tips:       
+        p.head Application process
+        hr
+        script#application-process(type='text/template')
+          #start_date  <%= application_open_date %>
+          p.arrow#arrow_1 
+            i.fa.fa-angle-double-down(aria-hidden="true")
+          #documents_deadline <%= application_documents %>
+          p.arrow#arrow_2 
+            i.fa.fa-angle-double-down(aria-hidden="true")
+          #interviews <%= interview_date %>
+          p.arrow#arrow3
+            i.fa.fa-angle-double-down(aria-hidden="true")
+          #decision_date <%= application_decision_date %>
+          a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
+          .mb-style-3
+            blockquote#tips
+              p This is an example tip which will help student achieve their goals.
+            .mb-attribution
+                p.mb-author Andros Wong
+                cite 
+                  a(href='#0') Funded by Silo for life
+                .mb-thumb
+                  img(src='/images/graduation.jpg')
     
 block scripts
   script.
     var fund = !{JSON.stringify(fund)}
     var countries = !{JSON.stringify(countries)}
+  script(src="/node_modules/readmore-js/readmore.min.js")
   script(src="/javascript/option-profile.js")
   
 
