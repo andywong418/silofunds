@@ -10,34 +10,44 @@ block content
     #left_div.container
       #box_1
         a#fundWebsite(href=fund.link) 
-          img#fundImage(src=user.profile_picture)
+          img#fundImage(src=organisation.profile_picture)
       #box_2
-        h4#bio=fund.title
+        if fund.link
+          a#external-link(href!=fund.link)
+            h4#bio=fund.title
+        else  
+          h4#bio=fund.title
         #left_info_div
           p#fundBio #{fund.description}
+          if fund.number_of_places
+            .info-row
+              i.fa.fa-archive(aria-hidden="true")
+              p#number_of_places= fund.number_of_places + ' '
+              span places available
+          if fund.minimum_amount && !fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount=fund.minimum_amount + '+'
+          if !fund.minimum_amount && fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount='<' + fund.maximum_amount
+          if fund.minimum_amount && fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount=fund.minimum_amount + ' - ' + fund.maximum_amount
+          if fund.duration_of_scholarship
+            .info-row
+              i.fa.fa-calendar-check-o(aria-hidden="true")
+              p#duration= 'This ' + fund.support_type + ' will last for ' 
+                span= fund.duration_of_scholarship
         a#message.center-block.btn.btn-default(href="mailto:" + user.email)
           i.fa.fa-comments-o(aria-hidden="true")
           |Message us
-      #box_3
-        p#general General Info
-        hr
-        .row
-          .col-md-6
-            if fund.number_of_places
-              p#number_of_places= fund.number_of_places + ' '
-                span places available
-          .col-md-6
-            if fund.minimum_amount && !fund.maximum_amount
-              p#amount= '£' + fund.minimum_amount + '+'
-            if !fund.minimum_amount && fund.maximum_amount
-              p#amount= '< £' + fund.maximum_amount
-            if fund.minimum_amount && fund.maximum_amount
-              p#amount= '£' + fund.minimum_amount + ' - £' + fund.maximum_amount
-        .row
-          .col-md-12
-            if fund.duration_of_scholarship
-              p#duration= 'This ' + fund.support_type + ' will last for ' 
-                span= fund.duration_of_scholarship
+      //- #box_3
+      //-   p#general General Info
+      //-   hr
+
                 
     #right_div
       //- #eligibility_div 
@@ -114,6 +124,8 @@ block scripts
   script.
     var fund = !{JSON.stringify(fund)}
     var countries = !{JSON.stringify(countries)}
+    var user = !{JSON.stringify(user)};
+  script(src="/javascript/signup-login.js")
   script(src="/node_modules/readmore-js/readmore.min.js")
   script(src="/javascript/option-profile.js")
   

@@ -56,6 +56,9 @@ h1 {
   width: 100%;
   margin-top: 10px;
   border-radius: 5px; }
+  #box_2 #external-link {
+    color: #2980b9;
+    cursor: pointer; }
   #box_2 #bio {
     text-align: left;
     font-weight: 900;
@@ -65,49 +68,36 @@ h1 {
     margin-bottom: 10px; }
   #box_2 #fundBio {
     width: 90%;
-    font-size: 15px; }
-
-#box_3 {
-  margin-top: 30px;
-  color: #717f8d;
-  background-color: white;
-  border-radius: 5px;
-  border: 1px solid #e1e8ed; }
-  #box_3 #general {
-    color: black;
-    margin-bottom: 0;
-    padding-left: 20px;
-    padding-top: 10px;
-    font-weight: bold; }
-  #box_3 hr {
-    width: 100%;
-    margin-top: 5px; }
-  #box_3 #number_of_places {
-    padding-left: 20px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #206694;
-    margin-bottom: 0; }
-    #box_3 #number_of_places span {
+    font-size: 15px;
+    margin-bottom: 10px; }
+  #box_2 .info-row {
+    display: block; }
+    #box_2 .info-row i {
       color: #717f8d;
       font-size: 15px;
-      font-weight: normal; }
-  #box_3 #amount {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 0;
-    padding-right: 10px;
-    color: #206694; }
-  #box_3 #duration {
-    margin-top: 20px;
-    padding-left: 20px;
-    padding-right: 10px;
-    font-size: 15px; }
-    #box_3 #duration span {
+      display: inline;
+      margin-right: 5px; }
+    #box_2 .info-row #number_of_places {
+      color: #2980b9;
+      display: inline;
+      font-size: 15px;
       font-weight: bold;
-      color: #206694; }
+      margin-bottom: 0; }
+    #box_2 .info-row #amount {
+      color: #2980b9;
+      display: inline;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 0;
+      margin-left: 5px; }
+    #box_2 .info-row #duration {
+      display: inline;
+      font-size: 15px; }
+      #box_2 .info-row #duration span {
+        color: #2980b9; }
 
 #message {
+  margin-top: 30px;
   width: 60%;
   background: rgba(0, 153, 153, 0.8);
   color: white;
@@ -205,9 +195,7 @@ h1 {
         display: block;
         margin-top: 5px;
         color: #717f8d; }
-        #box_3_right .eligibility-display .criteria-box .criteria #to {
-          color: #2980b9; }
-        #box_3_right .eligibility-display .criteria-box .criteria #for {
+        #box_3_right .eligibility-display .criteria-box .criteria #to, #box_3_right .eligibility-display .criteria-box .criteria #required, #box_3_right .eligibility-display .criteria-box .criteria #for {
           color: #2980b9; }
   #box_3_right .eligibility-display .glyphicon {
     font-size: 25px;
@@ -308,10 +296,12 @@ h1 {
   float: left; }
   #other-application p {
     font-size: 17px;
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    font-weight: bold; }
     #other-application p span {
       font-size: 15px;
-      margin-left: 7px; }
+      margin-left: 7px;
+      font-weight: normal; }
 
 #apply_now_link {
   margin-top: 30px;

@@ -14,6 +14,7 @@ router.post('/funding_creation/:id/:option/save_application/', fund.createNewFun
 router.post('/funding_creation/:id/:option/save_application/:fund_id', fund.updateApplication);
 router.get('/funding_creation/:id/:option/:fund_id/completed', fund.newOptionProfile);
 router.get('/option_creation/:id', fund.getOptionInfo);
+router.get('/options/:id', fund.getOptionProfile)
 router.post('/edit_description/:id', fund.editDescription);
 router.post('/edit_dates/:id', fund.editDates)
 router.get('/settings/:id/', fund.settings);

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  console.log(fund.link);
   String.prototype.capitalize= function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
   };
@@ -467,7 +468,7 @@ $(document).ready(function(){
                   var requiredDegreeString = returnStringfromArray(requiredDegree);
                   var imageModel = new ImageModel({
                     imageSource: '/images/education.png',
-                    criteria: 'Required degrees: ' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
+                    criteria: '<span id = "required"> Required degrees: </span>' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
                     section: 'Degree specification'
                   })
                   var view = new ImageView({model: imageModel});

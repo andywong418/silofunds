@@ -352,7 +352,7 @@ $("#login-form").submit(function(e){
 
          initialize: function(){
            if(typeof user ==='undefined' || user ==false){
-             
+
            }
            else{
              if(user.fund_or_user){

@@ -281,10 +281,13 @@ if(typeof query != 'undefined' && query){
     },
     profileLink: function(){
       var fundId = this.model.get('id');
+      console.log(fundId);
       var link = this.model.get('link');
-      var fund_user = this.model.get(fund_user);
+      var fund_user = this.model.get('fund_user');
+      console.log(fund_user);
       if (fund_user){
-        this.$("#profile_link" + fundId).attr('href', '/funds/public/' + fundId);
+        console.log("WHAT");
+        this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
       }
       else{
         this.$("#profile_link" + fundId).attr('href',  link)
