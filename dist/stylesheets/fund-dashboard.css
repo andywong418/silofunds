@@ -709,6 +709,9 @@ body {
     text-align: left;
     margin-bottom: 15px;
     font-size: 18px; }
+    #fund-dashboard p#listings-header .badge {
+      margin-top: -2px;
+      background-color: rgba(45, 74, 119, 0.75); }
   #fund-dashboard .row#funding-card {
     display: block;
     background-color: white;

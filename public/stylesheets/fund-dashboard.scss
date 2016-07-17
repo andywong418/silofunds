@@ -29,6 +29,11 @@ body {
     text-align: left;
     margin-bottom: 15px;
     font-size: 18px;
+
+    .badge {
+      margin-top: -2px;
+      background-color: rgba(#2d4a77, 0.75);
+    }
   }
 
   .row#funding-card {
