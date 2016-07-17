@@ -18,6 +18,27 @@ block content
         a#message.center-block.btn.btn-default(href="mailto:" + user.email)
           i.fa.fa-comments-o(aria-hidden="true")
           |Message us
+      #box_3
+        p#general General Info
+        hr
+        .row
+          .col-md-6
+            if fund.number_of_places
+              p#number_of_places= fund.number_of_places + ' '
+                span places available
+          .col-md-6
+            if fund.minimum_amount && !fund.maximum_amount
+              p#amount= '£' + fund.minimum_amount + '+'
+            if !fund.minimum_amount && fund.maximum_amount
+              p#amount= '< £' + fund.maximum_amount
+            if fund.minimum_amount && fund.maximum_amount
+              p#amount= '£' + fund.minimum_amount + ' - £' + fund.maximum_amount
+        .row
+          .col-md-12
+            if fund.duration_of_scholarship
+              p#duration= 'This ' + fund.support_type + ' will last for ' 
+                span= fund.duration_of_scholarship
+                
     #right_div
       //- #eligibility_div 
       //-   p#eligibility_div_p This box will display any users eligibility for your fund
@@ -60,16 +81,24 @@ block content
         p.head Application process
         hr
         script#application-process(type='text/template')
-          #start_date  <%= application_open_date %>
-          p.arrow#arrow_1 
-            i.fa.fa-angle-double-down(aria-hidden="true")
+          if fund.application_open_date
+            #start_date  <%= application_open_date %>
+            p.arrow#arrow_1 
+              i.fa.fa-angle-double-down(aria-hidden="true")
           #documents_deadline <%= application_documents %>
           p.arrow#arrow_2 
             i.fa.fa-angle-double-down(aria-hidden="true")
-          #interviews <%= interview_date %>
-          p.arrow#arrow3
-            i.fa.fa-angle-double-down(aria-hidden="true")
-          #decision_date <%= application_decision_date %>
+          if fund.interview_date
+            #interviews <%= interview_date %>
+            p.arrow#arrow3
+              i.fa.fa-angle-double-down(aria-hidden="true")
+          if fund.application_decision_date
+            #decision_date <%= application_decision_date %>
+          if fund.other_application_steps
+            #other-application
+              p Other application steps:  
+                span=fund.other_application_steps
+              
           a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
           .mb-style-3
             blockquote#tips

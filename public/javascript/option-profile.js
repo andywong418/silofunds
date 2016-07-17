@@ -626,6 +626,32 @@ $(document).ready(function(){
 
       var view = new ApplicationView({ model: applicationModel });
       this.$el.append(view.render().el);
+      if(!fund.application_documents){
+        if(fund.deadline){
+          this.model.set({
+            application_documents: 'Deadline for applications are on ' + reformatDate(fund.deadline)
+          })
+        }
+        else{
+          this.$('#documents_deadline').css('display', 'none');
+          this.$('#documents_deadline').next('p.arrow').css('display', 'none');
+        }
+      }
+      if(!fund.deadline){
+        if(fund.application_documents){
+          this.model.set({
+            application_documents: returnStringfromArray2(fund.application_documents).capitalize() + ' are required'
+          })
+        }
+      }
+
+      var listOfBoxes = ['#start_date', '#documents_deadline', '#interviews'];
+        if(this.$('#documents_deadline').is(":visible")){
+          if(this.$('#documents_deadline').next().next().attr('id') == 'apply_now_link'){
+            this.$('#documents_deadline').next('.arrow').css('display', 'none');
+          }
+        }
+
     }
   })
 

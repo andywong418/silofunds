@@ -63,6 +63,55 @@ h1 {
   }
 }
 
+#box_3{
+
+  margin-top: 30px;
+  color: #717f8d;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #e1e8ed;
+  #general{
+    color: black;
+    margin-bottom: 0;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-weight: bold;
+  }
+  hr{
+    width: 100%;
+    margin-top: 5px;
+  }
+  #number_of_places{
+    padding-left: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #206694;
+    span{
+      color: #717f8d;
+      font-size: 15px;
+      font-weight: normal;
+    }
+    margin-bottom: 0
+  }
+  #amount{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-right: 10px;
+    color: #206694;
+  }
+  #duration{
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 10px;
+    font-size: 15px;
+    span{
+      font-weight: bold;
+      color: #206694;
+    }
+  }
+}
+
 #message{
   width: 60%;
   background: rgba(0,153,153,.8);
@@ -325,6 +374,19 @@ h1 {
   }
 }
 
+#other-application{
+  margin-top: 30px;
+  margin-bottom: 0;
+  float: left;
+  p{
+    font-size: 17px;
+    margin-bottom: 0;
+    span{
+      font-size: 15px;
+      margin-left: 7px;
+    }
+  }
+}
 
 #apply_now_link {
   margin-top: 30px;
