@@ -1,8 +1,36 @@
 $(document).ready(function(){
-  console.log(fund.link);
+  Array.prototype.capitalize = function(){
+    var emptyArray = [];
+    this.forEach(function(element){
+      element = element.charAt(0).toUpperCase() + element.slice(1);
+      emptyArray.push(element);
+    })
+    return emptyArray;
+  }
+  function checkIfElementInArray(fundArray, userArray){
+    var counter = 0;
+    if(userArray){
+      console.log(userArray);
+      userArray.forEach(function(element, index, array){
+        if(fundArray.indexOf(element) > -1){
+          counter++;
+        }
+      });
+    }
+
+    if(counter == 0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
   String.prototype.capitalize= function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
   };
+  function capitalizeArray(element, index, array){
+    console.log(element);
+  }
   function noIcon(){
     $('*[id*=icon-image]:visible').each(function() {
       if($(this).attr('src').length === 0){
@@ -73,6 +101,124 @@ $(document).ready(function(){
     date = new Date(date);
     return date.toDateString();
   };
+  var NotEligibleModel = Backbone.Model.extend();
+  var NotEligibleView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'notEligible-handler',
+    template: _.template($('#notEligible-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this; // enable chained calls
+    }
+
+  })
+  function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
+    $('#left_div').css('opacity', '0.5');
+    $('#right_div').children().not('#eligibility_div, #eligibility_div_p, #notEligible').css('opacity', '0.5');
+    $('#scholars_div').css('opacity', '0.5');
+    $('#eligibility_div').css('display', 'block');
+    $('#eligibility_div').css('background-color', '#c0392b');
+    $('#eligibility_div_p').css('opacity', '1');
+    $('p#eligibility_div_p ').html('Sorry, you are not eligible for this fund - click this bar to learn why.');
+    $(document).on('click', '#eligibility_div', function(){
+      $('#notEligible').css('display', 'block');
+      //add criteria to explanation modal
+      var NotEligibleDisplay = Backbone.View.extend({
+        el: '.modal-container',
+        initialize: function(){
+          var model = new NotEligibleModel({
+            requirement_description: 'Fund ' + criteriaDescription,
+            requirement: criteria,
+            user_description: 'Your ' +  userInfoDescription,
+            user: userCriteria
+          })
+          var view = new NotEligibleView({model: model});
+          this.$el.append(view.render().el);
+        }
+      })
+      var notEligibleDisplay = new NotEligibleDisplay();
+    });
+
+      $('*').not('#notEligible').click(function(){
+        if($('#notEligible').is(':visible')){
+          $('#notEligible').css('display', 'none');
+          $("div[id*=notEligible-handler]").remove();
+
+        }
+      })
+
+  };
+
+  if(user){
+    if(!user.fund_or_user){
+      console.log(user);
+      $('#application_form').css('margin-top', '3%');
+      var myDate = user.date_of_birth.split("-");
+      var yearFix= myDate[2].split("T");
+      var day = yearFix[0];
+      var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+      var birthDate = new Date(newDate).getTime();
+      var nowDate = new Date().getTime();
+      var age = Math.floor((nowDate - birthDate) / 31536000000 );
+      var userFields = [age, 'country_of_residence', 'religion', 'subject', 'degree', 'university'];
+      var nonEligibleCounter = 0;
+      if(  fund.minimum_age ){
+        if(age < fund.minimum_age){
+          notEligible('minimum age', 'age',fund.minimum_age, age);
+          nonEligibleCounter++;
+        }
+
+      }
+      if(fund.maximum_age){
+        if(age > fund.maximum_age){
+          notEligible('maximum age','age',fund.maximum_age, age);
+          nonEligibleCounter++;
+        }
+
+      }
+      if(fund.country_of_residence.length > 0){
+        if(fund.country_of_residence.indexOf(user.country_of_residence.capitalize()) == -1){
+              notEligible('required countries', 'country_of_residence',fund.country_of_residence.capitalize().join(', '), user.country_of_residence);
+              nonEligibleCounter++;
+        }
+
+      }
+     if(fund.religion.length > 0){
+        if(checkIfElementInArray(fund.religion, user.religion) == false){
+          notEligible('required religions', 'religion', fund.religion.capitalize().join(', '), user.religion);
+          nonEligibleCounter++;
+        }
+
+      }
+       if(fund.subject.length > 0){
+         if(fund.subject.indexOf(user.subject) == -1){
+           notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject);
+           nonEligibleCounter++;
+         }
+      }
+       if(fund.required_degree.length > 0){
+         if(fund.required_degree.indexOf(user.degree) == -1){
+           notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.degree);
+            nonEligibleCounter++;
+         }
+      }
+      if(fund.required_university.length > 0){
+        if(fund.required_university.indexOf(user.university) == -1){
+          notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.university);
+          nonEligibleCounter++;
+        }
+
+      }
+      if(nonEligibleCounter == 0){
+        $('#eligibility_div').css('display', 'block');
+        $('#eligibility_div').css('background-color', '#27ae60');
+        $('p#eligibility_div_p ').html('You are eligible for this fund');
+
+      }
+
+    }
+  }
+
   var subject = fund['subject'];
   var ImageModel = Backbone.Model.extend();
 

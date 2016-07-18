@@ -376,7 +376,12 @@ module.exports = {
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       models.users.find({where : {fund_or_user: fund.organisation_id}}).then(function(organisation){
-        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+        if(user){
+          res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+        }
+        else{
+          res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+        }
 
       })
     })

@@ -164,15 +164,20 @@ h1 {
 }
 
 #eligibility_div {
-  width: 94%;
-  height: auto;
+  display: none;
+  margin-top:50px;
+  width: 93%;
+  height: 50px;
   background-color: #2F9F59;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding-top: 10px;
+  color: white;
   p {
-    margin: 2%;
+    margin-bottom: 0;
     margin-left: 3%;
-    font-size: 25px;
+    font-size: 20px;
   }
 }
 
@@ -309,7 +314,93 @@ h1 {
   }
 }
 
+#notEligible{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(52, 54, 66, 0.9);
+  z-index: 3;
+  overflow-y: auto;
+  cursor: pointer;
+  display: none;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  .modal-container{
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    background: #FFF;
+    margin: 10em auto 4em;
+    cursor: auto;
+    border-radius: 0.25em;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    color: black;
+    overflow-y: auto;
+    padding-bottom: 50px;
+    -webkit-transform: translateY(-30px);
+    -moz-transform: translateY(-30px);
+    -ms-transform: translateY(-30px);
+    -o-transform: translateY(-30px);
+    transform: translateY(-30px);
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    display: block;
+    .modal-bar{
+      position: relative;
+      height:50px;
+      background-color: #e1e8ed;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding-top: 10px;
+      font-weight: bold;
+      p{
+        text-align: center;
+        color:#1c5981;
+        margin-bottom: 0;
+      }
+    }
+    #notEligible-handler{
+      padding-top: 50px;
+      .row{
+        margin-top: -20px;
+      }
+      #wrong-cross{
+        text-align: center;
+        i{
+          color:red;
+          font-size: 30px;
+        }
+      }
+      #requirement-description, #user-description{
+        margin-bottom: 5px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      #requirement, #user{
+        text-align: center;
+        font-weight: normal;
+        font-size: 15px;
+      }
+    }
+    .disagree-email{
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      width: 100%;
+      cursor:pointer;
 
+    }
+  }
+}
 
 
 /* Applicaton form */
@@ -423,18 +514,21 @@ h1 {
     width: 0;
     position: absolute;
     pointer-events: none;
+    display: hidden;
 }
 .mb-style-3 blockquote:after  {
-    border-top-color: #ffffff;
+    border-top-color: transparent;
     border-width: 10px;
     left: 65%;
     margin-left: -10px;
+    display: hidden;
 }
 .mb-style-3 blockquote:before {
-    border-top-color: rgba(0,0,0,0.01);
+    border-top-color: transparent;
     border-width: 11px;
     left: 65%;
     margin-left: -11px;
+    display: hidden;
 }
 .mb-style-3 blockquote p {
     font-family: 'Alegreya', serif;
@@ -456,6 +550,7 @@ h1 {
     left: -105px;
     color:#8599b2;
     text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1);
+    display: hidden;
 }
 .mb-style-3 .mb-attribution {
     text-align: right;
@@ -538,7 +633,7 @@ h1 {
 
 #scholars_div #previous_scholars {
   margin-top: 4%;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 #pic1_div, #pic2_div, #pic3_div, #pic4_div {
@@ -555,6 +650,9 @@ h1 {
 
 #info_1, #info_2, #info_3, #info_4 {
   margin-top: 3%;
+  p{
+    font-size: 15px;
+  }
 }
 
 /* Reviews */
@@ -570,7 +668,7 @@ h1 {
 /* Separators */
 
 #separator_1 {
-  height: 60px;
+  height: 40px;
   display: flex;
   width: 100%;
   background-color: #506987;
@@ -579,7 +677,7 @@ h1 {
 #separator_2 {
   margin-top: 6%;
   margin-bottom: 3%;
-  height: 60px;
+  height: 40px;
   display: flex;
   width: 100%;
   background-color: #506987;
