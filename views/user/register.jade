@@ -1,0 +1,53 @@
+html
+  head
+    link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(href='/stylesheets/user/register.css', rel='stylesheet')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+    script(src='/javascript/user/register.js')
+  body
+    .container
+      #img-div
+        h1#vbl Silo image
+        .row.centered-form
+          .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+            .panel.panel-default
+              if flashMsg
+                .alert.alert-danger= flashMsg
+              .panel-heading
+                h3.panel-title
+                  | Sign up
+              .panel-body
+                form(role='form', action="/user/register", method='post')
+                  // If a user show this
+                  .row#user
+                    .col-xs-6.col-sm-6.col-md-6
+                      .form-group
+                        input#first_name.form-control(type='text', name='firstName', placeholder='First Name')
+                    .col-xs-6.col-sm-6.col-md-6
+                      .form-group
+                        input#last_name.form-control(type='text', name='lastName', placeholder='Last Name')
+                  // If a fund show this
+                  .row#fund
+                    .col-xs-12.col-sm-12.col-md-12
+                      .form-group
+                        input#first_name.form-control(type='text', name='fundName', placeholder='Institution name')
+                
+                  .form-group
+                    input#email.form-control(type='email', name='useremail', placeholder='Email Address')
+                  .row
+                    .col-xs-6.col-sm-6.col-md-6
+                      .form-group
+                        input#password.form-control(type='password', name='password', placeholder='Password')
+                    .col-xs-6.col-sm-6.col-md-6
+                      .form-group
+                        input#password_confirmation.form-control(type='password', name='confirmPassword', placeholder='Confirm Password')
+                    .fundOptionCheckbox
+                      label
+                        input#fundCheckbox(name='fundOption', type='checkbox', value='Remember Me')
+                        |  Sign up as a fund institution
+                  input.btn.btn-info.btn-block(type='submit', value='Register')
+
+      #sign-in
+        h2 Already have an account?
+        a(href='/user/login')
+          p.lead Sign in

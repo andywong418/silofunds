@@ -1,6 +1,300 @@
-extends ../layout
-block extraHeader
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title Silo
+		// jQuery UI
+		link(href='../../../stylesheets/jquery-ui.min.css', rel='stylesheet')
+		// Bootstrap Core CSS
+		link(href='../../../stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='../../../stylesheets/bootstrap-social.css', rel='stylesheet')
+		// Custom Fonts
+		link(href='../../../font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+		link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+		link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
+		link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:900', rel='stylesheet', type='text/css')
+		link(href='https://fonts.googleapis.com/css?family=Nunito', rel='stylesheet', type='text/css')
+		link(href='http://33.media.tumblr.com/avatar_5e9ecfc32b98_128.png', rel='shortcut icon')
+		// HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+		// WARNING: Respond.js doesn't work if you view the page via file://
+		//if lt IE 9
+		script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+		script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+		//underscore
+		script(src="../../../javascript/lib/underscore.js")
+		// jQuery
+		script(src='../../../javascript/lib/jquery.js')
+		// jQuery UI
+		script(src='../../../javascript/lib/jquery-ui.min.js')
+		//Backbone
+		script(src="../../../javascript/lib/backbone.js")
+		// Bootstrap Core JavaScript
+		script(src='../../../javascript/lib/bootstrap.min.js')
+		// Plugin JavaScript
+		script(src='../../../javascript/lib/jquery.easing.min.js')
+		link(href='../../../stylesheets/user-profile.css', rel='stylesheet')
+		link(href='../../../stylesheets/user-settings.css', rel='stylesheet')
+		// Hotjar Tracking Code for https://www.silofunds.com
+		script.
+			(function(h,o,t,j,a,r){
+			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+			h._hjSettings={hjid:163948,hjsv:5};
+			a=o.getElementsByTagName('head')[0];
+			r=o.createElement('script');r.async=1;
+			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+			a.appendChild(r);
+			})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+	body
+		script#settings-template(type='text/template')
+			nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+					#container.container
+						.navbar-header
+							button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+								i.fa.fa-bars
+							a#brand-heading.navbar-brand
+								img#brand-image(src="../../../images/transparent silo icon graphic.png")
+							form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+								#dropdown.dropdown
+									a#refine-search(href='#0') REFINE SEARCH
+									button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+										i.fa.et-down.fa-bars
+										i.fa.et-down.fa-angle-down
+									ul#dropdown-menu.dropdown-menu
+										li.dropdown-header type of profile search
+										li#grants
+											| Grants
+											span
+												i.fa.fa-check
+										//
+											li#users
+												| Users  
+												span
+													i.fa.fa-check         
+								input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
+								button#search_button.btn.btn-info(type='submit')
+									i.fa.fa-search
+							.instruction-pointer
+								p Search for grants or users by entering your desired subject, university and/or degree level
+							.instruction-pointer-2
+								p Use advanced search to look at specific fields for funds or other users. 
+						#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+								ul.nav.navbar-nav
+									li.signin-icon
+										button
+											a#home(href="/users/" + user.id + "/")
+												i.fa.fa-user
+									//      
+										li.signin-icon
+											button
+											 i.fa.fa-comment-o
+									li.signin-icon
+										.dropdown
+											button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+												i.fa.fa-cog
+											ul#settings-menu.dropdown-menu
+												li#settings
+													a(href='/users/settings/' + user.id + '/')
+														| Settings
+												li.divider(role='separator')
+												li#logout
+													a(href='/users/logout/' + user.id)
+														| Log out
 
-block content
-  h1 Welcome to your settings page #{user.username}
-  
+				section#advanced-search.container.content-section.text-center
+					.row
+						.col-md-4
+							label(for='age') Age:
+							input#advanced-age(type = "number", name = "age") 	
+						.col-md-4
+							label(for= 'nationality') Nationality:
+							input#advanced-nationality(type = "text", name = "nationality", value = user.nationality, form = "search-form") 
+						.col-md-4
+							label(for= 'religion') Religion:
+							input#religion(type = "text", name = "religion", value = user.religion, form = "search-form") 
+					.row
+						.col-md-4
+							label#amount_needed(for= 'amount_needed') Amount:
+							input#input-amount(type = "text", name = "funding_needed", value ="£" + user.funding_needed, form = "search-form")
+						.col-md-4
+							label#merit-or-finance Merit or Finance
+							.row
+								.col-md-6
+									label.radio-inline
+										input#merit(type='radio', name='merit_or_finance', value='merit', form = "search-form")
+										| Merit
+								.col-md-6
+										label.radio-inline
+												input#finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
+												| Finance
+						.col-md-4
+							label#gender Gender
+							.row
+								.col-md-6
+									label.radio-inline
+										input#male(type='radio', name = 'gender', value= 'male', form = "search-form")
+										| Male
+								.col-md-6
+									label.radio-inline
+										input#female(type='radio', name = 'gender', value = 'female', form = "search-form")
+										| Female
+				section#advanced-search-2.container.content-section.text-center
+					.row
+						.col-md-4
+							label(for='age') Age:
+							input#advanced-age-2(type = "number", name = "user_age", form = "search-form") 
+						.col-md-4
+							label(for= 'nationality') Nationality:
+							input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality, form = "search-form") 
+						.col-md-4
+							label(for= 'religion') Religion:
+							input#religion(type = "text", name = "user_religion", value = user.religion, form = "search-form") 
+					.row
+						.col-md-4
+							label#amount_needed(for= 'amount_needed') Amount:
+							input#input-amount(type = "text", name = "user_funding_needed", value ="£" + user.funding_needed, form = "search-form")
+						.col-md-4
+							label#gender Gender
+							.row
+								.col-md-6
+									label.radio-inline
+										input#male(type='radio', name = 'user_gender', value= 'male', form = "search-form")
+										| Male
+								.col-md-6
+									label.radio-inline
+										input#female(type='radio', name = 'user_gender', value = 'female', form = "search-form")
+										| Female
+
+				section#edit.container.content-section
+					.row
+						.col-md-2.col-xs-4#categories
+							ul
+								li#general-settings
+									i.fa.fa-gears
+									| General settings
+								li#account
+									i.fa.fa-lock
+									| Account details
+							hr
+							ul
+								li#logout
+									a(href='/users/logout/' + user.id)
+										| Log out
+						.col-md-1
+						.col-md-7.col-xs-8#profile-settings
+							form(action = '/users/settings/'+ user.id, method= 'post', id = 'change-settings')
+								.general
+									.row#username-row
+										.col-md-5
+											p Name:
+										.col-md-5
+											p#grey <%= name %>
+										.col-md-1
+											i.fa.fa-pencil.edit-username
+											p.edit Edit
+									.row#input-name
+										.col-md-12.center-block
+											button#save-username.save Save Changes
+									hr.account
+									.row#email-row
+										.col-md-5
+											p Email:
+										.col-md-5
+											p#grey= user.email
+										.col-md-1
+											i.fa.fa-pencil.edit-email
+											p.edit Edit
+									.row#input-email
+										.col-md-12.center-block
+											button#save-email.save Save Changes
+									hr.account
+									.row#password-row
+										.col-md-5
+											p Password:
+										.col-md-5
+											p#grey Change password
+										.col-md-1
+											i.fa.fa-pencil.edit-password
+											p.edit Edit
+									.row#input-password
+										.col-md-12.center-block
+											button#save-password.save Save Changes
+									hr.account
+									.row
+										.col-md-5
+											p Receive email updates weekly
+										.col-md-1
+											input#email_updates(type='checkbox', name='email-updates', value = 'email-updates')
+									br
+								.profile-edit
+									.row#description-row
+										.col-md-4
+											p Description:
+										.col-md-6
+											p#grey <%= description %>
+										.col-md-1
+											i.fa.fa-pencil.edit-password
+											p.edit Edit
+									.row#input-description
+										.col-md-12.center-block
+											button#save-description.save Save changes
+									hr
+									.row#nationality-row
+										.col-md-5
+											p Nationality:
+										.col-md-5
+											p#grey <%= nationality %>
+										.col-md-1
+											i.fa.fa-pencil.edit-nationality
+											p.edit Edit
+									.row#input-nationality
+											.col-md-12.center-block
+												button#save-nationality.save Save Changes
+									hr
+									.row#religion-row
+										.col-md-5
+											p Religion:
+										.col-md-5
+											p#grey <%= religion %>
+										.col-md-1
+											i.fa.fa-pencil.edit-religion
+											p.edit Edit
+									.row#input-religion
+										.col-md-12.center-block
+											button#save-religion.save Save changes
+									hr
+									.row#funding_needed-row
+										.col-md-5
+											p Funding Needed:
+										.col-md-5
+											p#grey <%= funding_needed %>
+										.col-md-1
+											i.fa.fa-pencil.edit-funding_needed
+											p.edit Edit
+									.row#input-funding_needed
+										.col-md-12.center-block
+											button#save-funding_needed.save Save changes
+									//		
+										hr
+										.row
+											.col-md-6
+												p Receive email updates weekly
+											.col-md-5
+												// input(type='checkbox', name='email-updates', checked='')
+	script(src='../../../javascript/lib/modernizr-input.js')
+	script(src= '../../../javascript/user-settings.js')
+	script.
+		var user = !{JSON.stringify(user)}
+		var general = !{JSON.stringify(general)}
+	// Google Analytics
+	script.
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-74497958-1', 'auto');
+		ga('send', 'pageview');

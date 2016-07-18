@@ -1,6 +1,207 @@
-extends ../layout
+extends ../signup/layout-signup
+
 block extraHeader
+  link(href='../../stylesheets/user-profile.css', rel='stylesheet')
 
 block content
-  h1 Welcome to your home page #{user.username}
-  
+  #user-modal
+    script#profile-template(type='text/template')
+      nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+        #container.container
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+              i.fa.fa-bars
+            a#brand-heading.navbar-brand
+              img#brand-image(src="../../images/transparent silo icon graphic.png")
+            form.search_form(id = "search-form", action='/results', method='get', name='search_form')
+              #dropdown.dropdown
+                a#refine-search(href='#0') REFINE SEARCH
+                button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                  i.fa.et-down.fa-bars
+                  i.fa.et-down.fa-angle-down
+                ul#dropdown-menu.dropdown-menu
+                  li.dropdown-header type of profile search
+                  li#grants
+                    | Grants
+                    span
+                      i.fa.fa-check
+                
+                  li#users
+                    | Users
+                    span
+                      i.fa.fa-check
+              input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
+              button#search_button.btn.btn-info(type='submit')
+                i.fa.fa-search
+            .instruction-pointer
+              p Search for grants by entering your desired subject, university and/or degree level
+            .instruction-pointer-2
+              p Use advanced search to look at specific fields for funds or other users.
+          #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
+              ul.nav.navbar-nav
+                li.signin-icon
+                  button
+                    a#home(href= "/user/home")
+                      i.fa.fa-user
+                //
+                  li.signin-icon
+                    button
+                     i.fa.fa-comment-o
+                li.signin-icon
+                  .dropdown
+                    button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+                      i.fa.fa-cog
+                    ul#settings-menu.dropdown-menu
+                      li#settings
+                        a(href='/user/settings/')
+                          | Settings
+                      li.divider(role='separator')
+                      li#logout
+                        a#logout(href='/user/logout/')
+                          | Log out
+
+      section#advanced-search.container.content-section.text-center
+        .row
+          .col-md-4
+            label(for='age') Age:
+            input#advanced-age(type = "number", name = "age", form = "search-form")
+
+          .col-md-4
+            label(for= 'nationality') Nationality:
+            input#advanced-nationality(type = "text", name = "nationality", value = user.nationality, form = "search-form")
+
+          .col-md-4
+            label(for= 'religion') Religion:
+            input#religion(type = "text", name = "religion", value = user.religion, form = "search-form")
+
+        .row
+
+          .col-md-4
+            label#amount_needed(for= 'amount_needed') Amount:
+            input#input-amount(type = "text", name = "funding_needed", value ="£" + user.funding_needed, form = "search-form")
+          .col-md-4
+            label#merit-or-finance Merit or Finance
+            .row
+              .col-md-6
+                label.radio-inline
+                  input#merit(type='radio', name='merit_or_finance', value='merit', form = "search-form")
+                  | Merit
+              .col-md-6
+                  label.radio-inline
+                      input#finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
+                      | Finance
+          .col-md-4
+            label#gender Gender
+            .row
+              .col-md-6
+                label.radio-inline
+                  input#male(type='radio', name = 'gender', value= 'male', form = "search-form")
+                  | Male
+              .col-md-6
+                label.radio-inline
+                  input#female(type='radio', name = 'gender', value = 'female', form = "search-form")
+                  | Female
+      section#advanced-search-2.container.content-section.text-center
+        .row
+          .col-md-4
+            label(for='age') Age:
+            input#advanced-age-2(type = "number", name = "user_age", form = "search-form")
+
+          .col-md-4
+            label(for= 'nationality') Nationality:
+            input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality, form = "search-form")
+
+          .col-md-4
+            label(for= 'religion') Religion:
+            input#religion(type = "text", name = "user_religion", value = user.religion, form = "search-form")
+
+        .row
+
+          .col-md-4
+            label#amount_needed(for= 'amount_needed') Amount:
+            input#input-amount(type = "text", name = "user_funding_needed", value ="£" + user.funding_needed, form = "search-form")
+          .col-md-4
+            label#gender Gender
+            .row
+              .col-md-6
+                label.radio-inline
+                  input#male(type='radio', name = 'user_gender', value= 'male', form = "search-form")
+                  | Male
+              .col-md-6
+                label.radio-inline
+                  input#female(type='radio', name = 'user_gender', value = 'female', form = "search-form")
+                  | Female
+      section#basic-info.container.content-section.text-center
+        .row
+          .col-md-4.center-block
+            figure#profile-figure
+              input#my_file(type='file', style='display: none;', name = 'profile_picture')
+              img#profile-picture(src='http://statici.behindthevoiceactors.com/behindthevoiceactors/_img/chars/finn-the-human-adventure-time-38.3.jpg')
+              figcaption#add-profile
+                i.fa.fa-camera
+        .row
+          .col-md-4.center-block
+            p#username <%= name %>
+        .row
+          .col-md-5.center-block
+            p#age <%= age %>,
+            p#nationality <%= nationality %>
+      section#description.container.content-section
+        .row
+          .col-md-10.center-block
+            span.glyphicon.glyphicon-book.intro(aria-hidden= "true")
+            p#intro-paragraph <%= description %>
+      section#past-work.container.content-section
+        .row
+          .col-md-12.center-block
+            span.glyphicon.glyphicon-briefcase.work(aria-hidden = "true")
+            #work-display
+            #add-work
+              i.fa.fa-plus
+              input#work-file(type='file', style='display: none;', name = 'file')
+              label(for='work-file') Add work
+      section#progress.container.content-section
+        .row
+          .col-md-10.center-block
+            span.glyphicon.glyphicon-tasks.fund-progress(aria-hidden = "true")
+            .progress
+              p#progress-label 0% of £<%= funding_needed %> reached
+              .progress-bar.progress-bar-warning.progress-bar-striped(role='progressbar', aria-valuenow='10', aria-valuemin='0', aria-valuemax='100', style='width:0%')
+            p#not-applied You have not applied to any funds yet.
+            table#applied-funds
+              tr#header
+                td#scholarship Scholarship
+                td#status Status
+                td#amount Amount
+              //
+                tr.fund-entry
+                  td.fund-name Erasmus Mobility Grant
+                  td.fund-amount £3600
+                tr.fund-entry
+                  td.fund-name The British Psychological Society
+                  td.fund-amount £2000
+                tr.fund-entry
+                  td.fund-name Research Council Scholarship
+                  td.fund-amount £800
+
+            button.get-started Get started
+      footer#instruction-footer.container.text-center
+        p
+          | Press enter to advance
+
+block scripts
+  script(src='../../javascript/lib/modernizr-input.js')
+  script(src= '../../javascript/user-profile.js')
+  script.
+    var user = !{JSON.stringify(user)};
+    var newUser = !{JSON.stringify(newUser)};
+    var documents = !{JSON.stringify(documents)};
+    var applications = !{JSON.stringify(applications)};
+  // Google Analytics
+  script.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-74497958-1', 'auto');
+    ga('send', 'pageview');
