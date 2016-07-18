@@ -17,23 +17,23 @@ html
                 h3.panel-title
                   | Sign up
               .panel-body
-                form(role='form', action="/user/register", method='post')
+                form(name='register', id='register', role='form', action="/user/register", method='post')
                   // If a user show this
                   .row#user
                     .col-xs-6.col-sm-6.col-md-6
                       .form-group
-                        input#first_name.form-control(type='text', name='firstName', placeholder='First Name')
+                        input#firstName.form-control(type='text', name='firstName', placeholder='First Name')
                     .col-xs-6.col-sm-6.col-md-6
                       .form-group
-                        input#last_name.form-control(type='text', name='lastName', placeholder='Last Name')
+                        input#lastName.form-control(type='text', name='lastName', placeholder='Last Name')
                   // If a fund show this
                   .row#fund
                     .col-xs-12.col-sm-12.col-md-12
                       .form-group
-                        input#first_name.form-control(type='text', name='fundName', placeholder='Institution name')
+                        input#fundName.form-control(type='text', name='fundName', placeholder='Institution name')
                 
                   .form-group
-                    input#email.form-control(type='email', name='useremail', placeholder='Email Address')
+                    input#email.form-control(type='email', name='email', placeholder='Email Address')
                   .row
                     .col-xs-6.col-sm-6.col-md-6
                       .form-group
@@ -43,7 +43,7 @@ html
                         input#password_confirmation.form-control(type='password', name='confirmPassword', placeholder='Confirm Password')
                     .fundOptionCheckbox
                       label
-                        input#fundCheckbox(name='fundOption', type='checkbox', value='Remember Me')
+                        input#fundCheckbox(name='fundOption', type='checkbox', form="register")
                         |  Sign up as a fund institution
                   input.btn.btn-info.btn-block(type='submit', value='Register')
 

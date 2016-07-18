@@ -4,6 +4,7 @@ block extraHeader
   link(href='../../stylesheets/user-profile.css', rel='stylesheet')
 
 block content
+  h1 Hello #{user.username}
   #user-modal
     script#profile-template(type='text/template')
       nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
