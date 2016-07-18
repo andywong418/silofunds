@@ -1,0 +1,30 @@
+extends ../layout
+block extraHeader
+  link(rel="stylesheet", href="/stylesheets/user/login.css")
+  
+  
+block content
+  #top-div
+    h1 silo img here
+  .container
+    .row
+      .col-md-4.col-md-offset-4
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Login via site
+          .panel-body
+            form(accept-charset='UTF-8', role='form', action='user/login', method='post')
+              fieldset
+                .form-group
+                  input.form-control(placeholder='yourmail@example.com', name='useremail', type='text')
+                .form-group
+                  input.form-control(placeholder='Password', name='password', type='password', value='')
+                .checkbox
+                  label
+                    input(name='remember', type='checkbox', value='Remember Me')
+                    |  Remember Me
+                input.btn.btn-lg.btn-success.btn-block(type='submit', value='Login')
+            hr
+            center
+              h4 OR
+            input.btn.btn-lg.btn-facebook.btn-block(type='submit', value='Login via facebook')
