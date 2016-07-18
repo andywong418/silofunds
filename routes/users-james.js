@@ -7,22 +7,40 @@ require('../controllers/passport-james/strategies')(passport);
 var router = express.Router();
 
 
+
+// Login and register
+
 //Login
 router.get('/login', users.loginGET)
-// Authenticate login request
+// Authenticate loginPOST request
 router.post('/login', passport.authenticate('loginStrategy', {
   successRedirect: '/user/home',
   failureRedirect: '/user/login'
 }))
 
+// Register
+router.get('/register', users.registerGET)
+// Authenticate registerPOST request
+router.post('/register', passport.authenticate('registrationStrategy', {
+  successRedirect: '/user/login',
+  failureRedirect: '/user/register',
+}))
 
 
-// User profile pages
+
+// User profile pages, these all use passport authentication
+
 // Main/home
 router.get('/home', users.homeGET)
 
 // Settings
 router.get('/settings', users.settingsGET)
+
+
+
+
+/* Logout */
+router.get('/logout', users.logoutGET)
 
 
 module.exports = router
