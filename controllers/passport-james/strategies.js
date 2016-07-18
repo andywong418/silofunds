@@ -41,6 +41,46 @@ module.exports = function(passport) {
 
 
 
+  // Create a registraton strategy
+  passport.use('registrationStrategy', new LocalStrategy({
+      // by default, local strategy uses username and password, we will override with email
+      usernameField : 'useremail',
+      passwordField : 'password',
+      passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+  function(req, email, password, done) {
+      // asynchronous
+      // User.findOne wont fire unless data is sent back
+      process.nextTick(function() {
+      // find a user whose email is the same as the forms email
+      // we are checking to see if the user trying to login already exists
+      models.users.find({where: {email: email}}).then(function(user){
+        var data = req.body
+        if(!user && data.password == data.confirmPassword) {
+          models.users.create({
+            username: data.firstName + data.lastName,
+            email: data.useremail,
+            password: data.password,
+            email_updates: true
+          }).then(function(user){
+            // Sending flash as logout message for brevity, since the alert is of the same form
+            return done(null, user, req.flash('logoutMsg', 'Your account has been created, you may now login'));
+          });
+        } else if (data.password !== data.confirmPassword) {
+          return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+        } else {
+          return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+        }
+      });
+
+
+
+      });
+
+  }));
+
+
+
 
 
 }
