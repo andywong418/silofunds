@@ -13,6 +13,10 @@ block content
     }
   include ./navbar.jade
   include ./signup-modal.jade
+  .alert.alert-info(role='alert')
+      a(href='/funds/options/' + fund.id + '/edit')
+        span.glyphicon.glyphicon-pencil(aria-hidden='true')
+        | Make changes to this funding profile
   #big_flex_div.container
     #left_div.container
       #box_1

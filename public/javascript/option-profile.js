@@ -217,6 +217,11 @@ $(document).ready(function(){
       }
 
     }
+    if(user.fund_or_user == fund.organisation_id){
+      $('#big_flex_div').css('margin-top', '0');
+      $('.alert').css('display', 'block');
+      $('#right_div').css('margin-top', '20px');
+    }
   }
 
   var subject = fund['subject'];

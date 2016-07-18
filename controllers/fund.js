@@ -387,6 +387,20 @@ module.exports = {
     })
 
   },
+  editOptionProfile: function(req, res){
+    var user = req.user;
+    var fundId = req.params.id;
+    console.log("HELLO");
+    models.funds.findById(fundId).then(function(fund){
+        if(user.fund_or_user == fund.organisation_id){
+          res.render('option-edit', {user: user, fund: fund, countries:countries});
+        }
+        else{
+          res.render('error');
+        }
+
+    })
+  },
   editDescription: function(req, res){
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){

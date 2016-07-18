@@ -1,0 +1,25 @@
+extend layout
+
+block extraHeader
+  link(href='/stylesheets/results.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
+  include ./navbar.jade
+  include ./signup-modal.jade
+
+    
+      
+//- block scripts
+//-   script.
+//-     var fund = !{JSON.stringify(fund)}
+//-     var countries = !{JSON.stringify(countries)}
+//-     var user = !{JSON.stringify(user)};
+//-   script(src="/javascript/signup-login.js")
+//-   script(src="/node_modules/readmore-js/readmore.min.js")
+//-   script(src="/javascript/option-profile.js")

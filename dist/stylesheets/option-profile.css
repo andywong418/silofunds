@@ -12,6 +12,22 @@ h1 {
   font-size: 40px;
   margin-left: 2.5%; }
 
+.alert {
+  display: none;
+  height: 40px;
+  margin-top: 75px;
+  width: 30%;
+  margin-left: 35%;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 10px;
+  color: #97b0c7; }
+  .alert span {
+    margin-right: 5px; }
+  .alert a {
+    color: #97b0c7;
+    margin-bottom: 10px; }
+
 #big_flex_div {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -131,7 +147,7 @@ h1 {
   width: 73%;
   float: right;
   margin-right: 3%;
-  margin-top: 3%;
+  margin-top: 40px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -316,7 +332,7 @@ h1 {
 /* Applicaton form */
 #application_form {
   width: 93%;
-  margin-top: 3%;
+  margin-top: 6%;
   font-weight: bold;
   margin-bottom: 6%;
   border: 1px solid #e1e8ed;
@@ -583,7 +599,7 @@ h1 {
 
 /* Separators */
 #separator_1 {
-  height: 40px;
+  height: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
