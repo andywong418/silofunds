@@ -32,6 +32,10 @@
 }
 
 /* My css */
+body {
+  background-color: #e9f0f4;
+}
+
 #top-div {
   width: 100%;
   display: flex;
