@@ -10,8 +10,6 @@ module.exports = {
   loginGET: function(req, res) {
     // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');
-    console.log(req.flash('successFlash'))
-    console.log("HERE ^^^^^^^^^^^^^^^^^^^^^^^");
     // Message prints as empty array, showing if length non zero
     if(logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})

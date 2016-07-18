@@ -44,9 +44,8 @@ module.exports = function(passport) {
   // Create a registraton strategy
   passport.use('registrationStrategy', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      usernameField : 'useremail',
-      passwordField : 'password',
-      passReqToCallback : true // allows us to pass back the entire request to the callback
+      usernameField : 'email',
+      passReqToCallback : true
     },
   function(req, email, password, done) {
       // asynchronous
@@ -57,9 +56,11 @@ module.exports = function(passport) {
       models.users.find({where: {email: email}}).then(function(user){
         var data = req.body
         if(!user && data.password == data.confirmPassword) {
+          // set username to be fund name or firstname + last name,
+          var username = data.firstName + data.lastName + data.fundName;
           models.users.create({
-            username: data.firstName + data.lastName,
-            email: data.useremail,
+            username: username,
+            email: data.email,
             password: data.password,
             email_updates: true
           }).then(function(user){
@@ -72,11 +73,7 @@ module.exports = function(passport) {
           return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
         }
       });
-
-
-
-      });
-
+    });
   }));
 
 
