@@ -30,3 +30,8 @@ body{
   margin-bottom: 3%;
   margin-top: 3%;
 }
+
+.alert.alert-danger {
+  margin-left: 30%;
+  width: 40%;
+}
