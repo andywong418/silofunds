@@ -6,8 +6,28 @@ var pzpt = require('./passport-james/functions');
 var async = require('async');
 
 module.exports = {
+
   loginGET: function(req, res) {
-    res.render('user/login')
+    // Flash message if we have come via logging out to say 'successfully logged out'
+    var logoutMsg = req.flash('logoutMsg');
+    console.log(req.flash('successFlash'))
+    console.log("HERE ^^^^^^^^^^^^^^^^^^^^^^^");
+    // Message prints as empty array, showing if length non zero
+    if(logoutMsg.length !== 0) {
+      res.render('user/login', {logoutMsg: logoutMsg})
+    } else {
+      res.render('user/login')
+    }
+  },
+
+  registerGET: function(req, res) {
+    // Flash messages for nonmatching passwords and taken usernames
+    var flashMsg = req.flash('flashMsg')
+    if(flashMsg.length !== 0) {
+      res.render('user/register', {flashMsg: flashMsg})
+    } else {
+      res.render('user/register')
+    }
   },
 
 
@@ -19,6 +39,15 @@ module.exports = {
   settingsGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
     res.render('user/settings', {user: req.user});
+  },
+
+
+
+
+  logoutGET: function(req, res) {
+    req.logout();
+    req.flash('logoutMsg', 'Successfully logged out');
+    res.redirect('/user/login')
   }
 
 }
