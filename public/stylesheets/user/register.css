@@ -1,0 +1,32 @@
+body{
+    background-color: #e9f0f4;
+}
+.centered-form{
+	margin-top: 4%;
+}
+
+.centered-form .panel{
+	background: rgba(255, 255, 255, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+
+#img-div {
+  margin-top: 4%;
+  text-align: center;
+}
+
+#sign-in {
+  text-align: center;
+  margin-top: 6%;
+}
+
+
+#sign-in p {
+  font-size: 25px;
+}
+
+.fundOptionCheckbox {
+  text-align: center;
+  margin-bottom: 3%;
+  margin-top: 3%;
+}
