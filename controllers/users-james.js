@@ -18,6 +18,18 @@ module.exports = {
     }
   },
 
+  purgatoryGET: function(req, res) {
+    // Find whether the login was for a user or a fund and redirect accordingly
+    if(req.user.fund_or_user == null) {
+      pzpt.ensureAuthenticated(req, res);
+      res.redirect('/user/home');
+    }
+    else {
+      pzpt.ensureAuthenticated(req, res);
+      res.redirect('/fund/home');
+    }
+  },
+
   registerGET: function(req, res) {
     // Flash messages for nonmatching passwords and taken usernames
     var flashMsg = req.flash('flashMsg')

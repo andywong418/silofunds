@@ -12,11 +12,15 @@ var router = express.Router();
 
 //Login
 router.get('/login', users.loginGET)
-// Authenticate loginPOST request
+// Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
 router.post('/login', passport.authenticate('loginStrategy', {
-  successRedirect: '/user/home',
+  successRedirect: '/user/purgatory',
   failureRedirect: '/user/login'
 }))
+
+// Login diverter
+router.get('/purgatory', users.purgatoryGET)
+
 
 // Register
 router.get('/register', users.registerGET)

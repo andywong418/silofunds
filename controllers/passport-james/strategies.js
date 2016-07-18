@@ -39,24 +39,21 @@ module.exports = function(passport) {
     });
   }));
 
-
-
   // Create a registraton strategy
   passport.use('registrationStrategy', new LocalStrategy({
-      // by default, local strategy uses username and password, we will override with email
+      // Passport default patameters are username and password, must override the username parameter.
       usernameField : 'email',
+      // This allows req to be used in the callback
       passReqToCallback : true
     },
   function(req, email, password, done) {
-      // asynchronous
       // User.findOne wont fire unless data is sent back
       process.nextTick(function() {
-      // find a user whose email is the same as the forms email
-      // we are checking to see if the user trying to login already exists
       models.users.find({where: {email: email}}).then(function(user){
         var data = req.body
+        // If user does not exist and passwords match, create user
         if(!user && data.password == data.confirmPassword) {
-          // set username to be fund name or firstname + last name,
+          // Set username to be fund name or firstname + last name,
           var username = data.firstName + data.lastName + data.fundName;
           models.users.create({
             username: username,
@@ -64,7 +61,7 @@ module.exports = function(passport) {
             password: data.password,
             email_updates: true
           }).then(function(user){
-            // Sending flash as logout message for brevity, since the alert is of the same form
+            // Sending flash as logout message for brevity (since the logout flash goes to the same place)
             return done(null, user, req.flash('logoutMsg', 'Your account has been created, you may now login'));
           });
         } else if (data.password !== data.confirmPassword) {
@@ -75,9 +72,5 @@ module.exports = function(passport) {
       });
     });
   }));
-
-
-
-
-
+  
 }
