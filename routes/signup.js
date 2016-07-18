@@ -43,7 +43,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
             var organisation_id = organisation.id;
             models.users.findById(organisationId).then(function(organisation){
               organisation.update({
-                fund_or_user: organisation_id
+                organisation_or_user: organisation_id
               }).then(function(organisation){
                 res.render('signup/new-fund-profile', {user: organisation});
               })
@@ -58,7 +58,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
             }).then(function(fund){
               models.users.findById(fundId).then(function(fund){
                 fund.update({
-                  fund_or_user: fundTableId
+                  organisation_or_user: fundTableId
                 }).then(function(fund){
                   res.render('signup/new-fund-profile', {user: fund});
                 })
@@ -79,21 +79,9 @@ router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.upload
 router.post('/user_signup_complete/:id', signup.uploadInfo);
 router.get('/fund/:id', signup.fundProfile);
 router.get('/fund_account/:id', signup.get);
-router.get('/fund_account/application/:id', signup.getApplication);
-router.post('/fund_signup/tags/:id', signup.getTags);
-router.post('/fund_signup/countries/:id', signup.getCountries);
-router.post('/fund_signup/religion/:id', signup.getReligion);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 router.post('/fund_signup/charity_no/:id', signup.insertCharityNumber);
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
-router.post('/fund_signup/fund_application/:id', signup.applicationCategory);
-router.post('/fund_signup/change_category/:id', signup.changeCategory);
-router.get('/fund_signup/delete_category/:id', signup.deleteCategory);
-router.post('/fund_signup/add_category/:id', signup.addCategory);
-router.post('/fund_signup/add_field/:id', signup.addField);
-router.post('/fund_signup/edit_field/:id', signup.editField);
-router.get('/fund_signup/get_fields/:id', signup.getFields);
-router.get('/fund_signup/delete_field/:id', signup.deleteField);
-router.get('/fund_signup_complete/:id', signup.signupFundComplete);
+
 
 module.exports = router;

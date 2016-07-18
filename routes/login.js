@@ -18,8 +18,8 @@ router.post('/', passport.authenticate('local-login', {
 
 	var id = req.user.dataValues.id;
 	models.users.findById(id).then(function(user){
-		if(user.fund_or_user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
+		if(user.organisation_or_user){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 

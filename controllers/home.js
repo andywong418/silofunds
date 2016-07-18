@@ -5,7 +5,7 @@ module.exports = {
     var user = req.session.passport.user;
     delete req.session.redirect_user;
     if(user){
-      if(user.fund_or_user){
+      if(user.organisation_or_user){
         try{
           console.log("something");
           res.redirect('/funds/' + user.id+ '/');

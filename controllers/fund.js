@@ -1,12 +1,43 @@
 var models = require('../models');
 var query;
 var async = require('async');
+var countries = require('../resources/countries')
 
 var parseIfInt = function(string) {
   if (string !== '') {
     return parseInt(string);
   }
 };
+function moderateObject(objectFields){
+  for(var key in objectFields){
+    if(objectFields[key] === ''){
+      delete objectFields[key];
+    }
+  }
+  return objectFields;
+}
+function changeArrayfields(fields, arrayFields){
+  for(var i =0 ; i <arrayFields.length; i++){
+    if(fields[arrayFields[i] + '[]']){
+      var emptyArray = []
+      fields[arrayFields[i]] = emptyArray.concat(fields[arrayFields[i] + '[]']);
+    }
+  }
+  return fields;
+}
+
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear().toString();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = dd + "/" + mm + "/" + yyyy.slice(-2);
+  return reformattedDate;
+}
 
 module.exports = {
   index: function(req, res) {
@@ -151,10 +182,10 @@ module.exports = {
         return hash;
       });
 
-      models.users.find({ where: { fund_or_user: { $in: fund_id_list }}}).then(function(user) {
+      models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
           for (var i=0; i < funds.length; i++) {
-            if (funds[i].id == user.fund_or_user) {
+            if (funds[i].id == user.organisation_or_user) {
               funds[i].fund_user = true;
             }
           }
@@ -176,37 +207,188 @@ module.exports = {
   },
 
   home: function(req, res){
-    var session = req.params.session;
+    var session = req.params.session; // use it for authentication
     var id = req.params.id;
-    console.log("BOOYA", session);
+    models.users.findById(id).then(function(user){
+      var organisation_id = user.get().organisation_or_user;
+
+      models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+        funds = funds.map(function(fund) {
+          var json = fund.get();
+          json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+          json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+          json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
+
+          return json;
+        });
+
+        res.render('signup/fund-profile', { user: user, funds: funds });
+      });
+    });
+  },
+  createFunding: function(req, res){
+    var id = req.params.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.organisations.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
-          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-
+          if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
-
           }
         }
         var fields= [];
-        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
-            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
-            user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: false});
-           })
-
-
-        })
+        res.render('funding-creation', {user: user})
       })
 
     })
+  },
+  fundingSignupProcess: function(req,res){
+    var id = req.params.id;
+    var option = req.params.option;
+    console.log("Check params", req.params);
+    models.users.findById(id).then(function(user){
+      models.organisations.findById(user.organisation_or_user).then(function(fund){
+        for (var attrname in fund['dataValues']){
+          if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
+            user["dataValues"][attrname] = fund[attrname];
+          }
+        }
+          switch(option){
+            case 'scholarship':
+              res.render('signup/option-signup', {user: user,fund: false, support_type: 'scholarship' });
+              break;
+            case 'bursary':
+              res.render('signup/option-signup', {user: user,fund:false, support_type: 'bursary' });
+              break;
+            case 'grant':
+              res.render('signup/option-signup', {user: user,fund:false, support_type: 'grant'});
+              break;
+            case 'prize':
+              res.render('signup/option-signup',{user: user, fund: false, support_type: 'prize'});
+              break;
+            default:
+              res.render('signup/fund-profile', {user: user, fund: false,newUser: false});
+          }
 
+      })
+    })
+
+  },
+  fundCreatedSignup: function(req, res){
+    var userId = req.params.id;
+    var option = req.params.option;
+    var fundId = req.params.fund_id;
+    console.log(req.params.fund_id);
+    models.users.findById(userId).then(function(user){
+      models.organisations.findById(user.organisation_or_user).then(function(organisation){
+        models.funds.findById(fundId).then(function(fund){
+          for (var attrname in organisation['dataValues']){
+            if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
+              user["dataValues"][attrname] = organisation[attrname];
+            }
+          }
+            switch(option){
+              case 'scholarship':
+                res.render('signup/option-signup', {user: user,fund: fund, support_type: 'scholarship' });
+                break;
+              case 'bursary':
+                res.render('signup/option-signup', {user: user,fund:fund, support_type: 'bursary' });
+                break;
+              case 'grant':
+                res.render('signup/option-signup', {user: user,fund:fund, support_type: 'grant'});
+                break;
+              case 'prize':
+                res.render('signup/option-signup',{user: user, fund: fund, support_type: 'prize'});
+                break;
+              default:
+                res.render('signup/fund-profile', {user: user, fund: fund,newUser: false});
+            }
+        })
+      })
+    })
+
+  },
+  getOptionInfo: function(req, res){
+    var fundId = req.params.id;
+    models.funds.findById(fundId).then(function(fund){
+      res.json(fund);
+    })
+  },
+  createNewFund: function(req, res){
+    var fields = req.body;
+    var userId = req.params.id;
+    console.log(req.body);
+    var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
+    console.log("HELLO");
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
+    fields['organisation_id'] = userId;
+    console.log("FIELDS", fields );
+    models.funds.create(fields).then(function(fund){
+      res.send(fund);
+    })
+  },
+  updateGeneralInfo: function(req, res){
+    var id = req.params.fund_id;
+    var fields = req.body;
+    console.log(fields);
+    fields = moderateObject(fields);
+    if(fields['tags[]']){
+      fields['tags'] = fields['tags[]'];
+    }
+    models.funds.findById(id).then(function(fund){
+      fund.update(req.body).then(function(fund){
+        res.send(fund);
+      })
+    })
+  },
+  updateEligibility: function(req, res){
+    console.log("Check it again")
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    console.log(req.body);
+    var arrayFields = ['subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location'];
+    fields = moderateObject(fields);
+    console.log("again",fields);
+    fields = changeArrayfields(fields, arrayFields);
+    console.log('test',fields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
+
+  },
+  updateApplication: function(req, res){
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    var arrayFields = ['application_documents'];
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
+  },
+  newOptionProfile: function(req, res){
+    console.log("Got innnnnn");
+    var userId = req.params.id;
+    var fundId = req.params.fund_id;
+    var session = req.session;
+    console.log(session);
+    models.users.findById(userId).then(function(user){
+      console.log(user);
+      models.funds.findById(fundId).then(function(fund){
+        console.log(fund);
+        res.render('option-profile', {user: user, fund: fund, newUser: true, countries: countries});
+      })
+    })
   },
   editDescription: function(req, res){
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         fund.update(req.body).then(function(data){
           res.send(data);
         })
@@ -218,7 +400,7 @@ module.exports = {
     var fundId = req.params.id;
     console.log("DATES", req.body);
     models.users.findById(fundId).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         fund.update(req.body).then(function(data){
           res.send(data);
         })
@@ -233,7 +415,7 @@ module.exports = {
     console.log("HERE HERE HERE")
       models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
@@ -259,7 +441,7 @@ module.exports = {
       if('charity_number' in body){
         models.users.findById(id).then(function(user){
           user.update(body).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
               fund.update({charity_number: body.charity_number}).then(function(newfund){
                 for (var attrname in newfund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -275,7 +457,7 @@ module.exports = {
       } else{
         models.users.findById(id).then(function(user){
           user.update(body).then(function(newUser){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
                 if('username' in body){
                   fund.update({title: newUser.username}).then(function(newFund){
                     for (var attrname in newFund['dataValues']){
@@ -309,7 +491,7 @@ module.exports = {
         console.log("What's going on");
         models.users.findById(id).then(function(user){
           user.update({description: body.description}).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
             for (var attrname in fund['dataValues']){
               if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                 user["dataValues"][attrname] = fund[attrname];
@@ -333,7 +515,7 @@ module.exports = {
         body.religion = religion;
         models.users.findById(id).then(function(user){
           user.update({religion: body.religion}).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
               fund.update(body.religion).then(function(fund){
                 for (var attrname in fund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -362,7 +544,7 @@ module.exports = {
         }
 
         models.users.findById(id).then(function(user){
-          models.funds.findById(user.fund_or_user).then(function(fund){
+          models.funds.findById(user.organisation_or_user).then(function(fund){
             fund.update(body).then(function(fund){
               for (var attrname in fund['dataValues']){
                 if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -392,9 +574,9 @@ module.exports = {
     else{
       loggedInUser = false;
     }
-    models.users.find({where: {fund_or_user: id}}).then(function(user){
+    models.users.find({where: {organisation_or_user: id}}).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];

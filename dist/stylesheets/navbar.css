@@ -7,6 +7,9 @@
   background-color: #2d4a76;
   font-size: 13.5px;
   height: 55px; }
+  .navbar-custom #container {
+    padding-top: 5px;
+    height: inherit; }
   .navbar-custom a {
     color: #fff; }
   .navbar-custom .navbar-brand {
@@ -47,18 +50,6 @@
 #brand-heading {
   position: absolute;
   z-index: 10; }
-
-@media (min-width: 768px) {
-  .navbar-custom {
-    padding: 20px 0;
-    border-bottom: 0;
-    letter-spacing: 1px;
-    background: 0 0;
-    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
-    transition: background .5s ease-in-out,padding .5s ease-in-out; }
-    .navbar-custom.top-nav-collapse {
-      padding: 0;
-      background: #2d4a76; } }
 
 .navbar-custom .nav li a {
   cursor: pointer;

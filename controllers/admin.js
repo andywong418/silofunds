@@ -280,7 +280,6 @@ module.exports = {
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
           }
-
           create_options["id"] = fund.id;
         }
 
