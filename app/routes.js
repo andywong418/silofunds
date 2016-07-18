@@ -9,6 +9,7 @@ var admin = require('../routes/admin');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
+var user = require('../routes/users-james')
 var basicAuth = require('basic-auth');
 
 var auth_admin = function (req, res, next) {
@@ -54,4 +55,5 @@ module.exports.initialize = function (app) {
   app.use('/autocomplete', autocomplete);
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
+  app.use('/user', user);
 };
