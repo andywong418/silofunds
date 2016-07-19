@@ -28,14 +28,36 @@ body {
     font-family: 'Source Sans Pro';
   }
 
-  p#listings-header {
-    text-align: left;
-    margin-bottom: 15px;
-    font-size: 18px;
+  #info-row {
+    margin-bottom: 20px;
 
-    .badge {
-      margin-top: -2px;
-      background-color: rgba(#2d4a77, 0.75);
+    p#listings-header {
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 0px;
+      font-size: 18px;
+      color: #66757f;
+
+      span{
+        border-bottom: 1px solid #66757f;
+      }
+
+      .badge {
+        margin-left: 5px;
+        background-color: rgba(#2d4a77, 0.75);
+      }
+    }
+  }
+
+
+
+  #create-new-fund.col-md-3 {
+    text-align: right;
+    a{
+      width: 200px;
+      height: 45px;
+      padding: 10px 0px;
+      font-size: 16px;
     }
   }
 

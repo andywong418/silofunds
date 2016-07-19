@@ -16,8 +16,15 @@ block content
 			.row
 				.col-md-12
 					h2#name Welcome to your dashboard
-					p#listings-header Your list of funding opportunities 
+			#info-row.row
+				.col-md-9
+					p#listings-header 
+						span Your list of funding opportunities
 						span.badge= funds.length
+				#create-new-fund.col-md-3
+					a.btn.btn-primary(href='/funds/funding_creation/' + user.id) Create fund
+			.row
+				.col-md-12
 					table.table.table-responsive#header
 						thead
 							tr
@@ -34,7 +41,8 @@ block content
 					.col-md-1#support_type
 						span.label(id='#{fund.support_type}')= fund.support_type
 					.col-md-4
-						span= fund.title
+						a(href='/funds/options/' + fund.id)
+							span= fund.title
 					.col-md-1
 						if (fund.minimum_age && fund.maximum_age)
 							span #{fund.minimum_age} - #{fund.maximum_age}
@@ -56,7 +64,7 @@ block content
 					.col-md-1
 						span= fund.updated_at
 					.col-md-1#edit
-						a(href='#') Edit
+						a(href='/funds/options/' + fund.id + '/edit') Edit
 block scripts
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/signup-login.js')
