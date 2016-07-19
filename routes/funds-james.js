@@ -8,6 +8,6 @@ var router = express.Router();
 
 
 router.get('/home', funds.homeGET)
-router.get('/fund-creation', funds.fundCreationGET)
+router.get('/create', funds.fundCreationGET)
 
 module.exports = router

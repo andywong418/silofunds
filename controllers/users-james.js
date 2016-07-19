@@ -18,7 +18,7 @@ module.exports = {
     }
   },
 
-  purgatoryGET: function(req, res) {
+  loginSplitterGET: function(req, res) {
     console.log(req.user)
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
@@ -41,10 +41,28 @@ module.exports = {
     }
   },
 
+  registerSplitterGET: function(req, res) {
+    console.log(req.user)
+    // Find whether the login was for a user or a fund and redirect accordingly
+    if(req.user.organisation_or_user == null) {
+      pzpt.ensureAuthenticated(req, res);
+      res.redirect('/user/create');
+    }
+    else {
+      pzpt.ensureAuthenticated(req, res);
+      res.redirect('/fund/create');
+    }
+  },
+
 
   homeGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
     res.render('user-public', {user: req.user});
+  },
+
+  createGET: function(req, res) {
+    pzpt.ensureAuthenticated(req, res);
+    res.render('signup/new-user-profile', {user: req.user});
   },
 
   settingsGET: function(req, res) {
