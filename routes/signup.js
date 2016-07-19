@@ -43,7 +43,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
             var organisation_id = organisation.id;
             models.users.findById(organisationId).then(function(organisation){
               organisation.update({
-                fund_or_user: organisation_id
+                organisation_or_user: organisation_id
               }).then(function(organisation){
                 res.render('signup/new-fund-profile', {user: organisation});
               })
@@ -58,7 +58,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
             }).then(function(fund){
               models.users.findById(fundId).then(function(fund){
                 fund.update({
-                  fund_or_user: fundTableId
+                  organisation_or_user: fundTableId
                 }).then(function(fund){
                   res.render('signup/new-fund-profile', {user: fund});
                 })

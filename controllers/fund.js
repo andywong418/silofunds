@@ -26,18 +26,18 @@ function changeArrayfields(fields, arrayFields){
   return fields;
 }
 
-var reformatDate = function(date) {
+function reformatDate(date) {
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();
-  var yyyy = date.getFullYear();
+  var yyyy = date.getFullYear().toString();
   mm = mm.toString(); // Prepare for comparison below
   dd = dd.toString();
   mm = mm.length > 1 ? mm : '0' + mm;
   dd = dd.length > 1 ? dd : '0' + dd;
 
-  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  var reformattedDate = dd + "/" + mm + "/" + yyyy.slice(-2);
   return reformattedDate;
-};
+}
 
 module.exports = {
   index: function(req, res) {
@@ -180,12 +180,11 @@ module.exports = {
         return hash;
       });
 
-      models.users.find({ where: { fund_or_user: { $in: fund_id_list }}}).then(function(user) {
+      models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
           for (var i=0; i < funds.length; i++) {
-            if (funds[i].organisation_id == user.fund_or_user) {
+            if (funds[i].organisation_id == user.organisation_or_user) {
               funds[i].fund_user = true;
-              console.log(funds[i]);
             }
           }
         }
@@ -209,25 +208,27 @@ module.exports = {
     var session = req.params.session; // use it for authentication
     var id = req.params.id;
     models.users.findById(id).then(function(user){
-      var fundUser = user;
-      models.organisations.findById(user.fund_or_user).then(function(fund){
-        for (var attrname in fund['dataValues']){
-          if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
-            user["dataValues"][attrname] = fund[attrname];
-          }
-        }
-        var fields= [];
-        res.render('signup/fund-profile', {user: user, newUser: false})
-      })
+      var organisation_id = user.get().organisation_or_user;
 
-    })
+      models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+        funds = funds.map(function(fund) {
+          var json = fund.get();
+          json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+          json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+          json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
 
+          return json;
+        });
+
+        res.render('signup/fund-dashboard', { user: user, funds: funds });
+      });
+    });
   },
   createFunding: function(req, res){
     var id = req.params.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.organisations.findById(user.fund_or_user).then(function(fund){
+      models.organisations.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
@@ -244,7 +245,7 @@ module.exports = {
     var option = req.params.option;
     console.log("Check params", req.params);
     models.users.findById(id).then(function(user){
-      models.organisations.findById(user.fund_or_user).then(function(fund){
+      models.organisations.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
@@ -264,7 +265,7 @@ module.exports = {
               res.render('signup/option-signup',{user: user, fund: false, support_type: 'prize'});
               break;
             default:
-              res.render('signup/fund-profile', {user: user, fund: false,newUser: false});
+              res.render('signup/fund-dashboard', {user: user, fund: false,newUser: false});
           }
 
       })
@@ -277,7 +278,7 @@ module.exports = {
     var fundId = req.params.fund_id;
     console.log(req.params.fund_id);
     models.users.findById(userId).then(function(user){
-      models.organisations.findById(user.fund_or_user).then(function(organisation){
+      models.organisations.findById(user.organisation_or_user).then(function(organisation){
         models.funds.findById(fundId).then(function(fund){
           for (var attrname in organisation['dataValues']){
             if(attrname != "id" && attrname != "description"  && attrname != "created_at" && attrname != "updated_at"){
@@ -298,7 +299,7 @@ module.exports = {
                 res.render('signup/option-signup',{user: user, fund: fund, support_type: 'prize'});
                 break;
               default:
-                res.render('signup/fund-profile', {user: user, fund: fund,newUser: false});
+                res.render('signup/fund-dashboard', {user: user, fund: fund,newUser: false});
             }
         })
       })
@@ -319,7 +320,7 @@ module.exports = {
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
     models.users.findById(userId).then(function(user){
-      fields['organisation_id'] = user.fund_or_user;
+      fields['organisation_id'] = user.organisation_or_user;
       models.funds.create(fields).then(function(fund){
         res.send(fund);
       })
@@ -380,32 +381,31 @@ module.exports = {
       models.funds.findById(fundId).then(function(fund){
         console.log(fund);
         res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
-      })
-    })
+      });
+    });
   },
   getOptionProfile: function(req, res){
     console.log(req.user);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      models.users.find({where : {fund_or_user: fund.organisation_id}}).then(function(organisation){
+      models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
         if(user){
           res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
         }
         else{
           res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
         }
-
-      })
-    })
+      });
+    });
 
   },
   editOptionProfile: function(req, res){
     var user = req.user;
     var fundId = req.params.id;
-    console.log("HELLO");
+
     models.funds.findById(fundId).then(function(fund){
-        if(user.fund_or_user == fund.organisation_id){
+        if(user.organisation_or_user == fund.organisation_id){
           var fund = fund.get();
           fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
           fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
@@ -417,8 +417,7 @@ module.exports = {
         else{
           res.render('error');
         }
-
-    })
+    });
   },
   saveOptionEdit: function(req, res){
     console.log(req.body);
@@ -426,30 +425,29 @@ module.exports = {
     models.funds.findById(fundId).then(function(fund){
       fund.update(req.body).then(function(fund){
         res.json(fund);
-      })
-    })
+      });
+    });
   },
   editDescription: function(req, res){
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         fund.update(req.body).then(function(data){
           res.send(data);
-        })
-      })
-
-    })
+        });
+      });
+    });
   },
   editDates: function(req, res){
     var fundId = req.params.id;
     console.log("DATES", req.body);
     models.users.findById(fundId).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         fund.update(req.body).then(function(data){
           res.send(data);
-        })
-      })
-    })
+        });
+      });
+    });
 
   },
   settings: function(req, res){
@@ -459,7 +457,7 @@ module.exports = {
     console.log("HERE HERE HERE")
       models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
@@ -485,7 +483,7 @@ module.exports = {
       if('charity_number' in body){
         models.users.findById(id).then(function(user){
           user.update(body).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
               fund.update({charity_number: body.charity_number}).then(function(newfund){
                 for (var attrname in newfund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -501,7 +499,7 @@ module.exports = {
       } else{
         models.users.findById(id).then(function(user){
           user.update(body).then(function(newUser){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
                 if('username' in body){
                   fund.update({title: newUser.username}).then(function(newFund){
                     for (var attrname in newFund['dataValues']){
@@ -535,7 +533,7 @@ module.exports = {
         console.log("What's going on");
         models.users.findById(id).then(function(user){
           user.update({description: body.description}).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
             for (var attrname in fund['dataValues']){
               if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                 user["dataValues"][attrname] = fund[attrname];
@@ -559,7 +557,7 @@ module.exports = {
         body.religion = religion;
         models.users.findById(id).then(function(user){
           user.update({religion: body.religion}).then(function(user){
-            models.funds.findById(user.fund_or_user).then(function(fund){
+            models.funds.findById(user.organisation_or_user).then(function(fund){
               fund.update(body.religion).then(function(fund){
                 for (var attrname in fund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -588,7 +586,7 @@ module.exports = {
         }
 
         models.users.findById(id).then(function(user){
-          models.funds.findById(user.fund_or_user).then(function(fund){
+          models.funds.findById(user.organisation_or_user).then(function(fund){
             fund.update(body).then(function(fund){
               for (var attrname in fund['dataValues']){
                 if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -618,9 +616,9 @@ module.exports = {
     else{
       loggedInUser = false;
     }
-    models.users.find({where: {fund_or_user: id}}).then(function(user){
+    models.users.find({where: {organisation_or_user: id}}).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];

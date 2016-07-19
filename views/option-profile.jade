@@ -58,8 +58,6 @@ block content
       //- #box_3
       //-   p#general General Info
       //-   hr
-
-                
     #right_div
       //- #eligibility_div 
       //-   p#eligibility_div_p This box will display any users eligibility for your fund
@@ -135,7 +133,6 @@ block content
             #other-application
               p Other application steps:  
                 span=fund.other_application_steps
-              
           a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
           .mb-style-3
             blockquote#tips
@@ -191,7 +188,6 @@ block content
              p#person4_info.boldIt Andros, 20
              #pic4_description_div
                p#pic4_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-
 block scripts
   script.
     var fund = !{JSON.stringify(fund)}

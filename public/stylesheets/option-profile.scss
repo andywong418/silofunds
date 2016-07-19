@@ -16,6 +16,7 @@ h1 {
   font-size: 40px;
   margin-left: 2.5%;
 }
+
 .alert{
   display: none;
   height: 40px;
@@ -36,6 +37,7 @@ h1 {
   }
 
 }
+
 #big_flex_div {
   display: flex;
   width: 100%;
@@ -69,10 +71,12 @@ h1 {
   width: 100%;
   margin-top: 10px;
   border-radius: 5px;
+
   #external-link{
     color: #2980b9;
     cursor: pointer;
   }
+
   #bio {
     text-align: left;
     font-weight: 900;
@@ -238,11 +242,10 @@ h1 {
             display:block;
             margin-top: 5px;
             color: #717f8d;
+
             #to, #required,#for{
               color: #2980b9;
             }
-
-
           }
 
       }
@@ -421,7 +424,6 @@ h1 {
     }
   }
 }
-
 
 /* Applicaton form */
 
@@ -670,6 +672,7 @@ h1 {
 
 #info_1, #info_2, #info_3, #info_4 {
   margin-top: 3%;
+
   p{
     font-size: 15px;
   }

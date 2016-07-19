@@ -139,7 +139,7 @@ module.exports = {
             res.redirect(previousPage);
           }
           else{
-						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","fund_or_user"];
+						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
 						var wrapper = {};
 
 						for (var i = 0; i < userFields.length ; i++) {
@@ -174,7 +174,7 @@ module.exports = {
           var fund_id = user.id;
           models.users.findById(fundId).then(function(user){
             user.update({
-              fund_or_user: fund_id
+              organisation_or_user: fund_id
             }).then(function(user){
               res.render('signup/new-fund-profile', {user: user});
             })
@@ -189,7 +189,7 @@ module.exports = {
           }).then(function(user){
             models.users.findById(fundId).then(function(user){
               user.update({
-                fund_or_user: fundTableId
+                organisation_or_user: fundTableId
               }).then(function(user){
                 res.render('signup/new-fund-profile', {user: user});
               })
@@ -203,7 +203,7 @@ module.exports = {
     var id = req.params.id;
 		console.log(id);
     models.users.findById(id).then(function(user){
-      models.organisations.findById(user.fund_or_user).then(function(organisation){
+      models.organisations.findById(user.organisation_or_user).then(function(organisation){
         for (var attrname in organisation['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = organisation[attrname];
@@ -228,7 +228,7 @@ module.exports = {
     }
     console.log(tagArray);
     models.users.findById(id).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(user){
+      models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
           tags: tagArray
         }).then(function(data){
@@ -252,7 +252,7 @@ module.exports = {
      }
     console.log(countriesArray);
     models.users.findById(id).then(function(user){
-      models.funds.findById(user.fund_or_user).then(function(user){
+      models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
           countries: countriesArray
         }).then(function(data){
@@ -278,7 +278,7 @@ module.exports = {
     console.log(religionArray);
     models.users.findById(id).then(function(user){
       user.update({religion: religionArray}).then(function(user){
-        models.funds.findById(user.fund_or_user).then(function(fund){
+        models.funds.findById(user.organisation_or_user).then(function(fund){
           fund.update({
             religion: religionArray
           }).then(function(data){
@@ -294,7 +294,7 @@ module.exports = {
     var id = req.params.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
@@ -379,7 +379,7 @@ module.exports = {
 		var charityId = req.body.charity_number;
 		console.log(charityId);
 		models.users.findById(userId).then(function(user){
-			var fundId = user.fund_or_user;
+			var fundId = user.organisation_or_user;
 			models.organisations.findById(fundId).then(function(fund){
 				fund.update({
 					charity_id: charityId
@@ -393,7 +393,7 @@ module.exports = {
 		//edit for organisations
     var userId = req.params.id;
     models.users.findById(userId).then(function(user){
-        var fundId = user.fund_or_user;
+        var fundId = user.organisation_or_user;
         console.log(fundId);
         models.funds.findById(fundId).then(function(user){
           user.update(req.body).then(function(user){
@@ -408,7 +408,7 @@ module.exports = {
     var id = req.params.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.fund_or_user).then(function(fund){
+      models.funds.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
@@ -425,7 +425,7 @@ module.exports = {
             //     console.log(field)
             //   })
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true});
+            res.render('signup/fund-dashboard', {user: user, newUser: true});
            })
 
 

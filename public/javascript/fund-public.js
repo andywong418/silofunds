@@ -55,7 +55,7 @@ $(document).ready(function(){
     $('.pre-signin').css("display", "none");
     $('.post-signin').css("display","inline");
     $('.post-signin').css("z-index", "11");
-    if(loggedInUser.fund_or_user){
+    if(loggedInUser.organisation_or_user){
       $("#home").attr("href", '/funds/' + loggedInUser.id );
       $(".settings").attr("href", '/funds/settings/' +loggedInUser.id);
       $(".logout").attr("href", '/funds/logout');
@@ -357,7 +357,7 @@ var EligibleDisplay = Backbone.View.extend({
 				// 		$(".category-switcher li").not(this).removeClass("active");
 				// 		$(".category-switcher li").not(this).not("#add-category").css("background-color", "white");
 				// 		var parameters = {title: newTitle};
-				// 		$.post('/signup/fund_signup/add_category/'+ fund.fund_or_user, parameters, function(data){
+				// 		$.post('/signup/fund_signup/add_category/'+ fund.organisation_or_user, parameters, function(data){
 				// 			console.log(data);
 				// 			parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
 				// 		})

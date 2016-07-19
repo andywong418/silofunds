@@ -31,6 +31,7 @@ $(document).ready(function(){
   function capitalizeArray(element, index, array){
     console.log(element);
   }
+
   function noIcon(){
     $('*[id*=icon-image]:visible').each(function() {
       if($(this).attr('src').length === 0){
@@ -101,6 +102,7 @@ $(document).ready(function(){
     date = new Date(date);
     return date.toDateString();
   };
+
   var NotEligibleModel = Backbone.Model.extend();
   var NotEligibleView = Backbone.View.extend({
     tagName: 'div',
@@ -150,7 +152,7 @@ $(document).ready(function(){
   };
 
   if(user){
-    if(!user.fund_or_user){
+    if(!user.organisation_or_user){
       console.log(user);
       $('#application_form').css('margin-top', '3%');
       var myDate = user.date_of_birth.split("-");
@@ -217,7 +219,7 @@ $(document).ready(function(){
       }
 
     }
-    if(user.fund_or_user == fund.organisation_id){
+    if(user.organisation_or_user == fund.organisation_id){
       $('#big_flex_div').css('margin-top', '0');
       $('.alert').css('display', 'block');
       $('#right_div').css('margin-top', '20px');
@@ -778,6 +780,7 @@ $(document).ready(function(){
 
       var view = new ApplicationView({ model: applicationModel });
       this.$el.append(view.render().el);
+
       if(!fund.application_documents){
         if(fund.deadline){
           this.model.set({
@@ -803,7 +806,6 @@ $(document).ready(function(){
             this.$('#documents_deadline').next('.arrow').css('display', 'none');
           }
         }
-
     }
   })
 
