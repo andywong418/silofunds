@@ -1,32 +1,53 @@
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
-//
-// body {
-//   font: 13px Helvetica, Arial;
-// }
-//
-// form {
-//   background: #000;
-//   padding: 3px;
-//   position: fixed;
-//   bottom: 0;
-//   width: 100%;
-//   input {
-//     border: 0;
-//     padding: 10px;
-//     width: 90%;
-//     margin-right: .5%;
-//   }
-//   button {
-//     width: 9%;
-//     background: rgb(130, 224, 255);
-//     border: none;
-//     padding: 10px;
-//   }
-// }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 12px 'PT Sans';
+}
+
+section#content {
+  margin-top: 60px;
+}
+
+#messages-tab-content {
+  #messages-list {
+    position: fixed;
+    bottom: 42px;
+    border: 1px solid #000;
+    display: block;
+    width: inherit;
+  }
+  ul {
+    margin-top: 200px;
+  }
+
+
+  form#msg {
+    background: #000;
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    input {
+      border: 0;
+      padding: 10px;
+      width: 80%;
+    //   margin-right: .5%;
+    }
+    button {
+      width: 20%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+      float: right;
+    }
+  }
+}
+
+
 //
 // #messages {
 //   list-style-type: none;

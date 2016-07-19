@@ -1,5 +1,13 @@
+var models = require('../models');
+
 module.exports = {
   index: function(req, res) {
-    res.render('messages', { title: 'Silo - Your messages' });
+    models.users.findAll().then(function(users) {
+      users = users.map(function(user) {
+        return user.get();
+      });
+
+      res.render('messages', { allUsers: users });
+    });
   }
 };

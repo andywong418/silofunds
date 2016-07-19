@@ -1,15 +1,28 @@
 extends layout
 
 block extraHeader
-  //- link(href='/stylesheets/messages.css', rel="stylesheet")
+  link(href='/stylesheets/results.css', rel="stylesheet")
+  link(href='/stylesheets/messages.css', rel="stylesheet")
 block content
-  ul#messages
-  form(action='')
-    input#m(autocomplete='off')
-    button Send  
+  include navbar.jade
+  include advanced-search.jade
+  section#content
+    #messages-tab-menu.col-md-3.container-fluid
+      .list-group
+        each user in allUsers
+          a.list-group-item
+            h5= user.username
+              span.glyphicon.glyphicon-menu-right
+    #messages-tab-content.col-md-9.container-fluid
+      #messages-list
+        ul#messages
+      form#msg(action='')
+        input#m(autocomplete='off')
+        button Send  
 block scripts
   script(src='https://cdn.socket.io/socket.io-1.4.5.js')
   script(src='http://code.jquery.com/jquery-1.11.1.js')
+  script(src='/javascript/messages.js')
   script.
     var socket = io();
     $('form').submit(function() {
