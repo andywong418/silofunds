@@ -65,6 +65,7 @@ block content
                   input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', form="", value=fund.duration_of_scholarship)
           .col-md-12.footer
             button#save-general-info.btn.btn-primary(type='submit') Save changes
+            #save-general-notification Your changes have been saved
         #eligibility.settings-tab-content
           .col-md-12.header
             h3 Eligibility
@@ -75,7 +76,7 @@ block content
               .col-md-12
                 label.col-md-3(for='subjects') Subjects
                 .col-md-6
-                  input#subjects.form-control(type='text', name='subjects', form='', value=fund.subject)
+                  input#subjects.form-control(type='text', name='subject', form='', value=fund.subject)
             .col-md-12.sub-content
               h4 Personal Requirements
               .col-md-12
@@ -156,6 +157,7 @@ block content
                   textarea#other_eligibility.form-control(form='', name='other_eligibility', rows='5')= fund.other_eligibility
           .col-md-12.footer
             button#save-eligibility.btn.btn-primary(type='submit') Save changes
+            #save-eligibility-notification Your changes have been saved
         #application-process.settings-tab-content
           .col-md-12.header
             h3 Application Process
@@ -196,7 +198,8 @@ block content
                 .col-md-6
                   textarea#other_application_steps.form-control(form='', name='other_application_steps', rows='5')= fund.other_application_steps
           .col-md-12.footer
-            button#save-applcation-process.btn.btn-primary(type='submit') Save changes
+            button#save-application-process.btn.btn-primary(type='submit') Save changes
+            #save-application-notification Your changes have been saved
 block scripts
   script(src="/javascript/option-settings.js")
   script.

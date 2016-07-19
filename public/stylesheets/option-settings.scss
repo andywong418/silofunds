@@ -152,7 +152,10 @@ body {
         padding: 15px 0px;
       }
     }
-
+    #save-general-notification, #save-eligibility-notification, #save-application-notification{
+      display: none;
+      margin-top: 20px;
+    }
     .settings-tab-content:not(.active) {
       display: none;
     }

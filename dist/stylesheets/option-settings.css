@@ -113,5 +113,8 @@ body {
       #right_div div.settings-tab .settings-tab-content .col-md-12.footer {
         text-align: center;
         padding: 15px 0px; }
+    #right_div div.settings-tab #save-general-notification, #right_div div.settings-tab #save-eligibility-notification, #right_div div.settings-tab #save-application-notification {
+      display: none;
+      margin-top: 20px; }
     #right_div div.settings-tab .settings-tab-content:not(.active) {
       display: none; }

@@ -420,6 +420,15 @@ module.exports = {
 
     })
   },
+  saveOptionEdit: function(req, res){
+    console.log(req.body);
+    var fundId = req.params.id;
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(req.body).then(function(fund){
+        res.json(fund);
+      })
+    })
+  },
   editDescription: function(req, res){
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){
