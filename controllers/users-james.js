@@ -19,8 +19,9 @@ module.exports = {
   },
 
   purgatoryGET: function(req, res) {
+    console.log(req.user)
     // Find whether the login was for a user or a fund and redirect accordingly
-    if(req.user.fund_or_user == null) {
+    if(req.user.organisation_or_user == null) {
       pzpt.ensureAuthenticated(req, res);
       res.redirect('/user/home');
     }
@@ -43,12 +44,12 @@ module.exports = {
 
   homeGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
-    res.render('user/home', {user: req.user});
+    res.render('user-public', {user: req.user});
   },
 
   settingsGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
-    res.render('user/settings', {user: req.user});
+    res.render('user-settings', {user: req.user});
   },
 
 
