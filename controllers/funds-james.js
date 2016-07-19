@@ -7,10 +7,15 @@ var async = require('async');
 
 module.exports = {
   homeGET: function(req, res) {
-    res.render('signup/new-fund-profile', {user: req.user})
+    console.log(req.user)
+    res.render('signup/fund-profile', {fund: req.user})
   },
 
-  fundCreationGET: function(req, res) {
-    res.render('funding-creation', {user: req.user})
+  createGET: function(req, res) {
+    res.render('signup/new-fund-profile')
+  },
+
+  settingsGET: function(req, res) {
+    res.render('fund-settings')
   }
 }
