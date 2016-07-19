@@ -4,13 +4,19 @@ block extraHeader
   link(href='/stylesheets/results.css', rel="stylesheet")
   link(href='/stylesheets/messages.css', rel="stylesheet")
 block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
   include navbar.jade
   include advanced-search.jade
   section#content
     #messages-tab-menu.col-md-3.container-fluid
       .list-group
         each user in allUsers
-          a.list-group-item
+          a.list-group-item(id="user-" + user.id)
             h5= user.username
               span.glyphicon.glyphicon-menu-right
     #messages-tab-content.col-md-9.container-fluid
@@ -23,16 +29,3 @@ block scripts
   script(src='https://cdn.socket.io/socket.io-1.4.5.js')
   script(src='http://code.jquery.com/jquery-1.11.1.js')
   script(src='/javascript/messages.js')
-  script.
-    var socket = io();
-    $('form').submit(function() {
-      socket.emit('chat message', $('#m').val());
-      $('#m').val('');
-      
-      return false;
-    });
-    
-    socket.on('chat message', function(msg){
-      console.log('apepdnd');
-      $('#messages').append($('<li>').text(msg));
-    });

@@ -18,6 +18,8 @@ section#content {
 
 #messages-tab-content ul {
   margin-top: 200px; }
+  #messages-tab-content ul li {
+    list-style: none; }
 
 #messages-tab-content form#msg {
   background: #000;

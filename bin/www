@@ -22,17 +22,42 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
   var server = http.createServer(app);
 
+  /* Socket IO Messaging Component */
+
   var io = require('socket.io')(server);
+  var users = {};
+
   io.on('connection', function(socket){
     console.log('a user connected');
+
     socket.on('disconnect', function(){
       console.log('user disconnected');
     });
 
-    socket.on('chat message', function(msg) {
-      io.emit('chat message', msg);
+    socket.on('private message', function(data) {
+      var roomName = ['user' + data.userTo + '-'+ 'user' + data.userFrom.id];
+      users[data.userTo].socket.join(roomName);
+      users[data.userFrom.id].socket.join(roomName);
+
+      var rooms = io.sockets.adapter.rooms;
+      console.log("Clients in random name:");
+      console.log(rooms);
+
+      io.sockets.in(roomName).emit('private message', data);
+    });
+
+    socket.on('add user', function(data) {
+      users[data.userFrom.id] = { "socket" : socket };
+      console.log("here is the users object");
+      console.log(users);
+    });
+
+    socket.on('room join', function(data) {
+
     });
   });
+
+  /* ---------------------------- */
 
   server.listen(port);
   server.on('error', onError);
