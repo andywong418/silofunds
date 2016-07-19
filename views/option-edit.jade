@@ -2,6 +2,7 @@ extend layout
 
 block extraHeader
   link(href='/stylesheets/results.css', rel='stylesheet')
+  link(href='/stylesheets/option-settings.css', rel='stylesheet')
 
 block content
   script.
@@ -12,58 +13,195 @@ block content
     }
   include ./navbar.jade
   include ./signup-modal.jade
-  section.container
-    ul.nav.nav-tabs
-      li#search-for Search for:
-      li#search-for-funding.active
-        a#search-for-funding.search-for(href="#advs-funding" data-toggle="tab") Funding
-      li#search-for-user
-        a#search-for-user.search-for(href="#advs-user" data-toggle="tab") Users
-  .tab-content
-    .tab-pane.fade#advs-user
-      form#advs-user-form.advs_user_form(action='/results/users', method='get', name='advs_user_form')
-        section.keyword
-          .row
-            .col-md-offset-2.col-md-8
-              label(for='tags') Keywords
-              input#advanced_user_tags(type="text", name="tags", form="advs-user-form")
-        section.header
-          .row
-            .col-md-12
-              h5 About the user
-        section.content-section
-          .row
-            .col-md-4
-              label(for='age') Age
-              input#advanced_user_age(type = "number", name = "age", form = "advs-user-form")
-            .col-md-4
-              label(for= 'user_country_of_residence') Country of Residence
-              input#advanced_user_country_of_residence(type = "text", name = "country_of_residence", form = "advs-user-form")
-            .col-md-4
-              label(for='user_religion') Religion
-              input#advanced_user_religion(type = "text", name = "religion", form = "advs-user-form")
-          .row
-            .col-md-4
-              label(for='funding_needed') Amount Needed
-              input#advanced_user_funding_needed(type = "number", name = "funding_needed", form = "advs-user-form")
-            //- .col-md-4
-            //-   label(for='gender') Gender
-            //-   .row
-            //-     .col-md-5
-            //-       label.radio-inline
-            //-         input#male.gender(type='radio', name = 'gender', value= 'male', form = "advs-user-form")
-            //-         | Male
-            //-     .col-md-5
-            //-       label.radio-inline
-            //-         input#female.gender(type='radio', name = 'gender', value = 'female', form = "advs-user-form")
-            //-         | Female
-        section.footer.text-center
-          button#advs-user-submit.btn.btn-primary(type='submit') Search      
-//- block scripts
-//-   script.
-//-     var fund = !{JSON.stringify(fund)}
-//-     var countries = !{JSON.stringify(countries)}
-//-     var user = !{JSON.stringify(user)};
-//-   script(src="/javascript/signup-login.js")
+  #big_flex_div.container
+    #left_div.col-md-3
+      .profile
+        #box-profile
+          a#fundWebsite(href=fund.link) 
+            img#fundImage(src=user.profile_picture)
+      .settings-tab-menu
+        .list-group
+          a.list-group-item.active(href="#")
+            h5 General Info
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Eligibility
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Application Process
+              span.glyphicon.glyphicon-menu-right
+    #right_div.col-md-9
+      .settings-tab
+        #general-info.settings-tab-content.active
+          .col-md-12.header
+            h3 General Info
+            p.help-block Change your bio and other key information.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Background
+              .col-md-12
+                label.col-md-3(for='title') Name of funding
+                .col-md-6
+                  input#title.form-control(type='text', name='title', form="", value=fund.title)
+              .col-md-12
+                label.col-md-3(for='description') Short bio
+                .col-md-6
+                  textarea#description.form-control(form='', name='description', rows="5")= fund.description
+            .col-md-12.sub-content
+              h4 Important Details
+              .col-md-12
+                label.col-md-3(for='number_of_places') Number of places offered
+                .col-md-3
+                  input#number_of_places.form-control(type='text', name='number_of_places', form="", value=fund.number_of_places)
+              .col-md-12
+                label.col-md-3(for='amount_offered') Amount offered
+                .col-md-3
+                  input#minimum_amount.form-control(type='text', name='minimum_amount', form="", value=fund.minimum_amount)
+                .col-md-3
+                  input#maximum_amount.form-control(type='text', name='maximum_amount', form="", value=fund.maximum_amount)
+              .col-md-12
+                label.col-md-3(for='duration_of_scholarship') Duration of funding
+                .col-md-3
+                  input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', form="", value=fund.duration_of_scholarship)
+          .col-md-12.footer
+            button#save-general-info.btn.btn-primary(type='submit') Save changes
+        #eligibility.settings-tab-content
+          .col-md-12.header
+            h3 Eligibility
+            p.help-block Change your eligbility specifications.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Subject Requirements
+              .col-md-12
+                label.col-md-3(for='subjects') Subjects
+                .col-md-6
+                  input#subjects.form-control(type='text', name='subjects', form='', value=fund.subject)
+            .col-md-12.sub-content
+              h4 Personal Requirements
+              .col-md-12
+                label.col-md-3(for='age') Ages
+                .col-md-3
+                  input#minimum_age.form-control(type='text', name='minimum_age', form='', value=fund.minimum_age)
+                .col-md-3
+                  input#maximum_age.form-control(type='text', name='maximum_age', form='', value=fund.maximum_age)
+              .col-md-12
+                label.col-md-3(for='religion') Religion
+                .col-md-6
+                  input#religion.form-control(type='text', name='religion', form='', value=fund.religion)    
+              .col-md-12
+                label.col-md-3(for='gender') Gender
+                .col-md-2
+                  label.radio-inline
+                    input#male(type='radio', name= 'gender', value= 'male')
+                    | Male
+                .col-md-2
+                  label.radio-inline
+                    input#female(type='radio', name='gender', value='female')
+                    | Female
+                .col-md-2.clear
+                  a#clear_gender(href='#') Clear
+              .col-md-12
+                label.col-md-3(for='merit_or_finance') Merit or finance based
+                .col-md-2
+                  label.radio-inline
+                    input#merit(type='radio', name='merit_or_finance', value='merit')
+                    | Merit
+                .col-md-2
+                  label.radio-inline
+                    input#finance(type='radio', name='merit_or_finance', value='finance')
+                    | Finance
+                .col-md-2.clear
+                  a#clear_merit(href='#') Clear
+            .col-md-12.sub-content
+              h4 Education Requirements
+              .col-md-12
+                label.col-md-3(for='target_university') Target University
+                .col-md-6
+                  input#target_university.form-control(type='text', name='target_university', form='', value=fund.target_university)
+              .col-md-12
+                label.col-md-3(for='target_degree') Target degree
+                .col-md-6
+                  input#target_degree.form-control(type='text', name='target_degree', form='', value=fund.target_degree)
+              .col-md-12
+                label.col-md-3(for='required_university') Previous University
+                .col-md-6
+                  input#required_university.form-control(type='text', name='required_university', form='', value=fund.required_university)
+              .col-md-12
+                label.col-md-3(for='required_degree') Required degree
+                .col-md-6
+                  input#required_degree.form-control(type='text', name='required_degree', form='', value=fund.required_degree)
+              .col-md-12
+                label.col-md-3(for='required_grade') Required grade
+                .col-md-6
+                  input#required_grade.form-control(type='text', name='required_grade', form='', value=fund.required_grade)
+            .col-md-12.sub-content
+              h4 Location Requirements
+              .col-md-12
+                label.col-md-3(for='target_country') Country of study
+                .col-md-6
+                  input#target_country.form-control(type='text', name='target_country', form='', value=fund.target_country)
+              .col-md-12
+                label.col-md-3(for='country_of_residence') Country of residence
+                .col-md-6
+                  input#country_of_residence.form-control(type='text', name='country_of_residence', form='', value=fund.country_of_residence)
+              .col-md-12
+                label.col-md-3(for='specific_location') Borough / State
+                .col-md-6
+                  input#specific_location.form-control(type='text', name='specific_location', form='', value=fund.country_of_residence)
+            .col-md-12.sub-content
+              h4 Other Requirements
+              .col-md-12
+                label.col-md-3(for='other_eligibility') Any other eligibility requirements not listed above
+                .col-md-6
+                  textarea#other_eligibility.form-control(form='', name='other_eligibility', rows='5')= fund.other_eligibility
+          .col-md-12.footer
+            button#save-eligibility.btn.btn-primary(type='submit') Save changes
+        #application-process.settings-tab-content
+          .col-md-12.header
+            h3 Application Process
+            p.help-block Change your application procedural specifications.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Important Dates
+              .col-md-12
+                label.col-md-3(for='application_open_date') Applications open on
+                .col-md-3
+                  input#application_open_date.form-control(type='date', name='application_open_date', form='', value=fund.application_open_date)
+              .col-md-12
+                label.col-md-3(for='deadline') Deadline on
+                .col-md-3
+                  input#deadline.form-control(type='date', name='deadline', form='', value=fund.deadline)
+              .col-md-12
+                label.col-md-3(for='application_decision_date') Decisions made on
+                .col-md-3
+                  input#application_decision_date.form-control(type='date', name='application_decision_date', form='', value=fund.application_decision_date)
+              .col-md-12
+                label.col-md-3(for='interview_date') Interviews are on
+                .col-md-3
+                  input#interview_date.form-control(type='date', name='interview_date', form='', value=fund.interview_date)
+            .col-md-12.sub-content
+              h4 Useful Information
+              .col-md-12
+                label.col-md-3(for='application_link') Application link
+                .col-md-6
+                  input#application_link.form-control(type='text', name='application_link', form='', value=fund.application_link)
+              .col-md-12
+                label.col-md-3(for='application_documents') Application documents
+                .col-md-6
+                  input#application_documents.form-control(type='text', name='application_documents', form='', value=fund.application_documents)
+            .col-md-12.sub-content
+              h4 Other
+              .col-md-12
+                label.col-md-3(for='other_application_steps') Any other parts of the application process not listed above
+                .col-md-6
+                  textarea#other_application_steps.form-control(form='', name='other_application_steps', rows='5')= fund.other_application_steps
+          .col-md-12.footer
+            button#save-applcation-process.btn.btn-primary(type='submit') Save changes
+block scripts
+  script(src="/javascript/option-settings.js")
+  script.
+    var fund = !{JSON.stringify(fund)}
+    var countries = !{JSON.stringify(countries)}
+    var user = !{JSON.stringify(user)};
+  //- script(src="/javascript/signup-login.js")
 //-   script(src="/node_modules/readmore-js/readmore.min.js")
-//-   script(src="/javascript/option-profile.js")

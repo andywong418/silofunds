@@ -26,6 +26,19 @@ function changeArrayfields(fields, arrayFields){
   return fields;
 }
 
+var reformatDate = function(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  return reformattedDate;
+};
+
 module.exports = {
   index: function(req, res) {
     models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
@@ -393,7 +406,13 @@ module.exports = {
     console.log("HELLO");
     models.funds.findById(fundId).then(function(fund){
         if(user.fund_or_user == fund.organisation_id){
-          res.render('option-edit', {user: user, fund: fund, countries:countries});
+          var fund = fund.get();
+          fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+          fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
+          fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
+          fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
+
+          res.render('option-edit', {user: user, fund: fund, countries:countries });
         }
         else{
           res.render('error');
