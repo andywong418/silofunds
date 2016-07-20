@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.STRING(40),
 			field: 'room_name'
 		},
+		read_by_recipient: {
+			type: DataTypes.BOOLEAN,
+			field: 'read_by_recipient'
+		},
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',
