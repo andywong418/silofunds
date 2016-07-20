@@ -85,7 +85,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                                 organisation_or_user: organisation.id,
                                 email_updates: true
                             }).then(function(user) {
-                                return done(null, user, req.flash('logoutMsg', 'Your account has been created, you may now login'));
+                                return done(null, user);
                             })
                         })
                     } else if (data.password !== data.confirmPassword) {
