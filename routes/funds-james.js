@@ -11,6 +11,8 @@ var router = express.Router();
 router.get('/home', funds.homeGET)
 router.get('/create', funds.createGET)
 router.get('/settings', funds.settingsGET)
+router.get('/funding_creation', funds.createFund)
+router.get('/dashboard', funds.dashboardGET)
 
 
 
