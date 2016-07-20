@@ -5,19 +5,59 @@ block extraHeader
   link(href='/stylesheets/option-profile.css', rel='stylesheet')
 
 block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
   include ./navbar.jade
+  include ./signup-modal.jade
+  .alert.alert-info(role='alert')
+      a(href='/funds/options/' + fund.id + '/edit')
+        span.glyphicon.glyphicon-pencil(aria-hidden='true')
+        | Make changes to this funding profile
   #big_flex_div.container
     #left_div.container
       #box_1
         a#fundWebsite(href=fund.link) 
-          img#fundImage(src=user.profile_picture)
+          img#fundImage(src=organisation.profile_picture)
       #box_2
-        h4#bio=fund.title
+        if fund.link
+          a#external-link(href!=fund.link)
+            h4#bio=fund.title
+        else  
+          h4#bio=fund.title
         #left_info_div
           p#fundBio #{fund.description}
-        a#message.center-block.btn.btn-default(href="mailto:" + user.email)
+          if fund.number_of_places
+            .info-row
+              i.fa.fa-archive(aria-hidden="true")
+              p#number_of_places= fund.number_of_places + ' '
+              span places available
+          if fund.minimum_amount && !fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount=fund.minimum_amount + '+'
+          if !fund.minimum_amount && fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount='<' + fund.maximum_amount
+          if fund.minimum_amount && fund.maximum_amount
+            .info-row
+              i.fa.fa-gbp(aria-hidden="true")
+              p#amount=fund.minimum_amount + ' - ' + fund.maximum_amount
+          if fund.duration_of_scholarship
+            .info-row
+              i.fa.fa-calendar-check-o(aria-hidden="true")
+              p#duration= 'This ' + fund.support_type + ' will last for ' 
+                span= fund.duration_of_scholarship
+        a#message.center-block.btn.btn-default(href="mailto:" + organisation.email)
           i.fa.fa-comments-o(aria-hidden="true")
           |Message us
+      //- #box_3
+      //-   p#general General Info
+      //-   hr
     #right_div
       //- #eligibility_div 
       //-   p#eligibility_div_p This box will display any users eligibility for your fund
@@ -55,21 +95,45 @@ block content
               .other-box
                 .col-md-12
                   span.criteria <%= criteria %>
-              
+
+      #eligibility_div 
+        p#eligibility_div_p 
+      #notEligible.modal-box
+        .modal-container 
+          .modal-bar
+            p Eligibility explanation
+          script#notEligible-template(type='text/template')
+            .row
+              #wrong-cross.col-md-2
+                i.fa.fa-times-circle(aria-hidden="true")
+              #fund-requirements.col-md-5
+                p#requirement-description <%= requirement_description %>
+                p#requirement <%= requirement %>
+              #user-info.col-md-5
+                p#user-description <%= user_description %>
+                p#user <%= user %>
+          a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
       #application_form
         p.head Application process
         hr
         script#application-process(type='text/template')
-          #start_date  <%= application_open_date %>
-          p.arrow#arrow_1 
-            i.fa.fa-angle-double-down(aria-hidden="true")
+          if fund.application_open_date
+            #start_date  <%= application_open_date %>
+            p.arrow#arrow_1 
+              i.fa.fa-angle-double-down(aria-hidden="true")
           #documents_deadline <%= application_documents %>
           p.arrow#arrow_2 
             i.fa.fa-angle-double-down(aria-hidden="true")
-          #interviews <%= interview_date %>
-          p.arrow#arrow3
-            i.fa.fa-angle-double-down(aria-hidden="true")
-          #decision_date <%= application_decision_date %>
+          if fund.interview_date
+            #interviews <%= interview_date %>
+            p.arrow#arrow3
+              i.fa.fa-angle-double-down(aria-hidden="true")
+          if fund.application_decision_date
+            #decision_date <%= application_decision_date %>
+          if fund.other_application_steps
+            #other-application
+              p Other application steps:  
+                span=fund.other_application_steps
           a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
           .mb-style-3
             blockquote#tips
@@ -80,11 +144,58 @@ block content
                   a(href='#0') Funded by Silo for life
                 .mb-thumb
                   img(src='/images/graduation.jpg')
-    
+
+                  #scholars_div
+  #separator_1      
+                              
+  #scholars_div
+
+     p#previous_scholars Previous Scholars
+     
+     #scholars_main_div
+     
+       #scholars_second_div
+         #pic1_div
+           #pic1
+             a#pic1_link
+               img#pic1_image(src='/images/howard.jpg')
+           #info_1
+             p#person1_info.boldIt Howard, 21
+             #pic3_description_div
+               p#pic1_description  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+               
+         #pic2_div
+           #pic2
+             a#pic2_link
+               img#pic2_image(src="/images/du'aine.jpg")
+           #info_2
+             p#person2_info.boldIt Du'aine, 22
+             #pic2_description_div
+               p#pic2_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+               
+         #pic3_div      
+           #pic3
+             a#pic3_link
+               img#pic3_image(src='/images/james.jpg')
+           #info_3
+             p#person3_info.boldIt James, 20
+             #pic3_description_div
+               p#pic3_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+               
+         #pic4_div   
+           #pic4
+             a#pic4_link
+               img#pic4_image(src='/images/andros.jpg')
+           #info_4
+             p#person4_info.boldIt Andros, 20
+             #pic4_description_div
+               p#pic4_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 block scripts
   script.
     var fund = !{JSON.stringify(fund)}
     var countries = !{JSON.stringify(countries)}
+    var user = !{JSON.stringify(user)};
+  script(src="/javascript/signup-login.js")
   script(src="/node_modules/readmore-js/readmore.min.js")
   script(src="/javascript/option-profile.js")
   

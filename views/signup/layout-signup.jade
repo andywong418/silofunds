@@ -20,7 +20,7 @@ html(lang='en')
     link(href='https://fonts.googleapis.com/css?family=Roboto',rel='stylesheet',type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Nunito', rel='stylesheet', type='text/css')
     link(href='http://33.media.tumblr.com/avatar_5e9ecfc32b98_128.png', rel='shortcut icon')
-
+    link(href='https://fonts.googleapis.com/css?family=Lato|Open+Sans|PT+Sans', rel='stylesheet')
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
     // WARNING: Respond.js doesn't work if you view the page via file://
     //if lt IE 9
@@ -44,7 +44,7 @@ html(lang='en')
       a.appendChild(r);
       })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     block extraHeader
-  body
+  body#page-top(class = 'nojs', data-spy='scroll', data-target='.navbar-fixed-top')
     script.
       var bodyEl = document.getElementsByTagName('body');
       var user = !{JSON.stringify(user)};

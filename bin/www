@@ -185,6 +185,9 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   },
                   "deadline": {
                     "type": "date"
+                  },
+                  "organisation_id" : {
+                    "type": "integer"
                   }
                 }
               }

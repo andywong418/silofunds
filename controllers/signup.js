@@ -431,7 +431,7 @@ module.exports = {
             //     console.log(field)
             //   })
             user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true});
+            res.render('signup/fund-dashboard', {user: user, newUser: true});
            })
 
 
