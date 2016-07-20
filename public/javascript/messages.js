@@ -70,7 +70,7 @@ $(document).ready(function() {
     console.log(data);
     console.log("Sender name:");
     console.log(data.userFrom.username);
-    $('#messages').append('<div class="user_from"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div><br>');
+    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
   });
 
   socket.on('bulk get message', function(data) {
@@ -82,7 +82,8 @@ $(document).ready(function() {
       var userToUsername = $('.list-group-item.active h5').html();
 
       if (message.user_from === user.id) {
-        $('#messages').append('<div class="user_from"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div><br>');
+        console.log(data.userFrom.profile_picture);
+        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
       } else {
         $('#messages').append('<div class="user_to"><span class="user_to">' + userToUsername + ':</span><li>' + message.message + '</li></div><br>');
       }

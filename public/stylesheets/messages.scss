@@ -41,23 +41,40 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - #{$input-form-height});
+    background: rgba(182, 205, 222, 0.68);
   }
   ul {
     li{
       list-style: none;
     }
 
-    div.user_from {
+    div.user_from, div.user_to {
       float: left;
       clear: both;
       width: 100%;
       padding: 15px 30px;
-      background: green;
+
+      .col-md-11 {
+        margin-top: 6px;
+      }
     }
 
-    div.user_to {
-      @extend div.user_from;
-      background: red;
+    span {
+      font-weight: bold;
+    }
+
+
+    img {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border: 2px solid grey;
+      border-radius: 50%;
+      background: no-repeat center center;
+      padding: 0;
+      // box-shadow:
+      //   inset 1px 1px 4px rgba(0,0,0,0.5),
+      //   0 2px 3px rgba(0,0,0,0.6);
     }
   }
 
