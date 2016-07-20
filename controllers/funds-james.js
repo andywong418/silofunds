@@ -234,9 +234,43 @@ module.exports = {
         res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
       });
     });
+  },
+
+  getOptionProfile: function(req, res){
+    console.log(req.user);
+    var user = req.user;
+    var fundId = req.params.id;
+    models.funds.findById(fundId).then(function(fund){
+      models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+        if(user){
+          res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+        } else {
+          res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+        }
+      });
+    });
+  },
+  
+  editOptionProfile: function(req, res){
+    var user = req.user;
+    var fundId = req.params.id;
+    models.funds.findById(fundId).then(function(fund){
+        if(user.organisation_or_user == fund.organisation_id){
+          var fund = fund.get();
+          fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+          fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
+          fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
+          fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
+
+          res.render('option-edit', {user: user, fund: fund, countries:countries });
+        }
+        else{
+          res.render('error');
+        }
+    });
   }
 
-  
+
 }
 
 

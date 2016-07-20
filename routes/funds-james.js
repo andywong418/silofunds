@@ -23,6 +23,9 @@ router.post('/funding_creation/:option/save_application/', funds.createNewFund);
 router.post('/funding_creation/:option/save_application/:fund_id', funds.updateApplication);
 router.get('/funding_creation/:option/:fund_id/completed', funds.newOptionProfile);
 
+router.get('/options/:id', funds.getOptionProfile);
+router.get('/options/:id/edit', funds.editOptionProfile);
+
 
 router.get('/dashboard', funds.dashboardGET)
 
