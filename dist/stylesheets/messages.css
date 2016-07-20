@@ -4,36 +4,77 @@
   box-sizing: border-box; }
 
 body {
-  font: 12px 'PT Sans'; }
+  font: 12px 'PT Sans';
+  overflow-y: hidden;
+  height: 100%;
+  position: absolute; }
 
 section#content {
-  margin-top: 60px; }
+  margin-top: 55px;
+  height: calc(100% - 55px); }
 
-#messages-tab-content #messages-list {
+#messages-tab-content {
+  padding: 0px;
+  width: 70%;
+  right: 0px;
   position: fixed;
-  bottom: 42px;
-  border: 1px solid #000;
-  display: block;
-  width: inherit; }
-
-#messages-tab-content ul {
-  margin-top: 200px; }
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin: 15px;
+  height: calc(calc(100% - 55px) - 30px); }
+  #messages-tab-content #messages-list {
+    bottom: 80px;
+    border: 2px solid #e1e8ed;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    height: calc(100% - 50px); }
   #messages-tab-content ul li {
     list-style: none; }
-
-#messages-tab-content form#msg {
-  background: #000;
-  padding: 3px;
-  position: fixed;
-  bottom: 0;
-  width: inherit; }
-  #messages-tab-content form#msg input {
-    border: 0;
-    padding: 10px;
-    width: 80%; }
-  #messages-tab-content form#msg button {
-    width: 20%;
-    background: #82e0ff;
-    border: none;
-    padding: 10px;
-    float: right; }
+  #messages-tab-content ul div.user_from, #messages-tab-content ul div.user_to {
+    float: left;
+    clear: both;
+    width: 100%;
+    padding: 15px 30px;
+    background: green; }
+  #messages-tab-content ul div.user_to {
+    background: red; }
+  #messages-tab-content #input-form {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #e1e8ed;
+    border-top: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px; }
+    #messages-tab-content #input-form form#msg input {
+      border: 1px solid #e1e8ed;
+      border-radius: 3px;
+      padding: 10px;
+      width: 79%; }
+    #messages-tab-content #input-form form#msg button {
+      width: 20%;
+      background: #82e0ff;
+      border: none;
+      border-radius: 3px;
+      padding: 10px;
+      float: right;
+      margin-top: 1px; }
+    #messages-tab-content #input-form form#msg .col-md-12 {
+      padding: 5px 25px; }

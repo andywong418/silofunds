@@ -1,3 +1,7 @@
+$border-color: #e1e8ed;
+$body-height: calc(100% - 55px);
+$input-form-height: 50px;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,60 +10,84 @@
 
 body {
   font: 12px 'PT Sans';
+  overflow-y: hidden;
+  height: 100%;
+  position: absolute;
 }
 
 section#content {
-  margin-top: 60px;
+  margin-top: 55px;
+  height: $body-height;
 }
 
 #messages-tab-content {
+  padding: 0px;
+  width: 70%;
+  right: 0px;
+  position: fixed;
+  display: flex;//
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;//
+  margin: 15px;
+  height: calc(#{$body-height} - 30px);
+
   #messages-list {
-    position: fixed;
-    bottom: 42px;
-    border: 1px solid #000;
+    bottom: 80px;
+    border: 2px solid $border-color;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     display: block;
-    width: inherit;
+    width: 100%;
+    overflow: auto;
+    height: calc(100% - #{$input-form-height});
   }
   ul {
-    margin-top: 200px;
     li{
       list-style: none;
     }
+
+    div.user_from {
+      float: left;
+      clear: both;
+      width: 100%;
+      padding: 15px 30px;
+      background: green;
+    }
+
+    div.user_to {
+      @extend div.user_from;
+      background: red;
+    }
   }
 
+  #input-form {
+    width: 100%;
+    height: $input-form-height;
+    border: 2px solid $border-color;
+    border-top: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 
-  form#msg {
-    background: #000;
-    padding: 3px;
-    position: fixed;
-    bottom: 0;
-    width: inherit;
-    input {
-      border: 0;
-      padding: 10px;
-      width: 80%;
-    //   margin-right: .5%;
-    }
-    button {
-      width: 20%;
-      background: rgb(130, 224, 255);
-      border: none;
-      padding: 10px;
-      float: right;
+    form#msg {
+      input {
+        border: 1px solid $border-color;
+        border-radius: 3px;
+        padding: 10px;
+        width: 79%;
+      }
+      button {
+        width: 20%;
+        background: rgb(130, 224, 255);
+        border: none;
+        border-radius: 3px;
+        padding: 10px;
+        float: right;
+        margin-top: 1px;
+      }
+      .col-md-12 {
+        padding: 5px 25px;
+      }
     }
   }
 }
-
-
-//
-// #messages {
-//   list-style-type: none;
-//   margin: 0;
-//   padding: 0;
-//   li {
-//     padding: 5px 10px;
-//     &:nth-child(odd) {
-//       background: #eee;
-//     }
-//   }
-// }
