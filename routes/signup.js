@@ -68,6 +68,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
         })
       }
 
+
     });
 });
 router.post('/results', function(req,res){

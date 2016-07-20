@@ -40,7 +40,7 @@ router.get('/create', users.createGET)
 router.get('/home', users.homeGET)
 
 // Settings
-router.get('/settings', users.settingsGET)
+router.get('/home/settings', users.settingsGET)
 
 
 

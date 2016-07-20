@@ -55,6 +55,9 @@ module.exports = {
   },
 
 
+
+// Pages once logged in
+
   homeGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
     res.render('user-public', {user: req.user});
