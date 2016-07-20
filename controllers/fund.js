@@ -323,7 +323,6 @@ module.exports = {
         res.send(fund);
       })
     })
-
   },
   updateGeneralInfo: function(req, res){
     var id = req.params.fund_id;
