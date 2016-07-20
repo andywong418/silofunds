@@ -98,12 +98,28 @@ module.exports = {
     res.render('signup/new-user-profile', {user: req.user});
   },
 
+
   settingsGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
-    res.render('user-settings', {user: req.user})
+    res.render('user-settings', {user: req.user, general: true})
   },
 
-
+  settingsPOST: function(req, res) {
+    pzpt.ensureAuthenticated(req, res);
+		var general_settings;
+		var id = req.user.id
+		var body = req.body;
+		if('username' in body || 'email' in body || 'password' in body){
+			general_settings = true;
+		} else {
+			general_settings = false;
+		}
+		models.users.findById(id).then(function(user){
+			user.update(body).then(function(user){
+				res.render('user-settings', {user: user, general: general_settings});
+			});
+		});
+	},
 
 
   logoutGET: function(req, res) {

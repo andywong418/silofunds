@@ -86,7 +86,7 @@ html
 								ul.nav.navbar-nav
 									li.signin-icon
 										button
-											a#home(href="/users/" + user.id + "/")
+											a#home(href="/user/home")
 												i.fa.fa-user
 									//      
 										li.signin-icon
@@ -98,11 +98,11 @@ html
 												i.fa.fa-cog
 											ul#settings-menu.dropdown-menu
 												li#settings
-													a(href='/users/settings/' + user.id + '/')
+													a(href='/user/settings')
 														| Settings
 												li.divider(role='separator')
 												li#logout
-													a(href='/users/logout/' + user.id)
+													a(href='/user/logout')
 														| Log out
 
 				section#advanced-search.container.content-section.text-center
@@ -186,7 +186,7 @@ html
 										| Log out
 						.col-md-1
 						.col-md-7.col-xs-8#profile-settings
-							form(action = '/users/settings/'+ user.id, method= 'post', id = 'change-settings')
+							form(action='/user/settings/', method='post', id='change-settings')
 								.general
 									.row#username-row
 										.col-md-5

@@ -41,7 +41,7 @@ block content
               ul.nav.navbar-nav
                 li.signin-icon
                   button
-                    a#home(href= "/users/" + user.id + "/")
+                    a#home(href= "/user/")
                       i.fa.fa-user
                 //
                   li.signin-icon
@@ -53,7 +53,7 @@ block content
                       i.fa.fa-cog
                     ul#settings-menu.dropdown-menu
                       li#settings
-                        a(href='/user/home/settings/')
+                        a(href='/user/settings/')
                           | Settings
                       li.divider(role='separator')
                       li#logout

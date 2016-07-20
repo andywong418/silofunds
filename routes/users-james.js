@@ -36,12 +36,13 @@ router.get('/registerSplit', users.registerSplitterGET)
 // Initial creation
 router.get('/create', users.createGET)
 
-// Main/home
+// User home page
 router.get('/home', users.homeGET)
 
 // Settings
-router.get('/home/settings', users.settingsGET)
-
+router.get('/settings', users.settingsGET)
+// Change settings
+router.post('/settings', users.settingsPOST)
 
 
 
