@@ -37,15 +37,14 @@ var userFields =  ["username","profile_picture","description","past_work","date_
     socket.on('private message', function(data) {
       console.log("USERS");
       console.log(users);
-      var roomName = ['user' + data.userToID + '-'+ 'user' + data.userFromID];
-      users[data.userToID].socket.join(roomName);
-      users[data.userFromID].socket.join(roomName);
+      users[data.userToID].socket.join(data.roomName);
+      users[data.userFromID].socket.join(data.roomName);
 
       var rooms = io.sockets.adapter.rooms;
       console.log("Clients in random name:");
       console.log(rooms);
 
-      io.sockets.in(roomName).emit('private message', data);
+      io.sockets.in(data.roomName).emit('private message', data);
 
       console.log("THIS IS DATA");
       console.log(data);
@@ -56,7 +55,8 @@ var userFields =  ["username","profile_picture","description","past_work","date_
       models.messages.create({
         user_from: data.userFromID,
         user_to: user_to_arr,
-        message: data.msg
+        message: data.msg,
+        room_name: data.roomName
       });
     });
 
@@ -68,6 +68,29 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
     socket.on('room join', function(data) {
 
+    });
+
+    socket.on('get messages', function(data) {
+      var userToID_arr = [];
+      userToID_arr.push(data.userToID);
+
+      models.messages.findAll({ where: {
+        room_name: data.roomName
+      }}).then(function(messages) {
+        messages = messages.map(function(message) {
+          return message.get();
+        });
+
+        console.log('Retrieved messages:');
+        console.log(messages);
+
+        users[data.userToID].socket.join(data.roomName);
+        users[data.userFromID].socket.join(data.roomName);
+
+        data.bulk_messages = messages;
+
+        io.sockets.in(data.roomName).emit('bulk get message', data);
+      });
     });
   });
 
