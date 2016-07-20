@@ -3,6 +3,10 @@ var url = require('url');
 var AWS = require('aws-sdk');
 var fs = require('fs');
 var async = require('async');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+require('./passport-james/strategies')(passport);
+var pzpt = require('./passport-james/functions');
 var aws_keyid;
 var aws_key;
 var sequelize = require('sequelize');
@@ -114,8 +118,10 @@ module.exports = {
         res.end();
       });
   },
+
   uploadInfo: function(req, res){
-    var userId = req.params.id,
+		console.log(userId)
+    var userId = req.user.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
     nationality = req.body.nationality,
@@ -153,7 +159,7 @@ module.exports = {
 							id: user.id,
 							body: wrapper
 						}, function(error, response){
-							res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+							res.redirect('/user/home')
 						})
 
           }

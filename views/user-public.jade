@@ -228,7 +228,7 @@ block content
           .col-md-4.center-block
             figure#profile-figure
               input#my_file(type='file', style='display: none;', name = 'profile_picture')
-              img#profile-picture(src= user.profile_picture)
+              //- img#profile-picture(src= user.profile_picture)
               figcaption#add-profile
                 i.fa.fa-camera
         .row
@@ -274,10 +274,10 @@ block content
 block scripts
   script(src='/javascript/lib/modernizr-input.js')
   script(src= '/javascript/user-public.js')
-  script.
-    var user = !{JSON.stringify(user)};
-    var loggedInUser = !{JSON.stringify(loggedInUser)};
-    var newUser = !{JSON.stringify(newUser)};
-    var documents = !{JSON.stringify(documents)};
-    var applications = !{JSON.stringify(applications)};
-    var resultsPage = true;
+  //- script.
+  //-   var user = !{JSON.stringify(user)};
+  //-   var loggedInUser = !{JSON.stringify(loggedInUser)};
+  //-   var newUser = !{JSON.stringify(newUser)};
+  //-   var documents = !{JSON.stringify(documents)};
+  //-   var applications = !{JSON.stringify(applications)};
+  //-   var resultsPage = true;
