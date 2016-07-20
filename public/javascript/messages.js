@@ -9,6 +9,7 @@ $(document).ready(function() {
   //////////////////////////
   var userToID = $('.list-group-item.active').attr("id").split("-")[1];
   var userFromID = user.id;
+  var readyToReceiveFrom = userToID;
   var roomName;
   // NOTE: The room names are always sorted from smaller number to higher number
   // NOTE: Room names are the same even if reversed
@@ -17,7 +18,7 @@ $(document).ready(function() {
   } else {
     roomName = 'user' + userToID + '-'+ 'user' + userFromID;
   }
-  socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName });
+  socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName, readyToReceiveFrom: readyToReceiveFrom });
 
   /////////////////////
 
@@ -30,6 +31,7 @@ $(document).ready(function() {
 
     var userToID = $(this).attr("id").split("-")[1];
     var userFromID = user.id;
+    var readyToReceiveFrom = userToID;
     var roomName;
     // NOTE: The room names are always sorted from smaller number to higher number
     // NOTE: Room names are the same even if reversed
@@ -38,7 +40,7 @@ $(document).ready(function() {
     } else {
       roomName = 'user' + userToID + '-'+ 'user' + userFromID;
     }
-    socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName });
+    socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName, readyToReceiveFrom: readyToReceiveFrom });
 
     console.log("Getting messages from room name: " + roomName);
   });
@@ -68,7 +70,7 @@ $(document).ready(function() {
     console.log(data);
     console.log("Sender name:");
     console.log(data.userFrom.username);
-    $('#messages').append('<span class="">' + data.userFrom.username + ':</span><li>' + data.msg + '</li><br>');
+    $('#messages').append('<div class="user_from"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div><br>');
   });
 
   socket.on('bulk get message', function(data) {
@@ -80,9 +82,9 @@ $(document).ready(function() {
       var userToUsername = $('.list-group-item.active h5').html();
 
       if (message.user_from === user.id) {
-        $('#messages').append('<span class="">' + data.userFrom.username + ':</span><li>' + message.message + '</li><br>');
+        $('#messages').append('<div class="user_from"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div><br>');
       } else {
-        $('#messages').append('<span class="">' + userToUsername + ':</span><li>' + message.message + '</li><br>');
+        $('#messages').append('<div class="user_to"><span class="user_to">' + userToUsername + ':</span><li>' + message.message + '</li></div><br>');
       }
     }
   });
