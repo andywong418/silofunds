@@ -356,9 +356,9 @@ $("#login-form").submit(function(e){
            }
            else{
              if(user.organisation_or_user){
-               $("#home").attr("href", '/fund/' );
-               $(".settings").attr("href", '/fund/settings/');
-               $(".logout").attr("href", '/fund/logout/');
+               $("#home").attr("href", '/funds/' + user.id );
+               $(".settings").attr("href", '/funds/settings/' +user.id);
+               $(".logout").attr("href", '/funds/logout/' + user.id);
              }
              else{
                $("#home").attr("href", '/user/home');
