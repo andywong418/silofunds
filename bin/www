@@ -37,7 +37,11 @@ var userFields =  ["username","profile_picture","description","past_work","date_
     socket.on('private message', function(data) {
       console.log("USERS");
       console.log(users);
-      users[data.userToID].socket.join(data.roomName);
+
+      console.log(data);
+      if (users[data.userToID]) {
+        users[data.userToID].socket.join(data.roomName);
+      }
       users[data.userFromID].socket.join(data.roomName);
 
       var rooms = io.sockets.adapter.rooms;
@@ -62,7 +66,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
     socket.on('add user', function(data) {
       users[data.userFrom.id] = { "socket" : socket };
-      console.log("here is the users object");
+      console.log("A new user has been added. Here is the users object:");
       console.log(users);
     });
 
@@ -84,7 +88,9 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         console.log('Retrieved messages:');
         console.log(messages);
 
-        users[data.userToID].socket.join(data.roomName);
+        if (users[data.userToID]) {
+          users[data.userToID].socket.join(data.roomName);
+        }
         users[data.userFromID].socket.join(data.roomName);
 
         data.bulk_messages = messages;
