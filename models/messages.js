@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.TEXT,
 			field: 'message'
 		},
+		room_name: {
+			type: DataTypes.STRING(40),
+			field: 'room_name'
+		},
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',
