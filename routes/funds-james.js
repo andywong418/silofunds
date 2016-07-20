@@ -22,9 +22,18 @@ router.post('/funding_creation/:option/save_eligible/:fund_id', funds.updateElig
 router.post('/funding_creation/:option/save_application/', funds.createNewFund);
 router.post('/funding_creation/:option/save_application/:fund_id', funds.updateApplication);
 router.get('/funding_creation/:option/:fund_id/completed', funds.newOptionProfile);
-
 router.get('/options/:id', funds.getOptionProfile);
 router.get('/options/:id/edit', funds.editOptionProfile);
+router.get('/option_creation/:id', funds.getOptionInfo);
+router.post('/options/:id/edit', funds.saveOptionEdit);
+//
+router.post('/edit_description/:id', funds.editDescription);
+router.post('/edit_dates/:id', funds.editDates)
+router.get('/settings/:id/', funds.settings);
+router.post('/settings/:id/', funds.changeSettings);
+// router.get('/logout/:id', funds.logout);
+router.get('/public/:id', funds.public);
+
 
 
 router.get('/dashboard', funds.dashboardGET)
