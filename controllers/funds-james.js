@@ -4,6 +4,8 @@ var LocalStrategy = require('passport-local').Strategy;
 require('./passport-james/strategies')(passport);
 var pzpt = require('./passport-james/functions');
 var async = require('async');
+var countries = require('../resources/countries')
+
 var parseIfInt = function(string) {
   if (string !== '') {
     return parseInt(string);
@@ -86,20 +88,6 @@ module.exports = {
   },
 
   // Test
-  createNewFund: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
-    var fields = req.body;
-    var userId = req.user.id;
-    var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
-    fields = moderateObject(fields);
-    fields = changeArrayfields(fields, arrayFields);
-    models.users.findById(userId).then(function(user){
-      fields['organisation_id'] = user.organisation_or_user;
-      models.funds.create(fields).then(function(fund){
-        res.send(fund);
-      })
-    })
-  },
 
   fundingSignupProcess: function(req,res){
     pzpt.ensureAuthenticated(req, res);
@@ -170,6 +158,7 @@ module.exports = {
   },
 
   createNewFund: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var fields = req.body;
     var userId = req.user.id;
     console.log(userId)
@@ -183,7 +172,71 @@ module.exports = {
         res.send(fund);
       })
     })
+  },
+
+  updateGeneralInfo: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
+    var id = req.params.fund_id;
+    var fields = req.body;
+    console.log(fields);
+    fields = moderateObject(fields);
+    if(fields['tags[]']){
+      fields['tags'] = fields['tags[]'];
+    }
+    models.funds.findById(id).then(function(fund){
+      fund.update(req.body).then(function(fund){
+        res.send(fund);
+      })
+    })
+  },
+
+  updateEligibility: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    console.log(req.body);
+    var arrayFields = ['subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location'];
+    fields = moderateObject(fields);
+    console.log("again",fields);
+    fields = changeArrayfields(fields, arrayFields);
+    console.log('test',fields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
+  },
+
+  updateApplication: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
+    var fundId = req.params.fund_id;
+    var fields = req.body;
+    var arrayFields = ['application_documents'];
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
+    models.funds.findById(fundId).then(function(fund){
+      fund.update(fields).then(function(fund){
+        res.send(fund);
+      })
+    })
+  },
+
+  newOptionProfile: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
+    var userId = req.user.id;
+    var fundId = req.params.fund_id;
+    var session = req.session;
+    console.log(session);
+    models.users.findById(userId).then(function(user){
+      console.log(user);
+      models.funds.findById(fundId).then(function(fund){
+        console.log(fund);
+        res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
+      });
+    });
   }
+
+  
 }
 
 

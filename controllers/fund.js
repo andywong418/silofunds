@@ -10,14 +10,14 @@ var parseIfInt = function(string) {
 };
 function moderateObject(objectFields){
   for(var key in objectFields){
-    if(objectFields[key] === ''){
+    if(objectFields[key] === '') {
       delete objectFields[key];
     }
   }
   return objectFields;
 }
 function changeArrayfields(fields, arrayFields){
-  for(var i =0 ; i <arrayFields.length; i++){
+  for(var i=0; i < arrayFields.length; i++){
     if(fields[arrayFields[i] + '[]']){
       var emptyArray = []
       fields[arrayFields[i]] = emptyArray.concat(fields[arrayFields[i] + '[]']);
@@ -381,6 +381,7 @@ module.exports = {
       });
     });
   },
+
   getOptionProfile: function(req, res){
     console.log(req.user);
     var user = req.user;

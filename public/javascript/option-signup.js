@@ -2,26 +2,26 @@ $(document).ready(function(){
 
   function noFundcreated(){
     $(document).on('click','#general', function(){
-      console.log("/funds/funding_creation/" + user.id + "/" + support_type);
-       window.location = "/funds/funding_creation/" + user.id + "/" + support_type;
+      console.log("/funds/funding_creation/" + support_type);
+       window.location = "/funds/funding_creation/" + support_type;
     });
     $(document).on('click', '#eligible', function(){
-      window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '#eligible';
+      window.location = "/funds/funding_creation/" + support_type + '#eligible';
     })
     $(document).on('click', '#application', function(){
-      window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '#application';
+      window.location = "/funds/funding_creation/" + support_type + '#application';
     });
   }
 
   function fundCreated(id){
     $(document).on('click','#general', function(){
-      window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + id;
+      window.location = "/funds/funding_creation/" + support_type + '/' + id;
    });
     $(document).on('click', '#eligible', function(){
-     window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + id + "#eligible";
+     window.location = "/funds/funding_creation/" + support_type + '/' + id + "#eligible";
    });
     $(document).on('click', '#application', function(){
-      window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + id +'#application';
+      window.location = "/funds/funding_creation/" + support_type + '/' + id +'#application';
     });
 
 
@@ -269,15 +269,15 @@ var EligibleDisplay = Backbone.View.extend({
       'other_eligibility': $('textarea#other_eligibility').val()
     }
     if(!fund){
-      $.post('/funds/funding_creation/' + support_type + '/save_eligible', formData, function(data){
+      $.post('/fund/funding_creation/' + support_type + '/save_eligible', formData, function(data){
         fund = data;
-        window.location = "/funds/funding_creation/" + support_type + '/' + fund.id +'#application';
+        window.location = "/fund/funding_creation/" + support_type + '/' + fund.id +'#application';
       })
     }
     else{
-      $.post('/funds/funding_creation/' + support_type + '/save_eligible/' + fund.id, formData, function(data){
+      $.post('/fund/funding_creation/' + support_type + '/save_eligible/' + fund.id, formData, function(data){
         fund = data;
-        window.location = "/funds/funding_creation/"+ support_type + '/' + fund.id +'#application';
+        window.location = "/fund/funding_creation/"+ support_type + '/' + fund.id +'#application';
       })
     }
   }
@@ -336,15 +336,15 @@ var ApplicationDisplay = Backbone.View.extend({
       'other_application_steps': $('textarea#other_application_steps').val()
     }
     if(!fund){
-      $.post('/funds/funding_creation/'+ user.id + '/' + support_type + '/save_application', formData,function(data){
+      $.post('/fund/funding_creation/' + support_type + '/save_application', formData,function(data){
         fund = data;
-        window.location = "/funds/funding_creation/" + support_type + '/' + fund.id +'#application';
+        window.location = "/fund/funding_creation/" + support_type + '/' + fund.id +'#application';
       })
     }
     else{
-      $.post('/funds/funding_creation/' + support_type + '/save_application/' + fund.id, formData, function(data){
+      $.post('/fund/funding_creation/' + support_type + '/save_application/' + fund.id, formData, function(data){
         fund = data;
-        window.location = "/funds/funding_creation/" + user.id + "/" + support_type + '/' + fund.id +'/completed';
+        window.location = "/fund/funding_creation/" + support_type + '/' + fund.id +'/completed';
       })
     }
   }
