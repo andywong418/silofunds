@@ -12,7 +12,11 @@ router.get('/home', funds.homeGET)
 router.get('/create', funds.createGET)
 router.get('/settings', funds.settingsGET)
 router.get('/funding_creation', funds.createFund)
+router.get('/funding_creation/:option', funds.fundingSignupProcess);
 router.get('/dashboard', funds.dashboardGET)
+
+router.get('/funding_creation/:option/:fund_id', funds.fundCreatedSignup);
+router.post('/funding_creation/:option/save_general/', funds.createNewFund);
 
 
 
