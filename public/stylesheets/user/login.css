@@ -36,15 +36,13 @@ body {
   background-color: #e9f0f4;
 }
 
-#top-div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  height: 70px;
-  margin-top: 2%;
-  margin-bottom: 5%;
-}
-
 .alert.alert-success {
   text-align: center;
+}
+
+img {
+  margin-top: 8%;
+  margin-bottom: 3%;
+  margin-left: 15%;
+  width: 70%;
 }

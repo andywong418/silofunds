@@ -6,8 +6,9 @@ html
     script(src='/javascript/user/register.js')
   body
     .container
-      #img-div
-        h1#vbl Silo image
+        .col-md-4.col-md-offset-4
+          #img_div
+            img#brand-image(src="/images/silo no background.gif")
         .row.centered-form
           if flashMsg
             .alert.alert-danger= flashMsg
