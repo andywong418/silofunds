@@ -60,7 +60,37 @@ module.exports = {
 
   homeGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
-    res.render('user-public', {user: req.user});
+    var user = req.user;
+    var id = user.id;
+    models.applications.findAll({where: {user_id: user.id}}).then(function(application){
+      console.log("checking applications");
+      if(application.length != 0){
+        applied_funds = [];
+        async.each(application, function(app, callback){
+            var app_obj = {};
+            app_obj['status'] = app.dataValues.status;
+            models.funds.findById(app.dataValues.fund_id).then(function(fund){
+              app_obj['title'] = fund.title;
+              console.log("WHAT FUND", fund);
+              applied_funds.push(app_obj);
+              console.log("I'M HERE", applied_funds);
+              callback();
+            })
+
+        }, function done(){
+          models.documents.findAll({where: {user_id: id}}).then(function(documents){
+            res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
+          });
+        })
+
+      }
+      else{
+        models.documents.findAll({where: {user_id: id}}).then(function(documents){
+            res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: false});
+          });
+      }
+
+    })
   },
 
   createGET: function(req, res) {
@@ -70,7 +100,7 @@ module.exports = {
 
   settingsGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
-    res.render('user-settings', {user: req.user});
+    res.render('user-settings', {user: req.user})
   },
 
 

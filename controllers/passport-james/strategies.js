@@ -65,8 +65,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                             password: data.password,
                             email_updates: true
                         }).then(function(user) {
-                            // Sending flash as logout message for brevity (since the logout flash goes to the same place)
-                            return done(null, user, req.flash('logoutMsg', 'Your account has been created, you may now login'));
+                            return done(null, user);
                         });
                     } else if (data.password !== data.confirmPassword) {
                         return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
