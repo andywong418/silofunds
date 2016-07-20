@@ -35,15 +35,29 @@ var userFields =  ["username","profile_picture","description","past_work","date_
     });
 
     socket.on('private message', function(data) {
-      var roomName = ['user' + data.userTo + '-'+ 'user' + data.userFrom.id];
-      users[data.userTo].socket.join(roomName);
-      users[data.userFrom.id].socket.join(roomName);
+      console.log("USERS");
+      console.log(users);
+      var roomName = ['user' + data.userToID + '-'+ 'user' + data.userFromID];
+      users[data.userToID].socket.join(roomName);
+      users[data.userFromID].socket.join(roomName);
 
       var rooms = io.sockets.adapter.rooms;
       console.log("Clients in random name:");
       console.log(rooms);
 
       io.sockets.in(roomName).emit('private message', data);
+
+      console.log("THIS IS DATA");
+      console.log(data);
+
+      var user_to_arr = [];
+      user_to_arr.push(data.userToID);
+
+      models.messages.create({
+        user_from: data.userFromID,
+        user_to: user_to_arr,
+        message: data.msg
+      });
     });
 
     socket.on('add user', function(data) {

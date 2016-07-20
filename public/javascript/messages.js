@@ -10,7 +10,7 @@ $(document).ready(function() {
 
     // NOTE: The room names are always sorted from smaller number to higher number
     // NOTE: Room names are the same even if reversed
-    // 
+    //
     // var userToID = $(this).attr("id").split("-")[1];
     // var userFromID = user.id;
     // var roomName;
@@ -39,9 +39,9 @@ $(document).ready(function() {
 
   $('form').submit(function() {
     var msg = $('#m').val();
-    var userTo = $('.list-group-item.active').attr("id").split("-")[1];
+    var userToID = $('.list-group-item.active').attr("id").split("-")[1];
 
-    socket.emit('private message', { userFrom: user, userTo: userTo, msg: msg });
+    socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg });
     $('#m').val('');
 
     return false;
