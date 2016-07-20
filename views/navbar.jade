@@ -34,7 +34,7 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
             a.cd-signup.pre-signin(href='#0') Sign up
           li.post-signin
             button
-              a#home(href="#0")
+              a#home(href="/user/home")
                 i.fa.fa-user
           //
             li.post-signin
@@ -45,9 +45,9 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
                 i.fa.fa-cog
               ul#settings-menu.dropdown-menu
                 li#settings
-                  a.settings(href="#0")
+                  a.settings(href="/user/settings")
                     | Settings
                 li.divider(role='separator')
                 li#logout
-                  a.logout(href="#0")
+                  a.logout(href="/user/logout")
                     | Log out

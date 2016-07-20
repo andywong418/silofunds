@@ -352,18 +352,18 @@ $("#login-form").submit(function(e){
 
          initialize: function(){
            if(typeof user ==='undefined' || user ==false){
-             
+
            }
            else{
              if(user.organisation_or_user){
-               $("#home").attr("href", '/funds/' + user.id );
-               $(".settings").attr("href", '/funds/settings/' +user.id);
-               $(".logout").attr("href", '/funds/logout/' + user.id);
+               $("#home").attr("href", '/fund/' );
+               $(".settings").attr("href", '/fund/settings/');
+               $(".logout").attr("href", '/fund/logout/');
              }
              else{
-               $("#home").attr("href", '/users/' + user.id);
-               $(".settings").attr("href", '/users/settings/' +user.id );
-               $(".logout").attr("href", '/users/logout/' + user.id);
+               $("#home").attr("href", '/user/home');
+               $(".settings").attr("href", '/user/settings/' );
+               $(".logout").attr("href", '/user/logout/');
              }
 
           }

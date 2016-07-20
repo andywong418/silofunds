@@ -57,7 +57,7 @@ html
 							button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
 								i.fa.fa-bars
 							a#brand-heading.navbar-brand
-								img#brand-image(src="../../../images/transparent silo icon graphic.png")
+								img#brand-image(src="/images/transparent silo icon graphic.png")
 							form.search_form(id = "search-form", action='/results', method='get', name='search_form')
 								#dropdown.dropdown
 									a#refine-search(href='#0') REFINE SEARCH
@@ -70,11 +70,11 @@ html
 											| Grants
 											span
 												i.fa.fa-check
-										//
-											li#users
-												| Users  
-												span
-													i.fa.fa-check         
+					
+										li#users
+											| Users  
+											span
+												i.fa.fa-check         
 								input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
 								button#search_button.btn.btn-info(type='submit')
 									i.fa.fa-search
@@ -182,7 +182,7 @@ html
 							hr
 							ul
 								li#logout
-									a(href='/users/logout/' + user.id)
+									a(href='/user/logout')
 										| Log out
 						.col-md-1
 						.col-md-7.col-xs-8#profile-settings

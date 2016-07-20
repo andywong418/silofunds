@@ -44,6 +44,8 @@ router.get('/settings', users.settingsGET)
 // Change settings
 router.post('/settings', users.settingsPOST)
 
+router.post('/email-settings/:id', users.changeEmailSettings);
+
 
 
 /* Logout */
