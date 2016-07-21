@@ -22,7 +22,7 @@ block content
 						span Your list of funding opportunities
 						span.badge= funds.length
 				#create-new-fund.col-md-3
-					a.btn.btn-primary(href='/funds/funding_creation/' + user.id) Create fund
+					a.btn.btn-primary(href='/fund/funding_creation/') Create fund
 			.row
 				.col-md-12
 					table.table.table-responsive#header
@@ -41,7 +41,7 @@ block content
 					.col-md-1#support_type
 						span.label(id='#{fund.support_type}')= fund.support_type
 					.col-md-4
-						a(href='/funds/options/' + fund.id)
+						a(href='/fund/options/')
 							span= fund.title
 					.col-md-1
 						if (fund.minimum_age && fund.maximum_age)
@@ -64,7 +64,7 @@ block content
 					.col-md-1
 						span= fund.updated_at
 					.col-md-1#edit
-						a(href='/funds/options/' + fund.id + '/edit') Edit
+						a(href='/fund/options/' + fund.id + '/edit') Edit
 block scripts
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/signup-login.js')
