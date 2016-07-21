@@ -29,6 +29,7 @@ module.exports = {
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
+		console.log("PREVIOUS", previousPage);
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
@@ -120,7 +121,6 @@ module.exports = {
   },
 
   uploadInfo: function(req, res){
-		console.log(userId)
     var userId = req.user.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
@@ -141,8 +141,12 @@ module.exports = {
           where: {user_id: user.id}
         }).then(function(documents){
           var newUser = true;
+					console.log("REDIRECT USER", req.session.redirect_user)
           if(req.session.redirect_user){
+						console.log(req.session.redirect_user);
+						console.log("PREVIOUS PAGE AGAIN", previousPage);
             res.redirect(previousPage);
+
           }
           else{
 						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];

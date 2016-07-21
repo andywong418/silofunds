@@ -1,6 +1,7 @@
 var express = require('express');
 var models = require('../models');
 var users = require('../controllers/users-james');
+var signup = require('../controllers/signup');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('../controllers/passport-james/strategies')(passport);
@@ -31,7 +32,7 @@ router.get('/loginSplit', users.loginSplitterGET)
 // Register
 router.get('/register', users.registerGET)
 // Authenticate registerPOST request
-router.post('/register', passport.authenticate('registrationStrategy', {
+router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {
   successRedirect: '/user/registerSplit',
   failureRedirect: '/user/register',
 }))

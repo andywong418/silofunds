@@ -24,6 +24,7 @@
     "express-messages": "^1.0.0",
     "express-session": "^1.11.3",
     "jade": "~1.11.0",
+    "lazyloadxt": "^1.1.0",
     "mailchimp-api": "^2.0.7",
     "morgan": "~1.6.1",
     "multer": "^1.1.0",
