@@ -17,6 +17,13 @@ router.post('/login', passport.authenticate('loginStrategy', {
   successRedirect: '/user/loginSplit',
   failureRedirect: '/user/login'
 }))
+// Facebook auth strategy
+router.get('/auth/facebook', passport.authenticate('facebook'));
+router.get('auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/user/create',
+  failureRedirect: 'user/login'
+}))
+
 // Login splitter (sending to fund or user home)
 router.get('/loginSplit', users.loginSplitterGET)
 
@@ -45,7 +52,6 @@ router.get('/settings', users.settingsGET)
 router.post('/settings', users.settingsPOST)
 
 router.post('/email-settings/:id', users.changeEmailSettings);
-
 
 
 /* Logout */
