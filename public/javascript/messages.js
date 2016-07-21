@@ -61,7 +61,7 @@ $(document).ready(function() {
 
     socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg, roomName: roomName });
     $('#m').val('');
-
+    $('.read_col').remove();
     return false;
   });
 
@@ -74,7 +74,6 @@ $(document).ready(function() {
   socket.on('bulk get message', function(data) {
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
-    console.log(data);
     var dateNow = new Date();
     var dateYesterday = new Date();
     dateYesterday.setDate(dateNow.getDate() - 1);
@@ -123,6 +122,11 @@ $(document).ready(function() {
     }
 
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+    var readCounter = 0;
+    var readMessage = data.bulk_messages[data.bulk_messages.length -1];
+    if(readMessage.read_by_recipient && readMessage.user_from == user.id){
+      $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+    }
   });
 
   /* -------------- */

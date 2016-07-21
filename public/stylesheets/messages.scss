@@ -143,6 +143,18 @@ section#content {
     span {
       font-weight: bold;
     }
+    .read_col{
+      padding-top: 0 !important;
+      top: -5px;
+      .read{
+        margin-bottom: 0;
+        color: $timestamp-color;
+        font-size: 15px;
+        i{
+          color: $timestamp-color;
+        }
+      }
+    }
 
 
     img {

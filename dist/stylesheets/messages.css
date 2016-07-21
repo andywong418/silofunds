@@ -109,6 +109,15 @@ section#content {
       margin-top: 15px; }
   #messages-tab-content ul span {
     font-weight: bold; }
+  #messages-tab-content ul .read_col {
+    padding-top: 0 !important;
+    top: -5px; }
+    #messages-tab-content ul .read_col .read {
+      margin-bottom: 0;
+      color: #858585;
+      font-size: 15px; }
+      #messages-tab-content ul .read_col .read i {
+        color: #858585; }
   #messages-tab-content ul img {
     display: block;
     width: 40px;
