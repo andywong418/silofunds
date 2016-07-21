@@ -87,14 +87,42 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
       // NOTE: readyToReceiveFrom also means it has read latest message
 
-      models.messages.findAll({ where: {
-        room_name: data.roomName,
-        user_to: userFromID_arr
-      }}).then(function(messages) {
-        if (typeof messages !== 'undefined' && messages.length > 0) {
-          // the array is defined and has at least one element
+      models.users.findById(data.userToID).then(function(userTo) {
+        userTo = userTo.get();
 
-          messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
+        data.userTo = userTo;
+
+        models.messages.findAll({ where: {
+          room_name: data.roomName,
+          user_to: userFromID_arr
+        }}).then(function(messages) {
+          if (typeof messages !== 'undefined' && messages.length > 0) {
+            // the array is defined and has at least one element
+
+            messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
+              models.messages.findAll({ where: {
+                room_name: data.roomName
+              }}).then(function(messages) {
+                messages = messages.map(function(message) {
+                  return message.get();
+                });
+
+                console.log('Retrieved messages:');
+                console.log(messages);
+
+                if (users[data.userToID]) {
+                  users[data.userToID].socket.join(data.roomName);
+                }
+                users[data.userFromID].socket.join(data.roomName);
+                users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+                console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+                data.bulk_messages = messages;
+
+                io.sockets.in(data.roomName).emit('bulk get message', data);
+              });
+            });
+          } else {
             models.messages.findAll({ where: {
               room_name: data.roomName
             }}).then(function(messages) {
@@ -116,30 +144,8 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
               io.sockets.in(data.roomName).emit('bulk get message', data);
             });
-          });
-        } else {
-          models.messages.findAll({ where: {
-            room_name: data.roomName
-          }}).then(function(messages) {
-            messages = messages.map(function(message) {
-              return message.get();
-            });
-
-            console.log('Retrieved messages:');
-            console.log(messages);
-
-            if (users[data.userToID]) {
-              users[data.userToID].socket.join(data.roomName);
-            }
-            users[data.userFromID].socket.join(data.roomName);
-            users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-            console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
-
-            data.bulk_messages = messages;
-
-            io.sockets.in(data.roomName).emit('bulk get message', data);
-          });
-        }
+          }
+        });
       });
     });
   });

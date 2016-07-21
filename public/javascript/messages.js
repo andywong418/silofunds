@@ -89,7 +89,7 @@ $(document).ready(function() {
       if (message.user_from === user.id) {
         $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
       } else {
-        $('#messages').append('<div class="user_to"><span class="user_to">' + userToUsername + ':</span><li>' + message.message + '</li></div><br>');
+        $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + data.userTo.profile_picture + ' /><div class="col-md-11"><span class="user_to">' + data.userTo.username + ':</span><li>' + message.message + '</li></div></div><br>');
       }
     }
 
