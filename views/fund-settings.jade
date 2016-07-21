@@ -86,7 +86,7 @@ html
 								ul.nav.navbar-nav
 									li.signin-icon
 										button
-											a#home(href="/funds/" + user.id + "/")
+											a#home(href="/fund/home")
 												i.fa.fa-user
 									//      
 										li.signin-icon
@@ -98,11 +98,11 @@ html
 												i.fa.fa-cog
 											ul#settings-menu.dropdown-menu
 												li#settings
-													a(href='/funds/settings/' + user.id + '/')
+													a(href='/fund/settings/')
 														| Settings
 												li.divider(role='separator')
 												li#logout
-													a(href='/funds/logout/' + user.id)
+													a(href='/fund/logout/')
 														| Log out
 
 				section#advanced-search.container.content-section.text-center
@@ -182,11 +182,11 @@ html
 							hr
 							ul
 								li#logout
-									a(href= "/funds/logout/"+ user.id)
+									a(href= "/fund/logout/")
 										| Log out
 						.col-md-1
 						.col-md-7.col-xs-8#profile-settings
-							form(action = '/funds/settings/'+ user.id, method= 'post', id = 'change-settings')
+							form(action='/fund/settings/', method='post', id='change-settings')
 								.general
 									.row#username-row
 										.col-md-5
