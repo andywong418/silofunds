@@ -43,7 +43,7 @@ $(document).ready(function() {
       "maximum_amount": $('#maximum_amount').val(),
       "duration_of_scholarship": $('#duration_of_scholarship').val()
     };
-    $.post('/funds/options/' + fund.id + '/edit', formData, function(data){
+    $.post('/fund/options/' + fund.id + '/edit', formData, function(data){
       console.log(data);
       $('#save-general-notification').css('display', 'block');
       $("#save-general-notification").fadeOut(6000);
@@ -91,7 +91,7 @@ $(document).ready(function() {
       'specific_location': specific_location,
       'other_eligibility': $('textarea#other_eligibility').val()
     };
-    $.post('/funds/options/' + fund.id + '/edit', formData, function(data){
+    $.post('/fund/options/' + fund.id + '/edit', formData, function(data){
       console.log(data);
       $('#save-eligibility-notification').css('display', 'block');
       $("#save-eligibility-notification").fadeOut(6000);
@@ -109,8 +109,9 @@ $(document).ready(function() {
       'application_documents': applicationDocuments,
       'other_application_steps': $('textarea#other_application_steps').val()
     }
-    $.post('/funds/options/' + fund.id + '/edit', formData, function(data){
+    $.post('/fund/options/' + fund.id + '/edit', formData, function(data){
       console.log(data);
+      consol.log("LLOOOK IM HER")
       $('#save-application-notification').css('display', 'block');
       $("#save-application-notification").fadeOut(6000);
     });
