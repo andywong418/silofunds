@@ -41,11 +41,7 @@ $(document).ready(function() {
     }
     socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName, readyToReceiveFrom: readyToReceiveFrom });
 
-    console.log($("#messages-list")[0].scrollHeight);
-
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
-
-    console.log("Getting messages from room name: " + roomName);
   });
 
   /* Socket IO Client */
@@ -70,9 +66,6 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    console.log(data);
-    console.log("Sender name:");
-    console.log(data.userFrom.username);
     $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
 
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
