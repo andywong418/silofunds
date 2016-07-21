@@ -103,13 +103,14 @@ passport.use('registrationStrategy', new LocalStrategy({
 
     // Facebook Strategy
     passport.use('facebook', new FacebookStrategy({
-    clientID: '506830149486287',
-    clientSecret: '45b00c46d1cf3d9396fd24fe99ea0e3d',
-    callbackURL: "https://silofunds.herokuapp.com/auth/facebook/callback",
+    clientID: '156828604723835',
+    clientSecret: 'd1227d0c48d83f0d8a81449f60eb035f',
+    callbackURL: "https://localhost:3001/auth/facebook/callback",
     profileFields : ['id', 'displayName', 'email']
   }, function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
       console.log(profile);
+      console.log("im being called mate")
       models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
         if(user) {
           return done(null, user); // user found, return that user
