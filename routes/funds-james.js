@@ -11,7 +11,6 @@ var router = express.Router();
 
 router.get('/home', funds.homeGET)
 router.get('/create', funds.createGET)
-router.get('/settings', funds.settingsGET)
 router.get('/funding_creation', funds.createFund)
 router.get('/funding_creation/:option', funds.fundingSignupProcess);
 router.get('/funding_creation/:option/:fund_id', funds.fundCreatedSignup);
@@ -29,9 +28,10 @@ router.post('/options/:id/edit', funds.saveOptionEdit);
 //
 router.post('/edit_description/:id', funds.editDescription);
 router.post('/edit_dates/:id', funds.editDates)
-router.get('/settings/:id/', funds.settings);
+router.get('/settings/:id', funds.settings);
+router.get('/settings/', funds.settings);
 router.post('/settings/:id/', funds.changeSettings);
-// router.get('/logout/:id', funds.logout);
+router.get('/logout/', funds.logout);
 router.get('/public/:id', funds.public);
 
 

@@ -15,11 +15,24 @@ var parseIfInt = function(string) {
 
 module.exports = {
 // Page arrived at on login
-  homeGET: function(req, res) {
-    console.log(req.user)
-    pzpt.ensureAuthenticated(req, res);
-    res.render('signup/fund-dashboard', {fund: req.user})
-  },
+homeGET: function(req, res){
+  var session = req.params.session; // use it for authentication
+  var id = req.user.id;
+  models.users.findById(id).then(function(user){
+    var organisation_id = user.get().organisation_or_user;
+
+    models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+      funds = funds.map(function(fund) {
+        var json = fund.get();
+        json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+        json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+        json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
+        return json;
+      });
+      res.render('signup/fund-dashboard', { user: user, funds: funds });
+    });
+  });
+},
 // Initial creation
   createGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
@@ -29,11 +42,6 @@ module.exports = {
     dashboardGET: function(req, res) {
       pzpt.ensureAuthenticated(req, res);
       res.render('signup/fund-dashboard', {fund: req.user})
-    },
-  // Settings
-    settingsGET: function(req, res) {
-      pzpt.ensureAuthenticated(req, res);
-      res.render('fund-settings')
     },
 
 
@@ -237,6 +245,7 @@ module.exports = {
   },
 
   getOptionProfile: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     console.log(req.user);
     var user = req.user;
     var fundId = req.params.id;
@@ -252,6 +261,7 @@ module.exports = {
   },
 
   editOptionProfile: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
@@ -271,6 +281,7 @@ module.exports = {
   },
 
   getOptionInfo: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       res.json(fund);
@@ -278,7 +289,7 @@ module.exports = {
   },
 
   saveOptionEdit: function(req, res){
-    console.log(req.body);
+    pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       fund.update(req.body).then(function(fund){
@@ -288,6 +299,7 @@ module.exports = {
   },
 
   editDescription: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(fund){
@@ -299,6 +311,7 @@ module.exports = {
   },
 
   editDates: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     console.log("DATES", req.body);
     models.users.findById(fundId).then(function(user){
@@ -311,30 +324,28 @@ module.exports = {
 
   },
   settings: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var session = req.params.session;
-    var id = req.params.id;
+    var id = req.user.id;
     var general_settings = true;
-    console.log("HERE HERE HERE")
       models.users.findById(id).then(function(user){
       var fundUser = user;
-      models.funds.findById(user.organisation_or_user).then(function(fund){
+      console.log(user.organisation_or_user);
+      models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(fund){
         for (var attrname in fund['dataValues']){
           if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
             user["dataValues"][attrname] = fund[attrname];
           }
         }
-
         res.render('fund-settings', {user: user, newUser: true, general: general_settings});
-
       })
-
     })
-
   },
 
   changeSettings: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var session = req.params.session;
-    var id = req.params.id;
+    var id = req.user.id;
     var general_settings;
     var body = req.body;
     console.log(req.body);
@@ -376,9 +387,7 @@ module.exports = {
                         newUser["dataValues"][attrname] = newFund[attrname];
                       }
                     }
-
                     res.render('fund-settings', {user: user, general: general_settings});
-
                   })
                 }
             });
@@ -399,7 +408,6 @@ module.exports = {
               }
             }
             res.render('fund-settings', {user: user, general: general_settings});
-
             });
           });
         })
@@ -460,6 +468,7 @@ module.exports = {
     }
   },
   public: function(req, res){
+    pzpt.ensureAuthenticated(req, res);
     var loggedInUser;
     var id = req.params.id;
     if(req.session.passport.user){
@@ -486,6 +495,12 @@ module.exports = {
         })
       })
     })
+  },
+
+  logout: function(req, res) {
+    req.logout();
+    req.flash('logoutMsg', 'Successfully logged out');
+    res.redirect('/user/login')
   }
 
 
