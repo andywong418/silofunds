@@ -80,9 +80,9 @@ $(document).ready(function() {
       var userToUsername = $('.list-group-item.active h5').html();
 
       if (message.user_from === user.id) {
-        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
+        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
       } else {
-        $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + data.userTo.profile_picture + ' /><div class="col-md-11"><span class="user_to">' + data.userTo.username + ':</span><li>' + message.message + '</li></div></div><br>');
+        $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + data.userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + data.userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
       }
     }
 
@@ -92,3 +92,16 @@ $(document).ready(function() {
   /* -------------- */
 
 });
+
+function retrieveDate(date) {
+  date = date.split('T')[0];
+  date = new Date(date);
+
+  return date.toDateString();
+}
+
+function retrieveTime(date) {
+  time = date.split('T')[1].split('.')[0].slice(0, -3);
+
+  return time.toString();
+}

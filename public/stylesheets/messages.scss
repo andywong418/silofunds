@@ -26,7 +26,7 @@ section#content {
   margin: 15px;
   margin-right: 0px;
   border-radius: 0;
-  height: calc(#{$body-height} - 30px);
+  height: calc(100%-85px);
   position: fixed;
   overflow: auto;
 
@@ -76,7 +76,7 @@ section#content {
   justify-content: flex-end;
   align-items: flex-start;//
   margin: 15px;
-  height: calc(#{$body-height} - 30px);
+  height: calc(100% - 85px);
 
   #messages-list {
     bottom: 80px;
@@ -99,8 +99,16 @@ section#content {
       width: 100%;
       padding: 15px 30px;
 
-      .col-md-11 {
+      .col-md-9, .col-md-2.timestamp {
         margin-top: 6px;
+      }
+
+      .col-md-2.timestamp {
+        padding: 0;
+        white-space: nowrap;
+        color: rgb(133, 133, 133);
+        text-align: right;
+        float: right;
       }
     }
 

@@ -19,7 +19,7 @@ section#content {
   margin: 15px;
   margin-right: 0px;
   border-radius: 0;
-  height: calc(calc(100% - 55px) - 30px);
+  height: calc(100%-85px);
   position: fixed;
   overflow: auto; }
   #messages-tab-menu .list-group {
@@ -65,7 +65,7 @@ section#content {
       -ms-flex-align: start;
           align-items: flex-start;
   margin: 15px;
-  height: calc(calc(100% - 55px) - 30px); }
+  height: calc(100% - 85px); }
   #messages-tab-content #messages-list {
     bottom: 80px;
     border: 2px solid #e1e8ed;
@@ -82,8 +82,14 @@ section#content {
     clear: both;
     width: 100%;
     padding: 15px 30px; }
-    #messages-tab-content ul div.user_from .col-md-11, #messages-tab-content ul div.user_to .col-md-11 {
+    #messages-tab-content ul div.user_from .col-md-9, #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-9, #messages-tab-content ul div.user_to .col-md-2.timestamp {
       margin-top: 6px; }
+    #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-2.timestamp {
+      padding: 0;
+      white-space: nowrap;
+      color: #858585;
+      text-align: right;
+      float: right; }
   #messages-tab-content ul span {
     font-weight: bold; }
   #messages-tab-content ul img {
