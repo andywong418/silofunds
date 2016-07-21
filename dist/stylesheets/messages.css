@@ -77,18 +77,23 @@ section#content {
     background: #b6cdde; }
   #messages-tab-content ul li {
     list-style: none; }
+  #messages-tab-content ul div:first-child {
+    margin-top: 10px; }
   #messages-tab-content ul div.col-md-12.date-of-message {
     text-align: center;
     color: #858585;
     font-weight: bold;
     text-transform: capitalize;
     width: 50%;
-    height: 10px;
+    height: 25px;
     border-bottom: 1px solid #858585;
     text-align: center;
     margin-left: 25%;
+    margin-bottom: 15px;
     top: -5px; }
     #messages-tab-content ul div.col-md-12.date-of-message span.date-of-message {
+      position: relative;
+      top: 15px;
       font-size: 15px;
       padding: 10px 10px;
       background-color: #b6cdde; }
@@ -96,7 +101,7 @@ section#content {
     float: left;
     clear: both;
     width: 100%;
-    padding: 15px 30px; }
+    padding: 10px 30px; }
     #messages-tab-content ul div.user_from .col-md-9, #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-9, #messages-tab-content ul div.user_to .col-md-2.timestamp {
       margin-top: 6px; }
     #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-2.timestamp {
@@ -104,7 +109,8 @@ section#content {
       white-space: nowrap;
       color: #858585;
       text-align: right;
-      float: right; }
+      float: right;
+      margin-top: 15px; }
   #messages-tab-content ul span {
     font-weight: bold; }
   #messages-tab-content ul img {

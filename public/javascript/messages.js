@@ -75,18 +75,11 @@ $(document).ready(function() {
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
 
-
-
     var dateNow = new Date();
     var dateYesterday = new Date();
     dateYesterday.setDate(dateNow.getDate() - 1);
-    console.log("dateNow");
-    console.log(dateNow);
-    console.log("dateYesterday");
-    console.log(dateYesterday);
-
-
     var appendTodayToFirstMessage = 0;
+    var appendYesterdayToFirstMessage = 0;
 
     for (var i=0; i < arr_of_messages.length; i++) {
       message = arr_of_messages[i];
@@ -94,34 +87,40 @@ $(document).ready(function() {
 
       var dateOfMessage = retrieveDate(message.created_at);
       var messageSentToday = dateOfMessage === dateNow.toDateString();
-
-
+      var messageSentYesterday = dateOfMessage === dateYesterday.toDateString();
 
       if (messageSentToday && appendTodayToFirstMessage === 0) {
-        console.log('message was sent today');
-        console.log(message.message);
-
+        // Case when messages are sent today and requires 'Today' helper text
         if (message.user_from === user.id) {
-          $('#messages').append('<div class="date-of-message col-md-12"><span class="date-of-message">Today</span></div>');
-          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+          appendDateHelper('Today');
+          appendMessageFrom(data.userFrom, message);
         } else {
-          $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + data.userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + data.userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+          appendDateHelper('Today');
+          appendMessageTo(data.userTo, message);
         }
 
         appendTodayToFirstMessage++;
-      } else {
+      } else if (messageSentYesterday && appendYesterdayToFirstMessage === 0) {
+        // Case when messages are sent yesterday and requires 'Yesterday' helper text
+
         if (message.user_from === user.id) {
-          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+          appendDateHelper('Yesterday');
+          appendMessageFrom(data.userFrom, message);
         } else {
-          $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + data.userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + data.userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+          appendDateHelper('Yesterday');
+          appendMessageTo(data.userTo, message);
+        }
+
+        appendYesterdayToFirstMessage++;
+      } else {
+        // Normal case with no date helpers appended
+
+        if (message.user_from === user.id) {
+          appendMessageFrom(data.userFrom, message);
+        } else {
+          appendMessageTo(data.userTo, message);
         }
       }
-
-
-
-
-
-
     }
 
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
@@ -131,10 +130,16 @@ $(document).ready(function() {
 
 });
 
-function checkDate() {
-  dateNow = new Date();
+function appendDateHelper(helperString) {
+  $('#messages').append('<div class="date-of-message col-md-12"><span class="date-of-message">' + helperString + '</span></div>');
+}
 
+function appendMessageTo(userTo, message) {
+  $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+}
 
+function appendMessageFrom(userFrom, message) {
+  $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
 }
 
 function retrieveDate(date) {

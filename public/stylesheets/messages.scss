@@ -94,19 +94,26 @@ section#content {
       list-style: none;
     }
 
+    div:first-child {
+      margin-top: 10px;
+    }
+
     div.col-md-12.date-of-message {
       text-align: center;
       color: $timestamp-color;
       font-weight: bold;
       text-transform: capitalize;
       width: 50%;
-      height: 10px;
+      height: 25px;
       border-bottom: 1px solid $timestamp-color;
       text-align: center;
       margin-left: 25%;
+      margin-bottom: 15px;
       top: -5px;
 
       span.date-of-message {
+        position: relative;
+        top: 15px;
         font-size: 15px;
         padding: 10px 10px;
         background-color: rgba(182, 205, 222, 1);
@@ -117,7 +124,7 @@ section#content {
       float: left;
       clear: both;
       width: 100%;
-      padding: 15px 30px;
+      padding: 10px 30px;
 
       .col-md-9, .col-md-2.timestamp {
         margin-top: 6px;
@@ -129,6 +136,7 @@ section#content {
         color: rgb(133, 133, 133);
         text-align: right;
         float: right;
+        margin-top: 15px;
       }
     }
 
