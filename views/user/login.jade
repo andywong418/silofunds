@@ -3,10 +3,10 @@ block extraHeader
   link(rel="stylesheet", href="/stylesheets/user/login.css")
   
 block content
-  .col-md-4.col-md-offset-4
-    #img_div
-      img#brand-image(src="/images/silo no background.gif")
   .container
+    .col-md-4.col-md-offset-4
+      #img_div
+        img#brand-image(src="/images/silo no background.gif")
     .row
       .col-md-6.col-md-offset-3
         if logoutMsg
@@ -30,3 +30,7 @@ block content
             center
               h4 OR
             input.btn.btn-lg.btn-facebook.btn-block(type='submit', value='Login via facebook')
+    #sign-in
+      h2 Already have an account?
+      a(href='/user/register')
+        p.lead Register now
