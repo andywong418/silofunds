@@ -6,8 +6,9 @@ module.exports = {
       users = users.map(function(user) {
         return user.get();
       });
-
-      res.render('messages', { allUsers: users, user: req.user });
+      models.users.findById(req.user.id).then(function(user){
+        res.render('messages', { allUsers: users, user: user });
+      })
     });
   }
 };
