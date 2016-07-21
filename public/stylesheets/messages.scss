@@ -1,6 +1,7 @@
 $border-color: #e1e8ed;
 $body-height: calc(100% - 55px);
 $input-form-height: 50px;
+$timestamp-color: rgb(133, 133, 133);
 
 * {
   margin: 0;
@@ -86,11 +87,30 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - #{$input-form-height});
-    background: rgba(182, 205, 222, 0.68);
+    background: rgba(182, 205, 222, 1);
   }
   ul {
     li{
       list-style: none;
+    }
+
+    div.col-md-12.date-of-message {
+      text-align: center;
+      color: $timestamp-color;
+      font-weight: bold;
+      text-transform: capitalize;
+      width: 50%;
+      height: 10px;
+      border-bottom: 1px solid $timestamp-color;
+      text-align: center;
+      margin-left: 25%;
+      top: -5px;
+
+      span.date-of-message {
+        font-size: 15px;
+        padding: 10px 10px;
+        background-color: rgba(182, 205, 222, 1);
+      }
     }
 
     div.user_from, div.user_to {

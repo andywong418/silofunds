@@ -74,9 +74,24 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - 50px);
-    background: rgba(182, 205, 222, 0.68); }
+    background: #b6cdde; }
   #messages-tab-content ul li {
     list-style: none; }
+  #messages-tab-content ul div.col-md-12.date-of-message {
+    text-align: center;
+    color: #858585;
+    font-weight: bold;
+    text-transform: capitalize;
+    width: 50%;
+    height: 10px;
+    border-bottom: 1px solid #858585;
+    text-align: center;
+    margin-left: 25%;
+    top: -5px; }
+    #messages-tab-content ul div.col-md-12.date-of-message span.date-of-message {
+      font-size: 15px;
+      padding: 10px 10px;
+      background-color: #b6cdde; }
   #messages-tab-content ul div.user_from, #messages-tab-content ul div.user_to {
     float: left;
     clear: both;
