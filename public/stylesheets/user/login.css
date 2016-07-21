@@ -47,6 +47,10 @@ img {
   width: 70%;
 }
 
-#register{
+#register {
   text-align: center;
+}
+
+#register a p {
+  font-size: 25px;
 }
