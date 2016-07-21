@@ -20,6 +20,52 @@ section#content {
   height: $body-height;
 }
 
+#messages-tab-menu {
+  width: calc(30% - 30px);
+  padding: 0;
+  margin: 15px;
+  margin-right: 0px;
+  border-radius: 0;
+  height: calc(#{$body-height} - 30px);
+  position: fixed;
+  overflow: auto;
+
+  .list-group {
+    margin: 0;
+
+    .list-group-item {
+      padding-top: 20px;
+      padding-bottom: 20px;
+
+      h5 {
+        display: inline;
+        margin-top: 1px;
+      }
+
+      span {
+        float: right;
+        margin-top: 1px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      border: 2px solid $border-color;
+      border-right: 0;
+
+    }
+
+    .list-group-item:first-child {
+      border-top-right-radius: 0px;
+    }
+
+    .list-group-item:last-child {
+      border-bottom-right-radius: 0px;
+    }
+  }
+}
+
 #messages-tab-content {
   padding: 0px;
   width: 70%;
@@ -35,7 +81,6 @@ section#content {
   #messages-list {
     bottom: 80px;
     border: 2px solid $border-color;
-    border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     display: block;
     width: 100%;
@@ -68,13 +113,12 @@ section#content {
       display: block;
       width: 40px;
       height: 40px;
-      border: 2px solid grey;
       border-radius: 50%;
       background: no-repeat center center;
       padding: 0;
-      // box-shadow:
-      //   inset 1px 1px 4px rgba(0,0,0,0.5),
-      //   0 2px 3px rgba(0,0,0,0.6);
+      box-shadow:
+        inset 1px 1px 4px rgba(0,0,0,0.5),
+        0 2px 3px rgba(0,0,0,0.6);
     }
   }
 
@@ -83,7 +127,6 @@ section#content {
     height: $input-form-height;
     border: 2px solid $border-color;
     border-top: 0;
-    border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 
     form#msg {

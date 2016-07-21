@@ -3,8 +3,7 @@ $(document).ready(function() {
   var socket = io();
   socket.emit('add user', { userFrom: user });
 
-  $(".list-group-item:nth-child(2)").addClass("active");
-
+  $(".list-group-item:nth-child(3)").addClass("active");
 
   //////////////////////////
   var userToID = $('.list-group-item.active').attr("id").split("-")[1];
@@ -42,6 +41,10 @@ $(document).ready(function() {
     }
     socket.emit('get messages', { userFrom: user, userToID: userToID, userFromID: userFromID, roomName: roomName, readyToReceiveFrom: readyToReceiveFrom });
 
+    console.log($("#messages-list")[0].scrollHeight);
+
+    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+
     console.log("Getting messages from room name: " + roomName);
   });
 
@@ -70,7 +73,9 @@ $(document).ready(function() {
     console.log(data);
     console.log("Sender name:");
     console.log(data.userFrom.username);
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
+    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+
+    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
   socket.on('bulk get message', function(data) {
@@ -82,12 +87,13 @@ $(document).ready(function() {
       var userToUsername = $('.list-group-item.active h5').html();
 
       if (message.user_from === user.id) {
-        console.log(data.userFrom.profile_picture);
         $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + message.message + '</li></div></div><br>');
       } else {
         $('#messages').append('<div class="user_to"><span class="user_to">' + userToUsername + ':</span><li>' + message.message + '</li></div><br>');
       }
     }
+
+    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
   /* -------------- */
