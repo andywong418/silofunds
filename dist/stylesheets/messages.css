@@ -65,6 +65,7 @@ section#content {
   #messages-tab-content #messages-list {
     bottom: 80px;
     border: 2px solid #e1e8ed;
+    padding-bottom: 20px;
     border-top-right-radius: 3px;
     display: block;
     width: 100%;
@@ -98,8 +99,6 @@ section#content {
     clear: both;
     width: 100%;
     padding: 10px 30px; }
-    #messages-tab-content ul div.user_from .col-md-9, #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-9, #messages-tab-content ul div.user_to .col-md-2.timestamp {
-      margin-top: 6px; }
     #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-2.timestamp {
       padding: 0;
       white-space: nowrap;
@@ -108,7 +107,13 @@ section#content {
       float: right;
       margin-top: 15px; }
   #messages-tab-content ul span {
-    font-weight: bold; }
+    font-weight: bold;
+    font-family: 'Helvetica Neue';
+    font-weight: bolder;
+    font-size: 15px; }
+  #messages-tab-content ul li {
+    margin-top: 5px;
+    font-size: 15px; }
   #messages-tab-content ul .read_col {
     padding-top: 0 !important;
     top: -5px; }
