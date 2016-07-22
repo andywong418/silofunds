@@ -15,8 +15,12 @@ module.exports = function(passport) {
   passport.serializeUser(function(user, done){
      done(null, user);
   });
-  passport.deserializeUser(function(obj, done){
-    done(null, obj);
+  passport.deserializeUser(function(obj, done) {
+    // Do this step to update req.user if user has just been updated
+    models.users.findById(obj.id).then(function(user) {
+      user = user.get();
+      done(null, user);
+    });
   });
 
 

@@ -20,7 +20,6 @@ homeGET: function(req, res){
   var id = req.user.id;
   models.users.findById(id).then(function(user){
     var organisation_id = user.get().organisation_or_user;
-
     models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
       funds = funds.map(function(fund) {
         var json = fund.get();
