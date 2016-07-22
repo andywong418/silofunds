@@ -121,12 +121,15 @@ $(document).ready(function() {
       }
     }
 
-    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+
     var readCounter = 0;
     var readMessage = data.bulk_messages[data.bulk_messages.length -1];
+    console.log(readMessage);
     if(readMessage.read_by_recipient && readMessage.user_from == user.id){
+      console.log("READ");
       $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
     }
+    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
   /* -------------- */
