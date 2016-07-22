@@ -20,7 +20,7 @@ html
               h3.panel-title
                 | Register for silo
             .panel-body
-              form(accept-charset='UTF-8', name='register', id='register', role='form', action="/user/register", method='post')
+              form(accept-charset='UTF-8', name='register', id='register', role='form', action="/register", method='post')
                 // If a user show this
                 .row#user
                   .col-xs-6.col-sm-6.col-md-6
@@ -51,5 +51,5 @@ html
 
       .col-md-6.col-md-offset-3#signin
         h2 Already have an account?
-        a(href='/user/login')
+        a(href='/login')
           p.lead Sign in

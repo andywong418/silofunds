@@ -189,7 +189,7 @@ changeEmailSettings: function(req, res) {
   logoutGET: function(req, res) {
     req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
-    res.redirect('/user/login')
+    res.redirect('/login')
   }
 
 }
