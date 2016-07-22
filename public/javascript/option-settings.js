@@ -11,6 +11,22 @@ $(document).ready(function() {
   });
 
   // TODO: ABSTRACT BELOW BITCHHHH
+  var text;
+  try {
+
+    // text editor init
+    tinymce.init({
+      selector: '#description',
+      fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+      plugins: "link",
+      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
+    }).then(function(editors){
+      console.log(tinymce.activeEditor.getContent({format: 'text'}));
+    });
+  } catch(e) {
+    console.log("tinymce not defined!");
+  }
+  console.log(text);
 
   if(fund.gender !== null) {
     $("#" + fund.gender).prop("checked", true);
@@ -35,9 +51,11 @@ $(document).ready(function() {
   ///////////
   //submit form data
   $('#save-general-info').click(function(){
+    console.log(tinymce.activeEditor.getContent({format: 'text'}));
+    var description =tinymce.activeEditor.getContent();
     var formData = {
       "title": $('#title').val(),
-      "description": $('#description').val(),
+      "description": description,
       "number_of_places": $('#number_of_places').val(),
       "minimum_amount": $('#minimum_amount').val(),
       "maximum_amount": $('#maximum_amount').val(),

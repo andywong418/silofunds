@@ -48,6 +48,8 @@ h1 {
           flex-direction: column;
   height: auto;
   margin-top: 4%; }
+  #left_div p {
+    margin: 0; }
 
 #fundImage {
   width: 100%;
@@ -114,6 +116,7 @@ h1 {
 
 #message {
   margin-top: 30px;
+  margin-bottom: 30px;
   width: 60%;
   background: rgba(0, 153, 153, 0.8);
   color: white;

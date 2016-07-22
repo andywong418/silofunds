@@ -52,7 +52,8 @@ $(document).ready(function(){
       var view = new GeneralView({model: generalModel});
       this.$el.append(view.render().el);
       $('.selected').removeClass('selected');
-      $('#general').addClass('selected')
+      $('#general').addClass('selected');
+      this.$('[data-toggle="tooltip"]').tooltip();
       if(this.model.get('id')){
         console.log(this.model.get('id'));
         var id = this.model.get('id');

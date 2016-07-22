@@ -46,7 +46,7 @@ block content
               .col-md-12
                 label.col-md-3(for='description') Short bio
                 .col-md-6
-                  textarea#description.form-control(form='', name='description', rows="5")= fund.description
+                  textarea#description.form-control(form='', name='description', rows="5") #{fund.description}
             .col-md-12.sub-content
               h4 Important Details
               .col-md-12
@@ -202,6 +202,7 @@ block content
             #save-application-notification Your changes have been saved
 block scripts
   script(src="/javascript/option-settings.js")
+  script(src='https://cdn.tinymce.com/4/tinymce.min.js')
   script.
     var fund = !{JSON.stringify(fund)}
     var countries = !{JSON.stringify(countries)}

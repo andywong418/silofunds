@@ -31,7 +31,7 @@ block content
           textarea#bio-area.form-control(form='save-general', name='description')
         div.container.description.form-group
           p.amount-offer Amount offered
-            span.glyphicon.glyphicon-info-sign
+            span.glyphicon.glyphicon-info-sign(data-toggle="tooltip", title="This should be the total amount offered, having considered duration of the " + support_type)
         div.container.amount.form-group
           .col-md-3
             input#min-amount.form-control(placeholder='Minimum amount', form='save-general', name='minimum_amount')
@@ -46,7 +46,7 @@ block content
             input.form-control#place(form='save-general/',name='number_of_places')
         div.container.description
           p#tags-description Tags (separate each tag by a comma and no space)
-            span.glyphicon.glyphicon-info-sign
+            span.glyphicon.glyphicon-info-sign(data-toggle ="tooltip", title="Tags should be miscellaneous information that you consider to be important in describing the fund")
         div.container.tags
           input#tags.form-control(form='save-general', name='tags')
         div.container.next.description
