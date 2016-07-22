@@ -137,15 +137,15 @@ block content
 							a.cd-close-form(href='#0') Close
 							//
 						// cd-login
-				.col-md-8.col-md-offset-2
+				.col-md-10.col-md-offset-1
 					!= messages('messages', locals)
 					h1.brand-heading
 					p.intro-text The search for funding shouldn't be draining.
 					p.intro-text-2 Fund your goals
 						span#emphasis	now.
 					form#search-form.search_form(action='/results', method='get', name='search_form')
-						input#text_search(type='text', name='tags', placeholder='Subject, University, Degree level')
-						input#amount_req(type='number', name='amount', placeholder='Amount required')
+						input#text_search(type='text', name='tags', placeholder='Subject, Target University, Target Degree level')
+						input#amount_req(type='number', name='amount', placeholder='£ Amount required')
 						input#age(type='number', name='age', placeholder='Age')
 						button#search_button.btn.btn-danger(type='submit') Search
 	// About Section
