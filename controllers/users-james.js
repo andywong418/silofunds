@@ -42,7 +42,6 @@ module.exports = {
   },
 
   registerSplitterGET: function(req, res) {
-    console.log(req.user)
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
       pzpt.ensureAuthenticated(req, res);

@@ -3,6 +3,7 @@ var home = require('../controllers/home');
 var users = require('../controllers/users-james');
 var passport = require('passport');
 var signup = require('../controllers/signup');
+require('../controllers/passport-james/strategies')(passport);
 var router = express.Router();
 
 router.get('/', home.index);
@@ -31,7 +32,7 @@ router.get('/register', users.registerGET)
 // Authenticate registerPOST request
 router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {
   successRedirect: '/registerSplit',
-  failureRedirect: '/register',
+  failureRedirect: '/register'
 }))
 // Register splitter
 router.get('/registerSplit', users.registerSplitterGET)
