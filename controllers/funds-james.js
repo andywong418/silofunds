@@ -353,14 +353,15 @@ homeGET: function(req, res){
       if('charity_number' in body){
         models.users.findById(id).then(function(user){
           user.update(body).then(function(user){
-            models.funds.findById(user.organisation_or_user).then(function(fund){
+            models.organisations.findById(user.organisation_or_user).then(function(fund){
               fund.update({charity_number: body.charity_number}).then(function(newfund){
                 for (var attrname in newfund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                     user["dataValues"][attrname] = newfund[attrname];
                   }
                 }
-                res.render('fund-settings', {user: user, general: general_settings});
+                // res.render('fund-settings', {user: user, general: general_settings});
+                res.redirect('/fund/settings')
               })
             })
           })
@@ -368,7 +369,7 @@ homeGET: function(req, res){
       } else {
         models.users.findById(id).then(function(user){
           user.update(body).then(function(newUser){
-            models.funds.findById(user.organisation_or_user).then(function(fund){
+            models.organisations.findById(user.organisation_or_user).then(function(fund){
                 if('username' in body){
                   fund.update({title: newUser.username}).then(function(newFund){
                     for (var attrname in newFund['dataValues']){
@@ -400,7 +401,7 @@ homeGET: function(req, res){
         console.log("What's going on");
         models.users.findById(id).then(function(user){
           user.update({description: body.description}).then(function(user){
-            models.funds.findById(user.organisation_or_user).then(function(fund){
+            models.organisations.findById(user.organisation_or_user).then(function(fund){
             for (var attrname in fund['dataValues']){
               if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
                 user["dataValues"][attrname] = fund[attrname];
@@ -423,7 +424,7 @@ homeGET: function(req, res){
         body.religion = religion;
         models.users.findById(id).then(function(user){
           user.update({religion: body.religion}).then(function(user){
-            models.funds.findById(user.organisation_or_user).then(function(fund){
+            models.organisations.findById(user.organisation_or_user).then(function(fund){
               fund.update(body.religion).then(function(fund){
                 for (var attrname in fund['dataValues']){
                   if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -452,7 +453,7 @@ homeGET: function(req, res){
         }
 
         models.users.findById(id).then(function(user){
-          models.funds.findById(user.organisation_or_user).then(function(fund){
+          models.organisations.findById(user.organisation_or_user).then(function(fund){
             fund.update(body).then(function(fund){
               for (var attrname in fund['dataValues']){
                 if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
