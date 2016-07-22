@@ -70,7 +70,7 @@ module.exports = {
   },
 
   funds: function(req, res) {
-    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+    models.funds.findAll({ order: 'title ASC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
       res.render('admin/funds', { funds: funds });
     });
