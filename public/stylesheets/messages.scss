@@ -27,7 +27,9 @@ section#content {
   margin: 15px;
   margin-right: 0px;
   border-radius: 0;
-  height: calc(100%-85px);
+  border:2px solid #e1e8ed;
+  border-right: none;
+  height: calc(100% - 85px);
   position: fixed;
   overflow: auto;
 
@@ -37,17 +39,26 @@ section#content {
     .list-group-item {
       padding-top: 20px;
       padding-bottom: 20px;
-
       h5 {
         display: inline;
         margin-top: 1px;
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
       }
 
       span {
         float: right;
         margin-top: 1px;
       }
-
+      img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: no-repeat center center;
+        padding: 0;
+        box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6);
+        margin-right: 10px;
+      }
       &:hover {
         cursor: pointer;
       }
@@ -88,7 +99,7 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - #{$input-form-height});
-    background: rgba(182, 205, 222, 1);
+    background: #e9f0f4;
   }
   ul {
     li{
@@ -117,7 +128,7 @@ section#content {
         top: 15px;
         font-size: 15px;
         padding: 10px 10px;
-        background-color: rgba(182, 205, 222, 1);
+        background-color: #e9f0f4;
       }
     }
 
@@ -126,7 +137,7 @@ section#content {
       clear: both;
       width: 100%;
       padding: 10px 30px;
-
+      margin-top: 10px;
       .col-md-9, .col-md-2.timestamp {
       }
 
@@ -137,6 +148,10 @@ section#content {
         text-align: right;
         float: right;
         margin-top: 15px;
+      }
+      a{
+        color: black;
+        cursor: pointer;
       }
     }
 
@@ -193,12 +208,16 @@ section#content {
       }
       button {
         width: 20%;
-        background: rgb(130, 224, 255);
+        background: linear-gradient(to left, #457fca , #5691c8);
+        font-size: 15px;
         border: none;
         border-radius: 3px;
-        padding: 10px;
+        padding: 8px;
         float: right;
         margin-top: 1px;
+        color: white;
+        font-family: 'Helvetica Neue';
+
       }
       .col-md-12 {
         padding: 5px 25px;

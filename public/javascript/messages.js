@@ -207,10 +207,10 @@ function appendDateHelper(helperString) {
 function appendMessageTo(userTo, userFrom, message) {
   if(userTo.id == user.id){
     //Fixing reverse get message bug
-    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + '<a href="/users/' + userFrom.id + '">' + userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
   else{
-    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + '<a href="/users/' + userTo.id + '">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
 
 }
@@ -218,10 +218,10 @@ function appendMessageTo(userTo, userFrom, message) {
 function appendMessageFrom(userTo, userFrom, message) {
   if(userFrom.id != user.id){
     // Fixing the reverse get message bug
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + userTo.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/users/'+ userTo.id + '">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
   else{
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + userFrom.username + ':</span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/users/' + userFrom.id + '">' +  userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
 
 }

@@ -17,6 +17,7 @@ block content
       .list-group
         each user in allUsers
           a.list-group-item(id="user-" + user.id)
+            img(src=user.profile_picture)
             h5= user.username
             span.glyphicon.glyphicon-menu-right
     #messages-tab-content.col-md-9.container-fluid

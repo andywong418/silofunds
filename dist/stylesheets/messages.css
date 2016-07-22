@@ -19,7 +19,9 @@ section#content {
   margin: 15px;
   margin-right: 0px;
   border-radius: 0;
-  height: calc(100%-85px);
+  border: 2px solid #e1e8ed;
+  border-right: none;
+  height: calc(100% - 85px);
   position: fixed;
   overflow: auto; }
   #messages-tab-menu .list-group {
@@ -31,10 +33,20 @@ section#content {
       border-right: 0; }
       #messages-tab-menu .list-group .list-group-item h5 {
         display: inline;
-        margin-top: 1px; }
+        margin-top: 1px;
+        font-family: 'Helvetica Neue';
+        font-weight: 500; }
       #messages-tab-menu .list-group .list-group-item span {
         float: right;
         margin-top: 1px; }
+      #messages-tab-menu .list-group .list-group-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: no-repeat center center;
+        padding: 0;
+        box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6);
+        margin-right: 10px; }
       #messages-tab-menu .list-group .list-group-item:hover {
         cursor: pointer; }
     #messages-tab-menu .list-group .list-group-item:first-child {
@@ -71,7 +83,7 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - 50px);
-    background: #b6cdde; }
+    background: #e9f0f4; }
   #messages-tab-content ul li {
     list-style: none; }
   #messages-tab-content ul div:first-child {
@@ -93,12 +105,13 @@ section#content {
       top: 15px;
       font-size: 15px;
       padding: 10px 10px;
-      background-color: #b6cdde; }
+      background-color: #e9f0f4; }
   #messages-tab-content ul div.user_from, #messages-tab-content ul div.user_to {
     float: left;
     clear: both;
     width: 100%;
-    padding: 10px 30px; }
+    padding: 10px 30px;
+    margin-top: 10px; }
     #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-2.timestamp {
       padding: 0;
       white-space: nowrap;
@@ -106,6 +119,9 @@ section#content {
       text-align: right;
       float: right;
       margin-top: 15px; }
+    #messages-tab-content ul div.user_from a, #messages-tab-content ul div.user_to a {
+      color: black;
+      cursor: pointer; }
   #messages-tab-content ul span {
     font-weight: bold;
     font-family: 'Helvetica Neue';
@@ -144,11 +160,15 @@ section#content {
       width: 79%; }
     #messages-tab-content #input-form form#msg button {
       width: 20%;
-      background: #82e0ff;
+      background: -webkit-linear-gradient(right, #457fca, #5691c8);
+      background: linear-gradient(to left, #457fca, #5691c8);
+      font-size: 15px;
       border: none;
       border-radius: 3px;
-      padding: 10px;
+      padding: 8px;
       float: right;
-      margin-top: 1px; }
+      margin-top: 1px;
+      color: white;
+      font-family: 'Helvetica Neue'; }
     #messages-tab-content #input-form form#msg .col-md-12 {
       padding: 5px 25px; }
