@@ -188,6 +188,18 @@ block content
           .row
             tr
               .col-md-12.form-group
+                label(for='other_application_steps')
+                  a#other_application_steps(href='#') Other Application Steps
+                textarea#other_application_steps.form-control.hide-this-shit(rows='5', name='other_application_steps')
+          .row
+            tr
+              .col-md-12.form-group
+                label(for='other_eligibility')
+                  a#other_eligibility(href='#') Other Eligibility Requirements
+                textarea#other_eligibility.form-control.hide-this-shit(rows='5', name='other_eligibility')
+          .row
+            tr
+              .col-md-12.form-group
                 button.btn.btn-primary(type='submit') Create fund!
 
     // jQuery (necessary for Bootstrap's JavaScript plugins)

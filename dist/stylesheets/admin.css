@@ -19,3 +19,6 @@ a.back-to-top {
 
 .hide-this-shit {
   display: none; }
+
+textarea {
+  resize: none; }
