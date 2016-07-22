@@ -12,18 +12,18 @@ var router = express.Router();
 // Login and register
 
 //Login
+
 router.get('/login', users.loginGET)
 // Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
 router.post('/login', passport.authenticate('loginStrategy', {
   successRedirect: '/user/loginSplit',
   failureRedirect: '/user/login'
 }))
-// Facebook auth strategy
-router.get('/auth/facebook', passport.authenticate('facebook'));
-router.get('auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/user/create',
-  failureRedirect: 'user/login'
-}))
+// // Facebook auth strategy
+// router.get('/auth/facebook', passport.authenticate('facebook', {
+//     successRedirect: '/user/create',
+//     failureRedirect: 'user/login'
+// }))
 
 // Login splitter (sending to fund or user home)
 router.get('/loginSplit', users.loginSplitterGET)

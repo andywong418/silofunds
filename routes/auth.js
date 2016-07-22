@@ -11,4 +11,15 @@ router.get('/facebook/callback', passport.authenticate('facebook'), function(req
   res.render('login');
 });
 
+// Facebook auth strategy
+router.get('/facebook', function(req, res) {
+	res.send('helldsoa')
+})
+// router.get('/facebook', passport.authenticate('facebook', {
+//     successRedirect: '/user/create',
+//     failureRedirect: '/user/login'
+// }))
+
+
+
 module.exports = router;

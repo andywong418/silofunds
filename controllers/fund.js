@@ -369,7 +369,7 @@ module.exports = {
   },
   newOptionProfile: function(req, res){
     console.log("Got innnnnn");
-    var userId = req.params.id;
+    var userId = req.user.id;
     var fundId = req.params.fund_id;
     var session = req.session;
     console.log(session);

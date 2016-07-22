@@ -23,14 +23,19 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 var previousPage;
 module.exports = {
   subscribe: function(req, res, next){
-    var username = req.body.username;
-    var email = req.body.useremail;
+    var username = "";
+		if(req.body.fundName !== "") {
+			username = req.body.fundName
+		} else {
+			username = req.body.firstName + req.body.lastName
+		}
+    var email = req.body.email;
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
 		console.log("PREVIOUS", previousPage);
-    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
+    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.email}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
         LNAME: lastName
