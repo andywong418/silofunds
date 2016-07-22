@@ -48,7 +48,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
       console.log("Clients in rooms:");
       console.log(rooms);
 
-      io.sockets.in(data.roomName).emit('private message', data);
+
 
       var user_to_arr = [];
       user_to_arr.push(data.userToID);
@@ -57,6 +57,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
       if (users[data.userToID]) {
         if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
           read_by_recipient = true;
+          data.read_by_recipient = true;
         }
       }
 
@@ -67,6 +68,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         room_name: data.roomName,
         read_by_recipient: read_by_recipient
       });
+      io.sockets.in(data.roomName).emit('private message', data);
     });
 
     socket.on('add user', function(data) {

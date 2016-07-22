@@ -66,8 +66,19 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+    var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
+    if(data.userToID == userActiveID || data.userFromID == userActiveID){
+        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+    }
 
+    console.log(data);
+    if(data.read_by_recipient && data.userFromID == user.id){
+      console.log("READ");
+      $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+    }
+    else{
+      $('.read_col').remove();
+    }
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
@@ -79,57 +90,63 @@ $(document).ready(function() {
     dateYesterday.setDate(dateNow.getDate() - 1);
     var appendTodayToFirstMessage = 0;
     var appendYesterdayToFirstMessage = 0;
+    var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
+    if(data.userToID == userActiveID || data.userFromID == userActiveID){
+      for (var i=0; i < arr_of_messages.length; i++) {
+        message = arr_of_messages[i];
+        var userToUsername = $('.list-group-item.active h5').html();
 
-    for (var i=0; i < arr_of_messages.length; i++) {
-      message = arr_of_messages[i];
-      var userToUsername = $('.list-group-item.active h5').html();
+        var dateOfMessage = retrieveDate(message.created_at);
+        var messageSentToday = dateOfMessage === dateNow.toDateString();
+        var messageSentYesterday = dateOfMessage === dateYesterday.toDateString();
 
-      var dateOfMessage = retrieveDate(message.created_at);
-      var messageSentToday = dateOfMessage === dateNow.toDateString();
-      var messageSentYesterday = dateOfMessage === dateYesterday.toDateString();
+        if (messageSentToday && appendTodayToFirstMessage === 0) {
+          // Case when messages are sent today and requires 'Today' helper text
+          if (message.user_from === user.id) {
+            appendDateHelper('Today');
+            appendMessageFrom(data.userTo, data.userFrom, message);
+          } else {
+            appendDateHelper('Today');
+            appendMessageTo(data.userTo,data.userFrom, message);
+          }
 
-      if (messageSentToday && appendTodayToFirstMessage === 0) {
-        // Case when messages are sent today and requires 'Today' helper text
-        if (message.user_from === user.id) {
-          appendDateHelper('Today');
-          appendMessageFrom(data.userTo, data.userFrom, message);
+          appendTodayToFirstMessage++;
+        } else if (messageSentYesterday && appendYesterdayToFirstMessage === 0) {
+          // Case when messages are sent yesterday and requires 'Yesterday' helper text
+          if (message.user_from === user.id) {
+            appendDateHelper('Yesterday');
+            appendMessageFrom(data.userTo, data.userFrom, message);
+          } else {
+            appendDateHelper('Yesterday');
+            appendMessageTo(data.userTo, data.userFrom, message);
+          }
+
+          appendYesterdayToFirstMessage++;
         } else {
-          appendDateHelper('Today');
-          appendMessageTo(data.userTo,data.userFrom, message);
-        }
+          // Normal case with no date helpers appended
 
-        appendTodayToFirstMessage++;
-      } else if (messageSentYesterday && appendYesterdayToFirstMessage === 0) {
-        // Case when messages are sent yesterday and requires 'Yesterday' helper text
-        if (message.user_from === user.id) {
-          appendDateHelper('Yesterday');
-          appendMessageFrom(data.userTo, data.userFrom, message);
-        } else {
-          appendDateHelper('Yesterday');
-          appendMessageTo(data.userTo, data.userFrom, message);
-        }
-
-        appendYesterdayToFirstMessage++;
-      } else {
-        // Normal case with no date helpers appended
-
-        if (message.user_from === user.id) {
-          appendMessageFrom(data.userTo, data.userFrom, message);
-        } else {
-          appendMessageTo(data.userTo,data.userFrom, message);
+          if (message.user_from === user.id) {
+            appendMessageFrom(data.userTo, data.userFrom, message);
+          } else {
+            appendMessageTo(data.userTo,data.userFrom, message);
+          }
         }
       }
-    }
 
 
-    var readCounter = 0;
-    var readMessage = data.bulk_messages[data.bulk_messages.length -1];
-    console.log(readMessage);
-    if(readMessage.read_by_recipient && readMessage.user_from == user.id){
-      console.log("READ");
-      $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+      var readCounter = 0;
+      var readMessage = data.bulk_messages[data.bulk_messages.length -1];
+      console.log(readMessage);
+      if(readMessage.read_by_recipient && readMessage.user_from == user.id){
+        console.log("READ");
+        $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+      }
+      else{
+        $('.read_col').remove();
+      }
+      $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
     }
-    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+
   });
 
   /* -------------- */
