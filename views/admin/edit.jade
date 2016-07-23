@@ -58,6 +58,9 @@ block content
               .col-md-12.form-group
                 label(for='description') Description
                 textarea#description.form-control(rows='5', name='description')= fund.description
+                .chars_left_wrapper
+                  span Characters left: 
+                  span#chars_left
           .row
             tr
               .col-md-12.form-group

@@ -81,13 +81,17 @@ $(function() {
 
   try {
 
+    var max_chars = 650; //max characters
+    var max_for_html = 300; //max characters for html tags
+    var allowed_keys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+    var chars_without_html = 0;
+
     // text editor init
-    tinymce.init({
-      selector: '#description',
-      fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
-      plugins: "link",
-      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
-    });
+    tinymce.init(tinymceInitOptions());
+
+    chars_without_html = $.trim($("#description_edit").text().replace(/(<([^>]+)>)/ig, "")).length;
+    $('#chars_left').html(max_chars - chars_without_html);
+    alarmChars();
 
   } catch(e) {
     console.log("tinymce not defined!");
@@ -137,5 +141,67 @@ $(function() {
     }
   } catch (e) {
     console.log("Caught the error.");
+  }
+
+  function alarmChars() {
+    if (chars_without_html > (max_chars - 25)) {
+      $('#chars_left').css('color', 'red');
+    } else {
+      $('#chars_left').css('color', 'gray');
+    }
+  }
+
+  function getStats(id) {
+      var body = tinymce.get(id).getBody(), text = tinymce.trim(body.innerText || body.textContent);
+
+      return {
+          chars: text.length,
+          words: text.split(/[\w\u2019\'-]+/).length
+      };
+  }
+
+  function tinymceInitOptions() {
+    var options = {
+      selector: '#description',
+      fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+      plugins: [
+        "advlist autolink link lists charmap print preview hr anchor pagebreak",
+        "searchreplace visualblocks visualchars code insertdatetime media nonbreaking",
+        "save table contextmenu directionality paste textcolor"
+      ],
+      theme: "modern",
+      height: 130,
+      language: 'en',
+      // menubar: false,
+      // statusbar: false,
+      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | insert | bullist numlist | charmap",
+      setup: function (ed) {
+        ed.on("KeyDown", function (ed, evt) {
+          chars_without_html = $.trim(tinyMCE.activeEditor.getContent({format: 'text'})).length;
+          chars_with_html = tinyMCE.activeEditor.getContent().length;
+          var key = ed.keyCode;
+
+          $('#chars_left').html(max_chars - chars_without_html);
+
+          if (allowed_keys.indexOf(key) != -1) {
+            alarmChars();
+            return;
+          }
+
+          if (chars_with_html > (max_chars + max_for_html)) {
+            ed.stopPropagation();
+            ed.preventDefault();
+          } else if (chars_without_html > max_chars - 1 && key != 8 && key != 46) {
+            alert('Characters limit!');
+            ed.stopPropagation();
+            ed.preventDefault();
+          }
+
+          alarmChars();
+        });
+      },
+    };
+
+    return options;
   }
 });
