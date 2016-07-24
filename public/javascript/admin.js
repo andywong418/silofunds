@@ -167,14 +167,25 @@ $(function() {
       plugins: [
         "advlist autolink link lists charmap print preview hr anchor pagebreak",
         "searchreplace visualblocks visualchars code insertdatetime media nonbreaking",
-        "save table contextmenu directionality textcolor"
+        "save table contextmenu directionality paste textcolor"
       ],
       theme: "modern",
       height: 130,
       language: 'en',
+      init_instance_callback : function(ed) {
+        ed.pasteAsPlainText = false;
+
+        //adding handlers crossbrowser
+        if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
+          ed.onKeyDown.add(function (ed, e) {
+            if (((tinymce.isMac ? e.metaKey : e.ctrlKey) && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45))
+              ed.pasteAsPlainText = false;
+          });
+        }
+      },
       // menubar: false,
       // statusbar: false,
-      toolbar: "undo redo | styleselect | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | insert | bullist numlist | charmap",
+      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | insert | bullist numlist | charmap",
       setup: function (ed) {
         ed.on("KeyDown", function (ed, evt) {
           chars_without_html = $.trim(tinyMCE.activeEditor.getContent({format: 'text'})).length;
