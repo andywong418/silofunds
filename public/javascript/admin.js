@@ -104,8 +104,7 @@ $(function() {
 
     var $link = $(this);
     var url = $link.attr("href");
-    var posting = $.post({
-      url: url,
+    var posting = $.post(url, {
       timeout: 30000
     });
 
