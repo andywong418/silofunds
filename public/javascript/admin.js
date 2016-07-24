@@ -21,7 +21,7 @@ $(function() {
   $("label a").click(function(e) {
     $('input#' + e.target.id).toggleClass('hide-this-shit');
     $('textarea#' + e.target.id).toggleClass('hide-this-shit');
-    
+
     return false;
   });
 
@@ -167,14 +167,14 @@ $(function() {
       plugins: [
         "advlist autolink link lists charmap print preview hr anchor pagebreak",
         "searchreplace visualblocks visualchars code insertdatetime media nonbreaking",
-        "save table contextmenu directionality paste textcolor"
+        "save table contextmenu directionality textcolor"
       ],
       theme: "modern",
       height: 130,
       language: 'en',
       // menubar: false,
       // statusbar: false,
-      toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | insert | bullist numlist | charmap",
+      toolbar: "undo redo | styleselect | fontselect | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | insert | bullist numlist | charmap",
       setup: function (ed) {
         ed.on("KeyDown", function (ed, evt) {
           chars_without_html = $.trim(tinyMCE.activeEditor.getContent({format: 'text'})).length;
