@@ -197,6 +197,10 @@ block content
                 label.col-md-3(for='other_application_steps') Any other parts of the application process not listed above
                 .col-md-6
                   textarea#other_application_steps.form-control(form='', name='other_application_steps', rows='5')= fund.other_application_steps
+              .col-md-12
+                label.col-md-3(for='tips') Tips/guides for potential applicants
+                .col-md-6
+                  textarea#tips.form-control(form='', name='other_application_steps', rows='5')=fund.tips
           .col-md-12.footer
             button#save-application-process.btn.btn-primary(type='submit') Save changes
             #save-application-notification Your changes have been saved

@@ -97,9 +97,7 @@
 .create:hover {
   background-color: white;
   -webkit-transition: 0.5s;
-  transition: 0.5s; }
-
-.create a:hover {
+  transition: 0.5s;
   color: #5c6d7e;
   text-decoration: none; }
 

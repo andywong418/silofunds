@@ -125,7 +125,8 @@ $(document).ready(function() {
       'application_decision_date':$('input[name=application_decision_date]').val(),
       'application_link': $('input[name=application_link]').val(),
       'application_documents': applicationDocuments,
-      'other_application_steps': $('textarea#other_application_steps').val()
+      'other_application_steps': $('textarea#other_application_steps').val(),
+      'tips': $('textarea#tips').val()
     }
     $.post('/funds/options/' + fund.id + '/edit', formData, function(data){
       console.log(data);

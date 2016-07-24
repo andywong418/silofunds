@@ -860,9 +860,40 @@ $(document).ready(function(){
         }
     }
   })
+  var TipsModel = Backbone.Model.extend({
+    url: '/funds/options/' + fund.id + '/tips'
+  });
+  var TipsView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'tips-handler',
+    template: _.template($('#tips-template').html()),
+    initialize: function(){
+      console.log("HELLO");
+      _.bindAll(this, "render");
+      this.model.fetch({
+        success: this.render
+      })
+    },
+    render: function() {
+      console.log(this.model);
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    }
+
+  })
+  var TipsDisplay = Backbone.View.extend({
+    el: '#application-handler',
+    initialize: function(){
+      console.log("GETTING IN HERE");
+      var tipsModel = new TipsModel();
+      var view = new TipsView({model: tipsModel});
+      console.log(view.el);
+      this.$el.append(view.el);
+    }
+  })
 
   var eligibilityDisplay = new EligibilityDisplay();
   var applicationFormDisplay = new ApplicationDisplay();
-
+  var TipsDisplay = new TipsDisplay();
 }
 )
