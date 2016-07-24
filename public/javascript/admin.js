@@ -104,7 +104,10 @@ $(function() {
 
     var $link = $(this);
     var url = $link.attr("href");
-    var posting = $.post(url);
+    var posting = $.post({
+      url: url,
+      timeout: 30000
+    });
 
     posting.done(function(array_of_obj) {
       var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(array_of_obj));
@@ -116,6 +119,8 @@ $(function() {
       container.appendChild(a);
 
       console.log('Finished AJAX.');
+    }).fail(function() {
+      alert( "error" );
     });
   });
 
