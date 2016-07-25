@@ -23,13 +23,17 @@ $(document).ready(function(){
 		el: 'body',
 		initialize: function(){
 			console.log(user);
-			var myDate = user.date_of_birth.split("-");
-			var yearFix= myDate[2].split("T");
-			var day = yearFix[0];
-			var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-			var birthDate = new Date(newDate).getTime();
-			var nowDate = new Date().getTime();
-			var age = Math.floor((nowDate - birthDate) / 31536000000 );
+			var age;
+			if(user.date_of_birth){
+				var myDate = user.date_of_birth.split("-");
+				var yearFix= myDate[2].split("T");
+				var day = yearFix[0];
+				var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+				var birthDate = new Date(newDate).getTime();
+				var nowDate = new Date().getTime();
+			  age = Math.floor((nowDate - birthDate) / 31536000000 );
+			}
+
 			var user_model = new UserModel({
 				name: user.username,
 				age: age,

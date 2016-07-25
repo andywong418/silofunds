@@ -22,10 +22,140 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
   var server = http.createServer(app);
 
+  /* Socket IO Messaging Component */
+
+  var io = require('socket.io')(server);
+  var users = {};
+
+  io.on('connection', function(socket){
+    console.log('a user connected');
+
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
+
+    socket.on('private message', function(data) {
+      console.log("USERS");
+      console.log(users);
+
+      console.log(data);
+      if (users[data.userToID]) {
+        users[data.userToID].socket.join(data.roomName);
+      }
+      users[data.userFromID].socket.join(data.roomName);
+
+      var rooms = io.sockets.adapter.rooms;
+      console.log("Clients in rooms:");
+      console.log(rooms);
+
+
+
+      var user_to_arr = [];
+      user_to_arr.push(data.userToID);
+      var read_by_recipient = false;
+
+      if (users[data.userToID]) {
+        if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
+          read_by_recipient = true;
+          data.read_by_recipient = true;
+        }
+      }
+
+      models.messages.create({
+        user_from: data.userFromID,
+        user_to: user_to_arr,
+        message: data.msg,
+        room_name: data.roomName,
+        read_by_recipient: read_by_recipient
+      });
+      io.sockets.in(data.roomName).emit('private message', data);
+    });
+
+    socket.on('add user', function(data) {
+      users[data.userFrom.id] = { "socket" : socket };
+      console.log("A new user has been added. Here is the users object:");
+      console.log(users);
+    });
+
+    socket.on('room join', function(data) {
+
+    });
+
+    socket.on('get messages', function(data) {
+      var userToID_arr = [];
+      userToID_arr.push(data.userToID);
+      var userFromID_arr = [];
+      userFromID_arr.push(data.userFromID);
+
+      // NOTE: readyToReceiveFrom also means it has read latest message
+      models.users.findById(data.userToID).then(function(userTo) {
+        userTo = userTo.get();
+
+        data.userTo = userTo;
+
+        models.messages.findAll({ where: {
+          room_name: data.roomName,
+          user_to: userFromID_arr
+        }}).then(function(messages) {
+          if (typeof messages !== 'undefined' && messages.length > 0) {
+            // the array is defined and has at least one element
+
+            messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
+              models.messages.findAll({ where: {
+                room_name: data.roomName
+              }}).then(function(messages) {
+                messages = messages.map(function(message) {
+                  return message.get();
+                });
+
+                console.log('Retrieved messages:');
+                console.log(messages);
+
+                if (users[data.userToID]) {
+                  users[data.userToID].socket.join(data.roomName);
+                }
+                users[data.userFromID].socket.join(data.roomName);
+                users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+                console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+                data.bulk_messages = messages;
+
+                io.sockets.in(data.roomName).emit('bulk get message', data);
+              });
+            });
+          } else {
+            models.messages.findAll({ where: {
+              room_name: data.roomName
+            }}).then(function(messages) {
+              messages = messages.map(function(message) {
+                return message.get();
+              });
+
+              console.log('Retrieved messages:');
+              console.log(messages);
+
+              if (users[data.userToID]) {
+                users[data.userToID].socket.join(data.roomName);
+              }
+              users[data.userFromID].socket.join(data.roomName);
+              users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+              console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+              data.bulk_messages = messages;
+
+              io.sockets.in(data.roomName).emit('bulk get message', data);
+            });
+          }
+        });
+      });
+    });
+  });
+
+  /* ---------------------------- */
+
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
-
   models.es.ping({
     requestTimeout: 30000,
 
