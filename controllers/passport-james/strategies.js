@@ -3,6 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt');
 var passport = require('passport')
+var configAuth = require('../../config/auth')
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 
@@ -105,31 +106,31 @@ passport.use('registrationStrategy', new LocalStrategy({
     }));
 
 
-    // Facebook Strategy
-    passport.use('facebook', new FacebookStrategy({
-    clientID: '156828604723835',
-    clientSecret: 'd1227d0c48d83f0d8a81449f60eb035f',
-    callbackURL: "https://localhost:3001/auth/facebook/callback",
-    profileFields : ['id', 'displayName', 'email']
-  }, function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function() {
-      console.log(profile);
-      console.log("im being called mate")
-      models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
-        if(user) {
-          return done(null, user); // user found, return that user
-        } else {
-          models.users.create({
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            token: accessToken
-          }).then(function(newUser) {
-            return done(null, newUser);
-          });
-        }
-      });
+  // Facebook Strategy
+  passport.use('facebook', new FacebookStrategy({
+  clientID: configAuth.facebookAuth.clientID,
+  clientSecret: configAuth.facebookAuth.clientSecret,
+  callbackURL: configAuth.facebookAuth.callbackURL,
+  profileFields : ['id', 'displayName', 'email']
+}, function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function() {
+    models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
+      if(user) {
+        return done(null, user); // user found, return that user
+      } else {
+        models.users.create({
+          username: profile.displayName,
+          email: profile.emails[0].value,
+          token: accessToken
+        }).then(function(newUser) {
+          return done(null, newUser);
+        });
+      }
     });
-  }));
+  });
+}));
+
+
 
 
 }

@@ -11,11 +11,10 @@ router.post('/subscribe', home.subscribe);
 
 
 // Facebook auth strategy
-router.get('/auth/facebook', passport.authenticate('facebook', {
-    successRedirect: '/user/create',
-    failureRedirect: '/login'
-}))
-
+router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
 
 // Login and register
 // Login
