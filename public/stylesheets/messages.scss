@@ -1,0 +1,227 @@
+$border-color: #e1e8ed;
+$body-height: calc(100% - 55px);
+$input-form-height: 50px;
+$timestamp-color: rgb(133, 133, 133);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 12px 'PT Sans';
+  overflow-y: hidden;
+  height: 100%;
+  position: absolute;
+}
+
+section#content {
+  margin-top: 55px;
+  height: $body-height;
+}
+
+#messages-tab-menu {
+  width: calc(30% - 30px);
+  padding: 0;
+  margin: 15px;
+  margin-right: 0px;
+  border-radius: 0;
+  border:2px solid #e1e8ed;
+  border-right: none;
+  height: calc(100% - 85px);
+  position: fixed;
+  overflow: auto;
+
+  .list-group {
+    margin: 0;
+
+    .list-group-item {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      h5 {
+        display: inline;
+        margin-top: 1px;
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+      }
+
+      span {
+        float: right;
+        margin-top: 1px;
+      }
+      img{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: no-repeat center center;
+        padding: 0;
+        box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6);
+        margin-right: 10px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+
+      border: 2px solid $border-color;
+      border-right: 0;
+
+    }
+
+    .list-group-item:first-child {
+      border-top-right-radius: 0px;
+    }
+
+    .list-group-item:last-child {
+      border-bottom-right-radius: 0px;
+    }
+  }
+}
+
+#messages-tab-content {
+  padding: 0px;
+  width: 70%;
+  right: 0px;
+  position: fixed;
+  display: flex;//
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;//
+  margin: 15px;
+  height: calc(100% - 85px);
+
+  #messages-list {
+    bottom: 80px;
+    border: 2px solid $border-color;
+    padding-bottom:20px;
+    border-top-right-radius: 3px;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    height: calc(100% - #{$input-form-height});
+    background: #e9f0f4;
+  }
+  ul {
+    li{
+      list-style: none;
+    }
+
+    div:first-child {
+      margin-top: 10px;
+    }
+
+    div.col-md-12.date-of-message {
+      text-align: center;
+      color: $timestamp-color;
+      font-weight: bold;
+      text-transform: capitalize;
+      width: 50%;
+      height: 25px;
+      border-bottom: 1px solid $timestamp-color;
+      text-align: center;
+      margin-left: 25%;
+      margin-bottom: 15px;
+      top: -5px;
+
+      span.date-of-message {
+        position: relative;
+        top: 15px;
+        font-size: 15px;
+        padding: 10px 10px;
+        background-color: #e9f0f4;
+      }
+    }
+
+    div.user_from, div.user_to {
+      float: left;
+      clear: both;
+      width: 100%;
+      padding: 10px 30px;
+      margin-top: 10px;
+      .col-md-9, .col-md-2.timestamp {
+      }
+
+      .col-md-2.timestamp {
+        padding: 0;
+        white-space: nowrap;
+        color: rgb(133, 133, 133);
+        text-align: right;
+        float: right;
+        margin-top: 15px;
+      }
+      a{
+        color: black;
+        cursor: pointer;
+      }
+    }
+
+    span {
+      font-weight: bold;
+      font-family: 'Helvetica Neue';
+      font-weight: bolder;
+      font-size: 15px
+    }
+    li{
+      margin-top: 5px;
+      font-size: 15px;
+    }
+    .read_col{
+      padding-top: 0 !important;
+      top: -5px;
+      .read{
+        margin-bottom: 0;
+        color: $timestamp-color;
+        font-size: 13px;
+        i{
+          color: $timestamp-color;
+        }
+      }
+    }
+
+
+    img {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: no-repeat center center;
+      padding: 0;
+      box-shadow:
+        inset 1px 1px 4px rgba(0,0,0,0.5),
+        0 2px 3px rgba(0,0,0,0.6);
+    }
+  }
+
+  #input-form {
+    width: 100%;
+    height: $input-form-height;
+    border: 2px solid $border-color;
+    border-top: 0;
+    border-bottom-right-radius: 3px;
+
+    form#msg {
+      input {
+        border: 1px solid $border-color;
+        border-radius: 3px;
+        padding: 10px;
+        width: 79%;
+      }
+      button {
+        width: 20%;
+        background: linear-gradient(to left, #457fca , #5691c8);
+        font-size: 15px;
+        border: none;
+        border-radius: 3px;
+        padding: 8px;
+        float: right;
+        margin-top: 1px;
+        color: white;
+        font-family: 'Helvetica Neue';
+
+      }
+      .col-md-12 {
+        padding: 5px 25px;
+      }
+    }
+  }
+}
