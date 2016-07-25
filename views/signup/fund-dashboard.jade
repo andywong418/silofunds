@@ -1,0 +1,78 @@
+extends layout-signup
+
+block extraHeader
+	link(href='/stylesheets/fund-dashboard.css', rel='stylesheet')
+block content
+		script.
+			var bodyEl = document.getElementsByTagName('body');
+			var user = !{JSON.stringify(user)};
+			console.log(user);
+			if(user){
+				bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+			}
+		include ../navbar.jade
+		include ../advanced-search.jade
+		section#fund-dashboard.container.content-section.text-center
+			.row
+				.col-md-12
+					h2#name Welcome to your dashboard
+			#info-row.row
+				.col-md-9
+					p#listings-header 
+						span Your list of funding opportunities
+						span.badge= funds.length
+				#create-new-fund.col-md-3
+					a.btn.btn-primary(href='/funds/funding_creation/' + user.id) Create fund
+			.row
+				.col-md-12
+					table.table.table-responsive#header
+						thead
+							tr
+								th.col-md-1 Type
+								th.col-md-4 Title
+								th.col-md-1 Age
+								th.col-md-2 Amount
+								th.col-md-1 Deadline
+								th.col-md-1 Created at
+								th.col-md-1 Updated at
+								th.col-md-1 &nbsp
+			each fund in funds
+				.row#funding-card
+					.col-md-1#support_type
+						span.label(id='#{fund.support_type}')= fund.support_type
+					.col-md-4
+						a(href='/funds/options/' + fund.id)
+							span= fund.title
+					.col-md-1
+						if (fund.minimum_age && fund.maximum_age)
+							span #{fund.minimum_age} - #{fund.maximum_age}
+						else if (fund.minimum_age)
+							span #{fund.minimum_age} +
+						else if (fund.maximum_age)
+							span < #{fund.maximum_age}
+					.col-md-2
+						if (fund.minimum_amount && fund.maximum_amount)
+							span £#{fund.minimum_amount} - £#{fund.maximum_amount}
+						else if (fund.minimum_amount)
+							span £#{fund.minimum_amount} +
+						else if (fund.maximum_amount)
+							span < £#{fund.maximum_amount}
+					.col-md-1
+						span= fund.deadline
+					.col-md-1
+						span= fund.created_at
+					.col-md-1
+						span= fund.updated_at
+					.col-md-1#edit
+						a(href='/funds/options/' + fund.id + '/edit') Edit
+block scripts
+	script(src='/javascript/advanced-search.js')
+	script(src='/javascript/signup-login.js')
+	// Google Analytics
+	script.
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-74497958-1', 'auto');
+		ga('send', 'pageview');

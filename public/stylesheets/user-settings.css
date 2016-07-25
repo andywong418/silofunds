@@ -99,7 +99,7 @@ margin-right: 10px;
 	background: #457fca; /* fallback for old browsers */
 background: -webkit-linear-gradient(to left, #457fca , #5691c8); /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to left, #457fca , #5691c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-border: 2px #446CB3 solid;
+border: 1px #446CB3 solid;
 color: white;
 padding: 7px 10px;
 text-align: center;

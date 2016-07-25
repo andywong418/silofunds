@@ -14,7 +14,6 @@ html {
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 35px;
-  text-transform: uppercase;
   font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight: 700;
   letter-spacing: 1px; }
@@ -30,24 +29,6 @@ p {
     font-size: 20px;
     line-height: 1.6; } }
 
-.btn {
-  border-radius: 6px;
-  text-transform: uppercase;
-  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight: 400;
-  -webkit-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out; }
-
-.btn-default {
-  border: 1px solid #42dca3;
-  color: #42dca3;
-  background-color: transparent; }
-  .btn-default:hover {
-    border: 1px solid #42dca3;
-    outline: 0;
-    color: #000;
-    background-color: #42dca3; }
-
 .navbar-custom {
   position: fixed;
   margin-bottom: 0;
@@ -57,6 +38,9 @@ p {
   background-color: #2d4a76;
   font-size: 13.5px;
   height: 55px; }
+  .navbar-custom #container {
+    padding-top: 5px;
+    height: inherit; }
   .navbar-custom a {
     color: #fff; }
   .navbar-custom .navbar-brand {
@@ -98,17 +82,8 @@ p {
   position: absolute;
   z-index: 10; }
 
-@media (min-width: 768px) {
-  .navbar-custom {
-    padding: 20px 0;
-    border-bottom: 0;
-    letter-spacing: 1px;
-    background: 0 0;
-    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
-    transition: background .5s ease-in-out,padding .5s ease-in-out; }
-    .navbar-custom.top-nav-collapse {
-      padding: 0;
-      background: #2d4a76; } }
+.fa-cog {
+  color: white; }
 
 .navbar-custom .nav li a {
   cursor: pointer;
@@ -714,27 +689,6 @@ margin-right: -40px;
   margin-top: -15px;
   position: relative;
   cursor: pointer; }
-
-@media (min-width: 768px) {
-  .navbar-custom {
-    background-color: #2d4a76;
-    padding: 0;
-    border-bottom: 0;
-    letter-spacing: 1px;
-    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
-    transition: background .5s ease-in-out,padding .5s ease-in-out;
-    padding: 0;
-    background: #2d4a76; }
-  .search_form {
-    font-family: "Montserrat";
-    color: black;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    display: inline-block;
-    float: left; }
-  #container {
-    margin-top: 5px; } }
 
 i {
   color: white; }

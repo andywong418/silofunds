@@ -216,7 +216,7 @@ $(document).ready(function(){
         $('.pre-signin').css("display", "none");
         $('.post-signin').css("display","inline");
         $('.post-signin').css("z-index", "11");
-        if(loggedInUser.fund_or_user){
+        if(loggedInUser.organisation_or_user){
           $("#home").attr("href", '/funds/' + loggedInUser.id );
           $(".settings").attr("href", '/funds/settings/' +loggedInUser.id);
           $(".logout").attr("href", '/funds/logout');

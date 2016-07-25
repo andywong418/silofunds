@@ -3,22 +3,26 @@ $(document).ready(function(){
   var atUserResults = pathname === "/results/users";
   var atFundingResults = pathname === "/results";
 
-  // for retaining advs form fields
-  for( var key in query) {
-    // make sure that the key you get is an actual property of an object, and doesn't come from the prototype
-    if (query.hasOwnProperty(key)) {
-      if (atFundingResults) {
-        if(key == 'merit_or_finance') {
-          $('#' + query[key]).attr("checked", "true");
-        } else if (key == 'gender') {
-          $('#' + query[key]).attr("checked", "true");
-        } else {
-          $("input#advanced_" + key).val(query[key]);
+  try {
+    // for retaining advs form fields
+    for( var key in query) {
+      // make sure that the key you get is an actual property of an object, and doesn't come from the prototype
+      if (query.hasOwnProperty(key)) {
+        if (atFundingResults) {
+          if(key == 'merit_or_finance') {
+            $('#' + query[key]).attr("checked", "true");
+          } else if (key == 'gender') {
+            $('#' + query[key]).attr("checked", "true");
+          } else {
+            $("input#advanced_" + key).val(query[key]);
+          }
+        } else if (atUserResults) {
+          $("input#advanced_user_" + key).val(query[key]);
         }
-      } else if (atUserResults) {
-        $("input#advanced_user_" + key).val(query[key]);
       }
     }
+  } catch (e) {
+    // query obj doesn't exist
   }
 
   function split( val ) {

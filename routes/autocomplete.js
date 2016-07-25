@@ -33,6 +33,39 @@ router.get('/', function(req,res) {
   });
 });
 
+router.get('/countries', function(req,res) {
+  var query = req.query.q.split(" ");
+  query = query[query.length - 1];
+
+  models.es.suggest({
+    index: "signup_fields",
+    body: {
+      suggest: {
+        text: query,
+        completion: {
+          "field": "suggest"
+        }
+      }
+    }
+  }).then(function(resp) {
+    var arrOfResults = resp.suggest[0].options;
+    var arrOfObj = [];
+
+    for (var i=0; i < arrOfResults.length; i++) {
+      var wrapper = {};
+
+      wrapper["id"] = arrOfResults[i].payload.country_id.toString();
+      wrapper["name"] = arrOfResults[i].text;
+      arrOfObj.push(wrapper);
+    }
+
+    res.send(arrOfObj);
+  }, function(err) {
+    console.trace(err.message);
+    res.send({ response: err.message });
+  });
+});
+
 router.get('/users', function(req, res){
   console.log(req.query);
 

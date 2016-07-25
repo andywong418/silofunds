@@ -1,0 +1,114 @@
+/* New search bar */
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+$scholarship-color: #3399FF;
+$bursary-color: #00da8d;
+$grant-color: #7068FF;
+$prize-color: #FFC300;
+
+/*customised code*/
+#brand-image{
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
+body {
+  background-color: #e9f0f4;
+}
+
+#fund-dashboard {
+  padding-top: 100px;
+  margin: auto;
+
+  * {
+    font-family: 'Source Sans Pro';
+  }
+
+  #info-row {
+    margin-bottom: 20px;
+
+    p#listings-header {
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 0px;
+      font-size: 18px;
+      color: #66757f;
+
+      span{
+        border-bottom: 1px solid #66757f;
+      }
+
+      .badge {
+        margin-left: 5px;
+        background-color: rgba(#2d4a77, 0.75);
+      }
+    }
+  }
+
+
+
+  #create-new-fund.col-md-3 {
+    text-align: right;
+    a{
+      width: 200px;
+      height: 45px;
+      padding: 10px 0px;
+      font-size: 16px;
+    }
+  }
+
+  .row#funding-card {
+    display: block;
+    background-color: white;
+    border-radius: 3px;
+    margin: 15px 0px;
+    padding: 20px 0px;
+    text-align: left;
+
+    #edit {
+      text-align: center;
+    }
+
+    div {
+      padding: 0px 15px;
+    }
+
+    // Labels
+    div#support_type {
+      text-align: center;
+    }
+
+    #scholarship {
+      background-color: $scholarship-color;
+    }
+
+    #grant {
+      background-color: $grant-color;
+    }
+
+    #bursary {
+      background-color: $bursary-color;
+    }
+
+    #prize {
+      background-color: $prize-color;
+    }
+    // end:labels
+  }
+}
+
+table#header {
+  margin-bottom: -15px;
+
+  th {
+    border: none;
+    padding-left: 15px;
+    padding-right: 0px;
+    color: #8E9FB1;
+    white-space: nowrap;
+  }
+}

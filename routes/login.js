@@ -6,6 +6,18 @@ var router = express.Router();
 var models = require('../models');
 var async = require('async');
 require('../controllers/passport')(passport);
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear().toString();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = dd + "/" + mm + "/" + yyyy.slice(-2);
+  return reformattedDate;
+}
 
 router.post('/', passport.authenticate('local-login', {
 	failureRedirect: '/login/error'
@@ -18,25 +30,31 @@ router.post('/', passport.authenticate('local-login', {
 
 	var id = req.user.dataValues.id;
 	models.users.findById(id).then(function(user){
-		if(user.fund_or_user){
-      models.funds.findById(user.fund_or_user).then(function(fund){
-        for (var attrname in fund['dataValues']){
-          if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
+		user = user.get();
 
-            user["dataValues"][attrname] = fund[attrname];
+		if(user.organisation_or_user){
+      models.organisations.findById(user.organisation_or_user).then(function(organisation){
+				organisation = organisation.get();
 
+        for (var attrname in organisation){
+					console.log('lollololol');
+          if(attrname != "id" && attrname != "created_at" && attrname != "updated_at"){
+            user[attrname] = organisation[attrname];
+						console.log("HAHAHA");
           }
         }
-        var fields= [];
-        models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
-            models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
-            user["dataValues"]["categories"] = categories;
-            res.render('signup/fund-profile', {user: user, newUser: true});
-           })
+				models.funds.findAll({where: {organisation_id: organisation.id}}).then(function(funds){
+					funds = funds.map(function(fund) {
+						var json = fund.get();
+						json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+						json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+						json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
 
-
-        })
-      })
+						return json;
+					});
+					res.render('signup/fund-dashboard', {user: user, funds: funds, newUser: false});
+				})
+      });
 		} else{
         if(req.session.redirect_user){
           res.redirect(previousPage);

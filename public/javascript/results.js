@@ -1,5 +1,16 @@
 $(document).ready(function() {
-
+//queryOptions for search
+if(typeof query != 'undefined' && query){
+  for(var field in query){
+    $('.' + field).attr('value', query[field]);
+    if(field == 'merit_or_finance'){
+        $('#' + query[field]).attr("checked", "true");
+    }
+    if(field == 'gender'){
+      $('#' + query[field]).attr("checked", "true");
+    }
+  }
+}
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
 
@@ -266,7 +277,7 @@ allShown = false;
       })
     },
     addApplication: function(){
-      if(user && !user.fund_or_user){
+      if(user && !user.organisation_or_user){
           var fund_id = this.model.get('id');
           parameters = {"fund_id": fund_id};
           $.post('/users/add-application/'+ user.id, parameters, function(data){
@@ -276,10 +287,13 @@ allShown = false;
     },
     profileLink: function(){
       var fundId = this.model.get('id');
+      console.log(fundId);
       var link = this.model.get('link');
-      var fund_user = this.model.get(fund_user);
+      var fund_user = this.model.get('fund_user');
+      console.log(fund_user);
       if (fund_user){
-        this.$("#profile_link" + fundId).attr('href', '/funds/public/' + fundId);
+        console.log("WHAT");
+        this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
       }
       else{
         this.$("#profile_link" + fundId).attr('href',  link)
