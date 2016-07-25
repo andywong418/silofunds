@@ -218,6 +218,7 @@ module.exports = {
           json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
           return json;
         });
+
         res.render('signup/fund-dashboard', { user: user, funds: funds });
       });
     });
@@ -323,6 +324,7 @@ module.exports = {
         res.send(fund);
       })
     })
+
   },
   updateGeneralInfo: function(req, res){
     var id = req.params.fund_id;

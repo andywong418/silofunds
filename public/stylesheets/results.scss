@@ -285,7 +285,18 @@ i {
     color: white;
   }
 }
-
+.contact-div{
+  margin-top: 80px;
+  margin-bottom: 0;
+  display: none;
+  #contact-us{
+    margin-bottom: 0;
+    a{
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+}
 .page-header {
   padding-top: 5px;
 }

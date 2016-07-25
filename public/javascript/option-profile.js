@@ -225,7 +225,9 @@ $(document).ready(function(){
       $('#right_div').css('margin-top', '20px');
     }
   }
-
+  if(fund.description){
+    $('#fundBio').html(fund.description);
+  }
   var subject = fund['subject'];
   var ImageModel = Backbone.Model.extend();
 

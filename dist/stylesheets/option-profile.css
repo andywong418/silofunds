@@ -12,7 +12,6 @@ h1 {
   font-size: 40px;
   margin-left: 2.5%; }
 
-
 .alert {
   display: none;
   height: 40px;
@@ -94,7 +93,6 @@ h1 {
     margin-bottom: 10px; }
   #box_2 #fundBio {
     width: 90%;
-
     font-size: 15px;
     margin-bottom: 10px; }
   #box_2 .info-row {
@@ -125,7 +123,6 @@ h1 {
 
 #message {
   margin-top: 30px;
->>>>>>> 7c73b6610245a817a86588dc9552e52e3d372790
   width: 60%;
   background: rgba(0, 153, 153, 0.8);
   color: white;
@@ -160,7 +157,6 @@ h1 {
   width: 73%;
   float: right;
   margin-right: 3%;
-
   margin-top: 40px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -232,7 +228,6 @@ h1 {
         display: block;
         margin-top: 5px;
         color: #717f8d; }
-
         #box_3_right .eligibility-display .criteria-box .criteria #to, #box_3_right .eligibility-display .criteria-box .criteria #required, #box_3_right .eligibility-display .criteria-box .criteria #for {
           color: #2980b9; }
   #box_3_right .eligibility-display .glyphicon {
@@ -403,7 +398,6 @@ h1 {
   .arrow i {
     font-size: 35px;
     color: #BEC8D3; }
-
 
 #other-application {
   margin-top: 30px;

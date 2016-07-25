@@ -70,7 +70,7 @@ module.exports = {
   },
 
   funds: function(req, res) {
-    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+    models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
       res.render('admin/funds', { funds: funds });
     });
@@ -179,6 +179,8 @@ module.exports = {
     var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
     var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var other_application_steps = fund.other_application_steps ? fund.other_application_steps : null;
+    var other_eligibility = fund.other_eligibility ? fund.other_eligibility : null;
     var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
     var specific_location = fund.specific_location[0] ? lowercaseArray(fund.specific_location.split(",")) : null;
     var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
@@ -216,6 +218,8 @@ module.exports = {
         minimum_amount: min_amount,
         maximum_amount: max_amount,
         number_of_places: number_of_places,
+        other_application_steps: other_application_steps,
+        other_eligibility: other_eligibility,
         description: description,
         country_of_residence: country_of_residence,
         target_country: target_country,
@@ -309,6 +313,8 @@ module.exports = {
     var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
     var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var other_application_steps = fund.other_application_steps ? fund.other_application_steps : null;
+    var other_eligibility = fund.other_eligibility ? fund.other_eligibility : null;
     var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
     var specific_location = fund.specific_location[0] ? lowercaseArray(fund.specific_location.split(",")) : null;
     var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
@@ -345,6 +351,8 @@ module.exports = {
       minimum_amount: min_amount,
       maximum_amount: max_amount,
       number_of_places: number_of_places,
+      other_application_steps: other_application_steps,
+      other_eligibility: other_eligibility,
       description: description,
       country_of_residence: country_of_residence,
       target_country: target_country,

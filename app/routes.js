@@ -6,6 +6,7 @@ var signup = require('../routes/signup');
 var login = require('../routes/login');
 var auth = require('../routes/auth');
 var admin = require('../routes/admin');
+var messages = require('../routes/messages');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
@@ -57,5 +58,6 @@ module.exports.initialize = function (app) {
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
   app.use('/user', user);
-  app.use('/fund', fund)
+  app.use('/fund', fund);
+  app.use('/messages', messages)
 };

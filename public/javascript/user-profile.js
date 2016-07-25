@@ -24,6 +24,7 @@ $(document).ready(function(){
 		initialize: function(){
 			var age;
 			console.log(user);
+			var age;
 			if(user.date_of_birth){
 				var myDate = user.date_of_birth.split("-");
 				var yearFix= myDate[2].split("T");

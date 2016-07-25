@@ -1,5 +1,7 @@
 extends admin-layout
 
+block extraHeader
+  link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
 block content
     .container
       .alert.alert-danger.alert-dismissible.hidden(role='alert')
@@ -23,8 +25,51 @@ block content
                       option(value='') Please select
                       each organisation in organisations
                         option(value=organisation.id)=organisation.name + ' - ' + organisation.charity_id
+              .col-md-3.form-group
+                label(for='support_type') Type of funding offered
+                select#support_type.form-control(name="support_type")
+                  option(value='') Please Select from
+                  option(value='scholarship') Scholarship
+                  option(value='bursary') Bursary
+                  option(value='grant') Grant
+                  option(value='prize') Prize
+              .col-md-3.form-group
+                label Merit or Finance based
+                .row
+                  .col-md-4
+                    label.radio-inline
+                      input#merit(type='radio', name='merit_or_finance', value='merit')
+                      |  Merit
+                  .col-md-4
+                    label.radio-inline
+                      input#finance(type='radio', name='merit_or_finance', value='finance')
+                      |  Finance
+                  .col-md-4
+                    a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
+              .col-md-3.form-group
+                label(for='number_of_places') Number of Places Offered
+                input#number_of_places.form-control(type='number', name='number_of_places')
+              .col-md-3.form-group
+                label(for='duration_of_scholarship') Duration of Scholarship
+                input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', placeholder="eg. '5 months', '2 years'")
           .row
             tr
+              .col-md-12.form-group
+                label(for='description') Description
+                textarea#description.form-control(rows='3', name='description')
+                .chars_left_wrapper
+                  span Characters left: 
+                  span#chars_left
+          .row
+            tr
+              .col-md-12.form-group
+                label(for='financial_situation')
+                  a#financial_situation(href='#') Financial Situation
+                textarea#financial_situation.form-control.hide-this-shit(rows='3', name='financial_situation')
+          .row
+            tr
+              h3 Personal
+              hr
               .col-md-3.form-group
                 label(for='min_age') Minimum Age
                 input#min_age.form-control(type='number', name='min_age')
@@ -39,6 +84,27 @@ block content
                 input#max_amount.form-control(type='number', name='max_amount')
           .row
             tr
+              .col-md-6.form-group
+                label(for='religion')
+                  a#religion(href='#') Religion (separate with comma, no space)
+                input#religion.form-control.hide-this-shit(type='text', name='religion', style="text-transform: lowercase;")
+              .col-md-3.form-group
+                label Gender
+                .row
+                  .col-md-4
+                    label.radio-inline
+                      input#male(type='radio', name='gender', value='male')
+                      |  Male
+                  .col-md-4
+                    label.radio-inline
+                      input#female(type='radio', name='gender', value='female')
+                      |  Female
+                  .col-md-4
+                    a.btn.btn-default.btn-link#clear_gender(href='#', role='button') Clear
+          .row
+            tr
+              h3 Education
+              hr
               .col-md-6.form-group
                 label(for='subject')
                   a#subject(href='#') Subject (separate with comma, no space)
@@ -73,75 +139,49 @@ block content
                 input#required_grade.form-control.hide-this-shit(type='text', name='required_grade', style="text-transform: lowercase;")
           .row
             tr
-              .col-md-3.form-group
-                label Gender
-                .row
-                  .col-md-4
-                    label.radio-inline
-                      input#male(type='radio', name='gender', value='male')
-                      |  Male
-                  .col-md-4
-                    label.radio-inline
-                      input#female(type='radio', name='gender', value='female')
-                      |  Female
-                  .col-md-4
-                    a.btn.btn-default.btn-link#clear_gender(href='#', role='button') Clear
-              .col-md-3.form-group
-                label Merit or Finance based
-                .row
-                  .col-md-4
-                    label.radio-inline
-                      input#merit(type='radio', name='merit_or_finance', value='merit')
-                      |  Merit
-                  .col-md-4
-                    label.radio-inline
-                      input#finance(type='radio', name='merit_or_finance', value='finance')
-                      |  Finance
-                  .col-md-4
-                    a.btn.btn-default.btn-link#clear_merit(href='#', role='button') Clear
-              .col-md-3.form-group
-                label(for='number_of_places') Number of Places Offered
-                input#number_of_places.form-control(type='number', name='number_of_places')
-              .col-md-3.form-group
-                label(for='duration_of_scholarship') Duration of Scholarship
-                input#duration_of_scholarship.form-control(type='text', name='duration_of_scholarship', placeholder="eg. '5 months', '2 years'")
-          .row
-            tr
-              .col-md-12.form-group
-                label(for='description') Description
-                textarea#description.form-control(rows='3', name='description')
-          .row
-            tr
-              .col-md-12.form-group
-                label(for='financial_situation')
-                  a#financial_situation(href='#') Financial Situation
-                textarea#financial_situation.form-control.hide-this-shit(rows='3', name='financial_situation')
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='target_country')
-                  a#target_country(href='#') Target Countries (separate with comma, no space)
-                input#target_country.form-control.hide-this-shit(type='text', name='target_country', style="text-transform: lowercase;")
-              .col-md-6.form-group
-                label(for='country_of_residence')
-                  a#country_of_residence(href='#') Countries of Residence (separate with comma, no space)
-                input#country_of_residence.form-control.hide-this-shit(type='text', name='country_of_residence', style="text-transform: lowercase;")
+              h3 Location
+              hr
+              .col-md-6.form-group#target_country
+                label(for='target_country') Target Countries (separate with comma, no space)
+                input#target_country.form-control(type='text', name='target_country')
+              .col-md-6.form-group#country_of_residence
+                label(for='country_of_residence') Countries of Residence (separate with comma, no space)
+                input#country_of_residence.form-control(type='text', name='country_of_residence')
           .row
             tr
               .col-md-6.form-group
                 label(for='specific_location')
                   a#specific_location(href='#') Specific locations (separate with comma, no space)
                 input#specific_location.form-control.hide-this-shit(type='text', name='specific_location', style="text-transform: lowercase;", placeholder="eg. 'oxfordshire'")
+          .row
+            tr
+              h3 Other
+              hr
+              .col-md-12.form-group
+                label(for='other_eligibility')
+                  a#other_eligibility(href='#') Other Eligibility Requirements
+                textarea#other_eligibility.form-control.hide-this-shit(rows='5', name='other_eligibility')
+          .row
+            tr
+              h3 Application Process
+              hr
               .col-md-6.form-group
-                label(for='email')
-                  a#email(href='#') Email
-                input#email.form-control.hide-this-shit(type='email', name='email')
+                label(for='link') Link
+                input#link.form-control(type='text', name='link')
+              .col-md-6.form-group
+                label(for='application_link') Application Link
+                input#application_link.form-control(type='text', name='application_link')
           .row
             tr
               .col-md-6.form-group
-                label(for='religion')
-                  a#religion(href='#') Religion (separate with comma, no space)
-                input#religion.form-control.hide-this-shit(type='text', name='religion', style="text-transform: lowercase;")
+                label(for='application_documents') Application Documents (separate with comma, no space)
+                input#application_documents.form-control(type='text', name='application_documents', style="text-transform: lowercase;", placeholder="eg. 'resume,cv,thesis,essay,financial proof'")
+              .col-md-3.form-group
+                label(for='email') Email
+                input#email.form-control(type='email', name='email')
+              .col-md-3.form-group
+                label(for='invite') Invite Only?
+                input#invite.form-control(type='checkbox', name='invite')
           .row
             tr
               .col-md-3.form-group
@@ -162,29 +202,10 @@ block content
                 input#interview_date.form-control.hide-this-shit(type='date', name='interview_date')
           .row
             tr
-              .col-md-6.form-group
-                label(for='link') Link
-                input#link.form-control(type='text', name='link')
-              .col-md-6.form-group
-                label(for='application_link') Application Link
-                input#application_link.form-control(type='text', name='application_link')
-          .row
-            tr
-              .col-md-6.form-group
-                label(for='application_documents') Application Documents (separate with comma, no space)
-                input#application_documents.form-control(type='text', name='application_documents', style="text-transform: lowercase;", placeholder="eg. 'resume,cv,thesis,essay,financial proof'")
-              .col-md-3.form-group
-                label(for='support_type') Type of funding offered
-                select#support_type.form-control(name="support_type")
-                  option(value='') Please Select from
-                  option(value='scholarship') Scholarship
-                  option(value='bursary') Bursary
-                  option(value='grant') Grant
-                  option(value='prize') Prize
-              .col-md-3.form-group
-                label(for='invite')
-                  a#invite(href='#') Invite Only?
-                input#invite.form-control.hide-this-shit(type='checkbox', name='invite')
+              .col-md-12.form-group
+                label(for='other_application_steps')
+                  a#other_application_steps(href='#') Other Application Steps
+                textarea#other_application_steps.form-control.hide-this-shit(rows='5', name='other_application_steps')
           .row
             tr
               .col-md-12.form-group
@@ -194,4 +215,5 @@ block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/lib/jquery.tokeninput.js')
     script(src='/javascript/admin.js')
