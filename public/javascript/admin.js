@@ -1,5 +1,9 @@
 $(function() {
   // Back to Top button
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+
   var amountScrolled = 300;
   $(window).scroll(function() {
     if ( $(window).scrollTop() > amountScrolled ) {
@@ -16,6 +20,62 @@ $(function() {
 
   	return false;
   });
+
+  try {
+    try {
+      if (fund.target_country) {
+        var savedTargetCountry = [];
+
+        for (var i = 0; i < fund.target_country.length; i++) {
+          var targetCountryWrapper = {};
+          targetCountryWrapper.id = fund.target_country[i].capitalize();
+          targetCountryWrapper.name = fund.target_country[i].capitalize();
+
+          savedTargetCountry.push(targetCountryWrapper);
+        }
+
+        $('input#target_country').tokenInput('/autocomplete/countries', {
+          "theme": "facebook",
+          "prePopulate": savedTargetCountry
+        });
+      } else {
+        $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
+
+  try {
+    try {
+      if (fund.target_country) {
+        var savedCountryOfRes = [];
+
+        for (var j = 0; j < fund.country_of_residence.length; j++) {
+          var countryOfResWrapper = {};
+          countryOfResWrapper.id = fund.country_of_residence[j].capitalize();
+          countryOfResWrapper.name = fund.country_of_residence[j].capitalize();
+
+          savedCountryOfRes.push(countryOfResWrapper);
+        }
+
+        $('input#country_of_residence').tokenInput('/autocomplete/countries', {
+          "theme": "facebook",
+          "prePopulate": savedCountryOfRes
+        });
+      } else {
+        $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
 
   // Hide and toggle unimportant fields
   $("label a").click(function(e) {

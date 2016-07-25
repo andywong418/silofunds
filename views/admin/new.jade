@@ -1,5 +1,7 @@
 extends admin-layout
 
+block extraHeader
+  link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
 block content
     .container
       .alert.alert-danger.alert-dismissible.hidden(role='alert')
@@ -139,14 +141,12 @@ block content
             tr
               h3 Location
               hr
-              .col-md-6.form-group
-                label(for='target_country')
-                  a#target_country(href='#') Target Countries (separate with comma, no space)
-                input#target_country.form-control.hide-this-shit(type='text', name='target_country', style="text-transform: lowercase;")
-              .col-md-6.form-group
-                label(for='country_of_residence')
-                  a#country_of_residence(href='#') Countries of Residence (separate with comma, no space)
-                input#country_of_residence.form-control.hide-this-shit(type='text', name='country_of_residence', style="text-transform: lowercase;")
+              .col-md-6.form-group#target_country
+                label(for='target_country') Target Countries (separate with comma, no space)
+                input#target_country.form-control(type='text', name='target_country')
+              .col-md-6.form-group#country_of_residence
+                label(for='country_of_residence') Countries of Residence (separate with comma, no space)
+                input#country_of_residence.form-control(type='text', name='country_of_residence')
           .row
             tr
               .col-md-6.form-group
@@ -215,4 +215,5 @@ block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
     // Include all compiled plugins (below), or include individual files as needed
     script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/lib/jquery.tokeninput.js')
     script(src='/javascript/admin.js')
