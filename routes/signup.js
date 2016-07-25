@@ -14,11 +14,12 @@ var params = [
 require('../controllers/passport')(passport);
 var models = require('../models');
 
-router.get('/', function(req, res) {
-  req.flash('danger', 'Please signup from here.');
-  res.redirect('/');
-});
-router.post('/', signup.subscribe, passport.authenticate('local-signup', {
+// router.get('/', function(req, res) {
+//   req.flash('danger', 'Please signup from here.');
+//   res.redirect('/');
+// });
+//REMOVED SIGNUP.SUBSCRIBE FOR TESTING.
+router.post('/', passport.authenticate('local-signup', {
 	failureRedirect: '/login/error'
 }), function(req, res){
     var username = req.body.username;
@@ -74,6 +75,7 @@ router.post('/results', function(req,res){
 	res.redirect('/results');
 });
 router.get('/user/:id', signup.userProfile);
+router.get('/user_signup/:id', signup.getSignupInfo);
 router.post('/user_signup/profile_picture/:id', upload.single('profile_picture'), signup.uploadPicture);
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);
 router.post('/user_signup_complete/:id', signup.uploadInfo);

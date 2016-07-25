@@ -173,15 +173,17 @@ module.exports = {
           hash[fields[i]] = hit._source[fields[i]];
         }
         // Sync id separately, because it is hit._id, NOT hit._source.id
+        console.log("HASH", hash);
         hash.id = hit._id;
         fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
         hash.fund_user = false; // for the user logic later
-
+        console.log(fund_id_list);
         return hash;
       });
 
       models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
+          console.log("YSER",user);
           for (var i=0; i < funds.length; i++) {
             if (funds[i].organisation_id == user.organisation_or_user) {
               funds[i].fund_user = true;

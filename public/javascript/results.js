@@ -227,24 +227,26 @@ if(typeof query != 'undefined' && query){
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
-
-      var splitDescriptionArray = description.split(/<\/.*?>/g);
-      splitDescriptionArray = splitDescriptionArray.filter(function(element){
-        return element.length > 5
-      });
-      var splitNumber = Math.floor((splitDescriptionArray.length)/2);
-      if(splitNumber > 1){
-        var index = description.indexOf(splitDescriptionArray[1]);
-        if(index < 60){
-          index = description.indexOf(splitDescriptionArray[2]);
-          if (index < 60){
-            index = description.indexOf(splitDescriptionArray[3]);
+      if(description){
+        var splitDescriptionArray = description.split(/<\/.*?>/g);
+        splitDescriptionArray = splitDescriptionArray.filter(function(element){
+          return element.length > 5
+        });
+        var splitNumber = Math.floor((splitDescriptionArray.length)/2);
+        if(splitNumber > 1){
+          var index = description.indexOf(splitDescriptionArray[1]);
+          if(index < 60){
+            index = description.indexOf(splitDescriptionArray[2]);
+            if (index < 60){
+              index = description.indexOf(splitDescriptionArray[3]);
+            }
           }
-        }
-        var constant = description.substring(0, index);
-        var readMore = description.substring(index);
-        var finalDescription = constant + "<div id = 'read-more" + id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + id +  "'> Read more </a>";
-        this.$("#" + id).children('.description_control').html(finalDescription);
+          var constant = description.substring(0, index);
+          var readMore = description.substring(index);
+          var finalDescription = constant + "<div id = 'read-more" + id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + id +  "'> Read more </a>";
+          this.$("#" + id).children('.description_control').html(finalDescription);
+      }
+
       }
       else{
         this.$("#" + id).children('.description_control').html(description);
@@ -284,6 +286,7 @@ if(typeof query != 'undefined' && query){
       var fundId = this.model.get('id');
       console.log(fundId);
       var link = this.model.get('link');
+      console.log(this.model);
       var fund_user = this.model.get('fund_user');
       console.log(fund_user);
       if (fund_user){

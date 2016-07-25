@@ -1,0 +1,130 @@
+#search-form, .instruction-pointer, .instruction-pointer-2 {
+  display: none; }
+
+p {
+  font-size: 11px; }
+
+.navbar-custom {
+  position: relative; }
+
+body {
+  background-color: #eff1f3; }
+
+#signup-wrapper {
+  padding-bottom: 50px;
+  padding-top: 30px; }
+  #signup-wrapper p {
+    font-size: 13px; }
+  #signup-wrapper #greeting {
+    width: 60%;
+    margin-left: 20%;
+    font-family: 'Source Sans Pro';
+    color: #34495e; }
+    #signup-wrapper #greeting h3 {
+      text-align: center;
+      font-family: 'Helvetica Neue';
+      margin-bottom: 15px; }
+    #signup-wrapper #greeting h4 {
+      text-align: center;
+      font-family: 'Source Sans Pro';
+      margin-bottom: 15px; }
+  #signup-wrapper #process-flex-container {
+    margin-top: 20px; }
+    #signup-wrapper #process-flex-container .process {
+      font-family: 'Source Sans Pro';
+      font-weight: bold;
+      padding: 15px;
+      margin: 5px;
+      color: #3D3D66;
+      font-size: 16px; }
+      #signup-wrapper #process-flex-container .process span {
+        top: 2px;
+        font-size: 13px; }
+    #signup-wrapper #process-flex-container .active {
+      background-color: rgba(247, 245, 242, 0.6);
+      color: #3656d8;
+      box-shadow: none;
+      -webkit-box-shadow: none; }
+  #signup-wrapper #signup-form {
+    font-size: 13px !important;
+    background-color: white;
+    width: 70%;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    margin-top: 20px; }
+  #signup-wrapper #about-handler #about-form {
+    font-family: 'Source Sans Pro'; }
+    #signup-wrapper #about-handler #about-form .description {
+      font-weight: bold;
+      font-size: 13px;
+      color: #3D3D66;
+      margin-top: 5px; }
+    #signup-wrapper #about-handler #about-form p {
+      margin-bottom: 25px; }
+    #signup-wrapper #about-handler #about-form .row {
+      margin-top: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e8ed;
+      margin-right: 0;
+      margin-left: 0; }
+    #signup-wrapper #about-handler #about-form #picture-row {
+      padding-bottom: 30px;
+      margin-top: 10px; }
+    #signup-wrapper #about-handler #about-form #picture {
+      margin-top: 10px; }
+    #signup-wrapper #about-handler #about-form #profile-picture {
+      border: 2px dashed #4157af;
+      border-radius: 5px;
+      color: #3D3D66;
+      padding: 20px;
+      cursor: pointer;
+      padding-bottom: 10px; }
+      #signup-wrapper #about-handler #about-form #profile-picture span {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #3D3D66; }
+      #signup-wrapper #about-handler #about-form #profile-picture img {
+        width: 150px;
+        height: auto; }
+    #signup-wrapper #about-handler #about-form #religion-row {
+      border-bottom: none; }
+    #signup-wrapper #about-handler #about-form input, #signup-wrapper #about-handler #about-form ul.token-input-list-facebook {
+      border: 2px solid #dad7d4;
+      width: 100%;
+      border-radius: 2px;
+      padding: 3px;
+      height: 30px !important;
+      font-size: 13px; }
+      #signup-wrapper #about-handler #about-form input:active, #signup-wrapper #about-handler #about-form input:focus, #signup-wrapper #about-handler #about-form ul.token-input-list-facebook:active, #signup-wrapper #about-handler #about-form ul.token-input-list-facebook:focus {
+        border: 2px solid #2752ff;
+        outline: none; }
+    #signup-wrapper #about-handler #about-form .save {
+      text-align: right; }
+      #signup-wrapper #about-handler #about-form .save #skip, #signup-wrapper #about-handler #about-form .save #save {
+        float: right;
+        font-family: 'Source Sans Pro';
+        margin: 10px; }
+      #signup-wrapper #about-handler #about-form .save #skip {
+        padding-top: 8px; }
+      #signup-wrapper #about-handler #about-form .save #save {
+        margin-right: 20px;
+        background: #457fca;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #457fca, #5691c8);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(right, #457fca, #5691c8);
+        background: linear-gradient(to left, #457fca, #5691c8);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        border: 1px #446CB3 solid;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px; }
+        #signup-wrapper #about-handler #about-form .save #save a {
+          color: white; }
+        #signup-wrapper #about-handler #about-form .save #save:focus, #signup-wrapper #about-handler #about-form .save #save:active {
+          background-color: #446CB3; }

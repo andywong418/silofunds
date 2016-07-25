@@ -55,7 +55,14 @@ module.exports = {
 			res.redirect('/');
 		}
   },
-
+ getSignupInfo: function(req, res){
+	 console.log("GET IN");
+	 var userId = req.params.id;
+	 models.users.findById(userId).then(function(user){
+		 user = user.get();
+		 res.json(user);
+	 })
+ },
   uploadPicture: function(req,res){
     var userId = req.params.id;
     var idString = req.params.id.toString();
