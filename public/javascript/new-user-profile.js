@@ -9,6 +9,11 @@ $(document).ready(function(){
     }
 
   };
+	$('.process').click(function(){
+		console.log(this);
+		$('.active').removeClass('active');
+		$(this).addClass('active');
+	})
 	var UserModel = Backbone.Model.extend({
 		url: '/signup/user_signup/' + user_setup.id,
 	})
@@ -110,11 +115,32 @@ $(document).ready(function(){
 		}
 
 	})
+	var StoryDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id:'story-handler',
+		template:_.template($('#story-template').html()),
+		render:function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+		initialize: function(){
+			var storyModel = this.model;
+			this.el = this.render().el;
+      // this.$el.detach();
+		},
+		initTextArea: function(){
+
+
+
+		}
+	})
 	var Router = Backbone.Router.extend({
 		routes:{
 			"": "about",
 			"about": "about",
-			"education": "education"
+			"education": "education",
+			"story": "story",
+			"account": "account"
 		},
 		about: function(){
 			var router = this;
@@ -134,16 +160,54 @@ $(document).ready(function(){
 				}
 			})
 		},
+		story: function(){
+			var storyModel = new UserModel();
+			var router= this;
+			storyModel.fetch({
+				success: function(){
+					router.loadView(new StoryDisplay({model: storyModel}));
+					console.log(storyModel.get('description'));
+					if(!storyModel.get('description')){
+						$('#story-text').html("<span> HELLO </span>");
+					}
+					 tinymce.EditorManager.execCommand('mceAddEditor',true, "story-text");
+
+				}
+			})
+		},
 		loadView: function(viewing){
 			if(this.view){
 				this.view.stopListening();
 				this.view.off();
 				this.view.remove();
+				tinymce.EditorManager.execCommand('mceRemoveEditor',true, "story-text");
 			}
 			this.view = viewing;
 			$('#signup-form').append(viewing.el);
 		}
 	})
+	tinymce.init({
+		selector: 'textarea#story-text',
+		height: 200,
+		theme: 'modern',
+		plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools'
+		],
+		toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link forecolor backcolor emoticons preview',
+		image_advtab: true,
+		templates: [
+			{ title: 'Test template 1', content: 'Test 1' },
+			{ title: 'Test template 2', content: 'Test 2' }
+		],
+		content_css: [
+			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+			'//www.tinymce.com/css/codepen.min.css'
+		],
+
+	 });
 	var router = new Router();
 	Backbone.history.start();
 });

@@ -22,46 +22,104 @@ block content
 			a.btn.btn-default.process(href='#account') Account
 				span.glyphicon.glyphicon-menu-right
 		#signup-form.center-block
-		script#about-template(type='text/template')
-			.row#picture-row
-				.col-md-3
-					p#picture.description Profile Picture
-				.col-md-1
-				.col-md-6
-					#profile-picture
-						img#placeholder-picture(src="../../images/fund_img_placeholder.jpg")
-						span Upload a profile picture. This can help you make a great first impression on funds and potential donors!
-					input#my_file(type='file', style='display: none;', name = 'profile_picture')
-			.row.fund-goal
-				.col-md-3
-					p#amount.description Your Fund goal
-				.col-md-1
-				.col-md-6
-					input#input-amount(placeholder="£", type="number", name='funding_needed') 
-			.row
-				.col-md-3
-					p#date_of_birth.description Date of Birth
-				.col-md-1
-				.col-md-6
-					input#date-input(type='date', name="date_of_birth")
-			.row
-				.col-md-3
-					p#country_of_residence.description Country of residence
-				.col-md-1
-				.col-md-6
-					input#country-input(name="country_of_residence")
-			.row#religion-row
-				.col-md-3
-					p#religion.description Religious beliefs
-				.col-md-1
-				.col-md-6
-					input#religion-input(name="religion")
-			.container-fluid.save
-				a#save.btn.btn-primary(href="#education") Save progress
-				a#skip(href='#education') Skip
-		script#education-template(type='text/template')
-			h1 HELLO
+			script#about-template(type='text/template')
+				p#about-header.description Get started by telling us more about yourself, your funding goals and when your funding completion date.
+				.row#picture-row
+					.col-md-3
+						p#picture.description Profile Picture
+					.col-md-1
+					.col-md-6
+						#profile-picture
+							img#placeholder-picture(src="../../images/fund_img_placeholder.jpg")
+							span Upload a profile picture. This can help you make a great first impression on funds and potential donors!
+						input#my_file(type='file', style='display: none;', name = 'profile_picture')
+				.row.fund-goal
+					.col-md-3
+						p#amount.description Your Fund goal
+					.col-md-1
+					.col-md-6
+						input#input-amount(placeholder="£", type="number", name='funding_needed') 
+				.row
+					.col-md-3
+						p#finish-date.description Completion time
+					.col-md-1
+					.col-md-6
+						input#completion-input(type='date', name="completion_date")
+				.row
+					.col-md-3
+						p#date_of_birth.description Date of Birth
+					.col-md-1
+					.col-md-6
+						input#date-input(type='date', name="date_of_birth")
+				.row
+					.col-md-3
+						p#country_of_residence.description Country of residence
+					.col-md-1
+					.col-md-6
+						input#country-input(name="country_of_residence")
+				.row#religion-row
+					.col-md-3
+						p#religion.description Religious beliefs
+					.col-md-1
+					.col-md-6
+						input#religion-input(name="religion")
+				.container-fluid.save
+					a#save.btn.btn-primary(href="#education") Save progress
+					a#skip(href='#education') Skip
+			script#education-template(type='text/template')
+				p#education-header.description Specifying your educational past and targets can help us match you with funding institutions more quickly!
+				.row
+					.col-md-3 
+						p#subject-description.description Subject of study
+					.col-md-1 
+					.col-md-6
+						input#subject-input(name="subject")
+				.row
+					.col-md-3
+						p.description Intended degree of study
+					.col-md-1
+					.col-md-6
+						input#targetDegree-input(name="target_degree")
+				.row
+					.col-md-3
+						p.description Completed/current degree levels
+					.col-md-1
+					.col-md-6
+						input#requiredDegree-input(name="required_degree")
+				.row
+					.col-md-3
+						p.description Target university
+					.col-md-1
+					.col-md-6
+						input#target-university(name="target_university")
+				#previous-university-row.row
+					.col-md-3
+						p.description Previously/currently enrolled universities
+					.col-md-1
+					.col-md-6
+						input#previous-university(name="required_university")
+				.container-fluid.save
+					a#save.btn.btn-primary(href="#story") Save progress
+					a#skip(href='#story') Skip
+			script#story-template(type='text/template')
+				p#story-header.description We have some guidelines based on successful campaigns to help you. However this is your campaign. Change the headers and text to tell us your story.
+				.row.story-row
+					.col-md-8.col-md-offset-2
+						textarea#story-text
+				.row#work
+						#work-row.col-md-8.col-md-offset-2
+							h6 Showcase your talents.
+							p#stand-out Bolster your application by letting funds and peers see your best work.
+							#work-span.btn.btn-primary.btn-file
+								i.fa.fa-upload
+								input#work(type='file', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
+								label(for='work') Choose up to 5 files
+				.container-fluid.save
+					a#save.btn.btn-primary(href="#education") Save progress
+					a#skip(href='#education') Skip
+				
 block scripts
+	script(src='https://cdn.tinymce.com/4/tinymce.min.js')
 	script(src='/javascript/lib/modernizr-input.js')
 	script(src='/javascript/lib/jquery.tokeninput.js')
 	script(src='/javascript/new-user-profile.js')

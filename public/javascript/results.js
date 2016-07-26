@@ -223,7 +223,6 @@ if(typeof query != 'undefined' && query){
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
-      console.log(description);
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
@@ -284,13 +283,9 @@ if(typeof query != 'undefined' && query){
     },
     profileLink: function(){
       var fundId = this.model.get('id');
-      console.log(fundId);
       var link = this.model.get('link');
-      console.log(this.model);
       var fund_user = this.model.get('fund_user');
-      console.log(fund_user);
       if (fund_user){
-        console.log("WHAT");
         this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
       }
       else{
@@ -322,9 +317,38 @@ if(typeof query != 'undefined' && query){
       return this;
     }
  });
-var fundCollection = new FundCollection(fundData);
+var startPoint = 0;
+var endPoint = 5;
+var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
 var fundList = new FundList({collection: fundCollection});
 $(document.body).append(fundList.render().el);
+var scroll_pos_test = 1000;  
+$(window).on('scroll', function() {
+    var y_scroll_pos = window.pageYOffset;
+           // set to whatever you want it to be
+    var counter = 0;
+    if(y_scroll_pos > scroll_pos_test) {
+        //do stuff
+        console.log(fundData.length);
+        if(endPoint < fundData.length){
+          startPoint = startPoint +5;
+          endPoint = endPoint + 5;
+          scroll_pos_test = scroll_pos_test + 1000;
+          console.log(scroll_pos_test);
+          var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+          var fundList = new FundList({collection: fundCollection});
+          $(document.body).append(fundList.render().el);
+        }
+        if(endPoint > fundData.length && counter ==0){
+          console.log("ENOUGH");
+          var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+          var fundList = new FundList({collection: fundCollection});
+          $(document.body).append(fundList.render().el);
+          counter++;
+        }
+
+    }
+});
 
 //Use modernizr to move search bar when screen is mobile
 // function doneResizing() {
