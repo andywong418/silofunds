@@ -366,9 +366,11 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   ignore: [404]
                 }).then(function(err, resp){
                   if (err) {
-                    console.log("ERROR IN HERE: " + err);
+                    console.log("ERROR IN HERE: ");
+                    console.log(err);
                   } else if (resp) {
-                    console.log("RESPONSE IN HERE: " + resp);
+                    console.log("RESPONSE IN HERE: ");
+                    console.log(resp);
                   }
                   models.es.indices.create({
                     index: 'signup_fields',
@@ -419,10 +421,11 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     }
                   }).then(function(err, resp){
                     if (err) {
-                      console.log("ERROR IN HERE: ");
+                      console.log("Couldn't create signup_fields index!");
                       console.log(err);
                     } else if (resp) {
-                      console.log("RESPONSE IN HERE: " + resp);
+                      console.log("Created signup_fields index.");
+                      console.log(resp);
                     }
 
                     // Automatically sync ALL on restart
@@ -442,6 +445,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       signupFieldsBody.push(wrapper);
                     });
 
+                    console.log("Ready to bulk sync countries...");
                     models.es.bulk({
                       body: signupFieldsBody
                     }, function (err, resp) {
@@ -449,6 +453,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       if (err) {
                         console.log(err);
                       }
+                      console.log("Bulk sync for countries complete");
                     });
                   });
                   //////
