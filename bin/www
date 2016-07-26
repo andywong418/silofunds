@@ -170,22 +170,24 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
     models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
       if (err) {
+        console.log("Error checking existence of funds index:");
         console.log(err);
+      } else if (resp) {
+        console.log("Does the funds index exist?:");
+        console.log(resp);
       }
-
-      console.log("Does the ES index exist?:");
-      console.log(resp);
 
       // If it exists, refresh its settings & mappings by deleting & creating again. This will
       // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
       models.es.indices.delete({
         index: 'funds',
         ignore: [404]
-      }).then(function(err, resp) {
+      }, function(err, resp) {
         if (err) {
-          console.log("ERROR IN HERE: " + err);
+          console.log("Error deleting funds index:");
+          console.log(err);
         } else if (resp) {
-          console.log("RESPONSE IN HERE: " + resp);
+          console.log("Deleted funds index.");
         }
 
         models.es.indices.create({
@@ -323,11 +325,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
               }
             }
           }
-        }).then(function(err, resp) {
+        }, function(err, resp) {
           if (err) {
-            console.log("ERROR IN HERE: " + err);
+            console.log("Couldn't create funds index:");
+            console.log(err);
           } else if (resp) {
-            console.log("RESPONSE IN HERE: " + resp);
+            console.log("Created funds index.");
           }
 
           // Automatically sync ALL on restart
@@ -352,25 +355,26 @@ var userFields =  ["username","profile_picture","description","past_work","date_
             models.es.bulk({
               body: body
             }, function (err, resp) {
-              console.log('Bulk sync on restart finished.');
+              console.log('Bulk sync for funds complete.');
 
-              models.es.exists({ index: 'signup_fields' }, function(err, resp){
+              models.es.indices.exists({ index: 'signup_fields' }, function(err, resp){
                 if (err) {
+                  console.log("Error checking existence of signup_fields:");
                   console.log(err);
+                } else if (resp) {
+                  console.log("Does the signup_fields index exist?:");
+                  console.log(resp);
                 }
 
-                console.log("Does the signupFields ES index exist?:");
-                console.log(resp);
                 models.es.indices.delete({
                   index: 'signup_fields',
                   ignore: [404]
-                }).then(function(err, resp){
+                }, function(err, resp) {
                   if (err) {
-                    console.log("ERROR IN HERE: ");
+                    console.log("Error deleting signup_fields index:");
                     console.log(err);
                   } else if (resp) {
-                    console.log("RESPONSE IN HERE: ");
-                    console.log(resp);
+                    console.log("Deleted signup_fields index.");
                   }
                   models.es.indices.create({
                     index: 'signup_fields',
@@ -419,13 +423,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                         }
                       }
                     }
-                  }).then(function(err, resp){
+                  }, function(err, resp) {
                     if (err) {
-                      console.log("Couldn't create signup_fields index!");
+                      console.log("Couldn't create signup_fields index:");
                       console.log(err);
                     } else if (resp) {
                       console.log("Created signup_fields index.");
-                      console.log(resp);
                     }
 
                     // Automatically sync ALL on restart
@@ -445,7 +448,6 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       signupFieldsBody.push(wrapper);
                     });
 
-                    console.log("Ready to bulk sync countries...");
                     models.es.bulk({
                       body: signupFieldsBody
                     }, function (err, resp) {
@@ -456,28 +458,30 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       console.log("Bulk sync for countries complete");
                     });
                   });
-                  //////
                 });
                 /////
               });
               //////
             });
           }).then(function() {
-            models.es.exists({ index: 'users' }, function(err, resp){
+            models.es.indices.exists({ index: 'users' }, function(err, resp){
               if (err) {
+                console.log("Error checking existence of users index:");
                 console.log(err);
+              } else if (resp) {
+                console.log("Does the users index exist?:");
+                console.log(resp);
               }
 
-              console.log("Does the USER ES index exist?:");
-              console.log(resp);
               models.es.indices.delete({
                 index: 'users',
                 ignore: [404]
-              }).then(function(err, resp){
+              }, function(err, resp){
                 if (err) {
-                  console.log("ERROR IN HERE: " + err);
+                  console.log("Error deleting users index:");
+                  console.log(err);
                 } else if (resp) {
-                  console.log("RESPONSE IN HERE: " + resp);
+                  console.log("Deleted users index.");
                 }
                 models.es.indices.create({
                   index: 'users',
@@ -553,11 +557,12 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       }
                     }
                   }
-                }).then(function(err, resp){
+                }, function(err, resp){
                   if (err) {
-                    console.log("ERROR IN HERE: " + err);
+                    console.log("Couldn't create users index:");
+                    console.log(err);
                   } else if (resp) {
-                    console.log("RESPONSE IN HERE: " + resp);
+                    console.log("Created users index.");
                   }
 
                   // Automatically sync ALL on restart
@@ -582,21 +587,22 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     models.es.bulk({
                       body: userBody
                     }, function (err, resp) {
-                      console.log(resp);
+                      if (err) {
+                        console.log(err);
+                      } else if (resp) {
+                        console.log("Bulk sync for users complete");
+                      }
                     });
                   }).then(function() {
                     console.log('...Finished sync');
                   });
-                })
-              })
-
-            })
+                });
+              });
+            });
           });
         });
-
       });
     });
-
   });
 
   var CronJob = require('cron').CronJob;
