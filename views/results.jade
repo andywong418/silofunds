@@ -128,7 +128,7 @@ block content
 							script#fund-template(type='text/template')
 								.lazyload
 									//
-										<ul id="tester" class="database">
+										<ul class="database">
 											<div class="fund_list">
 												<li><a id="profile_link<%= id %>">
 														<h3 class="fund_title"><%= title %></h3></a>
@@ -159,6 +159,8 @@ block scripts
 	script(src='javascript/results.js')
 	//Modernizr
 	script(src='javascript/lib/modernizr-custom.js')
+	//lazyload
+	script(src='javascript/jquery.lazyload-any.js')
 	//readmore
 	script.
 		var fundData =!{JSON.stringify(funds)};
