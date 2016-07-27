@@ -54,3 +54,12 @@ img {
 #register a p {
   font-size: 25px;
 }
+
+#rememberMe {
+}
+
+#passwordReset {
+  float: right;
+  margin-left: 1%;
+  text-align: right;
+}

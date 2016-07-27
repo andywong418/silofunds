@@ -22,9 +22,11 @@ block content
                 .form-group
                   input.form-control(placeholder='Password', name='password', type='password', value='')
                 .checkbox
-                  label
+                  label#rememberMe
                     input(name='remember', type='checkbox', value='Remember Me')
                     |  Remember Me
+                  a#passwordReset
+                    p forgot password?
                 input.btn.btn-lg.btn-success.btn-block(type='submit', value='Login')
             hr
             center

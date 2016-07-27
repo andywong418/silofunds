@@ -27,7 +27,7 @@ module.exports = {
     }
     else {
       pzpt.ensureAuthenticated(req, res);
-      res.redirect('/fund/dashboard');
+      res.redirect('/organisation/dashboard');
     }
   },
 
@@ -49,7 +49,7 @@ module.exports = {
     }
     else {
       pzpt.ensureAuthenticated(req, res);
-      res.redirect('/fund/create');
+      res.redirect('/organisation/create');
     }
   },
 
