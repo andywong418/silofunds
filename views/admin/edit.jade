@@ -84,9 +84,16 @@ block content
               .col-md-3.form-group
                 label(for='max_amount') Maximum Amount
                 input#max_amount.form-control(type='number', name='max_amount', value=fund.maximum_amount)
-              .col-md-6.form-group
+              .col-md-6.form-group                  
                 label(for='religion') Religion (separate with comma, no space)
-                input#religion.form-control(type='text', name='religion', style="text-transform: lowercase;", value=fund.religion)
+                select#religion.form-control(data-placeholder='Choose a religion...', name= "religion")
+                  option(value='') -- select one --
+                  option(value='null') I prefer not to say
+                  each religion in religions
+                    if fund.religion == religion
+                      option(value=religion, selected='selected') #{religion}
+                    else
+                      option(value=religion) #{religion}
               .col-md-3.form-group
                 label Gender
                 .row

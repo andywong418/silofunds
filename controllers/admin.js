@@ -1,6 +1,7 @@
 var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
+var religions = require('../resources/religions');
 var sequelize = models.sequelize;
 var Umzug = require('umzug');
 var umzugOptions = {
@@ -65,7 +66,7 @@ module.exports = {
   new: function(req, res) {
     models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
       organisations = fund_array_to_json(organisations);
-      res.render('admin/new', { organisations: organisations });
+      res.render('admin/new', { organisations: organisations, religions: religions });
     });
   },
 
@@ -154,7 +155,8 @@ module.exports = {
           fund: fund,
           deadline: deadline,
           interview_date: interview_date,
-          organisations: organisations
+          organisations: organisations,
+          religions: religions
         });
       });
     });

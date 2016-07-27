@@ -85,9 +85,12 @@ block content
           .row
             tr
               .col-md-6.form-group
-                label(for='religion')
-                  a#religion(href='#') Religion (separate with comma, no space)
-                input#religion.form-control.hide-this-shit(type='text', name='religion', style="text-transform: lowercase;")
+                label(for='religion') Religion (separate with comma, no space)
+                select#religion.form-control(data-placeholder='Choose a religion...', name= "religion")
+                  option(value='') -- select one --
+                  option(value='null') I prefer not to say
+                  each religion in religions
+                    option(value=religion) #{religion}
               .col-md-3.form-group
                 label Gender
                 .row
