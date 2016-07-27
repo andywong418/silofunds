@@ -38,12 +38,12 @@ router.get('/countries', function(req,res) {
   query = query[query.length - 1];
 
   models.es.suggest({
-    index: "signup_fields",
+    index: "funds",
     body: {
       suggest: {
         text: query,
         completion: {
-          "field": "suggest"
+          "field": "suggest_countries"
         }
       }
     }
