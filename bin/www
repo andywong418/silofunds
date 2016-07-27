@@ -235,6 +235,38 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   }
                 }
               },
+              'autocomplete_degrees': {
+                'properties': {
+                  'degree': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
+                    }
+                  },
+                  "suggest_degrees": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
+                  }
+                }
+              },
+              'autocomplete_religions': {
+                'properties': {
+                  'degree': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
+                    }
+                  },
+                  "suggest_religions": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
+                  }
+                }
+              },
               'fund': {
                 'properties': {
                   "application_decision_date": {
@@ -397,11 +429,65 @@ var userFields =  ["username","profile_picture","description","past_work","date_
               models.es.bulk({
                 body: autocompleteCountriesBody
               }, function (err, resp) {
-                // console.log(resp);
                 if (err) {
+                  console.log("Error bulk syncing countries into funds index:");
                   console.log(err);
                 }
                 console.log("Bulk sync for countries complete");
+
+                // Automatically sync ALL on restart
+                var autocompleteReligionsBody = [];
+                var list_of_religions = require('../resources/religions.js');
+                var religion_id = 0;
+
+                // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+                list_of_religions.forEach(function(religion) {
+                  religion_id++;
+                  autocompleteReligionsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_religions', '_id': religion_id }});
+                  var wrapper = {};
+
+                  wrapper["religion"] = religion;
+                  wrapper["suggest_religions"] = { "input": religion, "output": religion, "payload": { "religion_id": religion }};
+
+                  autocompleteReligionsBody.push(wrapper);
+                });
+
+                models.es.bulk({
+                  body: autocompleteReligionsBody
+                }, function(err, resp) {
+                  if (err) {
+                    console.log("Error bulk syncing religions into funds index:");
+                    console.log(err);
+                  }
+                  console.log("Bulk sync for religions complete");
+
+                  // Automatically sync ALL on restart
+                  var autocompleteDegreesBody = [];
+                  var list_of_degrees = require('../resources/degrees.js');
+                  var degree_id = 0;
+
+                  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+                  list_of_degrees.forEach(function(degree) {
+                    degree_id++;
+                    autocompleteDegreesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_degrees', '_id': degree_id }});
+                    var wrapper = {};
+
+                    wrapper["degree"] = degree;
+                    wrapper["suggest_degrees"] = { "input": degree, "output": degree, "payload": { "degree_id": degree }};
+
+                    autocompleteDegreesBody.push(wrapper);
+                  });
+
+                  models.es.bulk({
+                    body: autocompleteDegreesBody
+                  }, function(err, resp) {
+                    if (err) {
+                      console.log("Error bulk syncing degrees into funds index:");
+                      console.log(err);
+                    }
+                    console.log("Bulk sync for degrees complete");
+                  });
+                });
               });
             });
           }).then(function() {
