@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'country_of_residence'
     },
     religion: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.TEXT,
       field: 'religion'
     },
     funding_needed: {
@@ -61,13 +61,29 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'subject'
     },
-    degree: {
+    previous_degree: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'degree'
+      field: 'previous_degree'
     },
-    university: {
+    previous_university: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'university'
+      field: 'previous_university'
+    },
+    target_degree: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'target_degree'
+    },
+    target_university: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'target_university'
+    },
+    favourite_funds: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'favourite_funds'
+    },
+    completion_date: {
+      type: DataTypes.DATE,
+      field: 'completion_date'
     }
   }, {
     timestamps: true,

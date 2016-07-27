@@ -67,7 +67,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'country_of_residence'
     },
     religion: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'religion'
     },
     gender: {

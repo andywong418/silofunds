@@ -29,10 +29,10 @@ module.exports = {
             {
               type: Sequelize.DATE
             }
-          )
-        })
-      })
-    })
+          );
+        });
+      });
+    });
   },
 
   down: function (queryInterface, Sequelize) {
@@ -40,8 +40,8 @@ module.exports = {
       return queryInterface.removeColumn('users','target_university').then(function(){
         return queryInterface.removeColumn('users','favourite_funds').then(function(){
           return queryInterface.removeColumn('users','completion_date');
-        })
-      })
-    })
+        });
+      });
+    });
   }
 };
