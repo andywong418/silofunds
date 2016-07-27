@@ -36,14 +36,15 @@ $(function() {
 
         $('input#target_country').tokenInput('/autocomplete/countries', {
           "theme": "facebook",
-          "prePopulate": savedTargetCountry
+          "prePopulate": savedTargetCountry,
+          "allowFreeTagging": true
         });
       } else {
-        $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+        $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
       console.log(e);
-      $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+      $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
     console.log("on funds homepage");
@@ -51,7 +52,7 @@ $(function() {
 
   try {
     try {
-      if (fund.target_country) {
+      if (fund.country_of_residence) {
         var savedCountryOfRes = [];
 
         for (var j = 0; j < fund.country_of_residence.length; j++) {
@@ -64,19 +65,162 @@ $(function() {
 
         $('input#country_of_residence').tokenInput('/autocomplete/countries', {
           "theme": "facebook",
-          "prePopulate": savedCountryOfRes
+          "prePopulate": savedCountryOfRes,
+          "allowFreeTagging": true
         });
       } else {
-        $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+        $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
       console.log(e);
-      $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
+      $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
     console.log("on funds homepage");
   }
+  //degree
+  try {
+    try {
+      if (fund.target_degree) {
+        var targetDegreeArray = [];
 
+        for (var j = 0; j < fund.target_degree.length; j++) {
+          var targetDegreesWrapper = {};
+          targetDegreesWrapper .id = fund.target_degree[j].capitalize();
+          targetDegreesWrapper.name = fund.target_degree[j].capitalize();
+
+          targetDegreesArray.push(targetDegreesWrapper);
+        }
+
+        $('input#target_degree').tokenInput('/autocomplete/degrees', {
+          "theme": "facebook",
+          "prePopulate": targetDegreesArray,
+          "allowFreeTagging": true
+        });
+      } else {
+        $('input#target_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#target_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
+  try {
+    try {
+      if (fund.required_degree) {
+        var requiredDegreesArray = [];
+
+        for (var j = 0; j < fund.required_degree.length; j++) {
+          var requiredDegreesWrapper = {};
+          requiredDegreesWrapper .id = fund.required_degree[j].capitalize();
+          requiredDegreesWrapper.name = fund.required_degree[j].capitalize();
+
+          requiredDegreesArray.push(requiredDegreesWrapper);
+        }
+
+        $('input#required_degree').tokenInput('/autocomplete/degrees', {
+          "theme": "facebook",
+          "prePopulate": requiredDegreesArray,
+          "allowFreeTagging": true
+        });
+      } else {
+        $('input#required_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#required_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
+  // universities
+  try {
+    try {
+      if (fund.target_university) {
+        var targetUniversityArray = [];
+
+        for (var j = 0; j < fund.target_university.length; j++) {
+          var targetUniversityWrapper = {};
+          targetUniversityWrapper .id = fund.target_university[j].capitalize();
+          targetUniversityWrapper.name = fund.target_university[j].capitalize();
+
+          targetUniversityArray.push(targetUniversityWrapper);
+        }
+
+        $('input#target_university').tokenInput('/autocomplete/universities', {
+          "theme": "facebook",
+          "prePopulate": requiredDegreesArray,
+          "allowFreeTagging": true
+        });
+      } else {
+        $('input#target_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#target_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
+  try {
+    try {
+      if (fund.required_university) {
+        var requiredUniversityArray = [];
+
+        for (var j = 0; j < fund.required_university.length; j++) {
+          var requiredUniversityWrapper = {};
+          requiredUniversityWrapper .id = fund.required_university[j].capitalize();
+          requiredUniversityWrapper.name = fund.required_university[j].capitalize();
+
+          requiredUniversityArray.push(requiredUniversityWrapper);
+        }
+
+        $('input#required_university').tokenInput('/autocomplete/universities', {
+          "theme": "facebook",
+          "prePopulate": requiredDegreesArray,
+          "allowFreeTagging": true
+        });
+      } else {
+        $('input#required_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
+      }
+    } catch (e) {
+      console.log(e);
+      $('input#required_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
+    }
+  } catch (e) {
+    console.log("on funds homepage");
+  }
+//suggest_subjects
+try {
+  try {
+    if (fund.subject) {
+      var subjectArray = [];
+
+      for (var j = 0; j < fund.subject.length; j++) {
+        var subjectWrapper = {};
+        subjectWrapper .id = fund.subject[j].capitalize();
+        subjectWrapper.name = fund.subject[j].capitalize();
+
+        subjectArray.push(subjectWrapper);
+      }
+
+      $('input#subject').tokenInput('/autocomplete/subjects', {
+        "theme": "facebook",
+        "prePopulate": requiredDegreesArray,
+        "allowFreeTagging": true
+      });
+    } else {
+      $('input#subject').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true });
+    }
+  } catch (e) {
+    console.log(e);
+    $('input#subject').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true });
+  }
+} catch (e) {
+  console.log("on funds homepage");
+}
   // Hide and toggle unimportant fields
   $("label a").click(function(e) {
     $('input#' + e.target.id).toggleClass('hide-this-shit');
