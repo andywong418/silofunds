@@ -1,6 +1,7 @@
 var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
+var religions = require('../resources/religions');
 var sequelize = models.sequelize;
 var Umzug = require('umzug');
 var umzugOptions = {
@@ -65,12 +66,12 @@ module.exports = {
   new: function(req, res) {
     models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
       organisations = fund_array_to_json(organisations);
-      res.render('admin/new', { organisations: organisations });
+      res.render('admin/new', { organisations: organisations, religions: religions });
     });
   },
 
   funds: function(req, res) {
-    models.funds.findAll({ order: 'id ASC' }).then(function(funds) {
+    models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
       res.render('admin/funds', { funds: funds });
     });
@@ -154,7 +155,8 @@ module.exports = {
           fund: fund,
           deadline: deadline,
           interview_date: interview_date,
-          organisations: organisations
+          organisations: organisations,
+          religions: religions
         });
       });
     });
@@ -177,8 +179,10 @@ module.exports = {
     var email = fund.email ? fund.email : null;
     var target_country = fund.target_country[0] ? lowercaseArray(fund.target_country.split(",")) : null;
     var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
-    var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
+    var religion = fund.religion ? fund.religion : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var other_application_steps = fund.other_application_steps ? fund.other_application_steps : null;
+    var other_eligibility = fund.other_eligibility ? fund.other_eligibility : null;
     var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
     var specific_location = fund.specific_location[0] ? lowercaseArray(fund.specific_location.split(",")) : null;
     var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
@@ -216,6 +220,8 @@ module.exports = {
         minimum_amount: min_amount,
         maximum_amount: max_amount,
         number_of_places: number_of_places,
+        other_application_steps: other_application_steps,
+        other_eligibility: other_eligibility,
         description: description,
         country_of_residence: country_of_residence,
         target_country: target_country,
@@ -307,8 +313,10 @@ module.exports = {
     var email = fund.email ? fund.email : null;
     var target_country = fund.target_country[0] ? lowercaseArray(fund.target_country.split(",")) : null;
     var country_of_residence = fund.country_of_residence[0] ? lowercaseArray(fund.country_of_residence.split(",")) : null;
-    var religion = fund.religion[0] ? lowercaseArray(fund.religion.split(",")) : null;
+    var religion = fund.religion ? fund.religion : null;
     var financial_situation = fund.financial_situation ? fund.financial_situation : null;
+    var other_application_steps = fund.other_application_steps ? fund.other_application_steps : null;
+    var other_eligibility = fund.other_eligibility ? fund.other_eligibility : null;
     var subject = fund.subject[0] ? lowercaseArray(fund.subject.split(",")) : null;
     var specific_location = fund.specific_location[0] ? lowercaseArray(fund.specific_location.split(",")) : null;
     var target_degree = fund.target_degree[0] ? lowercaseArray(fund.target_degree.split(",")) : null;
@@ -345,6 +353,8 @@ module.exports = {
       minimum_amount: min_amount,
       maximum_amount: max_amount,
       number_of_places: number_of_places,
+      other_application_steps: other_application_steps,
+      other_eligibility: other_eligibility,
       description: description,
       country_of_residence: country_of_residence,
       target_country: target_country,

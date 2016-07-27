@@ -76,6 +76,7 @@ router.post('/results', function(req,res){
 	res.redirect('/results');
 });
 router.get('/user/:id', signup.userProfile);
+router.post('/user/save_about', signup.saveAbout);
 router.get('/user_signup/:id', signup.getSignupInfo);
 router.post('/user_signup/profile_picture/:id', upload.single('profile_picture'), signup.uploadPicture);
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);

@@ -12,7 +12,9 @@ if(typeof query != 'undefined' && query){
   }
 }
 //show and hide past deadline funds
-  var allShown = true;
+$('#show-all').html("Show all funds - including those which are expired");
+
+allShown = false;
   $('#show-all').on('click', function(){
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
@@ -131,6 +133,8 @@ if(typeof query != 'undefined' && query){
       if (deadline < dateNow){
         this.$('.deadline-passed' + id).css('display', 'block');
         this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
+        this.$('.deadline-passed' + id).closest('.fund_list').css('display', 'none');
+
       };
 
       if(!tags){
@@ -244,12 +248,20 @@ if(typeof query != 'undefined' && query){
           var readMore = description.substring(index);
           var finalDescription = constant + "<div id = 'read-more" + id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + id +  "'> Read more </a>";
           this.$("#" + id).children('.description_control').html(finalDescription);
+<<<<<<< HEAD
       }
 
       }
       else{
         this.$("#" + id).children('.description_control').html(description);
+=======
+        }
+        else{
+          this.$("#" + id).children('.description_control').html(description);
+        }
+>>>>>>> b9b838ca8b481526206d359be8835d3d307b9789
       }
+
 
 
       //Conventionalised the styles in css
@@ -385,6 +397,11 @@ $(window).on('scroll', function() {
 
 var id;
 
+$('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
+if($('*[class*=fund_list]:visible').length == 0){
+  $('.contact-div').css('display', 'block');
+  $('.page-header').css('margin-top', '0');
+}
 // $(window).resize(function() {
 //   clearTimeout(id);
 //   id = setTimeout(doneResizing, 0);

@@ -183,7 +183,7 @@ div.navbar-center-container {
 
 /*advanced search */
 #advanced-search {
-  margin: -3.5% 17%;
+  margin-top: -28px;
   border-color: #ebe2e2;
   border-style: solid;
   border-width: 1px;
@@ -193,14 +193,15 @@ div.navbar-center-container {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   width: 66%;
-  position: fixed;
+  position: absolute;
   z-index: 20;
   background-color: #f2f2f2;
-  padding-top: 25px;
   padding-bottom: 25px;
-  padding-right: 30px;
   display: none;
-  font-size: 12px; }
+  font-size: 12px;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  left: 50%; }
   #advanced-search .keyword {
     margin-bottom: 30px; }
   #advanced-search .header {
@@ -211,11 +212,17 @@ div.navbar-center-container {
     #advanced-search .header h5 {
       margin-bottom: 10px; }
   #advanced-search ul {
-    margin-bottom: 30px; }
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 25px; }
     #advanced-search ul li#search-for {
       padding-top: 12px;
       padding-left: 10px;
       padding-right: 10px; }
+  #advanced-search .tab-content {
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px; }
   #advanced-search .footer {
     border-top-width: 1px;
     border-top-style: solid;
@@ -230,9 +237,9 @@ div.navbar-center-container {
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
     padding: 3px 5px;
     margin-bottom: 10px;
-    width: 80%;
+    width: 90%;
     display: block; }
-  #advanced-search input#advanced_tags {
+  #advanced-search input#advanced_tags, #advanced-search input#advanced_user_tags {
     width: 100%; }
   #advanced-search select {
     display: block;
@@ -894,6 +901,16 @@ i {
   color: white; }
   .display:hover {
     color: white; }
+
+.contact-div {
+  margin-top: 80px;
+  margin-bottom: 0;
+  display: none; }
+  .contact-div #contact-us {
+    margin-bottom: 0; }
+    .contact-div #contact-us a {
+      margin-right: 5px;
+      cursor: pointer; }
 
 .page-header {
   padding-top: 5px; }

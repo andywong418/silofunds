@@ -4,11 +4,13 @@ $(document).ready(function(){
 	var reformatDate = function(date) {
     if(date){
       date = date.split('T')[0];
-      date = new Date(date);
-      return date.toDateString();
+      return date;
     }
 
   };
+	String.prototype.capitalize = function() {
+		return this.charAt(0).toUpperCase() + this.slice(1);
+	};
 	$('.process').click(function(){
 		console.log(this);
 		$('.active').removeClass('active');
@@ -38,28 +40,59 @@ $(document).ready(function(){
 			var aboutModel = this.model;
 			var aboutView = new AboutView({model: aboutModel});
 			this.$el.append(aboutView.render().el);
-			this.$('input#country-input').tokenInput('/autocomplete/countries', { "theme": "facebook" });
-			var arrayFields = ['profile_picture', 'funding_needed', 'date_of_birth', 'country_of_residence','religion'];
+			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','completion_date', 'date_of_birth', 'religion'];
 			var prePopulateModel = this.model;
+			console.log(prePopulateModel);
+			if(!this.model.get('country_of_residence')){
+				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
+			}
 			for(var i = 0; i< arrayFields.length; i++){
+				console.log(prePopulateModel.get(arrayFields[i]));
 				if(prePopulateModel.get(arrayFields[i])){
 					var value = prePopulateModel.get(arrayFields[i]);
 					if(value){
 						switch (arrayFields[i]) {
 							case 'profile_picture':
+								console.log("PROF PIC");
 								this.$('#profile-picture span').hide();
 								this.$('#placeholder-picture')
 									.attr('src', value)
 									.width(250)
 									.height(250);
 								break;
-							case 'date_of_birth':
-								$('input#date-input').val(reformatDate(value));
-								break;
 							case 'country_of_residence':
-								//logic
-								break;
+								console.log("WHat");
+								var savedCountryOfRes = [];
+								for (var j = 0; j < value.length; j++) {
+									var countryOfResWrapper = {};
+									countryOfResWrapper.id = value[j].capitalize();
+									countryOfResWrapper.name = value[j].capitalize();
 
+									savedCountryOfRes.push(countryOfResWrapper);
+									console.log(savedCountryOfRes);
+								}
+								console.log("HERE");
+								this.$('input#country_of_residence').tokenInput('/autocomplete/countries', {
+									"theme": "facebook",
+									"prePopulate": savedCountryOfRes,
+									"allowFreeTagging": true
+								});
+								this.$('ul.token-input-list-facebook').css('padding', '0');
+								this.$('li.token-input-token-facebook').css('margin-top', '1px');
+								break;
+							case 'date_of_birth':
+								console.log(reformatDate(value));
+								this.$('input#date-input').val(reformatDate(value));
+								break;
+							case 'funding_needed':
+								this.$('input#input-amount').val(value);
+								break;
+							case 'completion_date':
+								this.$('input#completion-input').val(reformatDate(value));
+								break;
+							case 'religion':
+								this.$('#religion-select').val(value);
+								break;
 						}
 					}
 
@@ -101,8 +134,18 @@ $(document).ready(function(){
 				}
 
 		},
-		saveAbout: function(){
-			
+		saveAbout: function(e){
+			var countries = $('input#country_of_residence').val().split(',');
+			var formData = {
+				'funding_needed': $('input[name=funding_needed]').val(),
+				'completion_date': $('input[name=completion_date]').val(),
+				'date_of_birth': $('input[name=date_of_birth]').val(),
+				'country_of_residence': countries,
+				'religion': $('select[name=religion]').val()
+			}
+			$.post('/signup/user/save_about', formData, function(data){
+				console.log(data);
+			})
 		}
 	})
 	var EducationDisplay = Backbone.View.extend({
@@ -183,6 +226,7 @@ $(document).ready(function(){
 			if(this.view){
 				this.view.stopListening();
 				this.view.off();
+				this.view.unbind();
 				this.view.remove();
 				tinymce.EditorManager.execCommand('mceRemoveEditor',true, "story-text");
 			}

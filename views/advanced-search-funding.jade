@@ -8,74 +8,54 @@
           input#advanced_tags(type="text", name="tags", form="advs-funding-form")
     section.header
       .row
-        .col-md-4
+        .col-md-3
           h5 About you
-        .col-md-4
+        .col-md-3.col-md-offset-3
           h5 About the funding
-        .col-md-4
+        .col-md-3
           h5 About the study
     section.content-section
       .row
-        .col-md-4
+        .col-md-3
           label(for='age') Age
           input#advanced_age(type = "number", name = "age", form = "advs-funding-form")
-        .col-md-4
+        .col-md-3
+          label(for='required_university') Institution graduated from
+          input#advanced_required_university(type = "text", name = "required_university", form = "advs-funding-form")          
+        .col-md-3
           label(for='title') Title
           input#advanced_title(type = "text", name = "title", form = "advs-funding-form")
-        .col-md-4
+        .col-md-3
           label(for='target_country') Country
           input#advanced_target_country(type = "text", name = "target_country", form = "advs-funding-form")
       .row
-        .col-md-4
+        .col-md-3
           label(for= 'country_of_residence') Country of Residence
           input#advanced_country_of_residence(type = "text", name = "country_of_residence", form = "advs-funding-form")
-        .col-md-4
+        .col-md-3
+          label(for='required_degree') Completed Degree
+          input#advanced_required_degree(type = "text", name = "required_degree", form = "advs-funding-form")
+        .col-md-3
           label(for= 'amount_offered') Amount Offered
           input#advanced_amount_offered(type= "number", name="amount_offered", form="advs-funding-form")
-        .col-md-4
+        .col-md-3
           label(for='specific_location') Borough / State / Province
           input#advanced_specific_location(type = "text", name = "specific_location", form = "advs-funding-form")
       .row
-        .col-md-4
+        .col-md-3
           label(for='religion') Religion
           input#advanced_religion(type = "text", name = "religion", form = "advs-funding-form")
-        .col-md-4
+        .col-md-3
+          label(for='required_grade') Grade Acquired
+          input#advanced_required_grade(type = "text", name = "required_grade", form = "advs-funding-form")
+        .col-md-3
           label(for='subject') Subject offered for
           input#advanced_subject(type = "text", name = "subject", form = "advs-funding-form")
-        .col-md-4
+        .col-md-3
           label(for="target_university") Institution
           input#advanced_target_university(type="text", name="target_university", form="advs-funding-form")
       .row
-        .col-md-4
-          label(for='required_grade') Grade Acquired
-          input#advanced_required_grade(type = "text", name = "required_grade", form = "advs-funding-form")
-        .col-md-4
-          label(for='duration_of_scholarship') Duration
-          input#advanced_duration_of_scholarship(type = "text", name = "duration_of_scholarship", form = "advs-funding-form")
-        .col-md-4
-          label(for='target_degree') Degree
-          input#advanced_target_degree(type = "text", name = "target_degree", form = "advs-funding-form")
-      .row
-        .col-md-4
-          label(for='required_university') Institution graduated from
-          input#advanced_required_university(type = "text", name = "required_university", form = "advs-funding-form")
-        .col-md-4
-          label(for="merit_or_finance") Merit or finance based
-          .row
-            .col-md-6
-              label.radio-inline
-                input#merit.merit-or-finance(type='radio', name='merit_or_finance', value='merit', form = "advs-funding-form")
-                | Merit
-            .col-md-6
-              label.radio-inline
-                input#finance.merit-or-finance(type='radio', name='merit_or_finance', value='finance', form = "advs-funding-form")
-                | Finance
-      .row
-        .col-md-4
-          label(for='required_degree') Completed Degree
-          input#advanced_required_degree(type = "text", name = "required_degree", form = "advs-funding-form")
-      .row
-        .col-md-4
+        .col-md-3
           label(for='gender') Gender
           .row
             .col-md-5
@@ -86,5 +66,25 @@
               label.radio-inline
                 input#female.gender(type='radio', name = 'gender', value = 'female', form = "advs-funding-form")
                 | Female
+        .col-md-3.col-md-offset-3
+          label(for='duration_of_scholarship') Duration
+          input#advanced_duration_of_scholarship(type = "text", name = "duration_of_scholarship", form = "advs-funding-form")
+        .col-md-3
+          label(for='target_degree') Degree
+          input#advanced_target_degree(type = "text", name = "target_degree", form = "advs-funding-form")
+      .row
+        .col-md-3.col-md-offset-6
+          label(for="merit_or_finance") Merit or finance based
+          .row
+            .col-md-5
+              label.radio-inline
+                input#merit.merit-or-finance(type='radio', name='merit_or_finance', value='merit', form = "advs-funding-form")
+                | Merit
+            .col-md-5
+              label.radio-inline
+                input#finance.merit-or-finance(type='radio', name='merit_or_finance', value='finance', form = "advs-funding-form")
+                | Finance
+      .row
+        .col-md-3
     section.footer.text-center
       button#advs-grant-submit.btn.btn-primary(type='submit') Search

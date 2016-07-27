@@ -18,7 +18,7 @@ function reformatDate(date) {
   var reformattedDate = dd + "/" + mm + "/" + yyyy.slice(-2);
   return reformattedDate;
 }
-	
+
 router.post('/', passport.authenticate('local-login', {
 	failureRedirect: '/login/error'
 }), function(req, res) {

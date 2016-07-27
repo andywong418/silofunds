@@ -17,6 +17,23 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_key = secrets.AWS_KEY;
 }
 var previousPage;
+function changeArrayfields(fields, arrayFields){
+  for(var i =0 ; i <arrayFields.length; i++){
+    if(fields[arrayFields[i] + '[]']){
+      var emptyArray = []
+      fields[arrayFields[i]] = emptyArray.concat(fields[arrayFields[i] + '[]']);
+    }
+  }
+  return fields;
+}
+function moderateObject(objectFields){
+  for(var key in objectFields){
+    if(objectFields[key] === ''){
+      delete objectFields[key];
+    }
+  }
+  return objectFields;
+}
 module.exports = {
   subscribe: function(req, res, next){
     var username = req.body.username;
@@ -55,6 +72,20 @@ module.exports = {
 			res.redirect('/');
 		}
   },
+	saveAbout: function(req, res){
+
+		var userId = req.user.id;
+		req.body = changeArrayfields(req.body, ['country_of_residence']);
+		req.body = moderateObject(req.body);
+		console.log(userId);
+		models.users.findById(userId).then(function(user){
+			console.log(req.body);
+			user.update(req.body).then(function(user){
+
+				res.send(user);
+			})
+		})
+	},
  getSignupInfo: function(req, res){
 	 console.log("GET IN");
 	 var userId = req.params.id;

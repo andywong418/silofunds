@@ -119,7 +119,7 @@ div.navbar-center-container {
 /*advanced search */
 
 #advanced-search {
-  margin: -3.5% 17%;
+  margin-top: -28px;
   border-color: $linkedin-advs-border;
   border-style: solid;
   border-width: 1px;
@@ -135,14 +135,16 @@ div.navbar-center-container {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   width: 66%;
-  position: fixed;
+  position: absolute;
   z-index: 20;
   background-color: $linkedin-advs-background;
-  padding-top: 25px;
   padding-bottom: 25px;
-  padding-right: 30px;
   display: none;
   font-size: 12px;
+
+  // Responsive centering
+  transform: translate(-50%, 0);
+  left: 50%;
 
   .keyword {
     margin-bottom: 30px;
@@ -160,13 +162,21 @@ div.navbar-center-container {
   }
 
   ul {
-    margin-bottom: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 25px;
 
     li#search-for {
       padding-top: 12px;
       padding-left: 10px;
       padding-right: 10px;
     }
+  }
+
+  .tab-content {
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .footer {
@@ -185,11 +195,11 @@ div.navbar-center-container {
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
     padding: 3px 5px;
     margin-bottom: 10px;
-    width: 80%;
+    width: 90%;
     display: block;
   }
 
-  input#advanced_tags {
+  input#advanced_tags, input#advanced_user_tags {
     width: 100%;
   }
 

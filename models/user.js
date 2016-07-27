@@ -38,11 +38,11 @@ module.exports = function(sequelize, DataTypes) {
       field: 'date_of_birth'
     },
     country_of_residence: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'country_of_residence'
     },
     religion: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+      type: DataTypes.TEXT,
       field: 'religion'
     },
     funding_needed: {
@@ -80,6 +80,10 @@ module.exports = function(sequelize, DataTypes) {
     favourite_funds: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'favourite_funds'
+    },
+    completion_date: {
+      type: DataTypes.DATE,
+      field:'completion_date'
     }
   }, {
     timestamps: true,
