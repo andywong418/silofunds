@@ -18,17 +18,32 @@ allShown = false;
   $('#show-all').on('click', function(){
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
+    var dateNow = new Date();
+    dateNow = dateNow.toISOString();
+    var k = 0
+    for(var i = 0; i < fundData.length; i++) {
+      if(dateNow < fundData[i].deadline) {
+        k = k + 1;
+      }
+    }
+    $('.results h3 span').html("Your search returned " + k + " results");
+    if($('*[class*=fund_list]:visible').length == 0){
+      $('.contact-div').css('display', 'block');
+      $('.page-header').css('margin-top', '0');
+    }
     $(this).html("Show all funds - including those which are expired");
-    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
+    $('.results h3 span').html("Your search returned " + k + " results");
     allShown = false;
   }
   else{
     $('*[class*=fund_list]:hidden').css('display', 'block');
+    var k = fundData.length
     $(this).html("Only show funds which have not passed their deadline");
-    $('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results")
+    $('.results h3 span').html("Your search returned " + k + " results")
     allShown = true;
   }
   });
+
   //Use modernizr to move search bar when screen is mobile
   // function doneResizing() {
   //   var form = document.getElementsByClassName("search_form");
@@ -102,14 +117,12 @@ allShown = false;
   })
 
   var FundView = Backbone.View.extend({
-    tagname: 'ul',
-    class: 'database',
+    tagname: 'div',
+    class: 'lazyload',
     template: _.template($('#fund-template').html()),
     initialize: function(){
       this.render();
-      this.fundDisplay();
-      this.infoToggle();
-      this.profileLink();
+      this.lazyLoad();
     },
     events: {
       'click .fund_link a': 'addApplication'
@@ -119,6 +132,8 @@ allShown = false;
       return this; // enable chained calls
     },
     fundDisplay: function(){
+      var scope = this;
+
       // Do the date
       var dateNow = new Date();
       dateNow = dateNow.toISOString();
@@ -197,10 +212,11 @@ allShown = false;
        if(maximum_amount && minimum_amount){
 
          this.$(".fund_min_amount"+ id).children('.control').addClass("min_amount"+ id);
+        //  console.log(this.$(".min_amount" + id));
          this.$(".min_amount" + id).addClass("label label-warning badge badge-warning");
          this.$(".min_amount"+ id).html("£" + minimum_amount);
          this.$(".fund_min_amount" + id).append("<span id='minus-sign'> - </span>");
-          this.$(".fund_max_amount" + id).children('.control').addClass("max_amount"+ id);
+         this.$(".fund_max_amount" + id).children('.control').addClass("max_amount"+ id);
          this.$(".max_amount" + id).addClass("label label-danger badge badge-warning");
          this.$(".max_amount" + id).css("margin-left", "-10px");
        }
@@ -227,7 +243,7 @@ allShown = false;
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
-      console.log(description);
+      // console.log(description);
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
@@ -288,10 +304,10 @@ allShown = false;
     },
     profileLink: function(){
       var fundId = this.model.get('id');
-      console.log(fundId);
+      // console.log(fundId);
       var link = this.model.get('link');
       var fund_user = this.model.get('fund_user');
-      console.log(fund_user);
+      // console.log(fund_user);
       if (fund_user){
         console.log("WHAT");
         this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
@@ -300,6 +316,37 @@ allShown = false;
         this.$("#profile_link" + fundId).attr('href',  link)
         this.$("#profile_link" + fundId).attr('target',  "_blank")
       }
+    },
+    lazyLoad: function(){
+      var scope = this;
+
+      // ** Jimbo stuff
+      var dateNow = new Date();
+      dateNow = dateNow.toISOString();
+      var k = 0
+      for(var i = 0; i < fundData.length; i++) {
+        if(dateNow < fundData[i].deadline) {
+          k = k + 1;
+        }
+      }
+      $('.results h3 span').html("Your search returned " + k + " results");
+      if($('*[class*=fund_list]:visible').length == 0){
+        $('.contact-div').css('display', 'block');
+        $('.page-header').css('margin-top', '0');
+      }
+
+      // **
+
+      function load(img)
+      {
+        scope.fundDisplay();
+        scope.infoToggle();
+        scope.profileLink();
+        img.fadeOut(0, function() {
+          img.fadeIn(1000);
+        });
+      }
+      this.$('.lazyload').lazyload({load: load});
     }
   });
 
@@ -319,15 +366,45 @@ allShown = false;
         fund.deadline = deadline;
         }
 
-        var fundView = new FundView({model: fund})
+        var fundView = new FundView({model: fund});
         this.$el.append(fundView.el);
       }, this)
       return this;
     }
+
  });
-var fundCollection = new FundCollection(fundData);
-var fundList = new FundList({collection: fundCollection});
-$(document.body).append(fundList.render().el);
+ var startPoint = 0;
+ var endPoint = 5;
+ var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+ var fundList = new FundList({collection: fundCollection});
+ $(document.body).append(fundList.render().el);
+ var scroll_pos_test = 1000;
+ $(window).on('scroll', function() {
+     var y_scroll_pos = window.pageYOffset;
+            // set to whatever you want it to be
+     var counter = 0;
+     if(y_scroll_pos > scroll_pos_test) {
+         //do stuff
+         console.log(fundData.length);
+         if(endPoint < fundData.length){
+           startPoint = startPoint +5;
+           endPoint = endPoint + 5;
+           scroll_pos_test = scroll_pos_test + 1000;
+           console.log(scroll_pos_test);
+           var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+           var fundList = new FundList({collection: fundCollection});
+           $(document.body).append(fundList.render().el);
+         }
+         if(endPoint > fundData.length && counter ==0){
+           console.log("ENOUGH");
+           var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+           var fundList = new FundList({collection: fundCollection});
+           $(document.body).append(fundList.render().el);
+           counter++;
+         }
+     }
+ });
+
 
 //Use modernizr to move search bar when screen is mobile
 // function doneResizing() {
@@ -364,11 +441,11 @@ $(document.body).append(fundList.render().el);
 
 var id;
 
-$('.results h3 span').html("Your search returned " + $('*[class*=fund_list]:visible').length + " results");
-if($('*[class*=fund_list]:visible').length == 0){
-  $('.contact-div').css('display', 'block');
-  $('.page-header').css('margin-top', '0');
-}
+// $('.results h3 span').html("Your search returned " + !$('*[class*=fund_list]').hasClass('#deadline-passed').length + " results");
+// if($('*[class*=fund_list]:visible').length == 0){
+//   $('.contact-div').css('display', 'block');
+//   $('.page-header').css('margin-top', '0');
+// }
 // $(window).resize(function() {
 //   clearTimeout(id);
 //   id = setTimeout(doneResizing, 0);

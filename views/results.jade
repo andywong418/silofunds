@@ -118,7 +118,7 @@ block content
 					.col-lg-8.col-lg-offset-2
 						div.results
 							h3
-								span='Your search returned ' + funds.length + ' results'
+								span
 							button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
 						.contact-div
 							p#contact-us Our search engine didn't return any funds for you! Email 
@@ -126,31 +126,29 @@ block content
 								| and we'll personally find a funding opportunity that suits you.
 						div.page-header
 							script#fund-template(type='text/template')
-								ul.database
-									.fund_list
-										li
-											a(id != 'profile_link' + '<%= id %>')
-												h3.fund_title <%= title %>
-											h4#deadline-passed(class!= 'deadline-passed' + '<%= id %>') Oops the deadline has passed for this fund...
-										li.fund_info
-											p(class!= 'fund_tags' + '<%= id %>') Tags:
-											p(class!= 'fund_min_amount' + '<%= id %>' )
-												span.control
-											p(class!= 'fund_max_amount' + '<%= id %>')
-												span.control <%= maximum_amount %>
-											p(class!='fund_min_age' + '<%= id %>' )
-												span.control <%= minimum_age %>
-											p(class!= 'fund_max_age' +  '<%= id %>')
-												span.control <%= maximum_age %>
-											p(class!= 'nationalities'+ '<%= id %>')
-											p(class!='deadline' + '<%= id %>') Deadline:
-												span.control.badge.badge-deadline <%= deadline %>
-										label(id!='<%= id %>') Additional Information:
-												//
-													i.fa.fa-chevron-circle-down
-												span(class="description_control")
-											h4.fund_link
-												a(href!='<%=application_link %>', target='_blank') Apply Now
+								.lazyload
+									//
+										<ul id="tester" class="database">
+											<div class="fund_list">
+												<li><a id="profile_link<%= id %>">
+														<h3 class="fund_title"><%= title %></h3></a>
+													<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
+												</li>
+												<li class="fund_info">
+													<p class="fund_tags<%= id %>">Tags:</p>
+													<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
+													<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
+													<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
+													<p class="fund_max_age<%= id %>"><span class="control"><%= maximum_age %></span></p>
+													<p class="nationalities<%= id %>"></p>
+													<p class="deadline<%= id %>">Deadline:<span class="control badge badge-deadline"><%= deadline %></span></p>
+												</li>
+												<label id="<%= id %>">Additional Information:
+													<span class="description_control"></span>
+												</label>
+												<h4 class="fund_link"><a href="<%=application_link %>" target="_blank">Apply Now</a></h4>
+											</div>
+										</ul>
 
 block scripts
 	// signup functions

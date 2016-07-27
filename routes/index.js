@@ -47,15 +47,15 @@ router.get(/user/, function(req, res, next){
     next();
   }
 })
-router.get(/fund/, function(req, res, next){
-  console.log(req.user)
-  if(req.user.organisation_or_user == null) {
-    res.render(error);
-    res.end()
-  } else {
-    next();
-  }
-})
+// router.get(/fund/, function(req, res, next){
+//   console.log(req.user)
+//   if(req.user.organisation_or_user == null) {
+//     res.render(error);
+//     res.end()
+//   } else {
+//     next();
+//   }
+// })
 
 
 
