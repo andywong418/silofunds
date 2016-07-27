@@ -22,15 +22,11 @@ allShown = false;
     dateNow = dateNow.toISOString();
     var k = 0
     for(var i = 0; i < fundData.length; i++) {
-      if(dateNow < fundData[i].deadline) {
+      if(dateNow < fundData[i].deadline || fundData[i].deadline == null) {
         k = k + 1;
       }
     }
     $('.results h3 span').html("Your search returned " + k + " results");
-    if($('*[class*=fund_list]:visible').length == 0){
-      $('.contact-div').css('display', 'block');
-      $('.page-header').css('margin-top', '0');
-    }
     $(this).html("Show all funds - including those which are expired");
     $('.results h3 span').html("Your search returned " + k + " results");
     allShown = false;
@@ -133,7 +129,6 @@ allShown = false;
     },
     fundDisplay: function(){
       var scope = this;
-
       // Do the date
       var dateNow = new Date();
       dateNow = dateNow.toISOString();
@@ -145,55 +140,67 @@ allShown = false;
       var maximum_amount = this.model.get('maximum_amount');
       var minimum_age = this.model.get('minimum_age');
       var maximum_age = this.model.get('maximum_age');
-      if (deadline < dateNow){
+      if (deadline <= dateNow){
         this.$('.deadline-passed' + id).css('display', 'block');
         this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
         this.$('.deadline-passed' + id).closest('.fund_list').css('display', 'none');
 
       };
 
-      if(!tags){
-        this.$(".fund_tags"+ id).toggle(false);
-      }
-      else{
-        if(tags.length > 8){
-          for(var x = 0; x < 7; x++){
-            var searchTags = tags[x].split(" ").join("+");
-            this.$(".fund_tags" + id).append("<span class = 'badge badge-tags' style = 'margin-top: 10px;'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[x] + "</a></span>");
-
+      // $('#tags').readmore({
+      //     collapsedHeight: 20
+      // })
+      if (!tags) {
+          this.$(".fund_tags" + id).toggle(false);
+      } else {
+          for (var y = 0; y < tags.length; y++) {
+              var searchTags = tags[y].split(" ").join("+");
+              this.$(".fund_tags" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
           }
-            this.$(".fund_tags" + id).append("<span class = 'etc' style = 'margin-top: 10px;' '> ... </span>");
-        }
-        else{
-          for(var y = 0; y < tags.length; y++){
-            var searchTags = tags[y].split(" ").join("+");
-            this.$(".fund_tags" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
-
-          }
-        }
-
       }
+      // console.log($('.fund_tags' +id).css('height'))
+      if(tags.length > 8) {
+        var tagId = "tagsReadmore" + id
+        $('.' + "fund_tags" + id).readmore({
+          collapsedHeight: 35,
+          moreLink: '<a href="#">...</a>'
+        })
+      }
+
+
+
 
       if(!countries){
          this.$(".nationalities"+ id).toggle(false);
       }
       else{
-        if(countries.length > 4){
-          for(var k = 0; k < 4; k++){
-             this.$(".nationalities" + id).append("<span class = 'badge badge-error'><a class='display' href= '/results?tags=&age=&nationality='" + countries[k] + "'>" + countries[k] + "</a></span>");
-             this.$(".nationalities" + id + " span").css("margin-left", "5px");
-             this.$(".nationalities" + id).css('textTransform', 'capitalize');
-             if(k == 3){
-               this.$(".nationalities" + id).append("<span> ... </span>");
-             }
-           }
+         for(var j = 0; j < countries.length; j++){
+           this.$(".nationalities" + id).append("<span class = 'badge badge-error'><a class = 'display' href= '/results?tags=&age=&nationality=" + countries[j] + "'>" + countries[j] + "</a></span>");
+           this.$(".nationalities" + id+ " span").css("margin-left", "5px");
+           this.$(".nationalities" + id).css('textTransform', 'capitalize');
          }
-         else{
-           for(var j = 0; j < countries.length; j++){
-             this.$(".nationalities" + id).append("<span class = 'badge badge-error'><a class = 'display' href= '/results?tags=&age=&nationality=" + countries[j] + "'>" + countries[j] + "</a></span>");
-             this.$(".nationalities" + id+ " span").css("margin-left", "5px");
-             this.$(".nationalities" + id).css('textTransform', 'capitalize');
-           }
+        //  console.log($('nationalities' +id).css('height'))
+         if(countries.length > 6 && countries.length < 20) {
+           $('.nationalities' + id).readmore({
+             collapsedHeight: 35,
+             moreLink: '<a href="#">...</a>',
+           })
+         }
+         if(countries.length >= 20) {
+           $('.nationalities' + id).readmore({
+             collapsedHeight: 35,
+             moreLink: '<a href="#" class="countriesModalLink">...</a>',
+             lessLink: '<a href="#" class="countriesModalLink">...</a>'
+           })
+           $(document).on('click', '.countriesModalLink', function(){
+             $('#countriesModalText').empty();
+             $('#countriesModal').modal('show');
+             for(var i = 0; i < countries.length; i++) {
+               $('#countriesModalText').append(upperCase(countries[i]) + ", ")
+               $('#countriesModalText').css('font-size', '13px')
+             }
+           })
+           $('.nationalities' + id).css('max-height', '35px')
          }
        }
 
@@ -240,68 +247,42 @@ allShown = false;
          this.$(".max_age" + id).css("margin-left", "-10px");
        }
     },
+
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
-      // console.log(description);
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
       if(description){
-        var splitDescriptionArray = description.split(/<\/.*?>/g);
-        splitDescriptionArray = splitDescriptionArray.filter(function(element){
-          return element.length > 5
-        });
-        var splitNumber = Math.floor((splitDescriptionArray.length)/2);
-        if(splitNumber > 1){
-          var index = description.indexOf(splitDescriptionArray[1]);
-          if(index < 60){
-            index = description.indexOf(splitDescriptionArray[2]);
-            if (index < 60){
-              index = description.indexOf(splitDescriptionArray[3]);
-            }
-          }
-          var constant = description.substring(0, index);
-          var readMore = description.substring(index);
-          var finalDescription = constant + "<div id = 'read-more" + id + "' class = 'read-more'>" + readMore + "</div> <a class='read-link' id = 'read-link" + id +  "'> Read more </a>";
-          this.$("#" + id).children('.description_control').html(finalDescription);
-        }
-        else{
-          this.$("#" + id).children('.description_control').html(description);
-        }
+        this.$("#" + id).children('.description_control').html(description);
       }
-
-
+      $('.description_control').readmore({
+        moreLink: '<a href="#">...read more</a>',
+        collapsedHeight: 40,
+      })
+      // Used following two lines to find the height of 2em + some margins, then inputted into above, useful if you want to change
+      // $('.description_control').css("max-height", 'calc(2em + 8px)')
+      // console.log($('.description_control').height())
 
       //Conventionalised the styles in css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
       this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
-
-      var fundId = id;
-      var readMore = true;
-      this.$('#read-link' + fundId).on('click', function(){
-        if(readMore){
-          $('#read-more' + fundId).slideDown();
-          $(this).html("Read less");
-          readMore = false;
-        }
-        else{
-          $('#read-more' + fundId).slideUp();
-          $(this).html("Read more");
-          readMore = true;
-        }
-      })
     },
+
+
+
+
     addApplication: function(){
       if(user && !user.organisation_or_user){
           var fund_id = this.model.get('id');
           parameters = {"fund_id": fund_id};
           $.post('/users/add-application/'+ user.id, parameters, function(data){
           })
-
       }
     },
+
     profileLink: function(){
       var fundId = this.model.get('id');
       // console.log(fundId);
@@ -309,7 +290,6 @@ allShown = false;
       var fund_user = this.model.get('fund_user');
       // console.log(fund_user);
       if (fund_user){
-        console.log("WHAT");
         this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
       }
       else{
@@ -319,24 +299,17 @@ allShown = false;
     },
     lazyLoad: function(){
       var scope = this;
-
-      // ** Jimbo stuff
       var dateNow = new Date();
       dateNow = dateNow.toISOString();
       var k = 0
       for(var i = 0; i < fundData.length; i++) {
-        if(dateNow < fundData[i].deadline) {
+        if(dateNow < fundData[i].deadline || fundData[i].deadline == null) {
           k = k + 1;
         }
       }
       $('.results h3 span').html("Your search returned " + k + " results");
-      if($('*[class*=fund_list]:visible').length == 0){
-        $('.contact-div').css('display', 'block');
-        $('.page-header').css('margin-top', '0');
-      }
 
       // **
-
       function load(img)
       {
         scope.fundDisplay();
@@ -354,6 +327,21 @@ allShown = false;
     el:".page-header",
 
     render: function(){
+      // Display 'email us' message onload if no funds available
+      var dateNow = new Date();
+      dateNow = dateNow.toISOString();
+      var k = 0
+      for(var i = 0; i < fundData.length; i++) {
+        if(dateNow < fundData[i].deadline || fundData[i].deadline == null) {
+          k = k + 1;
+        }
+      }
+      if(k == 0) {
+        $('.contact-div').css('display', 'block');
+        $('.page-header').css('margin-top', '0');
+        $('.results h3 span').html("Your search returned " + 0 + " results");
+      }
+
       this.collection.each(function(fund){
         if(!fund.application_link){
           fund.application_link = fund.link;
@@ -379,24 +367,21 @@ allShown = false;
  var fundList = new FundList({collection: fundCollection});
  $(document.body).append(fundList.render().el);
  var scroll_pos_test = 1000;
+ var counter = 0;
  $(window).on('scroll', function() {
      var y_scroll_pos = window.pageYOffset;
             // set to whatever you want it to be
-     var counter = 0;
      if(y_scroll_pos > scroll_pos_test) {
          //do stuff
-         console.log(fundData.length);
+         startPoint = startPoint +5;
+         endPoint = endPoint + 5;
          if(endPoint < fundData.length){
-           startPoint = startPoint +5;
-           endPoint = endPoint + 5;
            scroll_pos_test = scroll_pos_test + 1000;
-           console.log(scroll_pos_test);
            var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
            var fundList = new FundList({collection: fundCollection});
            $(document.body).append(fundList.render().el);
          }
          if(endPoint > fundData.length && counter ==0){
-           console.log("ENOUGH");
            var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
            var fundList = new FundList({collection: fundCollection});
            $(document.body).append(fundList.render().el);
@@ -404,6 +389,13 @@ allShown = false;
          }
      }
  });
+
+// Readmore
+// Scroll 1px onload so results show
+ function Scrolldown() {
+      window.scroll(0, 1);
+ }
+ window.onload = Scrolldown;
 
 
 //Use modernizr to move search bar when screen is mobile
@@ -454,3 +446,13 @@ var id;
 // doneResizing();
 
 });
+
+// First letter of each word upperCase function
+function upperCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   }
+   return splitStr.join(' ');
+}
