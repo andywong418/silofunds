@@ -72,10 +72,11 @@ module.exports = {
 			res.redirect('/');
 		}
   },
-	saveAbout: function(req, res){
+	saveUserSignup: function(req, res){
 
 		var userId = req.user.id;
-		req.body = changeArrayfields(req.body, ['country_of_residence']);
+		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university']
+		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		console.log(userId);
 		models.users.findById(userId).then(function(user){
