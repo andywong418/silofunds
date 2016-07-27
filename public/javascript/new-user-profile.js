@@ -31,7 +31,8 @@ $(document).ready(function(){
 		id: 'about-handler',
 		events: {
 			'click #profile-picture': 'addProfilePicture',
-			'change input[id="my_file"]': 'changePicture'
+			'change input[id="my_file"]': 'changePicture',
+			'click #save': 'saveAbout'
 		},
 		initialize: function(){
 			var aboutModel = this.model;
@@ -99,6 +100,9 @@ $(document).ready(function(){
 					reader.readAsDataURL(e.currentTarget.files[0]);
 				}
 
+		},
+		saveAbout: function(){
+			
 		}
 	})
 	var EducationDisplay = Backbone.View.extend({

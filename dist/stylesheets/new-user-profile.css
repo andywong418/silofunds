@@ -46,7 +46,6 @@ body {
       box-shadow: none;
       -webkit-box-shadow: none; }
   #signup-wrapper #signup-form {
-    font-size: 13px !important;
     background-color: white;
     width: 80%;
     border: 1px solid #e1e8ed;
@@ -57,7 +56,7 @@ body {
     font-family: 'Source Sans Pro'; }
     #signup-wrapper #signup-form .description {
       font-weight: bold;
-      font-size: 13px;
+      font-size: 14px;
       color: #34495e;
       margin-top: 5px; }
     #signup-wrapper #signup-form p {
@@ -92,6 +91,9 @@ body {
         height: auto; }
     #signup-wrapper #signup-form #religion-row, #signup-wrapper #signup-form #previous-university-row {
       border-bottom: none; }
+    #signup-wrapper #signup-form #religion-select {
+      border: 2px solid #dad7d4;
+      border-radius: 2px !important; }
     #signup-wrapper #signup-form input, #signup-wrapper #signup-form ul.token-input-list-facebook {
       border: 2px solid #dad7d4;
       width: 100%;
@@ -109,7 +111,8 @@ body {
         font-family: 'Source Sans Pro';
         margin: 10px; }
       #signup-wrapper #signup-form .save #skip {
-        padding-top: 8px; }
+        padding-top: 8px;
+        font-size: 14px; }
       #signup-wrapper #signup-form .save #save {
         margin-right: 20px;
         background: #457fca;

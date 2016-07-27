@@ -174,7 +174,7 @@ $(document).ready(function(){
         age = Math.floor((nowDate - birthDate) / 31536000000 );
       }
 
-      var userFields = [age, 'country_of_residence', 'religion', 'subject', 'degree', 'university'];
+      var userFields = [age, 'country_of_residence', 'religion', 'subject', 'previous_degree', 'previous_university'];
       var nonEligibleCounter = 0;
       if(fund.minimum_age){
         if(age < fund.minimum_age){

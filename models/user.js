@@ -61,13 +61,25 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'subject'
     },
-    degree: {
+    target_degree: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'degree'
+      field: 'target_degree'
     },
-    university: {
+    previous_degree: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'university'
+      field: 'previous_degree'
+    },
+    target_university: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'target_university'
+    },
+    previous_university: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'previous_university'
+    },
+    favourite_funds: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'favourite_funds'
     }
   }, {
     timestamps: true,

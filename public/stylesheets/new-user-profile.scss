@@ -56,7 +56,6 @@ body{
 		}
 	}
 	#signup-form{
-		font-size: 13px !important;
 		background-color: white;
 		width:80%;
 		border: 1px solid #e1e8ed;
@@ -67,7 +66,7 @@ body{
 		font-family: 'Source Sans Pro';
 		.description{
 			font-weight: bold;
-			font-size: 13px;
+			font-size: 14px;
 			color: #34495e;
 			margin-top: 5px;
 		}
@@ -111,6 +110,10 @@ body{
 		#religion-row,#previous-university-row{
 			border-bottom: none;
 		}
+		#religion-select{
+			border: 2px solid #dad7d4;
+			border-radius: 2px !important;
+		}
 		input, ul.token-input-list-facebook{
 			border: 2px solid #dad7d4;
 			width: 100%;
@@ -133,6 +136,7 @@ body{
 
 			#skip {
 				padding-top: 8px;
+				font-size: 14px;
 			}
 
 			#save {

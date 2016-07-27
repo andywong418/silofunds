@@ -26,12 +26,13 @@ router.post('/', passport.authenticate('local-signup', {
     var useremail = req.body.useremail;
     var userpassword = req.body.userpassword;
     var fundOption = req.body.fundOption;
-
+		console.log("WHAT GOING ON");
 		req.session.lastPage = '/signup';
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
       if(typeof fundOption == 'undefined'){
+				console.log("HELLO");
         res.render('signup/new-user-profile', {user: user});
       }
       else{

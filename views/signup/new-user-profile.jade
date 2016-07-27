@@ -23,7 +23,7 @@ block content
 				span.glyphicon.glyphicon-menu-right
 		#signup-form.center-block
 			script#about-template(type='text/template')
-				p#about-header.description Get started by telling us more about yourself, your funding goals and when your funding completion date.
+				p#about-header.description Get started by telling us more about yourself, your funding goals and your funding completion date.
 				.row#picture-row
 					.col-md-3
 						p#picture.description Profile Picture
@@ -62,7 +62,35 @@ block content
 						p#religion.description Religious beliefs
 					.col-md-1
 					.col-md-6
-						input#religion-input(name="religion")
+						span.input-group-btn
+							select#religion-select.form-control(data-placeholder='Choose a religion...', name= "religion")
+								option(value='') -- select one --
+								option(value = 'null') I prefer not to say
+								option(value='African Traditional & Diasporic') African Traditional & Diasporic
+								option(value='Agnostic') Agnostic
+								option(value='Atheist') Atheist
+								option(value="Baha'i") Baha'i
+								option(value='Buddhism') Buddhism
+								option(value='Cao Dai') Cao Dai
+								option(value='Chinese traditional religion') Chinese traditional religion
+								option(value='Christianity') Christianity
+								option(value='Hinduism') Hinduism
+								option(value='Islam') Islam
+								option(value='Jainism') Jainism
+								option(value='Juche') Juche
+								option(value='Judaism') Judaism
+								option(value='Neo-Paganism') Neo-Paganism
+								option(value='Nonreligious') Nonreligious
+								option(value='Rastafarianism') Rastafarianism
+								option(value='Secular') Secular
+								option(value='Shinto') Shinto
+								option(value='Sikhism') Sikhism
+								option(value='Spiritism') Spiritism
+								option(value='Tenrikyo') Tenrikyo
+								option(value='Unitarian-Universalism') Unitarian-Universalism
+								option(value='Zoroastrianism') Zoroastrianism
+								option(value='primal-indigenous') primal-indigenous
+								option(value='Other') Other
 				.container-fluid.save
 					a#save.btn.btn-primary(href="#education") Save progress
 					a#skip(href='#education') Skip
