@@ -361,7 +361,7 @@ $("#login-form").submit(function(e){
                $(".logout").attr("href", '/funds/logout/' + user.id);
              }
              else{
-               $("#home").attr("href", '/users/' + user.id);
+               $("#home").attr("href", '/users');
                $(".settings").attr("href", '/users/settings/' +user.id );
                $(".logout").attr("href", '/users/logout/' + user.id);
              }

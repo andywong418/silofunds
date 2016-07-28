@@ -8,7 +8,7 @@ p{
 	position:relative;
 }
 body{
-		background-color: #eff1f3;
+		background-color: #f0f2f4;
 }
 #signup-wrapper{
 	padding-bottom: 50px;
@@ -34,6 +34,7 @@ body{
 
 	}
 	#process-flex-container{
+		width: 100%;
 		margin-top: 20px;
 		.process{
 			font-family: 'Source Sans Pro';
@@ -47,6 +48,9 @@ body{
 				font-size: 13px;
 			}
 
+		}
+		.preview{
+			margin-left: 2%;
 		}
 		.active{
 			background-color: rgba(247,245,242,0.6);
@@ -125,6 +129,9 @@ body{
 				border: 2px solid #2752ff;
 				outline: none;
 			}
+		}
+		li.token-input-token-facebook{
+			margin-top: -1px;
 		}
 		.token-input-input-token-facebook{
 			input{

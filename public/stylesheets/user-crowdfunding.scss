@@ -1,0 +1,173 @@
+$border-color: 1px solid #e1e8ed;
+body{
+	background-color: #f0f2f4;
+	.navbar-custom{
+		position:relative;
+	}
+	div.navbar-center-container{
+		position: absolute;
+	}
+	#crowdfunding-wrapper{
+		margin-top: 50px;
+		padding-bottom: 50px;
+		#social-media-flex-container{
+			display: flex;
+			margin-top: 15px;
+			.social{
+				color: #4d4d88;
+				font-size: 15px;
+				border: $border-color;
+				padding: 10px;
+				border-radius: 3px;
+				cursor: pointer;
+				margin-right: 20px;
+				flex-grow: 1;
+				i{
+					margin-right: 5px;
+					font-size: 18px;
+					color: #4d4d88;
+				}
+				&:hover{
+					background: #4d4d88;
+					color: white;
+					i{
+						color: white;
+					}
+				}
+			}
+		}
+		#tab-table{
+			margin-top: 15px;
+			background: white;
+			padding: 20px;
+			padding-bottom: 30px;
+			padding-top: 10px;
+
+			border: $border-color;
+			#tab-menu-flex{
+				display: flex;
+				border-bottom: $border-color;
+				.menu-item{
+					flex-grow: 1;
+					p{
+						padding-bottom: 8px;
+						text-align: center;
+						font-size: 16px;
+						color: #4d4d88;
+						margin-bottom: 0;
+
+					}
+					.active-item{
+						border-bottom: 3px solid #2390fd;
+						color: #22223d;
+					}
+
+				}
+			}
+			#tab-content{
+				padding: 20px;
+
+				#story{
+					font-size: 16px;
+				}
+			}
+		}
+
+		#user-progress{
+			#progress-card{
+				background-color: white;
+				margin-top: 10px;
+				padding: 25px;
+				padding-top: 10px;
+				border: 1px solid #e1e8ed;
+				h3{
+					font-family: 'Helvetica Neue';
+					font-weight: 500;
+					margin-top: 10px;
+					text-align: center;
+					margin-bottom: 15px;
+				}
+				#raised{
+					text-align: left;
+					margin-bottom: 5px;
+					font-weight: bold;
+					font-size: 23px;
+					span{
+						font-size: 16px;
+						margin-left: 3px;
+						font-weight: 100;
+					}
+				}
+				h4{
+					font-family: 'Helvetica Neue';
+				}
+				.progress-bar{
+					background-color: #4FDA9B;
+				}
+				#progress-info{
+					p{
+						font-weight: bold;
+						text-align: center;
+						span{
+							display: block;
+							font-weight: normal;
+							font-size: 16px;
+						}
+					}
+
+				}
+				#donate{
+					width: 100%;
+
+					color:white;
+					padding: 10px;
+					background-color: #2390fd;
+					font-size: 20px;
+					&:hover{
+						background-color: #0273e3;
+					}
+				}
+				.btn-facebook{
+					width: 100%;
+
+					margin-top: 20px;
+					text-align: center;
+				}
+
+			}
+			#funding-institutions, #recent-donations{
+				margin-left: 0;
+				margin-top: 40px;
+				#fund-banner, #donation-banner{
+					p{
+						background-color: white;
+						border: 1px solid #e1e8ed;
+						font-size: 16px;
+						padding: 10px;
+						padding-left: 15px;
+						border-radius: 3px;
+						color: #2390fd;
+
+						i{
+							color: #2390fd;
+							margin-left: 5px;
+						}
+					}
+				}
+				#none, #no-donations{
+					font-size: 16px;
+					text-align: center;
+				}
+			}
+
+		}
+		#profile_picture{
+
+			width: 100%;
+			height: auto;
+			max-height: 500px;
+			border-radius: 3px;
+		}
+
+	}
+}

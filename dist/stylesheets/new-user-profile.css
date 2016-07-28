@@ -8,7 +8,7 @@ p {
   position: relative; }
 
 body {
-  background-color: #eff1f3; }
+  background-color: #f0f2f4; }
 
 #signup-wrapper {
   padding-bottom: 50px;
@@ -29,6 +29,7 @@ body {
       font-family: 'Source Sans Pro';
       margin-bottom: 15px; }
   #signup-wrapper #process-flex-container {
+    width: 100%;
     margin-top: 20px; }
     #signup-wrapper #process-flex-container .process {
       font-family: 'Source Sans Pro';
@@ -40,6 +41,8 @@ body {
       #signup-wrapper #process-flex-container .process span {
         top: 2px;
         font-size: 13px; }
+    #signup-wrapper #process-flex-container .preview {
+      margin-left: 2%; }
     #signup-wrapper #process-flex-container .active {
       background-color: rgba(247, 245, 242, 0.6);
       color: #3656d8;
@@ -104,6 +107,8 @@ body {
       #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus, #signup-wrapper #signup-form ul.token-input-list-facebook:active, #signup-wrapper #signup-form ul.token-input-list-facebook:focus {
         border: 2px solid #2752ff;
         outline: none; }
+    #signup-wrapper #signup-form li.token-input-token-facebook {
+      margin-top: -1px; }
     #signup-wrapper #signup-form .token-input-input-token-facebook input {
       width: 500px !important;
       margin-top: -5px; }
