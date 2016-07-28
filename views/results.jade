@@ -152,7 +152,7 @@ block content
 													<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
 													<p class="fund_max_age<%= id %>"><span class="control"><%= maximum_age %></span></p>
 													<p class="nationalities<%= id %>"></p>
-													<p class="deadline<%= id %>">Deadline:<span class="control badge badge-deadline"><%= deadline.split('T')[0].split('-').reverse().join('/') %></span></p>
+													<p class="deadline<%= id %>">Deadline:<span class="control badge badge-deadline"><%= deadline %></span></p>
 												</li>
 												<label id="<%= id %>">Additional Information:
 													<div class="description_control"></div>
@@ -167,12 +167,12 @@ block scripts
 	//advanced search
 	script(src='javascript/advanced-search.js')
 	//search functions
-	script(src='javascript/results.js')
 	//Modernizr
 	script(src='javascript/lib/modernizr-custom.js')
 	//lazyload
 	script(src='javascript/jquery.lazyload-any.js')
 	//readmore
+	script(src='javascript/results.js')
 	script.
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};

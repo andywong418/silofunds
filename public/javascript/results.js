@@ -336,27 +336,26 @@ allShown = false;
           k = k + 1;
         }
       }
-      if(k == 0) {
+      if(k == 0){
         $('.contact-div').css('display', 'block');
         $('.page-header').css('margin-top', '0');
         $('.results h3 span').html("Your search returned " + 0 + " results");
       }
 
       this.collection.each(function(fund){
-        if(!fund.application_link){
-          fund.application_link = fund.link;
+        if(!fund.get('application_link')){
+          fund.set('application_link', fund.get('link'));
         }
-
         var deadline;
-        if(fund.deadline){
-        var deadlineArray = fund.deadline.split("T");
-        deadline = deadlineArray[0].split("-").reverse().join("-");
-        fund.deadline = deadline;
+        if(fund.get('deadline')){
+          var value = fund.get('deadline');
+          var deadlineArray = value.split("T");
+          deadline = deadlineArray[0].split("-").reverse().join("-");
+          fund.set('deadline', deadline);
         }
-
         var fundView = new FundView({model: fund});
         this.$el.append(fundView.el);
-      }, this)
+      }, this);
       return this;
     }
 
@@ -366,7 +365,7 @@ allShown = false;
  var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
  var fundList = new FundList({collection: fundCollection});
  $(document.body).append(fundList.render().el);
- var scroll_pos_test = 1000;
+ var scroll_pos_test = 300;
  var counter = 0;
  $(window).on('scroll', function() {
      var y_scroll_pos = window.pageYOffset;
@@ -375,13 +374,14 @@ allShown = false;
          //do stuff
          startPoint = startPoint +5;
          endPoint = endPoint + 5;
+
          if(endPoint < fundData.length){
            scroll_pos_test = scroll_pos_test + 1000;
            var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
            var fundList = new FundList({collection: fundCollection});
            $(document.body).append(fundList.render().el);
          }
-         if(endPoint > fundData.length && counter ==0){
+         if(endPoint > fundData.length && counter ===0){
            var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
            var fundList = new FundList({collection: fundCollection});
            $(document.body).append(fundList.render().el);
