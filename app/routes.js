@@ -44,6 +44,18 @@ var auth_admin = function (req, res, next) {
 };
 
 module.exports.initialize = function (app) {
+  // Redirects
+  if (process.env.NODE_ENV == 'production') {
+    app.get('*', function(req, res, next) {
+      if(req.headers['x-forwarded-proto']!='https') {
+        res.redirect('https://www.silofunds.com'+req.url);
+      } else {
+        next(); /* Continue to other routes if we're not redirecting */
+      }
+    });
+  }
+  ////
+
   app.use('/', index);
   app.use('/users', users);
   app.use('/funds', funds);
