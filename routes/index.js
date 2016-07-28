@@ -38,25 +38,26 @@ router.post('/register', signup.subscribe, passport.authenticate('registrationSt
 router.get('/registerSplit', users.registerSplitterGET)
 
 
+// NOTE: This needs changing
 // If a user is logged in, then they should not be able to access fund pages, and vice versa
-router.get(/user/, function(req, res, next){
-  console.log(req.user)
-  if(req.user.organisation_or_user !== null) {
-    res.render(error);
-    res.end()
-  } else {
-    next();
-  }
-})
-router.get(/organisation/, function(req, res, next){
-  console.log(req.user)
-  if(req.user.organisation_or_user == null) {
-    res.render(error);
-    res.end()
-  } else {
-    next();
-  }
-})
+// router.get(/user/, function(req, res, next){
+//   console.log(req.user)
+//   if(req.user.organisation_or_user !== null) {
+//     res.render(error);
+//     res.end()
+//   } else {
+//     next();
+//   }
+// })
+// router.get(/organisation/, function(req, res, next){
+//   console.log(req.user)
+//   if(req.user.organisation_or_user == null) {
+//     res.render(error);
+//     res.end()
+//   } else {
+//     next();
+//   }
+// })
 
 // *** Password reset
 // GET forgotten password page (added some possible flash messages)
