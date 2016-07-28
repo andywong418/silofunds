@@ -168,544 +168,537 @@ var userFields =  ["username","profile_picture","description","past_work","date_
       console.log('All is well');
     }
 
-    models.es.indices.delete({ index: '_all' }, function(err, res) {
+    models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
       if (err) {
-        console.error(err.message);
-      } else {
-        console.log('Indexes have been deleted!');
+        console.log("Error checking existence of funds index:");
+        console.log(err);
+      } else if (resp) {
+        console.log("Does the funds index exist?:");
+        console.log(resp);
       }
-      models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
+
+      // If it exists, refresh its settings & mappings by deleting & creating again. This will
+      // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
+      models.es.indices.delete({
+        index: 'funds',
+        ignore: [404]
+      }, function(err, resp) {
         if (err) {
-          console.log("Error checking existence of funds index:");
+          console.log("Error deleting funds index:");
           console.log(err);
         } else if (resp) {
-          console.log("Does the funds index exist?:");
-          console.log(resp);
+          console.log("Deleted funds index.");
         }
 
-        // If it exists, refresh its settings & mappings by deleting & creating again. This will
-        // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
-        models.es.indices.delete({
+        models.es.indices.create({
           index: 'funds',
-          ignore: [404]
-        }, function(err, resp) {
-          if (err) {
-            console.log("Error deleting funds index:");
-            console.log(err);
-          } else if (resp) {
-            console.log("Deleted funds index.");
-          }
-
-          models.es.indices.create({
-            index: 'funds',
-            body: {
-              "settings": {
-                "analysis": {
-                  "filter": {
-                    "autocomplete_filter": {
-                      "type": "edge_ngram",
-                      "min_gram": 1,
-                      "max_gram": 20
+          body: {
+            "settings": {
+              "analysis": {
+                "filter": {
+                  "autocomplete_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 1,
+                    "max_gram": 20
+                  }
+                },
+                "analyzer": {
+                  "autocomplete": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                      "lowercase",
+                      "autocomplete_filter"
+                    ]
+                  },
+                  "my_english": {
+                    "type":      "english",
+                    "stopwords": "_english_"
+                  }
+                }
+              }
+            },
+            'mappings': {
+              'autocomplete_countries': {
+                'properties': {
+                  'country': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                     }
                   },
-                  "analyzer": {
-                    "autocomplete": {
-                      "type": "custom",
-                      "tokenizer": "standard",
-                      "filter": [
-                        "lowercase",
-                        "autocomplete_filter"
-                      ]
-                    },
-                    "my_english": {
-                      "type":      "english",
-                      "stopwords": "_english_"
-                    }
+                  "suggest_countries": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
                   }
                 }
               },
-              'mappings': {
-                'autocomplete_countries': {
-                  'properties': {
-                    'country': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                      }
-                    },
-                    "suggest_countries": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": true
+              'autocomplete_degrees': {
+                'properties': {
+                  'degree': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                     }
+                  },
+                  "suggest_degrees": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
                   }
-                },
-                'autocomplete_degrees': {
-                  'properties': {
-                    'degree': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                      }
-                    },
-                    "suggest_degrees": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": true
+                }
+              },
+              'autocomplete_universities': {
+                'properties': {
+                  'university': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                     }
+                  },
+                  "suggest_universities": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
                   }
-                },
-                'autocomplete_universities': {
-                  'properties': {
-                    'university': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                      }
-                    },
-                    "suggest_universities": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": true
+                }
+              },
+              'autocomplete_religions': {
+                'properties': {
+                  'degree': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                     }
+                  },
+                  "suggest_religions": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
                   }
-                },
-                'autocomplete_religions': {
-                  'properties': {
-                    'degree': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                      }
-                    },
-                    "suggest_religions": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": true
+                }
+              },
+              'autocomplete_subjects': {
+                'properties': {
+                  'subject': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                     }
+                  },
+                  "suggest_subjects": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": true
                   }
-                },
-                'autocomplete_subjects': {
-                  'properties': {
-                    'subject': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                      }
-                    },
-                    "suggest_subjects": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": true
+                }
+              },
+              'fund': {
+                'properties': {
+                  "application_decision_date": {
+                    "type": "date"
+                  },
+                  "application_documents": {
+                    "type": "string"
+                  },
+                  "application_open_date": {
+                    "type": "date"
+                  },
+                  'title': {
+                    'type': 'string',
+                    'fields': {
+                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
                     }
-                  }
-                },
-                'fund': {
-                  'properties': {
-                    "application_decision_date": {
-                      "type": "date"
-                    },
-                    "application_documents": {
-                      "type": "string"
-                    },
-                    "application_open_date": {
-                      "type": "date"
-                    },
-                    'title': {
-                      'type': 'string',
-                      'fields': {
-                        "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
-                      }
-                    },
-                    "tags": {
-                      "type": "string",
-                      "index_name": "tag"
-                    },
-                    "duration_of_scholarship": {
-                      "type": "string"
-                    },
-                    "email": {
-                      "type": "string"
-                    },
-                    "maximum_amount": {
-                      "type": "long"
-                    },
-                    "minimum_amount": {
-                      "type": "long"
-                    },
-                    "maximum_age": {
-                      "type": "integer"
-                    },
-                    "minimum_age": {
-                      "type": "integer"
-                    },
-                    "number_of_places": {
-                      "type": "integer"
-                    },
-                    "interview_date": {
-                      "type": "date"
-                    },
-                    "invite_only": {
-                      "type": "boolean"
-                    },
-                    "link": {
-                      "type": "string"
-                    },
-                    "religion": {
-                      "type": "string"
-                    },
-                    "gender": {
-                      "type": "string"
-                    },
-                    "financial_situation": {
-                      "type": "string"
-                    },
-                    "merit_or_finance": {
-                      "type": "string"
-                    },
-                    "country_of_residence": {
-                      "type": "string"
-                    },
-                    "target_country": {
-                      "type": "string"
-                    },
-                    "required_grade": {
-                      "type": "string"
-                    },
-                    "specific_location": {
-                      "type": "string"
-                    },
-                    "subject": {
-                      "type": "string"
-                    },
-                    "target_degree": {
-                      "type": "string"
-                    },
-                    "target_university": {
-                      "type": "string"
-                    },
-                    "required_degree": {
-                      "type": "string"
-                    },
-                    "required_university": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string",
-                      "index": "not_analyzed"
-                    },
-                    "suggest_funds": {
-                      "type": "completion",
-                      "index_analyzer": "simple",
-                      "search_analyzer": "simple",
-                      "payloads": false
-                    },
-                    "deadline": {
-                      "type": "date"
-                    },
-                    "organisation_id" : {
-                      "type": "integer"
-                    }
+                  },
+                  "tags": {
+                    "type": "string",
+                    "index_name": "tag"
+                  },
+                  "duration_of_scholarship": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "maximum_amount": {
+                    "type": "long"
+                  },
+                  "minimum_amount": {
+                    "type": "long"
+                  },
+                  "maximum_age": {
+                    "type": "integer"
+                  },
+                  "minimum_age": {
+                    "type": "integer"
+                  },
+                  "number_of_places": {
+                    "type": "integer"
+                  },
+                  "interview_date": {
+                    "type": "date"
+                  },
+                  "invite_only": {
+                    "type": "boolean"
+                  },
+                  "link": {
+                    "type": "string"
+                  },
+                  "religion": {
+                    "type": "string"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "financial_situation": {
+                    "type": "string"
+                  },
+                  "merit_or_finance": {
+                    "type": "string"
+                  },
+                  "country_of_residence": {
+                    "type": "string"
+                  },
+                  "target_country": {
+                    "type": "string"
+                  },
+                  "required_grade": {
+                    "type": "string"
+                  },
+                  "specific_location": {
+                    "type": "string"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "target_degree": {
+                    "type": "string"
+                  },
+                  "target_university": {
+                    "type": "string"
+                  },
+                  "required_degree": {
+                    "type": "string"
+                  },
+                  "required_university": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                  },
+                  "suggest_funds": {
+                    "type": "completion",
+                    "index_analyzer": "simple",
+                    "search_analyzer": "simple",
+                    "payloads": false
+                  },
+                  "deadline": {
+                    "type": "date"
+                  },
+                  "organisation_id" : {
+                    "type": "integer"
                   }
                 }
               }
             }
-          }, function(err, resp) {
-            if (err) {
-              console.log("Couldn't create funds index:");
-              console.log(err);
-            } else if (resp) {
-              console.log("Created funds index.");
-            }
+          }
+        }, function(err, resp) {
+          if (err) {
+            console.log("Couldn't create funds index:");
+            console.log(err);
+          } else if (resp) {
+            console.log("Created funds index.");
+          }
 
-            // Automatically sync ALL on restart
-            models.funds.findAll().then(function(funds) {
-              var body = [];
-              funds = fund_array_to_json(funds);
+          // Automatically sync ALL on restart
+          models.funds.findAll().then(function(funds) {
+            var body = [];
+            funds = fund_array_to_json(funds);
+
+            // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+            funds.forEach(function(fund) {
+              body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+              var wrapper = {};
+
+              for (var i = 0; i < fields.length ; i++) {
+                wrapper[fields[i]] = fund[fields[i]];
+              }
+
+              wrapper["suggest"] = { "input": fund.tags };
+
+              body.push(wrapper);
+            });
+
+            models.es.bulk({
+              body: body
+            }, function (err, resp) {
+              console.log('Bulk sync for funds complete.');
+
+              // Automatically sync ALL on restart
+              var autocompleteCountriesBody = [];
+              var list_of_countries = require('../resources/countries.js');
+              var country_id = 0;
 
               // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-              funds.forEach(function(fund) {
-                body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+              list_of_countries.forEach(function(country) {
+                country_id++;
+                autocompleteCountriesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_countries', '_id': country_id }});
                 var wrapper = {};
 
-                for (var i = 0; i < fields.length ; i++) {
-                  wrapper[fields[i]] = fund[fields[i]];
-                }
+                wrapper["country"] = country;
+                wrapper["suggest_countries"] = { "input": country, "output": country, "payload": { "country_id": country }};
 
-                wrapper["suggest"] = { "input": fund.tags };
-
-                body.push(wrapper);
+                autocompleteCountriesBody.push(wrapper);
               });
 
               models.es.bulk({
-                body: body
+                body: autocompleteCountriesBody
               }, function (err, resp) {
-                console.log('Bulk sync for funds complete.');
+                if (err) {
+                  console.log("Error bulk syncing countries into funds index:");
+                  console.log(err);
+                }
+                console.log("Bulk sync for countries complete");
 
                 // Automatically sync ALL on restart
-                var autocompleteCountriesBody = [];
-                var list_of_countries = require('../resources/countries.js');
-                var country_id = 0;
+                var autocompleteReligionsBody = [];
+                var list_of_religions = require('../resources/religions.js');
+                var religion_id = 0;
 
                 // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                list_of_countries.forEach(function(country) {
-                  country_id++;
-                  autocompleteCountriesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_countries', '_id': country_id }});
+                list_of_religions.forEach(function(religion) {
+                  religion_id++;
+                  autocompleteReligionsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_religions', '_id': religion_id }});
                   var wrapper = {};
 
-                  wrapper["country"] = country;
-                  wrapper["suggest_countries"] = { "input": country, "output": country, "payload": { "country_id": country }};
+                  wrapper["religion"] = religion;
+                  wrapper["suggest_religions"] = { "input": religion, "output": religion, "payload": { "religion_id": religion }};
 
-                  autocompleteCountriesBody.push(wrapper);
+                  autocompleteReligionsBody.push(wrapper);
                 });
 
                 models.es.bulk({
-                  body: autocompleteCountriesBody
-                }, function (err, resp) {
+                  body: autocompleteReligionsBody
+                }, function(err, resp) {
                   if (err) {
-                    console.log("Error bulk syncing countries into funds index:");
+                    console.log("Error bulk syncing religions into funds index:");
                     console.log(err);
                   }
-                  console.log("Bulk sync for countries complete");
+                  console.log("Bulk sync for religions complete");
 
                   // Automatically sync ALL on restart
-                  var autocompleteReligionsBody = [];
-                  var list_of_religions = require('../resources/religions.js');
-                  var religion_id = 0;
+                  var autocompleteDegreesBody = [];
+                  var list_of_degrees = require('../resources/degrees.js');
+                  var degree_id = 0;
 
                   // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                  list_of_religions.forEach(function(religion) {
-                    religion_id++;
-                    autocompleteReligionsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_religions', '_id': religion_id }});
+                  list_of_degrees.forEach(function(degree) {
+                    degree_id++;
+                    autocompleteDegreesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_degrees', '_id': degree_id }});
                     var wrapper = {};
 
-                    wrapper["religion"] = religion;
-                    wrapper["suggest_religions"] = { "input": religion, "output": religion, "payload": { "religion_id": religion }};
+                    wrapper["degree"] = degree;
+                    wrapper["suggest_degrees"] = { "input": degree, "output": degree, "payload": { "degree_id": degree }};
 
-                    autocompleteReligionsBody.push(wrapper);
+                    autocompleteDegreesBody.push(wrapper);
                   });
 
                   models.es.bulk({
-                    body: autocompleteReligionsBody
+                    body: autocompleteDegreesBody
                   }, function(err, resp) {
                     if (err) {
-                      console.log("Error bulk syncing religions into funds index:");
+                      console.log("Error bulk syncing degrees into funds index:");
                       console.log(err);
                     }
-                    console.log("Bulk sync for religions complete");
-
-                    // Automatically sync ALL on restart
-                    var autocompleteDegreesBody = [];
-                    var list_of_degrees = require('../resources/degrees.js');
-                    var degree_id = 0;
-
-                    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                    list_of_degrees.forEach(function(degree) {
-                      degree_id++;
-                      autocompleteDegreesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_degrees', '_id': degree_id }});
+                    console.log("Bulk sync for degrees complete");
+                    var autocompleteUniversitiesBody =[];
+                    var list_of_universities = require('../resources/universities.js');
+                    var university_id = 0;
+                    list_of_universities.forEach(function(university){
+                      university_id++;
+                      autocompleteUniversitiesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_universities', '_id': university_id }});
                       var wrapper = {};
 
-                      wrapper["degree"] = degree;
-                      wrapper["suggest_degrees"] = { "input": degree, "output": degree, "payload": { "degree_id": degree }};
+                      wrapper["university"] = university;
+                      wrapper["suggest_universities"] = { "input": university, "output": university, "payload": { "university_id": university }};
 
-                      autocompleteDegreesBody.push(wrapper);
-                    });
-
+                      autocompleteUniversitiesBody.push(wrapper);
+                    })
                     models.es.bulk({
-                      body: autocompleteDegreesBody
-                    }, function(err, resp) {
+                      body: autocompleteUniversitiesBody
+                    }, function(err, res){
                       if (err) {
-                        console.log("Error bulk syncing degrees into funds index:");
+                        console.log("Error bulk syncing universities into funds index:");
                         console.log(err);
                       }
-                      console.log("Bulk sync for degrees complete");
-                      var autocompleteUniversitiesBody =[];
-                      var list_of_universities = require('../resources/universities.js');
-                      var university_id = 0;
-                      list_of_universities.forEach(function(university){
-                        university_id++;
-                        autocompleteUniversitiesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_universities', '_id': university_id }});
+                      console.log("Bulk sync for universities complete");
+                      var autocompleteSubjectsBody = [];
+                      var list_of_subjects = require('../resources/subjects.js');
+                      var subject_id = 0;
+                      list_of_subjects.forEach(function(subject){
+                        subject_id++;
+                        autocompleteSubjectsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_subjects', '_id': subject_id}});
                         var wrapper = {};
-
-                        wrapper["university"] = university;
-                        wrapper["suggest_universities"] = { "input": university, "output": university, "payload": { "university_id": university }};
-
-                        autocompleteUniversitiesBody.push(wrapper);
+                        wrapper["subject"] = subject;
+                        wrapper["suggest_subjects"] = {"input": subject, "output": subject, "payload": {
+                          "subject_id": subject
+                        }};
+                        autocompleteSubjectsBody.push(wrapper);
                       })
                       models.es.bulk({
-                        body: autocompleteUniversitiesBody
+                        body:autocompleteSubjectsBody
                       }, function(err, res){
                         if (err) {
-                          console.log("Error bulk syncing universities into funds index:");
+                          console.log("Error bulk syncing subjects into funds index:");
                           console.log(err);
                         }
-                        console.log("Bulk sync for universities complete");
-                        var autocompleteSubjectsBody = [];
-                        var list_of_subjects = require('../resources/subjects.js');
-                        var subject_id = 0;
-                        list_of_subjects.forEach(function(subject){
-                          subject_id++;
-                          autocompleteSubjectsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_subjects', '_id': subject_id}});
-                          var wrapper = {};
-                          wrapper["subject"] = subject;
-                          wrapper["suggest_subjects"] = {"input": subject, "output": subject, "payload": {
-                            "subject_id": subject
-                          }};
-                          autocompleteSubjectsBody.push(wrapper);
-                        })
-                        models.es.bulk({
-                          body:autocompleteSubjectsBody
-                        }, function(err, res){
-                          if (err) {
-                            console.log("Error bulk syncing subjects into funds index:");
-                            console.log(err);
-                          }
-                          console.log("Bulk sync for subjects complete");
-                        })
+                        console.log("Bulk sync for subjects complete");
                       })
+                    })
 
-                    });
                   });
                 });
               });
-            }).then(function() {
-              models.es.indices.exists({ index: 'users' }, function(err, resp){
+            });
+          }).then(function() {
+            models.es.indices.exists({ index: 'users' }, function(err, resp){
+              if (err) {
+                console.log("Error checking existence of users index:");
+                console.log(err);
+              } else if (resp) {
+                console.log("Does the users index exist?:");
+                console.log(resp);
+              }
+
+              models.es.indices.delete({
+                index: 'users',
+                ignore: [404]
+              }, function(err, resp){
                 if (err) {
-                  console.log("Error checking existence of users index:");
+                  console.log("Error deleting users index:");
                   console.log(err);
                 } else if (resp) {
-                  console.log("Does the users index exist?:");
-                  console.log(resp);
+                  console.log("Deleted users index.");
                 }
-
-                models.es.indices.delete({
+                models.es.indices.create({
                   index: 'users',
-                  ignore: [404]
-                }, function(err, resp){
-                  if (err) {
-                    console.log("Error deleting users index:");
-                    console.log(err);
-                  } else if (resp) {
-                    console.log("Deleted users index.");
-                  }
-                  models.es.indices.create({
-                    index: 'users',
-                    body: {
-                      "settings": {
-                        "analysis": {
-                          "filter": {
-                            "autocomplete_filter": {
-                              "type": "edge_ngram",
-                              "min_gram": 1,
-                              "max_gram": 20
-                            }
+                  body: {
+                    "settings": {
+                      "analysis": {
+                        "filter": {
+                          "autocomplete_filter": {
+                            "type": "edge_ngram",
+                            "min_gram": 1,
+                            "max_gram": 20
+                          }
+                        },
+                        "analyzer": {
+                          "autocomplete": {
+                            "type": "custom",
+                            "tokenizer": "standard",
+                            "filter": [
+                              "lowercase",
+                              "autocomplete_filter"
+                            ]
                           },
-                          "analyzer": {
-                            "autocomplete": {
-                              "type": "custom",
-                              "tokenizer": "standard",
-                              "filter": [
-                                "lowercase",
-                                "autocomplete_filter"
-                              ]
-                            },
-                            "my_english": {
-                              "type":      "english",
-                              "stopwords": "_english_"
-                            }
+                          "my_english": {
+                            "type":      "english",
+                            "stopwords": "_english_"
                           }
                         }
-                      },
-                      'mappings': {
-                        'user': {
-                          'properties': {
-                            'username': {
-                              'type': 'string',
-                              'fields': {
-                                "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                              }
-                            },
-                            "profile_picture": {
-                              "type": "string",
-                              "index": "not_analyzed"
-                            },
-                            "description": {
-                              "type": "string",
-                              "search_analyzer": "my_english"
-                            },
-                            "past_work": {
-                              "type": "string",
-                              "index": "not_analyzed"
-                            },
-                            "date_of_birth": {
-                              "type": "date"
-                            },
-                            "nationality": {
-                              "type": "string"
-                            },
-                            "religion": {
-                              "type": "string"
-                            },
-                            "funding_needed": {
-                              "type": "integer"
-                            },
-                            "organisation_or_user": {
-                              "type": "boolean"
-                            },
-                            "suggest": {
-                              "type": "completion",
-                              "index_analyzer": "simple",
-                              "search_analyzer": "simple",
-                              "payloads": false
+                      }
+                    },
+                    'mappings': {
+                      'user': {
+                        'properties': {
+                          'username': {
+                            'type': 'string',
+                            'fields': {
+                              "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
                             }
+                          },
+                          "profile_picture": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                          },
+                          "description": {
+                            "type": "string",
+                            "search_analyzer": "my_english"
+                          },
+                          "past_work": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                          },
+                          "date_of_birth": {
+                            "type": "date"
+                          },
+                          "nationality": {
+                            "type": "string"
+                          },
+                          "religion": {
+                            "type": "string"
+                          },
+                          "funding_needed": {
+                            "type": "integer"
+                          },
+                          "organisation_or_user": {
+                            "type": "boolean"
+                          },
+                          "suggest": {
+                            "type": "completion",
+                            "index_analyzer": "simple",
+                            "search_analyzer": "simple",
+                            "payloads": false
                           }
                         }
                       }
                     }
-                  }, function(err, resp){
-                    if (err) {
-                      console.log("Couldn't create users index:");
-                      console.log(err);
-                    } else if (resp) {
-                      console.log("Created users index.");
-                    }
+                  }
+                }, function(err, resp){
+                  if (err) {
+                    console.log("Couldn't create users index:");
+                    console.log(err);
+                  } else if (resp) {
+                    console.log("Created users index.");
+                  }
 
-                    // Automatically sync ALL on restart
-                    models.users.findAll().then(function(users) {
-                      var userBody = [];
-                      users = fund_array_to_json(users);
+                  // Automatically sync ALL on restart
+                  models.users.findAll().then(function(users) {
+                    var userBody = [];
+                    users = fund_array_to_json(users);
 
-                      // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                      users.forEach(function(user) {
-                        userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
-                        var wrapper = {};
+                    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+                    users.forEach(function(user) {
+                      userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+                      var wrapper = {};
 
-                        for (var i = 0; i < userFields.length ; i++) {
-                          wrapper[userFields[i]] = user[userFields[i]];
-                        }
+                      for (var i = 0; i < userFields.length ; i++) {
+                        wrapper[userFields[i]] = user[userFields[i]];
+                      }
 
-                        wrapper["suggest"] = { "input": user.username };
+                      wrapper["suggest"] = { "input": user.username };
 
-                        userBody.push(wrapper);
-                      });
-
-                      models.es.bulk({
-                        body: userBody
-                      }, function (err, resp) {
-                        if (err) {
-                          console.log(err);
-                        } else if (resp) {
-                          console.log("Bulk sync for users complete");
-                        }
-                      });
-                    }).then(function() {
-                      console.log('...Finished sync');
+                      userBody.push(wrapper);
                     });
+
+                    models.es.bulk({
+                      body: userBody
+                    }, function (err, resp) {
+                      if (err) {
+                        console.log(err);
+                      } else if (resp) {
+                        console.log("Bulk sync for users complete");
+                      }
+                    });
+                  }).then(function() {
+                    console.log('...Finished sync');
                   });
                 });
               });
