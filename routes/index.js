@@ -104,7 +104,7 @@ router.post('/forgot', function(req, res, next){
           to: user.email,
           subject: 'Hello',
           text: "Hi, James." + token,
-          html: "<b>Please follow the following link to reset your password " + "http://localhost:3001/reset/" + token + " </b>"
+          html: "<b>Please follow the following link to reset your password " + "http://localhost:3001/reset/" + token + "/" + user.id + " </b>"
         }, function (error, response) {
           //Email not sent
           if (error) {
@@ -115,21 +115,22 @@ router.post('/forgot', function(req, res, next){
             console.log(response);
           }
         });
-
-
       })
     }
   })
 })
 
-router.get('/reset/:token', function(req, res, next) {
-  res.render('user/reset')
+router.get('/reset/:token/:id', function(req, res, next) {
+  var id = req.params.id
+  models.users.find({where: {id: id}}).then(function(user) {
+    res.render('user/reset', {user: user})
+  })
 })
 
-router.post('/reset/:token', function(req, res, next) {
-  var token = req.params.token
+router.post('/reset/:token/:id', function(req, res, next) {
+  var id = req.params.id
   console.log(token)
-  models.users.find({where: {country_of_residence: token}}).then(function(user) {
+  models.users.find({where: {id: id}}).then(function(user) {
     user.update({
       password: req.body.password
     }).then(function(user) {
@@ -139,23 +140,11 @@ router.post('/reset/:token', function(req, res, next) {
   })
 })
 
-
-
-// Nodemailer stuff
-var mail = {
-    from: '"James Morrill 👥" <james.morrill.6@gmail.com>', // sender address
-    to: 'james.morrill.6@gmail.com, james.morrill.6@gmail.com', // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world 🐴', // plaintext body
-    html: '<b>Hello world 🐴</b>' // html body
-};
-
 var transporter = nodemailer.createTransport(smtpTransport({
  service: 'Gmail',
  auth: { user: 'james.morrill.6@gmail.com',
        pass: 'exogene5i5' }
  }));
-
 
 function generateToken() {
     var buf = new Buffer(16);
