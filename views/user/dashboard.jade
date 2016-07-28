@@ -1,0 +1,10 @@
+extends ../layout
+
+block extraHeader
+  link(href='/stylesheets/user-dashboard.css', rel='stylesheet')
+block content
+  include ../navbar.jade
+  include ../advanced-search.jade
+  a.btn.btn-default.btn-primary(href='/user/authorize', role='button', style='margin-left:600px; margin-top: 300px;') Setup stripe account
+  
+block scripts

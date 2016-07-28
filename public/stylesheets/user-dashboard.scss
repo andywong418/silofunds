@@ -1,0 +1,16 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+#brand-image{
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
+body {
+  background-color: #e9f0f4;
+}
+
+/* Everything else */

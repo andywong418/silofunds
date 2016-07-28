@@ -3,9 +3,55 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport-james/strategies')(passport);
 var pzpt = require('./passport-james/functions');
+var qs = require('querystring');
+var request = require('request');
 var async = require('async');
 
+// Stripe OAuth
+var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
+var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
+var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
+
 module.exports = {
+
+  dashboard: function(req, res) {
+    res.render('user/dashboard');
+  },
+
+  authorizeStripe: function(req, res) {
+    // Redirect to Stripe /oauth/authorize endpoint
+    res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
+      response_type: "code",
+      scope: "read_write",
+      client_id: CLIENT_ID
+    }));
+  },
+
+  authorizeStripeCallback: function(req, res) {
+    var code = req.query.code;
+
+    // Make /oauth/token endpoint POST request
+    request.post({
+      url: TOKEN_URI,
+      form: {
+        grant_type: "authorization_code",
+        client_id: CLIENT_ID,
+        code: code,
+        client_secret: API_KEY
+      }
+    }, function(err, r, body) {
+
+      var accessToken = JSON.parse(body).access_token;
+      console.log("body");
+      console.log(body);
+      // Do something with your accessToken
+
+      // For demo"s sake, output in response:
+      res.send({ "Your Token": accessToken });
+
+    });
+  },
 
   loginGET: function(req, res) {
     // Flash message if we have come via logging out to say 'successfully logged out'
