@@ -246,6 +246,26 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var storyModel = this.model;
 			this.el = this.render().el;
       // this.$el.detach();
+			console.log(this.model);
+			if(this.model.get('documents')){
+				var documents = this.model.get('documents');
+				console.log(" WE LOVE DOCUMENTs",documents);
+				var fileName;
+				if(documents.length > 1){
+				fileName =  (this.$('input#work').attr( 'data-multiple-caption') || '' ).replace( '{count}', documents.length );
+				console.log(fileName);
+				}
+				else{
+					if(documents.length == 1){
+						fileName = documents[0].title;
+						console.log(fileName);
+					}
+				}
+				console.log(fileName);
+				if(fileName){
+					this.$('input#work').next('label').html(fileName);
+				}
+			}
 		},
 		saveStory: function(){
 			var story = tinymce.activeEditor.getContent();
@@ -262,14 +282,14 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		saveFiles: function(e){
 			console.log(e);
-			var $input = $(e.target);
+			var $input = e.target;
 			console.log($input);
-			$label = $input.next('label');
-			labelVal = $label.html();
+			$label = $($input).next('label');
+			labelVal = $($input).html();
 			var fileName = '';
 			console.log("CHECK HERE TOO");
-			if( $input.files && $input.files.length > 1 ){
-			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', $input.files.length );
+			if( e.target.files && e.target.files.length > 1 ){
+			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
 			console.log(fileName);
 			}
 			else if( e.target.value ){
@@ -304,9 +324,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 					console.log(data);
 				});
 
-			$input
-				.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
-				.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 		}
 	})
 	var Router = Backbone.Router.extend({

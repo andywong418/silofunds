@@ -88,11 +88,13 @@ module.exports = {
 		})
 	},
  getSignupInfo: function(req, res){
-	 console.log("GET IN");
 	 var userId = req.params.id;
 	 models.users.findById(userId).then(function(user){
 		 user = user.get();
-		 res.json(user);
+		 models.documents.findAll({where:{user_id: user.id} }).then(function(documents){
+			 user.documents = documents;
+			 res.json(user);
+		 })
 	 })
  },
   uploadPicture: function(req,res){
