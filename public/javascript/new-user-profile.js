@@ -234,6 +234,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 		tagName: 'div',
 		id:'story-handler',
 		template:_.template($('#story-template').html()),
+		events: {
+			'click #save': 'saveStory',
+			'change input[id="work"]': 'saveFiles'
+		},
 		render:function(){
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
@@ -243,10 +247,66 @@ var tokenArrayPopulate = function(value, emptyArray){
 			this.el = this.render().el;
       // this.$el.detach();
 		},
-		initTextArea: function(){
+		saveStory: function(){
+			var story = tinymce.activeEditor.getContent();
+			var formData = {
+				'description': story
+			}
+			$.post('/signup/user/save', formData, function(data){
+				console.log(data);
+				$('a[href="#story"]').removeClass('active');
+				$('a[href="#account"]').addClass('active');
 
+			})
 
+		},
+		saveFiles: function(e){
+			console.log(e);
+			var $input = $(e.target);
+			console.log($input);
+			$label = $input.next('label');
+			labelVal = $label.html();
+			var fileName = '';
+			console.log("CHECK HERE TOO");
+			if( $input.files && $input.files.length > 1 ){
+			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', $input.files.length );
+			console.log(fileName);
+			}
+			else if( e.target.value ){
+				fileName = e.target.value.split( '\\' ).pop();
+				console.log(fileName);
+			}
 
+			if( fileName ){
+				$label.html( fileName );
+			}
+			else{
+				$label.html( labelVal );
+			}
+
+				var files = e.target.files;
+				console.log(files);
+				console.log(files[0]);
+				var fileArray = [];
+
+				var data = new FormData();
+				for(var i = 0; i < files.length; i++){
+					data.append('past_work', files[i]);
+				};
+				data.append('user', user_setup.id);
+				$.ajax({
+					type: 'POST',
+					url: "/signup/user_signup/work/" + user_setup.id,
+					data: data,
+					processData: false,
+					contentType: false
+				}).done(function(data){
+					console.log(data);
+				});
+
+			$input
+				.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
+				.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
 		}
 	})
 	var Router = Backbone.Router.extend({
@@ -284,6 +344,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 					console.log(storyModel.get('description'));
 					if(!storyModel.get('description')){
 						$('#story-text').html("<span> HELLO </span>");
+					}
+					else{
+						$('#story-text').html(storyModel.get('description'));
 					}
 					 tinymce.EditorManager.execCommand('mceAddEditor',true, "story-text");
 
