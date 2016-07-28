@@ -14,12 +14,13 @@ block content
   include ./navbar.jade
   include ./signup-modal.jade
   .alert.alert-info(role='alert')
-      a(href='/funds/options/' + fund.id + '/edit')
+      a(href='/organisation/options/' + fund.id + '/edit') 
         span.glyphicon.glyphicon-pencil(aria-hidden='true')
         | Make changes to this funding profile
   #big_flex_div.container
     #left_div.container
       #box_1
+      
         a#fundWebsite(href=fund.link) 
           img#fundImage(src=organisation.profile_picture)
       #box_2
@@ -95,6 +96,7 @@ block content
               .other-box
                 .col-md-12
                   span.criteria <%= criteria %>
+
       #eligibility_div 
         p#eligibility_div_p 
       #notEligible.modal-box
@@ -143,6 +145,7 @@ block content
                   a(href='#0') Funded by Silo for life
                 .mb-thumb
                   img(src='/images/graduation.jpg')
+
                   #scholars_div
   #separator_1      
                               

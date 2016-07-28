@@ -3,6 +3,10 @@ var url = require('url');
 var AWS = require('aws-sdk');
 var fs = require('fs');
 var async = require('async');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+require('./passport-james/strategies')(passport);
+var pzpt = require('./passport-james/functions');
 var aws_keyid;
 var aws_key;
 var sequelize = require('sequelize');
@@ -19,13 +23,19 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 var previousPage;
 module.exports = {
   subscribe: function(req, res, next){
-    var username = req.body.username;
-    var email = req.body.useremail;
+    var username = "";
+		if(req.body.fundName !== "") {
+			username = req.body.fundName
+		} else {
+			username = req.body.firstName + req.body.lastName
+		}
+    var email = req.body.email;
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
-    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.useremail}, merge_vars: {
+		console.log("PREVIOUS", previousPage);
+    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.email}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
         LNAME: lastName
@@ -114,8 +124,9 @@ module.exports = {
         res.end();
       });
   },
+
   uploadInfo: function(req, res){
-    var userId = req.params.id,
+    var userId = req.user.id,
     description = req.body.description,
     dateOfBirth = req.body.date_of_birth,
     nationality = req.body.nationality,
@@ -135,8 +146,12 @@ module.exports = {
           where: {user_id: user.id}
         }).then(function(documents){
           var newUser = true;
+					console.log("REDIRECT USER", req.session.redirect_user)
           if(req.session.redirect_user){
+						console.log(req.session.redirect_user);
+						console.log("PREVIOUS PAGE AGAIN", previousPage);
             res.redirect(previousPage);
+
           }
           else{
 						var userFields =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
@@ -153,7 +168,7 @@ module.exports = {
 							id: user.id,
 							body: wrapper
 						}, function(error, response){
-							res.render('signup/user-complete', {user: user, newUser: newUser, documents: documents, applications: false});
+							res.redirect('/user/home')
 						})
 
           }

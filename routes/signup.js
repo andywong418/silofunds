@@ -26,7 +26,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
     var userpassword = req.body.userpassword;
     var fundOption = req.body.fundOption;
 
-		req.session.lastPage = '/signup';
+	  req.session.lastPage = '/signup';
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
@@ -68,6 +68,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
         })
       }
 
+
     });
 });
 router.post('/results', function(req,res){
@@ -76,12 +77,14 @@ router.post('/results', function(req,res){
 router.get('/user/:id', signup.userProfile);
 router.post('/user_signup/profile_picture/:id', upload.single('profile_picture'), signup.uploadPicture);
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);
-router.post('/user_signup_complete/:id', signup.uploadInfo);
 router.get('/fund/:id', signup.fundProfile);
 router.get('/fund_account/:id', signup.get);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 router.post('/fund_signup/charity_no/:id', signup.insertCharityNumber);
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
 
+
+// Now edited
+router.post('/user_signup_complete/', signup.uploadInfo);
 
 module.exports = router;

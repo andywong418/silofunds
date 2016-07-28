@@ -1,7 +1,7 @@
 extends layout-signup
 
 block extraHeader
-	link(href='../../stylesheets/new-user-profile.css', rel='stylesheet')
+	link(href='/stylesheets/new-user-profile.css', rel='stylesheet')
 
 block content
 	#user-modal
@@ -19,7 +19,7 @@ block content
 			|  You seem to have missed one or more input fields. Please fill in all the necessary information below.
 		script#profile-template(type='text/template')
 			#user-setup
-				form#profile-form(action = '/signup/user_signup_complete/' + user.id, method = "post")
+				form#profile-form(action='/signup/user_signup_complete/', method="post")
 					section#about.container.content-section
 						h4#name <%= username %>
 						.row

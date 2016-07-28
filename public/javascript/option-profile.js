@@ -782,7 +782,6 @@ $(document).ready(function(){
 
       var view = new ApplicationView({ model: applicationModel });
       this.$el.append(view.render().el);
-
       if(!fund.application_documents){
         if(fund.deadline){
           this.model.set({

@@ -356,14 +356,14 @@ $("#login-form").submit(function(e){
            }
            else{
              if(user.organisation_or_user){
-               $("#home").attr("href", '/funds/' + user.id );
-               $(".settings").attr("href", '/funds/settings/' +user.id);
-               $(".logout").attr("href", '/funds/logout/' + user.id);
+               $("#home").attr("href", '/organisation/home/');
+               $(".settings").attr("href", '/organisation/settings/');
+               $(".logout").attr("href", '/organisation/logout/');
              }
              else{
-               $("#home").attr("href", '/users/' + user.id);
-               $(".settings").attr("href", '/users/settings/' +user.id );
-               $(".logout").attr("href", '/users/logout/' + user.id);
+               $("#home").attr("href", '/user/home');
+               $(".settings").attr("href", '/user/settings/' );
+               $(".logout").attr("href", '/user/logout/');
              }
 
           }

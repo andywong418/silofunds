@@ -12,7 +12,7 @@ block content
 							p#almost Finish the signup by entering details about your trust.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
-							a#next.account-submit(href= "/funds/funding_creation/" + user.id, type = "button") Done
+							a#next.account-submit(href="/organisation/funding_creation", type="button") Done
 					section#account-info.container.content-section
 						h4#name <%= fundName %>
 							.row
@@ -32,10 +32,10 @@ block content
 
 block scripts
 	script(src='../../javascript/lib/modernizr-input.js')
-	script(src = '../../javascript/new-fund-profile.js')
 	script.
 		var fund_setup = !{JSON.stringify(user)};
 		// Google Analytics
+	script(src = '../../javascript/new-fund-profile.js')
 	script.
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

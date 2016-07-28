@@ -1,0 +1,15 @@
+extends ../layout
+block extraHeader
+  link(rel="stylesheet", href="/stylesheets/user/forgot.css")
+
+block content
+  form(method='POST', action="/forgot")
+    if error
+      .btn.btn-danger= error
+    if info
+      .btn.btn-success= info
+    legend Forgot Password
+    .form-group
+      label(for='email') Email
+      input.form-control(type='text', name='email', autofocus)
+    button.btn.btn-primary(type='submit') Reset Password

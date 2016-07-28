@@ -10,6 +10,8 @@ var messages = require('../routes/messages');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
+var user = require('../routes/users-james');
+var organisation = require('../routes/funds-james');
 var basicAuth = require('basic-auth');
 
 var auth_admin = function (req, res, next) {
@@ -67,5 +69,7 @@ module.exports.initialize = function (app) {
   app.use('/autocomplete', autocomplete);
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
-  app.use('/messages', messages);
+  app.use('/user', user);
+  app.use('/organisation', organisation);
+  app.use('/messages', messages)
 };

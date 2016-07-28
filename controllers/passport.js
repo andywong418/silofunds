@@ -76,30 +76,4 @@ module.exports = function(passport) {
 
     }));
 
-      passport.use('facebook', new FacebookStrategy({
-      clientID: '506830149486287',
-      clientSecret: '45b00c46d1cf3d9396fd24fe99ea0e3d',
-      callbackURL: "https://silofunds.herokuapp.com/auth/facebook/callback",
-      profileFields : ['id', 'displayName', 'email']
-    }, function(accessToken, refreshToken, profile, done) {
-
-      process.nextTick(function() {
-        console.log(profile);
-        models.users.find({
-          where: {email: profile.emails[0].value}
-        }).then(function(user) {
-          if(user) {
-            return done(null, user); // user found, return that user
-          } else {
-            models.users.create({
-              username: profile.displayName,
-              email: profile.emails[0].value,
-              token: accessToken
-            }).then(function(newUser) {
-              return done(null, newUser);
-            });
-          }
-        });
-      });
-    }));
 };

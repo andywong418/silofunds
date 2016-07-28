@@ -39,7 +39,6 @@ html
 		script(src='../../../javascript/lib/jquery.easing.min.js')
 		link(href='../../../stylesheets/user-profile.css', rel='stylesheet')
 		link(href='../../../stylesheets/user-settings.css', rel='stylesheet')
-		link(href='../../../stylesheets/fund-settings.css', rel='stylesheet')
 		// Hotjar Tracking Code for https://www.silofunds.com
 		script.
 			(function(h,o,t,j,a,r){
@@ -59,8 +58,9 @@ html
 								i.fa.fa-bars
 							a#brand-heading.navbar-brand
 								img#brand-image(src="../../../images/transparent silo icon graphic.png")
-							form.search_form(id="search-form", action='/results', method='get', name='search_form')
+							form.search_form(id = "search-form", action='/results', method='get', name='search_form')
 								#dropdown.dropdown
+									a#refine-search(href='#0') REFINE SEARCH
 									button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
 										i.fa.et-down.fa-bars
 										i.fa.et-down.fa-angle-down
@@ -86,7 +86,7 @@ html
 								ul.nav.navbar-nav
 									li.signin-icon
 										button
-											a#home(href="/organisation/home")
+											a#home(href="/users/" + user.id + "/")
 												i.fa.fa-user
 									//      
 										li.signin-icon
@@ -98,49 +98,49 @@ html
 												i.fa.fa-cog
 											ul#settings-menu.dropdown-menu
 												li#settings
-													a(href='/organisation/settings/')
+													a(href='/users/settings/' + user.id + '/')
 														| Settings
 												li.divider(role='separator')
 												li#logout
-													a(href='/organisation/logout/')
+													a(href='/users/logout/' + user.id)
 														| Log out
 
 				section#advanced-search.container.content-section.text-center
 					.row
 						.col-md-4
 							label(for='age') Age:
-							input#advanced-age(type = "number", name = "age", form = "search-form") 	
+							input#advanced-age(type = "number", name = "age") 	
 						.col-md-4
 							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "nationality", form = "search-form") 
+							input#advanced-nationality(type = "text", name = "nationality", value = user.nationality, form = "search-form") 
 						.col-md-4
 							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "religion") 
+							input#religion(type = "text", name = "religion", value = user.religion, form = "search-form") 
 					.row
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "funding_needed", form = "search-form")
+							input#input-amount(type = "text", name = "funding_needed", value ="£" + user.funding_needed, form = "search-form")
 						.col-md-4
 							label#merit-or-finance Merit or Finance
 							.row
 								.col-md-6
 									label.radio-inline
-										input#merit(type='radio', name='merit_or_finance', form = "search-form")
+										input#merit(type='radio', name='merit_or_finance', value='merit', form = "search-form")
 										| Merit
 								.col-md-6
 										label.radio-inline
-												input#finance(type='radio', name='merit_or_finance', form = "search-form")
+												input#finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
 												| Finance
 						.col-md-4
 							label#gender Gender
 							.row
 								.col-md-6
 									label.radio-inline
-										input#male(type='radio', name = 'gender', form = "search-form")
+										input#male(type='radio', name = 'gender', value= 'male', form = "search-form")
 										| Male
 								.col-md-6
 									label.radio-inline
-										input#female(type='radio', name = 'gender', form = "search-form")
+										input#female(type='radio', name = 'gender', value = 'female', form = "search-form")
 										| Female
 				section#advanced-search-2.container.content-section.text-center
 					.row
@@ -152,21 +152,21 @@ html
 							input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality, form = "search-form") 
 						.col-md-4
 							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "user_religion", form = "search-form") 
+							input#religion(type = "text", name = "user_religion", value = user.religion, form = "search-form") 
 					.row
 						.col-md-4
 							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "user_funding_needed", form = "search-form")
+							input#input-amount(type = "text", name = "user_funding_needed", value ="£" + user.funding_needed, form = "search-form")
 						.col-md-4
 							label#gender Gender
 							.row
 								.col-md-6
 									label.radio-inline
-										input#male(type='radio', name = 'user_gender', form = "search-form")
+										input#male(type='radio', name = 'user_gender', value= 'male', form = "search-form")
 										| Male
 								.col-md-6
 									label.radio-inline
-										input#female(type='radio', name = 'user_gender', form = "search-form")
+										input#female(type='radio', name = 'user_gender', value = 'female', form = "search-form")
 										| Female
 
 				section#edit.container.content-section
@@ -182,11 +182,11 @@ html
 							hr
 							ul
 								li#logout
-									a(href= "/organisation/logout/")
+									a(href='/users/logout/' + user.id)
 										| Log out
 						.col-md-1
 						.col-md-7.col-xs-8#profile-settings
-							form(action='/organisation/settings/', method='post', id='change-settings')
+							form(action = '/users/settings/'+ user.id, method= 'post', id = 'change-settings')
 								.general
 									.row#username-row
 										.col-md-5
@@ -224,18 +224,6 @@ html
 										.col-md-12.center-block
 											button#save-password.save Save Changes
 									hr.account
-									.row#charity_number-row
-										.col-md-5
-											p Charity number:
-										.col-md-5
-											p#grey <%= charityNumber %>
-										.col-md-1
-											i.fa.fa-pencil.edit-charity_number
-											p.edit Edit
-									.row#input-charity_number
-										.col-md-12.center-block
-											button#save-charity_number.save Save Changes
-									hr.account
 									.row
 										.col-md-5
 											p Receive email updates weekly
@@ -255,17 +243,17 @@ html
 										.col-md-12.center-block
 											button#save-description.save Save changes
 									hr
-									.row#countries-row
+									.row#nationality-row
 										.col-md-5
-											p Countries:
+											p Nationality:
 										.col-md-5
 											p#grey <%= nationality %>
 										.col-md-1
-											i.fa.fa-pencil.edit-countries
+											i.fa.fa-pencil.edit-nationality
 											p.edit Edit
-									.row#input-countries
+									.row#input-nationality
 											.col-md-12.center-block
-												button#save-countries.save Save Changes
+												button#save-nationality.save Save Changes
 									hr
 									.row#religion-row
 										.col-md-5
@@ -279,81 +267,28 @@ html
 										.col-md-12.center-block
 											button#save-religion.save Save changes
 									hr
-									.row#minimum_age-row
+									.row#funding_needed-row
 										.col-md-5
-											p Minimum age:
+											p Funding Needed:
 										.col-md-5
-											p#grey <%= minAge %>
+											p#grey <%= funding_needed %>
 										.col-md-1
-											i.fa.fa-pencil.edit-minimum_age
+											i.fa.fa-pencil.edit-funding_needed
 											p.edit Edit
-									.row#input-minimum_age
+									.row#input-funding_needed
 										.col-md-12.center-block
-											button#save-minimum_age.save Save changes
-									hr
-									.row#maximum_age-row
-										.col-md-5
-											p Maximum age:
-										.col-md-5
-											p#grey <%= maxAge %>
-										.col-md-1
-											i.fa.fa-pencil.edit-maximum_age
-											p.edit Edit
-									.row#input-maximum_age
-										.col-md-12.center-block
-											button#save-maximum_age.save Save changes
-									hr
-									.row#minimum_amount-row
-										.col-md-5
-											p Minimum amount:
-										.col-md-5
-											p#grey <%= minAmount %>
-										.col-md-1
-											i.fa.fa-pencil.edit-minimum_amount
-											p.edit Edit
-									.row#input-minimum_amount
-										.col-md-12.center-block
-											button#save-minimum_amount.save Save changes
-									hr
-									.row#maximum_amount-row
-										.col-md-5
-											p Maximum amount:
-										.col-md-5
-											p#grey <%= maxAmount %>
-										.col-md-1
-											i.fa.fa-pencil.edit-maximum_amount
-											p.edit Edit
-									.row#input-maximum_amount
-										.col-md-12.center-block
-											button#save-maximum_amount.save Save changes
-									hr
-									.row#gender-row
-										.col-md-5
-											p Gender:
-										.col-md-5
-											p#grey <%= gender %>
-										.col-md-1
-											i.fa.fa-pencil.edit-gender
-											p.edit Edit
-									.row#input-gender
-										.col-md-12.center-block
-											button#save-gender.save Save changes
-									hr
-									.row#merit_or_finance-row
-										.col-md-5
-											p Merit or financial situation:
-										.col-md-5
-											p#grey <%= merit_or_finance %>
-										.col-md-1
-											i.fa.fa-pencil.edit-merit_or_finance
-											p.edit Edit
-									.row#input-merit_or_finance
-										.col-md-12.center-block
-											button#save-merit_or_finance.save Save changes	
+											button#save-funding_needed.save Save changes
+									//		
+										hr
+										.row
+											.col-md-6
+												p Receive email updates weekly
+											.col-md-5
+												// input(type='checkbox', name='email-updates', checked='')
 	script(src='../../../javascript/lib/modernizr-input.js')
-	script(src= '../../../javascript/fund-settings.js')
+	script(src= '../../../javascript/user-settings.js')
 	script.
-		var fund = !{JSON.stringify(user)}
+		var user = !{JSON.stringify(user)}
 		var general = !{JSON.stringify(general)}
 	// Google Analytics
 	script.

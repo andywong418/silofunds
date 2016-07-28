@@ -22,6 +22,7 @@ $(document).ready(function(){
 	var UserInfo = Backbone.View.extend({
 		el: 'body',
 		initialize: function(){
+			var age;
 			console.log(user);
 			var age;
 			if(user.date_of_birth){
@@ -31,9 +32,8 @@ $(document).ready(function(){
 				var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
 				var birthDate = new Date(newDate).getTime();
 				var nowDate = new Date().getTime();
-			  age = Math.floor((nowDate - birthDate) / 31536000000 );
+				var age = Math.floor((nowDate - birthDate) / 31536000000 );
 			}
-
 			var user_model = new UserModel({
 				name: user.username,
 				age: age,
