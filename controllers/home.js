@@ -33,7 +33,7 @@ module.exports = {
   },
 
   subscribe: function(req, res) {
-    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.email}}, function(data) {
+    mc.lists.subscribe({id: '075e6f33c2', email: {email: req.body.email}}, function(data) {
       console.log("Successfully subscribed!");
       console.log('ending AJAX post request...');
       res.status(200).end();

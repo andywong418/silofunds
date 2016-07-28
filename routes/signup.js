@@ -26,7 +26,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
     var userpassword = req.body.userpassword;
     var fundOption = req.body.fundOption;
 
-		req.session.lastPage = '/signup';
+	  req.session.lastPage = '/signup';
     models.users.find({
       where: {email: useremail}
     }).then(function(user){
