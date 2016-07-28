@@ -168,9 +168,8 @@ module.exports = {
 							id: user.id,
 							body: wrapper
 						}, function(error, response){
-							res.redirect('/user/home')
-						})
-
+							res.redirect('/user/profile');
+						});
           }
         });
       });

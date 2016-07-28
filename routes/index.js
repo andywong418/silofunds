@@ -73,7 +73,7 @@ router.get('/forgot', function(req, res, next){
     if(req.user.organisation_or_user !== null) {
       res.redirect('/organisation/home')
     } else {
-      res.redirect('/user/home')
+      res.redirect('/user/profile')
     }
   }
   // Flash message logic

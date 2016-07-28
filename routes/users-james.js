@@ -5,22 +5,12 @@ var LocalStrategy = require('passport-local').Strategy;
 require('../controllers/passport-james/strategies')(passport);
 var router = express.Router();
 
-
 // User profile pages, these all use passport authentication
-// Initial creation
-router.get('/create', users.createGET)
-
-// User home page
-router.get('/home', users.homeGET)
-
-// Settings
-router.get('/settings', users.settingsGET)
-// Change settings
-router.post('/settings', users.settingsPOST)
+router.get('/create', users.createGET);
+router.get('/profile', users.homeGET);
+router.get('/settings', users.settingsGET);
+router.post('/settings', users.settingsPOST);
 router.post('/email-settings/:id', users.changeEmailSettings);
+router.get('/logout', users.logoutGET);
 
-/* Logout */
-router.get('/logout', users.logoutGET)
-
-
-module.exports = router
+module.exports = router;
