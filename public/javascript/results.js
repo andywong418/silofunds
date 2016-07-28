@@ -140,7 +140,7 @@ allShown = false;
       var maximum_amount = this.model.get('maximum_amount');
       var minimum_age = this.model.get('minimum_age');
       var maximum_age = this.model.get('maximum_age');
-      if (deadline <= dateNow){
+      if (Date.parse(deadline) <= Date.parse(dateNow)){
         this.$('.deadline-passed' + id).css('display', 'block');
         this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
         this.$('.deadline-passed' + id).closest('.fund_list').css('display', 'none');
