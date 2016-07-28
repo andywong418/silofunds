@@ -84,6 +84,10 @@ module.exports = function(sequelize, DataTypes) {
     completion_date: {
       type: DataTypes.DATE,
       field: 'completion_date'
+    },
+    password_token: {
+      type: DataTypes.TEXT,
+      field: 'password_token'
     }
   }, {
     timestamps: true,
