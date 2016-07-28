@@ -453,7 +453,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 var wrapper = {};
 
                 wrapper["country"] = country;
-                wrapper["suggest_countries"] = { "input": country, "output": country, "payload": { "country_id": country }};
+                wrapper["suggest_countries"] = { "input": country.split(' '), "output": country, "payload": { "country_id": country }};
 
                 autocompleteCountriesBody.push(wrapper);
               });
@@ -505,7 +505,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     var wrapper = {};
 
                     wrapper["degree"] = degree;
-                    wrapper["suggest_degrees"] = { "input": degree, "output": degree, "payload": { "degree_id": degree }};
+                    wrapper["suggest_degrees"] = { "input": degree.split(' '), "output": degree, "payload": { "degree_id": degree }};
 
                     autocompleteDegreesBody.push(wrapper);
                   });
@@ -527,7 +527,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       var wrapper = {};
 
                       wrapper["university"] = university;
-                      wrapper["suggest_universities"] = { "input": university, "output": university, "payload": { "university_id": university }};
+                      wrapper["suggest_universities"] = { "input": university.split(' '), "output": university, "payload": { "university_id": university }};
 
                       autocompleteUniversitiesBody.push(wrapper);
                     })
@@ -547,7 +547,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                         autocompleteSubjectsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_subjects', '_id': subject_id}});
                         var wrapper = {};
                         wrapper["subject"] = subject;
-                        wrapper["suggest_subjects"] = {"input": subject, "output": subject, "payload": {
+                        wrapper["suggest_subjects"] = {"input": subject.split(' '), "output": subject, "payload": {
                           "subject_id": subject
                         }};
                         autocompleteSubjectsBody.push(wrapper);

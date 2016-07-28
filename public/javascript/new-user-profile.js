@@ -55,7 +55,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var prePopulateModel = this.model;
 			console.log(prePopulateModel);
 			if(!this.model.get('country_of_residence')){
-				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
+				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true});
 			}
 			for(var i = 0; i< arrayFields.length; i++){
 				console.log(prePopulateModel.get(arrayFields[i]));
@@ -172,13 +172,13 @@ var tokenArrayPopulate = function(value, emptyArray){
 			for(var i =0; i< arrayFields.length; i++){
 				if(!this.model.get(arrayFields[i])){
 					if(arrayFields[i] == 'subject'){
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true, "placeholder": 'E.g. English literature, Chemical Engineering, History' });
 					}
 					if(arrayFields[i] == 'target_university' || arrayFields[i] == 'previous_university'){
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true,"placeholder": 'E.g. Bachelor, Master of Arts, Dphil' });
 					}
 					if(arrayFields[i] =='target_degree' || arrayFields[i] == 'previous_degree'){
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true,"placeholder": "E.g. University of Oxford"  });
 					}
 				}
 				else{
@@ -186,21 +186,21 @@ var tokenArrayPopulate = function(value, emptyArray){
 					if(arrayFields[i] == 'subject'){
 						var savedSubject = [];
 						savedSubject = tokenArrayPopulate(value, savedSubject);
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook","prePopulate": savedSubject, "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook","prePopulate": savedSubject, "allowFreeTagging": true});
 						this.$('ul.token-input-list-facebook').css('padding', '0');
 						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}
 					if(arrayFields[i] == 'target_university' || arrayFields[i] == 'previous_university'){
 						var savedUniversity = [];
 						savedUniversity = tokenArrayPopulate(value, savedUniversity);
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "prePopulate": savedUniversity, "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "prePopulate": savedUniversity, "allowFreeTagging": true});
 						this.$('ul.token-input-list-facebook').css('padding', '0');
 						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}
 					if(arrayFields[i] =='target_degree' || arrayFields[i] == 'previous_degree'){
 						var savedDegree = [];
 						savedDegree = tokenArrayPopulate(value, savedDegree);
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook","prePopulate": savedDegree, "allowFreeTagging": true });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook","prePopulate": savedDegree, "allowFreeTagging": true});
 						this.$('ul.token-input-list-facebook').css('padding', '0');
 						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}

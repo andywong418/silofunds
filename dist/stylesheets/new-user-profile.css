@@ -104,6 +104,9 @@ body {
       #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus, #signup-wrapper #signup-form ul.token-input-list-facebook:active, #signup-wrapper #signup-form ul.token-input-list-facebook:focus {
         border: 2px solid #2752ff;
         outline: none; }
+    #signup-wrapper #signup-form .token-input-input-token-facebook input {
+      width: 500px !important;
+      margin-top: -5px; }
     #signup-wrapper #signup-form .save {
       text-align: right; }
       #signup-wrapper #signup-form .save #skip, #signup-wrapper #signup-form .save #save {

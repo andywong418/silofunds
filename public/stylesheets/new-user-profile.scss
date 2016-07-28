@@ -126,7 +126,12 @@ body{
 				outline: none;
 			}
 		}
-
+		.token-input-input-token-facebook{
+			input{
+				width: 500px !important;
+				margin-top: -5px;
+			}
+		}
 		.save{
 			text-align: right;
 			#skip, #save {
