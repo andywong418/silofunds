@@ -150,6 +150,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				console.log(data);
 				$('a[href="#about"]').removeClass('active');
 				$('a[href="#education"]').addClass('active');
+				$('html, body').animate({scrollTop:0}, 'slow')
 			})
 		}
 	})
@@ -225,7 +226,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				console.log(data);
 				$('a[href="#education"]').removeClass('active');
 				$('a[href="#story"]').addClass('active');
-
+				$('html, body').animate({scrollTop:0}, 'slow')
 			})
 		}
 
@@ -246,14 +247,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var storyModel = this.model;
 			this.el = this.render().el;
       // this.$el.detach();
-			console.log(this.model);
 			if(this.model.get('documents')){
 				var documents = this.model.get('documents');
-				console.log(" WE LOVE DOCUMENTs",documents);
 				var fileName;
 				if(documents.length > 1){
 				fileName =  (this.$('input#work').attr( 'data-multiple-caption') || '' ).replace( '{count}', documents.length );
-				console.log(fileName);
 				}
 				else{
 					if(documents.length == 1){
@@ -276,7 +274,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				console.log(data);
 				$('a[href="#story"]').removeClass('active');
 				$('a[href="#account"]').addClass('active');
-
+				$('html, body').animate({scrollTop:0}, 'slow')
 			})
 
 		},
@@ -287,14 +285,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 			$label = $($input).next('label');
 			labelVal = $($input).html();
 			var fileName = '';
-			console.log("CHECK HERE TOO");
 			if( e.target.files && e.target.files.length > 1 ){
 			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
-			console.log(fileName);
 			}
 			else if( e.target.value ){
 				fileName = e.target.value.split( '\\' ).pop();
-				console.log(fileName);
 			}
 
 			if( fileName ){
@@ -305,8 +300,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 
 				var files = e.target.files;
-				console.log(files);
-				console.log(files[0]);
 				var fileArray = [];
 
 				var data = new FormData();
@@ -360,7 +353,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 					router.loadView(new StoryDisplay({model: storyModel}));
 					console.log(storyModel.get('description'));
 					if(!storyModel.get('description')){
-						$('#story-text').html("<span> HELLO </span>");
+						$('#story-text').html("<h3>Introduce yourself &nbsp;<em>**change header name**</em></h3><p>Give people a brief introduction to you and your story. Take an opportunity to address those that will support you.</p><h3>What are your aims?&nbsp;<em>**change header name**</em></h3><p>e.g. I'm raising £X to pursue this degree because I want to do Y. In the future I hope I can help/make/do Z.</p><h3>&nbsp;Tell your story.&nbsp;<em>**change header name**</em></h3><p>This is your chance to give people a bit of insight into your journey.</p><ul><li>Why is this important to you? How long have you been interested in your subject?</li><li>How long have you been looking for funding?</li><li>Have you tried to fund yourself?</li><li>Why should it be important to a donor? What impact will they have by giving money?</li></ul><h3>&nbsp;How will you spend your time and money? **<strong><em>change header name**</em></strong></h3><ul><li>What will you do If you exceed your target? Will &nbsp;you use your&nbsp;generosity and donate to another campaign?</li><li>Try and offer a rough breakdown of costs, something like this:</li><ul><li>Accommodation: £5300</li><li>Food: £2000</li><li>Books: £250</li><li>Travel: £300</li></ul></ul><p><em>N.B The above numbers are merely examples!</em></p><ul><li>Are there other goals you hope to accomplish? Eg &nbsp;.Societies, Hobbies etc.</li></ul>");
 					}
 					else{
 						$('#story-text').html(storyModel.get('description'));
