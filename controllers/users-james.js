@@ -300,8 +300,6 @@ module.exports = {
           user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
           user.update({password_token: token}).then(function(user){
-            console.log(user)
-            console.log('am i updated???')
             var transporter = nodemailer.createTransport(smtpTransport({
              service: 'Gmail',
              auth: {user: 'james.morrill.6@gmail.com',
