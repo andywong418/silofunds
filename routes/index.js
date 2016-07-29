@@ -29,9 +29,33 @@ router.get('/auth/facebook/callback',
 router.get('/login', users.loginGET)
 // Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
 router.post('/login', passport.authenticate('loginStrategy', {
-  successRedirect: '/loginSplit',
-  failureRedirect: '/login'
-}))
+    failureRedirect: '/login',
+    failureFlash: 'Invalid username or password'
+}), function(req, res, next) {
+    // Issue a remember me cookie if the option was checked
+    if (!req.body.remember_me) {
+        return next();
+    }
+    console.log('Hello?')
+    var token = utils.generateToken(64);
+
+    console.log('Here ^^^^^^^^^^^^^^^')
+    Token.save(token, {
+        userId: req.user.id
+    }, function(err) {
+        if (err) {
+            return done(err);
+        }
+        res.cookie('remember_me', token, {
+            path: '/',
+            httpOnly: true,
+            maxAge: 604800000
+        }); // 7 days
+        return next();
+    });
+}, function(req, res, next) {
+    res.send('hi')
+})
 router.get('/loginSplit', users.loginSplitterGET)
 
 // Register
@@ -47,9 +71,6 @@ router.get('/registerSplit', users.registerSplitterGET)
 
 // NOTE:If a user is logged in, then they should not be able to access fund pages, and vice versa
 router.get(/user/, function(req, res, next){
-  console.log(req.url)
-  console.log('/user/')
-  console.log(req.user)
   if(req.user.organisation_or_user !== null) {
     res.render(error);
     res.end()

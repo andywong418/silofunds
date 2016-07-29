@@ -5,6 +5,8 @@ var bcrypt = require('bcrypt');
 var passport = require('passport')
 var configAuth = require('../../config/auth')
 var FacebookStrategy = require('passport-facebook').Strategy;
+var RememberMeStrategy = require('passport-remember-me').Strategy;
+
 
 
 
@@ -39,7 +41,6 @@ module.exports = function(passport) {
           if (!res) {
             return done(null, false, {message: 'Wrong password'});
           } else {
-            console.log(user);
             return done(null, user);
           }
       });
@@ -56,7 +57,6 @@ passport.use('registrationStrategy', new LocalStrategy({
     },
     function(req, email, password, done) {
         // User.findOne wont fire unless data is sent back
-        console.log("HI");
         process.nextTick(function() {
             models.users.find({where: {email: email}
             }).then(function(user) {
@@ -106,6 +106,23 @@ passport.use('registrationStrategy', new LocalStrategy({
         });
     }));
 
+  // Remember me strategy
+  passport.use('rememberMe', new RememberMeStrategy(
+    function(token, done) {
+      Token.consume(token, function (err, user) {
+        if (err) {return done(err);}
+        if (!user) {return done(null, false);}
+        return done(null, user);
+      });
+    },
+    function(user, done) {
+      var token = utils.generateToken(64);
+      Token.save(token, {userId: user.id}, function(err) {
+        if (err) { return done(err); }
+        return done(null, token);
+      });
+    }
+  ));
 
   // Facebook Strategy
   passport.use('facebook', new FacebookStrategy({
