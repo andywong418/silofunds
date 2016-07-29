@@ -3,8 +3,54 @@ extends ../layout
 block extraHeader
   link(href='/stylesheets/user-dashboard.css', rel='stylesheet')
 block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    console.log(user);
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
   include ../navbar.jade
   include ../advanced-search.jade
-  a.btn.btn-default.btn-primary(href='/user/authorize', role='button', style='margin-left:600px; margin-top: 300px;') Setup stripe account
-  
+  .alert.alert-success
+    strong Success!
+    |  You are now a verified user. 
+    a(href='/user/authorize') Setup your stripe account
+    |  to start receiving donations.
+  section#user-dashboard.container.content-section
+    .row
+      .col-md-12.text-center
+        h2#name Welcome to your dashboard
+    section
+      ul.nav.nav-tabs
+        li#tab-applications.active
+          a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Your Applications
+        li#tab-favorites
+          a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
+        li#tab-recently-browsed
+          a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Browsed
+    .tab-content
+      .tab-pane.active.fade.in#ud-applications
+        section.header
+          .row
+            .col-md-3
+              h3 Applications
+        section.content-section
+          .row
+      .tab-pane.fade#ud-favourites
+        section.header
+          .row
+            .col-md-12
+              h3 Favourites
+        section.content-section
+          .row
+      .tab-pane.fade#ud-recently-browsed
+        section.header
+          .row
+            .col-md-12
+              h3 Recently Browsed
+        section.content-section
+          .row
 block scripts
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/signup-login.js')

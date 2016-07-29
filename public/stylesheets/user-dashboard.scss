@@ -14,3 +14,14 @@ body {
 }
 
 /* Everything else */
+
+$navbar-height: 54px;
+
+.alert {
+  margin-top: calc(#{$navbar-height} + 15px);
+  margin-bottom: 15px;
+  width: 70%;
+  margin-left: 15%;
+  text-align: center;
+
+}
