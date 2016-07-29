@@ -30,7 +30,7 @@ module.exports = function(passport) {
   // Create a login strategy
   passport.use('loginStrategy', new LocalStrategy({
   // By default, local strategy uses username and password
-    usernameField: 'useremail',
+    usernameField: 'email',
     passwordField: 'password'
   },
   function(username, password, done) {
@@ -62,26 +62,46 @@ passport.use('registrationStrategy', new LocalStrategy({
             }).then(function(user) {
                 var data = req.body;
                 // If a user go via this route
+                // Some logic to make both the modal box and the stand alone login pages work
                 if (req.body.fundOption !== 'on') {
-                    // If user does not exist and passwords match, create user
-                    if (!user && data.password == data.confirmPassword) {
-                        // Set username to be fund name or firstname + last name,
-                        var username = data.firstName + data.lastName + data.fundName;
-                        models.users.create({
-                            username: username,
-                            email: data.email,
-                            password: data.password,
-                            email_updates: true
-                        }).then(function(user) {
-                            return done(null, user);
-                        });
-                    } else if (data.password !== data.confirmPassword) {
-                        return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-                    } else {
-                        return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-                    }
+                  var confirmPassword;
+                  var name;
+                  if(data.confirmPassword == null) {
+                    name = data.username;
+                    confirmPassword = data.password
+                  } else {
+                    name = data.firstName + data.lastName;
+                    confirmPassword = data.confirmPassword
+                  }
+                  // If user does not exist and passwords match, create user
+                  if (!user && data.password == confirmPassword) {
+                      // Set username to be fund name or firstname + last name,
+                      var username = name;
+                      models.users.create({
+                          username: username,
+                          email: data.email,
+                          password: data.password,
+                          email_updates: true
+                      }).then(function(user) {
+                          return done(null, user);
+                      });
+                  } else if (data.password !== data.confirmPassword) {
+                      return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                  } else {
+                      return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                  }
                 // If a fund, go via this route
                 } else {
+                  // Again, do logic for modal box and standalone login routes
+                  var confirmPassword;
+                  var name;
+                  if(data.confirmPassword == null) {
+                    name = data.username;
+                    confirmPassword = data.password
+                  } else {
+                    name = data.fundName;
+                    confirmPassword = data.confirmPassword
+                  }
                     if (!user && data.password == data.confirmPassword) {
                         models.organisations.create({
                             name: data.fundName
@@ -96,7 +116,11 @@ passport.use('registrationStrategy', new LocalStrategy({
                                 return done(null, user);
                             })
                         })
-                    } else if (data.password !== data.confirmPassword) {
+                    }
+
+
+
+                    else if (data.password !== data.confirmPassword) {
                         return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
                     } else {
                         return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
@@ -107,17 +131,17 @@ passport.use('registrationStrategy', new LocalStrategy({
     }));
 
   // Remember me strategy
-  passport.use('rememberMe', new RememberMeStrategy(
+  passport.use('remember-me', new RememberMeStrategy(
     function(token, done) {
       Token.consume(token, function (err, user) {
-        if (err) {return done(err);}
-        if (!user) {return done(null, false);}
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
         return done(null, user);
       });
     },
     function(user, done) {
-      var token = utils.generateToken(64);
-      Token.save(token, {userId: user.id}, function(err) {
+      var token =  crypto.randomBytes(16).toString('hex');
+      Token.save(token, { userId: user.id }, function(err) {
         if (err) { return done(err); }
         return done(null, token);
       });
@@ -126,27 +150,27 @@ passport.use('registrationStrategy', new LocalStrategy({
 
   // Facebook Strategy
   passport.use('facebook', new FacebookStrategy({
-  clientID: configAuth.facebookAuth.clientID,
-  clientSecret: configAuth.facebookAuth.clientSecret,
-  callbackURL: configAuth.facebookAuth.callbackURL,
-  profileFields : ['id', 'displayName', 'email']
-}, function(accessToken, refreshToken, profile, done) {
-  process.nextTick(function() {
-    models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
-      if(user) {
-        return done(null, user); // user found, return that user
-      } else {
-        models.users.create({
-          username: profile.displayName,
-          email: profile.emails[0].value,
-          token: accessToken
-        }).then(function(newUser) {
-          return done(null, newUser);
-        });
-      }
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret,
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields : ['id', 'displayName', 'email']
+  }, function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function() {
+      models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
+        if(user) {
+          return done(null, user); // user found, return that user
+        } else {
+          models.users.create({
+            username: profile.displayName,
+            email: profile.emails[0].value,
+            token: accessToken
+          }).then(function(newUser) {
+            return done(null, newUser);
+          });
+        }
+      });
     });
-  });
-}));
+  }));
 
 
 

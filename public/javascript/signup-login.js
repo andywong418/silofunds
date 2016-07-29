@@ -356,15 +356,15 @@ $("#login-form").submit(function(e){
            }
            else{
              if(user.organisation_or_user){
-               $("#home").attr("href", '/organisation/home/');
-               $(".settings").attr("href", '/organisation/settings/');
-               $(".logout").attr("href", '/organisation/logout/');
+               $("#home").attr("href", '/organisation/home');
+               $(".settings").attr("href", '/organisation/settings');
+               $(".logout").attr("href", '/organisation/logout');
              }
              else{
 
                $("#home").attr("href", '/user/profile');
-               $(".settings").attr("href", '/user/settings/' );
-               $(".logout").attr("href", '/user/logout/');
+               $(".settings").attr("href", '/user/settings' );
+               $(".logout").attr("href", '/user/logout');
              }
 
           }
