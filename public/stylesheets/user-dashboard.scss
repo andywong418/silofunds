@@ -1,0 +1,27 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+#brand-image{
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
+body {
+  background-color: #e9f0f4;
+}
+
+/* Everything else */
+
+$navbar-height: 54px;
+
+.alert {
+  margin-top: calc(#{$navbar-height} + 15px);
+  margin-bottom: 15px;
+  width: 70%;
+  margin-left: 15%;
+  text-align: center;
+
+}

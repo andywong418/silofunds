@@ -3,9 +3,66 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport-james/strategies')(passport);
 var pzpt = require('./passport-james/functions');
+var qs = require('querystring');
+var request = require('request');
 var async = require('async');
 
+// Stripe OAuth
+var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
+var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
+var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
+
 module.exports = {
+
+  dashboard: function(req, res) {
+    res.render('user/dashboard');
+  },
+
+  authorizeStripe: function(req, res) {
+    // Redirect to Stripe /oauth/authorize endpoint
+    res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
+      response_type: "code",
+      scope: "read_write",
+      client_id: CLIENT_ID
+    }));
+  },
+
+  authorizeStripeCallback: function(req, res) {
+    var code = req.query.code;
+
+    // Make /oauth/token endpoint POST request
+    request.post({
+      url: TOKEN_URI,
+      form: {
+        grant_type: "authorization_code",
+        client_id: CLIENT_ID,
+        code: code,
+        client_secret: API_KEY
+      }
+    }, function(err, r, bodyUnparsed) {
+      var body = JSON.parse(bodyUnparsed);
+
+      if (body.error) {
+        console.log(body);
+
+        res.redirect('/user/home');
+      } else {
+        models.stripe_users.create({
+          user_id: req.user.id,
+          token_type: body.token_type,
+          stripe_user_id: body.stripe_user_id,
+          refresh_token: body.refresh_token,
+          access_token: body.access_token,
+          stripe_publishable_key: body.stripe_publishable_key,
+          scope: body.scope,
+          livemode: body.livemode
+        });
+
+        res.redirect('/user/home');
+      }
+    });
+  },
 
   loginGET: function(req, res) {
     // Flash message if we have come via logging out to say 'successfully logged out'
@@ -23,7 +80,7 @@ module.exports = {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
       pzpt.ensureAuthenticated(req, res);
-      res.redirect('/user/home');
+      res.redirect('/user/profile');
     }
     else {
       pzpt.ensureAuthenticated(req, res);
