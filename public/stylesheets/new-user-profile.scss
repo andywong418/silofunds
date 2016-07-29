@@ -174,11 +174,11 @@ body{
 
 		}
 
-		#story-header,#education-header,#about-header{
+		#story-header,#education-header,#about-header, #verify-header{
 			background: #f2f3f9;
 			padding: 10px;
 			border-radius: 3px;
-			font-size: 15px;
+			font-size: 16px;
 			margin-top: 15px;
 			width:70%;
 			margin-left: 15%;
@@ -238,7 +238,26 @@ body{
 	}
 }
 
+	#email-row{
+		border-bottom: none;
+			a{
+				margin-top: 20px;
+				width: 50%;
+				background-color: #05d257;
+				&:hover{
+					background-color: #04a042;
+				}
+			}
+			#verify-text{
+				margin-top: 25px;
+				padding-left: 0;
+				padding-right: 0;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				display: none;
+			}
 
+	}
 
 
 

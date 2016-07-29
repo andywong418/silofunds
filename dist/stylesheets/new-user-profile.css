@@ -138,11 +138,11 @@ body {
           color: white; }
         #signup-wrapper #signup-form .save #save:focus, #signup-wrapper #signup-form .save #save:active {
           background-color: #446CB3; }
-    #signup-wrapper #signup-form #story-header, #signup-wrapper #signup-form #education-header, #signup-wrapper #signup-form #about-header {
+    #signup-wrapper #signup-form #story-header, #signup-wrapper #signup-form #education-header, #signup-wrapper #signup-form #about-header, #signup-wrapper #signup-form #verify-header {
       background: #f2f3f9;
       padding: 10px;
       border-radius: 3px;
-      font-size: 15px;
+      font-size: 16px;
       margin-top: 15px;
       width: 70%;
       margin-left: 15%; }
@@ -186,3 +186,18 @@ body {
         #signup-wrapper #signup-form #work #work-row #work-span label {
           cursor: pointer;
           margin-left: 10px; }
+    #signup-wrapper #signup-form #email-row {
+      border-bottom: none; }
+      #signup-wrapper #signup-form #email-row a {
+        margin-top: 20px;
+        width: 50%;
+        background-color: #05d257; }
+        #signup-wrapper #signup-form #email-row a:hover {
+          background-color: #04a042; }
+      #signup-wrapper #signup-form #email-row #verify-text {
+        margin-top: 25px;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        display: none; }

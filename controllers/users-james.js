@@ -332,8 +332,6 @@ module.exports = {
   resetPasswordConfirm: function(req, res, next) {
     var token = req.params.token
     models.users.find({where: {password_token: token}}).then(function(user) {
-      console.log(user)
-      console.log('user&&&&&')
       var password = req.body.password
       var confirmPassword = req.body.confirmPassword
       if(password == confirmPassword) {
@@ -348,5 +346,6 @@ module.exports = {
         res.redirect('/reset/' + token)
       }
     })
-  }
+  },
+  
 }

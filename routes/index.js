@@ -101,5 +101,4 @@ router.post('/reset/:token', users.resetPasswordConfirm)
 
 
 
-
 module.exports = router;
