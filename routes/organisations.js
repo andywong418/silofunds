@@ -4,7 +4,7 @@ var funds = require('../controllers/organisations');
 var signup = require('../controllers/signup');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-require('../controllers/passport-james/strategies')(passport);
+require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 

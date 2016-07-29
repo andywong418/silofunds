@@ -3,7 +3,7 @@ var models = require('../models');
 var users = require('../controllers/users');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-require('../controllers/passport-james/strategies')(passport);
+require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 // User profile pages, these all use passport authentication

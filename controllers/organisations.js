@@ -1,8 +1,8 @@
 var models = require('../models');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-require('./passport-james/strategies')(passport);
-var pzpt = require('./passport-james/functions');
+require('./passport/strategies')(passport);
+var pzpt = require('./passport/functions');
 var async = require('async');
 var countries = require('../resources/countries')
 
@@ -498,6 +498,7 @@ homeGET: function(req, res){
   },
 
   logout: function(req, res) {
+    res.clearCookie('remember_me');
     req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
