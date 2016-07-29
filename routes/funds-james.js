@@ -9,7 +9,7 @@ var router = express.Router();
 
 
 
-router.get('/home', funds.homeGET)
+router.get('/dashboard', funds.homeGET)
 router.get('/create', funds.createGET)
 router.get('/funding_creation', funds.createFund)
 router.get('/funding_creation/:option', funds.fundingSignupProcess);
