@@ -40,16 +40,27 @@ module.exports = {
         code: code,
         client_secret: API_KEY
       }
-    }, function(err, r, body) {
+    }, function(err, r, bodyUnparsed) {
+      var body = JSON.parse(bodyUnparsed);
 
-      var accessToken = JSON.parse(body).access_token;
-      console.log("body");
-      console.log(body);
-      // Do something with your accessToken
+      if (body.error) {
+        console.log(body);
 
-      // For demo"s sake, output in response:
-      res.send({ "Your Token": accessToken });
+        res.redirect('/user/home');
+      } else {
+        models.stripe_users.create({
+          user_id: req.user.id,
+          token_type: body.token_type,
+          stripe_user_id: body.stripe_user_id,
+          refresh_token: body.refresh_token,
+          access_token: body.access_token,
+          stripe_publishable_key: body.stripe_publishable_key,
+          scope: body.scope,
+          livemode: body.livemode
+        });
 
+        res.redirect('/user/home');
+      }
     });
   },
 
