@@ -1,6 +1,7 @@
 module.exports = {
   index: function(req, res) {
     console.log("HEYYYYYY");
+    console.log("I KNOW IT's YOU");
     console.log(req.session.passport.user);
     var user = req.session.passport.user;
     delete req.session.redirect_user;

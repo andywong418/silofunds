@@ -270,10 +270,6 @@ allShown = false;
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
       this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
     },
-
-
-
-
     addApplication: function(){
       if(user && !user.organisation_or_user){
           var fund_id = this.model.get('id');
@@ -285,10 +281,8 @@ allShown = false;
 
     profileLink: function(){
       var fundId = this.model.get('id');
-      // console.log(fundId);
       var link = this.model.get('link');
       var fund_user = this.model.get('fund_user');
-      // console.log(fund_user);
       if (fund_user){
         this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
       }
@@ -396,6 +390,7 @@ allShown = false;
       window.scroll(0, 1);
  }
  window.onload = Scrolldown;
+
 
 
 //Use modernizr to move search bar when screen is mobile

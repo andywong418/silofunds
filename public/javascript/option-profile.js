@@ -71,36 +71,44 @@ $(document).ready(function(){
   function returnStringfromArray2(array){
     var emptyString = '';
     // Case 1: arr has 1 value
-    if (array.length === 1) {
-      return array[0];
+    if(array){
+      if (array.length === 1) {
+        return array[0];
+      }
+      reverseArray = array.reverse();
+      // Case 2: arr > 1
+      for (var i = 0; i < reverseArray.length; i++){
+        // Handle 1st string
+        if (i === 0) {
+          emptyString = reverseArray[i] + emptyString;
+        }
+
+        // Handle 2nd string
+        else if (i === 1) {
+          emptyString = reverseArray[i] + " and " + emptyString;
+        }
+
+
+        // Handle rest
+        else {
+          emptyString = reverseArray[i] + ', ' + emptyString;
+        }
+
+      }
+      return emptyString;
     }
-    reverseArray = array.reverse();
-    // Case 2: arr > 1
-    for (var i = 0; i < reverseArray.length; i++){
-      // Handle 1st string
-      if (i === 0) {
-        emptyString = reverseArray[i] + emptyString;
-      }
-
-      // Handle 2nd string
-      else if (i === 1) {
-        emptyString = reverseArray[i] + " and " + emptyString;
-      }
-
-
-      // Handle rest
-      else {
-        emptyString = reverseArray[i] + ', ' + emptyString;
-      }
-
+    else{
+      return false;
     }
-    return emptyString;
+
   }
   var reformatDate = function(date) {
-    console.log(date);
-    date = date.split('T')[0];
-    date = new Date(date);
-    return date.toDateString();
+    if(date){
+      date = date.split('T')[0];
+      date = new Date(date);
+      return date.toDateString();
+    }
+
   };
 
   var NotEligibleModel = Backbone.Model.extend();
@@ -155,16 +163,20 @@ $(document).ready(function(){
     if(!user.organisation_or_user){
       console.log(user);
       $('#application_form').css('margin-top', '3%');
-      var myDate = user.date_of_birth.split("-");
-      var yearFix= myDate[2].split("T");
-      var day = yearFix[0];
-      var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-      var birthDate = new Date(newDate).getTime();
-      var nowDate = new Date().getTime();
-      var age = Math.floor((nowDate - birthDate) / 31536000000 );
-      var userFields = [age, 'country_of_residence', 'religion', 'subject', 'degree', 'university'];
+      var age;
+      if(user.date_of_birth){
+        var myDate = user.date_of_birth.split("-");
+        var yearFix= myDate[2].split("T");
+        var day = yearFix[0];
+        var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+        var birthDate = new Date(newDate).getTime();
+        var nowDate = new Date().getTime();
+        age = Math.floor((nowDate - birthDate) / 31536000000 );
+      }
+
+      var userFields = [age, 'country_of_residence', 'religion', 'subject', 'previous_degree', 'previous_university'];
       var nonEligibleCounter = 0;
-      if(  fund.minimum_age ){
+      if(fund.minimum_age){
         if(age < fund.minimum_age){
           notEligible('minimum age', 'age',fund.minimum_age, age);
           nonEligibleCounter++;
@@ -178,39 +190,51 @@ $(document).ready(function(){
         }
 
       }
-      if(fund.country_of_residence.length > 0){
-        if(fund.country_of_residence.indexOf(user.country_of_residence.capitalize()) == -1){
-              notEligible('required countries', 'country_of_residence',fund.country_of_residence.capitalize().join(', '), user.country_of_residence);
-              nonEligibleCounter++;
+      if(fund.country_of_residence){
+        if(fund.country_of_residence.length > 0){
+          if(user.country_of_residence){
+            if(fund.country_of_residence.indexOf(user.country_of_residence.capitalize()) == -1){
+                  notEligible('required countries', 'country_of_residence',fund.country_of_residence.capitalize().join(', '), user.country_of_residence);
+                  nonEligibleCounter++;
+            }
+          }
         }
-
       }
-     if(fund.religion.length > 0){
-        if(checkIfElementInArray(fund.religion, user.religion) == false){
-          notEligible('required religions', 'religion', fund.religion.capitalize().join(', '), user.religion);
-          nonEligibleCounter++;
-        }
+      if(fund.religion){
+        if(fund.religion.length > 0){
+           if(checkIfElementInArray(fund.religion, user.religion) == false){
+             notEligible('required religions', 'religion', fund.religion.capitalize().join(', '), user.religion);
+             nonEligibleCounter++;
+           }
 
-      }
-       if(fund.subject.length > 0){
-         if(fund.subject.indexOf(user.subject) == -1){
-           notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject);
-           nonEligibleCounter++;
          }
       }
-       if(fund.required_degree.length > 0){
-         if(fund.required_degree.indexOf(user.degree) == -1){
-           notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.degree);
+      if(fund.subject){
+        if(fund.subject.length > 0){
+          if(fund.subject.indexOf(user.subject) == -1){
+            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject);
             nonEligibleCounter++;
-         }
+          }
+       }
       }
-      if(fund.required_university.length > 0){
-        if(fund.required_university.indexOf(user.university) == -1){
-          notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.university);
-          nonEligibleCounter++;
-        }
+      if(fund.required_degree){
+        if(fund.required_degree.length > 0){
+          if(fund.required_degree.indexOf(user.degree) == -1){
+            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.degree);
+             nonEligibleCounter++;
+          }
+       }
+      }
+      if(fund.required_university){
+        if(fund.required_university.length > 0){
+          if(fund.required_university.indexOf(user.university) == -1){
+            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.university);
+            nonEligibleCounter++;
+          }
 
+        }
       }
+
       if(nonEligibleCounter == 0){
         $('#eligibility_div').css('display', 'block');
         $('#eligibility_div').css('background-color', '#27ae60');
@@ -227,6 +251,19 @@ $(document).ready(function(){
   }
   if(fund.description){
     $('#fundBio').html(fund.description);
+    $('#fundBio').find('*').css('font-size', '15px');
+    $('#fundBio').find('*').css('font-family', 'PT Sans');
+    $('#fundBio').find('*').css('line-height', '1.5');
+    $('#fundBio').find('*').css('background-color', '#e9f0f4');
+    console.log($('#fundBio').find('p'));
+    var paragraphs = $('#fundBio').find('p');
+    for (var i =0; i < paragraphs.length; i++ ){
+      if(paragraphs[i].innerHTML == '&nbsp;'){
+        var parent = document.getElementById('fundBio');
+        parent.removeChild(paragraphs[i]);
+      }
+
+    }
   }
   var subject = fund['subject'];
   var ImageModel = Backbone.Model.extend();
@@ -471,6 +508,7 @@ $(document).ready(function(){
             case 'religion':
               var religion= fund['religion'];
               var religionCounter = 0;
+              console.log(religion);
               if(religion){
                 for(i=0; i< religion.length; i++){
                   if(religionCounter == 0){
@@ -486,6 +524,7 @@ $(document).ready(function(){
                   }
                   else{
                     religionCounter.$el.find('.criteria').append(", " + religion[i].capitalize());
+                    religionCounter++;
                   }
 
                 }
@@ -513,7 +552,7 @@ $(document).ready(function(){
                     section: 'age'
                   })
                   var view = new ImageView({model: imageModel});
-                  this.$el.append(view.render().el);
+                  this.$('#personal-handler').append(view.render().el);
                   noIcon();
                 }
               }
@@ -588,7 +627,7 @@ $(document).ready(function(){
                 else{
                   var imageModel = new ImageModel({
                     imageSource: '/images/university.png',
-                    criteria: 'For intended study' + targetUniversityString.capitalize(),
+                    criteria: 'For intended study at: ' + targetUniversityString.capitalize(),
                     section: 'University'
                   })
                   var view = new ImageView({model: imageModel});
@@ -658,14 +697,17 @@ $(document).ready(function(){
               break;
             case 'required_grade':
               var requiredGrade = fund['required_grade'];
-              var imageModel = new ImageModel({
-                imageSource: '',
-                criteria: 'Required Grade: ' + requiredGrade,
-                section:'required grade'
-              })
-              var view = new ImageView({model: imageModel});
-              this.$('#education-handler').append(view.render().el);
-              noIcon();
+              if(requiredGrade){
+                var imageModel = new ImageModel({
+                  imageSource: '',
+                  criteria: 'Required Grade: ' + requiredGrade,
+                  section:'required grade'
+                })
+                var view = new ImageView({model: imageModel});
+                this.$('#education-handler').append(view.render().el);
+                noIcon();
+              }
+
               break;
             case 'target_country':
               var targetCountry = fund.target_country;
@@ -772,9 +814,17 @@ $(document).ready(function(){
       if(!fund.application_link){
         fund.application_link = fund.link;
       }
+      var application_documents;
+      if(fund.application_documents){
+        if(fund.deadline){
+          application_documents = returnStringfromArray2(fund.application_documents).capitalize() + ' are required by ' + reformatDate(fund.deadline);
+        }else{
+          application_documents = returnStringfromArray2(fund.application_documents).capitalize() + ' are required';
+        }
+      }
       var applicationModel = new ApplicationModel({
         application_decision_date : 'Application decisions are on ' + reformatDate(fund.application_decision_date),
-        application_documents : returnStringfromArray2(fund.application_documents).capitalize() + ' are required by ' + reformatDate(fund.deadline),
+        application_documents : application_documents,
         application_open_date : 'Applications open on ' + reformatDate(fund.application_open_date),
         interview_date : 'Interviews occur on ' + reformatDate(fund.interview_date),
         application_link : fund.application_link
@@ -783,7 +833,7 @@ $(document).ready(function(){
       var view = new ApplicationView({ model: applicationModel });
       this.$el.append(view.render().el);
       if(!fund.application_documents){
-        if(fund.deadline){
+        if(fund.deadline && this.model){
           this.model.set({
             application_documents: 'Deadline for applications are on ' + reformatDate(fund.deadline)
           })
@@ -809,9 +859,40 @@ $(document).ready(function(){
         }
     }
   })
+  var TipsModel = Backbone.Model.extend({
+    url: '/funds/options/' + fund.id + '/tips'
+  });
+  var TipsView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'tips-handler',
+    template: _.template($('#tips-template').html()),
+    initialize: function(){
+      console.log("HELLO");
+      _.bindAll(this, "render");
+      this.model.fetch({
+        success: this.render
+      })
+    },
+    render: function() {
+      console.log(this.model);
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    }
+
+  })
+  var TipsDisplay = Backbone.View.extend({
+    el: '#application-handler',
+    initialize: function(){
+      console.log("GETTING IN HERE");
+      var tipsModel = new TipsModel();
+      var view = new TipsView({model: tipsModel});
+      console.log(view.el);
+      this.$el.append(view.el);
+    }
+  })
 
   var eligibilityDisplay = new EligibilityDisplay();
   var applicationFormDisplay = new ApplicationDisplay();
-
+  var TipsDisplay = new TipsDisplay();
 }
 )

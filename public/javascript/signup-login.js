@@ -361,6 +361,7 @@ $("#login-form").submit(function(e){
                $(".logout").attr("href", '/organisation/logout/');
              }
              else{
+
                $("#home").attr("href", '/user/profile');
                $(".settings").attr("href", '/user/settings/' );
                $(".logout").attr("href", '/user/logout/');

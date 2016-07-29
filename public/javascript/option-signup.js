@@ -51,7 +51,8 @@ $(document).ready(function(){
       var view = new GeneralView({model: generalModel});
       this.$el.append(view.render().el);
       $('.selected').removeClass('selected');
-      $('#general').addClass('selected')
+      $('#general').addClass('selected');
+      this.$('[data-toggle="tooltip"]').tooltip();
       if(this.model.get('id')){
         console.log(this.model.get('id'));
         var id = this.model.get('id');
@@ -303,7 +304,7 @@ var ApplicationDisplay = Backbone.View.extend({
     console.log(applicationModel);
     $('.selected').removeClass('selected');
     $('#application').addClass('selected');
-    var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps'];
+    var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps','tips'];
 
     if(this.model.get('id')){
       var id = this.model.get('id');
@@ -311,8 +312,8 @@ var ApplicationDisplay = Backbone.View.extend({
       for (var i = 0; i< arrayFields.length; i++){
         if(this.model.get(arrayFields[i])){
           var value = this.model.get(arrayFields[i]);
+          console.log(value);
           if(Date.parse(value)){
-            console.log(value);
             value = value.split('T')[0]
           }
           this.$('#' + arrayFields[i]).val(value);
@@ -325,6 +326,7 @@ var ApplicationDisplay = Backbone.View.extend({
   },
   saveApplication: function(){
     var applicationDocuments = $('input[name=application_documents]').val().split(',');
+    console.log($('textarea#tips-area').val());
     var formData={
       'application_open_date': $('input[name=start_date]').val(),
       'deadline': $('input[name=deadline]').val(),
@@ -332,7 +334,8 @@ var ApplicationDisplay = Backbone.View.extend({
       'application_decision_date':$('input[name=application_decision_date]').val(),
       'application_link': $('input[name=application_link]').val(),
       'application_documents': applicationDocuments,
-      'other_application_steps': $('textarea#other_application_steps').val()
+      'other_application_steps': $('textarea#other_application_steps').val(),
+      'tips': $('textarea#tips').val()
     }
     if(!fund){
       $.post('/organisation/funding_creation/' + support_type + '/save_application', formData,function(data){

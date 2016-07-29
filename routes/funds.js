@@ -18,6 +18,7 @@ router.get('/option_creation/:id', fund.getOptionInfo);
 router.get('/options/:id', fund.getOptionProfile);
 router.get('/options/:id/edit', fund.editOptionProfile);
 router.post('/options/:id/edit', fund.saveOptionEdit);
+router.get('/options/:id/tips', fund.getOptionTips);
 router.post('/edit_description/:id', fund.editDescription);
 router.post('/edit_dates/:id', fund.editDates)
 router.get('/settings/:id/', fund.settings);

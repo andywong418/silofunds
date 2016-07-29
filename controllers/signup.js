@@ -21,21 +21,44 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_key = secrets.AWS_KEY;
 }
 var previousPage;
+function changeArrayfields(fields, arrayFields){
+  for(var i =0 ; i <arrayFields.length; i++){
+    if(fields[arrayFields[i] + '[]']){
+      var emptyArray = []
+      fields[arrayFields[i]] = emptyArray.concat(fields[arrayFields[i] + '[]']);
+    }
+  }
+  return fields;
+}
+function moderateObject(objectFields){
+  for(var key in objectFields){
+    if(objectFields[key] === ''){
+      delete objectFields[key];
+    }
+  }
+  return objectFields;
+}
 module.exports = {
   subscribe: function(req, res, next){
     var username = "";
 		if(req.body.fundName !== "") {
 			username = req.body.fundName
-		} else {
-			username = req.body.firstName + req.body.lastName
+		}
+		if(req.body.firstName && req.body.lastName) {
+			username = req.body.firstName + ' ' + req.body.lastName
+		}
+		if(req.body.username){
+			username = req.body.username;
 		}
     var email = req.body.email;
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
-		console.log("PREVIOUS", previousPage);
-    mc.lists.subscribe({ id: '075e6f33c2', email: {email: req.body.email}, merge_vars: {
+		console.log("PREVIOUS", firstName);
+		console.log("HI", lastName);
+		console.log("EMAIL", email);
+    mc.lists.subscribe({ id: '075e6f33c2', email: {email: email}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
         LNAME: lastName
@@ -65,7 +88,31 @@ module.exports = {
 			res.redirect('/');
 		}
   },
+	saveUserSignup: function(req, res){
 
+		var userId = req.user.id;
+		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university']
+		req.body = changeArrayfields(req.body, arrayFields);
+		req.body = moderateObject(req.body);
+		console.log(userId);
+		models.users.findById(userId).then(function(user){
+			console.log(req.body);
+			user.update(req.body).then(function(user){
+
+				res.send(user);
+			})
+		})
+	},
+ getSignupInfo: function(req, res){
+	 var userId = req.params.id;
+	 models.users.findById(userId).then(function(user){
+		 user = user.get();
+		 models.documents.findAll({where:{user_id: user.id} }).then(function(documents){
+			 user.documents = documents;
+			 res.json(user);
+		 })
+	 })
+ },
   uploadPicture: function(req,res){
     var userId = req.params.id;
     var idString = req.params.id.toString();

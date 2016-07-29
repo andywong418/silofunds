@@ -14,15 +14,17 @@ var params = [
 require('../controllers/passport')(passport);
 var models = require('../models');
 
-router.get('/', function(req, res) {
-  req.flash('danger', 'Please signup from here.');
-  res.redirect('/');
-});
+// router.get('/', function(req, res) {
+//   req.flash('danger', 'Please signup from here.');
+//   res.redirect('/');
+// });
+//REMOVED SIGNUP.SUBSCRIBE FOR TESTING.
 router.post('/', signup.subscribe, passport.authenticate('local-signup', {
 	failureRedirect: '/login/error'
 }), function(req, res){
+		console.log("AFTER MAILCHIMP");
     var username = req.body.username;
-    var useremail = req.body.useremail;
+    var useremail = req.body.email;
     var userpassword = req.body.userpassword;
     var fundOption = req.body.fundOption;
 
@@ -31,15 +33,14 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
       where: {email: useremail}
     }).then(function(user){
       if(typeof fundOption == 'undefined'){
+				console.log("HELLO");
         res.render('signup/new-user-profile', {user: user});
       }
       else{
         var organisationId = user.id;
         var scholarshipName = user.username;
         models.organisations.findOrCreate({where:{name: scholarshipName}}).spread(function(organisation, created){
-          console.log("EVEN HERE", created);
           if(created){
-            console.log("LOOK AT ME", organisation);
             var organisation_id = organisation.id;
             models.users.findById(organisationId).then(function(organisation){
               organisation.update({
@@ -50,7 +51,6 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
 
             })
           }
-
           else{
             var fundTableId = fund.id;
             fund.update({
@@ -75,6 +75,8 @@ router.post('/results', function(req,res){
 	res.redirect('/results');
 });
 router.get('/user/:id', signup.userProfile);
+router.post('/user/save', signup.saveUserSignup);
+router.get('/user_signup/:id', signup.getSignupInfo);
 router.post('/user_signup/profile_picture/:id', upload.single('profile_picture'), signup.uploadPicture);
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);
 router.get('/fund/:id', signup.fundProfile);

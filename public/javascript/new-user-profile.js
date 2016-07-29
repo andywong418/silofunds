@@ -1,412 +1,402 @@
 $(document).ready(function(){
 
-	var UserNav = Backbone.View.extend({
-        el: "nav",
 
-        initialize: function(){
-        this.searchDropdown();
-      },
-      searchDropdown: function(){
-      	$("#search-dropdown").click(function(e){
-      		e.preventDefault();
-      	});
-      }
+	var reformatDate = function(date) {
+    if(date){
+      date = date.split('T')[0];
+      return date;
+    }
 
-  });
-	var userNav = new UserNav();
-//setting up the user in signup
+  };
+	String.prototype.capitalize = function() {
+		return this.charAt(0).toUpperCase() + this.slice(1);
+	};
+var tokenArrayPopulate = function(value, emptyArray){
+	for (var j = 0; j < value.length; j++) {
+		var wrapper = {};
+		wrapper.id = value[j].capitalize();
+		wrapper.name = value[j].capitalize();
 
+		emptyArray.push(wrapper);
+	}
+	return emptyArray
+}
+
+	$('.process').click(function(){
+		console.log(this);
+		$('.active').removeClass('active');
+		$(this).addClass('active');
+	})
 	var UserModel = Backbone.Model.extend({
-		defaults:{
-			username: "",
-		}
-
-	});
-
-	var UserView = Backbone.View.extend({
-		id: 'user-setup',
-		template: _.template($('#profile-template').html()),
+		url: '/signup/user_signup/' + user_setup.id,
+	})
+	var AboutView = Backbone.View.extend({
+		id: 'about-form',
+		template: _.template($('#about-template').html()),
 		render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this; // enable chained calls
       }
-	});
-	var UserInfo = Backbone.View.extend({
-		el: 'body',
-		initialize: function(){
-			var user = new UserModel({
-          username: user_setup.username
-        });
+	})
 
-        var view = new UserView({ model: user });
-
-        this.$el.append(view.render().el);
-        this.phaseStepping();
-        this.finishSignup();
+	var AboutDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id: 'about-handler',
+		events: {
+			'click #profile-picture': 'addProfilePicture',
+			'change input[id="my_file"]': 'changePicture',
+			'click #save': 'saveAbout'
 		},
-		phaseStepping: function(){
-			var counter = 0;
-			if(counter === 0){
-						$('#profile-figure').css("z-index", "4");
-						$("#profile-picture, #add-profile").click(function() {
-								console.log('HI');
-						    $("input[id='my_file']").click();
-						});
-						$("input[id='my_file']").change(function(){
-
-			        if (this.files && this.files[0]) {
-
-		            var reader = new FileReader();
-
-		            reader.onload = function (e) {
-
-                $('#profile-picture')
-                  .attr('src', e.target.result)
-                  .width(250)
-                  .height(250);
-		            };
-  	          var file = this.files[0];
-							var data = new FormData();
-							data.append('profile_picture', file);
-							data.append('user', user_setup.id);
-							$.ajax({
-								type: 'POST',
-								url: "/signup/user_signup/profile_picture/" + user_setup.id,
-								data: data,
-							  processData: false,
-								contentType: false
-							}).done(function(data){
-								console.log(data);
-
-							});
-	          		console.log(this.files[0].name);
-         		 		reader.readAsDataURL(this.files[0]);
-        			}
-    				});
-
+		initialize: function(){
+			var aboutModel = this.model;
+			var aboutView = new AboutView({model: aboutModel});
+			this.$el.append(aboutView.render().el);
+			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','completion_date', 'date_of_birth', 'religion'];
+			var prePopulateModel = this.model;
+			console.log(prePopulateModel);
+			if(!this.model.get('country_of_residence')){
+				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true});
 			}
-			$("#next").click(function(){
-				counter++;
-					if(counter == 1){
-						$('#add-profile').toggle(false);
-						$('#profile-figure').css("z-index", "2");
-						$("#previous").css("display", "inline");
-						$('#description').css("z-index", "4");
-						$("#description").attr("placeholder", "Please enter a description of youself- including any organisation you are part of, what you are currently seeking funding for and what you will do with the money granted.");
-						$('#description').css("z-index", "4");
-					}
-					else{
-							$("#description").attr("placeholder","");
-						$('#description').css("z-index", "2");
-					}
-					if(counter == 2){
-						$('#past-work').css("z-index","4");
-						$('html, body').animate({
-			        scrollTop: $("#description").offset().top
-			    		}, 2000);
-					}
-						else{
-						$('#past-work').css("z-index","2");
-					}
-					if(counter == 3){
-
-						$('#age').css("z-index", "4");
-					}
-					else{
-
-						$('#age').css("z-index", "2");
-					}
-					if(counter == 4){
-						$('#nationality').css("z-index","4");
-					}
-					else{
-						$('#nationality').css("z-index","2");
-
-					}
-					if(counter == 5){
-						 $('html, body').animate({
-			        scrollTop: $("#past-work").offset().top
-			    		}, 2000);
-						$("#religion").css("z-index", "4");
-					}
-					else{
-						$("#religion").css("z-index", "2");
-					}
-
-					if (counter ==6){
-						$("#applied-funds").css("z-index", "4");
-						$("#finish").toggle(true);
-						$("#next").toggle(false);
-					}
-					else{
-						$("#applied-funds").css("z-index", "2");
-						$("#finish").toggle(false);
-						$("#next").toggle(true);
-					}
-					if(counter == 7){
-						$("#finish").toggle(true);
-						$("#next").toggle(false);
-					}
-			});
-
-			$(document).on('keypress', function(e){
-				if (e.which == 13 || e.keyCode == 13){
-					counter++;
-					if(counter == 1){
-						$('#add-profile').toggle(false);
-						$('#profile-figure').css("z-index", "2");
-						$("#previous").css("display", "inline");
-						$('#description').css("z-index", "4");
-						$("#description").attr("placeholder", "Please enter a description of youself- including any organisation you are part of, what you are currently seeking funding for and what you will do with the money granted.");
-						$('#description').css("z-index", "4");
-					}
-					else{
-							$("#description").attr("placeholder","");
-						$('#description').css("z-index", "2");
-					}
-					if(counter == 2){
-						$('#past-work').css("z-index","4");
-						$('html, body').animate({
-			        scrollTop: $("#description").offset().top
-			    		}, 2000);
-					}
-						else{
-						$('#past-work').css("z-index","2");
-					}
-					if(counter == 3){
-
-						$('#age').css("z-index", "4");
-					}
-					else{
-
-						$('#age').css("z-index", "2");
-					}
-					if(counter == 4){
-						$('#nationality').css("z-index","4");
-					}
-					else{
-						$('#nationality').css("z-index","2");
-
-					}
-					if(counter == 5){
-						 $('html, body').animate({
-			        scrollTop: $("#past-work").offset().top
-			    		}, 2000);
-						$("#religion").css("z-index", "4");
-					}
-					else{
-						$("#religion").css("z-index", "2");
-					}
-
-					if (counter ==6){
-						$("#applied-funds").css("z-index", "4");
-						$("#finish").toggle(true);
-						$("#next").toggle(false);
-					}
-					else{
-						$("#applied-funds").css("z-index", "2");
-						$("#finish").toggle(false);
-						$("#next").toggle(true);
-					}
-					if(counter == 7){
-
-						e.preventDefault();
-						$("#finish").toggle(true);
-						$("#next").toggle(false);
-						var preloader = $('.se-pre-con');
-						var finalInput = $('#applied-funds');
-						var profileSrc = $('#profile-picture').attr('src');
-						var description = $('textarea#description').val();
-						var workInput = $('#work-span label').html();
-						var birthday = $('#date_of_birth').val();
-						var country = $('#country-select option:selected').val();
-						var religion = $('#religion-select option:selected').val();
-						var fundingNeeded = $('.progress').val();
-	
-						if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || !birthday || !country || !religion || !fundingNeeded){
-							$("#applied-funds").css("z-index", "4");
-							console.log("ERROR");
-							$('.alert').css("display", "block");
-							counter--;
-						}
-						else{
-							finalInput.css("z-index", "0");
-							preloader.css('display', 'inline');
-							$('#profile-form').submit();
+			for(var i = 0; i< arrayFields.length; i++){
+				console.log(prePopulateModel.get(arrayFields[i]));
+				if(prePopulateModel.get(arrayFields[i])){
+					var value = prePopulateModel.get(arrayFields[i]);
+					if(value){
+						switch (arrayFields[i]) {
+							case 'profile_picture':
+								console.log("PROF PIC");
+								this.$('#profile-picture span').hide();
+								this.$('#placeholder-picture')
+									.attr('src', value)
+									.width(250)
+									.height(250);
+								break;
+							case 'country_of_residence':
+								var savedCountryOfRes = [];
+								savedCountryOfRes = tokenArrayPopulate(value, savedCountryOfRes);
+								console.log("HERE");
+								this.$('input#country_of_residence').tokenInput('/autocomplete/countries', {
+									"theme": "facebook",
+									"prePopulate": savedCountryOfRes,
+									"allowFreeTagging": true
+								});
+								this.$('ul.token-input-list-facebook').css('padding', '0');
+								this.$('li.token-input-token-facebook').css('margin-top', '1px');
+								break;
+							case 'date_of_birth':
+								console.log(reformatDate(value));
+								this.$('input#date-input').val(reformatDate(value));
+								break;
+							case 'funding_needed':
+								this.$('input#input-amount').val(value);
+								break;
+							case 'completion_date':
+								this.$('input#completion-input').val(reformatDate(value));
+								break;
+							case 'religion':
+								this.$('#religion-select').val(value);
+								break;
 						}
 					}
-					if(counter > 7){
-						counter = 7;
-						console.log(counter);
+
+				}
+			}
+		},
+		addProfilePicture: function(){
+					console.log('HI');
+					this.$("input[id='my_file']").click();
+		},
+		changePicture: function(e){
+			console.log(e);
+			if (e.currentTarget.files && e.currentTarget.files[0]) {
+
+					var reader = new FileReader();
+
+					reader.onload = function (e) {
+					$('#profile-picture span').hide();
+					$('#placeholder-picture')
+						.attr('src', e.target.result)
+						.width(250)
+						.height(250);
+				};
+				var file = e.currentTarget.files[0];
+				var data = new FormData();
+				data.append('profile_picture', file);
+				data.append('user', user_setup.id);
+				$.ajax({
+					type: 'POST',
+					url: "/signup/user_signup/profile_picture/" + user_setup.id,
+					data: data,
+					processData: false,
+					contentType: false
+				}).done(function(data){
+					console.log(data);
+
+				});
+					reader.readAsDataURL(e.currentTarget.files[0]);
+				}
+
+		},
+		saveAbout: function(e){
+			var countries = $('input#country_of_residence').val().split(',');
+			var formData = {
+				'funding_needed': $('input[name=funding_needed]').val(),
+				'completion_date': $('input[name=completion_date]').val(),
+				'date_of_birth': $('input[name=date_of_birth]').val(),
+				'country_of_residence': countries,
+				'religion': $('select[name=religion]').val()
+			}
+			$.post('/signup/user/save', formData, function(data){
+				console.log(data);
+				$('a[href="#about"]').removeClass('active');
+				$('a[href="#education"]').addClass('active');
+				$('html, body').animate({scrollTop:0}, 'slow')
+			})
+		}
+	})
+	var EducationDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id: 'education-handler',
+		template: _.template($('#education-template').html()),
+		events: {
+			'click #save': 'saveEducation'
+		},
+		render: function() {
+				this.$el.html(this.template(this.model.toJSON()));
+				return this; // enable chained calls
+			},
+		initialize: function(){
+			var educationModel = this.model;
+			this.el = this.render().el;
+			var arrayFields = ['subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university'];
+			for(var i =0; i< arrayFields.length; i++){
+				if(!this.model.get(arrayFields[i])){
+					if(arrayFields[i] == 'subject'){
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true, "placeholder": 'E.g. English literature, Chemical Engineering, History' });
+					}
+					if(arrayFields[i] == 'target_university' || arrayFields[i] == 'previous_university'){
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true,"placeholder": 'E.g. Bachelor, Master of Arts, Dphil' });
+					}
+					if(arrayFields[i] =='target_degree' || arrayFields[i] == 'previous_degree'){
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true,"placeholder": "E.g. University of Oxford"  });
 					}
 				}
-			});
-
-			$("#previous").click(function(){
-				counter--;
-				if(counter === 0){
-						$('#add-profile').toggle(true);
-						$('#profile-figure').css("z-index", "4");
-						$('#previous').css('display','none');
+				else{
+					value = this.model.get(arrayFields[i]);
+					if(arrayFields[i] == 'subject'){
+						var savedSubject = [];
+						savedSubject = tokenArrayPopulate(value, savedSubject);
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook","prePopulate": savedSubject, "allowFreeTagging": true});
+						this.$('ul.token-input-list-facebook').css('padding', '0');
+						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}
-					else{
-						$('#add-profile').toggle(false);
+					if(arrayFields[i] == 'target_university' || arrayFields[i] == 'previous_university'){
+						var savedUniversity = [];
+						savedUniversity = tokenArrayPopulate(value, savedUniversity);
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "prePopulate": savedUniversity, "allowFreeTagging": true});
+						this.$('ul.token-input-list-facebook').css('padding', '0');
+						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}
-				if(counter == 1){
-					$('html, body').animate({
-    		    scrollTop: 0
-			    }, 2000);
-			    $('#description').css("z-index", "4");
-					$("#description").attr("placeholder", "Please enter a description of youself- including any organisation you are part of, what you are currently seeking funding for and what you will do with the money granted.");
-				}
-				else{
-					$('#description').css("z-index", "2");
-					$("#description").attr("placeholder","");
-				}
-				if(counter == 2){
-					$('#past-work').css("z-index","4");
-						$('html, body').animate({
-			        scrollTop: $("#description").offset().top
-			    		}, 2000);
-				}
-				else{
-					$('#past-work').css("z-index","2");
-				}
-				if(counter == 3){
-						$('#age').css("z-index", "4");
-				}
-				else{
-						$('#age').css("z-index", "2");
-				}
-				if(counter == 4){
-					$('#nationality').css("z-index","4");
-				}
-				else{
-					$('#nationality').css("z-index","2");
-				}
-				if(counter == 5){
-						$("#religion").css("z-index", "4");
-						$("#applied-funds").css("z-index", "2");
-						$("#finish").toggle(false);
-						$("#next").toggle(true);
-				}
-				else{
-						$("#religion").css("z-index", "2");
-				}
-				if(counter == 6){
-						$("#applied-funds").css("z-index", "4");
-				}
-
-			});
-
-			// $("input[id='video']").change(function(e){
-
-			// 	var $input = $(this),
-			// 	$label = $input.next('label'),
-			// 	labelVal = $label.html();
-			// 	var fileName = '';
-
-			// 	if( e.target.value ){
-			// 		fileName = e.target.value.split( '\\' ).pop();
-			// 	}
-
-			// 	if( fileName ){
-			// 		$label.html( fileName );
-			// 	}
-			// 	else{
-			// 		$label.html( labelVal );
-			// 	}
-
-			// 	$input
-			// 		.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
-			// 		.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
-			// });
-
-				if (!Modernizr.inputtypes.date) {
-        // If not native HTML5 support, fallback to jQuery datePicker
-            $('input[type=date]').datepicker({
-                // Consistent format with the HTML5 picker
-                    dateFormat : 'dd-mm-yy'
-                },
-                // Localization
-                $.datepicker.regional['it']
-            );
-        };
-
-				$("input[id='work']").change(function(e){
-					var $input = $(this),
-					$label = $input.next('label'),
-					labelVal = $label.html();
-					var fileName = '';
-					console.log("CHECK HERE TOO");
-					if( this.files && this.files.length > 1 ){
-					fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-					console.log(fileName);
+					if(arrayFields[i] =='target_degree' || arrayFields[i] == 'previous_degree'){
+						var savedDegree = [];
+						savedDegree = tokenArrayPopulate(value, savedDegree);
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook","prePopulate": savedDegree, "allowFreeTagging": true});
+						this.$('ul.token-input-list-facebook').css('padding', '0');
+						this.$('li.token-input-token-facebook').css('margin-top', '1px');
 					}
-					else if( e.target.value ){
-						fileName = e.target.value.split( '\\' ).pop();
+
+				}
+			}
+
+		},
+		saveEducation: function(){
+			var subject = $('input[name=subject]').val().split(',');
+			var targetDegree = $('input[name=target_degree]').val().split(',');
+			var previousDegree = $('input[name=previous_degree]').val().split(',');
+			var targetUniversity = $('input[name=target_degree]').val().split(',');
+			var previousUniversity = $('input[name=previous_university]').val().split(',');
+			var formData = {
+				'subject': subject,
+				'target_degree': targetDegree,
+				'previous_degree': previousDegree,
+				'target_university': targetUniversity,
+				'previous_university': previousUniversity
+			}
+			$.post('/signup/user/save', formData, function(data){
+				console.log(data);
+				$('a[href="#education"]').removeClass('active');
+				$('a[href="#story"]').addClass('active');
+				$('html, body').animate({scrollTop:0}, 'slow')
+			})
+		}
+
+	})
+	var StoryDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id:'story-handler',
+		template:_.template($('#story-template').html()),
+		events: {
+			'click #save': 'saveStory',
+			'change input[id="work"]': 'saveFiles'
+		},
+		render:function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+		initialize: function(){
+			var storyModel = this.model;
+			this.el = this.render().el;
+      // this.$el.detach();
+			if(this.model.get('documents')){
+				var documents = this.model.get('documents');
+				var fileName;
+				if(documents.length > 1){
+				fileName =  (this.$('input#work').attr( 'data-multiple-caption') || '' ).replace( '{count}', documents.length );
+				}
+				else{
+					if(documents.length == 1){
+						fileName = documents[0].title;
 						console.log(fileName);
 					}
-
-					if( fileName ){
-						$label.html( fileName );
-					}
-					else{
-						$label.html( labelVal );
-					}
-
-	          var files = this.files;
-	          console.log(files[0]);
-	          var fileArray = [];
-	         
-						var data = new FormData();
-						for(var i = 0; i < files.length; i++){
-	          	data.append('past_work', files[i]);
-	          };
-						data.append('user', user_setup.id);
-						$.ajax({
-							type: 'POST',
-							url: "/signup/user_signup/work/" + user_setup.id,
-							data: data,
-						  processData: false,
-							contentType: false
-						}).done(function(data){
-							console.log(data);
-						});
-
-					$input
-						.on( 'focus', function(){ $input.addClass( 'has-focus' ); })
-						.on( 'blur', function(){ $input.removeClass( 'has-focus' ); });
-				});
-			
+				}
+				console.log(fileName);
+				if(fileName){
+					this.$('input#work').next('label').html(fileName);
+				}
+			}
+		},
+		saveStory: function(){
+			var story = tinymce.activeEditor.getContent();
+			var formData = {
+				'description': story
+			}
+			$.post('/signup/user/save', formData, function(data){
+				console.log(data);
+				$('a[href="#story"]').removeClass('active');
+				$('a[href="#account"]').addClass('active');
+				$('html, body').animate({scrollTop:0}, 'slow')
+			})
 
 		},
-		finishSignup: function(){
-			$('#finish').click(function(){
-				var preloader = $('.se-pre-con');
-				var finalInput = $('#applied-funds');
-				var profileSrc = $('#profile-picture').attr('src');
-				var description = $('textarea#description').val();
-				var workInput = $('#work-span label').html();
-				var birthday = $('#date_of_birth').val();
-				var country = $('#country-select option:selected').val();
-				var religion = $('#religion-select option:selected').val();
-				var fundingNeeded = $('.progress').val();
-				if(profileSrc == '../../images/fund_img_placeholder.jpg' || !description || workInput == 'Choose up to 5 files' || !birthday || !country || !religion || !fundingNeeded){
-					console.log("ERROR");
-					$('.alert').css("display", "block");
-					counter--;
-				}
-				else{
-					finalInput.css("z-index", "0");
-					preloader.css('display', 'inline');
-					$('#profile-form').submit();
-				}				
-			});
+		saveFiles: function(e){
+			console.log(e);
+			var $input = e.target;
+			console.log($input);
+			$label = $($input).next('label');
+			labelVal = $($input).html();
+			var fileName = '';
+			if( e.target.files && e.target.files.length > 1 ){
+			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+			}
+			else if( e.target.value ){
+				fileName = e.target.value.split( '\\' ).pop();
+			}
+
+			if( fileName ){
+				$label.html( fileName );
+			}
+			else{
+				$label.html( labelVal );
+			}
+
+				var files = e.target.files;
+				var fileArray = [];
+
+				var data = new FormData();
+				for(var i = 0; i < files.length; i++){
+					data.append('past_work', files[i]);
+				};
+				data.append('user', user_setup.id);
+				$.ajax({
+					type: 'POST',
+					url: "/signup/user_signup/work/" + user_setup.id,
+					data: data,
+					processData: false,
+					contentType: false
+				}).done(function(data){
+					console.log(data);
+				});
+
 		}
-	});
+	})
+	var Router = Backbone.Router.extend({
+		routes:{
+			"": "about",
+			"about": "about",
+			"education": "education",
+			"story": "story",
+			"account": "account"
+		},
+		about: function(){
+			var router = this;
+			var aboutModel = new UserModel();
+			aboutModel.fetch({
+				success:function(){
+					router.loadView(new AboutDisplay({model: aboutModel}));
+				}
+			});
+		},
+		education: function(){
+			var educationModel = new UserModel();
+			var router = this;
+			educationModel.fetch({
+				success: function(){
+					router.loadView(new EducationDisplay({model: educationModel}));
+				}
+			})
+		},
+		story: function(){
+			var storyModel = new UserModel();
+			var router= this;
+			storyModel.fetch({
+				success: function(){
+					router.loadView(new StoryDisplay({model: storyModel}));
+					console.log(storyModel.get('description'));
+					if(!storyModel.get('description')){
+						$('#story-text').html("<h3>Introduce yourself &nbsp;<em>**change header name**</em></h3><p>Give people a brief introduction to you and your story. Take an opportunity to address those that will support you.</p><h3>What are your aims?&nbsp;<em>**change header name**</em></h3><p>e.g. I'm raising £X to pursue this degree because I want to do Y. In the future I hope I can help/make/do Z.</p><h3>&nbsp;Tell your story.&nbsp;<em>**change header name**</em></h3><p>This is your chance to give people a bit of insight into your journey.</p><ul><li>Why is this important to you? How long have you been interested in your subject?</li><li>How long have you been looking for funding?</li><li>Have you tried to fund yourself?</li><li>Why should it be important to a donor? What impact will they have by giving money?</li></ul><h3>&nbsp;How will you spend your time and money? **<strong><em>change header name**</em></strong></h3><ul><li>What will you do If you exceed your target? Will &nbsp;you use your&nbsp;generosity and donate to another campaign?</li><li>Try and offer a rough breakdown of costs, something like this:</li><ul><li>Accommodation: £5300</li><li>Food: £2000</li><li>Books: £250</li><li>Travel: £300</li></ul></ul><p><em>N.B The above numbers are merely examples!</em></p><ul><li>Are there other goals you hope to accomplish? Eg &nbsp;.Societies, Hobbies etc.</li></ul>");
+					}
+					else{
+						$('#story-text').html(storyModel.get('description'));
+					}
+					 tinymce.EditorManager.execCommand('mceAddEditor',true, "story-text");
 
-	var userInfo = new UserInfo();
+				}
+			})
+		},
+		loadView: function(viewing){
+			if(this.view){
+				this.view.stopListening();
+				this.view.off();
+				this.view.unbind();
+				this.view.remove();
+				tinymce.EditorManager.execCommand('mceRemoveEditor',true, "story-text");
+			}
+			this.view = viewing;
+			$('#signup-form').append(viewing.el);
+		}
+	})
+	tinymce.init({
+		selector: 'textarea#story-text',
+		height: 200,
+		theme: 'modern',
+		plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools'
+		],
+		toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link forecolor backcolor emoticons preview',
+		image_advtab: true,
+		templates: [
+			{ title: 'Test template 1', content: 'Test 1' },
+			{ title: 'Test template 2', content: 'Test 2' }
+		],
+		content_css: [
+			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+			'//www.tinymce.com/css/codepen.min.css'
+		],
+
+	 });
+	var router = new Router();
+	Backbone.history.start();
 });
-
-

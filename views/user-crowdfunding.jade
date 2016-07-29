@@ -1,0 +1,83 @@
+extend layout
+
+block extraHeader
+	link(href='/stylesheets/results.css', rel='stylesheet')
+	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+
+block content
+	script.
+		var bodyEl = document.getElementsByTagName('body');
+		var user = !{JSON.stringify(user)};
+		if(user){
+			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+		}
+	include ./navbar.jade
+	include./advanced-search.jade
+	#crowdfunding-wrapper.container
+		.col-md-7
+			img#profile_picture(src!=user.profile_picture)
+			#social-media-flex-container
+				.social
+					i.fa.fa-facebook-official(aria-hidden="true")
+					| Share
+				.social
+					i.fa.fa-twitter-square(aria-hidden="true")
+					| Tweet
+				.social
+					i.fa.fa-pinterest-square(aria-hidden="true")
+					| Pin
+				.social
+					i.fa.fa-tumblr-square(aria-hidden= "true")
+					| Reblog
+			#tab-table
+				#tab-menu-flex
+					.menu-item
+						p.active-item Story
+					.menu-item
+						p About 
+					.menu-item
+						p Updates
+					.menu-item
+						p Comments
+				#tab-content
+					script#story-template(type='text/template')
+						p#story
+
+					
+				
+		#user-progress.col-md-5
+			#progress-card
+				h3= user.username
+				p#raised £700
+					span of £1000 pledged
+				.progress
+					.progress-bar(role='progressbar', aria-valuenow='70', aria-valuemin='0', aria-valuemax='100', style='width:70%')
+					span.sr-only 70% Complete
+				#progress-info.row
+					.col-md-4
+						p 70% 
+							span funded
+					.col-md-4
+						p 30 
+							span supporters
+					.col-md-4
+						p 60
+							span days to go
+				a#donate.btn.btn-default Donate to Andros
+			#funding-institutions.row
+				#fund-banner
+					p Funding Institutions
+						i.fa.fa-caret-down(aria-hidden="true")
+				p#none Andros has not applied to any funds yet.
+			#recent-donations.row
+				#donation-banner
+					p Recent donations
+						i.fa.fa-caret-down(aria-hidden="true")
+				p#no-donations Andros has not received any donations yet.
+			
+		
+
+block scripts
+	script(src='/javascript/signup-login.js')
+	script(src='/javascript/advanced-search.js')
+	script(src='/javascript/user-crowdfunding.js')

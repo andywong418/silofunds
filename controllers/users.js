@@ -9,7 +9,7 @@ var parseIfInt = function(string) {
 
 module.exports = {
 	home: function(req, res){
-		var id = req.params.id;
+		var id = req.user.id;
 		console.log("CHECKING ID",id)
 
 		console.log(req);
@@ -46,7 +46,13 @@ module.exports = {
 
 		});
 	},
-
+  crowdFundingPage: function(req, res){
+    var userId = req.user.id;
+    console.log(userId);
+    models.users.findById(userId).then(function(user){
+      res.render('user-crowdfunding', {user: user})
+    })
+  },
 	settings: function(req, res){
 		var id = req.params.id;
 		var general_settings = true;

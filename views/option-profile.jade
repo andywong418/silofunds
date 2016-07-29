@@ -136,66 +136,73 @@ block content
               p Other application steps:  
                 span=fund.other_application_steps
           a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
-          .mb-style-3
-            blockquote#tips
-              p This is an example tip which will help student achieve their goals.
-            .mb-attribution
-                p.mb-author Andros Wong
-                cite 
-                  a(href='#0') Funded by Silo for life
-                .mb-thumb
-                  img(src='/images/graduation.jpg')
 
-                  #scholars_div
+      script#tips-template(type='text/template')
+        .mb-style-3
+          blockquote#tips
+            p <%= tip %>
+          .mb-attribution
+              p.mb-author <%= tip_giver %>
+              cite 
+                //- a(href='#0') Funded by Silo for life
+              .mb-thumb
+                img(src!= '<%= profile_picture %>')
+          //-         #scholars_div
   #separator_1      
-                              
-  #scholars_div
-
-     p#previous_scholars Previous Scholars
-     
-     #scholars_main_div
-     
-       #scholars_second_div
-         #pic1_div
-           #pic1
-             a#pic1_link
-               img#pic1_image(src='/images/howard.jpg')
-           #info_1
-             p#person1_info.boldIt Howard, 21
-             #pic3_description_div
-               p#pic1_description  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-               
-         #pic2_div
-           #pic2
-             a#pic2_link
-               img#pic2_image(src="/images/du'aine.jpg")
-           #info_2
-             p#person2_info.boldIt Du'aine, 22
-             #pic2_description_div
-               p#pic2_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-               
-         #pic3_div      
-           #pic3
-             a#pic3_link
-               img#pic3_image(src='/images/james.jpg')
-           #info_3
-             p#person3_info.boldIt James, 20
-             #pic3_description_div
-               p#pic3_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-               
-         #pic4_div   
-           #pic4
-             a#pic4_link
-               img#pic4_image(src='/images/andros.jpg')
-           #info_4
-             p#person4_info.boldIt Andros, 20
-             #pic4_description_div
-               p#pic4_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+  #review_div.container.center-block
+    .col-md-5
+      p#review-number 0 Reviews from the Silo community
+    .col-md-3
+    .col-md-4
+      a.btn.btn-primary Write a review
+      
+  //- #scholars_div
+  //- 
+  //-    p#previous_scholars Previous Scholars
+  //-    
+  //-    #scholars_main_div
+  //-    
+  //-      #scholars_second_div
+  //-        #pic1_div
+  //-          #pic1
+  //-            a#pic1_link
+  //-              img#pic1_image(src='/images/howard.jpg')
+  //-          #info_1
+  //-            p#person1_info.boldIt Howard, 21
+  //-            #pic3_description_div
+  //-              p#pic1_description  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+  //-              
+  //-        #pic2_div
+  //-          #pic2
+  //-            a#pic2_link
+  //-              img#pic2_image(src="/images/du'aine.jpg")
+  //-          #info_2
+  //-            p#person2_info.boldIt Du'aine, 22
+  //-            #pic2_description_div
+  //-              p#pic2_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+  //-              
+  //-        #pic3_div      
+  //-          #pic3
+  //-            a#pic3_link
+  //-              img#pic3_image(src='/images/james.jpg')
+  //-          #info_3
+  //-            p#person3_info.boldIt James, 20
+  //-            #pic3_description_div
+  //-              p#pic3_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+  //-              
+  //-        #pic4_div   
+  //-          #pic4
+  //-            a#pic4_link
+  //-              img#pic4_image(src='/images/andros.jpg')
+  //-          #info_4
+  //-            p#person4_info.boldIt Andros, 20
+  //-            #pic4_description_div
+  //-              p#pic4_description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 block scripts
   script.
     var fund = !{JSON.stringify(fund)}
     var countries = !{JSON.stringify(countries)}
-    var user = !{JSON.stringify(user)};
+    var user = !{JSON.stringify(user)}
   script(src="/javascript/signup-login.js")
   script(src="/node_modules/readmore-js/readmore.min.js")
   script(src="/javascript/option-profile.js")

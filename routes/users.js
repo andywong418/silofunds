@@ -3,14 +3,10 @@ var router = express.Router();
 var users = require('../controllers/users');
 var models = require('../models');
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
-router.get('/public/:id', users.public)
 
-// Routes now soted
-router.get('/:id/', users.home)
+router.get('/', users.home)
+router.get('/profile', users.crowdFundingPage);
 router.get('/settings/:id/', users.settings);
 router.post('/settings/:id/', users.changeSettings);
 router.get('/logout/:id', users.logout);

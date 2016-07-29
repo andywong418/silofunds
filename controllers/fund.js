@@ -173,15 +173,17 @@ module.exports = {
           hash[fields[i]] = hit._source[fields[i]];
         }
         // Sync id separately, because it is hit._id, NOT hit._source.id
+        console.log("HASH", hash);
         hash.id = hit._id;
         fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
         hash.fund_user = false; // for the user logic later
-
+        console.log(fund_id_list);
         return hash;
       });
 
       models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
+          console.log("YSER",user);
           for (var i=0; i < funds.length; i++) {
             if (funds[i].organisation_id == user.organisation_or_user) {
               funds[i].fund_user = true;
@@ -308,20 +310,42 @@ module.exports = {
   getOptionInfo: function(req, res){
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      res.json(fund);
+      models.tips.find({where:{fund_id: fund.id}}).then(function(tip){
+        if(tip){
+          fund = fund.get();
+          fund.tips = tip.tip;
+          console.log(fund);
+          res.json(fund);
+        }
+        else{
+          res.json(fund);
+        }
+      })
     })
   },
   createNewFund: function(req, res){
     var fields = req.body;
     var userId = req.params.id;
     console.log(req.body);
+    console.log(req.body.tips);
     var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
     models.users.findById(userId).then(function(user){
       fields['organisation_id'] = user.organisation_or_user;
       models.funds.create(fields).then(function(fund){
-        res.send(fund);
+        if(req.body.tips){
+          models.tips.create({
+            fund_id: fund.id,
+            tip: req.body.tips
+          }).then(function(tip){
+            fund.tips = tip;
+            res.send(fund);
+          })
+        }
+        else{
+          res.send(fund);
+        }
       })
     })
 
@@ -363,22 +387,31 @@ module.exports = {
     var arrayFields = ['application_documents'];
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
+    console.log("HI");
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
-        res.send(fund);
+        if(req.body.tips){
+          console.log("REQ BODY TIPS", req.body.tips);
+          models.tips.find({where: {fund_id: fundId}}).then(function(tip){
+            tip.update({tip: req.body.tips}).then(function(tip){
+              fund = fund.get();
+              fund.tips = tip;
+              res.send(fund);
+            })
+          })
+        }
+        else{
+          res.send(fund);
+        }
       })
     })
   },
   newOptionProfile: function(req, res){
-    console.log("Got innnnnn");
-    var userId = req.user.id;
+    var userId = req.params.id;
     var fundId = req.params.fund_id;
     var session = req.session;
-    console.log(session);
     models.users.findById(userId).then(function(user){
-      console.log(user);
       models.funds.findById(fundId).then(function(fund){
-        console.log(fund);
         res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
       });
     });
@@ -411,8 +444,10 @@ module.exports = {
           fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
           fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
           fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
-
-          res.render('option-edit', {user: user, fund: fund, countries:countries });
+          models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
+            fund.tips = tip.tip;
+            res.render('option-edit', {user: user, fund: fund, countries:countries });
+          })
         }
         else{
           res.render('error');
@@ -423,10 +458,42 @@ module.exports = {
     console.log(req.body);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
+      req.body = moderateObject(req.body);
       fund.update(req.body).then(function(fund){
-        res.json(fund);
+        if(req.body.tips){
+            models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
+              console.log("tip1",tip);
+              tip.update({tip: req.body.tips}).then(function(tip){
+                console.log("Tips",tip)
+                fund.tips = tip.tip;
+                res.json(fund);
+              })
+            })
+        }else{
+          res.json(fund);
+        }
       });
     });
+  },
+  getOptionTips: function(req, res){
+    //NEED TO MODIFY FOR CAROUSEL IN FUTURE for arrays using findAll
+    console.log("CAROUSEL");
+    var fundId = req.params.id;
+    models.tips.find({where: {fund_id: fundId}}).then(function(tips){
+      // tips = tips.map(function(tip){
+      //   return tip.get();
+      // })
+      models.funds.findById(tips.fund_id).then(function(fund){
+        console.log(fund);
+        models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
+          tips = tips.get();
+          tips.tip_giver = fund.title;
+          tips.profile_picture = user.profile_picture;
+          res.json(tips);
+        })
+      })
+    })
+
   },
   editDescription: function(req, res){
     var fundId = req.params.id;
