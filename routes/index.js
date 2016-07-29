@@ -1,9 +1,10 @@
 var express = require('express');
 var home = require('../controllers/home');
-var users = require('../controllers/users-james');
+var users = require('../controllers/users');
 var passport = require('passport');
 var signup = require('../controllers/signup');
 var models = require('../models')
+var crypto = require('crypto')
 require('../controllers/passport-james/strategies')(passport);
 var router = express.Router();
 
@@ -22,33 +23,13 @@ router.get('/auth/facebook/callback',
 router.get('/login', users.loginGET)
 // Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
 router.post('/login', passport.authenticate('loginStrategy', {
-    failureRedirect: '/login',
-    failureFlash: 'Invalid username or password'
-}), function(req, res, next) {
-    // Issue a remember me cookie if the option was checked
-    if (!req.body.remember_me) {
-        return next();
-    }
-    console.log('Hello?')
-    var token = utils.generateToken(64);
+  successRedirect: '/loginSplit',
+  failureRedirect: '/login',
+  failureFlash: 'Invalid username or password'
+}))
 
-    console.log('Here ^^^^^^^^^^^^^^^')
-    Token.save(token, {
-        userId: req.user.id
-    }, function(err) {
-        if (err) {
-            return done(err);
-        }
-        res.cookie('remember_me', token, {
-            path: '/',
-            httpOnly: true,
-            maxAge: 604800000
-        }); // 7 days
-        return next();
-    });
-}, function(req, res, next) {
-    res.send('hi')
-})
+
+
 router.get('/loginSplit', users.loginSplitterGET)
 
 // Register

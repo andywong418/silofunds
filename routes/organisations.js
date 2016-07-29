@@ -14,11 +14,11 @@ router.get('/create', funds.createGET)
 router.get('/funding_creation', funds.createFund)
 router.get('/funding_creation/:option', funds.fundingSignupProcess);
 router.get('/funding_creation/:option/:fund_id', funds.fundCreatedSignup);
-router.post('/funding_creation/:option/save_general/', funds.createNewFund);
+router.post('/funding_creation/:option/save_general', funds.createNewFund);
 router.post('/funding_creation/:option/save_general/:fund_id', funds.updateGeneralInfo);
 router.post('/funding_creation/:option/save_eligible/', funds.createNewFund);
 router.post('/funding_creation/:option/save_eligible/:fund_id', funds.updateEligibility);
-router.post('/funding_creation/:option/save_application/', funds.createNewFund);
+router.post('/funding_creation/:option/save_application', funds.createNewFund);
 router.post('/funding_creation/:option/save_application/:fund_id', funds.updateApplication);
 router.get('/funding_creation/:option/:fund_id/completed', funds.newOptionProfile);
 router.get('/options/:id', funds.getOptionProfile);
@@ -27,9 +27,9 @@ router.get('/option_creation/:id', funds.getOptionInfo);
 router.post('/options/:id/edit', funds.saveOptionEdit);
 router.post('/edit_description/:id', funds.editDescription);
 router.post('/edit_dates/:id', funds.editDates)
-router.get('/settings/', funds.settings);
-router.post('/settings/', funds.changeSettings);
-router.get('/logout/', funds.logout);
+router.get('/settings', funds.settings);
+router.post('/setting/', funds.changeSettings);
+router.get('/logout', funds.logout);
 router.get('/public/:id', funds.public);
 
 
