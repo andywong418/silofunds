@@ -46,37 +46,50 @@ router.get('/registerSplit', users.registerSplitterGET)
 
 
 // NOTE:If a user is logged in, then they should not be able to access fund pages, and vice versa
-// router.get(/user/, function(req, res, next){
-//   console.log(req.user)
-//   if(req.user.organisation_or_user !== null) {
-//     res.render(error);
-//     res.end()
-//   } else {
-//     next();
-//   }
-// })
+router.get(/user/, function(req, res, next){
+  console.log(req.url)
+  console.log('/user/')
+  console.log(req.user)
+  if(req.user.organisation_or_user !== null) {
+    res.render(error);
+    res.end()
+  } else {
+    next();
+  }
+})
 
 // NOTE: without below, an organisation can get onto user page.
-// router.get(/organisation/, function(req, res, next){
-//   console.log(req.user)
-//   if(req.user.organisation_or_user == null) {
-//     res.render(error);
-//     res.end()
-//   } else {
-//     next();
-//   }
-// })
+router.get(/organisation/, function(req, res, next){
+  var url = req.url
+  var checkFirstLetters = url.substring(1,13)
+  console.log(checkFirstLetters == 'organisation')
+  if(checkFirstLetters == 'organisation') {
+    if(req.user.organisation_or_user == null) {
+      res.render(error);
+      res.end()
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 // NOTE:If a user is logged in, then they should not be able to access fund pages, and vice versa
-// router.get(/user/, function(req, res, next){
-//   console.log(req.user)
-//   if(req.user.organisation_or_user !== null) {
-//     res.render(error);
-//     res.end()
-//   } else {
-//     next();
-//   }
-// })
+router.get(/user/, function(req, res, next){
+  var url = req.url
+  var checkFirstLetters = url.substring(1,5)
+  if(checkFirstLetters == 'user') {
+    if(req.user.organisation_or_user !== null) {
+      res.render(error)
+      res.end()
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 // NOTE: without below, an organisation can get onto user page.
 // router.get(/organisation/, function(req, res, next){
