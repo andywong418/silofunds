@@ -1,6 +1,6 @@
 var express = require('express');
 var models = require('../models');
-var funds = require('../controllers/funds-james');
+var funds = require('../controllers/organisations');
 var signup = require('../controllers/signup');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;

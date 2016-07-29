@@ -10,8 +10,8 @@ var messages = require('../routes/messages');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
-var user = require('../routes/users-james');
-var organisation = require('../routes/funds-james');
+var user = require('../routes/users');
+var organisation = require('../routes/organisations');
 var basicAuth = require('basic-auth');
 
 var auth_admin = function (req, res, next) {
