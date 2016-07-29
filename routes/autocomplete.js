@@ -15,7 +15,7 @@ router.get('/', function(req,res) {
       suggest: {
         text: query,
         completion: {
-          "field": "suggest"
+          "field": "suggest_funds"
         }
       }
     }

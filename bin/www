@@ -436,7 +436,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 wrapper[fields[i]] = fund[fields[i]];
               }
 
-              wrapper["suggest"] = { "input": fund.tags };
+              wrapper["suggest_funds"] = { "input": fund.tags };
 
               body.push(wrapper);
             });
