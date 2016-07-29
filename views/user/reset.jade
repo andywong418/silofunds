@@ -2,14 +2,34 @@ extends ../layout
 block extraHeader
   link(rel="stylesheet", href="/stylesheets/user/forgot.css")
   
-block content
-  form(method='POST')
-    legend Reset Password
-    .form-group
-      label(for='password') New Password
-      input.form-control(type='password', name='password', value='', placeholder='New password', autofocus=true)
-    .form-group
-      label(for='confirm') Confirm Password
-      input.form-control(type='password', name='confirm', value='', placeholder='Confirm password')
-    .form-group
-      button.btn.btn-primary(type='submit') Update Password
+block content    
+  .container
+      .row
+        .row
+          .col-md-6.col-md-offset-3
+            .panel.panel-default
+              .panel-body
+                .text-center
+                  h3
+                    i.fa.fa-unlock.fa-4x
+                  h2.text-center Password reset
+                  p Enter your new password
+                  .flash_messages
+                    if error
+                      .alert.alert-danger= error
+                    if success
+                      .alert.alert-success= success
+                  .panel-body#border-remove
+                    form.form(method='post')
+                      fieldset
+                        .form-group
+                          .input-group
+                            span.input-group-addon
+                             i.glyphicon.glyphicon-user.color-blue
+                            input#password.form-control(placeholder='Password', type='password', name="password")
+                          .input-group
+                            span.input-group-addon
+                              i.glyphicon.glyphicon-ok-circle.color-blue
+                            input#confirmPassword.form-control(placeholder='Confirm password', type='password', name="confirmPassword")
+                        .form-group
+                          button.btn.btn-lg.btn-primary.btn-block(type='Submit') Update password

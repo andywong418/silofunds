@@ -124,7 +124,7 @@ block content
 								// reset password form
 								p.cd-form-message
 									| Lost your password? Please enter your email address. You will receive a link to create a new password.
-								form.cd-form
+								form.cd-form(method='post', action='/forgot')
 									p#resend-email.fieldset
 										label.image-replace.cd-email(for='reset-email') E-mail
 										input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')

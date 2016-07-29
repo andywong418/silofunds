@@ -5,7 +5,11 @@ require('./passport-james/strategies')(passport);
 var pzpt = require('./passport-james/functions');
 var qs = require('querystring');
 var request = require('request');
+var nodemailer = require('nodemailer')
+var smtpTransport = require('nodemailer-smtp-transport');
+var crypto = require('crypto');
 var async = require('async');
+var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
@@ -154,7 +158,6 @@ module.exports = {
     res.render('signup/new-user-profile', {user: req.user});
   },
 
-
   settingsGET: function(req, res) {
     pzpt.ensureAuthenticated(req, res);
     res.render('user-settings', {user: req.user, general: true})
@@ -177,8 +180,7 @@ module.exports = {
 		});
 	},
 
-
-changeEmailSettings: function(req, res) {
+  changeEmailSettings: function(req, res) {
     var userId = req.params.id;
     console.log("WE HERE", userId);
     models.users.findById(userId).then(function(user) {
@@ -240,12 +242,113 @@ changeEmailSettings: function(req, res) {
             }
         })
     })
-},
+  },
 
   logoutGET: function(req, res) {
     req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
-  }
+  },
 
+
+  // Forgotten password routing
+  forgotPasswordGET: function(req, res, next){
+    // If they are already logged in, send them back to their home page
+    if(req.isAuthenticated()){
+      if(req.user.organisation_or_user !== null) {
+        res.redirect('/organisation/home')
+      } else {
+        res.redirect('/user/home')
+      }
+    }
+    // Flash message logic
+    var error = req.flash('error')
+    var success = req.flash('success')
+    if(error.length !== 0) {
+      res.render('user/forgot', {error: error})
+    } else if(success.length !== 0) {
+      res.render('user/forgot', {success: success})
+    } else {
+      res.render('user/forgot')
+    }
+  },
+
+  resetPasswordGET: function(req, res, next) {
+    var error = req.flash('error')
+    if(error.length !== 0) {
+      res.render('user/reset', {error: error})
+    } else {
+      res.render('user/reset')
+    }
+  },
+
+  forgotPasswordEmailSend: function(req, res, next) {
+    async.waterfall([
+      // Create unique token
+      function(done) {
+        crypto.randomBytes(20, function(err, buf) {
+          var token = buf.toString('hex');
+          done(err, token);
+        });
+      },
+      function(token, done) {
+        models.users.find({where: {email: req.body.email}}).then(function(user) {
+          if(!user) {
+            req.flash('error', 'No account with email ' + req.body.email + ' exists.')
+            res.redirect('/forgot')
+          }
+          user.resetPasswordToken = token;
+          user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
+          user.update({password_token: token}).then(function(user){
+            console.log(user)
+            console.log('am i updated???')
+            var transporter = nodemailer.createTransport(smtpTransport({
+             service: 'Gmail',
+             auth: {user: 'james.morrill.6@gmail.com',
+                   pass: 'exogene5i5'}
+            }));
+            var mailOptions = {
+               from: 'Silofunds <james.morrill.6@gmail.com>',
+               to: user.email,
+               subject: 'Password reset',
+               text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                   'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                   'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                   'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            };
+            transporter.sendMail(mailOptions, function(error, response) {
+                if (error) {
+                    res.end("Email send failed");
+                }
+                else {
+                  req.flash('success', 'An email has been sent to ' + user.email)
+                  res.redirect('/forgot')
+                }
+            });
+          })
+        })
+      }
+    ])
+  },
+
+  resetPasswordConfirm: function(req, res, next) {
+    var token = req.params.token
+    models.users.find({where: {password_token: token}}).then(function(user) {
+      console.log(user)
+      console.log('user&&&&&')
+      var password = req.body.password
+      var confirmPassword = req.body.confirmPassword
+      if(password == confirmPassword) {
+        user.update({
+          password: req.body.password
+        }).then(function(user) {
+          req.flash('success', 'Your password has been updated')
+          res.redirect('/login')
+        })
+      } else {
+        req.flash('error', 'Passwords did not match')
+        res.redirect('/reset/' + token)
+      }
+    })
+  }
 }
