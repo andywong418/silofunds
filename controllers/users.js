@@ -47,7 +47,15 @@ module.exports = {
 		});
 	},
   crowdFundingPage: function(req, res){
-    var userId = req.user.id;
+    console.log("HELLO");
+    var userId;
+    console.log(req.params.id)
+    if(req.params.id){
+      userId = req.params.id;
+    }
+    else{
+      userId = req.user.id
+    }
     console.log(userId);
     models.users.findById(userId).then(function(user){
       res.render('user-crowdfunding', {user: user})

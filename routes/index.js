@@ -99,6 +99,6 @@ router.post('/forgot', users.forgotPasswordEmailSend)
 router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
-
+router.get('/public/:id', users.crowdFundingPage);
 
 module.exports = router;

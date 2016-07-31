@@ -23,6 +23,7 @@ body {
   }
   section{
     padding-top: 0;
+    padding-bottom: 50px;
   }
 }
 
@@ -95,6 +96,7 @@ h2#name{
   }
 }
 .tab-content{
+  padding-bottom: 0px;
   .tab-pane{
     margin-top: 25px;
     p{

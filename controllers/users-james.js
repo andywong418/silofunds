@@ -148,12 +148,24 @@ module.exports = {
                       fund['status'] = app.dataValues.status;
 
                       applied_funds.push(fund);
-                      console.log(applied_funds)
                       callback();
                     })
 
                 }, function done(){
-                  res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds});
+                  models.recently_browsed_funds.findAll({where: {user_id: user.id}}).then(function(recent_funds){
+                    var recently_browsed_funds = [];
+                    async.each(recent_funds, function(fund, callback){
+                      fund = fund.get();
+                      models.funds.findById(fund.fund_id).then(function(fund){
+                        recently_browsed_funds.push(fund);
+                        console.log(recently_browsed_funds);
+                        callback();
+                      })
+                    }, function done(){
+                      res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds});
+
+                    })
+                  })
                 });
               })
 
@@ -163,7 +175,15 @@ module.exports = {
 
   },
   crowdFundingPage: function(req, res){
-    var userId = req.user.id;
+    console.log("HELLO");
+    var userId;
+    console.log(req.params.id)
+    if(req.params.id){
+      userId = req.params.id;
+    }
+    else{
+      userId = req.user.id
+    }
     console.log(userId);
     models.users.findById(userId).then(function(user){
       res.render('user-crowdfunding', {user: user})

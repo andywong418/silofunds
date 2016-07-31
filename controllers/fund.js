@@ -421,16 +421,38 @@ module.exports = {
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      console.log("WHERE'S THE ID?", fund.organisation_id);
-      models.users.find({where : {organisation_or_user: null}}).then(function(organisation){
-        console.log("organisation", organisation);
+
+      if(fund.organisation_id){
+        models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+          if(user){
+            console.log("USER ID", user.id);
+            console.log("fund ID", fund.id);
+            models.recently_browsed_funds.create({
+              user_id: user.id,
+              fund_id: fundId
+            }).then(function(recent){
+              res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+            })
+          }
+          else{
+            res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          }
+        });
+      }
+      else{
         if(user){
-          res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          models.recently_browsed_funds.create({
+            user_id: user.id,
+            fund_id: fundId
+          }).then(function(recent){
+            res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+          })
         }
         else{
-          res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          res.render('option-profile', {user: false,organisation: false, fund: fund, newUser: false, countries: countries})
         }
-      });
+      }
+
     });
 
   },

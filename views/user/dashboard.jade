@@ -7,7 +7,8 @@ block content
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     var applied_funds = !{JSON.stringify(applied_funds)};
-    console.log(user);
+    var recent_funds = !{JSON.stringify(recent_funds)};
+    console.log(recent_funds);
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
@@ -96,10 +97,47 @@ block content
           .row
       .tab-pane.fade#ud-recently-browsed
         section.header
-          .row
-            .col-md-12
-              p Start browsing
-                a#start-browsing now!
+          if recent_funds
+            .row
+              .col-md-12
+                table.table.table-responsive#header
+                  thead
+                    tr
+                      th.col-md-1 Type
+                      th.col-md-3 Title
+                      th.col-md-2 Countries of residence
+                      th.col-md-2 Subject
+                      th.col-md-2 Amount
+                      th.col-md-1 Deadline
+                      th.col-md-1 
+            each fund in recent_funds
+              .row#funding-card
+                .col-md-1#support_type
+                  span.label(id='#{fund.support_type}')= fund.support_type
+                .col-md-3
+                  a(href='/fund/profile/' + fund.id)
+                    span= fund.title
+                .col-md-2
+                  span= fund.country_of_residence
+                .col-md-2
+                  if(fund.subject)
+                    span= fund.subject.join(', ')
+                .col-md-2
+                  if (fund.minimum_amount && fund.maximum_amount)
+                    span £#{fund.minimum_amount} - £#{fund.maximum_amount}
+                  else if (fund.minimum_amount)
+                    span £#{fund.minimum_amount} +
+                  else if (fund.maximum_amount)
+                    span < £#{fund.maximum_amount} 
+                .col-md-1
+                  span= fund.deadline
+                .col-md-1#edit
+                  a(href='/funds/options/' + fund.id) View
+          else
+            .row
+              .col-md-12
+                p Start browsing
+                  a#start-browsing now!
 
 block scripts
   script(src='/javascript/advanced-search.js')

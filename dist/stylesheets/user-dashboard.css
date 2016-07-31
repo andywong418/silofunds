@@ -1448,7 +1448,8 @@ body {
   body h1, body h2, body h3, body h4, body h5, body h6 {
     font-family: 'Source Sans Pro'; }
   body section {
-    padding-top: 0; }
+    padding-top: 0;
+    padding-bottom: 50px; }
 
 /* Everything else */
 h2#name {
@@ -1497,11 +1498,13 @@ h2#name {
     .nav-tabs #view-profile a:hover {
       background-color: #04a042; }
 
-.tab-content .tab-pane {
-  margin-top: 25px; }
-  .tab-content .tab-pane p {
-    font-size: 16px;
-    color: #010138; }
-    .tab-content .tab-pane p a {
-      margin-left: 3px;
-      cursor: pointer; }
+.tab-content {
+  padding-bottom: 0px; }
+  .tab-content .tab-pane {
+    margin-top: 25px; }
+    .tab-content .tab-pane p {
+      font-size: 16px;
+      color: #010138; }
+      .tab-content .tab-pane p a {
+        margin-left: 3px;
+        cursor: pointer; }
