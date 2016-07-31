@@ -418,11 +418,12 @@ module.exports = {
   },
 
   getOptionProfile: function(req, res){
-    console.log(req.user);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+      console.log("WHERE'S THE ID?", fund.organisation_id);
+      models.users.find({where : {organisation_or_user: null}}).then(function(organisation){
+        console.log("organisation", organisation);
         if(user){
           res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
         }

@@ -37,10 +37,8 @@ router.post('/', passport.authenticate('local-login', {
 				organisation = organisation.get();
 
         for (var attrname in organisation){
-					console.log('lollololol');
           if(attrname != "id" && attrname != "created_at" && attrname != "updated_at"){
             user[attrname] = organisation[attrname];
-						console.log("HAHAHA");
           }
         }
 				models.funds.findAll({where: {organisation_id: organisation.id}}).then(function(funds){
@@ -61,6 +59,7 @@ router.post('/', passport.authenticate('local-login', {
         }
         else{
         models.applications.findAll({where: {user_id: user.id}}).then(function(application){
+          console.log("ARE WE HERE");
         applied_funds = [];
         console.log(application.length);
         async.each(application, function(app, callback){
@@ -76,7 +75,7 @@ router.post('/', passport.authenticate('local-login', {
 
         }, function done(){
           models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
+            res.render('user/dashboard', {user: user, newUser: false, documents: documents, applications: applied_funds});
           });
         })
       })

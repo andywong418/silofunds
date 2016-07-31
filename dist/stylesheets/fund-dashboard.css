@@ -693,51 +693,51 @@ margin-right: -40px;
 body {
   background-color: #e9f0f4; }
 
-#fund-dashboard {
+section {
   padding-top: 100px;
   margin: auto; }
-  #fund-dashboard * {
+  section * {
     font-family: 'Source Sans Pro'; }
-  #fund-dashboard #info-row {
+  section #info-row {
     margin-bottom: 20px; }
-    #fund-dashboard #info-row p#listings-header {
+    section #info-row p#listings-header {
       text-align: left;
       margin-top: 15px;
       margin-bottom: 0px;
       font-size: 18px;
       color: #66757f; }
-      #fund-dashboard #info-row p#listings-header span {
+      section #info-row p#listings-header span {
         border-bottom: 1px solid #66757f; }
-      #fund-dashboard #info-row p#listings-header .badge {
+      section #info-row p#listings-header .badge {
         margin-left: 5px;
         background-color: rgba(45, 74, 119, 0.75); }
-  #fund-dashboard #create-new-fund.col-md-3 {
+  section #create-new-fund.col-md-3 {
     text-align: right; }
-    #fund-dashboard #create-new-fund.col-md-3 a {
+    section #create-new-fund.col-md-3 a {
       width: 200px;
       height: 45px;
       padding: 10px 0px;
       font-size: 16px; }
-  #fund-dashboard .row#funding-card {
+  section .row#funding-card {
     display: block;
     background-color: white;
     border-radius: 3px;
     margin: 15px 0px;
     padding: 20px 0px;
     text-align: left; }
-    #fund-dashboard .row#funding-card #edit {
+    section .row#funding-card #edit {
       text-align: center; }
-    #fund-dashboard .row#funding-card div {
+    section .row#funding-card div {
       padding: 0px 15px; }
-    #fund-dashboard .row#funding-card div#support_type {
+    section .row#funding-card div#support_type {
       text-align: center; }
-    #fund-dashboard .row#funding-card #scholarship {
+    section .row#funding-card #scholarship {
       background-color: #3399FF; }
-    #fund-dashboard .row#funding-card #grant {
+    section .row#funding-card #grant {
       background-color: #7068FF; }
-    #fund-dashboard .row#funding-card #bursary {
+    section .row#funding-card #bursary {
       background-color: #00da8d; }
-    #fund-dashboard .row#funding-card #prize {
+    section .row#funding-card #prize {
       background-color: #FFC300; }
 
 table#header {

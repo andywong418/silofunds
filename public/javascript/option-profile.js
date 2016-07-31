@@ -202,7 +202,7 @@ $(document).ready(function(){
       }
       if(fund.religion){
         if(fund.religion.length > 0){
-           if(checkIfElementInArray(fund.religion, user.religion) == false){
+           if(fund.religion.indexOf(user.religion) == -1){
              notEligible('required religions', 'religion', fund.religion.capitalize().join(', '), user.religion);
              nonEligibleCounter++;
            }
@@ -523,7 +523,7 @@ $(document).ready(function(){
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else{
-                    religionCounter.$el.find('.criteria').append(", " + religion[i].capitalize());
+                    view.$el.find('.criteria').append(", " + religion[i].capitalize());
                     religionCounter++;
                   }
 
