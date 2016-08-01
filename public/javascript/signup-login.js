@@ -356,7 +356,7 @@ $("#login-form").submit(function(e){
            }
            else{
              if(user.organisation_or_user){
-               $("#home").attr("href", '/organisation/home');
+               $("#home").attr("href", '/organisation/dashboard');
                $(".settings").attr("href", '/organisation/settings');
                $(".logout").attr("href", '/organisation/logout');
              }

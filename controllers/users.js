@@ -50,7 +50,7 @@ module.exports = {
       if (body.error) {
         console.log(body);
 
-        res.redirect('/user/home');
+        res.redirect('/user/dashboard');
       } else {
         models.stripe_users.create({
           user_id: req.user.id,
@@ -63,7 +63,7 @@ module.exports = {
           livemode: body.livemode
         });
 
-        res.redirect('/user/home');
+        res.redirect('/user/dashboard');
       }
     });
   },
@@ -281,9 +281,9 @@ module.exports = {
     // If they are already logged in, send them back to their home page
     if(req.isAuthenticated()){
       if(req.user.organisation_or_user !== null) {
-        res.redirect('/organisation/home')
+        res.redirect('/organisation/dashboard')
       } else {
-        res.redirect('/user/home')
+        res.redirect('/user/dashboard')
       }
     }
     // Flash message logic
