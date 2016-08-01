@@ -7,18 +7,18 @@
         li
           a(href='#0') New account
       #cd-signup
-      form(id='signup-form', class='cd-form', action='/register', method="post", name="signup_form")
+        form(id='signup-form', class='cd-form', action ='/register', method="post", name="signup_form")
           p#email-username.fieldset
             label.image-replace.cd-username(for='signup-username')
             input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
             span#username-error.cd-error-message
           p#email-signup.fieldset
             label.image-replace.cd-email(for='signup-email') Email
-            input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='useremail')
+            input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='email')
             span#email-error.cd-error-message
           p#email-signup-password.fieldset
             label.image-replace.cd-password(for='signup-password') Password
-            input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
+            input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='password')
             a.hide-password(href='#0') Hide
             span#password-error.cd-error-message Error message here!
           p#fb-social.signup-social-btn
@@ -47,14 +47,14 @@
               a(href='#0') Terms
               span#terms-error	Please agree to the terms and conditions
           p#signup-btn.fieldset
-            button.full-width.has-padding(type='submit', id="signup-button") Create account
+            button.full-width.has-padding(type='submit', id = "signup-button") Create account
 
       #cd-login
         // log in form
-        form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
+        form.cd-form(id='login-form', action="/login", method="post", name="login_form")
           p#email-login.fieldset
             label.image-replace.cd-email(for='signin-email') E-mail
-            input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'useremail')
+            input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'email')
             span#login-email-error.cd-error-message Error message here!
           p#email-login-password.fieldset
             label.image-replace.cd-password(for='signin-password') Password
@@ -87,10 +87,10 @@
         // reset password form
         p.cd-form-message
           | Lost your password? Please enter your email address. You will receive a link to create a new password.
-        form.cd-form
+        form.cd-form(method='post', action='/forgot')
           p#resend-email.fieldset
             label.image-replace.cd-email(for='reset-email') E-mail
-            input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
+            input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name="email")
             span.cd-error-message Error message here!
           p#reset-password.fieldset
             button#reset-password.full-width.has-padding(type='submit') Reset password

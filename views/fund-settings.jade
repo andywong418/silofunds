@@ -86,7 +86,7 @@ html
 								ul.nav.navbar-nav
 									li.signin-icon
 										button
-											a#home(href="/organisation/home")
+											a#home(href="/organisation/dashboard")
 												i.fa.fa-user
 									//      
 										li.signin-icon
@@ -98,7 +98,7 @@ html
 												i.fa.fa-cog
 											ul#settings-menu.dropdown-menu
 												li#settings
-													a(href='/organisation/settings/')
+													a(href='/organisation/settings')
 														| Settings
 												li.divider(role='separator')
 												li#logout
@@ -186,7 +186,7 @@ html
 										| Log out
 						.col-md-1
 						.col-md-7.col-xs-8#profile-settings
-							form(action='/organisation/settings/', method='post', id='change-settings')
+							form(action='/organisation/settings', method='post', id='change-settings')
 								.general
 									.row#username-row
 										.col-md-5

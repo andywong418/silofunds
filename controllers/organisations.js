@@ -1,8 +1,8 @@
 var models = require('../models');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-require('./passport-james/strategies')(passport);
-var pzpt = require('./passport-james/functions');
+require('./passport/strategies')(passport);
+var pzpt = require('./passport/functions');
 var async = require('async');
 var countries = require('../resources/countries')
 
@@ -290,8 +290,12 @@ homeGET: function(req, res){
   saveOptionEdit: function(req, res){
     pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
+    var arrayFields = ['tags','subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location', 'application_documents'];
+    var fields = req.body;
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
     models.funds.findById(fundId).then(function(fund){
-      fund.update(req.body).then(function(fund){
+      fund.update(fields).then(function(fund){
         res.json(fund);
       });
     });
@@ -498,6 +502,7 @@ homeGET: function(req, res){
   },
 
   logout: function(req, res) {
+    res.clearCookie('remember_me');
     req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')

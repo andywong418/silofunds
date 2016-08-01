@@ -217,14 +217,14 @@ $(document).ready(function(){
         $('.post-signin').css("display","inline");
         $('.post-signin').css("z-index", "11");
         if(loggedInUser.organisation_or_user){
-          $("#home").attr("href", '/funds/' + loggedInUser.id );
-          $(".settings").attr("href", '/funds/settings/' +loggedInUser.id);
-          $(".logout").attr("href", '/funds/logout');
+          $("#home").attr("href", '/fund');
+          $(".settings").attr("href", '/fund/settings');
+          $(".logout").attr("href", '/fund/logout');
         }
         else{
-          $("#home").attr("href", '/users/' + loggedInUser.id);
-          $(".settings").attr("href", '/users/settings/' +loggedInUser.id );
-          $(".logout").attr("href", '/users/logout/' + loggedInUser.id);
+          $("#home").attr("href", '/user');
+          $(".settings").attr("href", '/user/settings');
+          $(".logout").attr("href", '/user/logout');
         }
       }
       else{

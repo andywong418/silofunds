@@ -1,10 +1,11 @@
 var express = require('express');
 var home = require('../controllers/home');
-var users = require('../controllers/users-james');
+var users = require('../controllers/users');
 var passport = require('passport');
 var signup = require('../controllers/signup');
 var models = require('../models')
-require('../controllers/passport-james/strategies')(passport);
+var utils = require('./utils')
+require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 router.get('/', home.index);
@@ -13,42 +14,29 @@ router.post('/subscribe', home.subscribe);
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login' }));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
 
 // Login and register
 // Login
 router.get('/login', users.loginGET)
 // Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
-router.post('/login', passport.authenticate('loginStrategy', {
-    failureRedirect: '/login',
-    failureFlash: 'Invalid username or password'
-}), function(req, res, next) {
-    // Issue a remember me cookie if the option was checked
-    if (!req.body.remember_me) {
+router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}),
+    function(req, res, next) {
+      // Issue a remember me cookie if the option was checked
+      if (!req.body.remember_me) {return next()}
+      issueToken(req.user.get(), function(err, token) {
+        if (err) {return next(err)}
+        res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 604800000});
         return next();
-    }
-    console.log('Hello?')
-    var token = utils.generateToken(64);
-
-    console.log('Here ^^^^^^^^^^^^^^^')
-    Token.save(token, {
-        userId: req.user.id
-    }, function(err) {
-        if (err) {
-            return done(err);
-        }
-        res.cookie('remember_me', token, {
-            path: '/',
-            httpOnly: true,
-            maxAge: 604800000
-        }); // 7 days
-        return next();
-    });
-}, function(req, res, next) {
-    res.send('hi')
+      });
+    },
+    function(req, res) {
+      res.redirect('/loginSplit');
 })
+
 router.get('/loginSplit', users.loginSplitterGET)
 
 // Register
@@ -62,6 +50,7 @@ router.post('/register', signup.subscribe, passport.authenticate('registrationSt
 router.get('/registerSplit', users.registerSplitterGET)
 
 // NOTE: without below, an organisation can get onto user page.
+
 router.get(/organisation/, function(req, res, next){
   var url = req.url
   var checkFirstLetters = url.substring(1,13)
@@ -77,8 +66,7 @@ router.get(/organisation/, function(req, res, next){
     next()
   }
 })
-
-// NOTE:If a user is logged in, then they should not be able to access fund pages, and vice versa
+// If a user is logged in, then they should not be able to access fund pages, and vice versa
 router.get(/user/, function(req, res, next){
   var url = req.url
   var checkFirstLetters = url.substring(1,5)
@@ -100,6 +88,27 @@ router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
 
+// Functions for remember me Strategy
+var tokens = {}
 
+function consumeRememberMeToken(token, fn) {
+  var uid = tokens[token];
+  // invalidate the single-use token
+  delete tokens[token];
+  return fn(null, uid);
+}
+
+function saveRememberMeToken(token, uid, fn) {
+  tokens[token] = uid;
+  return fn();
+}
+
+function issueToken(user, done) {
+  var token = utils.randomString(64);
+  saveRememberMeToken(token, user.id, function(err) {
+    if (err) { return done(err); }
+    return done(null, token);
+  });
+}
 
 module.exports = router;
