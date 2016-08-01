@@ -3,6 +3,7 @@ extend layout
 block extraHeader
 	link(href='/stylesheets/results.css', rel='stylesheet')
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+	script(src='https://checkout.stripe.com/checkout.js')
 
 block content
 	script.
@@ -12,7 +13,7 @@ block content
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
 	include ./navbar.jade
-	include./advanced-search.jade
+	include ./advanced-search.jade
 	#crowdfunding-wrapper.container
 		.col-md-7
 			img#profile_picture(src!=user.profile_picture)
@@ -64,6 +65,14 @@ block content
 						p 60
 							span days to go
 				a#donate.btn.btn-default Donate to Andros
+				#donate-amount.hidden
+					.col-md-9
+						#amount.input-group
+							span.input-group-addon £
+							input#donate-amount.form-control(type='number', aria-label='Amount (to the nearest pound)')
+							span.input-group-addon .00
+					.col-md-3.text-center
+						a.btn.btn-default.btn-primary Donate
 			#funding-institutions.row
 				#fund-banner
 					p Funding Institutions
