@@ -290,6 +290,10 @@ homeGET: function(req, res){
   saveOptionEdit: function(req, res){
     pzpt.ensureAuthenticated(req, res);
     var fundId = req.params.id;
+    var fields = req.body;
+    var arrayFields = ['tags','subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location','application_documents'];
+    fields = moderateObject(fields);
+    fields = changeArrayfields(fields, arrayFields);
     models.funds.findById(fundId).then(function(fund){
       fund.update(req.body).then(function(fund){
         res.json(fund);
@@ -517,7 +521,7 @@ homeGET: function(req, res){
 function moderateObject(objectFields){
   for(var key in objectFields){
     if(objectFields[key] === ''){
-      delete objectFields[key];
+      objectFields[key] = null;
     }
   }
   return objectFields;
