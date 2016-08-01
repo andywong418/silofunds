@@ -79,7 +79,7 @@ router.post('/user/save', signup.saveUserSignup);
 router.get('/user_signup/:id', signup.getSignupInfo);
 router.post('/user_signup/profile_picture/:id', upload.single('profile_picture'), signup.uploadPicture);
 router.post('/user_signup/work/:id', upload.array('past_work', 5), signup.uploadWork);
-router.get('/fund/:id', signup.fundProfile);
+router.get('/organisation/:id', signup.fundProfile);
 router.get('/fund_account/:id', signup.get);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 router.post('/fund_signup/charity_no/:id', signup.insertCharityNumber);

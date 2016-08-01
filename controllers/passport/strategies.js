@@ -4,8 +4,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt');
 var passport = require('passport')
 var configAuth = require('../../config/auth')
+var utils = require('../../routes/utils')
 var FacebookStrategy = require('passport-facebook').Strategy;
-var RememberMeStrategy = require('passport-remember-me').Strategy;
+var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 
 
 
@@ -130,30 +131,17 @@ passport.use('registrationStrategy', new LocalStrategy({
         });
     }));
 
-  // Remember me strategy
-  passport.use('remember-me', new RememberMeStrategy(
-    function(token, done) {
-      Token.consume(token, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        return done(null, user);
-      });
-    },
-    function(user, done) {
-      var token =  crypto.randomBytes(16).toString('hex');
-      Token.save(token, { userId: user.id }, function(err) {
-        if (err) { return done(err); }
-        return done(null, token);
-      });
-    }
-  ));
-
   // Remember Me cookie strategy
   //   This strategy consumes a remember me token, supplying the user the
   //   token was originally issued to.  The token is single-use, so a new
   //   token is then issued to replace it.
   passport.use(new RememberMeStrategy(
+    function() {
+      console.log('hello')
+    },
     function(token, done) {
+      console.log('REMEMBER ME STRATEGY IS BEING CALLED')
+      console.log('am i even being called???')
       consumeRememberMeToken(token, function(err, uid) {
         if (err) { return done(err); }
         if (!uid) { return done(null, false); }
@@ -167,6 +155,25 @@ passport.use('registrationStrategy', new LocalStrategy({
     },
     issueToken
   ));
+//
+//   passport.use(new RememberMeStrategy(
+//   function(token, done) {
+//     console.log("IM USED IM BEING USED OH YES OH YES")
+//     Token.consume(token, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) { return done(null, false); }
+//       return done(null, user);
+//     });
+//   },
+//   function(user, done) {
+//     console.log("IM USED IM BEING USED OH YES OH YES")
+//     var token = utils.generateToken(64);
+//     Token.save(token, { userId: user.id }, function(err) {
+//       if (err) { return done(err); }
+//       return done(null, token);
+//     });
+//   }
+// ));
 
   // Facebook Strategy
   passport.use('facebook', new FacebookStrategy({
@@ -199,6 +206,16 @@ passport.use('registrationStrategy', new LocalStrategy({
 
 
 // Functions for remember me Strategy
+var tokens = {};
+
+function findById(id, fn) {
+  if (req.user.get()) {
+    fn(null, req.user.get());
+  } else {
+    fn(new Error('User ' + id + ' does not exist'));
+  }
+}
+
 function issueToken(user, done) {
   var token = utils.randomString(64);
   saveRememberMeToken(token, user.id, function(err) {

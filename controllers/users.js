@@ -270,8 +270,9 @@ module.exports = {
 
   logoutGET: function(req, res) {
     // Clear the rememebr me cookie when logging out
-    res.cookie('remember_me', '', { expires: new Date(1), path: '/' })
+    res.cookie('remember_me', '', {expires: new Date(1), path: '/'})
     req.flash('logoutMsg', 'Successfully logged out');
+    req.logout();
     res.redirect('/login')
   },
 

@@ -365,7 +365,7 @@ homeGET: function(req, res){
                   }
                 }
                 // res.render('fund-settings', {user: user, general: general_settings});
-                res.redirect('/fund/settings')
+                res.redirect('/organisation/settings')
               })
             })
           })
