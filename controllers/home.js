@@ -1,6 +1,5 @@
 module.exports = {
   index: function(req, res) {
-    console.log("HELLO BITCHES")
     if(req.user){
       if(req.user.organisation_or_user){
         try{
