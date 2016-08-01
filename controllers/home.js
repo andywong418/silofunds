@@ -9,7 +9,7 @@ module.exports = {
       if(user.organisation_or_user){
         try{
           console.log("something");
-          res.redirect('/funds/' + user.id+ '/');
+          res.redirect('/organisation/dashboard' );
         } catch(err) {
           console.log("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
@@ -18,7 +18,7 @@ module.exports = {
       }
       else{
         try{
-          res.redirect('/users/' + user.id + '/');
+          res.redirect('/user/dashboard');
         }
         catch(err) {
           console.log("redirecting", err);
