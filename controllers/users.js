@@ -80,11 +80,10 @@ module.exports = {
   },
 
   loginSplitterGET: function(req, res) {
-    console.log(req.user)
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
       pzpt.ensureAuthenticated(req, res);
-      res.redirect('/user/profile');
+      res.redirect('/user/dashboard');
     }
     else {
       pzpt.ensureAuthenticated(req, res);
@@ -181,6 +180,9 @@ module.exports = {
   },
 
   settingsGET: function(req, res) {
+    console.log('settings')
+    console.log(req.cookies)
+    console.log(req.session)
     pzpt.ensureAuthenticated(req, res);
     res.render('user-settings', {user: req.user, general: true})
   },
@@ -268,8 +270,7 @@ module.exports = {
 
   logoutGET: function(req, res) {
     // Clear the rememebr me cookie when logging out
-    res.clearCookie('remember_me');
-    req.logout();
+    res.cookie('remember_me', '', { expires: new Date(1), path: '/' })
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
   },

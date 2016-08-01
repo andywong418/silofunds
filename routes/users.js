@@ -8,7 +8,7 @@ var router = express.Router();
 
 // User profile pages, these all use passport authentication
 router.get('/create', users.createGET);
-// router.get('/profile', users.homeGET);
+router.get('/dashboard', users.homeGET);
 router.get('/profile', users.crowdFundingPage);
 router.get('/settings', users.settingsGET);
 router.post('/settings', users.settingsPOST);
