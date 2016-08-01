@@ -162,13 +162,13 @@ $(document).ready(function(){
 			$("#email_updates").change(function(){
 				if(!this.checked){
 					var parameters = {email_updates: false};
-					$.post('/users/email-settings/'+ fund.id, parameters, function(data){
+					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
 						console.log(data);
 					})
 				}
 				else{
 					var parameters = {email_updates: true};
-					$.post('/users/email-settings/'+ fund.id, parameters, function(data){
+					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
 						console.log(data);
 					})
 				}

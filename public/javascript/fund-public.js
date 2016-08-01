@@ -57,8 +57,8 @@ $(document).ready(function(){
     $('.post-signin').css("z-index", "11");
     if(loggedInUser.organisation_or_user){
       $("#home").attr("href", '/fund' );
-      $(".settings").attr("href", '/fund/settings');
-      $(".logout").attr("href", '/fund/logout');
+      $(".settings").attr("href", '/organisation/settings');
+      $(".logout").attr("href", '/organisation/logout');
     }
     else{
       $("#home").attr("href", '/user');
