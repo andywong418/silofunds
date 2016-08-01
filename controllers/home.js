@@ -7,7 +7,7 @@ module.exports = {
       if(user.organisation_or_user){
         try{
           console.log("something");
-          res.redirect('/fund/home');
+          res.redirect('/organisation/dashboard' );
         } catch(err) {
           console.log("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
@@ -16,7 +16,7 @@ module.exports = {
       }
       else{
         try{
-          res.redirect('/user/home');
+          res.redirect('/user/dashboard');
         }
         catch(err) {
           console.log("redirecting", err);

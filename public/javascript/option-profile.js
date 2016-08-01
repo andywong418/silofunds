@@ -9,12 +9,16 @@ $(document).ready(function(){
   }
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
-    if(userArray){
-      console.log(userArray);
+    if(userArray && fundArray){
+
       userArray.forEach(function(element, index, array){
-        if(fundArray.indexOf(element) > -1){
-          counter++;
-        }
+        fundArray.forEach(function(fundElement, fundIndex, fundArray){
+          fundElement = fundElement.toLowerCase();
+          element = element.toLowerCase();
+          if(fundArray.indexOf(element) > -1 || userArray.indexOf(fundElement) > -1 || fundElement.indexOf(element) > -1 || element.indexOf(fundElement) > -1){
+            counter++;
+          }
+        })
       });
     }
 
@@ -211,23 +215,23 @@ $(document).ready(function(){
         if(fund.subject.length > 0){
           console.log("IN FUND SUBJECT", user.subject);
           if(!checkIfElementInArray(fund.subject, user.subject)){
-            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject);
+            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject.capitalize().join(', '));
             nonEligibleCounter++;
           }
        }
       }
       if(fund.required_degree){
         if(fund.required_degree.length > 0){
-          if(fund.required_degree.indexOf(user.degree) == -1){
-            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.degree);
+          if(!checkIfElementInArray(fund.required_degree, user.previous_degree)){
+            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.previous_degree.capitalize().join(', '));
              nonEligibleCounter++;
           }
        }
       }
       if(fund.required_university){
         if(fund.required_university.length > 0){
-          if(fund.required_university.indexOf(user.university) == -1){
-            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.university);
+          if(!checkIfElementInArray(fund.required_university, fund.previous_university)){
+            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.previous_university.capitalize());
             nonEligibleCounter++;
           }
 
@@ -854,7 +858,7 @@ $(document).ready(function(){
     }
   })
   var TipsModel = Backbone.Model.extend({
-    url: '/funds/options/' + fund.id + '/tips'
+    url: '/organisation/options/' + fund.id + '/tips'
   });
   var TipsView = Backbone.View.extend({
     tagName: 'div',

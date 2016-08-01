@@ -326,8 +326,6 @@ module.exports = {
   createNewFund: function(req, res){
     var fields = req.body;
     var userId = req.params.id;
-    console.log(req.body);
-    console.log(req.body.tips);
     var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
@@ -425,13 +423,19 @@ module.exports = {
       if(fund.organisation_id){
         models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
           if(user){
-            console.log("USER ID", user.id);
-            console.log("fund ID", fund.id);
-            models.recently_browsed_funds.create({
+            models.recently_browsed_funds.findOrCreate({
               user_id: user.id,
               fund_id: fundId
-            }).then(function(recent){
-              res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+            }).spread(function(recent, created){
+              if(created){
+                console.log(recent);
+                res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+              }else{
+                var dateNow = Date.now();
+                recent.update({updated_at: dateNow}).then(function(recent){
+                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                })
+              }
             })
           }
           else{
@@ -478,16 +482,13 @@ module.exports = {
     });
   },
   saveOptionEdit: function(req, res){
-    console.log(req.body);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       req.body = moderateObject(req.body);
       fund.update(req.body).then(function(fund){
         if(req.body.tips){
             models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
-              console.log("tip1",tip);
               tip.update({tip: req.body.tips}).then(function(tip){
-                console.log("Tips",tip)
                 fund.tips = tip.tip;
                 res.json(fund);
               })
@@ -503,9 +504,7 @@ module.exports = {
     console.log("CAROUSEL");
     var fundId = req.params.id;
     models.tips.find({where: {fund_id: fundId}}).then(function(tips){
-      // tips = tips.map(function(tip){
-      //   return tip.get();
-      // })
+
       models.funds.findById(tips.fund_id).then(function(fund){
         console.log(fund);
         models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){

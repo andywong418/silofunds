@@ -23,13 +23,18 @@ $(document).ready(function(){
 	var SettingsInfo = Backbone.View.extend({
 		el: 'body',
 		initialize: function(){
-			var myDate = user.date_of_birth.split("-");
-			var yearFix= myDate[2].split("T");
-			var day = yearFix[0];
-			var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-			var birthDate = new Date(newDate).getTime();
-			var nowDate = new Date().getTime();
-			var age = Math.floor((nowDate - birthDate) / 31536000000 );
+			var myDate
+			if(myDate) {
+			 	myDate = user.date_of_birth.split("-");
+				var yearFix= myDate[2].split("T");
+				var day = yearFix[0];
+				var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+				var birthDate = new Date(newDate).getTime();
+				var nowDate = new Date().getTime();
+				var age = Math.floor((nowDate - birthDate) / 31536000000 );
+			} else {
+				myDate = ""
+			}
 			var settings_model = new SettingsModel({
 				name: user.username,
 				age: age,

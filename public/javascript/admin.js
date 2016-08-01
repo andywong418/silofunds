@@ -208,7 +208,7 @@ try {
 
       $('input#subject').tokenInput('/autocomplete/subjects', {
         "theme": "facebook",
-        "prePopulate": requiredDegreesArray,
+        "prePopulate": subjectArray,
         "allowFreeTagging": true
       });
     } else {

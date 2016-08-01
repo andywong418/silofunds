@@ -30,7 +30,7 @@ block content
           .col-md-3
             img(src='/images/fund_img_placeholder.jpg')
             p
-              a(href='/funds/options/'+ fund.id)= fund.title
+              a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
     section
       ul.nav.nav-tabs
         li#tab-applications.active
@@ -62,7 +62,7 @@ block content
                 .col-md-1#support_type
                   span.label(id='#{fund.support_type}')= fund.support_type
                 .col-md-3
-                  a(href='/fund/profile/' + fund.id)
+                  a(href='/organisation/options/' + fund.id, target='_blank')
                     span= fund.title
                 .col-md-2
                   span= fund.country_of_residence
@@ -115,7 +115,7 @@ block content
                 .col-md-1#support_type
                   span.label(id='#{fund.support_type}')= fund.support_type
                 .col-md-3
-                  a(href='/fund/profile/' + fund.id)
+                  a(href='/organisation/options/' + fund.id, target='_blank')
                     span= fund.title
                 .col-md-2
                   span= fund.country_of_residence
@@ -132,7 +132,7 @@ block content
                 .col-md-1
                   span= fund.deadline
                 .col-md-1#edit
-                  a(href='/funds/options/' + fund.id) View
+                  a(href='/organisation/options/' + fund.id, target='_blank') View
           else
             .row
               .col-md-12

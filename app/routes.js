@@ -10,9 +10,8 @@ var messages = require('../routes/messages');
 var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
-var user = require('../routes/users-james');
-var fund = require('../routes/funds-james');
-var organisation = require('../routes/funds-james');
+var user = require('../routes/users');
+var organisation = require('../routes/organisations');
 var basicAuth = require('basic-auth');
 
 var auth_admin = function (req, res, next) {
@@ -60,8 +59,6 @@ module.exports.initialize = function (app) {
   ////
 
   app.use('/', index);
-  app.use('/users', users);
-  app.use('/funds', funds);
   app.use('/results', results);
   app.use('/signup', signup);
   app.use('/login', login);
@@ -71,7 +68,6 @@ module.exports.initialize = function (app) {
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
   app.use('/user', user);
-  app.use('/fund', fund);
   app.use('/organisation', organisation);
   app.use('/messages', messages)
 };
