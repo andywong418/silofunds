@@ -1,15 +1,9 @@
 module.exports = {
   index: function(req, res) {
-    console.log("HEYYYYYY");
-    console.log("I KNOW IT's YOU");
-    console.log(req.session.passport.user);
-    var user = req.session.passport.user;
-    delete req.session.redirect_user;
-    if(user){
-      if(user.organisation_or_user){
+    if(req.user){
+      if(req.user.organisation_or_user){
         try{
-          console.log("something");
-          res.redirect('/organisation/dashboard' );
+          res.redirect('/organisation/dashboard');
         } catch(err) {
           console.log("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });

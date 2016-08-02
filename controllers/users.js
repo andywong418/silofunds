@@ -2,7 +2,7 @@ var models = require('../models');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
-var pzpt = require('./passport/functions');
+var passportFunctions = require('./passport/functions');
 var qs = require('querystring');
 var request = require('request');
 var nodemailer = require('nodemailer')
@@ -49,7 +49,6 @@ module.exports = {
 
       if (body.error) {
         console.log(body);
-
         res.redirect('/user/dashboard');
       } else {
         models.stripe_users.create({
@@ -79,19 +78,19 @@ module.exports = {
     }
   },
 
-  loginSplitterGET: function(req, res) {
+  loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
-      pzpt.ensureAuthenticated(req, res);
+      passportFunctions.ensureAuthenticated(req, res);
       res.redirect('/user/dashboard');
     }
     else {
-      pzpt.ensureAuthenticated(req, res);
+      passportFunctions.ensureAuthenticated(req, res);
       res.redirect('/organisation/dashboard');
     }
   },
 
-  registerGET: function(req, res) {
+  register: function(req, res) {
     // Flash messages for nonmatching passwords and taken usernames
     var flashMsg = req.flash('flashMsg')
     if(flashMsg.length !== 0) {
@@ -101,14 +100,14 @@ module.exports = {
     }
   },
 
-  registerSplitterGET: function(req, res) {
+  registerSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
-      pzpt.ensureAuthenticated(req, res);
+      passportFunctions.ensureAuthenticated(req, res);
       res.redirect('/user/create');
     }
     else {
-      pzpt.ensureAuthenticated(req, res);
+      passportFunctions.ensureAuthenticated(req, res);
       res.redirect('/organisation/create');
     }
   },
@@ -117,7 +116,9 @@ module.exports = {
 
 // Pages once logged in
   homeGET: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
+    console.log(req.cookies)
+    console.log('^^^^^^^^^^^^^^')
     var user = req.user;
     var id = user.id;
     models.applications.findAll({where: {user_id: user.id}}).then(function(application){
@@ -129,12 +130,9 @@ module.exports = {
             app_obj['status'] = app.dataValues.status;
             models.funds.findById(app.dataValues.fund_id).then(function(fund){
               app_obj['title'] = fund.title;
-              console.log("WHAT FUND", fund);
               applied_funds.push(app_obj);
-              console.log("I'M HERE", applied_funds);
               callback();
             })
-
         }, function done(){
           models.documents.findAll({where: {user_id: id}}).then(function(documents){
             res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
@@ -152,7 +150,7 @@ module.exports = {
   },
 
   createGET: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     res.render('signup/new-user-profile', {user: req.user});
   },
 
@@ -183,12 +181,12 @@ module.exports = {
     console.log('settings')
     console.log(req.cookies)
     console.log(req.session)
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     res.render('user-settings', {user: req.user, general: true})
   },
 
   settingsPOST: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
 		var general_settings;
 		var id = req.user.id
 		var body = req.body;
@@ -270,8 +268,9 @@ module.exports = {
 
   logoutGET: function(req, res) {
     // Clear the rememebr me cookie when logging out
-    res.cookie('remember_me', '', { expires: new Date(1), path: '/' })
+    res.cookie('remember_me', '', {expires: new Date(1), path: '/'})
     req.flash('logoutMsg', 'Successfully logged out');
+    req.logout();
     res.redirect('/login')
   },
 
@@ -555,6 +554,46 @@ module.exports = {
         }
       })
     });
+  },
+
+  rememberMe: function(req, res, next) {
+    // Issue a remember me cookie if the option was checked
+    if (!req.body.remember_me) {res.redirect('loginSplit')}
+    passportFunctions.issueToken(req.user.get(), function(err, token) {
+      if (err) {return next(err)}
+      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+      res.redirect('loginSplit')
+    });
+  },
+
+  userBlocker: function(req, res, next){
+    var url = req.url
+    var checkFirstLetters = url.substring(1,5)
+    if(checkFirstLetters == 'user') {
+      if(req.user.organisation_or_user !== null) {
+        res.render(error)
+        res.end()
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  },
+  fundBlocker: function(req, res, next){
+    var url = req.url
+    var checkFirstLetters = url.substring(1,13)
+    console.log(checkFirstLetters == 'organisation')
+    if(checkFirstLetters == 'organisation') {
+      if(req.user.organisation_or_user == null) {
+        res.render(error);
+        res.end()
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
   }
 
 

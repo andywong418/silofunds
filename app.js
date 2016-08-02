@@ -9,6 +9,7 @@ var pg = require('pg');
 var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
@@ -47,7 +48,6 @@ var redisPort = 6379;
 var rtg = null;
 if (process.env.REDIS_URL) {
     // redistogo connection
-    console.log("REDISTOGO is ON");
     var rtg = require("url").parse(process.env.REDIS_URL);
     var redis = require('redis').createClient(rtg.port, rtg.hostname);
     redisPort = rtg.port;
@@ -61,7 +61,7 @@ else{
 
 app.use(session({
   secret: 'so secret',
-  cookie: { secure : false, maxAge: (4 * 60 * 60 * 1000)},
+  cookie: {secure: false, maxAge: 14400000},
   store: new RedisStore({
     client: redis,
     host: redisHost,
@@ -76,7 +76,6 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
-
 // Load routes
 routes.initialize(app);
 
@@ -110,6 +109,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

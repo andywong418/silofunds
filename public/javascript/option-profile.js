@@ -860,7 +860,7 @@ $(document).ready(function(){
     }
   })
   var TipsModel = Backbone.Model.extend({
-    url: '/funds/options/' + fund.id + '/tips'
+    url: '/organisation/options/' + fund.id + '/tips'
   });
   var TipsView = Backbone.View.extend({
     tagName: 'div',

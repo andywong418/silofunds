@@ -35,11 +35,15 @@ html
                     .form-group
                       input#fundName.form-control(type='text', name='fundName', placeholder='Institution name')
                 .form-group
-                  input#email.form-control(type='email', name='email', placeholder='Email Address')
+                  .inputDiv
+                    input#email.form-control(type='email', name='email', placeholder='Email Address')
+                  .checker#emailError
+                  .checker#emailSuccess
                 .row
                   .col-xs-6.col-sm-6.col-md-6
                     .form-group
                       input#password.form-control(type='password', name='password', placeholder='Password')
+                      .checker#passwordError 
                   .col-xs-6.col-sm-6.col-md-6
                     .form-group
                       input#password_confirmation.form-control(type='password', name='confirmPassword', placeholder='Confirm Password')

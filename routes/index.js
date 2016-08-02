@@ -5,110 +5,42 @@ var passport = require('passport');
 var signup = require('../controllers/signup');
 var models = require('../models')
 var utils = require('./utils')
+var passportFunctions = require('../controllers/passport/functions')
 require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 router.get('/', home.index);
 router.post('/subscribe', home.subscribe);
 
-
-// Facebook auth strategy
-router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
-router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/',
-  failureRedirect: '/login'
-}));
-
-// Login and register
 // Login
 router.get('/login', users.loginGET)
-// Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
-router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}),
-    function(req, res, next) {
-      // Issue a remember me cookie if the option was checked
-      if (!req.body.remember_me) {return next()}
-      issueToken(req.user.get(), function(err, token) {
-        if (err) {return next(err)}
-        res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 604800000});
-        return next();
-      });
-    },
-    function(req, res) {
-      res.redirect('/loginSplit');
-})
-
-router.get('/loginSplit', users.loginSplitterGET)
+router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}), users.rememberMe)
+router.get('/loginSplit', users.loginSplit)
 
 // Register
-router.get('/register', users.registerGET)
-// Authenticate registerPOST request
-router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {
-  successRedirect: '/registerSplit',
-  failureRedirect: '/register'
-}))
-// Register splitter
-router.get('/registerSplit', users.registerSplitterGET)
+router.get('/register', users.register)
+router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {successRedirect: '/registerSplit', failureRedirect: '/register'}))
+router.get('/registerSplit', users.registerSplit)
 
-// NOTE: without below, an organisation can get onto user page.
-
-router.get(/organisation/, function(req, res, next){
-  var url = req.url
-  var checkFirstLetters = url.substring(1,13)
-  console.log(checkFirstLetters == 'organisation')
-  if(checkFirstLetters == 'organisation') {
-    if(req.user.organisation_or_user == null) {
-      res.render(error);
-      res.end()
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
-// If a user is logged in, then they should not be able to access fund pages, and vice versa
-router.get(/user/, function(req, res, next){
-  var url = req.url
-  var checkFirstLetters = url.substring(1,5)
-  if(checkFirstLetters == 'user') {
-    if(req.user.organisation_or_user !== null) {
-      res.render(error)
-      res.end()
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
-
+// Password reset routes
 router.get('/forgot', users.forgotPasswordGET);
 router.post('/forgot', users.forgotPasswordEmailSend)
 router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
+// NOTE: without below, an organisation can get onto user page and vice versa
+router.get(/organisation/, users.fundBlocker)
+router.get(/user/, users.userBlocker)
 
-// Functions for remember me Strategy
-var tokens = {}
+// Facebook auth strategy
+router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
 
-function consumeRememberMeToken(token, fn) {
-  var uid = tokens[token];
-  // invalidate the single-use token
-  delete tokens[token];
-  return fn(null, uid);
-}
 
-function saveRememberMeToken(token, uid, fn) {
-  tokens[token] = uid;
-  return fn();
-}
+// Delete this
+router.get('/ajax', function(req, res) {
+  res.render('user/ajax')
+})
 
-function issueToken(user, done) {
-  var token = utils.randomString(64);
-  saveRememberMeToken(token, user.id, function(err) {
-    if (err) { return done(err); }
-    return done(null, token);
-  });
-}
 
 module.exports = router;

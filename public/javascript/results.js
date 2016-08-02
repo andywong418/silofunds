@@ -274,7 +274,7 @@ allShown = false;
       if(user && !user.organisation_or_user){
           var fund_id = this.model.get('id');
           parameters = {"fund_id": fund_id};
-          $.post('/users/add-application/'+ user.id, parameters, function(data){
+          $.post('/user/add-application', parameters, function(data){
           })
       }
     },
@@ -284,7 +284,7 @@ allShown = false;
       var link = this.model.get('link');
       var fund_user = this.model.get('fund_user');
       if (fund_user){
-        this.$("#profile_link" + fundId).attr('href', '/funds/options/' + fundId);
+        this.$("#profile_link" + fundId).attr('href', '/organisation/options/' + fundId);
       }
       else{
         this.$("#profile_link" + fundId).attr('href',  link)

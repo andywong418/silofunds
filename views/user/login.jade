@@ -1,7 +1,6 @@
 extends ../layout
 block extraHeader
   link(rel="stylesheet", href="/stylesheets/user/login.css")
-  
 block content
   .container
     .col-md-4.col-md-offset-4
@@ -18,9 +17,13 @@ block content
             form(accept-charset='UTF-8', role='form', action='/login', method='post')
               fieldset
                 .form-group
-                  input.form-control(placeholder='yourmail@example.com', name='email', type='text')
+                  .inputDiv
+                    input.form-control#email(placeholder='yourmail@example.com', name='email', type='text')
+                  .checker#emailError
                 .form-group
-                  input.form-control(placeholder='Password', name='password', type='password', value='')
+                  .inputDiv
+                    input.form-control#password(placeholder='Password', name='password', type='password', value='')
+                  .checker#passwordError 
                 .checkbox
                   label#rememberMe
                     input(name='remember_me', type='checkbox', value='Remember Me')
@@ -39,3 +42,7 @@ block content
       h2 Need an account?
       a(href='/register')
         p.lead Register now!
+        
+        
+block scripts
+  script(src='/javascript/user/login.js')

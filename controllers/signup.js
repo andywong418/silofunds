@@ -6,7 +6,7 @@ var async = require('async');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
-var pzpt = require('./passport/functions');
+var passportFunctions = require('./passport/functions');
 var aws_keyid;
 var aws_key;
 var sequelize = require('sequelize');

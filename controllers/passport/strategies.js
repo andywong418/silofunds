@@ -5,8 +5,8 @@ var bcrypt = require('bcrypt');
 var passport = require('passport')
 var configAuth = require('../../config/auth')
 var FacebookStrategy = require('passport-facebook').Strategy;
-var RememberMeStrategy = require('passport-remember-me').Strategy;
-
+var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
+var passportFunctions = require('./functions')
 
 
 
@@ -130,43 +130,22 @@ passport.use('registrationStrategy', new LocalStrategy({
         });
     }));
 
-  // Remember me strategy
-  passport.use('remember-me', new RememberMeStrategy(
-    function(token, done) {
-      Token.consume(token, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        return done(null, user);
-      });
-    },
-    function(user, done) {
-      var token =  crypto.randomBytes(16).toString('hex');
-      Token.save(token, { userId: user.id }, function(err) {
-        if (err) { return done(err); }
-        return done(null, token);
-      });
-    }
-  ));
-
   // Remember Me cookie strategy
   //   This strategy consumes a remember me token, supplying the user the
   //   token was originally issued to.  The token is single-use, so a new
   //   token is then issued to replace it.
   passport.use(new RememberMeStrategy(
     function(token, done) {
-      consumeRememberMeToken(token, function(err, uid) {
-        if (err) { return done(err); }
-        if (!uid) { return done(null, false); }
-
-        findById(uid, function(err, user) {
-          if (err) { return done(err); }
-          if (!user) { return done(null, false); }
-          return done(null, user);
-        });
+      passportFunctions.consumeRememberMeToken(token, function(err, uid) {
+        console.log("UID", uid);
+        models.users.findById(uid).then(function(user) {
+          if(!user){return done(null, false)}
+          return(done(null, user));
+        })
       });
     },
-    issueToken
-  ));
+    passportFunctions.issueToken
+  ))
 
   // Facebook Strategy
   passport.use('facebook', new FacebookStrategy({
@@ -195,26 +174,4 @@ passport.use('registrationStrategy', new LocalStrategy({
 
 
 
-}
-
-
-// Functions for remember me Strategy
-function issueToken(user, done) {
-  var token = utils.randomString(64);
-  saveRememberMeToken(token, user.id, function(err) {
-    if (err) { return done(err); }
-    return done(null, token);
-  });
-}
-
-function consumeRememberMeToken(token, fn) {
-  var uid = tokens[token];
-  // invalidate the single-use token
-  delete tokens[token];
-  return fn(null, uid);
-}
-
-function saveRememberMeToken(token, uid, fn) {
-  tokens[token] = uid;
-  return fn();
 }
