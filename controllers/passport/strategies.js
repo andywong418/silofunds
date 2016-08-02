@@ -70,7 +70,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                     name = data.username;
                     confirmPassword = data.password
                   } else {
-                    name = data.firstName + data.lastName;
+                    name = data.firstName + " " + data.lastName;
                     confirmPassword = data.confirmPassword
                   }
                   // If user does not exist and passwords match, create user
