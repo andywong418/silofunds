@@ -22,6 +22,7 @@ $(document).ready(function(){
       this.$('#story').html(story);
       this.$('#story').css('margin-top', '20px');
       this.$('#story').find('*').css('font-size', '16px');
+      this.$('#story').find('*').css('color', '#4b4f56');
       this.$('#story').find('p').css('font-size', '15px')
     }
   });

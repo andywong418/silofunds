@@ -99,7 +99,7 @@ module.exports = {
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		console.log(userId);
-		
+
 		models.users.findById(userId).then(function(user){
 			console.log(req.body);
 			user.update(req.body).then(function(user){
@@ -420,7 +420,7 @@ module.exports = {
 							from: 'Silofunds <andros@silofunds.com>',
 							to: user.email,
 							subject: 'Silo Email Verification',
-							text: 'Thank for signing up to Silo!.\n\n' +
+							text: 'Thank for signing up to Silo!\n\n' +
 									'Please click on the following link, or paste this into your browser to complete the verification process:\n\n' +
 									'http://' + req.headers.host + '/signup/verify/' + token
 						};

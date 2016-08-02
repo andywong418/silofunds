@@ -257,11 +257,13 @@ body{
 					}
 				}
 				.app-row{
+					height: 40px;
 					.col-md-9{
 						padding-left: 30px;
 					}
 					p, #fund-title{
 						font-size: 15px;
+						color: $font-color;
 					};
 					#fund-title{
 						color: #2390fd;
@@ -270,6 +272,7 @@ body{
 				#none, #no-donations{
 					font-size: 16px;
 					text-align: center;
+					color: $font-color;
 				}
 			}
 

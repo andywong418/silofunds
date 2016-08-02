@@ -1449,7 +1449,7 @@ body {
     font-family: 'Source Sans Pro'; }
   body section {
     padding-top: 0;
-    padding-bottom: 50px; }
+    padding-bottom: 10px; }
 
 /* Everything else */
 h2#name {
@@ -1497,6 +1497,11 @@ h2#name {
     background-color: #05d257; }
     .nav-tabs #view-profile a:hover {
       background-color: #04a042; }
+
+#ud-favourites {
+  margin-top: 10px; }
+  #ud-favourites section .row .col-md-12 p {
+    padding-left: 15px; }
 
 .tab-content {
   padding-bottom: 0px; }

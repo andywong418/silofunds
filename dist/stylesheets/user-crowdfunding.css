@@ -183,15 +183,19 @@ body {
         body #crowdfunding-wrapper #user-progress #funding-institutions #fund-banner p i, body #crowdfunding-wrapper #user-progress #funding-institutions #donation-banner p i, body #crowdfunding-wrapper #user-progress #recent-donations #fund-banner p i, body #crowdfunding-wrapper #user-progress #recent-donations #donation-banner p i {
           color: #4b4f56;
           margin-left: 5px; }
-      body #crowdfunding-wrapper #user-progress #funding-institutions .app-row .col-md-9, body #crowdfunding-wrapper #user-progress #recent-donations .app-row .col-md-9 {
-        padding-left: 30px; }
-      body #crowdfunding-wrapper #user-progress #funding-institutions .app-row p, body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row p, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
-        font-size: 15px; }
-      body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
-        color: #2390fd; }
+      body #crowdfunding-wrapper #user-progress #funding-institutions .app-row, body #crowdfunding-wrapper #user-progress #recent-donations .app-row {
+        height: 40px; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row .col-md-9, body #crowdfunding-wrapper #user-progress #recent-donations .app-row .col-md-9 {
+          padding-left: 30px; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row p, body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row p, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
+          font-size: 15px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
+          color: #2390fd; }
       body #crowdfunding-wrapper #user-progress #funding-institutions #none, body #crowdfunding-wrapper #user-progress #funding-institutions #no-donations, body #crowdfunding-wrapper #user-progress #recent-donations #none, body #crowdfunding-wrapper #user-progress #recent-donations #no-donations {
         font-size: 16px;
-        text-align: center; }
+        text-align: center;
+        color: #4b4f56; }
     body #crowdfunding-wrapper #profile_picture {
       width: 100%;
       height: auto;
