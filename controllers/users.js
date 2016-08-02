@@ -205,11 +205,28 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      // YOUR CODE: Save the customer ID and other info in a database for later!
-      console.log("Charge");
-      console.log(charge);
-    }).then(function() {
-      // res.send("")
+      var created_at = new Date(charge.created * 1000);
+      var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
+
+      return models.stripe_charges.create({
+        charge_id: charge.id,
+        amount: parseFloat(charge.amount),
+        application_fee: application_fee,
+        balance_transaction: charge.balance_transaction,
+        captured: charge.captured,
+        customer_id: charge.customer,
+        description: charge.description,
+        destination_id: charge.destination,
+        livemode: charge.livemode,
+        paid: charge.paid,
+        status: charge.status,
+        transfer_id: charge.transfer,
+        source_id: charge.source.id,
+        source_address_line1_check: charge.source.address_line1_check,
+        source_address_zip_check: charge.source.address_zip_check,
+        source_cvc_check: charge.source.cvc_check,
+        created_at: created_at
+      });
     });
   },
 
