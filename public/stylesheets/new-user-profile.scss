@@ -126,7 +126,7 @@ body{
 			height: 30px !important;
 			font-size: 13px;
 			&:active, &:focus{
-				border: 2px solid #2752ff;
+				border: 2px solid #9ba7d8;
 				outline: none;
 			}
 		}
@@ -233,7 +233,26 @@ body{
 	  cursor: pointer;
 	  margin-left:10px;
 	 }
-
+	 #hyperlink{
+		 p{
+			 margin-bottom: 10px;
+		 }
+		 .hyperlink-row{
+			 margin-top: 0;
+			 border-bottom: 0;
+			 i{
+				 color: black;
+				 font-size: 14px;
+				 border: 2px solid #ccc;
+				 border-right: 0;
+				 background-color: #e6e6e6;
+				 &:hover, &:active, &:focus{
+					 background-color: #e6e6e6;
+					 outline: 0;
+				 }
+			 }
+		 }
+	 }
 
 	}
 }

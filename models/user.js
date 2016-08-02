@@ -88,6 +88,10 @@ module.exports = function(sequelize, DataTypes) {
     email_verify_token: {
       type: DataTypes.TEXT,
       field: 'email_verify_token'
+    },
+    link: {
+      type: DataTypes.TEXT,
+      field: 'link'
     }
   }, {
     timestamps: true,

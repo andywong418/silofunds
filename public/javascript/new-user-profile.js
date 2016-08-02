@@ -248,28 +248,35 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var storyModel = this.model;
 			this.el = this.render().el;
       // this.$el.detach();
+			if(this.model.get('link')){
+				var link = this.model.get('link')
+				this.$('input#work-link').val(link);
+			}
 			if(this.model.get('documents')){
 				var documents = this.model.get('documents');
 				var fileName;
 				if(documents.length > 1){
-				fileName =  (this.$('input#work').attr( 'data-multiple-caption') || '' ).replace( '{count}', documents.length );
+					fileName =  (this.$('input#work').attr( 'data-multiple-caption') || '' ).replace( '{count}', documents.length );
 				}
 				else{
 					if(documents.length == 1){
 						fileName = documents[0].title;
 						console.log(fileName);
+
 					}
 				}
 				console.log(fileName);
 				if(fileName){
 					this.$('input#work').next('label').html(fileName);
 				}
+
 			}
 		},
 		saveStory: function(){
 			var story = tinymce.activeEditor.getContent();
 			var formData = {
-				'description': story
+				'description': story,
+				'link': $('input#work-link').val()
 			}
 			$.post('/signup/user/save', formData, function(data){
 				console.log(data);

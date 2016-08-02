@@ -105,7 +105,7 @@ body {
       height: 30px !important;
       font-size: 13px; }
       #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus {
-        border: 2px solid #2752ff;
+        border: 2px solid #9ba7d8;
         outline: none; }
     #signup-wrapper #signup-form ul.token-input-list-facebook {
       margin-top: -2px; }
@@ -185,6 +185,20 @@ body {
         #signup-wrapper #signup-form #work #work-row #work-span label {
           cursor: pointer;
           margin-left: 10px; }
+        #signup-wrapper #signup-form #work #work-row #hyperlink p {
+          margin-bottom: 10px; }
+        #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row {
+          margin-top: 0;
+          border-bottom: 0; }
+          #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i {
+            color: black;
+            font-size: 14px;
+            border: 2px solid #ccc;
+            border-right: 0;
+            background-color: #e6e6e6; }
+            #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:hover, #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:active, #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:focus {
+              background-color: #e6e6e6;
+              outline: 0; }
     #signup-wrapper #signup-form #email-row {
       border-bottom: none; }
       #signup-wrapper #signup-form #email-row a {

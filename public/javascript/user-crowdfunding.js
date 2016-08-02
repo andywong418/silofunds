@@ -64,8 +64,12 @@ $(document).ready(function(){
         var id = doc.id;
         var link = doc.link;
         var file = doc.title;
-        var seekingExtension = file.split(".");
-        var extension = seekingExtension[1];
+        var extension;
+        if(file){
+          var seekingExtension = file.split(".");
+          extension = seekingExtension[1];
+        }
+
         console.log(extension);
         var fileClass;
         if(extension == "pdf"){
@@ -96,6 +100,7 @@ $(document).ready(function(){
         else{
           fileClass = "fa fa-file filename";
         }
+
         var documentModel = new DocumentModel({
           fileClass: fileClass,
           fileLink: link,
@@ -103,6 +108,8 @@ $(document).ready(function(){
         });
         var docView = new DocumentView({model: documentModel});
         this.$('.document-row').append(docView.render().el);
+
+
       }
 
     }

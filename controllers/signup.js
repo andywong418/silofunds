@@ -99,6 +99,7 @@ module.exports = {
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		console.log(userId);
+		
 		models.users.findById(userId).then(function(user){
 			console.log(req.body);
 			user.update(req.body).then(function(user){
