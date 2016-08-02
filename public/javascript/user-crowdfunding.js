@@ -20,6 +20,7 @@ $(document).ready(function(){
       console.log(this.model);
       var story = this.model.get('description');
       this.$('#story').html(story);
+      this.$('#story').css('margin-top', '20px');
       this.$('#story').find('*').css('font-size', '16px');
       this.$('#story').find('p').css('font-size', '15px')
     }

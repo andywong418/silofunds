@@ -47,7 +47,7 @@ body{
 			border: $border-color;
 			#tab-menu-flex{
 				display: flex;
-				border-bottom: $border-color;
+
 
 				a.menu-item{
 					flex-grow: 1;
@@ -93,6 +93,7 @@ body{
 					}
 					hr{
 						margin-top: 5px;
+						margin-bottom: 30px;
 					}
 					i{
 						color: $font-color;
@@ -247,12 +248,23 @@ body{
 						padding: 10px;
 						padding-left: 15px;
 						border-radius: 3px;
-						color: #2390fd;
+						color: $font-color;
 
 						i{
-							color: #2390fd;
+							color: $font-color;
 							margin-left: 5px;
 						}
+					}
+				}
+				.app-row{
+					.col-md-9{
+						padding-left: 30px;
+					}
+					p, #fund-title{
+						font-size: 15px;
+					};
+					#fund-title{
+						color: #2390fd;
 					}
 				}
 				#none, #no-donations{

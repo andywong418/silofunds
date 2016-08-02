@@ -9,8 +9,10 @@ block content
 		var bodyEl = document.getElementsByTagName('body');
 		var user = !{JSON.stringify(user)};
 		var documents = !{JSON.stringify(documents)};
+		var applications = !{JSON.stringify(applications)}
 		console.log(user)
-		console.log(documents);
+		console.log(documents)
+		console.log(applications)
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
@@ -18,7 +20,10 @@ block content
 	include./advanced-search.jade
 	#crowdfunding-wrapper.container
 		.col-md-7
-			img#profile_picture(src!=user.profile_picture)
+			if user.profile_picture
+				img#profile_picture(src!=user.profile_picture)
+			else
+				img#profile_picture(src='/images/fund_img_placeholder.jpg')
 			#social-media-flex-container
 				.social
 					i.fa.fa-facebook-official(aria-hidden="true")
@@ -117,17 +122,26 @@ block content
 					.col-md-4
 						p 60
 							span days to go
-				a#donate.btn.btn-default Donate to Andros
+				a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 			#funding-institutions.row
 				#fund-banner
-					p Funding Institutions
+					p Funding applications
 						i.fa.fa-caret-down(aria-hidden="true")
-				p#none Andros has not applied to any funds yet.
+				if applications
+					each app in applications
+						.row.app-row
+							.col-md-9
+								a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
+							.col-md-3
+								p#status= app.status
+							
+				else
+					p#none= user.username.split(' ')[0] + ' has not applied to any funds yet.'
 			#recent-donations.row
 				#donation-banner
 					p Recent donations
 						i.fa.fa-caret-down(aria-hidden="true")
-				p#no-donations Andros has not received any donations yet.
+				p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
 			
 		
 
