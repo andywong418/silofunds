@@ -56,7 +56,11 @@ img {
 }
 
 .checker {
-  color: red
+  text-align: left;
+  color: #CC0000;
+  font-family: 'PT Sans';
+  font-size: 12px;
+  font-weight: 500;
 }
 
 #passwordReset {

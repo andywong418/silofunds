@@ -9,7 +9,7 @@ module.exports = {
     if(email){
       models.users.find({where: {email: email}}).then(function(user){
         if(user){
-          res.send('There is already an account under this email address');
+          res.send('There is already an account with this email address');
         }
         res.end();
       });
@@ -28,7 +28,7 @@ module.exports = {
 
     models.users.find({where: {email: email}}).then(function(user){
       if(!user){
-        res.send('There is no account under this email address');
+        res.send('There is no account with this email address');
       } else {
         bcrypt.compare(password, user.password,function(err, result){
           if(!result){

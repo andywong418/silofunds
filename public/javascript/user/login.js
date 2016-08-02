@@ -11,14 +11,14 @@ $(document).ready(function() {
   })
 
   $('#email').blur(function() {
+    var email = $(this).val()
     $('#passwordError').empty()
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if(!re.test(email)) {
       $('#emailError').empty();
       $('#emailError').show()
-      $('#emailError').append('There is no account under this email address')
+      $('#emailError').append('Please enter a valid email address')
     } else {
-      var email = $(this).val()
       var password = $('#password').val()
       var parameters = {email: email, password: password}
       $.post('/validation', parameters, function(data) {
