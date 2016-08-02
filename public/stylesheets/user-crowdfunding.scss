@@ -1,5 +1,9 @@
 $border-color: 1px solid #e1e8ed;
 $font-color: #4b4f56;
+$donate-button-color: #2390fd;
+$donate-amount-background: #cce1f6;
+$donate-button-height: 48px;
+
 body{
 	background-color: #f0f2f4;
 	.navbar-custom{
@@ -189,6 +193,74 @@ body{
 					text-align: center;
 					margin-bottom: 15px;
 				}
+
+				div#donate-amount {
+					// margin-top: 15px;
+					transition: 1.5s;
+					opacity: 0;
+					height: calc(#{$donate-button-height} + 80px);
+
+					#applicationFeeMessage {
+						button {
+							&:active, &:visited, &:focus, &:hover {
+								outline: 0;
+							}
+						}
+
+						p {
+							margin-bottom: 5px;
+							margin-top: 15px;
+							font-size: 14px;
+						}
+
+						#buttonDiv {
+							margin-top: 7px;
+							padding: 0px;
+						}
+
+						#helperDiv {
+							margin: 0px;
+							margin-top: 5px;
+							padding: 0px;
+							padding-left: 10px;
+
+							span {
+								color: #a8a8a8;
+								font-size: 12px;
+							}
+						}
+					}
+
+					#amount {
+						input {
+							text-align: right;
+							background-color: $donate-amount-background;
+							border: none;
+						}
+
+						span {
+							background-color: #7bb7f4;
+							border: none;
+							color: white;
+						}
+
+						input[type=number]::-webkit-inner-spin-button,
+						input[type=number]::-webkit-outer-spin-button {
+							-webkit-appearance: none;
+							margin: 0;
+						}
+
+						input[type=number] {
+							-moz-appearance:textfield;
+						}
+					}
+
+					.col-md-3 {
+						padding: 0;
+						margin-top: 0px;
+					}
+				}
+
 				#raised{
 					text-align: left;
 					margin-bottom: 5px;
@@ -220,6 +292,7 @@ body{
 				}
 				#donate{
 					width: 100%;
+					border: none;
 
 					color:white;
 					padding: 10px;
@@ -286,4 +359,8 @@ body{
 		}
 
 	}
+}
+
+.hidden {
+	display: none;
 }

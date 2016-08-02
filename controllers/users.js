@@ -3,10 +3,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var pzpt = require('./passport/functions');
-var qs = require('querystring');
+var qs = require('qs');
 var request = require('request');
-var nodemailer = require('nodemailer')
+var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
@@ -176,13 +177,87 @@ module.exports = {
 
   },
 
+  chargeStripe: function(req, res) {
+    var stripeToken = req.body.tokenID;
+    var chargeAmount = req.body.amount;
+    var applicationFee = req.body.applicationFee;
+    var email = req.body.email;
+    var donorIsPaying = req.body.donorIsPaying;
+
+    stripe.customers.create({
+      source: stripeToken,
+      description: email
+    }).then(function(customer) {
+      return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
+        var chargeOptions = {
+          currency: "gbp",
+          customer: customer.id,
+          destination: stripe_user.stripe_user_id
+        };
+
+        if (!donorIsPaying) {
+          chargeOptions.application_fee = applicationFee;
+          chargeOptions.amount = chargeAmount;
+        } else {
+          chargeOptions.amount = chargeAmount - applicationFee;
+        }
+
+        return stripe.charges.create(chargeOptions);
+      });
+    }).then(function(charge) {
+      var created_at = new Date(charge.created * 1000);
+      var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
+
+      return models.stripe_charges.create({
+        charge_id: charge.id,
+        amount: parseFloat(charge.amount),
+        application_fee: application_fee,
+        balance_transaction: charge.balance_transaction,
+        captured: charge.captured,
+        customer_id: charge.customer,
+        description: charge.description,
+        destination_id: charge.destination,
+        livemode: charge.livemode,
+        paid: charge.paid,
+        status: charge.status,
+        transfer_id: charge.transfer,
+        source_id: charge.source.id,
+        source_address_line1_check: charge.source.address_line1_check,
+        source_address_zip_check: charge.source.address_zip_check,
+        source_cvc_check: charge.source.cvc_check,
+        created_at: created_at
+      });
+    });
+  },
+
   authorizeStripe: function(req, res) {
-    // Redirect to Stripe /oauth/authorize endpoint
-    res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
+    var user = req.user;
+    var userDOB = user.date_of_birth ? reformatDate(user.date_of_birth) : null;
+    var userPublicProfile = "https://www.silofunds.com/public/" + user.id;
+
+    var authenticationOptions = {
       response_type: "code",
       scope: "read_write",
-      client_id: CLIENT_ID
-    }));
+      client_id: CLIENT_ID,
+      stripe_user: {
+        email: user.email,
+        url: userPublicProfile,
+        business_name: userPublicProfile,
+        business_type: "sole_prop",
+        country: 'UK',
+        first_name: user.username.split(' ')[0],
+        last_name: user.username.split(' ')[1]
+      }
+    };
+
+    if (userDOB) {
+      authenticationOptions.stripe_user.dob_day = userDOB.split('-')[2];
+      authenticationOptions.stripe_user.dob_month = userDOB.split('-')[1];
+      authenticationOptions.stripe_user.dob_year = userDOB.split('-')[0];
+    }
+
+    // Redirect to Stripe /oauth/authorize endpoint
+    res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
   },
 
   authorizeStripeCallback: function(req, res) {
@@ -747,3 +822,17 @@ module.exports = {
 
 
 }
+
+////// Helper functions
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  return reformattedDate;
+};

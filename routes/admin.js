@@ -21,6 +21,9 @@ router.get('/migrateDown', admin.migrateDown);
 router.get('/mc-list', admin_mc.index);
 router.get('/mc-list/:id', admin_mc.view);
 
+router.get('/stripe', admin.stripe.index);
+// router.post('/stripe/:id/destroy', admin.stripe.destroy);
+
 router.get('/organisations', admin.organisations.index);
 router.get('/organisations/new', admin.organisations.new);
 router.post('/organisations', admin.organisations.create);
