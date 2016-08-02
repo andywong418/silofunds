@@ -3,7 +3,6 @@ var users = require('../routes/users');
 var funds = require('../routes/funds');
 var results = require('../routes/results');
 var signup = require('../routes/signup');
-var login = require('../routes/login');
 var auth = require('../routes/auth');
 var admin = require('../routes/admin');
 var messages = require('../routes/messages');
@@ -61,7 +60,6 @@ module.exports.initialize = function (app) {
   app.use('/', index);
   app.use('/results', results);
   app.use('/signup', signup);
-  app.use('/login', login);
   app.use('/auth', auth);
   app.use('/admin', auth_admin, admin);
   app.use('/autocomplete', autocomplete);
