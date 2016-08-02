@@ -773,37 +773,37 @@ module.exports = {
       res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
       res.redirect('loginSplit')
     });
-  },
-
-  userBlocker: function(req, res, next){
-    var url = req.url
-    var checkFirstLetters = url.substring(1,5)
-    if(checkFirstLetters == 'user') {
-      if(req.user.organisation_or_user !== null) {
-        res.render(error)
-        res.end()
-      } else {
-        next()
-      }
-    } else {
-      next()
-    }
-  },
-  fundBlocker: function(req, res, next){
-    var url = req.url
-    var checkFirstLetters = url.substring(1,13)
-    console.log(checkFirstLetters == 'organisation')
-    if(checkFirstLetters == 'organisation') {
-      if(req.user.organisation_or_user == null) {
-        res.render(error);
-        res.end()
-      } else {
-        next()
-      }
-    } else {
-      next()
-    }
   }
+
+  // userBlocker: function(req, res, next){
+  //   var url = req.url
+  //   var checkFirstLetters = url.substring(1,5)
+  //   if(checkFirstLetters == 'user') {
+  //     if(req.user.organisation_or_user !== null) {
+  //       res.render(error)
+  //       res.end()
+  //     } else {
+  //       next()
+  //     }
+  //   } else {
+  //     next()
+  //   }
+  // },
+  // fundBlocker: function(req, res, next){
+  //   var url = req.url
+  //   var checkFirstLetters = url.substring(1,13)
+  //   console.log(checkFirstLetters == 'organisation')
+  //   if(checkFirstLetters == 'organisation') {
+  //     if(req.user.organisation_or_user == null) {
+  //       res.render(error);
+  //       res.end()
+  //     } else {
+  //       next()
+  //     }
+  //   } else {
+  //     next()
+  //   }
+  // }
 
 
 }

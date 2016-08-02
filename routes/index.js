@@ -28,19 +28,14 @@ router.post('/forgot', users.forgotPasswordEmailSend)
 router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
-// NOTE: without below, an organisation can get onto user page and vice versa
-router.get(/organisation/, users.fundBlocker)
-router.get(/user/, users.userBlocker)
+// // NOTE: without below, an organisation can get onto user page and vice versa
+// router.get(/organisation/, users.fundBlocker)
+// router.get(/user/, users.userBlocker)
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
 
-
-// Delete this
-router.get('/ajax', function(req, res) {
-  res.render('user/ajax')
-})
 
 
 module.exports = router;
