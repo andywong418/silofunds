@@ -118,7 +118,7 @@ body{
 			border: 2px solid #dad7d4;
 			border-radius: 2px !important;
 		}
-		input, ul.token-input-list-facebook{
+		input{
 			border: 2px solid #dad7d4;
 			width: 100%;
 			border-radius: 2px;
@@ -130,15 +130,15 @@ body{
 				outline: none;
 			}
 		}
-		li.token-input-token-facebook{
-			margin-top: -1px;
-		}
-		.token-input-input-token-facebook{
-			input{
-				width: 500px !important;
-				margin-top: -5px;
+		ul.token-input-list-facebook{
+			margin-top: -2px;
+			.token-input-input-token-facebook{
+				input{
+					width: 500px !important;
+				}
 			}
 		}
+
 		.save{
 			text-align: right;
 			#skip, #save {

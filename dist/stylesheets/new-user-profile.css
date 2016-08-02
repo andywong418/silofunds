@@ -97,21 +97,20 @@ body {
     #signup-wrapper #signup-form #religion-select {
       border: 2px solid #dad7d4;
       border-radius: 2px !important; }
-    #signup-wrapper #signup-form input, #signup-wrapper #signup-form ul.token-input-list-facebook {
+    #signup-wrapper #signup-form input {
       border: 2px solid #dad7d4;
       width: 100%;
       border-radius: 2px;
       padding: 3px;
       height: 30px !important;
       font-size: 13px; }
-      #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus, #signup-wrapper #signup-form ul.token-input-list-facebook:active, #signup-wrapper #signup-form ul.token-input-list-facebook:focus {
+      #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus {
         border: 2px solid #2752ff;
         outline: none; }
-    #signup-wrapper #signup-form li.token-input-token-facebook {
-      margin-top: -1px; }
-    #signup-wrapper #signup-form .token-input-input-token-facebook input {
-      width: 500px !important;
-      margin-top: -5px; }
+    #signup-wrapper #signup-form ul.token-input-list-facebook {
+      margin-top: -2px; }
+      #signup-wrapper #signup-form ul.token-input-list-facebook .token-input-input-token-facebook input {
+        width: 500px !important; }
     #signup-wrapper #signup-form .save {
       text-align: right; }
       #signup-wrapper #signup-form .save #skip, #signup-wrapper #signup-form .save #save {

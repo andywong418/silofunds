@@ -55,6 +55,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var prePopulateModel = this.model;
 			console.log(prePopulateModel);
 			if(!this.model.get('country_of_residence')){
+				console.log("what");
 				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true});
 			}
 			for(var i = 0; i< arrayFields.length; i++){

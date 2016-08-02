@@ -165,7 +165,8 @@ module.exports = {
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
           models.documents.upsert({
             link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
-            user_id: userId
+            user_id: userId,
+						title: item.originalname
           }).then(function(document){
 
             callback();
@@ -410,12 +411,12 @@ module.exports = {
 					user.update({email: req.body.email, email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
-						 auth: {user: 'james.morrill.6@gmail.com',
-									 pass: 'exogene5i5'}
+						 auth: {user: 'andros@silofunds.com',
+									 pass: 'whatever418'}
 						}));
 						console.log("USER EMAIL", user.email)
 						var mailOptions = {
-							from: 'Silofunds <james.morrill.6@gmail.com>',
+							from: 'Silofunds <andros@silofunds.com>',
 							to: user.email,
 							subject: 'Silo Email Verification',
 							text: 'Thank for signing up to Silo!.\n\n' +
@@ -443,7 +444,7 @@ module.exports = {
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
 				req.flash('success', 'You have been verified');
-				res.redirect('/user/home')
+				res.redirect('/user/dashboard')
 			}
 			else {
 				req.flash('error', 'Wrong verification details')

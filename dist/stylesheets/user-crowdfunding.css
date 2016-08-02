@@ -44,23 +44,78 @@ body {
         display: -ms-flexbox;
         display: flex;
         border-bottom: 1px solid #e1e8ed; }
-        body #crowdfunding-wrapper #tab-table #tab-menu-flex .menu-item {
+        body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item {
           -webkit-box-flex: 1;
               -ms-flex-positive: 1;
-                  flex-grow: 1; }
-          body #crowdfunding-wrapper #tab-table #tab-menu-flex .menu-item p {
+                  flex-grow: 1;
+          cursor: pointer;
+          color: inherit; }
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:hover, body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:focus, body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:active {
+            color: inherit;
+            text-decoration: none; }
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item p {
             padding-bottom: 8px;
             text-align: center;
             font-size: 16px;
             color: #4d4d88;
             margin-bottom: 0; }
-          body #crowdfunding-wrapper #tab-table #tab-menu-flex .menu-item .active-item {
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item .active-item {
             border-bottom: 3px solid #2390fd;
-            color: #22223d; }
+            color: #4b4f56; }
       body #crowdfunding-wrapper #tab-table #tab-content {
         padding: 20px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story {
           font-size: 16px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #header {
+          margin-bottom: 0;
+          font-size: 16px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler hr {
+          margin-top: 5px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler i {
+          color: #4b4f56;
+          font-size: 22px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler span {
+          margin-left: 7px;
+          font-size: 15px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler img {
+          width: 30px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #religion {
+          font-size: 15px;
+          margin-top: 2px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #previous_degree, body #crowdfunding-wrapper #tab-table #tab-content #about-handler #previous_university {
+          font-family: 'Montserrat'; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .documents, body #crowdfunding-wrapper #tab-table #tab-content #about-handler .education {
+          margin-top: 30px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row {
+          margin-top: -15px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row hr {
+            margin-bottom: 0; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span i {
+            font-size: 30px;
+            margin: 20px 0px 10px 20px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .pdf-file {
+            color: #f39c12; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .photo-file {
+            color: #c0392b; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .video-file {
+            color: #8e44ad; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .excel-file {
+            color: #16a085; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .word-file {
+            color: #2980b9; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .powerpoint-file {
+            color: #e67e22; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .code-file {
+            color: #e62240; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .filename {
+            color: #7f8c8d; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span a {
+            display: inline;
+            font-size: 15px;
+            margin: 10px; }
     body #crowdfunding-wrapper #user-progress #progress-card {
       background-color: white;
       margin-top: 10px;

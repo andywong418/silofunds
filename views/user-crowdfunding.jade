@@ -8,6 +8,9 @@ block content
 	script.
 		var bodyEl = document.getElementsByTagName('body');
 		var user = !{JSON.stringify(user)};
+		var documents = !{JSON.stringify(documents)};
+		console.log(user)
+		console.log(documents);
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
@@ -31,18 +34,60 @@ block content
 					| Reblog
 			#tab-table
 				#tab-menu-flex
-					.menu-item
+					a.menu-item(href='#story')
 						p.active-item Story
-					.menu-item
+					a.menu-item(href='#about')
 						p About 
-					.menu-item
+					a.menu-item(href='#updates')
 						p Updates
-					.menu-item
+					a.menu-item(href='#comments')
 						p Comments
 				#tab-content
 					script#story-template(type='text/template')
 						p#story
-
+					script#about-template(type='text/template')
+						if user.date_of_birth || user.country_of_residence
+							p#header Basic Info
+							hr
+							.row
+								if user.date_of_birth
+									.col-md-3
+										i.fa.fa-birthday-cake(aria-hidden="true")
+										span#age 
+								if user.country_of_residence
+									each country in user.country_of_residence
+										.col-md-4
+											img(src='/images/128/' + country + '.png')
+											span!= country
+								if user.religion
+										.col-md-6
+											p#religion Religous Views:
+												span=user.religion
+						if user.previous_degree ||  user.previous_university
+							p#header.education Education
+							hr
+							.row
+								if user.previous_degree
+								.col-md-6
+									i.fa.fa-graduation-cap(aria-hidden="true")
+										span#previous_degree= user.previous_degree.join(', ')
+								if user.previous_university
+									.col-md-6
+										i.fa.fa-university(aria-hidden="true")
+											span#previous_university= user.previous_university.join(', ')
+						if documents
+							p#header.documents Work showcase
+							hr
+							.document-row.row
+					script#document-template(type='text/template')
+						.col-md-6
+							span
+								i(class!= '<%= fileClass %>')
+									a(href!='<%= fileLink %>') <%=fileName %>
+								
+											
+										
+									
 					
 				
 		#user-progress.col-md-5

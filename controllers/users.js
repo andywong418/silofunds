@@ -321,7 +321,10 @@ module.exports = {
     }
     console.log(userId);
     models.users.findById(userId).then(function(user){
-      res.render('user-crowdfunding', {user: user})
+      models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+        res.render('user-crowdfunding', {user: user, documents: documents})
+
+      })
     })
   },
 
@@ -431,7 +434,8 @@ module.exports = {
 
   logoutGET: function(req, res) {
     // Clear the rememebr me cookie when logging out
-    res.cookie('remember_me', '', { expires: new Date(1), path: '/' })
+    res.cookie('remember_me', '', { expires: new Date(1), path: '/' });
+    req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
   },
