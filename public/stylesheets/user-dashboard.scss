@@ -23,7 +23,7 @@ body {
   }
   section{
     padding-top: 0;
-    padding-bottom: 50px;
+    padding-bottom: 10px;
   }
 }
 
@@ -93,6 +93,19 @@ h2#name{
       }
     }
 
+  }
+}
+#ud-favourites{
+  margin-top: 10px;
+  section{
+    .row{
+      .col-md-12{
+        p{
+
+          padding-left: 15px;
+        }
+      }
+    }
   }
 }
 .tab-content{

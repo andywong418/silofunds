@@ -99,6 +99,7 @@ module.exports = {
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		console.log(userId);
+
 		models.users.findById(userId).then(function(user){
 			console.log(req.body);
 			user.update(req.body).then(function(user){
@@ -165,7 +166,8 @@ module.exports = {
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
           models.documents.upsert({
             link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
-            user_id: userId
+            user_id: userId,
+						title: item.originalname
           }).then(function(document){
 
             callback();
@@ -410,15 +412,15 @@ module.exports = {
 					user.update({email: req.body.email, email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
-						 auth: {user: 'james.morrill.6@gmail.com',
-									 pass: 'exogene5i5'}
+						 auth: {user: 'andros@silofunds.com',
+									 pass: 'whatever418'}
 						}));
 						console.log("USER EMAIL", user.email)
 						var mailOptions = {
-							from: 'Silofunds <james.morrill.6@gmail.com>',
+							from: 'Silofunds <andros@silofunds.com>',
 							to: user.email,
 							subject: 'Silo Email Verification',
-							text: 'Thank for signing up to Silo!.\n\n' +
+							text: 'Thank for signing up to Silo!\n\n' +
 									'Please click on the following link, or paste this into your browser to complete the verification process:\n\n' +
 									'http://' + req.headers.host + '/signup/verify/' + token
 						};
@@ -443,7 +445,7 @@ module.exports = {
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
 				req.flash('success', 'You have been verified');
-				res.redirect('/user/home')
+				res.redirect('/user/dashboard')
 			}
 			else {
 				req.flash('error', 'Wrong verification details')

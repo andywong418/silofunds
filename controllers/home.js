@@ -1,7 +1,9 @@
 module.exports = {
   index: function(req, res) {
-    if(req.user){
-      if(req.user.organisation_or_user){
+    var user = req.user;
+    delete req.session.redirect_user;
+    if(user){
+      if(user.organisation_or_user){
         try{
           res.redirect('/organisation/dashboard');
         } catch(err) {
