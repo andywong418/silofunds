@@ -3,7 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var pzpt = require('./passport/functions');
-var qs = require('querystring');
+var qs = require('qs');
 var request = require('request');
 var nodemailer = require('nodemailer')
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -177,11 +177,27 @@ module.exports = {
   },
 
   authorizeStripe: function(req, res) {
+    var user = req.user;
+    var userDOB = user.date_of_birth ? reformatDate(user.date_of_birth) : null;
+    var userPublicProfile = "https://www.silofunds.com/public/" + user.id;
+
     // Redirect to Stripe /oauth/authorize endpoint
     res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
       response_type: "code",
       scope: "read_write",
-      client_id: CLIENT_ID
+      client_id: CLIENT_ID,
+      stripe_user: {
+        email: user.email,
+        url: userPublicProfile,
+        business_name: userPublicProfile,
+        business_type: "sole_prop",
+        country: 'UK',
+        first_name: user.username.split(' ')[0],
+        last_name: user.username.split(' ')[1],
+        dob_day: userDOB.split('-')[2],
+        dob_month: userDOB.split('-')[1],
+        dob_year: userDOB.split('-')[0]
+      }
     }));
   },
 
@@ -720,3 +736,17 @@ module.exports = {
 
 
 }
+
+////// Helper functions
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  return reformattedDate;
+};
