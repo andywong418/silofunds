@@ -77,10 +77,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'target_university'
     },
-    favourite_funds: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'favourite_funds'
-    },
     completion_date: {
       type: DataTypes.DATE,
       field: 'completion_date'
