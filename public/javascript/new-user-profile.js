@@ -175,10 +175,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true, "placeholder": 'E.g. English literature, Chemical Engineering, History' });
 					}
 					if(arrayFields[i] == 'target_university' || arrayFields[i] == 'previous_university'){
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true,"placeholder": 'E.g. Bachelor, Master of Arts, Dphil' });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true, "placeholder": "E.g. University of Oxford" });
 					}
 					if(arrayFields[i] =='target_degree' || arrayFields[i] == 'previous_degree'){
-						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true,"placeholder": "E.g. University of Oxford"  });
+						this.$('input[name=' + arrayFields[i] + ']').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true ,"placeholder": 'E.g. Bachelor, Master of Arts, Dphil' });
 					}
 				}
 				else{
@@ -318,6 +318,31 @@ var tokenArrayPopulate = function(value, emptyArray){
 				});
 
 		}
+	});
+	var AccountDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id: 'account-handler',
+		template: _.template($('#account-template').html()),
+		events:{
+			'click #verify': 'emailVerify'
+		},
+		render: function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this
+		},
+		initialize: function(){
+			this.el = this.render().el;
+			this.$('#email-verify').val(user.email);
+		},
+		emailVerify: function(){
+			var emailData = {
+				"email": $('input#email-verify').val()
+			};
+			$.post('/signup/verify', emailData, function(data){
+				$('#verify-text').show();
+				$('#verify-text').html(data);
+			})
+		}
 	})
 	var Router = Backbone.Router.extend({
 		routes:{
@@ -360,6 +385,15 @@ var tokenArrayPopulate = function(value, emptyArray){
 					}
 					 tinymce.EditorManager.execCommand('mceAddEditor',true, "story-text");
 
+				}
+			})
+		},
+		account: function(){
+			var accountModel = new UserModel();
+			var router = this
+			accountModel.fetch({
+				success: function(){
+					router.loadView(new AccountDisplay({model: accountModel }))
 				}
 			})
 		},

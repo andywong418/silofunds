@@ -24,44 +24,44 @@ block content
 			a.btn.btn-default.process(href='/user/profile') Preview
 		#signup-form.center-block
 			script#about-template(type='text/template')
-				p#about-header.description Get started by telling us more about yourself, your funding goals and your funding completion date.
+				p#about-header.description Get started by telling us more about yourself, your funding goals and the date by which you want to reach your goal.
 				.row#picture-row
+					.col-md-1
 					.col-md-3
 						p#picture.description Profile Picture
-					.col-md-1
 					.col-md-6
 						#profile-picture
 							img#placeholder-picture(src="../../images/fund_img_placeholder.jpg")
 							span Upload a profile picture. This can help you make a great first impression on funds and potential donors!
 						input#my_file(type='file', style='display: none;', name = 'profile_picture')
 				.row.fund-goal
+					.col-md-1
 					.col-md-3
 						p#amount.description Your Fund goal
-					.col-md-1
 					.col-md-6
 						input#input-amount(placeholder="£", type="number", name='funding_needed') 
 				.row
+					.col-md-1
 					.col-md-3
 						p#finish-date.description Completion time
-					.col-md-1
 					.col-md-6
 						input#completion-input(type='date', name= "completion_date")
 				.row
+					.col-md-1
 					.col-md-3
 						p#date_of_birth.description Date of Birth
-					.col-md-1
 					.col-md-6
 						input#date-input(type='date', name="date_of_birth")
 				.row
+					.col-md-1
 					.col-md-3
 						p#country_of_residence.description Country of residence
-					.col-md-1
 					.col-md-6
 						input#country_of_residence(name="country_of_residence")
 				.row#religion-row
+					.col-md-1
 					.col-md-3
 						p#religion.description Religious beliefs
-					.col-md-1
 					.col-md-6
 						span.input-group-btn
 							select#religion-select.form-control(data-placeholder='Choose a religion...', name= "religion")
@@ -98,33 +98,33 @@ block content
 			script#education-template(type='text/template')
 				p#education-header.description Specifying your educational past and targets can help us match you with funding institutions more quickly!
 				.row
+					.col-md-1 
 					.col-md-3 
 						p#subject-description.description Subject of study
-					.col-md-1 
 					.col-md-6
 						input#subject-input(name="subject")
 				.row
+					.col-md-1
 					.col-md-3
 						p.description Intended degree of study
-					.col-md-1
 					.col-md-6
 						input#targetDegree-input(name="target_degree" )
 				.row
+					.col-md-1
 					.col-md-3
 						p.description Completed/current degree levels
-					.col-md-1
 					.col-md-6
 						input#requiredDegree-input(name="previous_degree")
 				.row
+					.col-md-1
 					.col-md-3
 						p.description Target university
-					.col-md-1
 					.col-md-6
 						input#target-university(name="target_university")
 				#previous-university-row.row
+					.col-md-1
 					.col-md-3
 						p.description Previously/currently enrolled universities
-					.col-md-1
 					.col-md-6
 						input#previous-university(name="previous_university")
 				.container-fluid.save
@@ -144,8 +144,18 @@ block content
 								input#work(type='file', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
 								label(for='work') Choose up to 5 files
 				.container-fluid.save
-					a#save.btn.btn-primary(href="#education") Save progress
-					a#skip(href='#education') Skip
+					a#save.btn.btn-primary(href="#account") Save progress
+					a#skip(href='#account') Skip
+			script#account-template(type='text/template')
+				p#verify-header.description You&#39re almost finished! Verify your email below to start searching for funds.
+				.row#email-row
+					.col-md-1
+					.col-md-3
+						p.description Email
+					.col-md-6
+						input#email-verify(name="email")
+						a#verify.btn.btn-success Verify
+						p#verify-text.alert.alert-success.fade.in
 				
 block scripts
 	script(src='https://cdn.tinymce.com/4/tinymce.min.js')

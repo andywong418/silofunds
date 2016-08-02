@@ -74,6 +74,8 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
 router.post('/results', function(req,res){
 	res.redirect('/results');
 });
+router.post('/verify', signup.verifyEmail);
+router.get('/verify/:token', signup.verifyEmailConfirm);
 router.get('/user/:id', signup.userProfile);
 router.post('/user/save', signup.saveUserSignup);
 router.get('/user_signup/:id', signup.getSignupInfo);

@@ -176,7 +176,18 @@ homeGET: function(req, res){
     models.users.findById(userId).then(function(user){
       fields['organisation_id'] = user.organisation_or_user;
       models.funds.create(fields).then(function(fund){
-        res.send(fund);
+        if(req.body.tips){
+          models.tips.create({
+            fund_id: fund.id,
+            tip: req.body.tips
+          }).then(function(tip){
+            fund.tips = tip;
+            res.send(fund);
+          })
+        }
+        else{
+          res.send(fund);
+        }
       })
     })
   },
@@ -223,7 +234,19 @@ homeGET: function(req, res){
     fields = changeArrayfields(fields, arrayFields);
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
-        res.send(fund);
+        if(req.body.tips){
+          console.log("REQ BODY TIPS", req.body.tips);
+          models.tips.find({where: {fund_id: fundId}}).then(function(tip){
+            tip.update({tip: req.body.tips}).then(function(tip){
+              fund = fund.get();
+              fund.tips = tip;
+              res.send(fund);
+            })
+          })
+        }
+        else{
+          res.send(fund);
+        }
       })
     })
   },
@@ -249,13 +272,87 @@ homeGET: function(req, res){
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+      if(fund.organisation_id){
+        // If fund has an organisation/ fund user
+        models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+          if(user){
+            //if user is logged in
+            if(user.organisation_or_user == null){
+              //if user is not fund user
+              models.recently_browsed_funds.findOrCreate({where: {
+                user_id: user.id,
+                fund_id: fundId
+              }}).spread(function(recent, created){
+                if(created){
+                  console.log(recent);
+                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                }else{
+                  var dateNow = new Date(Date.now());
+                  dateNow = dateNow.toISOString();
+                  console.log("PROPER DATE FORMAT", recent.updated_at);
+                  console.log("RECENT",recent);
+                  console.log("NOW DATE", dateNow);
+                  recent.update({updated_at: dateNow,user_id: user.id,
+                  fund_id: fundId}).then(function(recent){
+                    if(fund.organisation_id){
+
+                    }
+                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                  })
+                }
+              })
+            }
+            else{
+              //if user is fund user
+              res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+            }
+
+          } else {
+            //if no user logged in - PUBLIC VIEW
+            res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          }
+        });
+      }
+      else{
+        //if fund has no organisation or fund user
         if(user){
-          res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          //if user is logged in
+          if(user.organisation_or_user == null){
+            //if user is not a fund user
+            models.recently_browsed_funds.findOrCreate({where: {
+              user_id: user.id,
+              fund_id: fundId
+            }}).spread(function(recent, created){
+              if(created){
+                console.log(recent);
+                res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+              }else{
+                var dateNow = new Date(Date.now());
+                dateNow = dateNow.toISOString();
+                console.log("PROPER DATE FORMAT", recent.updated_at);
+                console.log("RECENT",recent);
+                console.log("NOW DATE", dateNow);
+                recent.update({updated_at: dateNow,user_id: user.id,
+                fund_id: fundId}).then(function(recent){
+                  if(fund.organisation_id){
+
+                  }
+                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+                })
+              }
+            })
+          }
+          else{
+            //if user is fund user
+            res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+          }
+
         } else {
-          res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+          // if no user logged in
+          res.render('option-profile', {user: false,organisation: false, fund: fund, newUser: false, countries: countries})
         }
-      });
+      }
+
     });
   },
 
@@ -270,8 +367,10 @@ homeGET: function(req, res){
           fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
           fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
           fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
-
-          res.render('option-edit', {user: user, fund: fund, countries:countries });
+          models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
+            fund.tips = tip.tip;
+            res.render('option-edit', {user: user, fund: fund, countries:countries });
+          })
         }
         else{
           res.render('error');
@@ -283,24 +382,63 @@ homeGET: function(req, res){
     passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
-      res.json(fund);
+      models.tips.find({where:{fund_id: fund.id}}).then(function(tip){
+        if(tip){
+          fund = fund.get();
+          fund.tips = tip.tip;
+          console.log(fund);
+          res.json(fund);
+        }
+        else{
+          res.json(fund);
+        }
+      })
     })
   },
 
   saveOptionEdit: function(req, res){
     passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
-    var arrayFields = ['tags','subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location', 'application_documents'];
     var fields = req.body;
+    var arrayFields = ['tags','subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location','application_documents'];
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
-        res.json(fund);
+        if(req.body.tips){
+            models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
+              tip.update({tip: req.body.tips}).then(function(tip){
+                fund.tips = tip.tip;
+                res.json(fund);
+              })
+            })
+        }else{
+          res.json(fund);
+        }
       });
     });
   },
+  getOptionTips: function(req, res){
+    //NEED TO MODIFY FOR CAROUSEL IN FUTURE for arrays using findAll
+    console.log("CAROUSEL");
+    var fundId = req.params.id;
+    models.tips.find({where: {fund_id: fundId}}).then(function(tips){
 
+      if(tips){
+        models.funds.findById(tips.fund_id).then(function(fund){
+          console.log(fund);
+          models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
+            tips = tips.get();
+            tips.tip_giver = fund.title;
+            tips.profile_picture = user.profile_picture;
+            res.json(tips);
+          })
+        })
+      }
+
+    })
+
+  },
   editDescription: function(req, res){
     passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
@@ -522,7 +660,7 @@ homeGET: function(req, res){
 function moderateObject(objectFields){
   for(var key in objectFields){
     if(objectFields[key] === ''){
-      delete objectFields[key];
+      objectFields[key] = null;
     }
   }
   return objectFields;

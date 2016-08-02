@@ -35,12 +35,6 @@ router.get(/user/, users.userBlocker)
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
-
-
-// Delete this
-router.get('/ajax', function(req, res) {
-  res.render('user/ajax')
-})
-
+router.get('/public/:id', users.crowdFundingPage);
 
 module.exports = router;

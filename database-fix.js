@@ -63,53 +63,73 @@ models.funds.findAll().then(function(funds){
 //   }
 // })
 
-async.each(funds, function(fund, callback){
-  var id = fund.dataValues.id;
-  var name = fund.dataValues.title.toLowerCase();
-  if(name.indexOf("scholarship") > -1){
+// async.each(funds, function(fund, callback){
+//   var id = fund.dataValues.id;
+//   var name = fund.dataValues.title.toLowerCase();
+//   if(name.indexOf("scholarship") > -1){
+//     models.funds.findById(id).then(function(fund){
+//       fund.update({
+//         support_type: "scholarship"
+//       }).then(function(){
+//         callback()
+//       })
+//     })
+//   }
+//   else if(name.indexOf("bursar") > -1){
+//     models.funds.findById(id).then(function(fund){
+//       fund.update({
+//         support_type: "bursary"
+//       }).then(function(){
+//         callback();
+//       })
+//     })
+//   }
+//   else if(name.indexOf("grant") > -1){
+//     models.funds.findById(id).then(function(fund){
+//       fund.update({
+//         support_type: "grant"
+//       }).then(function(){
+//         callback();
+//       })
+//     })
+//   }
+//   else if(name.indexOf("prize") > -1){
+//     models.funds.findById(id).then(function(fund){
+//       fund.update({
+//         support_type: "prize"
+//       }).then(function(){
+//         callback();
+//       })
+//     })
+//   }
+//   else{
+//     models.funds.findById(id).then(function(fund){
+//       fund.update({
+//         support_type: "grant"
+//       }).then(function(){
+//         callback()
+//       })
+//     })
+//   }
+// })
+
+//get rid of religion
+async.each(funds, function(fund,callback){
+  fund = fund.get();
+  var religion = fund.religion;
+  var id = fund.id;
+
+  if(religion) {
     models.funds.findById(id).then(function(fund){
       fund.update({
-        support_type: "scholarship"
-      }).then(function(){
-        callback()
-      })
-    })
-  }
-  else if(name.indexOf("bursar") > -1){
-    models.funds.findById(id).then(function(fund){
-      fund.update({
-        support_type: "bursary"
+        religion: null
       }).then(function(){
         callback();
       })
     })
   }
-  else if(name.indexOf("grant") > -1){
-    models.funds.findById(id).then(function(fund){
-      fund.update({
-        support_type: "grant"
-      }).then(function(){
-        callback();
-      })
-    })
-  }
-  else if(name.indexOf("prize") > -1){
-    models.funds.findById(id).then(function(fund){
-      fund.update({
-        support_type: "prize"
-      }).then(function(){
-        callback();
-      })
-    })
-  }
-  else{
-    models.funds.findById(id).then(function(fund){
-      fund.update({
-        support_type: "grant"
-      }).then(function(){
-        callback()
-      })
-    })
+  else {
+    callback()
   }
 })
 
