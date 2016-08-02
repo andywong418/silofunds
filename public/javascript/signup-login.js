@@ -10,6 +10,7 @@ $(document).ready(function(){
    $back_to_login_link = $form_forgot_password.find('.cd-form-bottom-message a'),
    $main_nav = $('.pre-signin');
 
+
  //open modal
  $main_nav.on('click', function(event){
    $('.cd-switcher').css('display', 'inline');
@@ -225,7 +226,6 @@ jQuery.fn.putCursorAtEnd = function() {
    var parameters = {email: $(this).val()};
    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
    if (!re.test($(this).val())){
-
       $('#email-error').addClass('is-visible');
       $('#email-error').text('Please enter a valid email address');
       $('#signup-button').prop('disabled', true);

@@ -1,7 +1,7 @@
 var models = require('../models');
 var bcrypt = require('bcrypt');
 
-module.exports ={
+module.exports = {
   emailValidator: function(req,res){
     var email = req.query.email;
     var loginEmail = req.query.loginEmail;
@@ -26,7 +26,7 @@ module.exports ={
     var email = req.body.email;
     var password = req.body.password;
 
-    models.users.find({where:{email: email}}).then(function(user){
+    models.users.find({where: {email: email}}).then(function(user){
       if(!user){
         res.send('There is no account under this email address');
       } else {

@@ -55,7 +55,8 @@ img {
   font-size: 25px;
 }
 
-#rememberMe {
+.checker {
+  color: red
 }
 
 #passwordReset {
