@@ -1,0 +1,16 @@
+extends admin-layout
+
+block content
+  .container
+    h2 Your Stripe users
+    table(class='table table-bordered')
+      tr
+        each header in ['Email', 'ID']
+          th= header
+      each account in accounts
+        tr
+          td= account.email
+          td= account.id
+          //- td
+          //-   form(action='/admin/stripe/' + account.id + '/destroy', method='post', name='destroy_stripe_user')
+          //-     button.btn.btn-danger(type='submit') Destroy
