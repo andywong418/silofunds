@@ -19,8 +19,8 @@ router.get('/loginSplit', users.loginSplit)
 
 // Register
 router.get('/register', users.register)
-router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {successRedirect: '/registerSplit', failureRedirect: '/register'}))
-router.get('/registerSplit', users.registerSplit)
+router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {successRedirect: '/signup/verify', failureRedirect: '/register'}))
+// router.get('/registerSplit', users.registerSplit)
 
 // Password reset routes
 router.get('/forgot', users.forgotPasswordGET);

@@ -7,7 +7,7 @@ var LocalStrategy = require('passport-local').Strategy;
 require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 router.get('/dashboard', funds.homeGET);
-router.get('/create', funds.createGET);
+router.get('/create', funds.initialCreation);
 router.get('/funding_creation', funds.createFund);
 router.get('/funding_creation/:option', funds.fundingSignupProcess);
 router.get('/funding_creation/:option/:fund_id', funds.fundCreatedSignup);

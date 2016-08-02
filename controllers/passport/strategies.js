@@ -21,8 +21,14 @@ module.exports = function(passport) {
   passport.deserializeUser(function(obj, done) {
     // Do this step to update req.user if user has just been updated
     models.users.findById(obj.id).then(function(user) {
-      user = user.get();
-      done(null, user);
+      // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up
+      if(user){
+        user = user.get();
+        done(null, user);
+      } else {
+        user = {}
+        done(null, user)
+      }
     });
   });
 
@@ -117,9 +123,6 @@ passport.use('registrationStrategy', new LocalStrategy({
                             })
                         })
                     }
-
-
-
                     else if (data.password !== data.confirmPassword) {
                         return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
                     } else {
