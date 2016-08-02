@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    retunr queryInterface.addColumn(
+    return queryInterface.addColumn(
       'users',
       'email_verification_token',
       {
