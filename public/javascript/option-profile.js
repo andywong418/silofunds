@@ -9,12 +9,16 @@ $(document).ready(function(){
   }
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
-    if(userArray){
-      console.log(userArray);
+    if(userArray && fundArray){
+
       userArray.forEach(function(element, index, array){
-        if(fundArray.indexOf(element) > -1){
-          counter++;
-        }
+        fundArray.forEach(function(fundElement, fundIndex, fundArray){
+          fundElement = fundElement.toLowerCase();
+          element = element.toLowerCase();
+          if(fundArray.indexOf(element) > -1 || userArray.indexOf(fundElement) > -1 || fundElement.indexOf(element) > -1 || element.indexOf(fundElement) > -1){
+            counter++;
+          }
+        })
       });
     }
 
@@ -29,7 +33,6 @@ $(document).ready(function(){
     return this.charAt(0).toUpperCase() + this.slice(1);
   };
   function capitalizeArray(element, index, array){
-    console.log(element);
   }
 
   function noIcon(){
@@ -161,7 +164,6 @@ $(document).ready(function(){
 
   if(user){
     if(!user.organisation_or_user){
-      console.log(user);
       $('#application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
@@ -202,7 +204,7 @@ $(document).ready(function(){
       }
       if(fund.religion){
         if(fund.religion.length > 0){
-           if(checkIfElementInArray(fund.religion, user.religion) == false){
+           if(fund.religion.indexOf(user.religion) == -1){
              notEligible('required religions', 'religion', fund.religion.capitalize().join(', '), user.religion);
              nonEligibleCounter++;
            }
@@ -211,24 +213,25 @@ $(document).ready(function(){
       }
       if(fund.subject){
         if(fund.subject.length > 0){
-          if(fund.subject.indexOf(user.subject) == -1){
-            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject);
+          console.log("IN FUND SUBJECT", user.subject);
+          if(!checkIfElementInArray(fund.subject, user.subject)){
+            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject.capitalize().join(', '));
             nonEligibleCounter++;
           }
        }
       }
       if(fund.required_degree){
         if(fund.required_degree.length > 0){
-          if(fund.required_degree.indexOf(user.degree) == -1){
-            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.degree);
+          if(!checkIfElementInArray(fund.required_degree, user.previous_degree)){
+            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.previous_degree.capitalize().join(', '));
              nonEligibleCounter++;
           }
        }
       }
       if(fund.required_university){
         if(fund.required_university.length > 0){
-          if(fund.required_university.indexOf(user.university) == -1){
-            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.university);
+          if(!checkIfElementInArray(fund.required_university, fund.previous_university)){
+            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.previous_university.capitalize());
             nonEligibleCounter++;
           }
 
@@ -255,7 +258,6 @@ $(document).ready(function(){
     $('#fundBio').find('*').css('font-family', 'PT Sans');
     $('#fundBio').find('*').css('line-height', '1.5');
     $('#fundBio').find('*').css('background-color', '#e9f0f4');
-    console.log($('#fundBio').find('p'));
     var paragraphs = $('#fundBio').find('p');
     for (var i =0; i < paragraphs.length; i++ ){
       if(paragraphs[i].innerHTML == '&nbsp;'){
@@ -283,7 +285,6 @@ $(document).ready(function(){
     id: 'other-criteria-handler',
     template: _.template($('#other-eligibility-template').html()),
     render: function() {
-      console.log('is it in here?')
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     }
@@ -392,7 +393,6 @@ $(document).ready(function(){
                     }
                   }
                   else if(subject[i].indexOf('math') > -1){
-                    console.log(subject[i]);
                     if(mathsCounter == 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_maths.png',
@@ -491,7 +491,6 @@ $(document).ready(function(){
                       })
                       var view = new ImageView({model: imageModel});
                       this.$('#subject-handler').append(view.render().el);
-                      console.log(view);
                       otherCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
                     }
@@ -508,7 +507,6 @@ $(document).ready(function(){
             case 'religion':
               var religion= fund['religion'];
               var religionCounter = 0;
-              console.log(religion);
               if(religion){
                 for(i=0; i< religion.length; i++){
                   if(religionCounter == 0){
@@ -523,7 +521,7 @@ $(document).ready(function(){
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
                   else{
-                    religionCounter.$el.find('.criteria').append(", " + religion[i].capitalize());
+                    view.$el.find('.criteria').append(", " + religion[i].capitalize());
                     religionCounter++;
                   }
 
@@ -533,7 +531,7 @@ $(document).ready(function(){
             case 'minimum_age':
               if(fund['minimum_age']){
                 var minimumAge = fund['minimum_age'];
-                console.log(minimumAge);
+
                 if(fund['maximum_age']){
                   var maximumAge = fund['maximum_age'];
                   var imageModel = new ImageModel({
@@ -867,14 +865,12 @@ $(document).ready(function(){
     id: 'tips-handler',
     template: _.template($('#tips-template').html()),
     initialize: function(){
-      console.log("HELLO");
       _.bindAll(this, "render");
       this.model.fetch({
         success: this.render
       })
     },
     render: function() {
-      console.log(this.model);
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     }
@@ -883,10 +879,8 @@ $(document).ready(function(){
   var TipsDisplay = Backbone.View.extend({
     el: '#application-handler',
     initialize: function(){
-      console.log("GETTING IN HERE");
       var tipsModel = new TipsModel();
       var view = new TipsView({model: tipsModel});
-      console.log(view.el);
       this.$el.append(view.el);
     }
   })

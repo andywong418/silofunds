@@ -5,8 +5,9 @@ require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var qs = require('querystring');
 var request = require('request');
-var nodemailer = require('nodemailer')
+var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
@@ -20,16 +21,216 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    res.render('user/dashboard');
+    passportFunctions.ensureAuthenticated(req, res);
+    var userId = req.user.id;
+    console.log("HUH");
+    models.users.findById(userId).then(function(user){
+        var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+        var age;
+        if(user.date_of_birth){
+          var birthDate = new Date(user.date_of_birth).getTime();
+          var nowDate = new Date().getTime();
+          var age = Math.floor((nowDate - birthDate) / 31536000000 );
+        }
+        var minimum_amount;
+        if(user.funding_needed){
+          minimum_amount = user.funding_needed * 0.6;
+        }
+        var queryOptions = {
+          "filtered": {
+            "filter": {
+              "bool": {
+                "should": { "match_all": {} }
+              }
+            }
+          }
+        };
+        if(age || user.funding_needed){
+          var queryOptionsShouldArr = [
+            {
+              "range": {
+                "minimum_amount": {
+                  "lte": minimum_amount
+                }
+              }
+            },
+            {
+              "range": {
+                "maximum_amount": {
+                  "gte": user.funding_needed
+                }
+              }
+            },
+            {
+              "range": {
+                "minimum_age": {
+                  "lte": age
+                }
+              }
+            },
+            {
+              "range": {
+                "maximum_amount": {
+                  "gte": age
+                }
+              }
+            }
+          ];
+          queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+        }
+        // queryOptions.filtered.query = {
+        //   "bool": {
+        //     "should": []
+        //   },
+        //   "constant_score" : {
+        //     "filter" : {
+        //       "terms" : {
+        //
+        //       }
+        //     }
+        //   }
+        // }
+        // user = user.get();
+        // for (var i = 0; i< searchFields.length; i++) {
+        //   var key = searchFields[i];
+        //   var notAge = key !== "age";
+        //   var notAmount = key !== "funding_needed";
+        //
+        //     var matchObj = {
+        //       "match": {}
+        //     };
+        //
+        //     if(Array.isArray(user[key]) ){
+        //       console.log("array key",key);
+        //       queryOptions.filtered.query.constant_score.filter.terms[key] = user[key];
+        //     }
+        //     else{
+        //       console.log('non array key', key);
+        //       matchObj.match[key] = user[key];
+        //       queryOptions.filtered.query.bool.should.push(matchObj);
+        //     }
+        // }
+        // console.log("QUERY OPTIONS",queryOptions.filtered.query.constant_score);
+        // console.log("QUERY NNON array options", queryOptions.filtered.query.bool)
+        models.es.search({
+          index: "funds",
+          type: "fund",
+          body: {
+            "size": 4,
+            "query": queryOptions
+          }
+        }).then(function(resp){
+          var fund_id_list = [];
+          var funds = resp.hits.hits.map(function(hit) {
+            var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+            var hash = {};
+
+            for (var i = 0; i < fields.length ; i++) {
+              hash[fields[i]] = hit._source[fields[i]];
+            }
+            // Sync id separately, because it is hit._id, NOT hit._source.id
+            hash.id = hit._id;
+            fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+            hash.fund_user = false; // for the user logic later
+            return hash;
+          });
+          models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
+            if (user) {
+              for (var i=0; i < funds.length; i++) {
+                if (funds[i].organisation_id == user.organisation_or_user) {
+                  funds[i].fund_user = true;
+                }
+              }
+            }
+          }).then(function() {
+              models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+                var applied_funds = [];
+                async.each(applications, function(app, callback){
+                    models.funds.findById(app.dataValues.fund_id).then(function(fund){
+                      fund['status'] = app.dataValues.status;
+
+                      applied_funds.push(fund);
+                      callback();
+                    })
+
+                }, function done(){
+                  models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
+                    var recently_browsed_funds = [];
+                    async.each(recent_funds.slice(0, 5), function(fund, callback){
+                      fund = fund.get();
+                      models.funds.findById(fund.fund_id).then(function(fund){
+                        recently_browsed_funds.push(fund);
+                        console.log(recently_browsed_funds);
+                        callback();
+                      })
+                    }, function done(){
+                      res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds});
+
+                    })
+                  })
+                });
+              })
+
+          });
+        })
+    })
+
+  },
+
+  chargeStripe: function(req, res) {
+    var stripeToken = req.body.tokenID;
+    var chargeAmount = req.body.amount;
+    var email = req.body.email;
+
+    stripe.customers.create({
+      source: stripeToken,
+      description: email
+    }).then(function(customer) {
+      return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
+        return stripe.charges.create({
+          amount: chargeAmount,
+          currency: "gbp",
+          customer: customer.id,
+          destination: stripe_user.stripe_user_id
+        });
+      });
+    }).then(function(charge) {
+      // YOUR CODE: Save the customer ID and other info in a database for later!
+      console.log("Charge");
+      console.log(charge);
+    }).then(function() {
+      // res.send("")
+    });
   },
 
   authorizeStripe: function(req, res) {
-    // Redirect to Stripe /oauth/authorize endpoint
-    res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
+    var user = req.user;
+    var userDOB = user.date_of_birth ? reformatDate(user.date_of_birth) : null;
+    var userPublicProfile = "https://www.silofunds.com/public/" + user.id;
+
+    var authenticationOptions = {
       response_type: "code",
       scope: "read_write",
-      client_id: CLIENT_ID
-    }));
+      client_id: CLIENT_ID,
+      stripe_user: {
+        email: user.email,
+        url: userPublicProfile,
+        business_name: userPublicProfile,
+        business_type: "sole_prop",
+        country: 'UK',
+        first_name: user.username.split(' ')[0],
+        last_name: user.username.split(' ')[1]
+      }
+    };
+
+    if (userDOB) {
+      authenticationOptions.stripe_user.dob_day = userDOB.split('-')[2];
+      authenticationOptions.stripe_user.dob_month = userDOB.split('-')[1];
+      authenticationOptions.stripe_user.dob_year = userDOB.split('-')[0];
+    }
+
+    // Redirect to Stripe /oauth/authorize endpoint
+    res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
   },
 
   authorizeStripeCallback: function(req, res) {
@@ -135,14 +336,14 @@ module.exports = {
             })
         }, function done(){
           models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: applied_funds});
+            res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: applied_funds});
           });
         })
 
       }
       else{
         models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('signup/user-complete', {user: user, newUser: false, documents: documents, applications: false});
+            res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
           });
       }
 
@@ -155,7 +356,15 @@ module.exports = {
   },
 
   crowdFundingPage: function(req, res){
-    var userId = req.user.id;
+    console.log("HELLO");
+    var userId;
+    console.log(req.params.id)
+    if(req.params.id){
+      userId = req.params.id;
+    }
+    else{
+      userId = req.user.id
+    }
     console.log(userId);
     models.users.findById(userId).then(function(user){
       res.render('user-crowdfunding', {user: user})
@@ -598,3 +807,17 @@ module.exports = {
 
 
 }
+
+////// Helper functions
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+
+  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  return reformattedDate;
+};

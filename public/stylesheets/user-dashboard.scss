@@ -2,21 +2,51 @@
 @import 'navbar.scss';
 @import 'advanced-search.scss';
 @import 'signup.scss';
-
+@import 'fund-dashboard.scss';
+$tab-border: 3px solid #2390fd;
 #brand-image{
   margin-top: -15px;
   position: relative;
   cursor: pointer;
 }
+#text_search{
+  &:focus{
+        border: 3px solid #66afe9;
+  }
+}
 
 body {
-  background-color: #e9f0f4;
+  background-color: #f0f2f4;
+  font-family: 'Source Sans Pro';
+  h1,h2,h3,h4,h5,h6{
+    font-family: 'Source Sans Pro'
+  }
+  section{
+    padding-top: 0;
+    padding-bottom: 50px;
+  }
 }
 
 /* Everything else */
 
 $navbar-height: 54px;
-
+h2#name{
+  color: #010138;
+}
+#recommended{
+  p#header{
+    display: inline-block;
+    border-bottom: 2px solid #010138;
+    color: #010138;
+    font-size: 17px;
+  }
+  .recommended-row{
+    p{
+      margin-top: 5px;
+      font-size: 16px;
+    }
+  }
+}
 .alert {
   margin-top: calc(#{$navbar-height} + 15px);
   margin-bottom: 15px;
@@ -24,4 +54,58 @@ $navbar-height: 54px;
   margin-left: 15%;
   text-align: center;
 
+}
+
+
+.nav-tabs{
+  li.active{
+    a{
+      font-size: 17px;
+      border-bottom: 2px solid #2390fd;
+      color:#3588cf;
+      &:hover, &:focus{
+        border-bottom: 2px solid #2390fd;
+        color: #3588cf;
+      }
+    }
+  }
+  li{
+    a{
+      font-size: 17px;
+      border: none;
+      color: #010138;
+      &:hover{
+        background-color: transparent;
+        color: #010138;
+      }
+    }
+  }
+  #view-profile{
+    float: right;
+    top: -5px;
+
+    a{
+      color: white;
+      border-radius: 3px;
+      background-color: #05d257;
+      &:hover{
+        background-color: #04a042;
+      }
+    }
+
+  }
+}
+.tab-content{
+  padding-bottom: 0px;
+  .tab-pane{
+    margin-top: 25px;
+    p{
+      font-size: 16px;
+      color: #010138;
+      a{
+        margin-left: 3px;
+        cursor: pointer;
+      }
+    }
+  }
 }

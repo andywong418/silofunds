@@ -20,9 +20,12 @@ block content
   #big_flex_div.container
     #left_div.container
       #box_1
-      
-        a#fundWebsite(href=fund.link) 
-          img#fundImage(src=organisation.profile_picture)
+        
+        a#fundWebsite(href=fund.link, target='_blank') 
+          if organisation
+            img#fundImage(src=organisation.profile_picture)
+          else
+            img#fundImage(src='/images/fund_img_placeholder.jpg')
       #box_2
         if fund.link
           a#external-link(href!=fund.link)

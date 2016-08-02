@@ -3,6 +3,7 @@ var inspect = require('util').inspect;
 var Busboy = require('busboy');
 var religions = require('../resources/religions');
 var sequelize = models.sequelize;
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var Umzug = require('umzug');
 var umzugOptions = {
   storage: 'sequelize',
@@ -201,7 +202,7 @@ module.exports = {
     var max_amount = parseIfInt(fund.max_amount);
     var number_of_places = parseIfInt(fund.number_of_places);
     var support_type = fund.support_type ? fund.support_type : null;
-
+    console.log("DEADLINE", deadline);
     models.funds.findById(id).then(function(fund) {
       fund.update({
         application_decision_date: application_decision_date,
@@ -522,5 +523,26 @@ module.exports = {
       });
       req.pipe(busboy);
     }
+  },
+
+  stripe: {
+    index: function(req, res) {
+      stripe.accounts.list(function(err, accounts) {
+        if (err) {
+          console.log(err);
+        }
+        accounts = accounts.data;
+
+        res.render('admin/stripe', { accounts: accounts });
+      });
+    },
+
+    // destroy: function(req, res) {
+    //   var accountID = req.params.id;
+    //
+    //   stripe.accounts.del(accountID).then(function() {
+    //     res.redirect('/admin/stripe');
+    //   });
+    // }
   }
 };

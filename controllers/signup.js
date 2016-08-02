@@ -10,6 +10,10 @@ var passportFunctions = require('./passport/functions');
 var aws_keyid;
 var aws_key;
 var sequelize = require('sequelize');
+var nodemailer = require('nodemailer')
+var smtpTransport = require('nodemailer-smtp-transport');
+var crypto = require('crypto');
+var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_keyid = process.env.AWS_KEYID;
@@ -385,6 +389,68 @@ module.exports = {
 
     })
   },
+	verifyEmail: function(req, res){
+		var userId = req.user.id;
+		console.log("REQ USER", userId);
+		async.waterfall([
+			function(done){
+				crypto.randomBytes(20, function(err, buf){
+					var token = buf.toString('hex');
+					done(err, token);
+				})
+			},
+			function(token, done){
+				models.users.findById(userId).then(function(user){
+					if(!user){
+						req.flash('error', 'No account with email ' + req.body.email + ' exists.');
+            res.redirect('/');
+					}
+					user.resetPasswordToken = token;
+          user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
+					user.update({email: req.body.email, email_verify_token: token}).then(function(user){
+						var transporter = nodemailer.createTransport(smtpTransport({
+						 service: 'Gmail',
+						 auth: {user: 'james.morrill.6@gmail.com',
+									 pass: 'exogene5i5'}
+						}));
+						console.log("USER EMAIL", user.email)
+						var mailOptions = {
+							from: 'Silofunds <james.morrill.6@gmail.com>',
+							to: user.email,
+							subject: 'Silo Email Verification',
+							text: 'Thank for signing up to Silo!.\n\n' +
+									'Please click on the following link, or paste this into your browser to complete the verification process:\n\n' +
+									'http://' + req.headers.host + '/signup/verify/' + token
+						};
+						transporter.sendMail(mailOptions, function(error, response) {
+								if (error) {
+										res.end("Email send failed");
+								}
+								else {
+									console.log("WELL DONE YOU DID IT");
+									req.flash('success', 'An email has been sent to ' + user.email)
+									res.send("Awesome! An email has been sent to your account for verification.");
+								}
+						});
+					})
+
+				})
+			}
+		])
+	},
+	verifyEmailConfirm: function(req, res){
+		var token = req.params.token
+		models.users.find({where: {email_verify_token: token}}).then(function(user) {
+			if(user){
+				req.flash('success', 'You have been verified');
+				res.redirect('/user/home')
+			}
+			else {
+				req.flash('error', 'Wrong verification details')
+				res.redirect('/register');
+			}
+		})
+	},
   fundAccount: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-fund-profile-" + userId;
