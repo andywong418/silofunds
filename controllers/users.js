@@ -181,8 +181,7 @@ module.exports = {
     var userDOB = user.date_of_birth ? reformatDate(user.date_of_birth) : null;
     var userPublicProfile = "https://www.silofunds.com/public/" + user.id;
 
-    // Redirect to Stripe /oauth/authorize endpoint
-    res.redirect(AUTHORIZE_URI + "?" + qs.stringify({
+    var authenticationOptions = {
       response_type: "code",
       scope: "read_write",
       client_id: CLIENT_ID,
@@ -193,12 +192,18 @@ module.exports = {
         business_type: "sole_prop",
         country: 'UK',
         first_name: user.username.split(' ')[0],
-        last_name: user.username.split(' ')[1],
-        dob_day: userDOB.split('-')[2],
-        dob_month: userDOB.split('-')[1],
-        dob_year: userDOB.split('-')[0]
+        last_name: user.username.split(' ')[1]
       }
-    }));
+    };
+
+    if (userDOB) {
+      authenticationOptions.stripe_user.dob_day = userDOB.split('-')[2];
+      authenticationOptions.stripe_user.dob_month = userDOB.split('-')[1];
+      authenticationOptions.stripe_user.dob_year = userDOB.split('-')[0];
+    }
+
+    // Redirect to Stripe /oauth/authorize endpoint
+    res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
   },
 
   authorizeStripeCallback: function(req, res) {
