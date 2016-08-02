@@ -34,6 +34,7 @@ $(document).ready(function(){
           $('#emailError').append(data)
         }
         if(!data) {
+          $('#emailSuccess').empty();
           $('#emailError').hide();
           $('#emailSuccess').show();
           $('#emailSuccess').append('This email is valid')

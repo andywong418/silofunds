@@ -362,7 +362,7 @@ $("#login-form").submit(function(e){
              }
              else{
 
-               $("#home").attr("href", '/user/profile');
+               $("#home").attr("href", '/user/dashboard');
                $(".settings").attr("href", '/user/settings' );
                $(".logout").attr("href", '/user/logout');
              }
