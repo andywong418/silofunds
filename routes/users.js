@@ -17,6 +17,7 @@ router.post('/add-application', users.addApplication);
 router.get('/logout', users.logoutGET);
 router.get('/home', users.dashboard);
 router.get('/authorize', users.authorizeStripe);
+router.post('/charge', users.chargeStripe);
 router.get('/oauth/callback', users.authorizeStripeCallback);
 
 module.exports = router;

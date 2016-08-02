@@ -71,7 +71,19 @@ $(document).ready(function(){
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
+        var amount = $('input#donate-amount').val() * 100;
+        var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
+        var data = {};
+        data.tokenID = token.id;
+        data.amount = amount;
+        data.email = token.email;
+        data.recipientUserID = recipientUserID;
 
+        $.ajax({
+          type: "POST",
+          url: '/user/charge',
+          data: data
+        });
       }
     });
 

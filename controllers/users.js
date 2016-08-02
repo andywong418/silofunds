@@ -5,8 +5,9 @@ require('./passport/strategies')(passport);
 var pzpt = require('./passport/functions');
 var qs = require('qs');
 var request = require('request');
-var nodemailer = require('nodemailer')
+var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
@@ -174,6 +175,32 @@ module.exports = {
         })
     })
 
+  },
+
+  chargeStripe: function(req, res) {
+    var stripeToken = req.body.tokenID;
+    var chargeAmount = req.body.amount;
+    var email = req.body.email;
+
+    stripe.customers.create({
+      source: stripeToken,
+      description: email
+    }).then(function(customer) {
+      return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
+        return stripe.charges.create({
+          amount: chargeAmount,
+          currency: "gbp",
+          customer: customer.id,
+          destination: stripe_user.stripe_user_id
+        });
+      });
+    }).then(function(charge) {
+      // YOUR CODE: Save the customer ID and other info in a database for later!
+      console.log("Charge");
+      console.log(charge);
+    }).then(function() {
+      // res.send("")
+    });
   },
 
   authorizeStripe: function(req, res) {
