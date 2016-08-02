@@ -630,15 +630,14 @@ h1 {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 80%;
   margin-top: 50px;
   padding-top: 20px;
   margin-bottom: 50px;
   border-radius: 5px; }
   #review_div #review-number {
+    display: inline-block;
     border-bottom: 1px solid black;
-    padding: 0;
-    width: 80%; }
+    padding: 0; }
 
 /* Separators */
 #separator_1 {

@@ -10,7 +10,7 @@ block content
 	include ../navbar.jade
 	#signup-wrapper.container-fluid
 		#greeting
-			h3='Welcome to Silo, ' + user.username
+			h3='Welcome to Silo, ' + user.username.split(' ')[0]
 			h4 Our crowdfunding platform allows you to raise money whilst looking for grants, maximising your chance of success.
 		#process-flex-container.center-block
 			a.btn.btn-default.process.active(href='#about') About you
@@ -142,7 +142,15 @@ block content
 							#work-span.btn.btn-primary.btn-file
 								i.fa.fa-upload
 								input#work(type='file', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
-								label(for='work') Choose up to 5 files
+								label(for='work') Choose up to 5 file
+							#hyperlink
+								p or
+								.row.hyperlink-row
+									.col-md-6.col-md-offset-3
+										.input-group.center-block
+											span.input-group-btn
+												i.fa.fa-link.btn.btn-default(aria-hidden='true')
+											input#work-link.form-control(type='text',name="work-link",placeholder='http://www.example.com')
 				.container-fluid.save
 					a#save.btn.btn-primary(href="#account") Save progress
 					a#skip(href='#account') Skip

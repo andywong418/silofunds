@@ -9,6 +9,11 @@ block content
 	script.
 		var bodyEl = document.getElementsByTagName('body');
 		var user = !{JSON.stringify(user)};
+		var documents = !{JSON.stringify(documents)};
+		var applications = !{JSON.stringify(applications)}
+		console.log(user)
+		console.log(documents)
+		console.log(applications)
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
@@ -16,7 +21,10 @@ block content
 	include ./advanced-search.jade
 	#crowdfunding-wrapper.container
 		.col-md-7
-			img#profile_picture(src!=user.profile_picture)
+			if user.profile_picture
+				img#profile_picture(src!=user.profile_picture)
+			else
+				img#profile_picture(src='/images/fund_img_placeholder.jpg')
 			#social-media-flex-container
 				.social
 					i.fa.fa-facebook-official(aria-hidden="true")
@@ -32,18 +40,69 @@ block content
 					| Reblog
 			#tab-table
 				#tab-menu-flex
-					.menu-item
+					a.menu-item(href='#story')
 						p.active-item Story
-					.menu-item
+					a.menu-item(href='#about')
 						p About 
-					.menu-item
+					a.menu-item(href='#updates')
 						p Updates
-					.menu-item
+					a.menu-item(href='#comments')
 						p Comments
 				#tab-content
 					script#story-template(type='text/template')
 						p#story
-
+					script#about-template(type='text/template')
+						if user.date_of_birth || user.country_of_residence
+							p#header.basic-header Basic Info
+							hr
+							.row
+								if user.date_of_birth
+									.col-md-3.age
+										i.fa.fa-birthday-cake(aria-hidden="true")
+										span#age 
+								if user.country_of_residence
+									each country in user.country_of_residence
+										.col-md-4(style="margin-bottom: 20px;")
+											img(src='/images/128/' + country + '.png')
+											span!= country
+								if user.religion
+										.col-md-5.religion(style="height: 30px;")
+											p#religion Religous Views:
+												span=user.religion
+						if user.previous_degree ||  user.previous_university
+							p#header.education Education
+							hr
+							.row
+								if user.subject.length > 0
+									.col-md-6
+										i.fa.fa-book 
+											span#subject= user.subject.join(' ')
+								if user.previous_degree.length >0
+									.col-md-6
+										i.fa.fa-graduation-cap(aria-hidden="true")
+											span#previous_degree= user.previous_degree.join(', ')
+								if user.previous_university.length > 0
+									.col-md-6
+										i.fa.fa-university(aria-hidden="true")
+											span#previous_university= user.previous_university.join(', ')
+						if documents
+							p#header.documents Work showcase
+							hr
+							.document-row.row
+								if user.link
+									.row.link-row
+										span
+											i.fa.fa-link
+												a#personal-link(href=user.link)= user.link
+					script#document-template(type='text/template')
+						.col-md-6
+							span
+								i(class!= '<%= fileClass %>')
+									a(href!='<%= fileLink %>') <%=fileName %>
+								
+											
+										
+									
 					
 				
 		#user-progress.col-md-5
@@ -64,7 +123,7 @@ block content
 					.col-md-4
 						p 60
 							span days to go
-				a#donate.btn.btn-default Donate to Andros
+				a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 				#donate-amount.hidden
 					.col-md-9
 						#amount.input-group
@@ -73,16 +132,35 @@ block content
 							span.input-group-addon .00
 					.col-md-3.text-center
 						a.btn.btn-default.btn-primary Donate
+					#applicationFeeMessage.col-md-12
+						p Do you want to pay the processing fee (~2.9%)?
+						#buttonDiv.col-md-5
+							.btn-group.btn-group-justified
+								.btn-group(role='group', aria-label='...')
+									button#donorpays.btn.btn-default.active(type='button') I do!
+								.btn-group(role='group', aria-label='...')
+									button#recipientpays.btn.btn-default(type='button') Nope.
+						#helperDiv.col-md-7
+							span#process-fee
 			#funding-institutions.row
 				#fund-banner
-					p Funding Institutions
+					p Funding applications
 						i.fa.fa-caret-down(aria-hidden="true")
-				p#none Andros has not applied to any funds yet.
+				if applications
+					each app in applications
+						.row.app-row
+							.col-md-9
+								a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
+							.col-md-3
+								p#status= app.status
+							
+				else
+					p#none= user.username.split(' ')[0] + ' has not applied to any funds yet.'
 			#recent-donations.row
 				#donation-banner
 					p Recent donations
 						i.fa.fa-caret-down(aria-hidden="true")
-				p#no-donations Andros has not received any donations yet.
+				p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
 			
 		
 

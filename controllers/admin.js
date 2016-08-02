@@ -202,7 +202,7 @@ module.exports = {
     var max_amount = parseIfInt(fund.max_amount);
     var number_of_places = parseIfInt(fund.number_of_places);
     var support_type = fund.support_type ? fund.support_type : null;
-    console.log("DEADLINE", deadline);
+
     models.funds.findById(id).then(function(fund) {
       fund.update({
         application_decision_date: application_decision_date,

@@ -44,7 +44,7 @@ block content
     .tab-content
       .tab-pane.active.fade.in#ud-applications
         section.header
-          if applied_funds
+          if applied_funds.length > 0
             .row
               .col-md-12
                 table.table.table-responsive#header
@@ -97,7 +97,7 @@ block content
           .row
       .tab-pane.fade#ud-recently-browsed
         section.header
-          if recent_funds
+          if recent_funds.length > 0
             .row
               .col-md-12
                 table.table.table-responsive#header

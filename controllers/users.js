@@ -3,7 +3,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
+<<<<<<< HEAD
 var qs = require('querystring');
+=======
+var qs = require('qs');
+>>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -180,26 +184,53 @@ module.exports = {
   chargeStripe: function(req, res) {
     var stripeToken = req.body.tokenID;
     var chargeAmount = req.body.amount;
+    var applicationFee = req.body.applicationFee;
     var email = req.body.email;
+    var donorIsPaying = req.body.donorIsPaying;
 
     stripe.customers.create({
       source: stripeToken,
       description: email
     }).then(function(customer) {
       return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
-        return stripe.charges.create({
-          amount: chargeAmount,
+        var chargeOptions = {
           currency: "gbp",
           customer: customer.id,
           destination: stripe_user.stripe_user_id
-        });
+        };
+
+        if (!donorIsPaying) {
+          chargeOptions.application_fee = applicationFee;
+          chargeOptions.amount = chargeAmount;
+        } else {
+          chargeOptions.amount = chargeAmount - applicationFee;
+        }
+
+        return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      // YOUR CODE: Save the customer ID and other info in a database for later!
-      console.log("Charge");
-      console.log(charge);
-    }).then(function() {
-      // res.send("")
+      var created_at = new Date(charge.created * 1000);
+      var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
+
+      return models.stripe_charges.create({
+        charge_id: charge.id,
+        amount: parseFloat(charge.amount),
+        application_fee: application_fee,
+        balance_transaction: charge.balance_transaction,
+        captured: charge.captured,
+        customer_id: charge.customer,
+        description: charge.description,
+        destination_id: charge.destination,
+        livemode: charge.livemode,
+        paid: charge.paid,
+        status: charge.status,
+        transfer_id: charge.transfer,
+        source_id: charge.source.id,
+        source_address_line1_check: charge.source.address_line1_check,
+        source_address_zip_check: charge.source.address_zip_check,
+        source_cvc_check: charge.source.cvc_check,
+        created_at: created_at
+      });
     });
   },
 
@@ -367,7 +398,33 @@ module.exports = {
     }
     console.log(userId);
     models.users.findById(userId).then(function(user){
-      res.render('user-crowdfunding', {user: user})
+      models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+        models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+            if(applications.length > 0){
+              applied_funds = [];
+              async.each(applications, function(app, callback){
+                  var app_obj = {};
+                  app = app.get();
+                  app_obj['status'] = app.status;
+                  models.funds.findById(app.fund_id).then(function(fund){
+                    app_obj['title'] = fund.title;
+                    app_obj['id'] = fund.id;
+                    console.log("WHAT FUND", fund);
+                    applied_funds.push(app_obj);
+                    console.log("I'M HERE", applied_funds);
+                    callback();
+                  })
+
+              }, function done(){
+                models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+                  res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
+                });
+              })
+            }
+
+        })
+
+      })
     })
   },
 
@@ -477,10 +534,10 @@ module.exports = {
 
   logoutGET: function(req, res) {
     // Clear the rememebr me cookie when logging out
-    res.cookie('remember_me', '', {expires: new Date(1), path: '/'})
+    res.cookie('remember_me', '', { expires: new Date(1), path: '/' });
     req.flash('logoutMsg', 'Successfully logged out');
     req.logout();
-    res.redirect('/login')
+    res.redirect('/login');
   },
 
 

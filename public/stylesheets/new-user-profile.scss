@@ -118,7 +118,7 @@ body{
 			border: 2px solid #dad7d4;
 			border-radius: 2px !important;
 		}
-		input, ul.token-input-list-facebook{
+		input{
 			border: 2px solid #dad7d4;
 			width: 100%;
 			border-radius: 2px;
@@ -126,19 +126,19 @@ body{
 			height: 30px !important;
 			font-size: 13px;
 			&:active, &:focus{
-				border: 2px solid #2752ff;
+				border: 2px solid #9ba7d8;
 				outline: none;
 			}
 		}
-		li.token-input-token-facebook{
-			margin-top: -1px;
-		}
-		.token-input-input-token-facebook{
-			input{
-				width: 500px !important;
-				margin-top: -5px;
+		ul.token-input-list-facebook{
+			margin-top: -2px;
+			.token-input-input-token-facebook{
+				input{
+					width: 500px !important;
+				}
 			}
 		}
+
 		.save{
 			text-align: right;
 			#skip, #save {
@@ -233,7 +233,26 @@ body{
 	  cursor: pointer;
 	  margin-left:10px;
 	 }
-
+	 #hyperlink{
+		 p{
+			 margin-bottom: 10px;
+		 }
+		 .hyperlink-row{
+			 margin-top: 0;
+			 border-bottom: 0;
+			 i{
+				 color: black;
+				 font-size: 14px;
+				 border: 2px solid #ccc;
+				 border-right: 0;
+				 background-color: #e6e6e6;
+				 &:hover, &:active, &:focus{
+					 background-color: #e6e6e6;
+					 outline: 0;
+				 }
+			 }
+		 }
+	 }
 
 	}
 }
