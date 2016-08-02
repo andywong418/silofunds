@@ -73,6 +73,16 @@ block content
 							span.input-group-addon .00
 					.col-md-3.text-center
 						a.btn.btn-default.btn-primary Donate
+					#applicationFeeMessage.col-md-12
+						p Do you want to pay the processing fee (~2.9%)?
+						#buttonDiv.col-md-5
+							.btn-group.btn-group-justified
+								.btn-group(role='group', aria-label='...')
+									button#donorpays.btn.btn-default.active(type='button') I do!
+								.btn-group(role='group', aria-label='...')
+									button#recipientpays.btn.btn-default(type='button') Nope.
+						#helperDiv.col-md-7
+							span#process-fee
 			#funding-institutions.row
 				#fund-banner
 					p Funding Institutions

@@ -60,6 +60,23 @@ $(document).ready(function(){
     });
   });
 
+  $('input#donate-amount').on('keyup', function(e){
+    displayApplicationFeeHelperText();
+  });
+
+  $('#donorpays').click(function() {
+    $('#donorpays').addClass('active');
+    $('#recipientpays').removeClass('active');
+
+    displayApplicationFeeHelperText();
+  });
+
+  $('#recipientpays').click(function() {
+    $('#recipientpays').addClass('active');
+    $('#donorpays').removeClass('active');
+
+    displayApplicationFeeHelperText();
+  });
 
 
   // Stripe
@@ -71,11 +88,24 @@ $(document).ready(function(){
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
-        var amount = $('input#donate-amount').val() * 100;
+        var amount = $('input#donate-amount').val();
+        var applicationFee = Math.ceil(amount * 0.029 + 0.2);
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
         var data = {};
+        var donorIsPaying = $('#donorpays').hasClass('active');
+        var amountAdjusted;
+
+        if (donorIsPaying) {
+          amountAdjusted = (parseInt(amount) + applicationFee) * 100;
+          data.amount = amountAdjusted;
+          data.donorIsPaying = true;
+        } else {
+          data.amount = amount * 100;
+          data.donorIsPaying = false;
+        }
+
+        data.applicationFee = applicationFee * 100;
         data.tokenID = token.id;
-        data.amount = amount;
         data.email = token.email;
         data.recipientUserID = recipientUserID;
 
@@ -89,15 +119,25 @@ $(document).ready(function(){
 
     $('#donate-amount a').on('click', function(e) {
       // Open Checkout with further options:
-      var amount = $('input#donate-amount').val() * 100;
+      var amount = $('input#donate-amount').val();
+      var applicationFee = Math.ceil(amount * 0.029 + 0.2);
+      var donorIsPaying = $('#donorpays').hasClass('active');
 
-      handler.open({
+      var handlerDisplayOptions = {
         name: 'Silo',
         description: '2 widgets',
         currency: "gbp",
         panelLabel: "Donate",
         amount: amount
-      });
+      };
+
+      if (donorIsPaying) {
+        handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
+      } else {
+        handlerDisplayOptions.amount = amount * 100;
+      }
+
+      handler.open(handlerDisplayOptions);
       e.preventDefault();
     });
 
@@ -105,4 +145,21 @@ $(document).ready(function(){
     $(window).on('popstate', function() {
       handler.close();
     });
+
+  // Helper functions
+
+  function displayApplicationFeeHelperText() {
+    var userInput = $('input#donate-amount').val();
+    var applicationFee = Math.ceil(userInput * 0.029 + 0.2);
+
+    if(userInput !== '') {
+      if ($('#donorpays').hasClass('active')) {
+        $('#process-fee').html('£' + applicationFee + ' will be added to your payment.');
+      } else {
+        $('#process-fee').html('The recipient will receive £' + applicationFee + ' less.');
+      }
+    } else {
+      $('#process-fee').empty();
+    }
+  }
 });

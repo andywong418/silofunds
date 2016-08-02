@@ -96,7 +96,38 @@ body{
 					// margin-top: 15px;
 					transition: 1.5s;
 					opacity: 0;
-					height: $donate-button-height;
+					height: calc(#{$donate-button-height} + 80px);
+
+					#applicationFeeMessage {
+						button {
+							&:active, &:visited, &:focus, &:hover {
+								outline: 0;
+							}
+						}
+
+						p {
+							margin-bottom: 5px;
+							margin-top: 15px;
+							font-size: 14px;
+						}
+
+						#buttonDiv {
+							margin-top: 7px;
+							padding: 0px;
+						}
+
+						#helperDiv {
+							margin: 0px;
+							margin-top: 5px;
+							padding: 0px;
+							padding-left: 10px;
+
+							span {
+								color: #a8a8a8;
+								font-size: 12px;
+							}
+						}
+					}
 
 					#amount {
 						input {

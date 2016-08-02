@@ -180,19 +180,29 @@ module.exports = {
   chargeStripe: function(req, res) {
     var stripeToken = req.body.tokenID;
     var chargeAmount = req.body.amount;
+    var applicationFee = req.body.applicationFee;
     var email = req.body.email;
+    var donorIsPaying = req.body.donorIsPaying;
 
     stripe.customers.create({
       source: stripeToken,
       description: email
     }).then(function(customer) {
       return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
-        return stripe.charges.create({
-          amount: chargeAmount,
+        var chargeOptions = {
           currency: "gbp",
           customer: customer.id,
           destination: stripe_user.stripe_user_id
-        });
+        };
+
+        if (!donorIsPaying) {
+          chargeOptions.application_fee = applicationFee;
+          chargeOptions.amount = chargeAmount;
+        } else {
+          chargeOptions.amount = chargeAmount - applicationFee;
+        }
+
+        return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
       // YOUR CODE: Save the customer ID and other info in a database for later!

@@ -81,7 +81,24 @@ body {
         -webkit-transition: 1.5s;
         transition: 1.5s;
         opacity: 0;
-        height: 48px; }
+        height: calc(48px + 80px); }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:active, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:visited, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:focus, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:hover {
+          outline: 0; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage p {
+          margin-bottom: 5px;
+          margin-top: 15px;
+          font-size: 14px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #buttonDiv {
+          margin-top: 7px;
+          padding: 0px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv {
+          margin: 0px;
+          margin-top: 5px;
+          padding: 0px;
+          padding-left: 10px; }
+          body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv span {
+            color: #a8a8a8;
+            font-size: 12px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input {
           text-align: right;
           background-color: #cce1f6;
