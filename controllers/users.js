@@ -860,17 +860,20 @@ module.exports = {
     }
   },
   fundBlocker: function(req, res, next){
-    var url = req.url
+    var url = req.url;
+    console.log("URL", url);
     var checkFirstLetters = url.substring(1,13)
-    console.log(checkFirstLetters == 'organisation')
-    if(checkFirstLetters == 'organisation') {
-      if(req.user.organisation_or_user == null) {
+    var options = url.split('/')[2];
+    console.log("Options", options);
+    if(checkFirstLetters == 'organisation' && options!= 'options') {
+      if(req.user.organisation_or_user == null ) {
         res.render(error);
         res.end()
       } else {
         next()
       }
     } else {
+      console.log("HEY");
       next()
     }
   }
