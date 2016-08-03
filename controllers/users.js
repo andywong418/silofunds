@@ -238,6 +238,8 @@ module.exports = {
         source_cvc_check: charge.source.cvc_check,
         created_at: created_at
       });
+    }).then(function() {
+      res.end();
     });
   },
 
@@ -445,16 +447,57 @@ module.exports = {
 						res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: applied_funds});
 					});
 				})
+      }
+      else{
+        models.documents.findAll({where: {user_id: id}}).then(function(documents){
+            res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
+          });
+      }
 
-			}
-			else{
-				models.documents.findAll({where: {user_id: id}}).then(function(documents){
-						res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
-					});
-			}
+    })
+  },
 
-		})
-	},
+  crowdFundingPage: function(req, res){
+    var userId;
+    console.log(req.params.id)
+    if(req.params.id){
+      userId = req.params.id;
+    }
+    else{
+      userId = req.user.id
+    }
+    console.log(userId);
+    models.users.findById(userId).then(function(user){
+      models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+        console.log("DOCS", documents);
+        models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+          console.log("APPS", applications);
+            if(applications.length > 0){
+              applied_funds = [];
+              async.each(applications, function(app, callback){
+                  var app_obj = {};
+                  app = app.get();
+                  app_obj['status'] = app.status;
+                  models.funds.findById(app.fund_id).then(function(fund){
+                    app_obj['title'] = fund.title;
+                    app_obj['id'] = fund.id;
+                    console.log("WHAT FUND", fund);
+                    applied_funds.push(app_obj);
+                    console.log("I'M HERE", applied_funds);
+                    callback();
+                  })
+              }, function done() {
+                console.log("HI HI");
+                  res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
+              })
+            }
+            else{
+              res.render('user-crowdfunding', { user: user, documents: documents, applications: false});
+            }
+          })
+        })
+      })
+    },
 
 	initialCreation: function(req, res) {
 		passportFunctions.ensureAuthenticated(req, res);
