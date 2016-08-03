@@ -6,7 +6,7 @@ $(document).ready(function(){
   if(user.funding_accrued){
     var amount = user.funding_accrued;
     var goal = user.funding_needed
-    var percentage = (amount/ goal) * 100;
+    var percentage = Math.ceil((amount/ goal) * 100);
     $('.progress-bar').css('width', percentage + '%');
     $('#percentage').html(percentage+ '% <span> funded </span>');
   }

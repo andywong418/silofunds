@@ -78,6 +78,18 @@ module.exports = function(sequelize, DataTypes) {
       field: 'created_at',
       defaultValue: DataTypes.NOW
     },
+		fingerprint: {
+			type: DataTypes.TEXT,
+			field: 'fingerprint'
+		},
+		sender_name: {
+			type: DataTypes.TEXT,
+			field: 'sender_name'
+		},
+		user_from: {
+			type: DataTypes.INTEGER,
+			field: 'user_from'
+		}
   }, {
 		timestamps: true,
     underscored: true,
