@@ -21,16 +21,16 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
-    console.log("HUH");
+
     models.users.findById(userId).then(function(user){
         var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
         var age;
         if(user.date_of_birth){
           var birthDate = new Date(user.date_of_birth).getTime();
           var nowDate = new Date().getTime();
-          var age = Math.floor((nowDate - birthDate) / 31536000000 );
+          age = Math.floor((nowDate - birthDate) / 31536000000);
         }
         var minimum_amount;
         if(user.funding_needed){
@@ -78,10 +78,12 @@ module.exports = {
           ];
           queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
         }
-        // queryOptions.filtered.query = {
-        //   "bool": {
-        //     "should": []
-        //   },
+
+        queryOptions.filtered.query = {
+          "bool": {
+            "should": []
+          },
+        };
         //   "constant_score" : {
         //     "filter" : {
         //       "terms" : {
@@ -89,27 +91,42 @@ module.exports = {
         //       }
         //     }
         //   }
-        // }
-        // user = user.get();
-        // for (var i = 0; i< searchFields.length; i++) {
-        //   var key = searchFields[i];
-        //   var notAge = key !== "age";
-        //   var notAmount = key !== "funding_needed";
-        //
-        //     var matchObj = {
-        //       "match": {}
-        //     };
-        //
-        //     if(Array.isArray(user[key]) ){
-        //       console.log("array key",key);
-        //       queryOptions.filtered.query.constant_score.filter.terms[key] = user[key];
-        //     }
-        //     else{
-        //       console.log('non array key', key);
-        //       matchObj.match[key] = user[key];
-        //       queryOptions.filtered.query.bool.should.push(matchObj);
-        //     }
-        // }
+
+        user = user.get();
+
+        for (var i = 0; i< searchFields.length; i++) {
+          var key = searchFields[i];
+          var notAge = key !== "age";
+          var notAmount = key !== "funding_needed";
+          var notReligion = key !== "religion";
+
+          if (notReligion) {
+            if (user[key]) {
+              user[key] = user[key].join(", ");
+            }
+          }
+
+          if (notAge && notAmount) {
+            var matchObj = {
+              "match": {}
+            };
+
+            if (user[key] !== null) {
+              if (key === 'previous_degree') {
+                matchObj.match.required_degree = user[key];
+              } else if (key === 'previous_university') {
+                matchObj.match.required_university = user[key];
+              } else {
+                matchObj.match[key] = user[key];
+              }
+
+              queryOptions.filtered.query.bool.should.push(matchObj);
+            }
+          }
+        }
+
+        console.log('QUERY OPTIONS');
+        console.log(queryOptions.filtered.query.bool.should);
         // console.log("QUERY OPTIONS",queryOptions.filtered.query.constant_score);
         // console.log("QUERY NNON array options", queryOptions.filtered.query.bool)
         models.es.search({
