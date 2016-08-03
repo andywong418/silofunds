@@ -29,7 +29,7 @@ module.exports = {
         if(user.date_of_birth){
           var birthDate = new Date(user.date_of_birth).getTime();
           var nowDate = new Date().getTime();
-          var age = Math.floor((nowDate - birthDate) / 31536000000 );
+          age = Math.floor((nowDate - birthDate) / 31536000000);
         }
         var minimum_amount;
         if(user.funding_needed){
@@ -77,40 +77,46 @@ module.exports = {
           ];
           queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
         }
-        // queryOptions.filtered.query = {
-        //   "bool": {
-        //     "should": []
-        //   },
-        //   "constant_score" : {
-        //     "filter" : {
-        //       "terms" : {
-        //
-        //       }
-        //     }
-        //   }
-        // }
-        // user = user.get();
-        // for (var i = 0; i< searchFields.length; i++) {
-        //   var key = searchFields[i];
-        //   var notAge = key !== "age";
-        //   var notAmount = key !== "funding_needed";
-        //
-        //     var matchObj = {
-        //       "match": {}
-        //     };
-        //
-        //     if(Array.isArray(user[key]) ){
-        //       console.log("array key",key);
-        //       queryOptions.filtered.query.constant_score.filter.terms[key] = user[key];
-        //     }
-        //     else{
-        //       console.log('non array key', key);
-        //       matchObj.match[key] = user[key];
-        //       queryOptions.filtered.query.bool.should.push(matchObj);
-        //     }
-        // }
-        // console.log("QUERY OPTIONS",queryOptions.filtered.query.constant_score);
-        // console.log("QUERY NNON array options", queryOptions.filtered.query.bool)
+
+        queryOptions.filtered.query = {
+          "bool": {
+            "should": []
+          },
+        };
+
+        user = user.get();
+
+        for (var i = 0; i< searchFields.length; i++) {
+          var key = searchFields[i];
+          var notAge = key !== "age";
+          var notAmount = key !== "funding_needed";
+          var notReligion = key !== "religion";
+
+          if (notReligion) {
+            if (user[key]) {
+              user[key] = user[key].join(", ");
+            }
+          }
+
+          if (notAge && notAmount) {
+            var matchObj = {
+              "match": {}
+            };
+
+            if (user[key] !== null) {
+              if (key === 'previous_degree') {
+                matchObj.match.required_degree = user[key];
+              } else if (key === 'previous_university') {
+                matchObj.match.required_university = user[key];
+              } else {
+                matchObj.match[key] = user[key];
+              }
+
+              queryOptions.filtered.query.bool.should.push(matchObj);
+            }
+          }
+        }
+
         models.es.search({
           index: "funds",
           type: "fund",
@@ -150,7 +156,8 @@ module.exports = {
 
                       applied_funds.push(fund);
                       callback();
-                    })
+                    });
+
                 }, function done(){
                   models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
                     var recently_browsed_funds = [];
@@ -183,9 +190,8 @@ module.exports = {
                 });
               })
           });
-        })
-    })
-
+        });
+    });
   },
 
   chargeStripe: function(req, res) {
@@ -485,19 +491,18 @@ module.exports = {
                     applied_funds.push(app_obj);
                     console.log("I'M HERE", applied_funds);
                     callback();
-                  })
-              }, function done() {
-                console.log("HI HI");
-                  res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
-              })
-            }
-            else{
+                  });
+
+              }, function done(){
+                res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
+              });
+            } else {
               res.render('user-crowdfunding', { user: user, documents: documents, applications: false});
             }
-          })
-        })
-      })
-    },
+        });
+      });
+    });
+  },
 
 	initialCreation: function(req, res) {
 		passportFunctions.ensureAuthenticated(req, res);
@@ -914,45 +919,37 @@ module.exports = {
 		});
 	},
 
-	rememberMe: function(req, res, next) {
-		// Issue a remember me cookie if the option was checked
-		if (!req.body.remember_me) {res.redirect('loginSplit')}
-		passportFunctions.issueToken(req.user.get(), function(err, token) {
-			if (err) {return next(err)}
-			res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
-			res.redirect('loginSplit')
-		});
-	}
-
-	// userBlocker: function(req, res, next){
-	//   var url = req.url
-	//   var checkFirstLetters = url.substring(1,5)
-	//   if(checkFirstLetters == 'user') {
-	//     if(req.user.organisation_or_user !== null) {
-	//       res.render(error)
-	//       res.end()
-	//     } else {
-	//       next()
-	//     }
-	//   } else {
-	//     next()
-	//   }
-	// },
-	// fundBlocker: function(req, res, next){
-	//   var url = req.url
-	//   var checkFirstLetters = url.substring(1,13)
-	//   console.log(checkFirstLetters == 'organisation')
-	//   if(checkFirstLetters == 'organisation') {
-	//     if(req.user.organisation_or_user == null) {
-	//       res.render(error);
-	//       res.end()
-	//     } else {
-	//       next()
-	//     }
-	//   } else {
-	//     next()
-	//   }
-	// }
+  userBlocker: function(req, res, next){
+    var url = req.url
+    var checkFirstLetters = url.substring(1,5);
+    var profile = url.split('/')[2];
+    if(checkFirstLetters == 'user') {
+      if(req.user.organisation_or_user !== null && profile !="profile") {
+        res.render(error)
+        res.end()
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  },
+  fundBlocker: function(req, res, next){
+    var url = req.url;
+    console.log("URL", url);
+    var checkFirstLetters = url.substring(1,13)
+    var options = url.split('/')[2];
+    if(checkFirstLetters == 'organisation' && options!= 'options') {
+      if(req.user.organisation_or_user == null ) {
+        res.render(error);
+        res.end()
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  }
 
 
 }

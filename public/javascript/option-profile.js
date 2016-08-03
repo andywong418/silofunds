@@ -9,9 +9,11 @@ $(document).ready(function(){
   }
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
+    console.log(userArray);
+    console.log(fundArray);
     if(userArray && fundArray){
-
       userArray.forEach(function(element, index, array){
+        console.log(element);
         fundArray.forEach(function(fundElement, fundIndex, fundArray){
           fundElement = fundElement.toLowerCase();
           element = element.toLowerCase();
@@ -196,7 +198,7 @@ $(document).ready(function(){
       if(fund.country_of_residence){
         if(fund.country_of_residence.length > 0){
           if(user.country_of_residence){
-            if(fund.country_of_residence.indexOf(user.country_of_residence.capitalize()) == -1){
+            if(!checkIfElementInArray(fund.country_of_residence, user.country_of_residence)){
                   notEligible('required countries', 'country_of_residence',fund.country_of_residence.capitalize().join(', '), user.country_of_residence);
                   nonEligibleCounter++;
             }
