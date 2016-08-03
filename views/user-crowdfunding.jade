@@ -108,20 +108,24 @@ block content
 		#user-progress.col-md-5
 			#progress-card
 				h3= user.username
-				p#raised £700
-					span of £1000 pledged
+				if user.funding_accrued != null || user.funding_accrued > 0
+					p#raised= user.funding_accrued
+						span= 'of ' + user.funding_needed + ' reached'
+				else
+					p#raised £0
+						span= 'of ' + user.funding_needed + ' reached'
 				.progress
-					.progress-bar(role='progressbar', aria-valuenow='70', aria-valuemin='0', aria-valuemax='100', style='width:70%')
-					span.sr-only 70% Complete
+					.progress-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+					span.sr-only
 				#progress-info.row
 					.col-md-4
-						p 70% 
+						p#percentage 0%
 							span funded
 					.col-md-4
-						p 30 
+						p#no-of-supporters 0
 							span supporters
 					.col-md-4
-						p 60
+						p#remaining-days 0
 							span days to go
 				a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 				#donate-amount.hidden

@@ -3,6 +3,25 @@ $(document).ready(function(){
     $('.active-item').removeClass('active-item');
     $(this).find('p').addClass('active-item');
   })
+  if(user.funding_accrued){
+    var amount = user.funding_accrued;
+    var goal = user.funding_needed
+    var percentage = (amount/ goal) * 100;
+    $('.progress-bar').css('width', percentage + '%');
+    $('#percentage').html(percentage+ '% <span> funded </span>');
+  }
+  if(user.completion_date){
+    var oneDay = 24*60*60*1000;
+    var completionDate = new Date(user.completion_date.split('T')[0]);
+    var nowDate = Date.now();
+    console.log("COMPLETION", completionDate);
+    console.log("NOW DATE", nowDate);
+    var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+    $('#remaining-days').html(diffDays + '<span> days to go </span>');
+  }
+  else{
+      $('#remaining-days').html('60 <span> days to go </span>');
+  }
   var UserModel = Backbone.Model.extend({
     url: '/signup/user_signup/' + user.id,
   })
@@ -204,6 +223,7 @@ $(document).ready(function(){
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
+          console.log("DATA AMOUNT", data.amount );
           data.donorIsPaying = true;
         } else {
           data.amount = amount * 100;

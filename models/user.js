@@ -92,6 +92,10 @@ module.exports = function(sequelize, DataTypes) {
     link: {
       type: DataTypes.TEXT,
       field: 'link'
+    },
+    funding_accrued: {
+      type: DataTypes.INTEGER,
+      field: 'funding_accrued'
     }
   }, {
     timestamps: true,
