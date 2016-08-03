@@ -29,8 +29,8 @@ router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
 // NOTE: without below, an organisation can get onto user page and vice versa
-router.get(/organisation/, users.fundBlocker)
-router.get(/user/, users.userBlocker)
+// router.get(/organisation/, users.fundBlocker)
+// router.get(/user/, users.userBlocker)
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
