@@ -847,9 +847,10 @@ module.exports = {
 
   userBlocker: function(req, res, next){
     var url = req.url
-    var checkFirstLetters = url.substring(1,5)
+    var checkFirstLetters = url.substring(1,5);
+    var profile = url.split('/')[2];
     if(checkFirstLetters == 'user') {
-      if(req.user.organisation_or_user !== null) {
+      if(req.user.organisation_or_user !== null && profile !="profile") {
         res.render(error)
         res.end()
       } else {
@@ -864,7 +865,6 @@ module.exports = {
     console.log("URL", url);
     var checkFirstLetters = url.substring(1,13)
     var options = url.split('/')[2];
-    console.log("Options", options);
     if(checkFirstLetters == 'organisation' && options!= 'options') {
       if(req.user.organisation_or_user == null ) {
         res.render(error);
@@ -873,7 +873,6 @@ module.exports = {
         next()
       }
     } else {
-      console.log("HEY");
       next()
     }
   }
