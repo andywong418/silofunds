@@ -1,20 +1,20 @@
 var models = require('../../models');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var utils = require('../../routes/utils')
+var utils = require('../../routes/utils');
 
 // Export ensureAuthenticated function (redirects to user login page)
 module.exports.ensureAuthenticated = function(req, res, next){
   if(req.isAuthenticated()){
     // next() fucks things up here
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-}
+};
 
 
 // Functions for the remember me strategy
-var tokens = {}
+var tokens = {};
 function issueToken(user, done) {
   var token = utils.randomString(64);
   saveRememberMeToken(token, user.id, function(err) {
@@ -35,9 +35,9 @@ function consumeRememberMeToken(token, fn) {
   console.log("TOKENS", tokens);
   // invalidate the single-use token
   delete tokens[token];
-  console.log("deleted TOKENS", tokens)
+  console.log("deleted TOKENS", tokens);
   return fn(null, uid);
 }
-module.exports.issueToken = issueToken
-module.exports.saveRememberMeToken = saveRememberMeToken
-module.exports.consumeRememberMeToken = consumeRememberMeToken
+module.exports.issueToken = issueToken;
+module.exports.saveRememberMeToken = saveRememberMeToken;
+module.exports.consumeRememberMeToken = consumeRememberMeToken;
