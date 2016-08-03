@@ -446,7 +446,7 @@ module.exports = {
     console.log(req.cookies)
     console.log(req.session)
     passportFunctions.ensureAuthenticated(req, res);
-    res.render('user-settings', {user: req.user, general: true})
+    res.render('user/settings', {user: req.user, general: true})
   },
 
   settingsPOST: function(req, res) {
@@ -461,7 +461,7 @@ module.exports = {
 		}
 		models.users.findById(id).then(function(user){
 			user.update(body).then(function(user){
-				res.render('user-settings', {user: user, general: general_settings});
+				res.render('user/settings', {user: user, general: general_settings});
 			});
 		});
 	},
