@@ -27,7 +27,7 @@ $(document).ready(function(){
       $('#emailError').append('Please enter a valid email address')
     }
     if(re.test(email)) {
-      $.get('/validation', parameters, function(data) {
+      $.post('/validation/register', parameters, function(data) {
         if(data) {
           $('#emailError').empty();
           $('#emailError').show();
