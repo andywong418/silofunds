@@ -1,0 +1,216 @@
+#search-form, .instruction-pointer, .instruction-pointer-2 {
+  display: none; }
+
+p {
+  font-size: 11px; }
+
+.navbar-custom {
+  position: relative; }
+
+body {
+  background-color: #f0f2f4; }
+
+#signup-wrapper {
+  padding-bottom: 50px;
+  padding-top: 30px; }
+  #signup-wrapper p {
+    font-size: 13px; }
+  #signup-wrapper #greeting {
+    width: 60%;
+    margin-left: 20%;
+    font-family: 'Source Sans Pro';
+    color: #34495e; }
+    #signup-wrapper #greeting h3 {
+      text-align: center;
+      font-family: 'Helvetica Neue';
+      margin-bottom: 15px; }
+    #signup-wrapper #greeting h4 {
+      text-align: center;
+      font-family: 'Source Sans Pro';
+      margin-bottom: 15px; }
+  #signup-wrapper #process-flex-container {
+    width: 100%;
+    margin-top: 20px; }
+    #signup-wrapper #process-flex-container .process {
+      font-family: 'Source Sans Pro';
+      font-weight: bold;
+      padding: 15px;
+      margin: 5px;
+      color: #3D3D66;
+      font-size: 16px; }
+      #signup-wrapper #process-flex-container .process span {
+        top: 2px;
+        font-size: 13px; }
+    #signup-wrapper #process-flex-container .preview {
+      margin-left: 2%; }
+    #signup-wrapper #process-flex-container .active {
+      background-color: rgba(247, 245, 242, 0.6);
+      color: #3656d8;
+      box-shadow: none;
+      -webkit-box-shadow: none; }
+  #signup-wrapper #signup-form {
+    background-color: white;
+    width: 80%;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    margin-top: 20px;
+    font-family: 'Source Sans Pro'; }
+    #signup-wrapper #signup-form .description {
+      font-weight: bold;
+      font-size: 14px;
+      color: #34495e;
+      margin-top: 5px; }
+    #signup-wrapper #signup-form p {
+      margin-bottom: 25px; }
+    #signup-wrapper #signup-form .row {
+      margin-top: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e8ed;
+      margin-right: 0;
+      margin-left: 0; }
+    #signup-wrapper #signup-form #picture-row {
+      padding-bottom: 30px;
+      margin-top: 10px; }
+    #signup-wrapper #signup-form #picture {
+      margin-top: 10px; }
+    #signup-wrapper #signup-form #profile-picture {
+      border: 2px dashed #4157af;
+      border-radius: 5px;
+      color: #3D3D66;
+      padding: 20px;
+      cursor: pointer;
+      padding-bottom: 10px; }
+      #signup-wrapper #signup-form #profile-picture span {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #3D3D66; }
+      #signup-wrapper #signup-form #profile-picture img {
+        width: 150px;
+        height: auto; }
+    #signup-wrapper #signup-form #religion-row, #signup-wrapper #signup-form #previous-university-row {
+      border-bottom: none; }
+    #signup-wrapper #signup-form #religion-select {
+      border: 2px solid #dad7d4;
+      border-radius: 2px !important; }
+    #signup-wrapper #signup-form input {
+      border: 2px solid #dad7d4;
+      width: 100%;
+      border-radius: 2px;
+      padding: 3px;
+      height: 30px !important;
+      font-size: 13px; }
+      #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus {
+        border: 2px solid #9ba7d8;
+        outline: none; }
+    #signup-wrapper #signup-form ul.token-input-list-facebook {
+      margin-top: -2px; }
+      #signup-wrapper #signup-form ul.token-input-list-facebook .token-input-input-token-facebook input {
+        width: 500px !important; }
+    #signup-wrapper #signup-form .save {
+      text-align: right; }
+      #signup-wrapper #signup-form .save #skip, #signup-wrapper #signup-form .save #save {
+        float: right;
+        font-family: 'Source Sans Pro';
+        margin: 10px; }
+      #signup-wrapper #signup-form .save #skip {
+        padding-top: 8px;
+        font-size: 14px; }
+      #signup-wrapper #signup-form .save #save {
+        margin-right: 20px;
+        background: #457fca;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #457fca, #5691c8);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(right, #457fca, #5691c8);
+        background: linear-gradient(to left, #457fca, #5691c8);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        border: 1px #446CB3 solid;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px; }
+        #signup-wrapper #signup-form .save #save a {
+          color: white; }
+        #signup-wrapper #signup-form .save #save:focus, #signup-wrapper #signup-form .save #save:active {
+          background-color: #446CB3; }
+    #signup-wrapper #signup-form #story-header, #signup-wrapper #signup-form #education-header, #signup-wrapper #signup-form #about-header, #signup-wrapper #signup-form #verify-header {
+      background: #f2f3f9;
+      padding: 10px;
+      border-radius: 3px;
+      font-size: 16px;
+      margin-top: 15px;
+      width: 70%;
+      margin-left: 15%; }
+    #signup-wrapper #signup-form .story-row {
+      padding-bottom: 30px; }
+    #signup-wrapper #signup-form #work {
+      border-bottom: none; }
+      #signup-wrapper #signup-form #work #work-row {
+        border-radius: 10px;
+        padding-top: 15px; }
+        #signup-wrapper #signup-form #work #work-row h6 {
+          font-family: 'Source Sans Pro';
+          font-size: 16px; }
+        #signup-wrapper #signup-form #work #work-row .btn-file {
+          position: relative;
+          overflow: hidden; }
+        #signup-wrapper #signup-form #work #work-row .btn-file input[type=file] {
+          position: absolute;
+          top: 0;
+          right: 0;
+          min-width: 100%;
+          min-height: 100%;
+          font-size: 100px;
+          text-align: right;
+          filter: alpha(opacity=0);
+          opacity: 0;
+          outline: none;
+          background: white;
+          cursor: inherit;
+          display: block; }
+        #signup-wrapper #signup-form #work #work-row #stand-out {
+          margin-top: -25px;
+          margin-bottom: 40px; }
+        #signup-wrapper #signup-form #work #work-row #work-span {
+          margin-top: -20px;
+          margin-bottom: 20px;
+          background-color: #05d257;
+          border: none; }
+          #signup-wrapper #signup-form #work #work-row #work-span:hover {
+            background-color: #04a042; }
+        #signup-wrapper #signup-form #work #work-row #work-span label {
+          cursor: pointer;
+          margin-left: 10px; }
+        #signup-wrapper #signup-form #work #work-row #hyperlink p {
+          margin-bottom: 10px; }
+        #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row {
+          margin-top: 0;
+          border-bottom: 0; }
+          #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i {
+            color: black;
+            font-size: 14px;
+            border: 2px solid #ccc;
+            border-right: 0;
+            background-color: #e6e6e6; }
+            #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:hover, #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:active, #signup-wrapper #signup-form #work #work-row #hyperlink .hyperlink-row i:focus {
+              background-color: #e6e6e6;
+              outline: 0; }
+    #signup-wrapper #signup-form #email-row {
+      border-bottom: none; }
+      #signup-wrapper #signup-form #email-row a {
+        margin-top: 20px;
+        width: 50%;
+        background-color: #05d257; }
+        #signup-wrapper #signup-form #email-row a:hover {
+          background-color: #04a042; }
+      #signup-wrapper #signup-form #email-row #verify-text {
+        margin-top: 25px;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        display: none; }
