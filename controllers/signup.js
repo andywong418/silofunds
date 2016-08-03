@@ -293,7 +293,6 @@ module.exports = {
       tagArray= [];
       tagArray.push(tags);
     }
-    console.log(tagArray);
     models.users.findById(id).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
@@ -431,6 +430,7 @@ module.exports = {
 								else {
 									var message = "Awesome! An email has been sent to " + user.email + " for verification."
 									if(!user.organisation_or_user) {
+										console.log('hello')
 										req.flash('emailSuccess', message)
 										res.redirect('/user/create')
 									} else {
@@ -449,7 +449,7 @@ module.exports = {
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
 				console.log('you sould be here')
-				user.update({email_verify_token: null}).then(function(user) {
+				user.update({email_is_verified: true}).then(function(user) {
 					if(!user.organisation_or_user) {
 						console.log('but why not here')
 						req.flash('verificationSuccess', 'You have been verified');
@@ -461,7 +461,6 @@ module.exports = {
 				})
 			}
 			else {
-				console.log("what the fuck are you doing here??")
 				req.flash('error', 'Wrong verification details')
 				res.redirect('/register');
 			}

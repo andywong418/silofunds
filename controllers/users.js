@@ -23,7 +23,6 @@ module.exports = {
   dashboard: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
-    console.log("HUH");
     models.users.findById(userId).then(function(user){
         var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
         var age;
@@ -152,7 +151,6 @@ module.exports = {
                       applied_funds.push(fund);
                       callback();
                     })
-
                 }, function done(){
                   models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
                     var recently_browsed_funds = [];
@@ -164,13 +162,26 @@ module.exports = {
                         callback();
                       })
                     }, function done(){
-                      res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds});
-
+                      // Flash message logic here
+                      var verificationSuccess = req.flash('verificationSuccess')
+                      if(verificationSuccess.length = 0) {
+                        verificationSuccess = null
+                      } else {
+                        verificationSuccess = verificationSuccess[0]
+                      }
+                      console.log('hello')
+                      models.stripe_users.find({where: {user_id: req.user.id}}).then(function(user) {
+                        if(!user) {
+                          res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
+                        }
+                        if (user) {
+                          res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
+                        }
+                      })
                     })
                   })
                 });
               })
-
           });
         })
     })
@@ -340,9 +351,9 @@ module.exports = {
     }
   },
 
-		// Redirect to Stripe /oauth/authorize endpoint
-		res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
-	},
+	// 	// Redirect to Stripe /oauth/authorize endpoint
+	// 	res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
+	// },
 
 	authorizeStripeCallback: function(req, res) {
 		var code = req.query.code;
@@ -447,8 +458,8 @@ module.exports = {
 
 	initialCreation: function(req, res) {
 		passportFunctions.ensureAuthenticated(req, res);
-		var message = req.flash('emailSuccess')
-		res.render('signup/new-user-profile', {user: req.user});
+		var emailSuccess = req.flash('emailSuccess')
+    res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]})
 	},
 
 	crowdFundingPage: function(req, res){

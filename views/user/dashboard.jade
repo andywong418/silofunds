@@ -14,16 +14,24 @@ block content
     }
   include ../navbar.jade
   include ../advanced-search.jade
-  if user.email_verify_token
-    a(href='/user/dashboard')
-      .alert.alert-danger#emailVerification Your account has not yet been verified, click me if you need us to send you another email!
-  if verificationSuccess
-    .alert.alert-success= verificationSuccess
-  .alert.alert-success
-    strong Success!
-    |  You are now a verified user. 
-    a(href='/user/authorize') Setup your stripe account
-    |  to start receiving donations.
+  
+  // Flash messages
+  if !user.email_is_verified
+    a(href="/user/dashboard")
+      #emailVerification.alert.alert-danger Your account has not yet been verified, click me if you need us to send you another email!
+  if user.email_is_verified && verificationSuccess
+    .alert.alert-success
+      strong Success!
+      |  You are now a verified user. 
+      a(href='/user/authorize') Setup your stripe account
+      |  to start receiving donations.
+  if user.email_is_verified && !verificationSuccess && !stripe
+    .alert.alert-warning
+      a(href='/user/authorize') Setup your stripe account
+      |  to start receiving donations.
+  if user.email_is_verified && verificationSuccess && stripe
+    #spacingDiv
+    
   section#user-dashboard.container.content-section
     .row
       .col-md-12.text-center

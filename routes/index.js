@@ -28,24 +28,15 @@ router.post('/forgot', users.forgotPasswordEmailSend)
 router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
-<<<<<<< HEAD
 // // NOTE: without below, an organisation can get onto user page and vice versa
 // router.get(/organisation/, users.fundBlocker)
 // router.get(/user/, users.userBlocker)
-=======
-// NOTE: without below, an organisation can get onto user page and vice versa
-router.get(/organisation/, users.fundBlocker)
-router.get(/user/, users.userBlocker)
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
-<<<<<<< HEAD
 
 
-=======
 router.get('/public/:id', users.crowdFundingPage);
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
 
 module.exports = router;
