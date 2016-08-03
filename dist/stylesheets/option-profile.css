@@ -18,6 +18,7 @@ h1 {
   margin-top: 75px;
   width: 50%;
   margin-left: 25%;
+  margin-bottom: -80px !important;
   text-align: center;
   margin-bottom: 0;
   padding: 10px;
@@ -37,7 +38,8 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  margin-top: 50px; }
+  margin-top: 50px;
+  padding-top: 100px; }
 
 /* Left div */
 #left_div {
@@ -443,9 +445,11 @@ h1 {
     color: #BEC8D3; }
 
 #other-application {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 0;
-  float: left; }
+  float: left;
+  padding-left: 20px;
+  padding-right: 20px; }
   #other-application p {
     font-size: 17px;
     margin-bottom: 0;

@@ -8,15 +8,19 @@ block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
+    var fund = !{JSON.stringify(fund)};
+    console.log(user)
+    console.log(fund)
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
   include ./navbar.jade
   include ./signup-modal.jade
-  .alert.alert-info(role='alert')
-      a(href='/organisation/options/' + fund.id + '/edit') 
-        span.glyphicon.glyphicon-pencil(aria-hidden='true')
-        | Make changes to this funding profile
+  if user.organisation_or_user === fund.organisation_id && fund.organisation_id
+    .alert.alert-info(role='alert')
+        a(href='/organisation/options/' + fund.id + '/edit') 
+          span.glyphicon.glyphicon-pencil(aria-hidden='true')
+          | Make changes to this funding profile
   #big_flex_div.container
     #left_div.container
       #box_1
