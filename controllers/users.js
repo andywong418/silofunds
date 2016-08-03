@@ -347,6 +347,16 @@ module.exports = {
     }
   },
 
+  rememberMe: function(req, res, next) {
+    // Issue a remember me cookie if the option was checked
+    if (!req.body.remember_me) {res.redirect('loginSplit')}
+    passportFunctions.issueToken(req.user.get(), function(err, token) {
+      if (err) {return next(err)}
+      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+      res.redirect('loginSplit')
+    });
+  },
+
   registerSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
@@ -508,21 +518,6 @@ module.exports = {
 		passportFunctions.ensureAuthenticated(req, res);
 		var emailSuccess = req.flash('emailSuccess')
     res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]})
-	},
-
-	crowdFundingPage: function(req, res){
-		var userId;
-		console.log(req.params.id)
-		if(req.params.id){
-			userId = req.params.id;
-		}
-		else{
-			userId = req.user.id
-		}
-		console.log(userId);
-		models.users.findById(userId).then(function(user){
-			res.render('user-crowdfunding', {user: user})
-		})
 	},
 
 	addApplication: function(req, res){
