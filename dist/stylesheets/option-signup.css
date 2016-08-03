@@ -149,10 +149,6 @@ input {
 
 .criteria-container {
   display: -webkit-box;
-<<<<<<< HEAD
-=======
-  display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
   display: -ms-flexbox;
   display: flex;
   width: 70%;
@@ -162,10 +158,6 @@ input {
   .criteria-container .criteria-item {
     opacity: 0.5;
     -webkit-box-flex: 1;
-<<<<<<< HEAD
-=======
-    -webkit-flex-grow: 1;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
         -ms-flex-positive: 1;
             flex-grow: 1;
     font-size: 30px;

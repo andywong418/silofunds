@@ -23,7 +23,6 @@ module.exports = {
   dashboard: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
-    console.log("HUH");
     models.users.findById(userId).then(function(user){
         var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
         var age;
@@ -165,12 +164,10 @@ module.exports = {
                       })
                     }, function done(){
                       res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds});
-
                     })
                   })
                 });
               })
-
           });
         })
     })
@@ -227,6 +224,8 @@ module.exports = {
         source_cvc_check: charge.source.cvc_check,
         created_at: created_at
       });
+    }).then(function() {
+      res.end();
     });
   },
 
@@ -395,7 +394,9 @@ module.exports = {
     console.log(userId);
     models.users.findById(userId).then(function(user){
       models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+        console.log("DOCS", documents);
         models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+          console.log("APPS", applications);
             if(applications.length > 0){
               applied_funds = [];
               async.each(applications, function(app, callback){
@@ -412,10 +413,15 @@ module.exports = {
                   })
 
               }, function done(){
-                models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+                console.log("HI HI");
                   res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
-                });
+
               })
+            }
+            else{
+              res.render('user-crowdfunding', { user: user, documents: documents, applications: false});
+
+
             }
 
         })
