@@ -413,19 +413,17 @@ module.exports = {
                     applied_funds.push(app_obj);
                     console.log("I'M HERE", applied_funds);
                     callback();
-                  })
+                  });
 
               }, function done(){
-                models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-                  res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
-                });
-              })
+                res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds});
+              });
+            } else {
+              res.render('user-crowdfunding', { user: user, documents: documents, applications: false});
             }
-
-        })
-
-      })
-    })
+        });
+      });
+    });
   },
 
   addApplication: function(req, res){
