@@ -459,6 +459,11 @@ module.exports = {
 		} else {
 			general_settings = false;
 		}
+
+    if (body.country_of_residence) {
+      body.country_of_residence = body.country_of_residence.split(',');
+    }
+
 		models.users.findById(id).then(function(user){
 			user.update(body).then(function(user){
 				res.render('user/settings', {user: user, general: general_settings});

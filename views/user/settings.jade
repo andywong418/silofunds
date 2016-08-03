@@ -3,6 +3,7 @@ extends ../layout
 block extraHeader
 	link(href='/stylesheets/user-profile.css', rel='stylesheet')
 	link(href='/stylesheets/user-settings.css', rel='stylesheet')
+	link(href='/stylesheets/advanced-search.css', rel='stylesheet')
 block content
 	include ../navbar.jade
 	include ../advanced-search.jade
@@ -26,7 +27,7 @@ block content
 				.col-md-7.col-xs-8#profile-settings
 					form(action='/user/settings/', method='post', id='change-settings')
 						.general
-							.row#username-row
+							.info-row.row#username-row
 								.col-md-5
 									p Name:
 								.col-md-5
@@ -34,11 +35,11 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-username
 									p.edit Edit
-							.row#input-name
+							.info-row.row#input-name
 								.col-md-12.center-block
 									button#save-username.save Save Changes
 							hr.account
-							.row#email-row
+							.info-row.row#email-row
 								.col-md-5
 									p Email:
 								.col-md-5
@@ -46,11 +47,11 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-email
 									p.edit Edit
-							.row#input-email
+							.info-row.row#input-email
 								.col-md-12.center-block
 									button#save-email.save Save Changes
 							hr.account
-							.row#password-row
+							.info-row.row#password-row
 								.col-md-5
 									p Password:
 								.col-md-5
@@ -58,18 +59,18 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-password
 									p.edit Edit
-							.row#input-password
+							.info-row.row#input-password
 								.col-md-12.center-block
 									button#save-password.save Save Changes
 							hr.account
-							.row
+							.info-row.row
 								.col-md-5
 									p Receive email updates weekly
-								.col-md-1
+								.info-row.col-md-1
 									input#email_updates(type='checkbox', name='email-updates', value = 'email-updates')
 							br
 						.profile-edit
-							.row#description-row
+							.info-row.row#description-row
 								.col-md-4
 									p Description:
 								.col-md-6
@@ -77,23 +78,23 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-password
 									p.edit Edit
-							.row#input-description
+							.info-row.row#input-description
 								.col-md-12.center-block
 									button#save-description.save Save changes
 							hr
-							.row#nationality-row
+							.info-row.row#country_of_residence-row
 								.col-md-5
-									p Nationality:
+									p Country of Residence:
 								.col-md-5
-									p#grey <%= nationality %>
+									p#grey <%= country_of_residence %>
 								.col-md-1
-									i.fa.fa-pencil.edit-nationality
+									i.fa.fa-pencil.edit-country_of_residence
 									p.edit Edit
-							.row#input-nationality
+							.info-row.row#input-country_of_residence
 									.col-md-12.center-block
-										button#save-nationality.save Save Changes
+										button#save-country_of_residence.save Save Changes
 							hr
-							.row#religion-row
+							.info-row.row#religion-row
 								.col-md-5
 									p Religion:
 								.col-md-5
@@ -101,11 +102,11 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-religion
 									p.edit Edit
-							.row#input-religion
+							.info-row.row#input-religion
 								.col-md-12.center-block
 									button#save-religion.save Save changes
 							hr
-							.row#funding_needed-row
+							.info-row.row#funding_needed-row
 								.col-md-5
 									p Funding Needed:
 								.col-md-5
@@ -113,7 +114,7 @@ block content
 								.col-md-1
 									i.fa.fa-pencil.edit-funding_needed
 									p.edit Edit
-							.row#input-funding_needed
+							.info-row.row#input-funding_needed
 								.col-md-12.center-block
 									button#save-funding_needed.save Save changes
 							//		
@@ -128,6 +129,7 @@ block scripts
 	script(src='/javascript/signup-login.js')
 	script(src='/javascript/lib/modernizr-input.js')
 	script(src= '/javascript/user-settings.js')
+	script(src='/javascript/advanced-search.js')
 	script.
 		var user = !{JSON.stringify(user)}
 		var general = !{JSON.stringify(general)}
