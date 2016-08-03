@@ -436,7 +436,6 @@ module.exports = {
 
               }, function done(){
                 models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
-                  console.log("STRIPE USER", stripe_user);
                   if(stripe_user){
                     models.sequelize.query("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'").then(function(charges){
                       console.log("HJI");

@@ -176,7 +176,14 @@ block content
 								else
 									img#donation-picture(src='/images/profile-placeholder.jpg')
 							.col-md-9.donor-info-row
-								i.fa.fa-smile-o(aria-hidden="true")
+								if donation.amount < 10
+									img.emoji(src='/images/smile.svg')
+								if donation.amount >= 10 && donation.amount < 100
+									img.emoji(src='/images/bright-smile.svg')
+								if donation.amount >= 100 && donation.amount < 500
+									img.emoji(src='/images/money-wow.svg')
+								if donation.amount >= 500
+									img.emoji(src='/images/heart.svg')
 								p#donated-amount= '£' + donation.amount
 								span#donor-name= donation.sender_name
 								if donation.diffDays == 0

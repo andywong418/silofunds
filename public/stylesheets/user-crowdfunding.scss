@@ -352,11 +352,17 @@ body{
 					margin-left: 10px;
 
 					#donation-picture{
-						width: 40px;
-						height: 40px;
+						width: 45px;
+						height: 45px;
 						border-radius: 50%;
 						box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6);
 
+					}
+					.emoji{
+						width: 27px;
+						padding-top: 5px;
+						height: auto;
+						float: right;
 					}
 					.donor-info-row{
 						padding-bottom: 10px;
@@ -376,13 +382,7 @@ body{
 							font-size: 13px;
 						}
 					}
-					i{
-						color: #0dd4c5;
-						font-size: 25px;
-						padding-top: 5px;
-						float: right;
 
-					}
 				}
 			}
 
