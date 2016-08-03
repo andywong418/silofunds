@@ -170,12 +170,12 @@ module.exports = {
                         verificationSuccess = verificationSuccess[0]
                       }
                       console.log('hello')
-                      models.stripe_users.find({where: {user_id: req.user.id}}).then(function(user) {
-                        if(!user) {
+                      models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
+                        if(!stripe_user) {
                           res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
                         }
-                        if (user) {
-                          res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
+                        if (stripe_user) {
+                          res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
                         }
                       })
                     })

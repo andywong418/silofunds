@@ -1515,8 +1515,6 @@ h2#name {
 
 .alert {
   margin: 0;
-  margin-top: 54px;
-  width: 100%; }
-
-#spacingDiv {
-  margin-top: 54px; }
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 64px; }
