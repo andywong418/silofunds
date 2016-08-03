@@ -1,0 +1,246 @@
+body {
+  background-color: #f0f2f4; }
+  body .navbar-custom {
+    position: relative; }
+  body div.navbar-center-container {
+    position: absolute; }
+  body #crowdfunding-wrapper {
+    margin-top: 50px;
+    padding-bottom: 50px; }
+    body #crowdfunding-wrapper #social-media-flex-container {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      margin-top: 15px; }
+      body #crowdfunding-wrapper #social-media-flex-container .social {
+        color: #4d4d88;
+        font-size: 15px;
+        border: 1px solid #e1e8ed;
+        padding: 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-right: 20px;
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
+        body #crowdfunding-wrapper #social-media-flex-container .social i {
+          margin-right: 5px;
+          font-size: 18px;
+          color: #4d4d88; }
+        body #crowdfunding-wrapper #social-media-flex-container .social:hover {
+          background: #4d4d88;
+          color: white; }
+          body #crowdfunding-wrapper #social-media-flex-container .social:hover i {
+            color: white; }
+    body #crowdfunding-wrapper #tab-table {
+      margin-top: 15px;
+      background: white;
+      padding: 20px;
+      padding-bottom: 30px;
+      padding-top: 10px;
+      border: 1px solid #e1e8ed; }
+      body #crowdfunding-wrapper #tab-table #tab-menu-flex {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex; }
+        body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item {
+          -webkit-box-flex: 1;
+              -ms-flex-positive: 1;
+                  flex-grow: 1;
+          cursor: pointer;
+          color: inherit; }
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:hover, body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:focus, body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item:active {
+            color: inherit;
+            text-decoration: none; }
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item p {
+            padding-bottom: 8px;
+            text-align: center;
+            font-size: 16px;
+            color: #4d4d88;
+            margin-bottom: 0; }
+          body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item .active-item {
+            border-bottom: 3px solid #2390fd;
+            color: #4b4f56; }
+      body #crowdfunding-wrapper #tab-table #tab-content {
+        padding: 20px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #story {
+          font-size: 16px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #header {
+          margin-bottom: 0;
+          font-size: 16px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .basic-header {
+          margin-top: 10px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .age {
+          margin-top: 4px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler hr {
+          margin-top: 5px;
+          margin-bottom: 30px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler i {
+          color: #4b4f56;
+          font-size: 20px;
+          margin-bottom: 30px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler span {
+          margin-left: 7px;
+          font-size: 15px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler img {
+          width: 30px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #religion {
+          font-size: 15px;
+          margin-top: 2px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #previous_degree, body #crowdfunding-wrapper #tab-table #tab-content #about-handler #previous_university, body #crowdfunding-wrapper #tab-table #tab-content #about-handler #subject {
+          font-family: 'Montserrat';
+          margin-top: 10px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .documents, body #crowdfunding-wrapper #tab-table #tab-content #about-handler .education {
+          margin-top: 15px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row {
+          margin-top: -15px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row hr {
+            margin-bottom: 0; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span i {
+            font-size: 25px;
+            margin: 20px 0px 10px 0px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .pdf-file {
+            color: #f39c12; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .photo-file {
+            color: #c0392b; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .video-file {
+            color: #8e44ad; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .excel-file {
+            color: #16a085; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .word-file {
+            color: #2980b9; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .powerpoint-file {
+            color: #e67e22; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .code-file {
+            color: #e62240; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .filename {
+            color: #7f8c8d; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .hyperlink {
+            font-size: 20px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span a {
+            display: inline;
+            font-size: 15px;
+            margin: 10px;
+            font-family: 'Montserrat'; }
+    body #crowdfunding-wrapper #user-progress #progress-card {
+      background-color: white;
+      margin-top: 10px;
+      padding: 25px;
+      padding-top: 10px;
+      border: 1px solid #e1e8ed; }
+      body #crowdfunding-wrapper #user-progress #progress-card h3 {
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+        margin-top: 10px;
+        text-align: center;
+        margin-bottom: 15px; }
+      body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount {
+        -webkit-transition: 1.5s;
+        transition: 1.5s;
+        opacity: 0;
+        height: calc(48px + 80px); }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:active, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:visited, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:focus, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:hover {
+          outline: 0; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage p {
+          margin-bottom: 5px;
+          margin-top: 15px;
+          font-size: 14px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #buttonDiv {
+          margin-top: 7px;
+          padding: 0px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv {
+          margin: 0px;
+          margin-top: 5px;
+          padding: 0px;
+          padding-left: 10px; }
+          body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv span {
+            color: #a8a8a8;
+            font-size: 12px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input {
+          text-align: right;
+          background-color: #cce1f6;
+          border: none; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount span {
+          background-color: #7bb7f4;
+          border: none;
+          color: white; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number]::-webkit-inner-spin-button,
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number] {
+          -moz-appearance: textfield; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount .col-md-3 {
+          padding: 0;
+          margin-top: 0px; }
+      body #crowdfunding-wrapper #user-progress #progress-card #raised {
+        text-align: left;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 23px; }
+        body #crowdfunding-wrapper #user-progress #progress-card #raised span {
+          font-size: 16px;
+          margin-left: 3px;
+          font-weight: 100; }
+      body #crowdfunding-wrapper #user-progress #progress-card h4 {
+        font-family: 'Helvetica Neue'; }
+      body #crowdfunding-wrapper #user-progress #progress-card .progress-bar {
+        background-color: #4FDA9B; }
+      body #crowdfunding-wrapper #user-progress #progress-card #progress-info p {
+        font-weight: bold;
+        text-align: center; }
+        body #crowdfunding-wrapper #user-progress #progress-card #progress-info p span {
+          display: block;
+          font-weight: normal;
+          font-size: 16px; }
+      body #crowdfunding-wrapper #user-progress #progress-card #donate {
+        width: 100%;
+        border: none;
+        color: white;
+        padding: 10px;
+        background-color: #2390fd;
+        font-size: 20px; }
+        body #crowdfunding-wrapper #user-progress #progress-card #donate:hover {
+          background-color: #0273e3; }
+      body #crowdfunding-wrapper #user-progress #progress-card .btn-facebook {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center; }
+    body #crowdfunding-wrapper #user-progress #funding-institutions, body #crowdfunding-wrapper #user-progress #recent-donations {
+      margin-left: 0;
+      margin-top: 40px; }
+      body #crowdfunding-wrapper #user-progress #funding-institutions #fund-banner p, body #crowdfunding-wrapper #user-progress #funding-institutions #donation-banner p, body #crowdfunding-wrapper #user-progress #recent-donations #fund-banner p, body #crowdfunding-wrapper #user-progress #recent-donations #donation-banner p {
+        background-color: white;
+        border: 1px solid #e1e8ed;
+        font-size: 16px;
+        padding: 10px;
+        padding-left: 15px;
+        border-radius: 3px;
+        color: #4b4f56; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions #fund-banner p i, body #crowdfunding-wrapper #user-progress #funding-institutions #donation-banner p i, body #crowdfunding-wrapper #user-progress #recent-donations #fund-banner p i, body #crowdfunding-wrapper #user-progress #recent-donations #donation-banner p i {
+          color: #4b4f56;
+          margin-left: 5px; }
+      body #crowdfunding-wrapper #user-progress #funding-institutions .app-row, body #crowdfunding-wrapper #user-progress #recent-donations .app-row {
+        height: 40px; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row .col-md-9, body #crowdfunding-wrapper #user-progress #recent-donations .app-row .col-md-9 {
+          padding-left: 30px; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row p, body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row p, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
+          font-size: 15px;
+          color: #4b4f56; }
+        body #crowdfunding-wrapper #user-progress #funding-institutions .app-row #fund-title, body #crowdfunding-wrapper #user-progress #recent-donations .app-row #fund-title {
+          color: #2390fd; }
+      body #crowdfunding-wrapper #user-progress #funding-institutions #none, body #crowdfunding-wrapper #user-progress #funding-institutions #no-donations, body #crowdfunding-wrapper #user-progress #recent-donations #none, body #crowdfunding-wrapper #user-progress #recent-donations #no-donations {
+        font-size: 16px;
+        text-align: center;
+        color: #4b4f56; }
+    body #crowdfunding-wrapper #profile_picture {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+      border-radius: 3px; }
+
+.hidden {
+  display: none; }

@@ -21,7 +21,7 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
     console.log("HUH");
     models.users.findById(userId).then(function(user){
