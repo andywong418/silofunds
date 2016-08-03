@@ -84,13 +84,6 @@ module.exports = {
             "should": []
           },
         };
-        //   "constant_score" : {
-        //     "filter" : {
-        //       "terms" : {
-        //
-        //       }
-        //     }
-        //   }
 
         user = user.get();
 
@@ -125,10 +118,6 @@ module.exports = {
           }
         }
 
-        console.log('QUERY OPTIONS');
-        console.log(queryOptions.filtered.query.bool.should);
-        // console.log("QUERY OPTIONS",queryOptions.filtered.query.constant_score);
-        // console.log("QUERY NNON array options", queryOptions.filtered.query.bool)
         models.es.search({
           index: "funds",
           type: "fund",
@@ -168,7 +157,7 @@ module.exports = {
 
                       applied_funds.push(fund);
                       callback();
-                    })
+                    });
 
                 }, function done(){
                   models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
@@ -183,15 +172,13 @@ module.exports = {
                     }, function done(){
                       res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds});
 
-                    })
-                  })
+                    });
+                  });
                 });
-              })
-
+              });
           });
-        })
-    })
-
+        });
+    });
   },
 
   chargeStripe: function(req, res) {
