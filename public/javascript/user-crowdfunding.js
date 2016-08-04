@@ -286,6 +286,7 @@ $(document).ready(function(){
     var applicationFee = Math.ceil(userInput * 0.029 + 0.2);
     var progressBar = $('.progress-bar');
     var newAmount = parseInt(userInput) + user.funding_accrued;
+    console.log(newAmount);
     var percentage = Math.ceil((newAmount/user.funding_needed) * 100);
     if(userInput !== '') {
       if ($('#donorpays').hasClass('active')) {
@@ -294,16 +295,20 @@ $(document).ready(function(){
         $('#process-fee').html('The recipient will receive £' + applicationFee + ' less.');
         newAmount = newAmount - applicationFee;
         percentage = Math.ceil((newAmount/user.funding_needed) * 100);
-      }
 
+      }
+      $('#percentage').html(percentage+ '% <span> funded </span>');
+      console.log("PERCENTAGE", percentage);
+      $('.progress-bar').css('background-color', '#4fd9da');
+      $('.progress-bar').addClass('progress-bar-striped active');
+      $('.progress-bar').animate({width: percentage + '%'});
+      $('#raised').html('£' + newAmount + "<span> of " + user.funding_needed + " reached");
+      $('#raised').css('color', '#e74c3c');
     } else {
       $('#process-fee').empty();
     }
-    console.log("PERCENTAGE", percentage);
-    $('.progress-bar').css('background-color', '#4fd9da');
-    $('.progress-bar').addClass('progress-bar-striped active');
-    $('.progress-bar').delay(800).animate({width: percentage+'%'});
-    $('#percentage').html(percentage+ '% <span> funded </span>');
+
+
 
   }
 });

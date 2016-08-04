@@ -189,7 +189,8 @@ body {
         body #crowdfunding-wrapper #user-progress #progress-card #raised span {
           font-size: 16px;
           margin-left: 3px;
-          font-weight: 100; }
+          font-weight: 100;
+          color: #333333; }
       body #crowdfunding-wrapper #user-progress #progress-card h4 {
         font-family: 'Helvetica Neue'; }
       body #crowdfunding-wrapper #user-progress #progress-card .progress-bar {
