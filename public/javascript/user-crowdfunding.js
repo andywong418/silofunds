@@ -303,9 +303,17 @@ $(document).ready(function(){
       $('.progress-bar').addClass('progress-bar-striped active');
       $('.progress-bar').animate({width: percentage + '%'});
       $('#raised').html('£' + newAmount + "<span> of " + user.funding_needed + " reached");
-      $('#raised').css('color', '#e74c3c');
+      $('#raised').css('color', 'rgb(85, 230, 165)');
     } else {
       $('#process-fee').empty();
+      var amount = user.funding_accrued;
+      var goal = user.funding_needed
+      var percentage = Math.ceil((amount/ goal) * 100);
+      $('.progress-bar').css('width', percentage + '%');
+      $('.progress-bar').css('background-color', '#4FDA9B');
+      $('.progress-bar').removeClass('progress-bar-striped active');
+      $('#raised').html('£' + user.funding_accrued + "<span> of " + user.funding_needed + " reached");
+      $('#raised').css('color', '#333333');
     }
 
 
