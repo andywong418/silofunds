@@ -1,154 +1,166 @@
-$(document).ready(function(){
-	var SettingsModel = Backbone.Model.extend({
-			defaults: {
-				name: "",
-				age: 0,
-				description: "",
-				country_of_residence: [""],
-				religion: "",
-				funding_needed: 0
-			}
+$(document).ready(function() {
+  $("div.settings-tab-menu div.list-group a").click(function(e) {
+    e.preventDefault();
 
-		});
-	var SettingsView = Backbone.View.extend({
-		id: 'user-setup',
-		template: _.template($('#settings-template').html()),
-		render: function() {
-        this.$el.html(this.template(this.model.toJSON()));
-        return this; // enable chained calls
-    }
-	});
+    $(this).siblings('a.active').removeClass("active");
+    $(this).addClass("active");
+
+    var index = $(this).index();
+    $("div.settings-tab div.settings-tab-content").removeClass("active");
+    $("div.settings-tab div.settings-tab-content").eq(index).addClass("active");
+  });
+
+  tokenInputFor('country_of_residence', 'countries');
+  tokenInputFor('previous_degree', 'degrees');
+  tokenInputFor('previous_university', 'universities');
+  tokenInputFor('religion', 'religions');
+  tokenInputFor('subject', 'subjects');
+  tokenInputFor('target_degree', 'degrees');
+  tokenInputFor('target_university', 'universities');
+
+  // // TODO: ABSTRACT BELOW BITCHHHH
+  // var text;
+  // try {
+	//
+  //   // text editor init
+  //   tinymce.init({
+  //     selector: '#description',
+  //     fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+  //     plugins: "link",
+  //     toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
+  //   }).then(function(editors){
+  //     console.log(tinymce.activeEditor.getContent({format: 'text'}));
+  //   });
+  // } catch(e) {
+  //   console.log("tinymce not defined!");
+  // }
+  // console.log(text);
+	//
+  	//
+  ///////////
+  // NOTE: submit form data
+  // $('#save-general-info').click(function() {
+  //
+  //
+  // }
+  //   console.log(tinymce.activeEditor.getContent({format: 'text'}));
+  //   var description =tinymce.activeEditor.getContent();
+  //   var formData = {
+  //     "title": $('#title').val(),
+  //     "description": description,
+  //     "number_of_places": $('#number_of_places').val(),
+  //     "minimum_amount": $('#minimum_amount').val(),
+  //     "maximum_amount": $('#maximum_amount').val(),
+  //     "duration_of_scholarship": $('#duration_of_scholarship').val()
+  //   };
+  //   $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
+  //     console.log(data);
+  //     $('#save-general-notification').css('display', 'block');
+  //     $("#save-general-notification").fadeOut(6000);
+	//
+  //   });
+  // })
+  // $('#save-eligibility').click(function(){
+  //   var subject = $('input[name=subject]').val().split(',');
+  //   var religion = $('#religion').val().split(',');
+  //   var targetUniversity = $('input[name=target_university]').val().split(',');
+  //   var targetDegree = $('input[name=target_degree]').val().split(',');
+  //   var requiredDegree = $('input[name=required_degree]').val().split(',');
+  //   var requiredUniversity = $('input[name=required_university]').val().split(',');
+  //   var targetCountry = $('input[name=target_country]').val().split(',');
+  //   var country_of_residence = $('input[name=country_of_residence]').val().split(',');
+  //   var specific_location = $('input[name=specific_location]').val().split(',');
+  //   var merit_or_finance = '';
+  //   if($('#merit-input').is(":checked")){
+  //     merit_or_finance = 'merit';
+  //   }
+  //   if($('#finance-input').is(":checked")){
+  //     merit_or_finance = 'finance';
+  //   };
+  //   var gender = '';
+  //   if($('#male-input').is(":checked")){
+  //     gender = 'male';
+  //   }
+  //   if($('#female-input').is(":checked")){
+  //     gender= 'female';
+  //   }
+  //   var formData = {
+  //     'subject': subject,
+  //     'minimum_age': $('input[name=minimum_age]').val(),
+  //     'maximum_age': $('input[name=maximum_age]').val(),
+  //     'gender': gender,
+  //     'merit_or_finance': merit_or_finance,
+  //     'religion': religion,
+  //     'target_university': targetUniversity,
+  //     'target_degree': targetDegree,
+  //     'required_degree': requiredDegree,
+  //     'required_university': requiredUniversity,
+  //     'required_grade': $('input[name=required_grade]').val(),
+  //     'target_country': targetCountry,
+  //     'country_of_residence': country_of_residence,
+  //     'specific_location': specific_location,
+  //     'other_eligibility': $('textarea#other_eligibility').val()
+  //   };
+  //   $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
+  //     console.log(data);
+  //     $('#save-eligibility-notification').css('display', 'block');
+  //     $("#save-eligibility-notification").fadeOut(6000);
+	//
+  //   });
+  // })
+  // $('#save-application-process').click(function(){
+  //   var applicationDocuments = $('input[name=application_documents]').val().split(',');
+  //   var formData={
+  //     'application_open_date': $('input[name=start_date]').val(),
+  //     'deadline': $('input[name=deadline]').val(),
+  //     'interview_date': $('input[name=interview_date]').val(),
+  //     'application_decision_date':$('input[name=application_decision_date]').val(),
+  //     'application_link': $('input[name=application_link]').val(),
+  //     'application_documents': applicationDocuments,
+  //     'other_application_steps': $('textarea#other_application_steps').val(),
+  //     'tips': $('textarea#tips').val()
+  //   }
+  //   $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
+  //     console.log(data);
+  //     $('#save-application-notification').css('display', 'block');
+  //     $("#save-application-notification").fadeOut(6000);
+  //   });
+  // })
 
 
-	var SettingsInfo = Backbone.View.extend({
-		el: 'body',
-		initialize: function(){
-			var myDate
-			if(myDate) {
-			 	myDate = user.date_of_birth.split("-");
-				var yearFix= myDate[2].split("T");
-				var day = yearFix[0];
-				var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-				var birthDate = new Date(newDate).getTime();
-				var nowDate = new Date().getTime();
-				var age = Math.floor((nowDate - birthDate) / 31536000000 );
-			} else {
-				myDate = ""
-			}
-			var settings_model = new SettingsModel({
-				name: user.username,
-				age: age,
-				description: user.description,
-				country_of_residence: user.country_of_residence,
-				funding_needed: user.funding_needed,
-				religion: user.religion
-			});
-			var view = new SettingsView({model: settings_model});
-			this.$el.append(view.render().el);
+  /// Functions
 
-			if (!Modernizr.inputtypes.date) {
-        // If not native HTML5 support, fallback to jQuery datePicker
-          $('input[type=date]').datepicker({
-            // Consistent format with the HTML5 picker
-              dateFormat : 'dd-mm-yy'
-            },
-            // Localization
-            $.datepicker.regional['it']
-          );
+  function tokenInputFor(field, source) {
+    var tokenInputOptions = { "theme": "facebook", "allowFreeTagging": true };
+
+    if (field === 'religion') {
+      if (user[field]) {
+        var tokenInputArr = [];
+        var wrapper = {};
+
+        wrapper.id = user[field];
+        wrapper.name = user[field];
+
+        tokenInputArr.push(wrapper);
+        tokenInputOptions.prePopulate = tokenInputArr;
       }
+    } else {
+      // Handles array fields
+      if (user[field]) {
+        var tokenInputArr = [];
 
-			if(user.email_updates === true) {
-				$("#email_updates").prop("checked", true);
-			}
+        for (var j = 0; j < user[field].length; j++) {
+          var wrapper = {};
+          wrapper.id = user[field][j];
+          wrapper.name = user[field][j];
 
-			this.editAccount();
-			this.editEmailSettings();
-		},
+          tokenInputArr.push(wrapper);
+        }
 
-		editAccount: function(){
+        tokenInputOptions.prePopulate = tokenInputArr;
+      }
+    }
 
-		if(general== false){
-			$('.general').css("display", "none");
-			$('.profile-edit').css("display", "inline");
-			$('#general-settings').css("color", "grey");
-			$('#account').css("color", "black")
-		}
-
-
-			(function( $ ){
-   $.fn.displaySave = function() {
-      var id = $(this).attr("id");
-      console.log($(this));
-			var seekid = id.split("-");
-			var element = seekid[0];
-			console.log(element);
-			var value = $("#" + id + " #grey").html();
-			console.log(value);
-			if(element == "description"){
-				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description'>" + value + "</textarea>");
-				$("#save-" + element).css("display","inline");
-				$(".save").not("#save-" + element).css("display", "none");
-			}
-			else{
-			$("#" + id + " #grey").replaceWith("<input type = 'text' class= 'change-input' id = 'input" +element+ "' name = '"+ element +"' value = '"+ value + "'> </input>");
-			$("#save-" + element).css("display","inline");
-		  $(".save").not("#save-" + element).css("display", "none");
-			}
-			return this;
-   		};
-		})( jQuery );
-
-		(function( $ ){
-   $.fn.saveInfo= function() {
-      var id = $(this).attr("id");
-      console.log(id);
-			var seekid = id.split("-");
-			var element = seekid[1];
-			return this;
-   		};
-		})( jQuery );
-
-			$(".info-row").click(function(){
-				$(this).displaySave();
-			});
-
-			$(".save").click(function(){
-				$(this).saveInfo();
-			});
-
-			$("#account").click(function(){
-				$('.general').css("display", "none");
-				$('.profile-edit').css("display", "inline");
-				$('#general-settings').css("color", "grey");
-				$('#account').css("color", "black");
-			});
-
-			$("#general-settings").click(function(){
-				$('.general').css("display", "inline");
-				$('.profile-edit').css("display", "none");
-				$('#general-settings').css("color", "black");
-				$('#account').css("color", "grey");
-			});
-		},
-		editEmailSettings: function(){
-			$("#email_updates").change(function(){
-				if(!this.checked){
-					var parameters = {email_updates: false};
-					$.post('/user/email-settings/'+ user.id, parameters, function(data){
-						console.log(data);
-					})
-				}
-				else{
-					var parameters = {email_updates: true};
-					$.post('/user/email-settings/'+ user.id, parameters, function(data){
-						console.log(data);
-					})
-				}
-			})
-		}
-
-	})
-
-	var settingsInfo = new SettingsInfo();
-
-})
+    $('input#' + field).tokenInput('/autocomplete/' + source, tokenInputOptions);
+  }
+});

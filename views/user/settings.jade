@@ -1,143 +1,324 @@
-extends ../layout
+extend ../layout
 
 block extraHeader
-	link(href='/stylesheets/user-profile.css', rel='stylesheet')
-	link(href='/stylesheets/user-settings.css', rel='stylesheet')
-	link(href='/stylesheets/advanced-search.css', rel='stylesheet')
+  link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
+  link(href='/stylesheets/results.css', rel='stylesheet')
+  link(href='/stylesheets/user-settings.css', rel='stylesheet')
 block content
-	include ../navbar.jade
-	include ../advanced-search.jade
-	script#settings-template(type='text/template')
-		section#edit.container.content-section
-			.row
-				.col-md-2.col-xs-4#categories
-					ul
-						li#general-settings
-							i.fa.fa-gears
-							| General settings
-						li#account
-							i.fa.fa-lock
-							| Account details
-					hr
-					ul
-						li#logout
-							a(href='/user/logout')
-								| Log out
-				.col-md-1
-				.col-md-7.col-xs-8#profile-settings
-					form(action='/user/settings/', method='post', id='change-settings')
-						.general
-							.info-row.row#username-row
-								.col-md-5
-									p Name:
-								.col-md-5
-									p#grey <%= name %>
-								.col-md-1
-									i.fa.fa-pencil.edit-username
-									p.edit Edit
-							.info-row.row#input-name
-								.col-md-12.center-block
-									button#save-username.save Save Changes
-							hr.account
-							.info-row.row#email-row
-								.col-md-5
-									p Email:
-								.col-md-5
-									p#grey= user.email
-								.col-md-1
-									i.fa.fa-pencil.edit-email
-									p.edit Edit
-							.info-row.row#input-email
-								.col-md-12.center-block
-									button#save-email.save Save Changes
-							hr.account
-							.info-row.row#password-row
-								.col-md-5
-									p Password:
-								.col-md-5
-									p#grey Change password
-								.col-md-1
-									i.fa.fa-pencil.edit-password
-									p.edit Edit
-							.info-row.row#input-password
-								.col-md-12.center-block
-									button#save-password.save Save Changes
-							hr.account
-							.info-row.row
-								.col-md-5
-									p Receive email updates weekly
-								.info-row.col-md-1
-									input#email_updates(type='checkbox', name='email-updates', value = 'email-updates')
-							br
-						.profile-edit
-							.info-row.row#description-row
-								.col-md-4
-									p Description:
-								.col-md-6
-									p#grey <%= description %>
-								.col-md-1
-									i.fa.fa-pencil.edit-password
-									p.edit Edit
-							.info-row.row#input-description
-								.col-md-12.center-block
-									button#save-description.save Save changes
-							hr
-							.info-row.row#country_of_residence-row
-								.col-md-5
-									p Country of Residence:
-								.col-md-5
-									p#grey <%= country_of_residence %>
-								.col-md-1
-									i.fa.fa-pencil.edit-country_of_residence
-									p.edit Edit
-							.info-row.row#input-country_of_residence
-									.col-md-12.center-block
-										button#save-country_of_residence.save Save Changes
-							hr
-							.info-row.row#religion-row
-								.col-md-5
-									p Religion:
-								.col-md-5
-									p#grey <%= religion %>
-								.col-md-1
-									i.fa.fa-pencil.edit-religion
-									p.edit Edit
-							.info-row.row#input-religion
-								.col-md-12.center-block
-									button#save-religion.save Save changes
-							hr
-							.info-row.row#funding_needed-row
-								.col-md-5
-									p Funding Needed:
-								.col-md-5
-									p#grey <%= funding_needed %>
-								.col-md-1
-									i.fa.fa-pencil.edit-funding_needed
-									p.edit Edit
-							.info-row.row#input-funding_needed
-								.col-md-12.center-block
-									button#save-funding_needed.save Save changes
-							//		
-								hr
-								.row
-									.col-md-6
-										p Receive email updates weekly
-									.col-md-5
-										// input(type='checkbox', name='email-updates', checked='')
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
+  include ../navbar.jade
+  include ../signup-modal.jade
+  #big_flex_div.container
+    #left_div.col-md-3
+      .profile
+        #box-profile
+          a(href='#') 
+            img#userImage(src=user.profile_picture)
+      .settings-tab-menu
+        .list-group
+          a.list-group-item(href="#")
+            h5 General settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Personal settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item.active(href="#")
+            h5 Campaign settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Education settings
+              span.glyphicon.glyphicon-menu-right
+    #right_div.col-md-9
+      .settings-tab
+        #general-settings.settings-tab-content
+          .col-md-12.header
+            h3 General Settings
+            p.help-block Change your bio and other key information.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Email preferences
+              .col-md-12
+                label.col-md-3(for='email') Email
+                .col-md-6
+                  input#email.form-control(type='text', name='email', value=user.email)
+              .col-md-12
+                label.col-md-3(for='email') Send me updates
+                .col-md-6
+                  if user.email_updates
+                    input#email_updates(type='checkbox', name='email', checked)
+                  else
+                    input#email_updates(type='checkbox', name='email')
+            .col-md-12.sub-content
+              h4 Change your password
+              .col-md-12
+                label.col-md-3(for='previous_password') Previous password
+                .col-md-3
+                  input#previous_password.form-control(type='password', name='previous_password')
+              .col-md-12
+                label.col-md-3(for='new_password') New password
+                .col-md-3
+                  input#new_password.form-control(type='password', name='new_password')
+              .col-md-12
+                label.col-md-3(for='confirm_new_password') Confirm new password
+                .col-md-3
+                  input#confirm_new_password.form-control(type='password', name='confirm_new_password')
+          .col-md-12.footer
+            button#save-general-settings.btn.btn-primary(type='submit') Save changes
+            #save-general-settings-notification Your changes have been saved
+        #personal-settings.settings-tab-content
+          .col-md-12.header
+            h3 Personal Settings
+            p.help-block Change your personal details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Subject Requirements
+              .col-md-12
+                label.col-md-3(for='username') Name
+                .col-md-6
+                  input#username.form-control(type='text', name='username', value=user.username)
+              .col-md-12
+                label.col-md-3(for='date_of_birth') Date of Birth
+                .col-md-6
+                  input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
+              .col-md-12
+                label.col-md-3(for='religion') Religion
+                .col-md-6
+                  input#religion.form-control(type='text', name='religion', value=user.religion)
+              .col-md-12
+                label.col-md-3(for='country_of_residence') Country of Residence
+                .col-md-6
+                  input#country_of_residence.form-control(type='text', name='country_of_residence', value=user.country_of_residence)
+          .col-md-12.footer
+            button#save-personal-settings.btn.btn-primary(type='submit') Save changes
+            #save-personal-settings-notification Your changes have been saved
+        #campaign-settings.settings-tab-content.active
+          .col-md-12.header
+            h3 Campaign Settings
+            p.help-block Change your campaigning details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 About your campaign
+              .col-md-12
+                label.col-md-3(for='description') Describe your goal
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='5')=user.description
+              .col-md-12
+                label.col-md-3(for='funding_needed') Target amount
+                .col-md-3
+                  input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
+              .col-md-12
+                label.col-md-3(for='completion_date') to be achieved by
+                .col-md-3
+                  input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
+            .col-md-12.sub-content
+              h4 Showcase your accomplishments
+              .col-md-12
+                label.col-md-3(for='past_work_1') Past work #1
+                .col-md-3
+                  input#past_work_1.realFileUpload.hidden(type="file", name="jsonData")
+                  button#past_work_1.fakeFileUpload.btn.btn-default(type='') Upload
+              .col-md-12
+                label.col-md-3(for='description') Brief description
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='4')
+              .col-md-12
+                label.col-md-3(for='past_work_2') Past work #2
+                .col-md-3
+                  input#past_work_2.realFileUpload.hidden(type="file", name="jsonData")
+                  button#past_work_2.fakeFileUpload.btn.btn-default(type='') Upload
+              .col-md-12
+                label.col-md-3(for='description') Brief description
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='4')
+              .col-md-12
+                label.col-md-3(for='past_work_3') Past work #3
+                .col-md-3
+                  input#past_work_3.realFileUpload.hidden(type="file", name="jsonData")
+                  button#past_work_3.fakeFileUpload.btn.btn-default(type='') Upload
+              .col-md-12
+                label.col-md-3(for='description') Brief description
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='4')
+              .col-md-12
+                label.col-md-3(for='past_work_4') Past work #4
+                .col-md-3
+                  input#past_work_4.realFileUpload.hidden(type="file", name="jsonData")
+                  button#past_work_4.fakeFileUpload.btn.btn-default(type='') Upload
+              .col-md-12
+                label.col-md-3(for='description') Brief description
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='4')
+              .col-md-12
+                label.col-md-3(for='past_work_5') Past work #5
+                .col-md-3
+                  input#past_work_5.realFileUpload.hidden(type="file", name="jsonData")
+                  button#past_work_5.fakeFileUpload.btn.btn-default(type='') Upload
+              .col-md-12
+                label.col-md-3(for='description') Brief description
+                .col-md-6
+                  textarea#description.form-control(name='description', rows='4')
+              .col-md-12
+                label.col-md-3(for='past_work_link') Link
+                .col-md-6
+                  input#past_work_link.form-control(type='text', name='past_work_link', placeholder='Link to your website, portfolio, Github profile etc.')
+          .col-md-12.footer
+            button#save-campaign-settings.btn.btn-primary(type='submit') Save changes
+            #save-campaign-settings-notification Your changes have been saved
+        #education-settings.settings-tab-content
+          .col-md-12.header
+            h3 Education Settings
+            p.help-block Change your education details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Your education history
+              .col-md-12
+                label.col-md-3(for='previous_degree') Completed degrees
+                .col-md-6
+                  input#previous_degree.form-control(type='text', name='previous_degree', value=user.previous_degree)
+              .col-md-12
+                label.col-md-3(for='previous_university') from these universities
+                .col-md-6
+                  input#previous_university.form-control(type='text', name='previous_university', form='', value=user.previous_university)
+            .col-md-12.sub-content
+              h4 Furher education
+              .col-md-12
+                label.col-md-3(for='subject') Target subjects
+                .col-md-6
+                  input#subject.form-control(type='text', name='subject', value=user.subject)
+              .col-md-12
+                label.col-md-3(for='target_degree') Target degrees
+                .col-md-6
+                  input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
+              .col-md-12
+                label.col-md-3(for='target_university') Target universities
+                .col-md-6
+                  input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
+          .col-md-12.footer
+            button#save-education-settings.btn.btn-primary(type='submit') Save changes
+            #save-education-settings-notification Your changes have been saved            
+            //-             .col-md-12
+            //-               label.col-md-3(for='deadline') Deadline on
+            //-               .col-md-3
+            //-                 input#deadline.form-control(type='date', name='deadline', form='', value=fund.deadline)
+            //-             .col-md-12
+            //-               label.col-md-3(for='application_decision_date') Decisions made on
+            //-               .col-md-3
+            //-                 input#application_decision_date.form-control(type='date', name='application_decision_date', form='', value=fund.application_decision_date)
+            //-             .col-md-12
+            //-               label.col-md-3(for='interview_date') Interviews are on
+            //-               .col-md-3
+            //-                 input#interview_date.form-control(type='date', name='interview_date', form='', value=fund.interview_date)
+            //-           .col-md-12.sub-content
+            //-             h4 Useful Information
+            //-             .col-md-12
+            //-               label.col-md-3(for='application_link') Application link
+            //-               .col-md-6
+            //-                 input#application_link.form-control(type='text', name='application_link', form='', value=fund.application_link)
+            //-             .col-md-12
+            //-               label.col-md-3(for='application_documents') Application documents
+            //-               .col-md-6
+            //-                 input#application_documents.form-control(type='text', name='application_documents', form='', value=fund.application_documents)
+            //-           .col-md-12.sub-content
+            //-             h4 Other
+            //-             .col-md-12
+            //-               label.col-md-3(for='other_application_steps') Any other parts of the application process not listed above
+            //-               .col-md-6
+            //-                 textarea#other_application_steps.form-control(form='', name='other_application_steps', rows='5')= fund.other_application_steps
+            //-         .col-md-12.footer
+            //-           button#save-application-process.btn.btn-primary(type='submit') Save changes
+            //-           #save-application-notification Your changes have been saved
 
+            //- .col-md-12.sub-content
+  //-             h4 Personal Requirements
+  //-             .col-md-12
+  //-               label.col-md-3(for='age') Ages
+  //-               .col-md-3
+  //-                 input#minimum_age.form-control(type='text', name='minimum_age', form='', value=fund.minimum_age)
+  //-               .col-md-3
+  //-                 input#maximum_age.form-control(type='text', name='maximum_age', form='', value=fund.maximum_age)
+  //-             .col-md-12
+  //-               label.col-md-3(for='religion') Religion
+  //-               .col-md-6
+  //-                 input#religion.form-control(type='text', name='religion', form='', value=fund.religion)    
+  //-             .col-md-12
+  //-               label.col-md-3(for='gender') Gender
+  //-               .col-md-2
+  //-                 label.radio-inline
+  //-                   input#male(type='radio', name= 'gender', value= 'male')
+  //-                   | Male
+  //-               .col-md-2
+  //-                 label.radio-inline
+  //-                   input#female(type='radio', name='gender', value='female')
+  //-                   | Female
+  //-               .col-md-2.clear
+  //-                 a#clear_gender(href='#') Clear
+  //-             .col-md-12
+  //-               label.col-md-3(for='merit_or_finance') Merit or finance based
+  //-               .col-md-2
+  //-                 label.radio-inline
+  //-                   input#merit(type='radio', name='merit_or_finance', value='merit')
+  //-                   | Merit
+  //-               .col-md-2
+  //-                 label.radio-inline
+  //-                   input#finance(type='radio', name='merit_or_finance', value='finance')
+  //-                   | Finance
+  //-               .col-md-2.clear
+  //-                 a#clear_merit(href='#') Clear
+  //-           .col-md-12.sub-content
+  //-             h4 Education Requirements
+  //-             .col-md-12
+  //-               label.col-md-3(for='target_university') Target University
+  //-               .col-md-6
+  //-                 input#target_university.form-control(type='text', name='target_university', form='', value=fund.target_university)
+  //-             .col-md-12
+  //-               label.col-md-3(for='target_degree') Target degree
+  //-               .col-md-6
+  //-                 input#target_degree.form-control(type='text', name='target_degree', form='', value=fund.target_degree)
+  //-             .col-md-12
+  //-               label.col-md-3(for='required_university') Previous University
+  //-               .col-md-6
+  //-                 input#required_university.form-control(type='text', name='required_university', form='', value=fund.required_university)
+  //-             .col-md-12
+  //-               label.col-md-3(for='required_degree') Required degree
+  //-               .col-md-6
+  //-                 input#required_degree.form-control(type='text', name='required_degree', form='', value=fund.required_degree)
+  //-             .col-md-12
+  //-               label.col-md-3(for='required_grade') Required grade
+  //-               .col-md-6
+  //-                 input#required_grade.form-control(type='text', name='required_grade', form='', value=fund.required_grade)
+  //-           .col-md-12.sub-content
+  //-             h4 Location Requirements
+  //-             .col-md-12
+  //-               label.col-md-3(for='target_country') Country of study
+  //-               .col-md-6
+  //-                 input#target_country.form-control(type='text', name='target_country', form='', value=fund.target_country)
+  //-             .col-md-12
+  //-               label.col-md-3(for='country_of_residence') Country of residence
+  //-               .col-md-6
+  //-                 input#country_of_residence.form-control(type='text', name='country_of_residence', form='', value=fund.country_of_residence)
+  //-             .col-md-12
+  //-               label.col-md-3(for='specific_location') Borough / State
+  //-               .col-md-6
+  //-                 input#specific_location.form-control(type='text', name='specific_location', form='', value=fund.country_of_residence)
+  //-           .col-md-12.sub-content
+  //-             h4 Other Requirements
+  //-             .col-md-12
+  //-               label.col-md-3(for='other_eligibility') Any other eligibility requirements not listed above
+  //-               .col-md-6
+  //-                 textarea#other_eligibility.form-control(form='', name='other_eligibility', rows='5')= fund.other_eligibility
+  //-         .col-md-12.footer
+  //-           button#save-eligibility.btn.btn-primary(type='submit') Save changes
+  //-           #save-eligibility-notification Your changes have been saved
 block scripts
-	script(src='/javascript/signup-login.js')
-	script(src='/javascript/lib/modernizr-input.js')
-	script(src= '/javascript/user-settings.js')
-	script(src='/javascript/advanced-search.js')
-	script.
-		var user = !{JSON.stringify(user)}
-		var general = !{JSON.stringify(general)}
-	// Google Analytics
-	script.
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-74497958-1', 'auto');
-		ga('send', 'pageview');
+  script(src="/javascript/user-settings.js")
+  script(src='/javascript/lib/jquery.tokeninput.js')
+  script(src='https://cdn.tinymce.com/4/tinymce.min.js')
+  script.
+    var user = !{JSON.stringify(user)};
+  //- script(src="/javascript/signup-login.js")
+//-   script(src="/node_modules/readmore-js/readmore.min.js")

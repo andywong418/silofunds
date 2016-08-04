@@ -442,11 +442,20 @@ module.exports = {
   },
 
   settingsGET: function(req, res) {
-    console.log('settings')
-    console.log(req.cookies)
-    console.log(req.session)
     passportFunctions.ensureAuthenticated(req, res);
-    res.render('user/settings', {user: req.user, general: true})
+
+    console.log(req.user);
+
+    var user = req.user;
+    if (user.date_of_birth) {
+      user.date_of_birth = reformatDate(user.date_of_birth);
+    }
+
+    if (user.completion_date) {
+      user.completion_date = reformatDate(user.completion_date);
+    }
+
+    res.render('user/settings', {user: user, general: true});
   },
 
   settingsPOST: function(req, res) {
