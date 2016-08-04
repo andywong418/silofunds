@@ -180,6 +180,7 @@ body{
 		}
 
 		#user-progress{
+
 			#progress-card{
 				background-color: white;
 				margin-top: 10px;
@@ -194,6 +195,33 @@ body{
 					margin-bottom: 15px;
 				}
 
+				#amount{
+					display: none;
+					width: 60%;
+					opacity: 0;
+					margin-right: 15px;
+					input {
+						text-align: right;
+						background-color: $donate-amount-background;
+						border: none;
+					}
+
+					span {
+						background-color: #7bb7f4;
+						border: none;
+						color: white;
+					}
+
+					input[type=number]::-webkit-inner-spin-button,
+					input[type=number]::-webkit-outer-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+					}
+
+					input[type=number] {
+						-moz-appearance:textfield;
+					}
+				}
 				div#donate-amount {
 					// margin-top: 15px;
 					transition: 1.5s;
@@ -209,7 +237,7 @@ body{
 
 						p {
 							margin-bottom: 5px;
-							margin-top: 15px;
+							margin-top: 25px;
 							font-size: 14px;
 						}
 
@@ -228,30 +256,6 @@ body{
 								color: #a8a8a8;
 								font-size: 12px;
 							}
-						}
-					}
-
-					#amount {
-						input {
-							text-align: right;
-							background-color: $donate-amount-background;
-							border: none;
-						}
-
-						span {
-							background-color: #7bb7f4;
-							border: none;
-							color: white;
-						}
-
-						input[type=number]::-webkit-inner-spin-button,
-						input[type=number]::-webkit-outer-spin-button {
-							-webkit-appearance: none;
-							margin: 0;
-						}
-
-						input[type=number] {
-							-moz-appearance:textfield;
 						}
 					}
 
@@ -293,8 +297,8 @@ body{
 				#donate{
 					width: 100%;
 					border: none;
-
 					color:white;
+					margin-top: -3px;
 					padding: 10px;
 					background-color: #2390fd;
 					font-size: 20px;

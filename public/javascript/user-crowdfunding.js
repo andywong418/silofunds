@@ -174,19 +174,26 @@ $(document).ready(function(){
   Backbone.history.start();
 
   $('#donate').click(function() {
-    $('#donate').animate({ opacity: 0 }, 100, function() {
-      $('#donate').addClass('hidden');
+        $('#donate').css('font-size', '14px');
+      $('.donate-row').css('display', 'flex');
+      $('#donate').css('float', 'right');
+      $('#progress-card').css('padding-bottom', '60px');
+      $('#donate').animate({width: "30%", float:'right'}, 500, "easeOutQuad",function(){
+        $('#donate').html('Donate');
+        $('#progress-card').css('padding-bottom', '25px');
+        $('#amount').css('display', 'inline-table');
+        $('#amount').animate({opacity: 1}, {duration: 500, queue: false});
+        $('div#donate-amount').removeClass('hidden');
+        console.log($('#donate-amount'));
+        $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
+      });
 
-      $('#donate-amount').removeClass('hidden');
-    });
 
-    $('#donate-amount').animate({ opacity: 1}, 300, "easeInOutExpo", function() {
-
-    });
   });
 
   $('input#donate-amount').on('keyup', function(e){
     displayApplicationFeeHelperText();
+
   });
 
   $('#donorpays').click(function() {
@@ -277,15 +284,26 @@ $(document).ready(function(){
   function displayApplicationFeeHelperText() {
     var userInput = $('input#donate-amount').val();
     var applicationFee = Math.ceil(userInput * 0.029 + 0.2);
-
+    var progressBar = $('.progress-bar');
+    var newAmount = parseInt(userInput) + user.funding_accrued;
+    var percentage = Math.ceil((newAmount/user.funding_needed) * 100);
     if(userInput !== '') {
       if ($('#donorpays').hasClass('active')) {
         $('#process-fee').html('£' + applicationFee + ' will be added to your payment.');
       } else {
         $('#process-fee').html('The recipient will receive £' + applicationFee + ' less.');
+        newAmount = newAmount - applicationFee;
+        percentage = Math.ceil((newAmount/user.funding_needed) * 100);
       }
+
     } else {
       $('#process-fee').empty();
     }
+    console.log("PERCENTAGE", percentage);
+    $('.progress-bar').css('background-color', '#4fd9da');
+    $('.progress-bar').addClass('progress-bar-striped active');
+    $('.progress-bar').delay(800).animate({width: percentage+'%'});
+    $('#percentage').html(percentage+ '% <span> funded </span>');
+
   }
 });

@@ -137,6 +137,25 @@ body {
         margin-top: 10px;
         text-align: center;
         margin-bottom: 15px; }
+      body #crowdfunding-wrapper #user-progress #progress-card #amount {
+        display: none;
+        width: 60%;
+        opacity: 0;
+        margin-right: 15px; }
+        body #crowdfunding-wrapper #user-progress #progress-card #amount input {
+          text-align: right;
+          background-color: #cce1f6;
+          border: none; }
+        body #crowdfunding-wrapper #user-progress #progress-card #amount span {
+          background-color: #7bb7f4;
+          border: none;
+          color: white; }
+        body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number]::-webkit-inner-spin-button,
+        body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0; }
+        body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number] {
+          -moz-appearance: textfield; }
       body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount {
         -webkit-transition: 1.5s;
         transition: 1.5s;
@@ -146,7 +165,7 @@ body {
           outline: 0; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage p {
           margin-bottom: 5px;
-          margin-top: 15px;
+          margin-top: 25px;
           font-size: 14px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #buttonDiv {
           margin-top: 7px;
@@ -159,20 +178,6 @@ body {
           body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv span {
             color: #a8a8a8;
             font-size: 12px; }
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input {
-          text-align: right;
-          background-color: #cce1f6;
-          border: none; }
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount span {
-          background-color: #7bb7f4;
-          border: none;
-          color: white; }
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number]::-webkit-inner-spin-button,
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number]::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0; }
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #amount input[type=number] {
-          -moz-appearance: textfield; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount .col-md-3 {
           padding: 0;
           margin-top: 0px; }
@@ -200,6 +205,7 @@ body {
         width: 100%;
         border: none;
         color: white;
+        margin-top: -3px;
         padding: 10px;
         background-color: #2390fd;
         font-size: 20px; }

@@ -130,15 +130,13 @@ block content
 					.col-md-4
 						p#remaining-days 0
 							span days to go
-				a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
+				span
+					#amount.input-group
+						span.input-group-addon £
+						input#donate-amount.form-control(type='number', aria-label='Amount (to the nearest pound)')
+						span.input-group-addon .00
+					a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 				#donate-amount.hidden
-					.col-md-9
-						#amount.input-group
-							span.input-group-addon £
-							input#donate-amount.form-control(type='number', aria-label='Amount (to the nearest pound)')
-							span.input-group-addon .00
-					.col-md-3.text-center
-						a.btn.btn-default.btn-primary Donate
 					#applicationFeeMessage.col-md-12
 						p Do you want to pay the processing fee (~2.9%)?
 						#buttonDiv.col-md-5
