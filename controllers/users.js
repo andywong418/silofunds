@@ -473,8 +473,11 @@ module.exports = {
     for (var i = 0; i < numberOfKeys; i++) {
       var settingsKey = settingsKeys[i];
       var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
-
-      if (isValueAnArrayField) {
+      var isNullField = settings[settingsKey] === '';
+      
+      if (isNullField) {
+        settings[settingsKey] = null;
+      } else if (isValueAnArrayField) {
         settings[settingsKey] = settings[settingsKey].split(',');
       }
     }
