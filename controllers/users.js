@@ -441,7 +441,7 @@ module.exports = {
                       console.log("HJI");
                       console.log(charges);
                       var numberOfSupporters = charges[1].rowCount;
-                      models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id}}).then(function(donations){
+                      models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id},   order: 'created_at DESC'}).then(function(donations){
                         if(donations.length !== 0){
                           donationArray = [];
                           async.each(donations, function(donation, callback){

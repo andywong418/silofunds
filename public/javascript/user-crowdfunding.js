@@ -2,12 +2,14 @@ $(document).ready(function(){
   $('.menu-item').click(function(){
     $('.active-item').removeClass('active-item');
     $(this).find('p').addClass('active-item');
-  })
+  });
+
   if(user.funding_accrued){
     var amount = user.funding_accrued;
     var goal = user.funding_needed
     var percentage = Math.ceil((amount/ goal) * 100);
-    $('.progress-bar').css('width', percentage + '%');
+    console.log($('#initial-bar'));
+    $('div#initial-bar').css('width',  percentage + '%');
     $('#percentage').html(percentage+ '% <span> funded </span>');
   }
   if(user.completion_date){
@@ -172,9 +174,11 @@ $(document).ready(function(){
   })
   var router = new Router();
   Backbone.history.start();
-
-  $('#donate').click(function() {
-        $('#donate').css('font-size', '14px');
+  var counter = 0;
+  $('#donate').click(function(e) {
+    if(counter == 0){
+      counter++;
+      $('#donate').css('font-size', '14px');
       $('.donate-row').css('display', 'flex');
       $('#donate').css('float', 'right');
       $('#progress-card').css('padding-bottom', '60px');
@@ -184,9 +188,33 @@ $(document).ready(function(){
         $('#amount').css('display', 'inline-table');
         $('#amount').animate({opacity: 1}, {duration: 500, queue: false});
         $('div#donate-amount').removeClass('hidden');
-        console.log($('#donate-amount'));
         $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
+
       });
+    }
+    else{
+      console.log("HI");
+      var amount = $('input#donate-amount').val();
+      var applicationFee = Math.ceil(amount * 0.029 + 0.2);
+      var donorIsPaying = $('#donorpays').hasClass('active');
+
+      var handlerDisplayOptions = {
+        name: 'Silo',
+        description: '2 widgets',
+        currency: "gbp",
+        panelLabel: "Donate",
+        amount: amount
+      };
+
+      if (donorIsPaying) {
+        handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
+      } else {
+        handlerDisplayOptions.amount = amount * 100;
+      }
+
+      handler.open(handlerDisplayOptions);
+      e.preventDefault();
+    }
 
 
   });
@@ -250,33 +278,47 @@ $(document).ready(function(){
       }
     });
 
-    $('#donate-amount a').on('click', function(e) {
+    $('.submit').on('click', function(e) {
       // Open Checkout with further options:
-      var amount = $('input#donate-amount').val();
-      var applicationFee = Math.ceil(amount * 0.029 + 0.2);
-      var donorIsPaying = $('#donorpays').hasClass('active');
 
-      var handlerDisplayOptions = {
-        name: 'Silo',
-        description: '2 widgets',
-        currency: "gbp",
-        panelLabel: "Donate",
-        amount: amount
-      };
-
-      if (donorIsPaying) {
-        handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
-      } else {
-        handlerDisplayOptions.amount = amount * 100;
-      }
-
-      handler.open(handlerDisplayOptions);
-      e.preventDefault();
     });
 
     // Close Checkout on page navigation:
     $(window).on('popstate', function() {
       handler.close();
+    });
+    //social media share
+    window.fbAsyncInit = function() {
+      FB.init({
+          appId      : '506830149486287',
+          xfbml      : true,
+          status: true,
+          cookie: true,
+          version    : 'v2.5',
+          display: 'popup'
+      });
+    };
+
+    $('.fb-share').click(function(){
+      console.log("WHAT", user);
+      var firstName = user.username.split(' ')[0];
+      FB.ui({
+      method: 'share',
+      href: 'https://www.silofunds.com/public/' + user.id ,
+      picture: user.profile_picture,
+      description: 'Help ' + firstName + ' reach his funding target!',
+      link: 'https://www.silofunds.com/public/' + user.id
+    }, function(response){
+
+    });
+    })
+
+
+  // Twitter popup buttons
+    $('a.twitter-tweet').click(function(e){
+      var offset = (screen.width/2) - Math.ceil(575/2);
+      console.log(offset);
+      var newWindow=window.open("https://twitter.com/intent/tweet?text=hello+world&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
     });
 
   // Helper functions
@@ -284,10 +326,12 @@ $(document).ready(function(){
   function displayApplicationFeeHelperText() {
     var userInput = $('input#donate-amount').val();
     var applicationFee = Math.ceil(userInput * 0.029 + 0.2);
-    var progressBar = $('.progress-bar');
-    var newAmount = parseInt(userInput) + user.funding_accrued;
+    var firstProgressBar = $('#initial-bar');
+    var amountAdded = parseInt(userInput);
+    var newAmount = amountAdded + user.funding_accrued;
     console.log(newAmount);
     var percentage = Math.ceil((newAmount/user.funding_needed) * 100);
+    var addedPercentage = Math.ceil((amountAdded/user.funding_needed) * 100)
     if(userInput !== '') {
       if ($('#donorpays').hasClass('active')) {
         $('#process-fee').html('£' + applicationFee + ' will be added to your payment.');
@@ -295,28 +339,31 @@ $(document).ready(function(){
         $('#process-fee').html('The recipient will receive £' + applicationFee + ' less.');
         newAmount = newAmount - applicationFee;
         percentage = Math.ceil((newAmount/user.funding_needed) * 100);
-
+        amountAdded = amountAdded = applicationFee;
+        addedPercentage = Math.ceil((amountAdded/user.funding_needed) * 100);
       }
       $('#percentage').html(percentage+ '% <span> funded </span>');
-      console.log("PERCENTAGE", percentage);
-      $('.progress-bar').css('background-color', '#4fd9da');
-      $('.progress-bar').addClass('progress-bar-striped active');
-      $('.progress-bar').animate({width: percentage + '%'});
+      $('#another-one').css('background-color', '#ffca4b');
+      $('#another-one').addClass('progress-bar-striped active');
+      if(percentage + addedPercentage > 100){
+        var maxPercentage = 99 - Math.floor((user.funding_accrued/ user.funding_needed) * 100);
+        $('#another-one').animate({width: maxPercentage + '%'});
+      }
+      else{
+        $('#another-one').animate({width: addedPercentage + '%'});
+      }
       $('#raised').html('£' + newAmount + "<span> of " + user.funding_needed + " reached");
       $('#raised').css('color', 'rgb(85, 230, 165)');
     } else {
       $('#process-fee').empty();
       var amount = user.funding_accrued;
-      var goal = user.funding_needed
-      var percentage = Math.ceil((amount/ goal) * 100);
-      $('.progress-bar').css('width', percentage + '%');
-      $('.progress-bar').css('background-color', '#4FDA9B');
-      $('.progress-bar').removeClass('progress-bar-striped active');
+      var goal = user.funding_needed;
+      percentage = Math.ceil((amount/ goal) * 100);
+      $('#another-one').css('width', percentage + '%');
+      $('#another-one').css('background-color', '#4FDA9B');
+      $('#another-one').removeClass('progress-bar-striped active');
       $('#raised').html('£' + user.funding_accrued + "<span> of " + user.funding_needed + " reached");
       $('#raised').css('color', '#333333');
     }
-
-
-
   }
 });

@@ -3,9 +3,35 @@ extend layout
 block extraHeader
 	link(href='/stylesheets/results.css', rel='stylesheet')
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+	meta(property='og:url', content='http://www.silofunds.com')
+	meta(property='og:type', content='website')
+	meta(property='og:title', content='Your Website Title')
+	meta(property='og:description', content='There is no greater')
+	meta(property='og:image', content='http://www.your-domain.com/path/image.jpg')
+	script(src='http://connect.facebook.net/en_US/all.js')
 	script(src='https://checkout.stripe.com/checkout.js')
+	
 
 block content
+	#fb-row
+	script.
+		window.fbAsyncInit = function() {
+			FB.init({
+					appId      : '506830149486287',
+					xfbml      : true,
+					status: true,
+					cookie: true,
+					version    : 'v2.5'
+			});
+		};
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
 	script.
 		var bodyEl = document.getElementsByTagName('body');
 		var user = !{JSON.stringify(user)};
@@ -25,18 +51,16 @@ block content
 			else
 				img#profile_picture(src='/images/fund_img_placeholder.jpg')
 			#social-media-flex-container
-				.social
+				a.social.fb-share
 					i.fa.fa-facebook-official(aria-hidden="true")
 					| Share
-				.social
+				a.social.twitter-tweet
 					i.fa.fa-twitter-square(aria-hidden="true")
 					| Tweet
-				.social
-					i.fa.fa-pinterest-square(aria-hidden="true")
-					| Pin
-				.social
-					i.fa.fa-tumblr-square(aria-hidden= "true")
-					| Reblog
+				a.social.email(href='mailto:' + user.email)
+					i.fa.fa-envelope-o(aria-hidden="true")
+					| Email
+					
 			#tab-table
 				#tab-menu-flex
 					a.menu-item(href='#story')
@@ -108,14 +132,14 @@ block content
 			#progress-card
 				h3= user.username
 				if user.funding_accrued != null || user.funding_accrued > 0
-					p#raised= user.funding_accrued
-						span= 'of ' + user.funding_needed + ' reached'
+					p#raised= '£' +user.funding_accrued
+						span= 'of £' + user.funding_needed + ' reached'
 				else
 					p#raised £0
 						span= 'of ' + user.funding_needed + ' reached'
 				.progress
-					.progress-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-					span.sr-only
+					.progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+					.progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
 				#progress-info.row
 					.col-md-4
 						p#percentage 0%
@@ -126,7 +150,7 @@ block content
 								span supporters
 						else
 							p#no-of-supporters 0
-							span supporters
+								span supporters
 					.col-md-4
 						p#remaining-days 0
 							span days to go
@@ -186,8 +210,10 @@ block content
 								span#donor-name= donation.sender_name
 								if donation.diffDays == 0
 									span#sent-date Today
-								else 
-									span#sent-date donation.diffDays
+								if donation.diffDays == 1
+									span#sent-date Yesterday
+								if donation.diffDays > 1
+									span#sent-date= donation.diffDays +' days ago'
 								
 				else
 					p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
