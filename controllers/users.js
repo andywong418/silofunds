@@ -460,22 +460,46 @@ module.exports = {
 
   settingsPOST: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
-		var general_settings;
-		var id = req.user.id
-		var body = req.body;
-		if('username' in body || 'email' in body || 'password' in body){
-			general_settings = true;
-		} else {
-			general_settings = false;
-		}
+    var userID = req.user.id;
+    var settings = req.body;
 
-    if (body.country_of_residence) {
-      body.country_of_residence = body.country_of_residence.split(',');
+    console.log("Settings");
+    console.log(settings);
+
+    var settingsKeys = Object.keys(settings);
+    var numberOfKeys = Object.keys(settings).length;
+    var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
+
+    for (var i = 0; i < numberOfKeys; i++) {
+      var settingsKey = settingsKeys[i];
+      var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
+
+      if (isValueAnArrayField) {
+        settings[settingsKey] = settings[settingsKey].split(',');
+      }
     }
 
-		models.users.findById(id).then(function(user){
-			user.update(body).then(function(user){
-				res.render('user/settings', {user: user, general: general_settings});
+    console.log("Settings");
+    console.log(settings);
+		// var general_settings;
+		// var id = req.user.id
+		// var body = req.body;
+		// if('username' in body || 'email' in body || 'password' in body){
+		// 	general_settings = true;
+		// } else {
+		// 	general_settings = false;
+		// }
+    //
+    // if (body.country_of_residence) {
+    //   body.country_of_residence = body.country_of_residence.split(',');
+    // }
+    //
+		models.users.findById(userID).then(function(user) {
+			user.update(settings).then(function(user) {
+        res.send("HAHHAHAH");
+        res.end();
+
+				// res.render('user/settings', {user: user, general: general_settings});
 			});
 		});
 	},

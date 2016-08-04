@@ -159,7 +159,10 @@ p {
         padding: 15px 0px;
       }
     }
-    #save-general-notification, #save-eligibility-notification, #save-application-notification{
+    #save-general-settings-notification,
+    #save-personal-settings-notification,
+    #save-campaign-settings-notification,
+    #save-education-settings-notification {
       display: none;
       margin-top: 20px;
     }
