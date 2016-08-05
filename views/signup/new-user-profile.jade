@@ -55,6 +55,20 @@ block content
 				.row
 					.col-md-1
 					.col-md-3
+						p#gender.description Gender
+					.col-md-6.gender-row
+						.col-md-4
+							label.radio-inline
+								input(type='radio', name='gender', value='male')
+								| Male
+						.col-md-4
+							label.radio-inline
+								input(type='radio', name='gender', value='female')
+								| Female
+								
+				.row
+					.col-md-1
+					.col-md-3
 						p#country_of_residence.description Country of residence
 					.col-md-6
 						input#country_of_residence(name="country_of_residence")
@@ -142,7 +156,8 @@ block content
 							#work-span.btn.btn-primary.btn-file
 								i.fa.fa-upload
 								input#work(type='file', name = 'past_work', data-multiple-caption="{count} files selected", multiple='')
-								label(for='work') Choose up to 5 file
+								label(for='work') Choose up to 5 files
+							p#file-error You have uploaded too many files.
 							#hyperlink
 								p or
 								.row.hyperlink-row

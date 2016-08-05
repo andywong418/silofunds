@@ -276,6 +276,7 @@ homeGET: function(req, res){
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
+      console.log("FUNDS", fund);
       if(fund.organisation_id){
         // If fund has an organisation/ fund user
         models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){

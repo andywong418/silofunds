@@ -111,6 +111,13 @@ body{
 				height: auto;
 			}
 		}
+		.gender-row{
+			margin-top: 5px;
+			.radio-inline{
+				float: left;
+			}
+		}
+
 		#religion-row,#previous-university-row{
 			border-bottom: none;
 		}
@@ -123,7 +130,6 @@ body{
 			width: 100%;
 			border-radius: 2px;
 			padding: 3px;
-			height: 30px !important;
 			font-size: 13px;
 			&:active, &:focus{
 				border: 2px solid #9ba7d8;
@@ -229,9 +235,14 @@ body{
 			background-color: #04a042;
 		}
 	 }
+
 	 #work-span label{
 	  cursor: pointer;
 	  margin-left:10px;
+	 }
+	 #file-error{
+		 display: none;
+		 color: red;
 	 }
 	 #hyperlink{
 		 p{

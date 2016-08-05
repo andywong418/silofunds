@@ -308,6 +308,7 @@ module.exports = {
 
   },
   getOptionInfo: function(req, res){
+    console.log("WHAT");
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       models.tips.find({where:{fund_id: fund.id}}).then(function(tip){
@@ -416,6 +417,7 @@ module.exports = {
   },
 
   getOptionProfile: function(req, res){
+    console.log("HELL",req.user);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){

@@ -51,7 +51,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var aboutModel = this.model;
 			var aboutView = new AboutView({model: aboutModel});
 			this.$el.append(aboutView.render().el);
-			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','completion_date', 'date_of_birth', 'religion'];
+			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','gender','completion_date', 'date_of_birth', 'religion'];
 			var prePopulateModel = this.model;
 			console.log(prePopulateModel);
 			if(!this.model.get('country_of_residence')){
@@ -91,6 +91,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 							case 'funding_needed':
 								this.$('input#input-amount').val(value);
 								break;
+							case 'gender':
+								console.log('what', this.$('input[value=' + value +']'));
+								this.$('input[value=' + value +']').prop("checked", true);
 							case 'completion_date':
 								this.$('input#completion-input').val(reformatDate(value));
 								break;
@@ -139,11 +142,13 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveAbout: function(e){
+			console.log( $('input[name=gender]').val());
 			var countries = $('input#country_of_residence').val().split(',');
 			var formData = {
 				'funding_needed': $('input[name=funding_needed]').val(),
 				'completion_date': $('input[name=completion_date]').val(),
 				'date_of_birth': $('input[name=date_of_birth]').val(),
+				'gender': $('input[name=gender]').val(),
 				'country_of_residence': countries,
 				'religion': $('select[name=religion]').val()
 			}
@@ -293,37 +298,44 @@ var tokenArrayPopulate = function(value, emptyArray){
 			$label = $($input).next('label');
 			labelVal = $($input).html();
 			var fileName = '';
-			if( e.target.files && e.target.files.length > 1 ){
-			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
-			}
-			else if( e.target.value ){
-				fileName = e.target.value.split( '\\' ).pop();
-			}
+			if(e.target.files.length < 5 & e.target.files.length > 0){
+				$('#file-error').hide();
+				if( e.target.files && e.target.files.length > 1 ){
+				fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+				}
+				else if( e.target.value ){
+					fileName = e.target.value.split( '\\' ).pop();
+				}
 
-			if( fileName ){
-				$label.html( fileName );
+				if( fileName ){
+					$label.html( fileName );
+				}
+				else{
+					$label.html( labelVal );
+				}
+
+					var files = e.target.files;
+					var fileArray = [];
+
+					var data = new FormData();
+					for(var i = 0; i < files.length; i++){
+						data.append('past_work', files[i]);
+					};
+					data.append('user', user_setup.id);
+					$.ajax({
+						type: 'POST',
+						url: "/signup/user_signup/work/" + user_setup.id,
+						data: data,
+						processData: false,
+						contentType: false
+					}).done(function(data){
+						console.log(data);
+					});
 			}
 			else{
-				$label.html( labelVal );
+				$('#file-error').show();
 			}
 
-				var files = e.target.files;
-				var fileArray = [];
-
-				var data = new FormData();
-				for(var i = 0; i < files.length; i++){
-					data.append('past_work', files[i]);
-				};
-				data.append('user', user_setup.id);
-				$.ajax({
-					type: 'POST',
-					url: "/signup/user_signup/work/" + user_setup.id,
-					data: data,
-					processData: false,
-					contentType: false
-				}).done(function(data){
-					console.log(data);
-				});
 
 		}
 	});
