@@ -4,6 +4,9 @@ var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var qs = require('qs');
+var AWS = require('aws-sdk');
+var aws_keyid;
+var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -13,6 +16,15 @@ var async = require('async');
 var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
+if (process.env.AWS_KEYID && process.env.AWS_KEY) {
+	aws_keyid = process.env.AWS_KEYID;
+	aws_key = process.env.AWS_KEY;
+} else {
+	var secrets = require('../app/secrets');
+
+	aws_keyid = secrets.AWS_KEYID;
+	aws_key = secrets.AWS_KEY;
+}
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
 var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
@@ -497,11 +509,38 @@ module.exports = {
   },
 
   settingsRemoveFile: function(req, res) {
-    models.documents.findById(req.body.documentID).then(function(document) {
-      return document.destroy();
-    }).then(function() {
-      res.end();
+    var userId = req.user.id;
+    var bucketName = 'silo-user-profile-' + userId;
+    var fileName = req.body.fileName;
+    console.log("HI", userId);
+    console.log(fileName);
+    console.log(aws_keyid);
+    console.log(aws_key);
+    AWS.config.update({
+      accessKeyId: aws_keyid,
+      secretAccessKey: aws_key
     });
+    console.log("WHAT");
+
+    var s3 = new AWS.S3();
+    var params = {
+      Bucket: bucketName,
+      Key: fileName
+    };
+    console.log("HERE")
+    s3.deleteObject(params, function(err, data){
+      if(data){
+        models.documents.findById(req.body.documentID).then(function(document) {
+          return document.destroy();
+        }).then(function() {
+          res.end();
+        });
+      }
+      if(err){
+        console.log(err);
+      }
+    })
+
   },
 
   settingsValidatePassword: function(req, res) {

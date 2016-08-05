@@ -172,14 +172,14 @@ $(document).ready(function() {
     var id = e.currentTarget.id;
     var documentDiv = $('input#' + id).parents()[2];
     var documentID = documentDiv.id;
-
+    var fileName = $('label.fakeFileUpload[for=' + id + ']').html();
     $('label.fakeFileUpload[for=' + id + ']').html("Upload");
     $('label.removeFile#' + id).addClass('hidden');
 
     $.ajax({
       type: 'POST',
       url: "/user/settings/remove-file",
-      data: { "documentID": documentID }
+      data: { "documentID": documentID, "fileName": fileName }
     });
   });
 
