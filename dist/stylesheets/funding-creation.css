@@ -11,17 +11,11 @@
 #funding-options {
   margin-top: 30px;
   display: -webkit-box;
-<<<<<<< HEAD
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-=======
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
       -ms-flex-pack: center;
           justify-content: center;
   height: 300px;
@@ -30,10 +24,7 @@
 
 .option {
   -webkit-box-flex: 1;
-<<<<<<< HEAD
-=======
   -webkit-flex-grow: 1;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
       -ms-flex-positive: 1;
           flex-grow: 1;
   background-color: white;

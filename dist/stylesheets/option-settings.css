@@ -4,10 +4,7 @@ body {
 /* settings tab */
 #big_flex_div {
   display: -webkit-box;
-<<<<<<< HEAD
-=======
   display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
   display: -ms-flexbox;
   display: flex;
   width: 100%;
@@ -21,19 +18,13 @@ body {
 
 #left_div {
   display: -webkit-box;
-<<<<<<< HEAD
-=======
   display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
   display: -ms-flexbox;
   display: flex;
   width: 23%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-<<<<<<< HEAD
-=======
   -webkit-flex-direction: column;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
       -ms-flex-direction: column;
           flex-direction: column;
   height: auto; }
@@ -46,22 +37,11 @@ body {
   #left_div .settings-tab-menu {
     padding: 0;
     display: -webkit-box;
-<<<<<<< HEAD
-=======
     display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-<<<<<<< HEAD
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-=======
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
@@ -71,7 +51,6 @@ body {
             justify-content: flex-start;
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
         -ms-flex-align: start;
             align-items: flex-start;
     width: 100%;
@@ -94,10 +73,7 @@ body {
   #right_div div.settings-tab {
     background-color: white;
     display: -webkit-box;
-<<<<<<< HEAD
-=======
     display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
     display: -ms-flexbox;
     display: flex;
     width: 100%;

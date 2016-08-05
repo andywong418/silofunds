@@ -60,22 +60,11 @@ section#content {
   right: 0px;
   position: fixed;
   display: -webkit-box;
-<<<<<<< HEAD
-=======
   display: -webkit-flex;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-<<<<<<< HEAD
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: start;
-=======
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
@@ -85,7 +74,6 @@ section#content {
           justify-content: flex-end;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
->>>>>>> 3831d317365ec74cc4c74fa12bbef93a039e8dd6
       -ms-flex-align: start;
           align-items: flex-start;
   margin: 15px;
