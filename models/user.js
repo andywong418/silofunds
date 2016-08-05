@@ -37,18 +37,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       field: 'date_of_birth'
     },
-    // address_line1: {
-    //   type: DataTypes.ARRAY(DataTypes.STRING),
-    //   field: 'address_line1'
-    // },
-    // address_zip: {
-    //   type: DataTypes.STRING,
-    //   field: 'address_zip'
-    // },
-    // address_city: {
-    //   type: DataTypes.STRING,
-    //   field: 'address_city'
-    // },
+    address_line1: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      field: 'address_line1'
+    },
+    address_zip: {
+      type: DataTypes.STRING,
+      field: 'address_zip'
+    },
+    address_city: {
+      type: DataTypes.STRING,
+      field: 'address_city'
+    },
     religion: {
       type: DataTypes.TEXT,
       field: 'religion'
@@ -101,11 +101,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       field: 'link'
     },
-<<<<<<< HEAD
     email_is_verified: {
       type: DataTypes.BOOLEAN,
       field: 'email_is_verified'
-=======
+    },
     funding_accrued: {
       type: DataTypes.INTEGER,
       field: 'funding_accrued'
@@ -113,7 +112,6 @@ module.exports = function(sequelize, DataTypes) {
     gender: {
       type: DataTypes.TEXT,
       field: 'gender'
->>>>>>> 77317499d817c46664fdb99b66523f18366f1c85
     }
   }, {
     timestamps: true,
