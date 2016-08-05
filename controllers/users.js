@@ -320,7 +320,17 @@ module.exports = {
       }
     });
   },
-
+  urlShortener: function(req, res){
+    console.log(req.body);
+    bitly.shorten(req.body)
+    .then(function(response) {
+      var short_url = response.data.url
+      // Do something with data
+        res.send(short_url);
+      }, function(error) {
+        throw error;
+      });
+  },
   loginGET: function(req, res) {
     // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');

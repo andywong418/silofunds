@@ -302,11 +302,19 @@ $(document).ready(function(){
     $('.fb-share').click(function(){
       console.log("WHAT", user);
       var firstName = user.username.split(' ')[0];
+      var gender = user.gender;
+      var pronoun;
+      if(gender == 'male'){
+        pronoun = 'He'
+      }
+      if(gender == 'female'){
+        pronoun = 'She'
+      }
       FB.ui({
       method: 'share',
       href: 'https://www.silofunds.com/public/' + user.id ,
       picture: user.profile_picture,
-      description: 'Help ' + firstName + ' reach his funding target!',
+      description: firstName + ' needs your help! ' + pronoun + ' is raising money to study ' + user.subject + '. Your support will make a difference.',
       link: 'https://www.silofunds.com/public/' + user.id
     }, function(response){
 
@@ -323,13 +331,18 @@ $(document).ready(function(){
       var gender = user.gender;
       var pronoun;
       if(gender == 'male'){
-        pronoun = 'He'
+        pronoun = 'He';
       }
       if(gender == 'female'){
-        pronoun = 'She'
+        pronoun = 'She';
       }
+
+      // var url = 'www.silofunds.com/public' + user.id;
+      // $.get('/user/url-shortener', url, function(url){
+      //   console.log(url);
+      // });
       if(user.subject){
-        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
+        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=https%3a%2f%2fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
 
       }
       else{
