@@ -235,9 +235,14 @@ body{
 			background-color: #04a042;
 		}
 	 }
+
 	 #work-span label{
 	  cursor: pointer;
 	  margin-left:10px;
+	 }
+	 #file-error{
+		 display: none;
+		 color: red;
 	 }
 	 #hyperlink{
 		 p{

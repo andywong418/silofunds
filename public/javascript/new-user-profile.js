@@ -298,37 +298,44 @@ var tokenArrayPopulate = function(value, emptyArray){
 			$label = $($input).next('label');
 			labelVal = $($input).html();
 			var fileName = '';
-			if( e.target.files && e.target.files.length > 1 ){
-			fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
-			}
-			else if( e.target.value ){
-				fileName = e.target.value.split( '\\' ).pop();
-			}
+			if(e.target.files.length < 5 & e.target.files.length > 0){
+				$('#file-error').hide();
+				if( e.target.files && e.target.files.length > 1 ){
+				fileName = ( $input.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', e.target.files.length );
+				}
+				else if( e.target.value ){
+					fileName = e.target.value.split( '\\' ).pop();
+				}
 
-			if( fileName ){
-				$label.html( fileName );
+				if( fileName ){
+					$label.html( fileName );
+				}
+				else{
+					$label.html( labelVal );
+				}
+
+					var files = e.target.files;
+					var fileArray = [];
+
+					var data = new FormData();
+					for(var i = 0; i < files.length; i++){
+						data.append('past_work', files[i]);
+					};
+					data.append('user', user_setup.id);
+					$.ajax({
+						type: 'POST',
+						url: "/signup/user_signup/work/" + user_setup.id,
+						data: data,
+						processData: false,
+						contentType: false
+					}).done(function(data){
+						console.log(data);
+					});
 			}
 			else{
-				$label.html( labelVal );
+				$('#file-error').show();
 			}
 
-				var files = e.target.files;
-				var fileArray = [];
-
-				var data = new FormData();
-				for(var i = 0; i < files.length; i++){
-					data.append('past_work', files[i]);
-				};
-				data.append('user', user_setup.id);
-				$.ajax({
-					type: 'POST',
-					url: "/signup/user_signup/work/" + user_setup.id,
-					data: data,
-					processData: false,
-					contentType: false
-				}).done(function(data){
-					console.log(data);
-				});
 
 		}
 	});
