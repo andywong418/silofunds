@@ -136,7 +136,7 @@ block content
                   .col-md-12
                     label.col-md-3(for='past_work_#{document.count}_description') Brief description
                     .col-md-6(id="past_work_#{document.count}")
-                      textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')
+                      textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
               each id in remainingPastWorkDivs
                 .col-md-12
                   label.col-md-3(for='past_work_#{id}') Past work ##{id}
