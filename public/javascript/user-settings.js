@@ -26,6 +26,60 @@ $(document).ready(function() {
     console.log("tinymce not defined!");
   }
 
+  // NOTE: Change label name upon file upload
+
+  var inputs = document.querySelectorAll( '.realFileUpload' );
+  Array.prototype.forEach.call( inputs, function( input ) {
+  	var label	 = input.previousElementSibling,
+  		  labelVal = label.innerHTML;
+
+  	input.addEventListener('change', function(e) {
+  		var fileName = '';
+  		if( this.files && this.files.length > 1 ) {
+  			alert("You can only upload 1 file at a time.");
+      } else if (this.files) {
+        var inputID = this.id;
+        console.log(inputID);
+
+        fileName = e.target.value.split( '\\' ).pop();
+        $('label#' + inputID).removeClass('hidden');
+
+      } else {
+        console.log("no file");
+      }
+
+  		if(fileName) {
+        label.innerHTML = fileName;
+      } else {
+        label.innerHTML = labelVal;
+      }
+
+      var fileData = new FormData();
+      var file = input.files[0];
+
+      if (file) {
+        fileData.append('past_work', file);
+      }
+
+      var files = fileData.getAll('past_work');
+      var userID = user.id;
+
+      if (files.length > 0) {
+        $.ajax({
+          type: 'POST',
+          url: "/signup/user_signup/work/" + userID,
+          data: fileData,
+          processData: false,
+          contentType: false
+        }).done(function(documentIDArr) {
+          $('.col-md-6#' + inputID + ' textarea').attr('id', documentIDArr[0].toString());
+        });
+      } else {
+        // these documents are already in postgres
+      }
+  	});
+  });
+
   // NOTE: submit form data
   $('#save-general-settings').click(function(e) {
     e.preventDefault();
@@ -83,28 +137,26 @@ $(document).ready(function() {
   $('#save-campaign-settings').click(function(e) {
     e.preventDefault();
 
-    var fileData = new FormData();
-    var inputs = document.querySelectorAll('.realFileUpload');
-    Array.prototype.forEach.call(inputs, function(input) {
-      var file = input.files[0];
+    var textareas = $('textarea.past_work_description');
+    var descriptionData = [];
 
-      if (file) {
-        fileData.append('past_work', file);
+    for (var i = 0; i < textareas.length; i++) {
+      var wrapper = {};
+      var document_id = textareas[i].id;
+
+      if (document_id !== '') {
+        wrapper.document_id = document_id;
+        wrapper.description = textareas[i].value;
+
+        descriptionData.push(wrapper);
       }
-    });
-
-    var files = fileData.getAll('past_work');
-    var userID = user.id;
-
-    if (files.length > 0) {
-      $.ajax({
-        type: 'POST',
-        url: "/signup/user_signup/work/" + userID,
-        data: fileData,
-        processData: false,
-        contentType: false
-      });
     }
+
+    $.ajax({
+      type: 'POST',
+      url: '/user/settings/update-description',
+      data: JSON.stringify(descriptionData)
+    });
 
     saveActivePaneSettings('campaign', ['link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
   });

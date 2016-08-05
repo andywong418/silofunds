@@ -156,6 +156,7 @@ module.exports = {
   uploadWork: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-user-profile-" + userId;
+		var documentArray = [];
 
     AWS.config.update({
       accessKeyId: aws_keyid,
@@ -164,16 +165,18 @@ module.exports = {
     async.eachSeries(req.files, function iterator(item, callback){
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
-          models.documents.upsert({
+          models.documents.create({
             link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
             user_id: userId,
 						title: item.originalname
           }).then(function(document){
-
+						document = document.get();
+						documentArray.push(document.id);
             callback();
           });
         });
     }, function done() {
+				res.send(documentArray);
         res.end();
       });
   },

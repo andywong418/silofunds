@@ -481,6 +481,21 @@ module.exports = {
     });
   },
 
+  settingsUpdateDocumentDescription: function(req, res) {
+    var descriptionArr = Object.keys(req.body)[0];
+    descriptionArr = JSON.parse(descriptionArr);
+
+    async.each(descriptionArr, function(description, callback) {
+      models.documents.findById(description.document_id).then(function(document) {
+        document.update({ description: description.description}).then(function(resp) {
+          callback();
+        });
+      });
+    }, function done() {
+      res.end();
+    });
+  },
+
   settingsRemoveFile: function(req, res) {
     models.documents.findById(req.body.documentID).then(function(document) {
       return document.destroy();

@@ -135,8 +135,8 @@ block content
                         p Remove
                   .col-md-12
                     label.col-md-3(for='past_work_#{document.count}_description') Brief description
-                    .col-md-6
-                      textarea.form-control(name='past_work_1_description', id='past_work_#{document.count}', rows='4')
+                    .col-md-6(id="past_work_#{document.count}")
+                      textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')
               each id in remainingPastWorkDivs
                 .col-md-12
                   label.col-md-3(for='past_work_#{id}') Past work ##{id}
@@ -148,8 +148,8 @@ block content
                       p Remove
                 .col-md-12
                   label.col-md-3(for='past_work_#{id}_description') Brief description
-                  .col-md-6
-                    textarea.form-control(name='past_work_1_description', id='past_work_#{id}', rows='4')
+                  .col-md-6(id="past_work_#{id}")
+                    textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
               //- .col-md-12
               //-   label.col-md-3(for='past_work_1') Past work #1
               //-   .col-md-6
