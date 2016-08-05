@@ -67,5 +67,5 @@ module.exports.initialize = function (app) {
   app.use('/user-edit', user_edit);
   app.use('/user', user);
   app.use('/organisation', organisation);
-  app.use('/messages', messages)
+  app.use('/messages', messages);
 };

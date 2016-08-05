@@ -346,17 +346,6 @@ module.exports = {
       }
     });
   },
-  urlShortener: function(req, res){
-    console.log(req.body);
-    bitly.shorten(req.body)
-    .then(function(response) {
-      var short_url = response.data.url
-      // Do something with data
-        res.send(short_url);
-      }, function(error) {
-        throw error;
-      });
-  },
   loginGET: function(req, res) {
     // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');
@@ -392,7 +381,7 @@ module.exports = {
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    if (!req.body.remember_me) {res.redirect('loginSplit')}
+    if (req.body.remember_me) {res.redirect('loginSplit')}
     passportFunctions.issueToken(req.user.get(), function(err, token) {
       if (err) {return next(err)}
       res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});

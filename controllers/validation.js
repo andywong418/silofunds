@@ -3,8 +3,9 @@ var bcrypt = require('bcrypt');
 
 module.exports = {
   emailValidator: function(req, res){
-    var email = req.body.email;
-    var loginEmail = req.body.loginEmail;
+    var email = req.query.email;
+    var loginEmail = req.query.loginEmail;
+    console.log("LOGIN", req);
     if(email){
       models.users.find({where: {email: email}}).then(function(user){
         if(user){

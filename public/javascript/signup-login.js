@@ -293,12 +293,14 @@ jQuery.fn.putCursorAtEnd = function() {
 
  $("#signin-email").blur(function(){
    var parameters = {loginEmail: $(this).val()};
+   console.log(parameters);
    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
    if (!re.test($(this).val())){
       $('#login-email-error').addClass('is-visible');
       $('#login-email-error').text('Please enter a valid email address');
       $('#login-button').prop('disabled', true);
    }
+   console.log(parameters);
    $.get('/validation', parameters, function(data){
      if(data){
        $('#login-email-error').addClass('is-visible');
