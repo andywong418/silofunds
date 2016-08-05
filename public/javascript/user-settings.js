@@ -93,6 +93,21 @@ $(document).ready(function() {
     saveActivePaneSettings('education', ['subject', 'previous_degree', 'previous_university', 'target_degree', 'target_university']);
   });
 
+  $('label.removeFile').click(function(e) {
+    var id = e.currentTarget.id;
+    var documentDiv = $('input#' + id).parents()[2];
+    var documentID = documentDiv.id;
+
+    $('label.fakeFileUpload[for=' + id + ']').html("Upload");
+    $('label.removeFile#' + id).addClass('hidden');
+
+    $.ajax({
+      type: 'POST',
+      url: "/user/settings/remove-file",
+      data: { "documentID": documentID }
+    });
+  });
+
   /// Functions
 
   function tokenInputFor(field, source) {

@@ -13,6 +13,7 @@ router.get('/profile', users.crowdFundingPage);
 router.get('/settings', users.settingsGET);
 router.post('/settings', users.settingsPOST);
 router.post('/settings/validate-password', users.settingsValidatePassword);
+router.post('/settings/remove-file', users.settingsRemoveFile);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application', users.addApplication);
 router.get('/logout', users.logoutGET);

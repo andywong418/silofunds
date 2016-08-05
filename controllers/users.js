@@ -481,6 +481,14 @@ module.exports = {
     });
   },
 
+  settingsRemoveFile: function(req, res) {
+    models.documents.findById(req.body.documentID).then(function(document) {
+      return document.destroy();
+    }).then(function() {
+      res.end();
+    });
+  },
+
   settingsValidatePassword: function(req, res) {
     var user = req.user;
     var previous_password = req.body.previous_password;
