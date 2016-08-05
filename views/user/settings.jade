@@ -123,66 +123,93 @@ block content
                   input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
             .col-md-12.sub-content
               h4 Showcase your accomplishments
-              .col-md-12
-                label.col-md-3(for='past_work_1') Past work #1
-                .col-md-6
-                  label.fakeFileUpload.btn.btn-default(for="past_work_1") Upload
-                  input#past_work_1.realFileUpload(type="file", name="past_work_1")
-                  label#past_work_1.removeFile.hidden
-                    i.fa.fa-times
-                    p Remove
-              .col-md-12
-                label.col-md-3(for='past_work_1_description') Brief description
-                .col-md-6
-                  textarea#past_work_1_description.form-control(name='past_work_1_description', rows='4')
-              .col-md-12
-                label.col-md-3(for='past_work_2') Past work #2
-                .col-md-6
-                  label.fakeFileUpload.btn.btn-default(for="past_work_2") Upload
-                  input#past_work_2.realFileUpload(type="file", name="past_work_2")
-                  label#past_work_2.removeFile.hidden
-                    i.fa.fa-times
-                    p Remove
-              .col-md-12
-                label.col-md-3(for='past_work_2_description') Brief description
-                .col-md-6
-                  textarea#past_work_2_description.form-control(name='past_work_2_description', rows='4')
-              .col-md-12
-                label.col-md-3(for='past_work_3') Past work #3
-                .col-md-6
-                  label.fakeFileUpload.btn.btn-default(for="past_work_3") Upload
-                  input#past_work_3.realFileUpload(type="file", name="past_work_3")
-                  label#past_work_3.removeFile.hidden
-                    i.fa.fa-times
-                    p Remove
-              .col-md-12
-                label.col-md-3(for='past_work_3_description') Brief description
-                .col-md-6
-                  textarea#past_work_3_description.form-control(name='past_work_3_description', rows='4')
-              .col-md-12
-                label.col-md-3(for='past_work_4') Past work #4
-                .col-md-6
-                  label.fakeFileUpload.btn.btn-default(for="past_work_4") Upload
-                  input#past_work_4.realFileUpload(type="file", name="past_work_4")
-                  label#past_work_4.removeFile.hidden
-                    i.fa.fa-times
-                    p Remove
-              .col-md-12
-                label.col-md-3(for='past_work_4_description') Brief description
-                .col-md-6
-                  textarea#past_work_4_description.form-control(name='past_work_4_description', rows='4')
-              .col-md-12
-                label.col-md-3(for='past_work_5') Past work #5
-                .col-md-6
-                  label.fakeFileUpload.btn.btn-default(for="past_work_5") Upload
-                  input#past_work_5.realFileUpload(type="file", name="past_work_5")
-                  label#past_work_5.removeFile.hidden
-                    i.fa.fa-times
-                    p Remove
-              .col-md-12
-                label.col-md-3(for='past_work_5_description') Brief description
-                .col-md-6
-                  textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
+              each document in documents
+                div(id=document.id)
+                  .col-md-12
+                    label.col-md-3(for='past_work_#{document.count}') Past work ##{document.count}
+                    .col-md-6
+                      label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
+                      input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
+                      label.removeFile(id='past_work_#{document.count}')
+                        i.fa.fa-times
+                        p Remove
+                  .col-md-12
+                    label.col-md-3(for='past_work_#{document.count}_description') Brief description
+                    .col-md-6
+                      textarea.form-control(name='past_work_1_description', id='past_work_#{document.count}', rows='4')
+              each id in remainingPastWorkDivs
+                .col-md-12
+                  label.col-md-3(for='past_work_#{id}') Past work ##{id}
+                  .col-md-6
+                    label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
+                    input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
+                    label.removeFile.hidden(id='past_work_#{id}')
+                      i.fa.fa-times
+                      p Remove
+                .col-md-12
+                  label.col-md-3(for='past_work_#{id}_description') Brief description
+                  .col-md-6
+                    textarea.form-control(name='past_work_1_description', id='past_work_#{id}', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_1') Past work #1
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_1") Upload
+              //-     input#past_work_1.realFileUpload(type="file", name="past_work_1")
+              //-     label#past_work_1.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_1_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_1_description.form-control(name='past_work_1_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_2') Past work #2
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_2") Upload
+              //-     input#past_work_2.realFileUpload(type="file", name="past_work_2")
+              //-     label#past_work_2.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_2_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_2_description.form-control(name='past_work_2_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_3') Past work #3
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_3") Upload
+              //-     input#past_work_3.realFileUpload(type="file", name="past_work_3")
+              //-     label#past_work_3.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_3_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_3_description.form-control(name='past_work_3_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_4') Past work #4
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_4") Upload
+              //-     input#past_work_4.realFileUpload(type="file", name="past_work_4")
+              //-     label#past_work_4.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_4_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_4_description.form-control(name='past_work_4_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_5') Past work #5
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_5") Upload
+              //-     input#past_work_5.realFileUpload(type="file", name="past_work_5")
+              //-     label#past_work_5.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_5_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
               .col-md-12
                 label.col-md-3(for='link') Link
                 .col-md-6

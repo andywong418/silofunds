@@ -445,18 +445,40 @@ module.exports = {
   settingsGET: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
 
-    console.log(req.user);
+    models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
+      documents = documents.map(function(document) {
+        return document.get();
+      });
 
-    var user = req.user;
-    if (user.date_of_birth) {
-      user.date_of_birth = reformatDate(user.date_of_birth);
-    }
+      for (var i = 0; i < documents.length; i++) {
+        var document = documents[i];
 
-    if (user.completion_date) {
-      user.completion_date = reformatDate(user.completion_date);
-    }
+        document.count = i + 1;
+      }
+      console.log(documents);
 
-    res.render('user/settings', {user: user, general: true});
+      var numberRemainingPastWorkDivs = 5 - documents.length;
+      var remainingPastWorkDivs = [];
+
+      if (numberRemainingPastWorkDivs > 0) {
+        for (var j = documents.length; j < 5; j++) {
+          var id = j + 1;
+
+          remainingPastWorkDivs.push(id.toString());
+        }
+      }
+
+      var user = req.user;
+      if (user.date_of_birth) {
+        user.date_of_birth = reformatDate(user.date_of_birth);
+      }
+
+      if (user.completion_date) {
+        user.completion_date = reformatDate(user.completion_date);
+      }
+
+      res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
+    });
   },
 
   settingsValidatePassword: function(req, res) {
