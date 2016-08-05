@@ -10,6 +10,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
+var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
 // Stripe OAuth
@@ -458,6 +459,29 @@ module.exports = {
     res.render('user/settings', {user: user, general: true});
   },
 
+  settingsValidatePassword: function(req, res) {
+    var user = req.user;
+    var previous_password = req.body.previous_password;
+
+    bcrypt.compare(previous_password, user.password, function(err, response) {
+      var responseObject = {};
+
+      if (err) {
+        res.send(err);
+      } else if (response) {
+        responseObject.message = "Previous password is correct.";
+        responseObject.match = true;
+        res.send(responseObject);
+      } else {
+        responseObject.message = "Previous password is incorrect.";
+        responseObject.match = false;
+        res.send(responseObject);
+      }
+
+      res.end();
+    });
+  },
+
   settingsPOST: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
     var userID = req.user.id;
@@ -474,7 +498,7 @@ module.exports = {
       var settingsKey = settingsKeys[i];
       var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
       var isNullField = settings[settingsKey] === '';
-      
+
       if (isNullField) {
         settings[settingsKey] = null;
       } else if (isValueAnArrayField) {

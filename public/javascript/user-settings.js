@@ -30,7 +30,48 @@ $(document).ready(function() {
   $('#save-general-settings').click(function(e) {
     e.preventDefault();
 
-    saveActivePaneSettings('general', ['email'], { "email_updates": $('#email_updates').is(":checked") });
+    var previousPassword = $('#previous_password').val();
+    var newPassword = $('#new_password').val();
+    var confirmNewPassword = $('#confirm_new_password').val();
+
+    if ((previousPassword === '') && (newPassword === '') && (confirmNewPassword === '')) {
+      saveActivePaneSettings('general', ['email'], {
+        "email_updates": $('#email_updates').is(":checked")
+      });
+    } else {
+      $.post('/user/settings/validate-password', { "previous_password": $('#previous_password').val() }, function(response) {
+        $('span#previous_password_message').html(response.message);
+
+        if (response.match) {
+          $('span#previous_password_message').css("color", "green");
+
+          if (newPassword === '') {
+            $('span#new_password_message').html("Please enter a password.");
+          }
+
+          if (confirmNewPassword === '') {
+            $('span#confirm_new_password_message').html("Please enter a password.");
+          }
+
+          if (newPassword !== confirmNewPassword) {
+            $('span#new_password_message').html("The passwords don't match!");
+            $('span#confirm_new_password_message').html("The passwords don't match!");
+          }
+
+          if ((newPassword === confirmNewPassword) && (newPassword !== '') && (confirmNewPassword !== '')) {
+            saveActivePaneSettings('general', ['email'], {
+              "email_updates": $('#email_updates').is(":checked"),
+              "password": $('#confirm_new_password').val()
+            });
+
+            $('span.password_message').empty();
+            $('input.password').val('');
+          }
+        } else {
+          $('span#previous_password_message').css("color", "red");
+        }
+      });
+    }
   });
 
   $('#save-personal-settings').click(function(e) {
@@ -127,6 +168,8 @@ $(document).ready(function() {
         formData[extraOptionsKey] = extraOptions[extraOptionsKey];
       }
     }
+
+    console.log(formData);
 
     $.post('/user/settings', formData, function(data) {
       $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');

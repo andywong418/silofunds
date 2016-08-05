@@ -58,15 +58,21 @@ block content
               .col-md-12
                 label.col-md-3(for='previous_password') Previous password
                 .col-md-3
-                  input#previous_password.form-control(type='password', name='previous_password')
+                  input#previous_password.password.form-control(type='password', name='previous_password')
+                .col-md-6
+                  span#previous_password_message.password_message
               .col-md-12
                 label.col-md-3(for='new_password') New password
                 .col-md-3
-                  input#new_password.form-control(type='password', name='new_password')
+                  input#new_password.password.form-control(type='password', name='new_password')
+                .col-md-6
+                  span#new_password_message.password_message
               .col-md-12
                 label.col-md-3(for='confirm_new_password') Confirm new password
                 .col-md-3
-                  input#confirm_new_password.form-control(type='password', name='confirm_new_password')
+                  input#confirm_new_password.password.form-control(type='password', name='confirm_new_password')
+                .col-md-6
+                  span#confirm_new_password_message.password_message
           .col-md-12.footer
             button#save-general-settings.btn.btn-primary(type='submit') Save changes
             #save-general-settings-notification Your changes have been saved
