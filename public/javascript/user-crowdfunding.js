@@ -320,8 +320,16 @@ $(document).ready(function(){
       console.log(offset);
       var username = user.username.split(' ')[0];
       var subject = user.subject;
+      var gender = user.gender;
+      var pronoun;
+      if(gender == 'male'){
+        pronoun = 'He'
+      }
+      if(gender == 'female'){
+        pronoun = 'She'
+      }
       if(user.subject){
-        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+They+are+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
+        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
 
       }
       else{
