@@ -55,6 +55,20 @@ block content
 				.row
 					.col-md-1
 					.col-md-3
+						p#gender.description Gender
+					.col-md-6.gender-row
+						.col-md-4
+							label.radio-inline
+								input(type='radio', name='gender', value='male')
+								| Male
+						.col-md-4
+							label.radio-inline
+								input(type='radio', name='gender', value='female')
+								| Female
+								
+				.row
+					.col-md-1
+					.col-md-3
 						p#country_of_residence.description Country of residence
 					.col-md-6
 						input#country_of_residence(name="country_of_residence")

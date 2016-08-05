@@ -318,7 +318,16 @@ $(document).ready(function(){
     $('a.twitter-tweet').click(function(e){
       var offset = (screen.width/2) - Math.ceil(575/2);
       console.log(offset);
-      var newWindow=window.open("https://twitter.com/intent/tweet?text=hello+world&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
+      var username = user.username.split(' ')[0];
+      var subject = user.subject;
+      if(user.subject){
+        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+They+are+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
+
+      }
+      else{
+                var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+They+are+raising+money+for+their+studies%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
+
+      }
     });
 
   // Helper functions

@@ -51,7 +51,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var aboutModel = this.model;
 			var aboutView = new AboutView({model: aboutModel});
 			this.$el.append(aboutView.render().el);
-			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','completion_date', 'date_of_birth', 'religion'];
+			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','gender','completion_date', 'date_of_birth', 'religion'];
 			var prePopulateModel = this.model;
 			console.log(prePopulateModel);
 			if(!this.model.get('country_of_residence')){
@@ -91,6 +91,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 							case 'funding_needed':
 								this.$('input#input-amount').val(value);
 								break;
+							case 'gender':
+								console.log('what', this.$('input[value=' + value +']'));
+								this.$('input[value=' + value +']').prop("checked", true);
 							case 'completion_date':
 								this.$('input#completion-input').val(reformatDate(value));
 								break;
@@ -139,11 +142,13 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveAbout: function(e){
+			console.log( $('input[name=gender]').val());
 			var countries = $('input#country_of_residence').val().split(',');
 			var formData = {
 				'funding_needed': $('input[name=funding_needed]').val(),
 				'completion_date': $('input[name=completion_date]').val(),
 				'date_of_birth': $('input[name=date_of_birth]').val(),
+				'gender': $('input[name=gender]').val(),
 				'country_of_residence': countries,
 				'religion': $('select[name=religion]').val()
 			}

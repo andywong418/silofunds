@@ -96,6 +96,10 @@ module.exports = function(sequelize, DataTypes) {
     funding_accrued: {
       type: DataTypes.INTEGER,
       field: 'funding_accrued'
+    },
+    gender: {
+      type: DataTypes.TEXT,
+      field: 'gender'
     }
   }, {
     timestamps: true,
