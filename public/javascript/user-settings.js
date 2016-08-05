@@ -83,6 +83,29 @@ $(document).ready(function() {
   $('#save-campaign-settings').click(function(e) {
     e.preventDefault();
 
+    var fileData = new FormData();
+    var inputs = document.querySelectorAll('.realFileUpload');
+    Array.prototype.forEach.call(inputs, function(input) {
+      var file = input.files[0];
+
+      if (file) {
+        fileData.append('past_work', file);
+      }
+    });
+
+    var files = fileData.getAll('past_work');
+    var userID = user.id;
+
+    if (files.length > 0) {
+      $.ajax({
+        type: 'POST',
+        url: "/signup/user_signup/work/" + userID,
+        data: fileData,
+        processData: false,
+        contentType: false
+      });
+    }
+
     saveActivePaneSettings('campaign', ['link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
   });
 
