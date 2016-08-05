@@ -4,14 +4,27 @@ var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var qs = require('qs');
+var AWS = require('aws-sdk');
+var aws_keyid;
+var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
+var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
+if (process.env.AWS_KEYID && process.env.AWS_KEY) {
+	aws_keyid = process.env.AWS_KEYID;
+	aws_key = process.env.AWS_KEY;
+} else {
+	var secrets = require('../app/secrets');
+
+	aws_keyid = secrets.AWS_KEYID;
+	aws_key = secrets.AWS_KEY;
+}
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
 var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
@@ -535,27 +548,163 @@ module.exports = {
 		})
 	},
 
-	settingsGET: function(req, res) {
-		console.log('settings')
-		console.log(req.cookies)
-		console.log(req.session)
-		passportFunctions.ensureAuthenticated(req, res);
-		res.render('user-settings', {user: req.user, general: true})
-	},
+  settingsGET: function(req, res) {
+    passportFunctions.ensureAuthenticated(req, res);
 
-	settingsPOST: function(req, res) {
-		passportFunctions.ensureAuthenticated(req, res);
-		var general_settings;
-		var id = req.user.id
-		var body = req.body;
-		if('username' in body || 'email' in body || 'password' in body){
-			general_settings = true;
-		} else {
-			general_settings = false;
-		}
-		models.users.findById(id).then(function(user){
-			user.update(body).then(function(user){
-				res.render('user-settings', {user: user, general: general_settings});
+    models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
+      documents = documents.map(function(document) {
+        return document.get();
+      });
+
+      for (var i = 0; i < documents.length; i++) {
+        var document = documents[i];
+
+        document.count = i + 1;
+      }
+      console.log(documents);
+
+      var numberRemainingPastWorkDivs = 5 - documents.length;
+      var remainingPastWorkDivs = [];
+
+      if (numberRemainingPastWorkDivs > 0) {
+        for (var j = documents.length; j < 5; j++) {
+          var id = j + 1;
+
+          remainingPastWorkDivs.push(id.toString());
+        }
+      }
+
+      var user = req.user;
+      if (user.date_of_birth) {
+        user.date_of_birth = reformatDate(user.date_of_birth);
+      }
+
+      if (user.completion_date) {
+        user.completion_date = reformatDate(user.completion_date);
+      }
+
+      res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
+    });
+  },
+
+  settingsUpdateDocumentDescription: function(req, res) {
+    var descriptionArr = Object.keys(req.body)[0];
+    descriptionArr = JSON.parse(descriptionArr);
+
+    async.each(descriptionArr, function(description, callback) {
+      models.documents.findById(description.document_id).then(function(document) {
+        document.update({ description: description.description}).then(function(resp) {
+          callback();
+        });
+      });
+    }, function done() {
+      res.end();
+    });
+  },
+
+  settingsRemoveFile: function(req, res) {
+    var userId = req.user.id;
+    var bucketName = 'silo-user-profile-' + userId;
+    var fileName = req.body.fileName;
+    console.log("HI", userId);
+    console.log(fileName);
+    console.log(aws_keyid);
+    console.log(aws_key);
+    AWS.config.update({
+      accessKeyId: aws_keyid,
+      secretAccessKey: aws_key
+    });
+    console.log("WHAT");
+
+    var s3 = new AWS.S3();
+    var params = {
+      Bucket: bucketName,
+      Key: fileName
+    };
+    console.log("HERE")
+    s3.deleteObject(params, function(err, data){
+      if(data){
+        models.documents.findById(req.body.documentID).then(function(document) {
+          return document.destroy();
+        }).then(function() {
+          res.end();
+        });
+      }
+      if(err){
+        console.log(err);
+      }
+    })
+
+  },
+
+  settingsValidatePassword: function(req, res) {
+    var user = req.user;
+    var previous_password = req.body.previous_password;
+
+    bcrypt.compare(previous_password, user.password, function(err, response) {
+      var responseObject = {};
+
+      if (err) {
+        res.send(err);
+      } else if (response) {
+        responseObject.message = "Previous password is correct.";
+        responseObject.match = true;
+        res.send(responseObject);
+      } else {
+        responseObject.message = "Previous password is incorrect.";
+        responseObject.match = false;
+        res.send(responseObject);
+      }
+
+      res.end();
+    });
+  },
+
+  settingsPOST: function(req, res) {
+    passportFunctions.ensureAuthenticated(req, res);
+    var userID = req.user.id;
+    var settings = req.body;
+
+    console.log("Settings");
+    console.log(settings);
+
+    var settingsKeys = Object.keys(settings);
+    var numberOfKeys = Object.keys(settings).length;
+    var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
+
+    for (var i = 0; i < numberOfKeys; i++) {
+      var settingsKey = settingsKeys[i];
+      var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
+      var isNullField = settings[settingsKey] === '';
+
+      if (isNullField) {
+        settings[settingsKey] = null;
+      } else if (isValueAnArrayField) {
+        settings[settingsKey] = settings[settingsKey].split(',');
+      }
+    }
+
+    console.log("Settings");
+    console.log(settings);
+		// var general_settings;
+		// var id = req.user.id
+		// var body = req.body;
+		// if('username' in body || 'email' in body || 'password' in body){
+		// 	general_settings = true;
+		// } else {
+		// 	general_settings = false;
+		// }
+    //
+    // if (body.country_of_residence) {
+    //   body.country_of_residence = body.country_of_residence.split(',');
+    // }
+    //
+		models.users.findById(userID).then(function(user) {
+			user.update(settings).then(function(user) {
+        res.send("HAHHAHAH");
+        res.end();
+
+				// res.render('user/settings', {user: user, general: general_settings});
 			});
 		});
 	},

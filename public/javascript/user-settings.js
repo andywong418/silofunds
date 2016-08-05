@@ -1,212 +1,269 @@
-$(document).ready(function(){
-	var SettingsModel = Backbone.Model.extend({
-			defaults: {
-				name: "",
-				age: 0,
-				description: "",
-				nationality: "",
-				religion: "",
-				funding_needed: 0
-			}
+$(document).ready(function() {
+  $("div.settings-tab-menu div.list-group a").click(function(e) {
+    e.preventDefault();
 
-		});
-	var SettingsView = Backbone.View.extend({
-		id: 'user-setup',
-		template: _.template($('#settings-template').html()),
-		render: function() {
-        this.$el.html(this.template(this.model.toJSON()));
-        return this; // enable chained calls
+    $(this).siblings('a.active').removeClass("active");
+    $(this).addClass("active");
+
+    var index = $(this).index();
+    $("div.settings-tab div.settings-tab-content").removeClass("active");
+    $("div.settings-tab div.settings-tab-content").eq(index).addClass("active");
+  });
+
+  tokenInputFor('country_of_residence', 'countries');
+  tokenInputFor('previous_degree', 'degrees');
+  tokenInputFor('previous_university', 'universities');
+  tokenInputFor('religion', 'religions');
+  tokenInputFor('subject', 'subjects');
+  tokenInputFor('target_degree', 'degrees');
+  tokenInputFor('target_university', 'universities');
+
+  // // TODO: ABSTRACT BELOW BITCHHHH
+  // var text;
+  try {
+    initiateTinyMCE();
+  } catch(e) {
+    console.log("tinymce not defined!");
+  }
+
+  // NOTE: Change label name upon file upload
+
+  var inputs = document.querySelectorAll( '.realFileUpload' );
+  Array.prototype.forEach.call( inputs, function( input ) {
+  	var label	 = input.previousElementSibling,
+  		  labelVal = label.innerHTML;
+
+  	input.addEventListener('change', function(e) {
+  		var fileName = '';
+  		if( this.files && this.files.length > 1 ) {
+  			alert("You can only upload 1 file at a time.");
+      } else if (this.files) {
+        var inputID = this.id;
+        console.log(inputID);
+
+        fileName = e.target.value.split( '\\' ).pop();
+        $('label#' + inputID).removeClass('hidden');
+
+      } else {
+        console.log("no file");
+      }
+
+  		if(fileName) {
+        label.innerHTML = fileName;
+      } else {
+        label.innerHTML = labelVal;
+      }
+
+      var fileData = new FormData();
+      var file = input.files[0];
+
+      if (file) {
+        fileData.append('past_work', file);
+      }
+
+      var files = fileData.getAll('past_work');
+      var userID = user.id;
+
+      if (files.length > 0) {
+        $.ajax({
+          type: 'POST',
+          url: "/signup/user_signup/work/" + userID,
+          data: fileData,
+          processData: false,
+          contentType: false
+        }).done(function(documentIDArr) {
+          $('.col-md-6#' + inputID + ' textarea').attr('id', documentIDArr[0].toString());
+        });
+      } else {
+        // these documents are already in postgres
+      }
+  	});
+  });
+
+  // NOTE: submit form data
+  $('#save-general-settings').click(function(e) {
+    e.preventDefault();
+
+    var previousPassword = $('#previous_password').val();
+    var newPassword = $('#new_password').val();
+    var confirmNewPassword = $('#confirm_new_password').val();
+
+    if ((previousPassword === '') && (newPassword === '') && (confirmNewPassword === '')) {
+      saveActivePaneSettings('general', ['email'], {
+        "email_updates": $('#email_updates').is(":checked")
+      });
+    } else {
+      $.post('/user/settings/validate-password', { "previous_password": $('#previous_password').val() }, function(response) {
+        $('span#previous_password_message').html(response.message);
+
+        if (response.match) {
+          $('span#previous_password_message').css("color", "green");
+
+          if (newPassword === '') {
+            $('span#new_password_message').html("Please enter a password.");
+          }
+
+          if (confirmNewPassword === '') {
+            $('span#confirm_new_password_message').html("Please enter a password.");
+          }
+
+          if (newPassword !== confirmNewPassword) {
+            $('span#new_password_message').html("The passwords don't match!");
+            $('span#confirm_new_password_message').html("The passwords don't match!");
+          }
+
+          if ((newPassword === confirmNewPassword) && (newPassword !== '') && (confirmNewPassword !== '')) {
+            saveActivePaneSettings('general', ['email'], {
+              "email_updates": $('#email_updates').is(":checked"),
+              "password": $('#confirm_new_password').val()
+            });
+
+            $('span.password_message').empty();
+            $('input.password').val('');
+          }
+        } else {
+          $('span#previous_password_message').css("color", "red");
+        }
+      });
     }
-	});
+  });
+
+  $('#save-personal-settings').click(function(e) {
+    e.preventDefault();
+
+    saveActivePaneSettings('personal', ['username', 'date_of_birth', 'religion', 'country_of_residence']);
+  });
+
+  $('#save-campaign-settings').click(function(e) {
+    e.preventDefault();
+
+    var textareas = $('textarea.past_work_description');
+    var descriptionData = [];
+
+    for (var i = 0; i < textareas.length; i++) {
+      var wrapper = {};
+      var document_id = textareas[i].id;
+
+      if (document_id !== '') {
+        wrapper.document_id = document_id;
+        wrapper.description = textareas[i].value;
+
+        descriptionData.push(wrapper);
+      }
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '/user/settings/update-description',
+      data: JSON.stringify(descriptionData)
+    });
+
+    saveActivePaneSettings('campaign', ['link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
+  });
 
 
-	var SettingsInfo = Backbone.View.extend({
-		el: 'body',
-		initialize: function(){
-			var myDate
-			if(myDate) {
-			 	myDate = user.date_of_birth.split("-");
-				var yearFix= myDate[2].split("T");
-				var day = yearFix[0];
-				var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-				var birthDate = new Date(newDate).getTime();
-				var nowDate = new Date().getTime();
-				var age = Math.floor((nowDate - birthDate) / 31536000000 );
-			} else {
-				myDate = ""
-			}
-			var settings_model = new SettingsModel({
-				name: user.username,
-				age: age,
-				description: user.description,
-				nationality: user.nationality,
-				funding_needed: user.funding_needed,
-				religion: user.religion
-			});
-			var view = new SettingsView({model: settings_model});
-			this.$el.append(view.render().el);
+  $('#save-education-settings').click(function(e) {
+    e.preventDefault();
 
-			if (!Modernizr.inputtypes.date) {
-        // If not native HTML5 support, fallback to jQuery datePicker
-            $('input[type=date]').datepicker({
-                // Consistent format with the HTML5 picker
-                    dateFormat : 'dd-mm-yy'
-                },
-                // Localization
-                $.datepicker.regional['it']
-            );
-      };
-      function split( val ) {
-    	  return val.split(" ");
-  		};
-		  $("input#text_search" ).autocomplete({
-		    source: "../autocomplete",
-		    minLength: 1,
-		    select: function( event, ui ) {
-		      var terms = split( this.value );
-		      // remove the current input
-		      terms.pop();
-		      // add the selected item
-		      terms.push( ui.item.value );
-		      // add placeholder to get the comma-and-space at the end
-		      terms.push( "" );
-		      this.value = terms.join(" ");
-		      return false;
-		    },
-		    focus: function() {
-		      // prevent value inserted on focus
-		      return false;
-		    }
-				 });
+    saveActivePaneSettings('education', ['subject', 'previous_degree', 'previous_university', 'target_degree', 'target_university']);
+  });
 
-			if(user.email_updates == true){
-				$("#email_updates").prop("checked", true);
-			}
-			var advanced = true;
-			var advanced_2 = true;
-			$("#advanced-search").toggle(false);
-			$("#advanced-search-2").toggle(false);
-			$("#grants, #advs-link").click(function(){
-			    $("#advanced-search").slideDown();
-			    $("#advanced-search-2").toggle(false);
-			    $("#grants span").css("display","inline");
-			    $("#users span").css("display","none");
-			    advanced = false;
-			    return true;
-			  });
+  $('label.removeFile').click(function(e) {
+    var id = e.currentTarget.id;
+    var documentDiv = $('input#' + id).parents()[2];
+    var documentID = documentDiv.id;
+    var fileName = $('label.fakeFileUpload[for=' + id + ']').html();
+    $('label.fakeFileUpload[for=' + id + ']').html("Upload");
+    $('label.removeFile#' + id).addClass('hidden');
 
-			$("#users").click(function(){
-			    $("#advanced-search-2").toggle(true);
-			    $("#advanced-search").toggle(false);
-			    $("#users span").css("display","inline");
-			    $("#grants span").css("display","none");
-			    advanced_2 = false;
-			});
+    $.ajax({
+      type: 'POST',
+      url: "/user/settings/remove-file",
+      data: { "documentID": documentID, "fileName": fileName }
+    });
+  });
 
-			$(document).click(function(e) {
-			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#advs-link') === null && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
-			      $("#advanced-search").toggle(false);
+  /// Functions
 
-			  }
-			  else{
-			        return true;
-			      }
+  function tokenInputFor(field, source) {
+    var tokenInputOptions = { "theme": "facebook", "allowFreeTagging": true };
 
-			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-			    $("#advanced-search-2").toggle(false);
-			  }
-			  else{
-			        return true;
-			  }
-			});
-			this.editAccount();
-			this.editEmailSettings();
-		},
+    if (field === 'religion') {
+      if (user[field]) {
+        var tokenInputArr = [];
+        var wrapper = {};
 
-		editAccount: function(){
+        wrapper.id = user[field];
+        wrapper.name = user[field];
 
-		if(general== false){
-			$('.general').css("display", "none");
-			$('.profile-edit').css("display", "inline");
-			$('#general-settings').css("color", "grey");
-			$('#account').css("color", "black")
-		}
+        tokenInputArr.push(wrapper);
+        tokenInputOptions.prePopulate = tokenInputArr;
+        tokenInputOptions.tokenLimit = 1;
+      }
+    } else {
+      // Handles array fields
+      if (user[field]) {
+        var tokenInputArr = [];
 
+        for (var j = 0; j < user[field].length; j++) {
+          var wrapper = {};
+          wrapper.id = user[field][j];
+          wrapper.name = user[field][j];
 
-			(function( $ ){
-   $.fn.displaySave = function() {
-      var id = $(this).attr("id");
-      console.log(id);
-			var seekid = id.split("-");
-			var element = seekid[0];
-			console.log(element);
-			var value = $("#" + id + " #grey").html();
-			console.log(value);
-			if(element == "description"){
-				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description'>" + value + "</textarea>");
-				$("#save-" + element).css("display","inline");
-				$(".save").not("#save-" + element).css("display", "none");
-			}
-			else{
-			$("#" + id + " #grey").replaceWith("<input type = 'text' class= 'change-input' id = 'input" +element+ "' name = '"+ element +"' value = '"+ value + "'> </input>");
-			$("#save-" + element).css("display","inline");
-		  $(".save").not("#save-" + element).css("display", "none");
-			}
-			return this;
-   		};
-		})( jQuery );
+          tokenInputArr.push(wrapper);
+        }
 
-		(function( $ ){
-   $.fn.saveInfo= function() {
-      var id = $(this).attr("id");
-      console.log(id);
-			var seekid = id.split("-");
-			var element = seekid[1];
-			return this;
-   		};
-		})( jQuery );
+        tokenInputOptions.prePopulate = tokenInputArr;
+      }
+    }
 
-			$(".row").click(function(){
-				$(this).displaySave();
-			});
+    $('input#' + field).tokenInput('/autocomplete/' + source, tokenInputOptions);
+  }
 
-			$(".save").click(function(){
-				$(this).saveInfo();
-			})
+  function initiateTinyMCE() {
+    // text editor init
+    tinymce.init({
+      selector: '#description',
+      fontsize_formats: '8pt 10pt 12pt 14pt 15pt 16pt 18pt 24pt 36pt',
+      plugins: [
+        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        'searchreplace wordcount visualblocks visualchars code fullscreen',
+        'insertdatetime media nonbreaking save table contextmenu directionality',
+        'emoticons template paste textcolor colorpicker textpattern imagetools'
+      ],
+      height: 250,
+      theme: "modern",
+      elementpath: false,
+      toolbar1: "undo redo | styleselect | bullist numlist | link image | preview",
+      toolbar2: 'bold italic | alignleft aligncenter alignright alignjustify | forecolor backcolor emoticons'
+    }).then(function(editors){
+      // console.log(tinymce.activeEditor.getContent({format: 'text'}));
+    });
+  }
 
-				$("#account").click(function(){
-				$('.general').css("display", "none");
-				$('.profile-edit').css("display", "inline");
-				$('#general-settings').css("color", "grey");
-			$('#account').css("color", "black")
-			})
+  function saveActivePaneSettings(tabPaneName, settingsFieldsArray, extraOptions) {
+    var formData = {};
 
-			$("#general-settings").click(function(){
-				$('.general').css("display", "inline");
-				$('.profile-edit').css("display", "none");
-				$('#general-settings').css("color", "black");
-				$('#account').css("color", "grey")
-			})
-		},
-		editEmailSettings: function(){
-			$("#email_updates").change(function(){
-				if(!this.checked){
-					var parameters = {email_updates: false};
-					$.post('/user/email-settings/'+ user.id, parameters, function(data){
-						console.log(data);
-					})
-				}
-				else{
-					var parameters = {email_updates: true};
-					$.post('/user/email-settings/'+ user.id, parameters, function(data){
-						console.log(data);
-					})
-				}
-			})
-		}
+    for (var i = 0; i < settingsFieldsArray.length; i++) {
+      var formDataKey = settingsFieldsArray[i];
+      formData[formDataKey] = $('#' + formDataKey).val();
+    }
 
-	})
+    if (extraOptions) {
+      var extraOptionsKeys = Object.keys(extraOptions);
 
-	var settingsInfo = new SettingsInfo();
+      for (var j = 0; j < extraOptionsKeys.length; j++) {
+        var extraOptionsKey = extraOptionsKeys[j];
 
-})
+        formData[extraOptionsKey] = extraOptions[extraOptionsKey];
+      }
+    }
+
+    console.log(formData);
+
+    $.post('/user/settings', formData, function(data) {
+      $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
+      $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
+    });
+  }
+});

@@ -1,300 +1,262 @@
-doctype html
-html
-	head
-		meta(charset='utf-8')
-		meta(charset='utf-8')
-		meta(http-equiv='X-UA-Compatible', content='IE=edge')
-		meta(name='viewport', content='width=device-width, initial-scale=1')
-		meta(name='description', content='')
-		meta(name='author', content='')
-		title Silo
-		// jQuery UI
-		link(href='../../../stylesheets/jquery-ui.min.css', rel='stylesheet')
-		// Bootstrap Core CSS
-		link(href='../../../stylesheets/bootstrap.min.css', rel='stylesheet')
-		link(href='../../../stylesheets/bootstrap-social.css', rel='stylesheet')
-		// Custom Fonts
-		link(href='../../../font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
-		link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
-		link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
-		link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:900', rel='stylesheet', type='text/css')
-		link(href='https://fonts.googleapis.com/css?family=Nunito', rel='stylesheet', type='text/css')
-		link(href='http://33.media.tumblr.com/avatar_5e9ecfc32b98_128.png', rel='shortcut icon')
-		// HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-		// WARNING: Respond.js doesn't work if you view the page via file://
-		//if lt IE 9
-		script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
-		script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
-		//underscore
-		script(src="../../../javascript/lib/underscore.js")
-		// jQuery
-		script(src='../../../javascript/lib/jquery.js')
-		// jQuery UI
-		script(src='../../../javascript/lib/jquery-ui.min.js')
-		//Backbone
-		script(src="../../../javascript/lib/backbone.js")
-		// Bootstrap Core JavaScript
-		script(src='../../../javascript/lib/bootstrap.min.js')
-		// Plugin JavaScript
-		script(src='../../../javascript/lib/jquery.easing.min.js')
-		link(href='../../../stylesheets/user-profile.css', rel='stylesheet')
-		link(href='../../../stylesheets/user-settings.css', rel='stylesheet')
-		// Hotjar Tracking Code for https://www.silofunds.com
-		script.
-			(function(h,o,t,j,a,r){
-			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-			h._hjSettings={hjid:163948,hjsv:5};
-			a=o.getElementsByTagName('head')[0];
-			r=o.createElement('script');r.async=1;
-			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-			a.appendChild(r);
-			})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
-	body
-		script#settings-template(type='text/template')
-			nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-					#container.container
-						.navbar-header
-							button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
-								i.fa.fa-bars
-							a#brand-heading.navbar-brand
-								img#brand-image(src="../../../images/transparent silo icon graphic.png")
-							form.search_form(id = "search-form", action='/results', method='get', name='search_form')
-								#dropdown.dropdown
-									a#refine-search(href='#0') REFINE SEARCH
-									button#search-dropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-										i.fa.et-down.fa-bars
-										i.fa.et-down.fa-angle-down
-									ul#dropdown-menu.dropdown-menu
-										li.dropdown-header type of profile search
-										li#grants
-											| Grants
-											span
-												i.fa.fa-check
-										//
-											li#users
-												| Users  
-												span
-													i.fa.fa-check         
-								input#text_search(type='text', name='tags', placeholder='Keywords - Subject, University, Degree level')
-								button#search_button.btn.btn-info(type='submit')
-									i.fa.fa-search
-							.instruction-pointer
-								p Search for grants or users by entering your desired subject, university and/or degree level
-							.instruction-pointer-2
-								p Use advanced search to look at specific fields for funds or other users. 
-						#collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
-								ul.nav.navbar-nav
-									li.signin-icon
-										button
-											a#home(href="/user/" + user.id + "/")
-												i.fa.fa-user
-									//      
-										li.signin-icon
-											button
-											 i.fa.fa-comment-o
-									li.signin-icon
-										.dropdown
-											button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-												i.fa.fa-cog
-											ul#settings-menu.dropdown-menu
-												li#settings
-													a(href='/user/settings/' + user.id + '/')
-														| Settings
-												li.divider(role='separator')
-												li#logout
-													a(href='/user/logout/' + user.id)
-														| Log out
+extend ../layout
 
-				section#advanced-search.container.content-section.text-center
-					.row
-						.col-md-4
-							label(for='age') Age:
-							input#advanced-age(type = "number", name = "age") 	
-						.col-md-4
-							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "nationality", value = user.nationality, form = "search-form") 
-						.col-md-4
-							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "religion", value = user.religion, form = "search-form") 
-					.row
-						.col-md-4
-							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "funding_needed", value ="£" + user.funding_needed, form = "search-form")
-						.col-md-4
-							label#merit-or-finance Merit or Finance
-							.row
-								.col-md-6
-									label.radio-inline
-										input#merit(type='radio', name='merit_or_finance', value='merit', form = "search-form")
-										| Merit
-								.col-md-6
-										label.radio-inline
-												input#finance(type='radio', name='merit_or_finance', value='finance', form = "search-form")
-												| Finance
-						.col-md-4
-							label#gender Gender
-							.row
-								.col-md-6
-									label.radio-inline
-										input#male(type='radio', name = 'gender', value= 'male', form = "search-form")
-										| Male
-								.col-md-6
-									label.radio-inline
-										input#female(type='radio', name = 'gender', value = 'female', form = "search-form")
-										| Female
-				section#advanced-search-2.container.content-section.text-center
-					.row
-						.col-md-4
-							label(for='age') Age:
-							input#advanced-age-2(type = "number", name = "user_age", form = "search-form") 
-						.col-md-4
-							label(for= 'nationality') Nationality:
-							input#advanced-nationality(type = "text", name = "user_nationality", value = user.nationality, form = "search-form") 
-						.col-md-4
-							label(for= 'religion') Religion:
-							input#religion(type = "text", name = "user_religion", value = user.religion, form = "search-form") 
-					.row
-						.col-md-4
-							label#amount_needed(for= 'amount_needed') Amount:
-							input#input-amount(type = "text", name = "user_funding_needed", value ="£" + user.funding_needed, form = "search-form")
-						.col-md-4
-							label#gender Gender
-							.row
-								.col-md-6
-									label.radio-inline
-										input#male(type='radio', name = 'user_gender', value= 'male', form = "search-form")
-										| Male
-								.col-md-6
-									label.radio-inline
-										input#female(type='radio', name = 'user_gender', value = 'female', form = "search-form")
-										| Female
-
-				section#edit.container.content-section
-					.row
-						.col-md-2.col-xs-4#categories
-							ul
-								li#general-settings
-									i.fa.fa-gears
-									| General settings
-								li#account
-									i.fa.fa-lock
-									| Account details
-							hr
-							ul
-								li#logout
-									a(href='/user/logout/' + user.id)
-										| Log out
-						.col-md-1
-						.col-md-7.col-xs-8#profile-settings
-							form(action = '/user/settings/'+ user.id, method= 'post', id = 'change-settings')
-								.general
-									.row#username-row
-										.col-md-5
-											p Name:
-										.col-md-5
-											p#grey <%= name %>
-										.col-md-1
-											i.fa.fa-pencil.edit-username
-											p.edit Edit
-									.row#input-name
-										.col-md-12.center-block
-											button#save-username.save Save Changes
-									hr.account
-									.row#email-row
-										.col-md-5
-											p Email:
-										.col-md-5
-											p#grey= user.email
-										.col-md-1
-											i.fa.fa-pencil.edit-email
-											p.edit Edit
-									.row#input-email
-										.col-md-12.center-block
-											button#save-email.save Save Changes
-									hr.account
-									.row#password-row
-										.col-md-5
-											p Password:
-										.col-md-5
-											p#grey Change password
-										.col-md-1
-											i.fa.fa-pencil.edit-password
-											p.edit Edit
-									.row#input-password
-										.col-md-12.center-block
-											button#save-password.save Save Changes
-									hr.account
-									.row
-										.col-md-5
-											p Receive email updates weekly
-										.col-md-1
-											input#email_updates(type='checkbox', name='email-updates', value = 'email-updates')
-									br
-								.profile-edit
-									.row#description-row
-										.col-md-4
-											p Description:
-										.col-md-6
-											p#grey <%= description %>
-										.col-md-1
-											i.fa.fa-pencil.edit-password
-											p.edit Edit
-									.row#input-description
-										.col-md-12.center-block
-											button#save-description.save Save changes
-									hr
-									.row#nationality-row
-										.col-md-5
-											p Nationality:
-										.col-md-5
-											p#grey <%= nationality %>
-										.col-md-1
-											i.fa.fa-pencil.edit-nationality
-											p.edit Edit
-									.row#input-nationality
-											.col-md-12.center-block
-												button#save-nationality.save Save Changes
-									hr
-									.row#religion-row
-										.col-md-5
-											p Religion:
-										.col-md-5
-											p#grey <%= religion %>
-										.col-md-1
-											i.fa.fa-pencil.edit-religion
-											p.edit Edit
-									.row#input-religion
-										.col-md-12.center-block
-											button#save-religion.save Save changes
-									hr
-									.row#funding_needed-row
-										.col-md-5
-											p Funding Needed:
-										.col-md-5
-											p#grey <%= funding_needed %>
-										.col-md-1
-											i.fa.fa-pencil.edit-funding_needed
-											p.edit Edit
-									.row#input-funding_needed
-										.col-md-12.center-block
-											button#save-funding_needed.save Save changes
-									//		
-										hr
-										.row
-											.col-md-6
-												p Receive email updates weekly
-											.col-md-5
-												// input(type='checkbox', name='email-updates', checked='')
-	script(src='../../../javascript/lib/modernizr-input.js')
-	script(src= '../../../javascript/user-settings.js')
-	script.
-		var user = !{JSON.stringify(user)}
-		var general = !{JSON.stringify(general)}
-	// Google Analytics
-	script.
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-74497958-1', 'auto');
-		ga('send', 'pageview');
+block extraHeader
+  link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
+  link(href='/stylesheets/results.css', rel='stylesheet')
+  link(href='/stylesheets/user-settings.css', rel='stylesheet')
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    }
+  include ../navbar.jade
+  include ../signup-modal.jade
+  #big_flex_div.container
+    #left_div.col-md-3
+      .profile
+        #box-profile
+          a(href='#') 
+            img#userImage(src=user.profile_picture)
+      .settings-tab-menu
+        .list-group
+          a.list-group-item(href="#")
+            h5 General settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Personal settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item.active(href="#")
+            h5 Campaign settings
+              span.glyphicon.glyphicon-menu-right
+          a.list-group-item(href="#")
+            h5 Education settings
+              span.glyphicon.glyphicon-menu-right
+      .logout-tab
+        .list-group
+          a.list-group-item(href="/user/logout")
+            h5 Logout
+    #right_div.col-md-9
+      .settings-tab
+        #general-settings.settings-tab-content
+          .col-md-12.header
+            h3 General Settings
+            p.help-block Change your bio and other key information.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Email preferences
+              .col-md-12
+                label.col-md-3(for='email') Email
+                .col-md-6
+                  input#email.form-control(type='text', name='email', value=user.email)
+              .col-md-12
+                label.col-md-3(for='email') Send me updates
+                .col-md-6
+                  if user.email_updates
+                    input#email_updates(type='checkbox', name='email', checked)
+                  else
+                    input#email_updates(type='checkbox', name='email')
+            .col-md-12.sub-content
+              h4 Change your password
+              .col-md-12
+                label.col-md-3(for='previous_password') Previous password
+                .col-md-3
+                  input#previous_password.password.form-control(type='password', name='previous_password')
+                .col-md-6
+                  span#previous_password_message.password_message
+              .col-md-12
+                label.col-md-3(for='new_password') New password
+                .col-md-3
+                  input#new_password.password.form-control(type='password', name='new_password')
+                .col-md-6
+                  span#new_password_message.password_message
+              .col-md-12
+                label.col-md-3(for='confirm_new_password') Confirm new password
+                .col-md-3
+                  input#confirm_new_password.password.form-control(type='password', name='confirm_new_password')
+                .col-md-6
+                  span#confirm_new_password_message.password_message
+          .col-md-12.footer
+            button#save-general-settings.btn.btn-primary(type='submit') Save changes
+            #save-general-settings-notification Your changes have been saved
+        #personal-settings.settings-tab-content
+          .col-md-12.header
+            h3 Personal Settings
+            p.help-block Change your personal details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Subject Requirements
+              .col-md-12
+                label.col-md-3(for='username') Name
+                .col-md-6
+                  input#username.form-control(type='text', name='username', value=user.username)
+              .col-md-12
+                label.col-md-3(for='date_of_birth') Date of Birth
+                .col-md-6
+                  input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
+              .col-md-12
+                label.col-md-3(for='religion') Religion
+                .col-md-6
+                  input#religion.form-control(type='text', name='religion', value=user.religion)
+              .col-md-12
+                label.col-md-3(for='country_of_residence') Country of Residence
+                .col-md-6
+                  input#country_of_residence.form-control(type='text', name='country_of_residence', value=user.country_of_residence)
+          .col-md-12.footer
+            button#save-personal-settings.btn.btn-primary(type='submit') Save changes
+            #save-personal-settings-notification Your changes have been saved
+        #campaign-settings.settings-tab-content.active
+          .col-md-12.header
+            h3 Campaign Settings
+            p.help-block Change your campaigning details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 About your campaign
+              .col-md-12
+                label.col-md-3(for='description') Describe your goal
+                .col-md-8
+                  textarea#description.form-control(name='description', rows='5')=user.description
+              .col-md-12
+                label.col-md-3(for='funding_needed') Target amount
+                .col-md-3
+                  input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
+              .col-md-12
+                label.col-md-3(for='completion_date') to be achieved by
+                .col-md-3
+                  input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
+            .col-md-12.sub-content
+              h4 Showcase your accomplishments
+              each document in documents
+                div(id=document.id)
+                  .col-md-12
+                    label.col-md-3(for='past_work_#{document.count}') Past work ##{document.count}
+                    .col-md-6
+                      label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
+                      input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
+                      label.removeFile(id='past_work_#{document.count}')
+                        i.fa.fa-times
+                        p Remove
+                  .col-md-12
+                    label.col-md-3(for='past_work_#{document.count}_description') Brief description
+                    .col-md-6(id="past_work_#{document.count}")
+                      textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
+              each id in remainingPastWorkDivs
+                .col-md-12
+                  label.col-md-3(for='past_work_#{id}') Past work ##{id}
+                  .col-md-6
+                    label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
+                    input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
+                    label.removeFile.hidden(id='past_work_#{id}')
+                      i.fa.fa-times
+                      p Remove
+                .col-md-12
+                  label.col-md-3(for='past_work_#{id}_description') Brief description
+                  .col-md-6(id="past_work_#{id}")
+                    textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_1') Past work #1
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_1") Upload
+              //-     input#past_work_1.realFileUpload(type="file", name="past_work_1")
+              //-     label#past_work_1.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_1_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_1_description.form-control(name='past_work_1_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_2') Past work #2
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_2") Upload
+              //-     input#past_work_2.realFileUpload(type="file", name="past_work_2")
+              //-     label#past_work_2.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_2_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_2_description.form-control(name='past_work_2_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_3') Past work #3
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_3") Upload
+              //-     input#past_work_3.realFileUpload(type="file", name="past_work_3")
+              //-     label#past_work_3.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_3_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_3_description.form-control(name='past_work_3_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_4') Past work #4
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_4") Upload
+              //-     input#past_work_4.realFileUpload(type="file", name="past_work_4")
+              //-     label#past_work_4.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_4_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_4_description.form-control(name='past_work_4_description', rows='4')
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_5') Past work #5
+              //-   .col-md-6
+              //-     label.fakeFileUpload.btn.btn-default(for="past_work_5") Upload
+              //-     input#past_work_5.realFileUpload(type="file", name="past_work_5")
+              //-     label#past_work_5.removeFile.hidden
+              //-       i.fa.fa-times
+              //-       p Remove
+              //- .col-md-12
+              //-   label.col-md-3(for='past_work_5_description') Brief description
+              //-   .col-md-6
+              //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
+              .col-md-12
+                label.col-md-3(for='link') Link
+                .col-md-6
+                  input#link.form-control(type='text', name='link', placeholder='Link to your website, portfolio, Github profile etc.', value=user.link)
+          .col-md-12.footer
+            button#save-campaign-settings.btn.btn-primary(type='submit') Save changes
+            #save-campaign-settings-notification Your changes have been saved
+        #education-settings.settings-tab-content
+          .col-md-12.header
+            h3 Education Settings
+            p.help-block Change your education details.
+          .col-md-12.content
+            .col-md-12.sub-content
+              h4 Your education history
+              .col-md-12
+                label.col-md-3(for='previous_degree') Completed degrees
+                .col-md-6
+                  input#previous_degree.form-control(type='text', name='previous_degree', value=user.previous_degree)
+              .col-md-12
+                label.col-md-3(for='previous_university') from these universities
+                .col-md-6
+                  input#previous_university.form-control(type='text', name='previous_university', form='', value=user.previous_university)
+            .col-md-12.sub-content
+              h4 Furher education
+              .col-md-12
+                label.col-md-3(for='subject') Target subjects
+                .col-md-6
+                  input#subject.form-control(type='text', name='subject', value=user.subject)
+              .col-md-12
+                label.col-md-3(for='target_degree') Target degrees
+                .col-md-6
+                  input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
+              .col-md-12
+                label.col-md-3(for='target_university') Target universities
+                .col-md-6
+                  input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
+          .col-md-12.footer
+            button#save-education-settings.btn.btn-primary(type='submit') Save changes
+            #save-education-settings-notification Your changes have been saved            
+block scripts
+  script(src="/javascript/user-settings.js")
+  script(src='/javascript/lib/jquery.tokeninput.js')
+  script(src='https://cdn.tinymce.com/4/tinymce.min.js')
+  script.
+    var user = !{JSON.stringify(user)};
+  //- script(src="/javascript/signup-login.js")
