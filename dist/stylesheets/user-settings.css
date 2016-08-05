@@ -37,7 +37,7 @@ p {
     border-radius: 5px;
     border: 1px solid #e1e8ed;
     cursor: pointer; }
-  #left_div .settings-tab-menu {
+  #left_div .settings-tab-menu, #left_div .logout-tab {
     padding: 0;
     display: -webkit-box;
     display: -webkit-flex;
@@ -59,14 +59,14 @@ p {
     width: 100%;
     margin-top: 20px;
     border-radius: 5px; }
-    #left_div .settings-tab-menu .list-group {
+    #left_div .settings-tab-menu .list-group, #left_div .logout-tab .list-group {
       margin-bottom: 0;
       width: 100%; }
-      #left_div .settings-tab-menu .list-group a {
+      #left_div .settings-tab-menu .list-group a, #left_div .logout-tab .list-group a {
         margin-bottom: 0;
         padding: 15px 10px;
         border: 1px solid #e1e8ed; }
-        #left_div .settings-tab-menu .list-group a h5 {
+        #left_div .settings-tab-menu .list-group a h5, #left_div .logout-tab .list-group a h5 {
           margin-bottom: 0px; }
 
 #right_div {
