@@ -194,6 +194,7 @@ $(document).ready(function(){
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
+        console.log('THIGS SHOULD BE HAPPENING HERE BUT THEYRE NOT, ARE THEY?')
         var amount = $('input#donate-amount').val();
         var applicationFee = Math.ceil(amount * 0.029 + 0.2);
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
@@ -219,6 +220,8 @@ $(document).ready(function(){
           type: "POST",
           url: '/user/charge',
           data: data
+        }).done(function(data) {
+          displayCompletionMessage(data);
         });
       }
     });
@@ -267,5 +270,15 @@ $(document).ready(function(){
     } else {
       $('#process-fee').empty();
     }
+  }
+
+  function displayCompletionMessage(data) {
+    $('#payment-div').append('Thank you, your payment has been processed');
+    $('#payment-div').removeClass('hidden');
+    $('#payment-div').animate({'left': '85%'}, 'slow')
+    $('#payment-div-invisible').click(function() {
+      $('#payment-div').fadeOut('slow')
+    })
+    $('#payment-div').delay(6000).fadeOut('slow')
   }
 });

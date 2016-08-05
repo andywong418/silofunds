@@ -33,9 +33,13 @@ homeGET: function(req, res){
   });
 },
 // Initial creation
-  createGET: function(req, res) {
+  initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
-    res.render('signup/new-fund-profile', {user: req.user})
+    if(req.flash('emailSuccess').length !== 0) {
+      res.render('signup/new-fund-profile', {user: req.user, success: req.flash('emailSuccess')});
+    } else {
+      res.render('signup/new-fund-profile', {user: req.user})
+    }
   },
   // Dashboard
     dashboardGET: function(req, res) {

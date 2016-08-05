@@ -19,8 +19,8 @@ router.get('/loginSplit', users.loginSplit)
 
 // Register
 router.get('/register', users.register)
-router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {successRedirect: '/registerSplit', failureRedirect: '/register'}))
-router.get('/registerSplit', users.registerSplit)
+router.post('/register', signup.subscribe, passport.authenticate('registrationStrategy', {successRedirect: '/signup/verify', failureRedirect: '/register'}))
+// router.get('/registerSplit', users.registerSplit)
 
 // Password reset routes
 router.get('/forgot', users.forgotPasswordGET);
@@ -28,13 +28,15 @@ router.post('/forgot', users.forgotPasswordEmailSend)
 router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
-// NOTE: without below, an organisation can get onto user page and vice versa
-router.get(/organisation/, users.fundBlocker)
+// // NOTE: without below, an organisation can get onto user page and vice versa
+// router.get(/organisation/, users.fundBlocker)
 // router.get(/user/, users.userBlocker)
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
+
+
 router.get('/public/:id', users.crowdFundingPage);
 
 module.exports = router;

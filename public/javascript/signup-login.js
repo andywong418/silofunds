@@ -11,6 +11,12 @@ $(document).ready(function(){
    $main_nav = $('.pre-signin');
 
 
+  $('#emailVerification').click(function() {
+    $.get('/signup/verify')
+    console.log('cmmo')
+  })
+
+
  //open modal
  $main_nav.on('click', function(event){
    $('.cd-switcher').css('display', 'inline');
