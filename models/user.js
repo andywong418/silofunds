@@ -37,10 +37,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       field: 'date_of_birth'
     },
-    country_of_residence: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'country_of_residence'
-    },
+    // address_line1: {
+    //   type: DataTypes.ARRAY(DataTypes.STRING),
+    //   field: 'address_line1'
+    // },
+    // address_zip: {
+    //   type: DataTypes.STRING,
+    //   field: 'address_zip'
+    // },
+    // address_city: {
+    //   type: DataTypes.STRING,
+    //   field: 'address_city'
+    // },
     religion: {
       type: DataTypes.TEXT,
       field: 'religion'
@@ -92,6 +100,10 @@ module.exports = function(sequelize, DataTypes) {
     link: {
       type: DataTypes.TEXT,
       field: 'link'
+    },
+    email_is_verified: {
+      type: DataTypes.BOOLEAN,
+      field: 'email_is_verified'
     }
   }, {
     timestamps: true,

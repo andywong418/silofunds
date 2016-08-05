@@ -156,6 +156,7 @@ module.exports = {
   uploadWork: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-user-profile-" + userId;
+		var documentArray = [];
 
     AWS.config.update({
       accessKeyId: aws_keyid,
@@ -164,16 +165,18 @@ module.exports = {
     async.eachSeries(req.files, function iterator(item, callback){
         var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
         s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
-          models.documents.upsert({
+          models.documents.create({
             link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
             user_id: userId,
 						title: item.originalname
           }).then(function(document){
-
+						document = document.get();
+						documentArray.push(document.id);
             callback();
           });
         });
     }, function done() {
+				res.send(documentArray);
         res.end();
       });
   },
@@ -293,7 +296,6 @@ module.exports = {
       tagArray= [];
       tagArray.push(tags);
     }
-    console.log(tagArray);
     models.users.findById(id).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
@@ -404,12 +406,12 @@ module.exports = {
 			function(token, done){
 				models.users.findById(userId).then(function(user){
 					if(!user){
-						req.flash('error', 'No account with email ' + req.body.email + ' exists.');
+						req.flash('error', 'No account with email ' + req.user.email + ' exists.');
             res.redirect('/');
 					}
 					user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
-					user.update({email: req.body.email, email_verify_token: token}).then(function(user){
+					user.update({email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
 						 auth: {user: 'andros@silofunds.com',
@@ -429,13 +431,18 @@ module.exports = {
 										res.end("Email send failed");
 								}
 								else {
-									console.log("WELL DONE YOU DID IT");
-									req.flash('success', 'An email has been sent to ' + user.email)
-									res.send("Awesome! An email has been sent to your account for verification.");
+									var message = "Awesome! An email has been sent to " + user.email + " for verification."
+									if(!user.organisation_or_user) {
+										console.log('hello')
+										req.flash('emailSuccess', message)
+										res.redirect('/user/create')
+									} else {
+										req.flash('emailSuccess', message)
+										res.redirect('/organisation/create')
+									}
 								}
 						});
 					})
-
 				})
 			}
 		])
@@ -444,8 +451,17 @@ module.exports = {
 		var token = req.params.token
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
-				req.flash('success', 'You have been verified');
-				res.redirect('/user/dashboard')
+				console.log('you sould be here')
+				user.update({email_is_verified: true}).then(function(user) {
+					if(!user.organisation_or_user) {
+						console.log('but why not here')
+						req.flash('verificationSuccess', 'You have been verified');
+						res.redirect('/user/dashboard')
+					} else {
+						req.flash('verificationSuccess', 'You have been verified');
+						res.redirect('/organisation/dashboard')
+					}
+				})
 			}
 			else {
 				req.flash('error', 'Wrong verification details')

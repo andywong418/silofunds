@@ -7,11 +7,14 @@ require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 // User profile pages, these all use passport authentication
-router.get('/create', users.createGET);
+router.get('/create', users.initialCreation);
 router.get('/dashboard', users.dashboard);
 router.get('/profile', users.crowdFundingPage);
 router.get('/settings', users.settingsGET);
 router.post('/settings', users.settingsPOST);
+router.post('/settings/validate-password', users.settingsValidatePassword);
+router.post('/settings/remove-file', users.settingsRemoveFile);
+router.post('/settings/update-description', users.settingsUpdateDocumentDescription);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application', users.addApplication);
 router.get('/logout', users.logoutGET);

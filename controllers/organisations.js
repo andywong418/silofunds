@@ -33,9 +33,13 @@ homeGET: function(req, res){
   });
 },
 // Initial creation
-  createGET: function(req, res) {
+  initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
-    res.render('signup/new-fund-profile', {user: req.user})
+    if(req.flash('emailSuccess').length !== 0) {
+      res.render('signup/new-fund-profile', {user: req.user, success: req.flash('emailSuccess')});
+    } else {
+      res.render('signup/new-fund-profile', {user: req.user})
+    }
   },
   // Dashboard
     dashboardGET: function(req, res) {
@@ -368,7 +372,9 @@ homeGET: function(req, res){
           fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
           fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
           models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
-            fund.tips = tip.tip;
+            if (tip) {
+              fund.tips = tip.tip;
+            }
             res.render('option-edit', {user: user, fund: fund, countries:countries });
           })
         }

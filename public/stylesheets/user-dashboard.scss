@@ -17,7 +17,6 @@ $tab-border: 3px solid #2390fd;
 
 body {
   background-color: #f0f2f4;
-  font-family: 'Source Sans Pro';
   h1,h2,h3,h4,h5,h6{
     font-family: 'Source Sans Pro'
   }
@@ -121,4 +120,11 @@ h2#name{
       }
     }
   }
+}
+
+.alert {
+  margin: 0;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 64px;
 }

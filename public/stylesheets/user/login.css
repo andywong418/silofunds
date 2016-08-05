@@ -59,8 +59,9 @@ img {
   text-align: left;
   color: #CC0000;
   font-family: 'PT Sans';
+  padding-left: 1%;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 690;
 }
 
 #passwordReset {

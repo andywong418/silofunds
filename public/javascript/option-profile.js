@@ -128,6 +128,7 @@ $(document).ready(function(){
 
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
+
     $('#left_div').css('opacity', '0.5');
     $('#right_div').children().not('#eligibility_div, #eligibility_div_p, #notEligible').css('opacity', '0.5');
     $('#scholars_div').css('opacity', '0.5');
@@ -217,24 +218,34 @@ $(document).ready(function(){
         if(fund.subject.length > 0){
           console.log("IN FUND SUBJECT", user.subject);
           if(!checkIfElementInArray(fund.subject, user.subject)){
-            notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject.capitalize().join(', '));
-            nonEligibleCounter++;
+            if(user.subject){
+
+              notEligible('required subjects', 'subject',fund.subject.capitalize().join(', '), user.subject.capitalize().join(', '));
+              nonEligibleCounter++;
+            }
+
           }
        }
       }
       if(fund.required_degree){
         if(fund.required_degree.length > 0){
           if(!checkIfElementInArray(fund.required_degree, user.previous_degree)){
-            notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.previous_degree.capitalize().join(', '));
-             nonEligibleCounter++;
+            if(user.previous_degree){
+              notEligible('required degrees','degrees', fund.required_degree.capitalize().join(', '), user.previous_degree.capitalize().join(', '));
+               nonEligibleCounter++;
+            }
+
           }
        }
       }
       if(fund.required_university){
         if(fund.required_university.length > 0){
           if(!checkIfElementInArray(fund.required_university, fund.previous_university)){
-            notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.previous_university.capitalize());
-            nonEligibleCounter++;
+            if(user.previous_university){
+              notEligible('required universities', 'university', fund.required_university.capitalize().join(', '), user.previous_university.capitalize());
+              nonEligibleCounter++;
+            }
+
           }
 
         }
