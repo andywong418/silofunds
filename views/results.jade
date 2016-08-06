@@ -14,52 +14,51 @@ block content
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
-
-					.col-lg-8.col-lg-offset-2
-						#countriesModal.modal.fade(role='dialog')
-							.modal-dialog
-								// Modal content
-								.modal-content
-									.modal-header
-										button.close(type='button', data-dismiss='modal') ×
-										h4.modal-title Applicable countries
-									.modal-body
-										p#countriesModalText
-									.modal-footer
-										button.btn.btn-default(type='button', data-dismiss='modal') Close
-						div.results
-							h3
-								span
-							button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
-						.contact-div
-							p#contact-us Our search engine didn't return any funds for you! Email 
-								a(href='mailto:howard@silofunds.com') Us
-								| and we'll personally find a funding opportunity that suits you.
-						div.page-header
-							script#fund-template(type='text/template')
-								.lazyload									
-									//
-										<ul class="database">
-											<div class="fund_list">
-												<li><a id="profile_link<%= id %>">
-														<h3 class="fund_title"><%= title %></h3></a>
-													<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
-												</li>
-												<li class="fund_info">
-													<p class="fund_tags<%= id %>">Tags:</p>
-													<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
-													<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
-													<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
-													<p class="fund_max_age<%= id %>"><span class="control"><%= maximum_age %></span></p>
-													<p class="nationalities<%= id %>"></p>
-													<p class="deadline<%= id %>">Deadline:<span class="control badge badge-deadline"><%= deadline %></span></p>
-												</li>
-												<label id="<%= id %>">Additional Information:
-													<div class="description_control"></div>
-												</label>
-												<h4 class="fund_link"><a href="<%=application_link %>" target="_blank">Apply Now</a></h4>
-											</div>
-										</ul>
+				.col-lg-8.col-lg-offset-2
+					#countriesModal.modal.fade(role='dialog')
+						.modal-dialog
+							// Modal content
+							.modal-content
+								.modal-header
+									button.close(type='button', data-dismiss='modal') ×
+									h4.modal-title Applicable countries
+								.modal-body
+									p#countriesModalText
+								.modal-footer
+									button.btn.btn-default(type='button', data-dismiss='modal') Close
+					div.results
+						h3
+							span
+						button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
+					.contact-div
+						p#contact-us Our search engine didn't return any funds for you! Email 
+							a(href='mailto:howard@silofunds.com') Us
+							| and we'll personally find a funding opportunity that suits you.
+					div.page-header
+						script#fund-template(type='text/template')
+							.lazyload									
+								//
+									<ul class="database">
+										<div class="fund_list">
+											<li><a id="profile_link<%= id %>">
+													<h3 class="fund_title"><%= title %></h3></a>
+												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
+											</li>
+											<li class="fund_info">
+												<p class="fund_tags<%= id %>">Tags:</p>
+												<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
+												<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
+												<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
+												<p class="fund_max_age<%= id %>"><span class="control"><%= maximum_age %></span></p>
+												<p class="nationalities<%= id %>"></p>
+												<p class="deadline<%= id %>">Deadline:<span class="control badge badge-deadline"><%= deadline %></span></p>
+											</li>
+											<label id="<%= id %>">Additional Information:
+												<div class="description_control"></div>
+											</label>
+											<h4 class="fund_link"><a href="<%=application_link %>" target="_blank">Apply Now</a></h4>
+										</div>
+									</ul>
 
 block scripts
 	// signup functions

@@ -20,9 +20,9 @@ allShown = false;
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
     var dateNow = new Date();
     dateNow = dateNow.toISOString();
-    var k = 0
+    var k = 0;
     for(var i = 0; i < fundData.length; i++) {
-      if(dateNow < fundData[i].deadline || fundData[i].deadline == null) {
+      if(dateNow < fundData[i].deadline || fundData[i].deadline === null) {
         k = k + 1;
       }
     }
@@ -33,9 +33,9 @@ allShown = false;
   }
   else{
     $('*[class*=fund_list]:hidden').css('display', 'block');
-    var k = fundData.length
+    var k = fundData.length;
     $(this).html("Only show funds which have not passed their deadline");
-    $('.results h3 span').html("Your search returned " + k + " results")
+    $('.results h3 span').html("Your search returned " + k + " results");
     allShown = true;
   }
   });
