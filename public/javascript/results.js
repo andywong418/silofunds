@@ -22,7 +22,6 @@ var allShown = false;
     var k = 0;
     for(var i = 0; i < fundData.length; i++) {
       var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
-      console.log(dateNow.isBefore(deadline));
       if(dateNow.isBefore(deadline) || fundData[i].deadline === null) {
         k = k + 1;
       }
@@ -144,8 +143,6 @@ var allShown = false;
       if(deadline){
         var dateNow = moment();
         deadline = moment.utc(deadline, "DD-MM-YYYY");
-        console.log(dateNow);
-        console.log(deadline);
         if (dateNow.isAfter(deadline)){
           this.$('.deadline-passed' + id).css('display', 'block');
           this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
@@ -306,8 +303,6 @@ var allShown = false;
       for(var i = 0; i < fundData.length; i++) {
         var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
         if(dateNow.isBefore(deadline) || fundData[i].deadline == null) {
-          console.log(dateNow);
-          console.log(deadline);
           k = k + 1;
         }
       }
@@ -334,7 +329,6 @@ var allShown = false;
     render: function(){
       // Display 'email us' message onload if no funds available
       var dateNow = moment();
-      console.log(dateNow);
       var k = 0
       for(var i = 0; i < fundData.length; i++) {
         var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
@@ -371,7 +365,6 @@ var allShown = false;
 
 
   var dateNow = moment();
-  console.log(dateNow);
   var nonDeadlineArray = [];
   var k = 0
   for(var i = 0; i < fundData.length; i++) {
@@ -382,7 +375,8 @@ var allShown = false;
     }
   }
   if(allShown == false){
-    if(nonDeadlineArray < 5 ){
+    if(nonDeadlineArray.length <= 5 ){
+      console.log("GO IN here");
       var fundCollection = new FundCollection(nonDeadlineArray);
       var fundList = new FundList({collection: fundCollection});
       $(document.body).append(fundList.render().el);
@@ -396,22 +390,24 @@ var allShown = false;
       var scroll_pos_test = 200;
       var counter = 0;
       $(window).on('scroll', function() {
+
+        console.log(nonDeadlineArray);
           var y_scroll_pos = window.pageYOffset;
                  // set to whatever you want it to be
-          if(y_scroll_pos > scroll_pos_test) {
+          if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
               //do stuff
               startPoint = startPoint +5;
               endPoint = endPoint + 5;
 
-              if(endPoint < nonDeadlineArray.length){
-                scroll_pos_test = scroll_pos_test + 500;
+              if(endPoint < nonDeadlineArray.length && nonDeadlineArray.length > 5){
+                scroll_pos_test = scroll_pos_test + 300;
                 var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
                 var fundList = new FundList({collection: fundCollection});
                 $(document.body).append(fundList.render().el);
               }
-              if(endPoint > nonDeadlineArray.length && counter ===0){
-                console.log("HAD ENOGH")
-                var fundCollection = new FundCollection(fundData.slice(startPoint, nonDeadlineArray.length));
+              if(endPoint > nonDeadlineArray.length && counter === 0 && nonDeadlineArray.length > 5){
+
+                var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, nonDeadlineArray.length));
                 var fundList = new FundList({collection: fundCollection});
                 $(document.body).append(fundList.render().el);
                 counter++;
@@ -427,40 +423,41 @@ var allShown = false;
       var fundList = new FundList({collection: fundCollection});
       $(document.body).append(fundList.render().el);
     }
-  }
-  else{
-    var startPoint = 0;
-    var endPoint = 5;
-    var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
-    var fundList = new FundList({collection: fundCollection});
-    $(document.body).append(fundList.render().el);
-    var scroll_pos_test = 200;
-    var counter = 0;
-    $(window).on('scroll', function() {
-        var y_scroll_pos = window.pageYOffset;
-               // set to whatever you want it to be
-        if(y_scroll_pos > scroll_pos_test) {
-            //do stuff
-            startPoint = startPoint +5;
-            endPoint = endPoint + 5;
+    else{
+      var startPoint = 0;
+      var endPoint = 5;
+      var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+      var fundList = new FundList({collection: fundCollection});
+      $(document.body).append(fundList.render().el);
+      var scroll_pos_test = 200;
+      var counter = 0;
+      $(window).on('scroll', function() {
+          var y_scroll_pos = window.pageYOffset;
+                 // set to whatever you want it to be
+          if(y_scroll_pos > scroll_pos_test) {
+              //do stuff
+              startPoint = startPoint +5;
+              endPoint = endPoint + 5;
 
-            if(endPoint < fundData.length){
-              scroll_pos_test = scroll_pos_test + 500;
-              var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
-              var fundList = new FundList({collection: fundCollection});
-              $(document.body).append(fundList.render().el);
-            }
-            if(endPoint > fundData.length && counter ===0){
-              console.log("HAD ENOGH")
-              var fundCollection = new FundCollection(fundData.slice(startPoint, fundData.length));
-              var fundList = new FundList({collection: fundCollection});
-              $(document.body).append(fundList.render().el);
-              counter++;
-            }
-        }
-    });
+              if(endPoint < fundData.length){
+                scroll_pos_test = scroll_pos_test + 500;
+                var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
+                var fundList = new FundList({collection: fundCollection});
+                $(document.body).append(fundList.render().el);
+              }
+              if(endPoint > fundData.length && counter ===0){
+                console.log("HAD ENOGH")
+                var fundCollection = new FundCollection(fundData.slice(startPoint, fundData.length));
+                var fundList = new FundList({collection: fundCollection});
+                $(document.body).append(fundList.render().el);
+                counter++;
+              }
+          }
+      });
 
+    }
   }
+
 
 
 // Readmore
