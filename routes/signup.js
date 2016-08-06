@@ -30,7 +30,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
 
 	  req.session.lastPage = '/signup';
     models.users.find({
-      where: {email: useremail}
+      where: {email: email}
     }).then(function(user){
       if(typeof fundOption == 'undefined'){
 				console.log("HELLO");

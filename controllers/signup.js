@@ -393,7 +393,7 @@ module.exports = {
   },
 	verifyEmail: function(req, res){
 		var userId = req.user.id;
-		console.log("REQ USER", userId);
+		console.log("REQ USER 2", userId);
 		async.waterfall([
 			function(done){
 				crypto.randomBytes(20, function(err, buf){
@@ -409,7 +409,8 @@ module.exports = {
 					}
 					user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
-					user.update({email: req.body.email, email_verify_token: token}).then(function(user){
+					console.log("NEED TO KNOW THE USER", user);
+					user.update({email: user.email, email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
 						 auth: {user: 'andros@silofunds.com',
@@ -429,9 +430,15 @@ module.exports = {
 										res.end("Email send failed");
 								}
 								else {
-									console.log("WELL DONE YOU DID IT");
-									req.flash('success', 'An email has been sent to ' + user.email)
-									res.send("Awesome! An email has been sent to your account for verification.");
+									var message = "Awesome! An email has been sent to " + user.email + " for verification."
+									if(!user.organisation_or_user) {
+										console.log('hello')
+										req.flash('emailSuccess', message)
+										res.redirect('/user/create')
+									} else {
+										req.flash('emailSuccess', message)
+										res.redirect('/organisation/create')
+									}
 								}
 						});
 					})

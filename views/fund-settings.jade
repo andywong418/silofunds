@@ -9,12 +9,12 @@ html
 		meta(name='author', content='')
 		title Silo
 		// jQuery UI
-		link(href='../../../stylesheets/jquery-ui.min.css', rel='stylesheet')
+		link(href='/stylesheets/jquery-ui.min.css', rel='stylesheet')
 		// Bootstrap Core CSS
-		link(href='../../../stylesheets/bootstrap.min.css', rel='stylesheet')
-		link(href='../../../stylesheets/bootstrap-social.css', rel='stylesheet')
+		link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+		link(href='/stylesheets/bootstrap-social.css', rel='stylesheet')
 		// Custom Fonts
-		link(href='../../../font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+		link(href='/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
 		link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
 		link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
 		link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:900', rel='stylesheet', type='text/css')
@@ -26,20 +26,20 @@ html
 		script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
 		script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
 		//underscore
-		script(src="../../../javascript/lib/underscore.js")
+		script(src="/javascript/lib/underscore.js")
 		// jQuery
-		script(src='../../../javascript/lib/jquery.js')
+		script(src='/javascript/lib/jquery.js')
 		// jQuery UI
-		script(src='../../../javascript/lib/jquery-ui.min.js')
+		script(src='/javascript/lib/jquery-ui.min.js')
 		//Backbone
-		script(src="../../../javascript/lib/backbone.js")
+		script(src="/javascript/lib/backbone.js")
 		// Bootstrap Core JavaScript
-		script(src='../../../javascript/lib/bootstrap.min.js')
+		script(src='/javascript/lib/bootstrap.min.js')
 		// Plugin JavaScript
-		script(src='../../../javascript/lib/jquery.easing.min.js')
-		link(href='../../../stylesheets/user-profile.css', rel='stylesheet')
-		link(href='../../../stylesheets/user-settings.css', rel='stylesheet')
-		link(href='../../../stylesheets/fund-settings.css', rel='stylesheet')
+		script(src='/javascript/lib/jquery.easing.min.js')
+		link(href='/stylesheets/user-profile.css', rel='stylesheet')
+		//- link(href='/stylesheets/user-settings.css', rel='stylesheet')
+		link(href='/stylesheets/fund-settings.css', rel='stylesheet')
 		// Hotjar Tracking Code for https://www.silofunds.com
 		script.
 			(function(h,o,t,j,a,r){
@@ -350,8 +350,8 @@ html
 									.row#input-merit_or_finance
 										.col-md-12.center-block
 											button#save-merit_or_finance.save Save changes	
-	script(src='../../../javascript/lib/modernizr-input.js')
-	script(src= '../../../javascript/fund-settings.js')
+	script(src='/javascript/lib/modernizr-input.js')
+	script(src= '/javascript/fund-settings.js')
 	script.
 		var fund = !{JSON.stringify(user)}
 		var general = !{JSON.stringify(general)}

@@ -34,177 +34,180 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res);
-    var userId = req.user.id;
-    models.users.findById(userId).then(function(user){
-        var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
-        var age;
-        if(user.date_of_birth){
-          var birthDate = new Date(user.date_of_birth).getTime();
-          var nowDate = new Date().getTime();
-          age = Math.floor((nowDate - birthDate) / 31536000000);
-        }
-        var minimum_amount;
-        if(user.funding_needed){
-          minimum_amount = user.funding_needed * 0.6;
-        }
-        var queryOptions = {
-          "filtered": {
-            "filter": {
-              "bool": {
-                "should": { "match_all": {} }
-              }
-            }
+    passportFunctions.ensureAuthenticated(req, res, function(){
+      console.log("REQ USER", req.user);
+      var userId = req.user.id;
+      models.users.findById(userId).then(function(user){
+          var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+          var age;
+          if(user.date_of_birth){
+            var birthDate = new Date(user.date_of_birth).getTime();
+            var nowDate = new Date().getTime();
+            age = Math.floor((nowDate - birthDate) / 31536000000);
           }
-        };
-        if(age || user.funding_needed){
-          var queryOptionsShouldArr = [
-            {
-              "range": {
-                "minimum_amount": {
-                  "lte": minimum_amount
+          var minimum_amount;
+          if(user.funding_needed){
+            minimum_amount = user.funding_needed * 0.6;
+          }
+          var queryOptions = {
+            "filtered": {
+              "filter": {
+                "bool": {
+                  "should": { "match_all": {} }
                 }
               }
+            }
+          };
+          if(age || user.funding_needed){
+            var queryOptionsShouldArr = [
+              {
+                "range": {
+                  "minimum_amount": {
+                    "lte": minimum_amount
+                  }
+                }
+              },
+              {
+                "range": {
+                  "maximum_amount": {
+                    "gte": user.funding_needed
+                  }
+                }
+              },
+              {
+                "range": {
+                  "minimum_age": {
+                    "lte": age
+                  }
+                }
+              },
+              {
+                "range": {
+                  "maximum_amount": {
+                    "gte": age
+                  }
+                }
+              }
+            ];
+            queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+          }
+
+          queryOptions.filtered.query = {
+            "bool": {
+              "should": []
             },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": user.funding_needed
-                }
-              }
-            },
-            {
-              "range": {
-                "minimum_age": {
-                  "lte": age
-                }
-              }
-            },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": age
-                }
+          };
+
+          user = user.get();
+
+          for (var i = 0; i< searchFields.length; i++) {
+            var key = searchFields[i];
+            var notAge = key !== "age";
+            var notAmount = key !== "funding_needed";
+            var notReligion = key !== "religion";
+
+            if (notReligion) {
+              if (user[key]) {
+                user[key] = user[key].join(", ");
               }
             }
-          ];
-          queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
-        }
 
-        queryOptions.filtered.query = {
-          "bool": {
-            "should": []
-          },
-        };
+            if (notAge && notAmount) {
+              var matchObj = {
+                "match": {}
+              };
 
-        user = user.get();
+              if (user[key] !== null) {
+                if (key === 'previous_degree') {
+                  matchObj.match.required_degree = user[key];
+                } else if (key === 'previous_university') {
+                  matchObj.match.required_university = user[key];
+                } else {
+                  matchObj.match[key] = user[key];
+                }
 
-        for (var i = 0; i< searchFields.length; i++) {
-          var key = searchFields[i];
-          var notAge = key !== "age";
-          var notAmount = key !== "funding_needed";
-          var notReligion = key !== "religion";
-
-          if (notReligion) {
-            if (user[key]) {
-              user[key] = user[key].join(", ");
+                queryOptions.filtered.query.bool.should.push(matchObj);
+              }
             }
           }
+          console.log("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
+          models.es.search({
+            index: "funds",
+            type: "fund",
+            body: {
+              "size": 4,
+              "query": queryOptions
+            }
+          }).then(function(resp){
+            var fund_id_list = [];
+            var funds = resp.hits.hits.map(function(hit) {
+              var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+              var hash = {};
 
-          if (notAge && notAmount) {
-            var matchObj = {
-              "match": {}
-            };
-
-            if (user[key] !== null) {
-              if (key === 'previous_degree') {
-                matchObj.match.required_degree = user[key];
-              } else if (key === 'previous_university') {
-                matchObj.match.required_university = user[key];
-              } else {
-                matchObj.match[key] = user[key];
+              for (var i = 0; i < fields.length ; i++) {
+                hash[fields[i]] = hit._source[fields[i]];
               }
-
-              queryOptions.filtered.query.bool.should.push(matchObj);
-            }
-          }
-        }
-
-        models.es.search({
-          index: "funds",
-          type: "fund",
-          body: {
-            "size": 4,
-            "query": queryOptions
-          }
-        }).then(function(resp){
-          var fund_id_list = [];
-          var funds = resp.hits.hits.map(function(hit) {
-            var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
-            var hash = {};
-
-            for (var i = 0; i < fields.length ; i++) {
-              hash[fields[i]] = hit._source[fields[i]];
-            }
-            // Sync id separately, because it is hit._id, NOT hit._source.id
-            hash.id = hit._id;
-            fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
-            hash.fund_user = false; // for the user logic later
-            return hash;
-          });
-          models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
-            if (user) {
-              for (var i=0; i < funds.length; i++) {
-                if (funds[i].organisation_id == user.organisation_or_user) {
-                  funds[i].fund_user = true;
+              // Sync id separately, because it is hit._id, NOT hit._source.id
+              hash.id = hit._id;
+              fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+              hash.fund_user = false; // for the user logic later
+              return hash;
+            });
+            models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
+              if (user) {
+                for (var i=0; i < funds.length; i++) {
+                  if (funds[i].organisation_id == user.organisation_or_user) {
+                    funds[i].fund_user = true;
+                  }
                 }
               }
-            }
-          }).then(function() {
-              models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-                var applied_funds = [];
-                async.each(applications, function(app, callback){
-                    models.funds.findById(app.dataValues.fund_id).then(function(fund){
-                      fund['status'] = app.dataValues.status;
+            }).then(function() {
+                models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+                  var applied_funds = [];
+                  async.each(applications, function(app, callback){
+                      models.funds.findById(app.dataValues.fund_id).then(function(fund){
+                        fund['status'] = app.dataValues.status;
 
-                      applied_funds.push(fund);
-                      callback();
-                    });
-
-                }, function done(){
-                  models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
-                    var recently_browsed_funds = [];
-                    async.each(recent_funds.slice(0, 5), function(fund, callback){
-                      fund = fund.get();
-                      models.funds.findById(fund.fund_id).then(function(fund){
-                        recently_browsed_funds.push(fund);
-                        console.log(recently_browsed_funds);
+                        applied_funds.push(fund);
                         callback();
-                      })
-                    }, function done(){
-                      // Flash message logic here
-                      var verificationSuccess = req.flash('verificationSuccess')
-                      if(verificationSuccess.length = 0) {
-                        verificationSuccess = null
-                      } else {
-                        verificationSuccess = verificationSuccess[0]
-                      }
-                      console.log('hello')
-                      models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
-                        if(!stripe_user) {
-                          res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
+                      });
+
+                  }, function done(){
+                    models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
+                      var recently_browsed_funds = [];
+                      async.each(recent_funds.slice(0, 5), function(fund, callback){
+                        fund = fund.get();
+                        models.funds.findById(fund.fund_id).then(function(fund){
+                          recently_browsed_funds.push(fund);
+                          console.log(recently_browsed_funds);
+                          callback();
+                        })
+                      }, function done(){
+                        // Flash message logic here
+                        var verificationSuccess = req.flash('verificationSuccess')
+                        if(verificationSuccess.length = 0) {
+                          verificationSuccess = null
+                        } else {
+                          verificationSuccess = verificationSuccess[0]
                         }
-                        if (stripe_user) {
-                          res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
-                        }
+                        console.log('hello')
+                        models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
+                          if(!stripe_user) {
+                            res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
+                          }
+                          if (stripe_user) {
+                            res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
+                          }
+                        })
                       })
                     })
-                  })
-                });
-              })
+                  });
+                })
+            });
           });
-        });
-    });
+      });
+    } );
+
   },
 
   chargeStripe: function(req, res) {
@@ -357,32 +360,13 @@ module.exports = {
     }
   },
 
-  loginSplit: function(req, res) {
-    // Find whether the login was for a user or a fund and redirect accordingly
-    if(req.user.organisation_or_user == null) {
-      passportFunctions.ensureAuthenticated(req, res);
-      res.redirect('/user/dashboard');
-    }
-    else {
-      passportFunctions.ensureAuthenticated(req, res);
-      res.redirect('/organisation/dashboard');
-    }
-  },
-
-  register: function(req, res) {
-    // Flash messages for nonmatching passwords and taken usernames
-    var flashMsg = req.flash('flashMsg')
-    if(flashMsg.length !== 0) {
-      res.render('user/register', {flashMsg: flashMsg})
-    } else {
-      res.render('user/register')
-    }
-  },
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    if (req.body.remember_me) {res.redirect('loginSplit')}
+    console.log("HUH")
+    if (!req.body.remember_me) {res.redirect('loginSplit')}
     passportFunctions.issueToken(req.user.get(), function(err, token) {
+      console.log("BUG TOKEN", token);
       if (err) {return next(err)}
       res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
       res.redirect('loginSplit')
@@ -392,12 +376,16 @@ module.exports = {
   registerSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
-      passportFunctions.ensureAuthenticated(req, res);
-      res.redirect('/user/create');
+      passportFunctions.ensureAuthenticated(req, res, function(){
+          res.redirect('/user/create');
+      });
+
     }
     else {
-      passportFunctions.ensureAuthenticated(req, res);
-      res.redirect('/organisation/create');
+      passportFunctions.ensureAuthenticated(req, res, function(){
+        res.redirect('/organisation/create');
+
+      });
     }
   },
 
@@ -454,12 +442,17 @@ module.exports = {
 	loginSplit: function(req, res) {
 		// Find whether the login was for a user or a fund and redirect accordingly
 		if(req.user.organisation_or_user == null) {
-			passportFunctions.ensureAuthenticated(req, res);
-			res.redirect('/user/dashboard');
+      console.log("ERQ USER")
+			passportFunctions.ensureAuthenticated(req, res, function(){
+        res.redirect('/user/dashboard');
+
+      });
 		}
 		else {
-			passportFunctions.ensureAuthenticated(req, res);
-			res.redirect('/organisation/dashboard');
+			passportFunctions.ensureAuthenticated(req, res, function(){
+        res.redirect('/organisation/dashboard');
+
+      });
 		}
 	},
 
@@ -475,34 +468,35 @@ module.exports = {
 
 // Pages once logged in
 	homeGET: function(req, res) {
-		passportFunctions.ensureAuthenticated(req, res);
-		var user = req.user;
-		var id = user.id;
-		models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-			console.log("checking applications");
-			if(application.length != 0){
-				applied_funds = [];
-				async.each(application, function(app, callback){
-						var app_obj = {};
-						app_obj['status'] = app.dataValues.status;
-						models.funds.findById(app.dataValues.fund_id).then(function(fund){
-							app_obj['title'] = fund.title;
-							applied_funds.push(app_obj);
-							callback();
-						})
-				}, function done(){
-					models.documents.findAll({where: {user_id: id}}).then(function(documents){
-						res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: applied_funds});
-					});
-				})
-      }
-      else{
-        models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
-          });
-      }
+		passportFunctions.ensureAuthenticated(req, res, function(){
+      var user = req.user;
+      var id = user.id;
+      models.applications.findAll({where: {user_id: user.id}}).then(function(application){
+        console.log("checking applications");
+        if(application.length != 0){
+          applied_funds = [];
+          async.each(application, function(app, callback){
+              var app_obj = {};
+              app_obj['status'] = app.dataValues.status;
+              models.funds.findById(app.dataValues.fund_id).then(function(fund){
+                app_obj['title'] = fund.title;
+                applied_funds.push(app_obj);
+                callback();
+              })
+          }, function done(){
+            models.documents.findAll({where: {user_id: id}}).then(function(documents){
+              res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: applied_funds});
+            });
+          })
+        }
+        else{
+          models.documents.findAll({where: {user_id: id}}).then(function(documents){
+              res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
+            });
+        }
 
-    })
+      })
+    });
   },
 
   crowdFundingPage: function(req, res){
@@ -631,9 +625,11 @@ module.exports = {
   },
 
 	initialCreation: function(req, res) {
-		passportFunctions.ensureAuthenticated(req, res);
-		var emailSuccess = req.flash('emailSuccess')
-    res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]})
+		passportFunctions.ensureAuthenticated(req, res, function(){
+      console.log("HI REQ", req.user);
+      var emailSuccess = req.flash('emailSuccess')
+      res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]})
+    });
 	},
 
 	addApplication: function(req, res){
@@ -652,42 +648,44 @@ module.exports = {
 	},
 
   settingsGET: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res, function(){
+      models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
+        documents = documents.map(function(document) {
+          return document.get();
+        });
 
-    models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
-      documents = documents.map(function(document) {
-        return document.get();
-      });
+        for (var i = 0; i < documents.length; i++) {
+          var document = documents[i];
 
-      for (var i = 0; i < documents.length; i++) {
-        var document = documents[i];
-
-        document.count = i + 1;
-      }
-      console.log(documents);
-
-      var numberRemainingPastWorkDivs = 5 - documents.length;
-      var remainingPastWorkDivs = [];
-
-      if (numberRemainingPastWorkDivs > 0) {
-        for (var j = documents.length; j < 5; j++) {
-          var id = j + 1;
-
-          remainingPastWorkDivs.push(id.toString());
+          document.count = i + 1;
         }
-      }
+        console.log(documents);
 
-      var user = req.user;
-      if (user.date_of_birth) {
-        user.date_of_birth = reformatDate(user.date_of_birth);
-      }
+        var numberRemainingPastWorkDivs = 5 - documents.length;
+        var remainingPastWorkDivs = [];
 
-      if (user.completion_date) {
-        user.completion_date = reformatDate(user.completion_date);
-      }
+        if (numberRemainingPastWorkDivs > 0) {
+          for (var j = documents.length; j < 5; j++) {
+            var id = j + 1;
 
-      res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
+            remainingPastWorkDivs.push(id.toString());
+          }
+        }
+
+        var user = req.user;
+        if (user.date_of_birth) {
+          user.date_of_birth = reformatDate(user.date_of_birth);
+        }
+
+        if (user.completion_date) {
+          user.completion_date = reformatDate(user.completion_date);
+        }
+
+        res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
+      });
     });
+
+
   },
 
   settingsUpdateDocumentDescription: function(req, res) {
@@ -764,52 +762,53 @@ module.exports = {
   },
 
   settingsPOST: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res);
-    var userID = req.user.id;
-    var settings = req.body;
+    passportFunctions.ensureAuthenticated(req, res, function(){
+      var userID = req.user.id;
+      var settings = req.body;
 
-    console.log("Settings");
-    console.log(settings);
+      console.log("Settings");
+      console.log(settings);
 
-    var settingsKeys = Object.keys(settings);
-    var numberOfKeys = Object.keys(settings).length;
-    var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
+      var settingsKeys = Object.keys(settings);
+      var numberOfKeys = Object.keys(settings).length;
+      var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
 
-    for (var i = 0; i < numberOfKeys; i++) {
-      var settingsKey = settingsKeys[i];
-      var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
-      var isNullField = settings[settingsKey] === '';
+      for (var i = 0; i < numberOfKeys; i++) {
+        var settingsKey = settingsKeys[i];
+        var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
+        var isNullField = settings[settingsKey] === '';
 
-      if (isNullField) {
-        settings[settingsKey] = null;
-      } else if (isValueAnArrayField) {
-        settings[settingsKey] = settings[settingsKey].split(',');
+        if (isNullField) {
+          settings[settingsKey] = null;
+        } else if (isValueAnArrayField) {
+          settings[settingsKey] = settings[settingsKey].split(',');
+        }
       }
-    }
 
-    console.log("Settings");
-    console.log(settings);
-		// var general_settings;
-		// var id = req.user.id
-		// var body = req.body;
-		// if('username' in body || 'email' in body || 'password' in body){
-		// 	general_settings = true;
-		// } else {
-		// 	general_settings = false;
-		// }
-    //
-    // if (body.country_of_residence) {
-    //   body.country_of_residence = body.country_of_residence.split(',');
-    // }
-    //
-		models.users.findById(userID).then(function(user) {
-			user.update(settings).then(function(user) {
-        res.send("HAHHAHAH");
-        res.end();
+      console.log("Settings");
+      console.log(settings);
+      // var general_settings;
+      // var id = req.user.id
+      // var body = req.body;
+      // if('username' in body || 'email' in body || 'password' in body){
+      // 	general_settings = true;
+      // } else {
+      // 	general_settings = false;
+      // }
+      //
+      // if (body.country_of_residence) {
+      //   body.country_of_residence = body.country_of_residence.split(',');
+      // }
+      //
+      models.users.findById(userID).then(function(user) {
+        user.update(settings).then(function(user) {
+          res.send("HAHHAHAH");
+          res.end();
 
-				// res.render('user/settings', {user: user, general: general_settings});
-			});
-		});
+          // res.render('user/settings', {user: user, general: general_settings});
+        });
+      });
+    });
 	},
 
 	changeEmailSettings: function(req, res) {

@@ -63,6 +63,7 @@ passport.use('registrationStrategy', new LocalStrategy({
     },
     function(req, email, password, done) {
         // User.findOne wont fire unless data is sent back
+        console.log("EMAIL 2", email);
         process.nextTick(function() {
             models.users.find({where: {email: email}
             }).then(function(user) {
@@ -101,19 +102,21 @@ passport.use('registrationStrategy', new LocalStrategy({
                   // Again, do logic for modal box and standalone login routes
                   var confirmPassword;
                   var name;
+                  console.log("FUND SIGNUP");
                   if(data.confirmPassword == null) {
+                    console.log("WE HERE")
                     name = data.username;
                     confirmPassword = data.password
                   } else {
                     name = data.fundName;
                     confirmPassword = data.confirmPassword
                   }
-                    if (!user && data.password == data.confirmPassword) {
+                    if (!user && data.password == confirmPassword) {
                         models.organisations.create({
-                            name: data.fundName
+                            name: name
                         }).then(function(organisation) {
                             models.users.create({
-                                username: data.fundName,
+                                username: name,
                                 email: data.email,
                                 password: data.password,
                                 organisation_or_user: organisation.id,

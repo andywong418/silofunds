@@ -16,7 +16,7 @@ module.exports = function(passport) {
 
       passport.use('local-login', new LocalStrategy({
       //By default, local strategy uses username and password.
-          usernameField: 'useremail',
+          usernameField: 'email',
           passwordField: 'password'
       }, function(username, password, done) {
 
@@ -50,7 +50,7 @@ module.exports = function(passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
-
+          console.log("EMAIL", email);
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
         models.users.find({

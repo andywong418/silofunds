@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	console.log(fund);
 		var SettingsModel = Backbone.Model.extend({
 
 		});
@@ -96,7 +95,6 @@ $(document).ready(function(){
 		},
 		editAccount: function(){
 		if(general== false){
-			console.log("WHY YOU NO WORK");
 			$('.general').css("display", "none");
 			$('.profile-edit').css("display", "inline");
 			$('#general-settings').css("color", "grey");

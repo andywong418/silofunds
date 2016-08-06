@@ -1,0 +1,183 @@
+#categories{
+    top:80px;
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    height: 400px;
+    padding-top: 30px;
+}
+ul{
+    list-style: none;
+}
+#advanced-search, #advanced-search-2{
+    top: 80px;
+  display: none;
+}
+#brand-image{
+  margin-top: -13px;
+   height: auto;
+    width: auto;
+    max-width: 100px;
+    max-height: 100px;
+    position: relative;
+    z-index: 11;
+}
+#categories ul{
+    margin-left: -30px;
+}
+#categories i{
+margin-left: -10px;
+margin-right: 10px;
+}
+#general-settings, #account{
+    margin-left: 10px;
+    padding: 0;
+}
+#general-settings:hover, #account:hover{
+    cursor: pointer;
+}
+#general-settings{
+    width: 80%;
+}
+#account{
+    margin-top: 13px;
+    color: grey;
+}
+#account i {
+    margin-right: 15px;
+}
+#logout a, #logo3t a:hover{
+    color: grey;
+}
+#profile-settings{
+    top:80px;
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    padding-top: 30px;
+    padding-left: 30px;
+    bottom: 50px;
+}
+#email-row:hover,#username-row:hover,#password-row:hover, #description-row:hover, #nationality-row:hover, #countries-row:hover, #religion-row:hover, #funding_needed-row:hover, #minimum_age-row:hover, #maximum_age-row:hover, #minimum_amount-row:hover, #maximum_amount-row:hover, #gender-row:hover, #merit_or_finance-row:hover, #charity_number-row:hover{
+    background-color: #d8deea;
+    cursor: pointer;
+}
+#email-row,#username-row{
+    padding-top: 10px;
+    cursor: pointer;
+}
+#password-row{
+    padding-top: 10px;
+    cursor: pointer;
+}
+#grey{
+    color: grey;
+    cursor: pionter;
+}
+.profile-edit{
+    display: none;
+}
+.edit{
+    display: inline;
+}
+.fa-pencil{
+    display: inline;
+    margin-right: 10px;
+}
+.save{
+    background: #457fca; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #457fca , #5691c8); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #457fca , #5691c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+border: 1px #446CB3 solid;
+color: white;
+padding: 7px 10px;
+text-align: center;
+text-decoration: none;
+display: block;
+font-size: 13px;
+cursor: pointer;
+border-radius: 5px;
+position: relative;
+margin: 0 auto;
+margin-top: 20px;
+display: none;
+}
+.save:focus{
+    background-color: #446CB3
+}
+.save:active{
+    background-color: #446CB3
+}
+#save-password{
+    margin-bottom: 30px
+}
+#inputdescription{
+    height: 80px;
+    width: 100%
+}
+.ui-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  display: none;
+  min-width: 160px;
+  _width: 160px;
+  padding: 13px 5px 5px 5px;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+  .ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    &.ui-state-hover, &.ui-state-active {
+      color: #ffffff;
+      text-decoration: none;
+      background-color: #0088cc;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      -moz-border-radius: 0px;
+      background-image: none;
+    }
+  }
+}
+
+#finance-column, #finance, #clear-radio{
+margin-top: 10px;
+}
+
+#clear1{
+	margin-left: 30px;
+	cursor: pointer;
+	color: #337ab7;
+}
+
+#clear1:hover{
+	text-decoration: underline;
+}
+
+#profile-settings{
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+}
