@@ -13,32 +13,8 @@ if(typeof query != 'undefined' && query){
 }
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
-
 var allShown = false;
-  $('#show-all').on('click', function(){
-  if(allShown){
-    $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
-    var dateNow = moment();
-    var k = 0;
-    for(var i = 0; i < fundData.length; i++) {
-      var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
-      if(dateNow.isBefore(deadline) || fundData[i].deadline === null) {
-        k = k + 1;
-      }
-    }
-    $('.results h3 span').html("Your search returned " + k + " results");
-    $(this).html("Show all funds - including those which are expired");
-    $('.results h3 span').html("Your search returned " + k + " results");
-    allShown = false;
-  }
-  else{
-    $('*[class*=fund_list]:hidden').css('display', 'block');
-    var k = fundData.length;
-    $(this).html("Only show funds which have not passed their deadline");
-    $('.results h3 span').html("Your search returned " + k + " results");
-    allShown = true;
-  }
-  });
+
 
   //Use modernizr to move search bar when screen is mobile
   // function doneResizing() {
@@ -141,12 +117,16 @@ var allShown = false;
       var minimum_age = this.model.get('minimum_age');
       var maximum_age = this.model.get('maximum_age');
       if(deadline){
+        console.log("HI");
         var dateNow = moment();
         deadline = moment.utc(deadline, "DD-MM-YYYY");
+        console.log(dateNow);
+        console.log(deadline);
+        console.log(moment(dateNow).isAfter(moment(deadline)));
         if (dateNow.isAfter(deadline)){
+          console.log(this.$('.deadline-passed' + id));
           this.$('.deadline-passed' + id).css('display', 'block');
           this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
-          this.$('.deadline-passed' + id).closest('.fund_list').css('display', 'none');
 
         }
       }
@@ -366,12 +346,16 @@ var allShown = false;
 
   var dateNow = moment();
   var nonDeadlineArray = [];
-  var k = 0
+  var deadlineArray = [];
+  var k = 0;
   for(var i = 0; i < fundData.length; i++) {
     var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
     if(dateNow.isBefore(deadline) || fundData[i].deadline == null) {
       k = k + 1;
       nonDeadlineArray.push(fundData[i]);
+    }
+    else{
+      deadlineArray.push(fundData[i]);
     }
   }
   if(allShown == false){
@@ -417,46 +401,40 @@ var allShown = false;
     }
 
   }
-  if(allShown == true){
-    if(fundData.length < 5){
-      var fundCollection = new FundCollection(fundData);
-      var fundList = new FundList({collection: fundCollection});
-      $(document.body).append(fundList.render().el);
-    }
-    else{
-      var startPoint = 0;
-      var endPoint = 5;
-      var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
-      var fundList = new FundList({collection: fundCollection});
-      $(document.body).append(fundList.render().el);
-      var scroll_pos_test = 200;
-      var counter = 0;
-      $(window).on('scroll', function() {
-          var y_scroll_pos = window.pageYOffset;
-                 // set to whatever you want it to be
-          if(y_scroll_pos > scroll_pos_test) {
-              //do stuff
-              startPoint = startPoint +5;
-              endPoint = endPoint + 5;
 
-              if(endPoint < fundData.length){
-                scroll_pos_test = scroll_pos_test + 500;
-                var fundCollection = new FundCollection(fundData.slice(startPoint, endPoint));
-                var fundList = new FundList({collection: fundCollection});
-                $(document.body).append(fundList.render().el);
-              }
-              if(endPoint > fundData.length && counter ===0){
-                console.log("HAD ENOGH")
-                var fundCollection = new FundCollection(fundData.slice(startPoint, fundData.length));
-                var fundList = new FundList({collection: fundCollection});
-                $(document.body).append(fundList.render().el);
-                counter++;
-              }
-          }
-      });
-
+  $('#show-all').on('click', function(){
+  if(allShown){
+    $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
+    var dateNow = moment();
+    var k = 0;
+    for(var i = 0; i < fundData.length; i++) {
+      var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
+      if(dateNow.isBefore(deadline) || fundData[i].deadline === null) {
+        k = k + 1;
+      }
     }
+    $('.results h3 span').html("Your search returned " + k + " results");
+    $(this).html("Show all funds - including those which are expired");
+    $('.results h3 span').html("Your search returned " + k + " results");
+    allShown = false;
   }
+  else{
+    var fundCollection = new FundCollection(deadlineArray);
+    var fundList = new FundList({collection: fundCollection});
+    $(document.body).append(fundList.render().el);
+
+    $('*[class*=fund_list]:hidden').css('display', 'block');
+    var k = fundData.length;
+    $(this).html("Only show funds which have not passed their deadline");
+    $('.results h3 span').html("Your search returned " + k + " results");
+    allShown = true;
+  }
+  });
+
+
+  // if(allShown == true){
+  //
+  // }
 
 
 
