@@ -96,6 +96,18 @@ block content
                 .col-md-6
                   input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
               .col-md-12
+                label.col-md-3(for='gender') Gender
+                .col-md-2
+                  label.radio-inline
+                    input#male(type='radio', name= 'gender', value= 'male')
+                    | Male
+                .col-md-2
+                  label.radio-inline
+                    input#female(type='radio', name='gender', value='female')
+                    | Female
+                .col-md-2.clear
+                  a#clear_gender(href='#') Clear
+              .col-md-12
                 label.col-md-3(for='religion') Religion
                 .col-md-6
                   input#religion.form-control(type='text', name='religion', value=user.religion)
