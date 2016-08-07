@@ -19,9 +19,9 @@ module.exports = function(sequelize, DataTypes){
       onUpdate: 'cascade',
       onDelete: 'cascade'
     },
-    update:{
+    message:{
       type: DataTypes.TEXT,
-      field: 'update'
+      field: 'message'
     },
     created_at: {
       type: DataTypes.DATE,

@@ -546,7 +546,6 @@ module.exports = {
                               var nowDate = Date.now();
 
                               var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
-                              console.log("diffdays", diffDays);
                               donationObj.diffDays = diffDays;
                               if(donation.user_from){
                                 models.users.findById(donation.user_from).then(function(user){
@@ -561,19 +560,80 @@ module.exports = {
                               }
 
                           }, function done(){
-                            res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: numberOfSupporters, donations: donationArray});
+														models.updates.findAll({where: {user_id: userId}, order: 'created_at DESC'}).then(function(updates){
+															if(updates){
+																for(var i = 0; i < updates.length; i++){
+																	var reverseOrder = updates.length - i;
+																	updates[i] = {
+																		count: reverseOrder,
+																		diffDays: updateDiffDays(updates[i].created_at),
+																		update: updates[i]
+																	};
+																}
+															}
+
+															models.comments.findAll({where: {user_to_id: userId}}).then(function(comments){
+																res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: numberOfSupporters, donations: donationArray, updates: updates, comments: comments});
+															});
+
+														});
+
                           });
                         }
+												else{
+													// No donations
+													models.updates.findAll({where: {user_id: userId}}).then(function(updates){
+														console.log("UPDATES", updates);
+														if(updates){
+
+															for(var i = 0; i < updates.length; i++){
+																var reverseOrder = updates.length - i;
+																updates[i] = {
+																	count: reverseOrder,
+																	diffDays: updateDiffDays(updates[i].created_at),
+																	update: updates[i]
+																};
+															}
+														}
+														else{
+															//no updates
+															updates = false;
+														}
+
+														models.comments.findAll({where: {user_to_id: userId}}).then(function(comments){
+															res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: numberOfSupporters, donations: false, updates: updates, comments: comments});
+														});
+
+													});
+												}
                       });
 
                     });
                   }else{
-                    res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: false, donations: false});
+										//Not stripe user
+										models.updates.findAll({where: {user_id: userId}}).then(function(updates){
+											if(updates){
+												for(var i = 0; i < updates.length; i++){
+													var reverseOrder = updates.length - i;
+													updates[i] = {
+														count: reverseOrder,
+														diffDays: updateDiffDays(updates[i].created_at),
+														update: updates[i]
+													};
+												}
+											}
+											else{
+												//no updates
+												updates = false;
+											}
+                    res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: false, donations: false, updates: updates});
+									});
                   }
 
                 });
               });
             } else {
+							// No applications
               models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
                 console.log("STRIPE USER", stripe_user);
                 if(stripe_user){
@@ -608,14 +668,69 @@ module.exports = {
                             }
 
                         }, function done(){
-                          res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: donationArray});
+													models.updates.findAll({where: {user_id: userId}}).then(function(updates){
+														if(updates){
+															for(var i = 0; i < updates.length; i++){
+																var reverseOrder = updates.length - i;
+																updates[i] = {
+																	count: reverseOrder,
+																	diffDays: updateDiffDays(updates[i].created_at),
+																	update: updates[i]
+																};
+															}
+														}
+														else{
+															//no updates
+															updates = false;
+														}
+														res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: donationArray, updates: updates});
+													});
+
                         })
-                      }
+                      }else{
+												// no donations
+												models.updates.findAll({where: {user_id: userId}}).then(function(updates){
+													if(updates){
+														for(var i = 0; i < updates.length; i++){
+															var reverseOrder = updates.length - i;
+															updates[i] = {
+																count: reverseOrder,
+																diffDays: updateDiffDays(updates[i].created_at),
+																update: updates[i]
+															};
+														}
+													}
+													else{
+														//no updates
+														updates = false;
+													}
+													res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: false, updates: updates});
+												});
+											}
                     })
                   })
                 }
                 else{
-                  res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: false, donations: false});
+									//not stripe user;
+									console.log("WHAT ON EARTH");
+									models.updates.findAll({where: {user_id: userId}}).then(function(updates){
+										if(updates){
+											var reverseOrder = updates.length - i;
+											for(var i = 0; i < updates.length; i++){
+												updates[i] = {
+													count: i,
+													diffDays: updateDiffDays(updates[i].created_at),
+													update: updates[i]
+												};
+											}
+										}
+										else{
+											//no updates
+											updates = false;
+										}
+										console.log("WHAT");
+										res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: false, donations: false, updates: updates});
+									});
                 }
               })
             }
@@ -646,7 +761,15 @@ module.exports = {
 			}
 		})
 	},
-
+	createUpdate: function(req, res){
+		var userId = req.user.id;
+		models.updates.create({
+			user_id: userId,
+			message: req.body.message
+		}).then(function(update){
+			res.send(update);
+		})
+	},
   settingsGET: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
       models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
@@ -1201,6 +1324,20 @@ module.exports = {
 }
 
 ////// Helper functions
+// var oneDay = 24*60*60*1000;
+// var completionDate = new Date(updates[i].created_at);
+// var nowDate = Date.now();
+//
+// var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+function updateDiffDays(date){
+	var oneDay = 24*60*60*1000;
+	var completionDate = new Date(date);
+	var nowDate = Date.now();
+
+	var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+	return diffDays;
+
+}
 function reformatDate(date) {
 	var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
 	var dd = date.getDate();

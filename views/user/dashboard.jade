@@ -41,6 +41,25 @@ block content
             img(src='/images/fund_img_placeholder.jpg')
             p
               a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+    section#updates
+      p#header Post an update
+      .row.update-row
+        .col-md-1
+          img#profile_picture(src= user.profile_picture)
+        .col-md-10
+          textarea#update-text(placeholder="Update your supporters on your progress and attract new donors!")
+          #social-media-flex-container
+            a#update.social.update
+              | Post your update
+            span#save-update-notification Your update has been posted
+            //- a.social.twitter-tweet
+            //-   i.fa.fa-twitter-square(aria-hidden="true")
+            //-   | Tweet
+            //- a.social.fb-share
+            //-   i.fa.fa-facebook-official(aria-hidden="true")
+            //-   | Share
+          
+        
     section
       ul.nav.nav-tabs
         li#tab-applications.active

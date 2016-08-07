@@ -358,49 +358,48 @@ var allShown = false;
       deadlineArray.push(fundData[i]);
     }
   }
-  if(allShown == false){
-    if(nonDeadlineArray.length <= 5 ){
-      console.log("GO IN here");
-      var fundCollection = new FundCollection(nonDeadlineArray);
-      var fundList = new FundList({collection: fundCollection});
-      $(document.body).append(fundList.render().el);
-    }
-    else{
-      var startPoint = 0;
-      var endPoint = 5;
-      var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
-      var fundList = new FundList({collection: fundCollection});
-      $(document.body).append(fundList.render().el);
-      var scroll_pos_test = 200;
-      var counter = 0;
-      $(window).on('scroll', function() {
-
-        console.log(nonDeadlineArray);
-          var y_scroll_pos = window.pageYOffset;
-                 // set to whatever you want it to be
-          if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
-              //do stuff
-              startPoint = startPoint +5;
-              endPoint = endPoint + 5;
-
-              if(endPoint < nonDeadlineArray.length && nonDeadlineArray.length > 5){
-                scroll_pos_test = scroll_pos_test + 300;
-                var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
-                var fundList = new FundList({collection: fundCollection});
-                $(document.body).append(fundList.render().el);
-              }
-              if(endPoint > nonDeadlineArray.length && counter === 0 && nonDeadlineArray.length > 5){
-
-                var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, nonDeadlineArray.length));
-                var fundList = new FundList({collection: fundCollection});
-                $(document.body).append(fundList.render().el);
-                counter++;
-              }
-          }
-      });
-    }
-
+  if(nonDeadlineArray.length <= 5 ){
+    console.log("GO IN here");
+    var fundCollection = new FundCollection(nonDeadlineArray);
+    var fundList = new FundList({collection: fundCollection});
+    $(document.body).append(fundList.render().el);
   }
+  else{
+    var startPoint = 0;
+    var endPoint = 5;
+    var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
+    var fundList = new FundList({collection: fundCollection});
+    $(document.body).append(fundList.render().el);
+    var scroll_pos_test = 200;
+    var counter = 0;
+    $(window).on('scroll', function() {
+
+      console.log(nonDeadlineArray);
+        var y_scroll_pos = window.pageYOffset;
+               // set to whatever you want it to be
+        if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
+            //do stuff
+            startPoint = startPoint +5;
+            endPoint = endPoint + 5;
+
+            if(endPoint < nonDeadlineArray.length && nonDeadlineArray.length > 5){
+              scroll_pos_test = scroll_pos_test + 300;
+              var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
+              var fundList = new FundList({collection: fundCollection});
+              $(document.body).append(fundList.render().el);
+            }
+            if(endPoint > nonDeadlineArray.length && counter === 0 && nonDeadlineArray.length > 5){
+
+              var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, nonDeadlineArray.length));
+              var fundList = new FundList({collection: fundCollection});
+              $(document.body).append(fundList.render().el);
+              counter++;
+            }
+        }
+    });
+  }
+
+
 
   $('#show-all').on('click', function(){
   if(allShown){
@@ -413,10 +412,14 @@ var allShown = false;
         k = k + 1;
       }
     }
+    $('body').bind('touchmove', function(e){
+      e.preventDefault();
+    });
     $('.results h3 span').html("Your search returned " + k + " results");
     $(this).html("Show all funds - including those which are expired");
     $('.results h3 span').html("Your search returned " + k + " results");
     allShown = false;
+
   }
   else{
     var fundCollection = new FundCollection(deadlineArray);

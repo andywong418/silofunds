@@ -136,12 +136,31 @@ $(document).ready(function(){
       }
 
     }
-  })
+  });
+
+  var UpdateView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'update-handler',
+    template: _.template($('#update-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    },
+    initialize: function(){
+      this.el = this.render().el;
+      var createdAt = reformatDate(this.model.get('created_at'));
+      console.log(createdAt);
+      if(createdAt){
+        this.$('#created-at').html(createdAt);
+      }
+    }
+  });
   var Router = Backbone.Router.extend({
     routes:{
       "": "story",
       "story": "story",
-      "about": "about"
+      "about": "about",
+      "updates": "updates"
     },
     story: function(){
       var router = this;
@@ -160,6 +179,15 @@ $(document).ready(function(){
           router.loadView(new AboutView({model: aboutModel}));
         }
       })
+    },
+    updates: function(){
+      var router = this;
+      var updateModel = new UserModel();
+      updateModel.fetch({
+        success: function(){
+          router.loadView(new UpdateView({model: updateModel}));
+        }
+      });
     },
     loadView: function(viewing){
       if(this.view){
@@ -400,6 +428,14 @@ $(document).ready(function(){
     }
   }
 
+  var reformatDate = function(date) {
+    if(date){
+      date = date.split('T')[0];
+      date = new Date(date);
+      return date.toDateString();
+    }
+
+  };
   function displayCompletionMessage(data) {
     $('#payment-div').append('Thank you, your payment has been processed');
     $('#payment-div').removeClass('hidden');

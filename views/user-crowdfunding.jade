@@ -37,8 +37,9 @@ block content
 		var user = !{JSON.stringify(user)};
 		var documents = !{JSON.stringify(documents)};
 		var applications = !{JSON.stringify(applications)}
-		var donations = !{JSON.stringify(donationArray)}
-		console.log(donations)
+		var donations = !{JSON.stringify(donations)};
+		var updates = !{JSON.stringify(updates)};
+		console.log(updates);
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
@@ -70,7 +71,9 @@ block content
 					a.menu-item(href='#about')
 						p About 
 					a.menu-item(href='#updates')
-						p Updates
+						p Updates 
+							if updates
+								span.badge= updates.length
 					a.menu-item(href='#comments')
 						p Comments
 				#tab-content
@@ -126,7 +129,21 @@ block content
 									a(href!='<%= fileLink %>') <%=fileName %>
 								
 					script#update-template(type='text/template')
-						img#project-launch(src='/images/project-launch.svg')
+						if updates
+							each update in updates
+								p#update-header= 'Update #' + update.count 
+									if update.diffDays === 0
+										span#update-date Today
+									if update.diffDays === 1
+										span#update-date Yesterday
+									if update.diffDays > 1
+										span#update-date= update.diffDays + ' ago'
+								hr
+								span#update-span=update.update.message
+						.initial-image
+							p#created-at
+							img#project-launch(src='/images/project-launch.svg')
+							p#launch-text Project Launched!
 										
 									
 					
@@ -224,6 +241,8 @@ block content
 		
 
 block scripts
+	//moment
+	script(src='/bower_components/moment/min/moment-with-locales.js')
 	script(src='/javascript/signup-login.js')
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/user-crowdfunding.js')
