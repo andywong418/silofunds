@@ -1,4 +1,5 @@
 var Logger = require('js-logger');
+var colors = require('colors/safe');
 
 Logger.useDefaults();
 
@@ -7,7 +8,7 @@ var timestampHandler = Logger.createDefaultHandler({
     // prefix each log message with a timestamp.
     var timeNow = new Date().toISOString();
     timeNow = timeNow.split('T')[1].slice(0, -2);
-    messages.unshift('[ ' + timeNow + ' ]');
+    messages.unshift(colors.green('[ ') + colors.cyan(timeNow) + colors.green(' ]'));
   }
 });
 
