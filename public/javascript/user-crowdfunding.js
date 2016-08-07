@@ -155,12 +155,25 @@ $(document).ready(function(){
       }
     }
   });
+  var CommentView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'comment-handler',
+    template: _.template($('#comment-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    },
+    initialize: function(){
+      this.el = this.render().el;
+    }
+  })
   var Router = Backbone.Router.extend({
     routes:{
       "": "story",
       "story": "story",
       "about": "about",
-      "updates": "updates"
+      "updates": "updates",
+      "comments": "comments"
     },
     story: function(){
       var router = this;
@@ -189,6 +202,15 @@ $(document).ready(function(){
         }
       });
     },
+    comments: function(){
+      var router = this;
+      var commentModel = new UserModel();
+      commentModel.fetch({
+        success: function(){
+          router.loadView(new CommentView({model: commentModel}));
+        }
+      });
+    },
     loadView: function(viewing){
       if(this.view){
         this.view.stopListening();
@@ -204,6 +226,7 @@ $(document).ready(function(){
   Backbone.history.start();
   var counter = 0;
   $('#donate').click(function(e) {
+    e.preventDefault();
     if(counter == 0){
       counter++;
       $('#donate').css('font-size', '14px');
@@ -212,12 +235,11 @@ $(document).ready(function(){
       $('#progress-card').css('padding-bottom', '60px');
       $('#donate').animate({width: "30%", float:'right'}, 500, "easeOutQuad",function(){
         $('#donate').html('Donate');
-        $('#progress-card').css('padding-bottom', '25px');
+        $('#progress-card').css('padding-bottom', '120px');
         $('#amount').css('display', 'inline-table');
         $('#amount').animate({opacity: 1}, {duration: 500, queue: false});
         $('div#donate-amount').removeClass('hidden');
         $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
-
       });
     }
     else{
@@ -225,7 +247,6 @@ $(document).ready(function(){
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
-
       var handlerDisplayOptions = {
         name: 'Silo',
         description: '2 widgets',
@@ -241,7 +262,8 @@ $(document).ready(function(){
       }
 
       handler.open(handlerDisplayOptions);
-      e.preventDefault();
+
+
     }
 
 
@@ -282,6 +304,7 @@ $(document).ready(function(){
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
+          var comment = $('textarea#comment-text').val();
         var amountAdjusted;
 
         if (donorIsPaying) {
@@ -298,6 +321,7 @@ $(document).ready(function(){
         data.tokenID = token.id;
         data.email = token.email;
         data.recipientUserID = recipientUserID;
+        data.comment = comment;
 
         $.ajax({
           type: "POST",

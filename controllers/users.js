@@ -216,6 +216,8 @@ module.exports = {
     var applicationFee = req.body.applicationFee;
     var email = req.body.email;
     var donorIsPaying = req.body.donorIsPaying;
+		var comment = req.body.comment;
+		console.log("COMMENT", comment);
     var user_from;
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
@@ -247,39 +249,131 @@ module.exports = {
       var created_at = new Date(charge.created * 1000);
       var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
       models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-        models.users.findById(stripe_user.user_id).then(function(user){
-          var amount;
-          if(user.funding_accrued == null){
-            amount = chargeAmountPounds;
-          }
-          else{
-            amount = (user.funding_accrued + chargeAmountPounds);
-          }
-          user.update({funding_accrued: amount}).then(function(user){
-            return models.stripe_charges.create({
-              charge_id: charge.id,
-              amount: parseFloat(charge.amount),
-              application_fee: application_fee,
-              balance_transaction: charge.balance_transaction,
-              captured: charge.captured,
-              customer_id: charge.customer,
-              description: charge.description,
-              destination_id: charge.destination,
-              fingerprint: charge.source.fingerprint,
-              livemode: charge.livemode,
-              paid: charge.paid,
-              status: charge.status,
-              transfer_id: charge.transfer,
-              sender_name: charge.source.name,
-              source_id: charge.source.id,
-              source_address_line1_check: charge.source.address_line1_check,
-              source_address_zip_check: charge.source.address_zip_check,
-              source_cvc_check: charge.source.cvc_check,
-              user_from: user_from,
-              created_at: created_at,
-            });
-          });
-        });
+				if(comment && comment !== ''){
+					if(user_from){
+						models.comments.create({
+							user_to_id: stripe_user.user_id,
+							user_from_id: user_from,
+							commentator_name: charge.source.name,
+							comment: comment
+						}).then(function(comment){
+							models.users.findById(stripe_user.user_id).then(function(user){
+								var amount;
+								if(user.funding_accrued == null){
+									amount = chargeAmountPounds;
+								}
+								else{
+									amount = (user.funding_accrued + chargeAmountPounds);
+								}
+								user.update({funding_accrued: amount}).then(function(user){
+									return models.stripe_charges.create({
+										charge_id: charge.id,
+										amount: parseFloat(charge.amount),
+										application_fee: application_fee,
+										balance_transaction: charge.balance_transaction,
+										captured: charge.captured,
+										customer_id: charge.customer,
+										description: charge.description,
+										destination_id: charge.destination,
+										fingerprint: charge.source.fingerprint,
+										livemode: charge.livemode,
+										paid: charge.paid,
+										status: charge.status,
+										transfer_id: charge.transfer,
+										sender_name: charge.source.name,
+										source_id: charge.source.id,
+										source_address_line1_check: charge.source.address_line1_check,
+										source_address_zip_check: charge.source.address_zip_check,
+										source_cvc_check: charge.source.cvc_check,
+										user_from: user_from,
+										created_at: created_at,
+									});
+								});
+							});
+						});
+
+					}
+					else{
+						models.comments.create({
+							user_to_id: stripe_user.user_id,
+							commentator_name: charge.source.name,
+							comment: comment
+						}).then(function(comment){
+							models.users.findById(stripe_user.user_id).then(function(user){
+								var amount;
+								if(user.funding_accrued == null){
+									amount = chargeAmountPounds;
+								}
+								else{
+									amount = (user.funding_accrued + chargeAmountPounds);
+								}
+								user.update({funding_accrued: amount}).then(function(user){
+									return models.stripe_charges.create({
+										charge_id: charge.id,
+										amount: parseFloat(charge.amount),
+										application_fee: application_fee,
+										balance_transaction: charge.balance_transaction,
+										captured: charge.captured,
+										customer_id: charge.customer,
+										description: charge.description,
+										destination_id: charge.destination,
+										fingerprint: charge.source.fingerprint,
+										livemode: charge.livemode,
+										paid: charge.paid,
+										status: charge.status,
+										transfer_id: charge.transfer,
+										sender_name: charge.source.name,
+										source_id: charge.source.id,
+										source_address_line1_check: charge.source.address_line1_check,
+										source_address_zip_check: charge.source.address_zip_check,
+										source_cvc_check: charge.source.cvc_check,
+										user_from: user_from,
+										created_at: created_at,
+									});
+								});
+							});
+						});
+
+					}
+
+
+				}
+				else{
+					models.users.findById(stripe_user.user_id).then(function(user){
+						var amount;
+						if(user.funding_accrued == null){
+							amount = chargeAmountPounds;
+						}
+						else{
+							amount = (user.funding_accrued + chargeAmountPounds);
+						}
+						user.update({funding_accrued: amount}).then(function(user){
+							return models.stripe_charges.create({
+								charge_id: charge.id,
+								amount: parseFloat(charge.amount),
+								application_fee: application_fee,
+								balance_transaction: charge.balance_transaction,
+								captured: charge.captured,
+								customer_id: charge.customer,
+								description: charge.description,
+								destination_id: charge.destination,
+								fingerprint: charge.source.fingerprint,
+								livemode: charge.livemode,
+								paid: charge.paid,
+								status: charge.status,
+								transfer_id: charge.transfer,
+								sender_name: charge.source.name,
+								source_id: charge.source.id,
+								source_address_line1_check: charge.source.address_line1_check,
+								source_address_zip_check: charge.source.address_zip_check,
+								source_cvc_check: charge.source.cvc_check,
+								user_from: user_from,
+								created_at: created_at,
+							});
+						});
+					});
+				}
+
       });
 
     });
@@ -510,9 +604,7 @@ module.exports = {
     }
     models.users.findById(userId).then(function(user){
       models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-        console.log("DOCS", documents);
         models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-          console.log("APPS", applications);
             if(applications.length > 0){
               applied_funds = [];
               async.each(applications, function(app, callback){
@@ -572,8 +664,28 @@ module.exports = {
 																}
 															}
 
-															models.comments.findAll({where: {user_to_id: userId}}).then(function(comments){
-																res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: numberOfSupporters, donations: donationArray, updates: updates, comments: comments});
+															models.comments.findAll({where: {user_to_id: userId}, order: 'created_at DESC'}).then(function(comments){
+																commentArray = [];
+																async.each(comments, function(comment, callback){
+																	var commentObj = {};
+																	comment = comment.get();
+																	commentObj.commentator_name = comment.commentator_name;
+																	commentObj.diffDays = updateDiffDays(comment.created_at);
+																	commentObj.comment = comment.comment;
+																	if(comment.user_from_id){
+																		models.users.findById(comment.user_from_id).then(function(user){
+																			commentObj.profile_picture = user.profile_picture;
+																			commentArray.push(commentObj);
+																			callback();
+																		});
+																	}else{
+																		commentArray.push(commentObj);
+																		callback();
+																	}
+																}, function done(){
+																	res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: numberOfSupporters, donations: donationArray, updates: updates, comments: commentArray});
+																});
+
 															});
 
 														});
@@ -626,7 +738,11 @@ module.exports = {
 												//no updates
 												updates = false;
 											}
-                    res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: false, donations: false, updates: updates});
+											models.comments.findAll({where :{user_id: userId}}).then(function(comments){
+
+												res.render('user-crowdfunding', { user: user, documents: documents, applications: applied_funds, charges: false, donations: false, updates: updates, comments: comments});
+											})
+
 									});
                   }
 
@@ -683,7 +799,10 @@ module.exports = {
 															//no updates
 															updates = false;
 														}
-														res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: donationArray, updates: updates});
+														models.comments.findAll({where: {user_id: userId}}).then(function(comments){
+															res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: donationArray, updates: updates, comments: comments});
+														})
+
 													});
 
                         })
@@ -704,7 +823,7 @@ module.exports = {
 														//no updates
 														updates = false;
 													}
-													res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: false, updates: updates});
+													res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: false, updates: updates, comments: false});
 												});
 											}
                     })
@@ -729,7 +848,7 @@ module.exports = {
 											updates = false;
 										}
 										console.log("WHAT");
-										res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: false, donations: false, updates: updates});
+										res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: false, donations: false, updates: updates, comments: false});
 									});
                 }
               })

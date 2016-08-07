@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes){
     },
     comment:{
       type: DataTypes.TEXT,
-      field: 'update'
+      field: 'comment'
     },
     created_at: {
       type: DataTypes.DATE,

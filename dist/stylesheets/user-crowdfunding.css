@@ -75,6 +75,8 @@ body {
           body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item .active-item {
             border-bottom: 3px solid #2390fd;
             color: #4b4f56; }
+            body #crowdfunding-wrapper #tab-table #tab-menu-flex a.menu-item .active-item span {
+              background-color: #4b4f56; }
       body #crowdfunding-wrapper #tab-table #tab-content {
         padding: 20px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story {
@@ -170,8 +172,8 @@ body {
             width: 100%; }
           body #crowdfunding-wrapper #tab-table #tab-content #update-handler .initial-image #project-launch {
             margin-top: 20px;
-            width: 70%;
-            margin-left: 15%;
+            width: 80%;
+            margin-left: 10%;
             height: auto;
             border-radius: 3px; }
           body #crowdfunding-wrapper #tab-table #tab-content #update-handler .initial-image #launch-text {
@@ -180,6 +182,38 @@ body {
             margin-bottom: 0;
             margin-top: -30px;
             color: white; }
+        body #crowdfunding-wrapper #tab-table #tab-content #comment-handler {
+          display: inline-block;
+          width: 100%; }
+          body #crowdfunding-wrapper #tab-table #tab-content #comment-handler .comment-row {
+            width: 100%; }
+            body #crowdfunding-wrapper #tab-table #tab-content #comment-handler .comment-row #comment-picture {
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6); }
+            body #crowdfunding-wrapper #tab-table #tab-content #comment-handler .comment-row #commentator {
+              padding-top: 5px;
+              font-size: 16px;
+              margin-left: 10px;
+              font-weight: bold;
+              margin-bottom: 10px; }
+              body #crowdfunding-wrapper #tab-table #tab-content #comment-handler .comment-row #commentator span {
+                margin-left: 20px;
+                color: #817e7e;
+                font-size: 15px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #comment-handler .actual-comment-row {
+            width: inherit; }
+          body #crowdfunding-wrapper #tab-table #tab-content #comment-handler #comment {
+            font-size: 16px;
+            margin-left: 10px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #comment-handler #no-comment {
+            margin-top: 30px;
+            font-size: 14px;
+            padding: 20px;
+            border-radius: 3px;
+            width: 100%;
+            background-color: #f2f3f9; }
     body #crowdfunding-wrapper #user-progress #progress-card {
       background-color: white;
       margin-top: 10px;
@@ -233,6 +267,13 @@ body {
           body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv span {
             color: #a8a8a8;
             font-size: 12px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #comment-div #comment-text {
+          width: 90%;
+          margin-left: 5%;
+          margin-top: 30px;
+          margin-bottom: 30px;
+          height: 100px;
+          padding: 5px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount .col-md-3 {
           padding: 0;
           margin-top: 0px; }
