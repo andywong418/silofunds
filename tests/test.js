@@ -3,6 +3,13 @@ var request = require('supertest');
 require = require('really-need');
 var expect = require('expect.js');
 var should = require('should');
+var sequelize = require('../models').sequelize;
+
+describe('environment', function() {
+  it('should have access to postgres', function() {
+    return sequelize.authenticate();
+  });
+});
 
 describe('loading express', function() {
   var server;

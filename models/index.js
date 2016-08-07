@@ -19,7 +19,12 @@ if (process.env.SEARCHBOX_URL) {
   esConnectionString = process.env.SEARCHBOX_URL;
 }
 
-var sequelize = new Sequelize(pgConnectionString);
+var sequelizeOptions = {};
+if (process.argv.indexOf('--silent-pg') > -1) {
+  sequelizeOptions.logging = false;
+}
+
+var sequelize = new Sequelize(pgConnectionString, sequelizeOptions);
 
 var es = new elasticsearch.Client({
   host: esConnectionString,
