@@ -21,13 +21,13 @@ block content
             img#userImage(src=user.profile_picture)
       .settings-tab-menu
         .list-group
-          a.list-group-item(href="#")
+          a.list-group-item.active(href="#")
             h5 General settings
               span.glyphicon.glyphicon-menu-right
           a.list-group-item(href="#")
             h5 Personal settings
               span.glyphicon.glyphicon-menu-right
-          a.list-group-item.active(href="#")
+          a.list-group-item(href="#")
             h5 Campaign settings
               span.glyphicon.glyphicon-menu-right
           a.list-group-item(href="#")
@@ -39,7 +39,7 @@ block content
             h5 Logout
     #right_div.col-md-9
       .settings-tab
-        #general-settings.settings-tab-content
+        #general-settings.settings-tab-content.active
           .col-md-12.header
             h3 General Settings
             p.help-block Change your bio and other key information.
@@ -106,7 +106,7 @@ block content
           .col-md-12.footer
             button#save-personal-settings.btn.btn-primary(type='submit') Save changes
             #save-personal-settings-notification Your changes have been saved
-        #campaign-settings.settings-tab-content.active
+        #campaign-settings.settings-tab-content
           .col-md-12.header
             h3 Campaign Settings
             p.help-block Change your campaigning details.
