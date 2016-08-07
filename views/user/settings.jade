@@ -16,9 +16,9 @@ block content
   #big_flex_div.container
     #left_div.col-md-3
       .profile
-        #box-profile
-          a(href='#') 
-            img#userImage(src=user.profile_picture)
+        .picture-container
+          img#userImage(src=user.profile_picture)
+          img#overlay(src='/images/profile-picture-overlay.svg')
       .settings-tab-menu
         .list-group
           a.list-group-item.active(href="#")

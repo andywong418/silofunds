@@ -7,6 +7,7 @@ p {
 /* settings tab */
 #big_flex_div {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
@@ -20,33 +21,67 @@ p {
 
 #left_div {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 23%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   height: auto; }
-  #left_div #userImage {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    border: 1px solid #e1e8ed;
-    cursor: pointer; }
-  #left_div .settings-tab-menu, #left_div .logout-tab {
-    padding: 0;
+  #left_div .profile {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
         -ms-flex-pack: start;
             justify-content: flex-start;
     -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    width: 100% !important;
+    height: 215px !important; }
+    #left_div .profile .picture-container {
+      width: 100% !important;
+      height: 100% !important; }
+      #left_div .profile .picture-container #userImage, #left_div .profile .picture-container #overlay {
+        position: absolute;
+        width: 240px;
+        height: 215px;
+        border-radius: 5px;
+        border: 1px solid #e1e8ed;
+        cursor: pointer; }
+      #left_div .profile .picture-container #overlay {
+        visibility: hidden; }
+      #left_div .profile .picture-container:hover #overlay {
+        visibility: visible; }
+  #left_div .settings-tab-menu, #left_div .logout-tab {
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
     width: 100%;
@@ -69,6 +104,7 @@ p {
   #right_div div.settings-tab {
     background-color: white;
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     width: 100%;

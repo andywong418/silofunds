@@ -34,12 +34,35 @@ p {
   flex-direction: column;
   height: auto;
 
-  #userImage {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    border: 1px solid $border-color;
-    cursor: pointer;
+  .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100% !important;
+    height: 215px !important;
+
+    .picture-container {
+      width: 100% !important;
+      height: 100% !important;
+
+      #userImage, #overlay {
+        position: absolute;
+        width: 240px;
+        height: 215px;
+        border-radius: 5px;
+        border: 1px solid $border-color;
+        cursor: pointer;
+      }
+
+      #overlay {
+        visibility: hidden;
+      }
+
+      &:hover #overlay {
+        visibility: visible;
+      }
+    }
   }
 
   .settings-tab-menu, .logout-tab {
