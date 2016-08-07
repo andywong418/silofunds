@@ -67,7 +67,9 @@ app.use(session({
     client: redis,
     host: redisHost,
     port: redisPort
-  })
+  }),
+  resave: true,
+  saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
