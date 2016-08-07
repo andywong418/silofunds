@@ -17,6 +17,7 @@ var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/si
 var app = express();
 var mcapi = require('mailchimp-api');
 var mcKey;
+Logger = require('./logger');
 
 if (process.env.MAILCHIMP_KEY) {
   mcKey = process.env.MAILCHIMP_KEY;
