@@ -3,24 +3,24 @@ var flagArray = [];
 fs.readdirSync(__dirname).filter(function(file){
   return true;
 }).forEach(function(flag){
-  // console.log(flag);
+  // Logger.info(flag);
   if(flag != 'readFlag.js'){
     var flagv = flag.split('.')[0];
-    console.log(flagv);
+    Logger.info(flagv);
     flagArray.push(flagv);
-    console.log(flagArray.length);
+    Logger.info(flagArray.length);
   }
 });
 
 flagArray = JSON.stringify(flagArray);
 
 fs.writeFile('helloworld.js', flagArray, function (err) {
-  if (err) return console.log(err);
-  console.log('flagArray > helloworld.txt');
+  if (err) return Logger.info(err);
+  Logger.info('flagArray > helloworld.txt');
 });
 
 // var file = fs.createWriteStream('helloworld.js');
-// file.on('error', function(err) { console.log(err); });
+// file.on('error', function(err) { Logger.info(err); });
 // flagArray.forEach(function(country) { file.write(country.join("', '")); });
 // file.end();
 

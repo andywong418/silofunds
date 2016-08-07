@@ -13,7 +13,7 @@ $(document).ready(function(){
 
   $('#emailVerification').click(function() {
     $.get('/signup/verify')
-    console.log('cmmo')
+    Logger.info('cmmo')
   })
 
 
@@ -293,14 +293,14 @@ jQuery.fn.putCursorAtEnd = function() {
 
  $("#signin-email").blur(function(){
    var parameters = {loginEmail: $(this).val()};
-   console.log(parameters);
+   Logger.info(parameters);
    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
    if (!re.test($(this).val())){
       $('#login-email-error').addClass('is-visible');
       $('#login-email-error').text('Please enter a valid email address');
       $('#login-button').prop('disabled', true);
    }
-   console.log(parameters);
+   Logger.info(parameters);
    $.get('/validation', parameters, function(data){
      if(data){
        $('#login-email-error').addClass('is-visible');
@@ -344,7 +344,7 @@ $("#login-form").submit(function(e){
          $('#login-email-error').text(data);
        }
        else{
-         console.log("TELL ME NOW", data);
+         Logger.info("TELL ME NOW", data);
          $('#signin-password-error').addClass('is-visible');
          $('#signin-password-error').text(data);
        }

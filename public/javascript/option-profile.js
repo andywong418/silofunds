@@ -9,11 +9,11 @@ $(document).ready(function(){
   }
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
-    console.log(userArray);
-    console.log(fundArray);
+    Logger.info(userArray);
+    Logger.info(fundArray);
     if(userArray && fundArray){
       userArray.forEach(function(element, index, array){
-        console.log(element);
+        Logger.info(element);
         fundArray.forEach(function(fundElement, fundIndex, fundArray){
           fundElement = fundElement.toLowerCase();
           element = element.toLowerCase();
@@ -216,7 +216,7 @@ $(document).ready(function(){
       }
       if(fund.subject){
         if(fund.subject.length > 0){
-          console.log("IN FUND SUBJECT", user.subject);
+          Logger.info("IN FUND SUBJECT", user.subject);
           if(!checkIfElementInArray(fund.subject, user.subject)){
             if(user.subject){
 

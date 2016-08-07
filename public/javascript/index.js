@@ -66,13 +66,13 @@ $(document).ready(function() {
     var $form = $(this);
     var email = $form.find('input[name="subscription_email"]').val();
     var url = $form.attr("action");
-    console.log('Email is ' + email);
-    console.log('posting....');
+    Logger.info('Email is ' + email);
+    Logger.info('posting....');
 
     var posting = $.post(url, { email: email });
 
     posting.done(function(data) {
-      console.log('Finished post request.');
+      Logger.info('Finished post request.');
     });
   });
 
@@ -170,7 +170,7 @@ $(document).ready(function() {
     className = classNameArray[1];
     $("i." + className).css("color", "#22313F");
   }, function(){
-    console.log("CLASS", className);
+    Logger.info("CLASS", className);
     $("i." + className).css("color", "white");
   })
 });

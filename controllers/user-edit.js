@@ -26,14 +26,14 @@ module.exports = {
 
 		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
 		s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
-	      console.log("uploaded file successfully");
+	      Logger.info("uploaded file successfully");
 	      models.documents.upsert({
 	      	link: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname,
 	      	user_id: userId
 				}).then(function(){
 					models.documents.find({where: {link: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname }
 				}).then(function(document){
-					console.log('yo yo yo', document);
+					Logger.info('yo yo yo', document);
 					res.send(document);
 				});
 			});
@@ -65,7 +65,7 @@ module.exports = {
 		var file = req.file;
 		var userId;
 		var bucketName;
-		console.log("CHECKING USER OR FUNd", req.body);
+		Logger.info("CHECKING USER OR FUNd", req.body);
 		if(req.body.user){
 			 userId = req.body.user;
 			 bucketName = "silo-user-profile-" + userId
@@ -85,7 +85,7 @@ module.exports = {
 
 		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
 		s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
-	      console.log("uploaded picture successfully");
+	      Logger.info("uploaded picture successfully");
 	      models.users.findById(userId).then(function(user){
 	      	user.update({
 	      	profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname,

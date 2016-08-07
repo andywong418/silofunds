@@ -54,7 +54,7 @@ if (process.env.REDIS_URL) {
     redisPort = rtg.port;
     redisHost = rtg.hostname;
     redis.auth(rtg.auth.split(':')[1]);
-    console.log("HERE IT IS", redis);
+    Logger.info("HERE IT IS", redis);
 }
 else{
   var redis = require("redis").createClient();

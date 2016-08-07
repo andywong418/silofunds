@@ -13,7 +13,7 @@ module.exports = {
     mc.lists.members({id: req.params.id}, function(memberData) {
       res.render('admin/mc-view', { title: list.title, list: list, members:memberData.data });
     }, function (error) {
-      console.log(error);
+      Logger.info(error);
       if (error.name == "List_DoesNotExist") {
         req.session.error_flash = "The list does not exist";
       } else if (error.error) {

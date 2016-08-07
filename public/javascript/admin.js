@@ -43,11 +43,11 @@ $(function() {
         $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
 
   try {
@@ -72,11 +72,11 @@ $(function() {
         $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
   //degree
   try {
@@ -101,11 +101,11 @@ $(function() {
         $('input#target_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#target_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
   try {
     try {
@@ -129,11 +129,11 @@ $(function() {
         $('input#required_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#required_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
   // universities
   try {
@@ -158,11 +158,11 @@ $(function() {
         $('input#target_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#target_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
   try {
     try {
@@ -186,11 +186,11 @@ $(function() {
         $('input#required_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
-      console.log(e);
+      Logger.info(e);
       $('input#required_university').tokenInput('/autocomplete/universities', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log("on funds homepage");
+    Logger.info("on funds homepage");
   }
 //suggest_subjects
 try {
@@ -215,11 +215,11 @@ try {
       $('input#subject').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true });
     }
   } catch (e) {
-    console.log(e);
+    Logger.info(e);
     $('input#subject').tokenInput('/autocomplete/subjects', { "theme": "facebook", "allowFreeTagging": true });
   }
 } catch (e) {
-  console.log("on funds homepage");
+  Logger.info("on funds homepage");
 }
   // Hide and toggle unimportant fields
   $("label a").click(function(e) {
@@ -267,7 +267,7 @@ try {
           same_title_as_original = true;
         }
       } catch (e) {
-        console.log("data ('fund' passed from the view) probably isn't defined.");
+        Logger.info("data ('fund' passed from the view) probably isn't defined.");
       }
 
       if (data && !same_title_as_original) {
@@ -298,7 +298,7 @@ try {
     alarmChars();
 
   } catch(e) {
-    console.log("tinymce not defined!");
+    Logger.info("tinymce not defined!");
   }
 
   var pathname = window.location.pathname;
@@ -319,11 +319,11 @@ try {
       a.innerHTML = 'Download JSON';
       container.appendChild(a);
 
-      console.log("data");
-      console.log(data);
-      console.log("a");
-      console.log(a);
-      console.log('Finished AJAX.');
+      Logger.info("data");
+      Logger.info(data);
+      Logger.info("a");
+      Logger.info(a);
+      Logger.info('Finished AJAX.');
     }).fail(function() {
       alert( "error" );
     });
@@ -350,7 +350,7 @@ try {
       }
     }
   } catch (e) {
-    console.log("Caught the error.");
+    Logger.info("Caught the error.");
   }
 
   function alarmChars() {

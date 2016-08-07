@@ -74,7 +74,7 @@ homeGET: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var id = req.user.id;
       var option = req.params.option;
-      console.log("Check params", req.params);
+      Logger.info("Check params", req.params);
       models.users.findById(id).then(function(user){
         models.organisations.findById(user.organisation_or_user).then(function(fund){
           for (var attrname in fund['dataValues']){
@@ -110,7 +110,7 @@ homeGET: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var id = req.user.id;
       var option = req.params.option;
-      console.log("Check params", req.params);
+      Logger.info("Check params", req.params);
       models.users.findById(id).then(function(user){
         models.organisations.findById(user.organisation_or_user).then(function(fund){
           for (var attrname in fund['dataValues']){
@@ -146,7 +146,7 @@ homeGET: function(req, res){
       var userId = req.user.id;
       var option = req.params.option;
       var fundId = req.params.fund_id;
-      console.log(req.params.fund_id);
+      Logger.info(req.params.fund_id);
       models.users.findById(userId).then(function(user){
         models.organisations.findById(user.organisation_or_user).then(function(organisation){
           models.funds.findById(fundId).then(function(fund){
@@ -182,8 +182,8 @@ homeGET: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var fields = req.body;
       var userId = req.user.id;
-      console.log(userId)
-      console.log(req.body);
+      Logger.info(userId)
+      Logger.info(req.body);
       var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
       fields = moderateObject(fields);
       fields = changeArrayfields(fields, arrayFields);
@@ -229,12 +229,12 @@ homeGET: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var fundId = req.params.fund_id;
       var fields = req.body;
-      console.log(req.body);
+      Logger.info(req.body);
       var arrayFields = ['subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location'];
       fields = moderateObject(fields);
-      console.log("again",fields);
+      Logger.info("again",fields);
       fields = changeArrayfields(fields, arrayFields);
-      console.log('test',fields);
+      Logger.info('test',fields);
       models.funds.findById(fundId).then(function(fund){
         fund.update(fields).then(function(fund){
           res.send(fund);
@@ -254,7 +254,7 @@ homeGET: function(req, res){
       models.funds.findById(fundId).then(function(fund){
         fund.update(fields).then(function(fund){
           if(req.body.tips){
-            console.log("REQ BODY TIPS", req.body.tips);
+            Logger.info("REQ BODY TIPS", req.body.tips);
             models.tips.find({where: {fund_id: fundId}}).then(function(tip){
               tip.update({tip: req.body.tips}).then(function(tip){
                 fund = fund.get();
@@ -277,11 +277,11 @@ homeGET: function(req, res){
       var userId = req.user.id;
       var fundId = req.params.fund_id;
       var session = req.session;
-      console.log(session);
+      Logger.info(session);
       models.users.findById(userId).then(function(user){
-        console.log(user);
+        Logger.info(user);
         models.funds.findById(fundId).then(function(fund){
-          console.log(fund);
+          Logger.info(fund);
           res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
         });
       });
@@ -294,7 +294,7 @@ homeGET: function(req, res){
       var user = req.user;
       var fundId = req.params.id;
       models.funds.findById(fundId).then(function(fund){
-        console.log("FUNDS", fund);
+        Logger.info("FUNDS", fund);
         if(fund.organisation_id){
           // If fund has an organisation/ fund user
           models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
@@ -307,14 +307,14 @@ homeGET: function(req, res){
                   fund_id: fundId
                 }}).spread(function(recent, created){
                   if(created){
-                    console.log(recent);
+                    Logger.info(recent);
                     res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
                   }else{
                     var dateNow = new Date(Date.now());
                     dateNow = dateNow.toISOString();
-                    console.log("PROPER DATE FORMAT", recent.updated_at);
-                    console.log("RECENT",recent);
-                    console.log("NOW DATE", dateNow);
+                    Logger.info("PROPER DATE FORMAT", recent.updated_at);
+                    Logger.info("RECENT",recent);
+                    Logger.info("NOW DATE", dateNow);
                     recent.update({updated_at: dateNow,user_id: user.id,
                     fund_id: fundId}).then(function(recent){
                       if(fund.organisation_id){
@@ -347,14 +347,14 @@ homeGET: function(req, res){
                 fund_id: fundId
               }}).spread(function(recent, created){
                 if(created){
-                  console.log(recent);
+                  Logger.info(recent);
                   res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
                 }else{
                   var dateNow = new Date(Date.now());
                   dateNow = dateNow.toISOString();
-                  console.log("PROPER DATE FORMAT", recent.updated_at);
-                  console.log("RECENT",recent);
-                  console.log("NOW DATE", dateNow);
+                  Logger.info("PROPER DATE FORMAT", recent.updated_at);
+                  Logger.info("RECENT",recent);
+                  Logger.info("NOW DATE", dateNow);
                   recent.update({updated_at: dateNow,user_id: user.id,
                   fund_id: fundId}).then(function(recent){
                     if(fund.organisation_id){
@@ -414,7 +414,7 @@ homeGET: function(req, res){
           if(tip){
             fund = fund.get();
             fund.tips = tip.tip;
-            console.log(fund);
+            Logger.info(fund);
             res.json(fund);
           }
           else{
@@ -450,13 +450,13 @@ homeGET: function(req, res){
   },
   getOptionTips: function(req, res){
     //NEED TO MODIFY FOR CAROUSEL IN FUTURE for arrays using findAll
-    console.log("CAROUSEL");
+    Logger.info("CAROUSEL");
     var fundId = req.params.id;
     models.tips.find({where: {fund_id: fundId}}).then(function(tips){
 
       if(tips){
         models.funds.findById(tips.fund_id).then(function(fund){
-          console.log(fund);
+          Logger.info(fund);
           models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
             tips = tips.get();
             tips.tip_giver = fund.title;
@@ -486,7 +486,7 @@ homeGET: function(req, res){
   editDates: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var fundId = req.params.id;
-      console.log("DATES", req.body);
+      Logger.info("DATES", req.body);
       models.users.findById(fundId).then(function(user){
         models.funds.findById(user.organisation_or_user).then(function(fund){
           fund.update(req.body).then(function(data){
@@ -504,8 +504,8 @@ homeGET: function(req, res){
       var general_settings = true;
         models.users.findById(id).then(function(user){
         var fundUser = user;
-        console.log(user.organisation_or_user);
-        console.log("FUCK ME SIDEWAYS");
+        Logger.info(user.organisation_or_user);
+        Logger.info("FUCK ME SIDEWAYS");
         models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(fund){
           for (var attrname in fund['dataValues']){
             if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
@@ -525,7 +525,7 @@ homeGET: function(req, res){
       var id = req.user.id;
       var general_settings;
       var body = req.body;
-      console.log(req.body);
+      Logger.info(req.body);
       if('username' in body || 'email' in body || 'password' in body || 'charity_number' in body){
         general_settings = true;
         if('charity_number' in body){
@@ -576,7 +576,7 @@ homeGET: function(req, res){
       else{
         general_settings = false;
         if('description' in body){
-          console.log("What's going on");
+          Logger.info("What's going on");
           models.users.findById(id).then(function(user){
             user.update({description: body.description}).then(function(user){
               models.organisations.findById(user.organisation_or_user).then(function(fund){
@@ -592,10 +592,10 @@ homeGET: function(req, res){
         }
         if('religion' in body){
           body.religion = body.religion.replace(/\s*,\s*/g, ',');
-          console.log(body.religion);
+          Logger.info(body.religion);
           var religion = [];
           var religionArray = body.religion.split(",");
-          console.log("BODY", religionArray);
+          Logger.info("BODY", religionArray);
           for(var i = 0; i < religionArray.length; i++){
             religion.push(religionArray[i]);
           }
@@ -616,17 +616,17 @@ homeGET: function(req, res){
           })
         }
         else{
-          console.log("TELL ME THE BODY", body);
+          Logger.info("TELL ME THE BODY", body);
           if('countries' in body){
             body.countries = body.countries.replace(/\s*,\s*/g, ',');
-            console.log(body.countries);
+            Logger.info(body.countries);
             var countries = [];
             var bodyArray = body.countries.split(",");
-            console.log("BODY", bodyArray);
+            Logger.info("BODY", bodyArray);
             for(var i = 0; i < bodyArray.length; i++){
               countries.push(bodyArray[i]);
             }
-            console.log(countries);
+            Logger.info(countries);
             body.countries = countries;
           }
 

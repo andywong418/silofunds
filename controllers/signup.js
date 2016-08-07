@@ -59,9 +59,9 @@ module.exports = {
     var firstName = name[0];
     var lastName = name[1];
 		previousPage = url.parse(req.headers.referer).path;
-		console.log("PREVIOUS", firstName);
-		console.log("HI", lastName);
-		console.log("EMAIL", email);
+		Logger.info("PREVIOUS", firstName);
+		Logger.info("HI", lastName);
+		Logger.info("EMAIL", email);
     mc.lists.subscribe({ id: '075e6f33c2', email: {email: email}, merge_vars: {
         EMAIL: email,
         FNAME: firstName,
@@ -70,12 +70,12 @@ module.exports = {
       next();
     }, function(error) {
       if (error.error) {
-        console.log(error.code + error.error);
+        Logger.info(error.code + error.error);
 
       } else {
-        console.log('some other error');
+        Logger.info('some other error');
       }
-      console.log('ending AJAX post request...');
+      Logger.info('ending AJAX post request...');
       res.status(400);
 			res.redirect('/');
     });
@@ -98,10 +98,10 @@ module.exports = {
 		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university']
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
-		console.log(userId);
+		Logger.info(userId);
 
 		models.users.findById(userId).then(function(user){
-			console.log(req.body);
+			Logger.info(req.body);
 			user.update(req.body).then(function(user){
 
 				res.send(user);
@@ -131,7 +131,7 @@ module.exports = {
     s3.headBucket(bucketName, function(err, data) {
       if (err) {
         s3.createBucket(function(err){
-          if (err) { console.log("Error:", err); }
+          if (err) { Logger.info("Error:", err); }
           else{
             s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
                 models.users.findById(userId).then(function(user){
@@ -139,14 +139,14 @@ module.exports = {
                     profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
                   });
                 });
-                console.log('uploaded picture');
+                Logger.info('uploaded picture');
                 res.end();
             });
           }
         });
       } else { // an error occurred so bucket doesn't exist
         s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-          console.log("Uploaded picture.");
+          Logger.info("Uploaded picture.");
           res.end();
         });
       }          // successful response- bucket exists
@@ -199,10 +199,10 @@ module.exports = {
           where: {user_id: user.id}
         }).then(function(documents){
           var newUser = true;
-					console.log("REDIRECT USER", req.session.redirect_user)
+					Logger.info("REDIRECT USER", req.session.redirect_user)
           if(req.session.redirect_user){
-						console.log(req.session.redirect_user);
-						console.log("PREVIOUS PAGE AGAIN", previousPage);
+						Logger.info(req.session.redirect_user);
+						Logger.info("PREVIOUS PAGE AGAIN", previousPage);
             res.redirect(previousPage);
 
           }
@@ -268,7 +268,7 @@ module.exports = {
   },
   get: function(req, res){
     var id = req.params.id;
-		console.log(id);
+		Logger.info(id);
     models.users.findById(id).then(function(user){
       models.organisations.findById(user.organisation_or_user).then(function(organisation){
         for (var attrname in organisation['dataValues']){
@@ -283,7 +283,7 @@ module.exports = {
   },
   getTags:function(req, res){
     var id = req.params.id;
-    console.log(req.body);
+    Logger.info(req.body);
     var tagArray;
     var tags = req.body["tags[]"];
     if(Array.isArray(tags)){
@@ -293,7 +293,7 @@ module.exports = {
       tagArray= [];
       tagArray.push(tags);
     }
-    console.log(tagArray);
+    Logger.info(tagArray);
     models.users.findById(id).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
@@ -307,7 +307,7 @@ module.exports = {
   },
   getCountries: function(req, res){
     var id = req.params.id;
-    console.log(req.body);
+    Logger.info(req.body);
     var countriesArray;
     var countries = req.body["countries[]"];
     if(Array.isArray(countries)){
@@ -317,7 +317,7 @@ module.exports = {
       countriesArray = [];
       countriesArray.push(countries);
      }
-    console.log(countriesArray);
+    Logger.info(countriesArray);
     models.users.findById(id).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(user){
         user.update({
@@ -342,7 +342,7 @@ module.exports = {
       religionArray = [];
       religionArray.push(religion);
      }
-    console.log(religionArray);
+    Logger.info(religionArray);
     models.users.findById(id).then(function(user){
       user.update({religion: religionArray}).then(function(user){
         models.funds.findById(user.organisation_or_user).then(function(fund){
@@ -374,9 +374,9 @@ module.exports = {
           if(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             // for (var category in categories){
-            //   console.log(category);
+            //   Logger.info(category);
             //   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
-            //     console.log(field)
+            //     Logger.info(field)
             //   })
             user["dataValues"]["categories"] = categories;
             res.json(user);
@@ -393,7 +393,7 @@ module.exports = {
   },
 	verifyEmail: function(req, res){
 		var userId = req.user.id;
-		console.log("REQ USER 2", userId);
+		Logger.info("REQ USER 2", userId);
 		async.waterfall([
 			function(done){
 				crypto.randomBytes(20, function(err, buf){
@@ -409,14 +409,14 @@ module.exports = {
 					}
 					user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; // Token becomes invalid after 1 hour
-					console.log("NEED TO KNOW THE USER", user);
+					Logger.info("NEED TO KNOW THE USER", user);
 					user.update({email: user.email, email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
 						 auth: {user: 'andros@silofunds.com',
 									 pass: 'whatever418'}
 						}));
-						console.log("USER EMAIL", user.email)
+						Logger.info("USER EMAIL", user.email)
 						var mailOptions = {
 							from: 'Silofunds <andros@silofunds.com>',
 							to: user.email,
@@ -432,7 +432,7 @@ module.exports = {
 								else {
 									var message = "Awesome! An email has been sent to " + user.email + " for verification."
 									if(!user.organisation_or_user) {
-										console.log('hello')
+										Logger.info('hello')
 										req.flash('emailSuccess', message)
 										res.redirect('/user/create')
 									} else {
@@ -463,7 +463,7 @@ module.exports = {
   fundAccount: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-fund-profile-" + userId;
-    console.log(req.file);
+    Logger.info(req.file);
     if (req.file){
       AWS.config.update({
         accessKeyId: aws_keyid,
@@ -473,7 +473,7 @@ module.exports = {
       s3.headBucket(bucketName, function(err, data) {
         if (err) {
           s3.createBucket(function(err){
-            if (err) { console.log("Error:", err); }
+            if (err) { Logger.info("Error:", err); }
             else{
               s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
                   models.users.findById(userId).then(function(user){
@@ -488,7 +488,7 @@ module.exports = {
           });
         } else { // an error occurred so bucket doesn't exist
           s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-            console.log("Uploaded picture.");
+            Logger.info("Uploaded picture.");
                models.users.findById(userId).then(function(user){
                     user.update({
                       profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
@@ -502,7 +502,7 @@ module.exports = {
     }
     else{
 			//description
-      console.log("BIG TINGS", req.body);
+      Logger.info("BIG TINGS", req.body);
       models.users.findById(userId).then(function(user){
         user.update(req.body).then(function(user){
           res.send(user);
@@ -513,7 +513,7 @@ module.exports = {
 	insertCharityNumber: function(req, res){
 		var userId = req.params.id;
 		var charityId = req.body.charity_number;
-		console.log(charityId);
+		Logger.info(charityId);
 		models.users.findById(userId).then(function(user){
 			var fundId = user.organisation_or_user;
 			models.organisations.findById(fundId).then(function(fund){
@@ -530,10 +530,10 @@ module.exports = {
     var userId = req.params.id;
     models.users.findById(userId).then(function(user){
         var fundId = user.organisation_or_user;
-        console.log(fundId);
+        Logger.info(fundId);
         models.funds.findById(fundId).then(function(user){
           user.update(req.body).then(function(user){
-            console.log("ERROR");
+            Logger.info("ERROR");
             res.send(user);
           })
         })
@@ -556,9 +556,9 @@ module.exports = {
         models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
             models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
             // for (var category in categories){
-            //   console.log(category);
+            //   Logger.info(category);
             //   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
-            //     console.log(field)
+            //     Logger.info(field)
             //   })
             user["dataValues"]["categories"] = categories;
             res.render('signup/fund-dashboard', {user: user, newUser: true});

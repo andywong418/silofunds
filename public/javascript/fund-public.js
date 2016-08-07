@@ -29,7 +29,7 @@ $(document).ready(function(){
       $("#text_search").attr('placeholder', 'Search for users by name or by interests')
   });
   $(document).on('click', '#advs-link', function(){
-    console.log("REFINE");
+    Logger.info("REFINE");
     $("#advanced-search").slideDown();
      advanced = false;
       return true;
@@ -85,12 +85,12 @@ var OverviewDisplay = Backbone.View.extend({
 	tagName: 'div',
 	id: 'overview-handler',
 	initialize: function(){
-		console.log(this.model.get('start_date'));
+		Logger.info(this.model.get('start_date'));
 		var startArray = this.model.get('start_date').split("T");
 		var start_date = startArray[0].split("-").reverse().join("-");
 		var deadlineArray = this.model.get('deadline').split("T");
 		var deadline = deadlineArray[0].split("-").reverse().join("-");
-		console.log(deadline);
+		Logger.info(deadline);
 		var overview = new FundModel({
 		fundName: this.model.get('username'),
 		fundDescription: this.model.get('description'),
@@ -99,7 +99,7 @@ var OverviewDisplay = Backbone.View.extend({
 		})
 		var view = new OverviewView({model: overview});
 		this.$el.append(view.render().el);
-		console.log(this.model);
+		Logger.info(this.model);
 		$('#overview').addClass('chosen');
 		$('#overview').css("background-color", "#36D7B7");
 		$('#overview, #overview-paragraph').css("color", "white");
@@ -152,7 +152,7 @@ var EligibleDisplay = Backbone.View.extend({
 		this.checkCriteria();
 	},
 	checkCriteria: function(){
-		console.log(fund.countries);
+		Logger.info(fund.countries);
 		if(fund.countries){
 			for (var i = 0; i < fund.countries.length; i++){
 				this.$("#countries").after("<span class = 'added-countries'>" + fund.countries[i] + "</p>")
@@ -256,17 +256,17 @@ var EligibleDisplay = Backbone.View.extend({
 					this.$(".category-switcher li").first().css("background-color", "#BFBFBF");
 					this.$(".category-switcher li").first().addClass("active");
 					var onLoadCategory = this.$(".category-switcher li").first().attr("id");
-					console.log(onLoadCategory);
+					Logger.info(onLoadCategory);
 					$.get('/signup/fund_signup/get_fields/' + onLoadCategory, function(data){
-						console.log(data);
+						Logger.info(data);
 						if(data.length != 0){
 							var parsedData = JSON.parse(data[0].html);
-							console.log(parsedData.question_tag);
-							console.log(parsedData);
-							console.log(data[1]);
+							Logger.info(parsedData.question_tag);
+							Logger.info(parsedData);
+							Logger.info(data[1]);
 							for (var i = 0; i < data.length; i++){
 								var parsed = JSON.parse(data[i].html);
-								console.log(parsed);
+								Logger.info(parsed);
 								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
 									$("#add-field").before("<p class = 'paragraph-filler' id = '" + data[i].id + "'><span class = question-pointer>" + parsed.question + "</span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" +  data[i].id + "'></textarea> <hr>");
 								}
@@ -283,7 +283,7 @@ var EligibleDisplay = Backbone.View.extend({
 							var savedLength = $("ul.category-switcher").width();
 							$("ul.category-switcher").width($("#application-info").width());
 							var formLength = $("#application-info").width();
-							console.log("-" + (formLength - savedLength) + "px");
+							Logger.info("-" + (formLength - savedLength) + "px");
 							// $("ul.category-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 
 						}
@@ -291,7 +291,7 @@ var EligibleDisplay = Backbone.View.extend({
 						var savedLength = $("ul.category-switcher").width();
 							$("ul.category-switcher").width($("#application-form").width());
 							var formLength = $("#application-form").width();
-							console.log("-" + (formLength - savedLength) + "px");
+							Logger.info("-" + (formLength - savedLength) + "px");
 							$("ul.category-switcher").css("margin-left", "-" + (formLength - savedLength) + "px");
 						}
 					});
@@ -302,7 +302,7 @@ var EligibleDisplay = Backbone.View.extend({
 					$("#" + categoryId).addClass("active");
 					$(".category-switcher li").not("#" + categoryId + ", #add-category").css("background-color", "white");
 					$(".category-switcher li").not("#" + categoryId + " , #add-category").removeClass("active");
-					console.log($("#add-field").siblings());
+					Logger.info($("#add-field").siblings());
 					if($(this) != $("ul.category-switcher").children(":first")){
 						$("ul.category-switcher").children(":first").css("border-bottom", "none");
 
@@ -315,7 +315,7 @@ var EligibleDisplay = Backbone.View.extend({
 						if(data){
 							for (var i = 0; i < data.length; i++){
 								var parsed = JSON.parse(data[i].html);
-								console.log(parsed);
+								Logger.info(parsed);
 								if(parsed.question_tag  && parsed.applicant_input_type == "textarea"){
 									$("#add-field").before("<p class = 'paragraph-filler' id = '" +  data[i].id + "'><span class = question-pointer>" + parsed.question + "</span></p><textarea placholder = 'The applicant will type their answer here' class = 'add-text' id= '" + data[i].id + "'></textarea> <hr>");
 								}
@@ -351,14 +351,14 @@ var EligibleDisplay = Backbone.View.extend({
 				// $(document).off('blur', "#addition");
 				// $(document).on('blur', "#addition", function(){
 				// 	var newTitle = $(this).val();
-				// 	console.log($(this).parent());
+				// 	Logger.info($(this).parent());
 				// 	if($(this).val()){
 				// 		var parent = $(this).parent();
 				// 		$(".category-switcher li").not(this).removeClass("active");
 				// 		$(".category-switcher li").not(this).not("#add-category").css("background-color", "white");
 				// 		var parameters = {title: newTitle};
 				// 		$.post('/signup/fund_signup/add_category/'+ fund.organisation_or_user, parameters, function(data){
-				// 			console.log(data);
+				// 			Logger.info(data);
 				// 			parent.replaceWith("<li class = 'category active' style= 'background-color: #BFBFBF' id = '" + data.id + "'><span>" + data.title + "</span></li>");
 				// 		})
 				// 	}
@@ -374,7 +374,7 @@ var EligibleDisplay = Backbone.View.extend({
 				// 		closestCategory = $(".active").prev("li");
 				// 	}
         //
-				// 		console.log(closestCategory);
+				// 		Logger.info(closestCategory);
 				// 		$(".active").remove();
 				// 		closestCategory.click();
         //
@@ -401,7 +401,7 @@ var EligibleDisplay = Backbone.View.extend({
 		var overviewModel = new OverviewModel();
 		overviewModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(overviewModel));
+				Logger.info(JSON.stringify(overviewModel));
 				router.loadView(new OverviewDisplay({model: overviewModel }));
 			}
 		})
@@ -413,7 +413,7 @@ var EligibleDisplay = Backbone.View.extend({
 		var eligibleModel = new EligibleModel();
 		eligibleModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(eligibleModel));
+				Logger.info(JSON.stringify(eligibleModel));
 				router.loadView(new EligibleDisplay({model: eligibleModel }));
 			}
 		})
@@ -425,7 +425,7 @@ var EligibleDisplay = Backbone.View.extend({
 		var applicationModel = new ApplicationModel();
 		applicationModel.fetch({
 			success:function(){
-				console.log(JSON.stringify(applicationModel));
+				Logger.info(JSON.stringify(applicationModel));
 				router.loadView(new ApplicationDisplay({model: applicationModel }));
 			}
 

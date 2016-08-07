@@ -22,7 +22,7 @@ var models = require('../models');
 router.post('/', signup.subscribe, passport.authenticate('local-signup', {
 	failureRedirect: '/login/error'
 }), function(req, res){
-		console.log("AFTER MAILCHIMP");
+		Logger.info("AFTER MAILCHIMP");
     var username = req.body.username;
     var useremail = req.body.email;
     var userpassword = req.body.userpassword;
@@ -33,7 +33,7 @@ router.post('/', signup.subscribe, passport.authenticate('local-signup', {
       where: {email: email}
     }).then(function(user){
       if(typeof fundOption == 'undefined'){
-				console.log("HELLO");
+				Logger.info("HELLO");
         res.render('signup/new-user-profile', {user: user});
       }
       else{

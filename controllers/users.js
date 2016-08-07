@@ -35,7 +35,7 @@ module.exports = {
 
   dashboard: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
-      console.log("REQ USER", req.user);
+      Logger.info("REQ USER", req.user);
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
           var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
@@ -130,7 +130,7 @@ module.exports = {
               }
             }
           }
-          console.log("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
+          Logger.info("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
           models.es.search({
             index: "funds",
             type: "fund",
@@ -179,7 +179,7 @@ module.exports = {
                         fund = fund.get();
                         models.funds.findById(fund.fund_id).then(function(fund){
                           recently_browsed_funds.push(fund);
-                          console.log(recently_browsed_funds);
+                          Logger.info(recently_browsed_funds);
                           callback();
                         })
                       }, function done(){
@@ -190,7 +190,7 @@ module.exports = {
                         } else {
                           verificationSuccess = verificationSuccess[0]
                         }
-                        console.log('hello')
+                        Logger.info('hello')
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
                           if(!stripe_user) {
                             res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
@@ -241,8 +241,8 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      console.log("CHARGE");
-      console.log(charge);
+      Logger.info("CHARGE");
+      Logger.info(charge);
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
@@ -331,7 +331,7 @@ module.exports = {
       var body = JSON.parse(bodyUnparsed);
 
       if (body.error) {
-        console.log(body);
+        Logger.info(body);
         res.redirect('/user/dashboard');
       } else {
         models.stripe_users.create({
@@ -363,10 +363,10 @@ module.exports = {
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    console.log("HUH")
+    Logger.info("HUH")
     if (!req.body.remember_me) {res.redirect('loginSplit')}
     passportFunctions.issueToken(req.user.get(), function(err, token) {
-      console.log("BUG TOKEN", token);
+      Logger.info("BUG TOKEN", token);
       if (err) {return next(err)}
       res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
       res.redirect('loginSplit')
@@ -409,7 +409,7 @@ module.exports = {
 			var body = JSON.parse(bodyUnparsed);
 
 			if (body.error) {
-				console.log(body);
+				Logger.info(body);
 				res.redirect('/user/dashboard');
 			} else {
 				models.stripe_users.create({
@@ -442,7 +442,7 @@ module.exports = {
 	loginSplit: function(req, res) {
 		// Find whether the login was for a user or a fund and redirect accordingly
 		if(req.user.organisation_or_user == null) {
-      console.log("ERQ USER")
+      Logger.info("ERQ USER")
 			passportFunctions.ensureAuthenticated(req, res, function(){
         res.redirect('/user/dashboard');
 
@@ -472,7 +472,7 @@ module.exports = {
       var user = req.user;
       var id = user.id;
       models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-        console.log("checking applications");
+        Logger.info("checking applications");
         if(application.length != 0){
           applied_funds = [];
           async.each(application, function(app, callback){
@@ -501,7 +501,7 @@ module.exports = {
 
   crowdFundingPage: function(req, res){
     var userId;
-    console.log(req.params.id)
+    Logger.info(req.params.id)
     if(req.params.id){
       userId = req.params.id;
     }
@@ -510,9 +510,9 @@ module.exports = {
     }
     models.users.findById(userId).then(function(user){
       models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-        console.log("DOCS", documents);
+        Logger.info("DOCS", documents);
         models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-          console.log("APPS", applications);
+          Logger.info("APPS", applications);
             if(applications.length > 0){
               applied_funds = [];
               async.each(applications, function(app, callback){
@@ -530,8 +530,8 @@ module.exports = {
                 models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
                   if(stripe_user){
                     models.sequelize.query("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'").then(function(charges){
-                      console.log("HJI");
-                      console.log(charges);
+                      Logger.info("HJI");
+                      Logger.info(charges);
                       var numberOfSupporters = charges[1].rowCount;
                       models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id},   order: 'created_at DESC'}).then(function(donations){
                         if(donations.length !== 0){
@@ -546,7 +546,7 @@ module.exports = {
                               var nowDate = Date.now();
 
                               var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
-                              console.log("diffdays", diffDays);
+                              Logger.info("diffdays", diffDays);
                               donationObj.diffDays = diffDays;
                               if(donation.user_from){
                                 models.users.findById(donation.user_from).then(function(user){
@@ -575,10 +575,10 @@ module.exports = {
               });
             } else {
               models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
-                console.log("STRIPE USER", stripe_user);
+                Logger.info("STRIPE USER", stripe_user);
                 if(stripe_user){
                   models.sequelize.query("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'").then(function(charges){
-                    console.log("CHARGES", charges[1].rowCount);
+                    Logger.info("CHARGES", charges[1].rowCount);
                     var numberOfSupporters = charges[1].rowCount;
                     models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id}}).then(function(donations){
                       if(donations.length != 0){
@@ -591,8 +591,8 @@ module.exports = {
                             var oneDay = 24*60*60*1000;
                             var completionDate = new Date(donation.created_at.split('T')[0]);
                             var nowDate = Date.now();
-                            console.log("COMPLETION", completionDate);
-                            console.log("NOW DATE", nowDate);
+                            Logger.info("COMPLETION", completionDate);
+                            Logger.info("NOW DATE", nowDate);
                             var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
                             donationObj.diffDays = diffDays;
                             if(donation.user_from){
@@ -626,7 +626,7 @@ module.exports = {
 
 	initialCreation: function(req, res) {
 		passportFunctions.ensureAuthenticated(req, res, function(){
-      console.log("HI REQ", req.user);
+      Logger.info("HI REQ", req.user);
       var emailSuccess = req.flash('emailSuccess')
       res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]})
     });
@@ -659,7 +659,7 @@ module.exports = {
 
           document.count = i + 1;
         }
-        console.log(documents);
+        Logger.info(documents);
 
         var numberRemainingPastWorkDivs = 5 - documents.length;
         var remainingPastWorkDivs = [];
@@ -707,22 +707,22 @@ module.exports = {
     var userId = req.user.id;
     var bucketName = 'silo-user-profile-' + userId;
     var fileName = req.body.fileName;
-    console.log("HI", userId);
-    console.log(fileName);
-    console.log(aws_keyid);
-    console.log(aws_key);
+    Logger.info("HI", userId);
+    Logger.info(fileName);
+    Logger.info(aws_keyid);
+    Logger.info(aws_key);
     AWS.config.update({
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
-    console.log("WHAT");
+    Logger.info("WHAT");
 
     var s3 = new AWS.S3();
     var params = {
       Bucket: bucketName,
       Key: fileName
     };
-    console.log("HERE")
+    Logger.info("HERE")
     s3.deleteObject(params, function(err, data){
       if(data){
         models.documents.findById(req.body.documentID).then(function(document) {
@@ -732,7 +732,7 @@ module.exports = {
         });
       }
       if(err){
-        console.log(err);
+        Logger.info(err);
       }
     })
 
@@ -766,8 +766,8 @@ module.exports = {
       var userID = req.user.id;
       var settings = req.body;
 
-      console.log("Settings");
-      console.log(settings);
+      Logger.info("Settings");
+      Logger.info(settings);
 
       var settingsKeys = Object.keys(settings);
       var numberOfKeys = Object.keys(settings).length;
@@ -785,8 +785,8 @@ module.exports = {
         }
       }
 
-      console.log("Settings");
-      console.log(settings);
+      Logger.info("Settings");
+      Logger.info(settings);
       // var general_settings;
       // var id = req.user.id
       // var body = req.body;
@@ -813,7 +813,7 @@ module.exports = {
 
 	changeEmailSettings: function(req, res) {
 		var userId = req.params.id;
-		console.log("WE HERE", userId);
+		Logger.info("WE HERE", userId);
 		models.users.findById(userId).then(function(user) {
 				var name = user.username.split(" ");
 				var firstName = name[0];
@@ -821,7 +821,7 @@ module.exports = {
 				user.update({
 						email_updates: req.body.email_updates
 				}).then(function(data) {
-						console.log(req.body);
+						Logger.info(req.body);
 						if (req.body.email_updates == 'false') {
 								mc.lists.unsubscribe({
 										id: '075e6f33c2',
@@ -834,16 +834,16 @@ module.exports = {
 												LNAME: lastName
 										}
 								}, function(data) {
-										console.log("Successfully unsubscribed!");
-										console.log('ending AJAX post request...');
+										Logger.info("Successfully unsubscribed!");
+										Logger.info('ending AJAX post request...');
 										res.send(data);
 								}, function(error) {
 										if (error.error) {
-												console.log(error.code + error.error);
+												Logger.info(error.code + error.error);
 										} else {
-												console.log('some other error');
+												Logger.info('some other error');
 										}
-										console.log('ending AJAX post request...');
+										Logger.info('ending AJAX post request...');
 										res.status(400).end();
 								});
 						} else {
@@ -858,16 +858,16 @@ module.exports = {
 												LNAME: lastName
 										}
 								}, function(data) {
-										console.log("Successfully subscribed!");
-										console.log('ending AJAX post request...');
+										Logger.info("Successfully subscribed!");
+										Logger.info('ending AJAX post request...');
 										res.send(data);
 								}, function(error) {
 										if (error.error) {
-												console.log(error.code + error.error);
+												Logger.info(error.code + error.error);
 										} else {
-												console.log('some other error');
+												Logger.info('some other error');
 										}
-										console.log('ending AJAX post request...');
+										Logger.info('ending AJAX post request...');
 										res.status(400).end();
 								});
 						}
@@ -1091,11 +1091,11 @@ module.exports = {
 				"query": queryOptions
 			}
 		}).then(function(resp) {
-			console.log("This is the response:");
-			console.log(resp);
+			Logger.info("This is the response:");
+			Logger.info(resp);
 			var users = resp.hits.hits.map(function(hit) {
-				console.log("Hit:");
-				console.log(hit);
+				Logger.info("Hit:");
+				Logger.info(hit);
 				var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
 				var hash = {};
 				for (var i = 0; i < fields.length ; i++) {
@@ -1106,15 +1106,15 @@ module.exports = {
 				return hash;
 			});
 			var results_page = true;
-			console.log("USERS", users);
+			Logger.info("USERS", users);
 			if(user){
-				console.log("Checking the user",user);
+				Logger.info("Checking the user",user);
 				models.users.findById(user.id).then(function(user){
 					res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query } );
 				})
 			}
 			else{
-				console.log("check if user-results is there", query);
+				Logger.info("check if user-results is there", query);
 				res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
 			}
 		}, function(err) {
@@ -1132,10 +1132,10 @@ module.exports = {
 		else{
 			loggedInUser = false;
 		}
-		console.log("CHECKING ID",id)
+		Logger.info("CHECKING ID",id)
 		models.users.findById(id).then(function(user){
 			models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-				console.log("checking applications");
+				Logger.info("checking applications");
 				if(application.length != 0){
 					applied_funds = [];
 					async.each(application, function(app, callback){
@@ -1143,9 +1143,9 @@ module.exports = {
 							app_obj['status'] = app.dataValues.status;
 							models.funds.findById(app.dataValues.fund_id).then(function(fund){
 								app_obj['title'] = fund.title;
-								console.log("WHAT FUND", fund);
+								Logger.info("WHAT FUND", fund);
 								applied_funds.push(app_obj);
-								console.log("I'M HERE", applied_funds);
+								Logger.info("I'M HERE", applied_funds);
 								callback();
 							})
 
@@ -1156,7 +1156,7 @@ module.exports = {
 					})
 				}
 				else {
-					console.log("HI", loggedInUser);
+					Logger.info("HI", loggedInUser);
 					models.documents.findAll({where: {user_id: id}}).then(function(documents){
 						res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: false});
 					});
@@ -1182,7 +1182,7 @@ module.exports = {
   },
   fundBlocker: function(req, res, next){
     var url = req.url;
-    console.log("URL", url);
+    Logger.info("URL", url);
     var checkFirstLetters = url.substring(1,13)
     var options = url.split('/')[2];
     if(checkFirstLetters == 'organisation' && options!= 'options') {

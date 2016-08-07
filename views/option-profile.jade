@@ -9,8 +9,8 @@ block content
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     var fund = !{JSON.stringify(fund)};
-    console.log(user)
-    console.log(fund)
+    Logger.info(user)
+    Logger.info(fund)
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }

@@ -71,9 +71,9 @@ $(document).ready(function() {
         $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
     }
 
-    console.log(data);
+    Logger.info(data);
     if(data.read_by_recipient && data.userFromID == user.id){
-      console.log("READ");
+      Logger.info("READ");
       $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
     }
     else{
@@ -83,7 +83,7 @@ $(document).ready(function() {
   });
 
   socket.on('bulk get message', function(data) {
-    console.log(data);
+    Logger.info(data);
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
     var dateNow = new Date();
@@ -93,7 +93,7 @@ $(document).ready(function() {
     dateYesterday.setDate(dateNow.getDate() - 1);
     dateLastWeek.setDate(dateNow.getDate() - 7);
     dateLastYear.setFullYear(dateLastYear.getFullYear() - 1);
-    console.log(dateLastYear);
+    Logger.info(dateLastYear);
     var appendTodayToFirstMessage = 0;
     var appendYesterdayToFirstMessage = 0;
     var appendLastWeekFirstMessage = 0;
@@ -111,8 +111,8 @@ $(document).ready(function() {
         var messageSentLastWeek = Date.parse(dateOfMessage)  >= Date.parse(dateLastWeek) && !messageSentYesterday && !messageSentToday;
         var messageSentLastYear =  Date.parse(dateLastWeek) > Date.parse(dateOfMessage) && Date.parse(dateOfMessage) > Date.parse(dateLastYear) ;
         var messageSentLongAgo = Date.parse(dateOfMessage) < Date.parse(dateLastYear);
-        console.log(messageSentLastYear);
-        console.log(messageSentLongAgo);
+        Logger.info(messageSentLastYear);
+        Logger.info(messageSentLongAgo);
 
 
         if (messageSentToday && appendTodayToFirstMessage === 0) {
@@ -149,7 +149,7 @@ $(document).ready(function() {
           appendLastWeekFirstMessage++;
         }
         else if(messageSentLastYear && appendLastYearFirstMessage === 0){
-          console.log("HERE I AM");
+          Logger.info("HERE I AM");
           if(messages.user_from === user.id){
             appendDateHelper(dateOfMessage.split(' ').slice(0, 3).join(' '));
             appendMessageFrom(data.userTo, data.userFrom, message);
@@ -183,9 +183,9 @@ $(document).ready(function() {
 
       var readCounter = 0;
       var readMessage = data.bulk_messages[data.bulk_messages.length -1];
-      console.log(readMessage);
+      Logger.info(readMessage);
       if(readMessage.read_by_recipient && readMessage.user_from == user.id){
-        console.log("READ");
+        Logger.info("READ");
         $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
       }
       else{

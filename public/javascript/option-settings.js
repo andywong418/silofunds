@@ -21,12 +21,12 @@ $(document).ready(function() {
       plugins: "link",
       toolbar: "undo redo pastetext | styleselect | fontselect | fontsizeselect | insert | bullist | numlist"
     }).then(function(editors){
-      console.log(tinymce.activeEditor.getContent({format: 'text'}));
+      Logger.info(tinymce.activeEditor.getContent({format: 'text'}));
     });
   } catch(e) {
-    console.log("tinymce not defined!");
+    Logger.info("tinymce not defined!");
   }
-  console.log(text);
+  Logger.info(text);
 
   if(fund.gender !== null) {
     $("#" + fund.gender).prop("checked", true);
@@ -51,7 +51,7 @@ $(document).ready(function() {
   ///////////
   //submit form data
   $('#save-general-info').click(function(){
-    console.log(tinymce.activeEditor.getContent({format: 'text'}));
+    Logger.info(tinymce.activeEditor.getContent({format: 'text'}));
     var description =tinymce.activeEditor.getContent();
     var formData = {
       "title": $('#title').val(),
@@ -62,7 +62,7 @@ $(document).ready(function() {
       "duration_of_scholarship": $('#duration_of_scholarship').val()
     };
     $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
-      console.log(data);
+      Logger.info(data);
       $('#save-general-notification').css('display', 'block');
       $("#save-general-notification").fadeOut(6000);
 
@@ -110,7 +110,7 @@ $(document).ready(function() {
       'other_eligibility': $('textarea#other_eligibility').val()
     };
     $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
-      console.log(data);
+      Logger.info(data);
       $('#save-eligibility-notification').css('display', 'block');
       $("#save-eligibility-notification").fadeOut(6000);
 
@@ -129,7 +129,7 @@ $(document).ready(function() {
       'tips': $('textarea#tips').val()
     }
     $.post('/organisation/options/' + fund.id + '/edit', formData, function(data){
-      console.log(data);
+      Logger.info(data);
       $('#save-application-notification').css('display', 'block');
       $("#save-application-notification").fadeOut(6000);
     });

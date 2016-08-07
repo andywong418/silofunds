@@ -23,7 +23,7 @@ $(document).ready(function(){
 	var UserInfo = Backbone.View.extend({
 		el: 'body',
 		initialize: function(){
-			console.log(user);
+			Logger.info(user);
 			var myDate = user.date_of_birth.split("-");
 			var yearFix= myDate[2].split("T");
 			var day = yearFix[0];
@@ -144,7 +144,7 @@ $(document).ready(function(){
 			    });
 			});
 			$(document).on('click', '#advs-link', function(){
-			  console.log("REFINE");
+			  Logger.info("REFINE");
 			  $("#advanced-search").slideDown();
 			   advanced = false;
 			    return true;
@@ -172,7 +172,7 @@ $(document).ready(function(){
 			this.applicationDisplay();
 		},
 		workDisplay: function(){
-			console.log(documents)
+			Logger.info(documents)
 			for( var i = 0; i < documents.length; i++){
 				var document = documents[i].link;
 				var seekingExtension = document.split(".");
@@ -211,7 +211,7 @@ $(document).ready(function(){
 			}
 		},
     loginStatus: function(){
-      console.log(loggedInUser);
+      Logger.info(loggedInUser);
       if(loggedInUser){
         $('.pre-signin').css("display", "none");
         $('.post-signin').css("display","inline");
@@ -245,7 +245,7 @@ $(document).ready(function(){
 
      //open modal
      $main_nav.on('click', function(event){
-          console.log("HEY");
+          Logger.info("HEY");
        $('.cd-switcher').css('display', 'inline');
        if($(event.target).is($main_nav) ) {
          //set body to be static
@@ -543,7 +543,7 @@ $(document).ready(function(){
              $('#login-email-error').text(data);
            }
            else{
-             console.log("TELL ME NOW", data);
+             Logger.info("TELL ME NOW", data);
              $('#signin-password-error').addClass('is-visible');
              $('#signin-password-error').text(data);
            }
@@ -555,7 +555,7 @@ $(document).ready(function(){
      });
     },
 		applicationDisplay: function(){
-			console.log(applications);
+			Logger.info(applications);
 			if(applications.length > 0){
 				$('#not-applied').css("display", "none");
 				$("#applied-funds").show();

@@ -48,11 +48,11 @@ html(lang='en')
     script.
       var bodyEl = document.getElementsByTagName('body');
       var user = !{JSON.stringify(user)};
-      console.log(user);
-      console.log(bodyEl);
+      Logger.info(user);
+      Logger.info(bodyEl);
       if(user){
         bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
-        console.log(bodyEl);
+        Logger.info(bodyEl);
       }
     block content
     block scripts

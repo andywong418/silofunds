@@ -23,7 +23,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 }
 
 	$('.process').click(function(){
-		console.log(this);
+		Logger.info(this);
 		$('.active').removeClass('active');
 		$(this).addClass('active');
 	})
@@ -53,19 +53,19 @@ var tokenArrayPopulate = function(value, emptyArray){
 			this.$el.append(aboutView.render().el);
 			var arrayFields = ['profile_picture', 'funding_needed', 'country_of_residence','gender','completion_date', 'date_of_birth', 'religion'];
 			var prePopulateModel = this.model;
-			console.log(prePopulateModel);
+			Logger.info(prePopulateModel);
 			if(!this.model.get('country_of_residence')){
-				console.log("what");
+				Logger.info("what");
 				this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook", "allowFreeTagging": true});
 			}
 			for(var i = 0; i< arrayFields.length; i++){
-				console.log(prePopulateModel.get(arrayFields[i]));
+				Logger.info(prePopulateModel.get(arrayFields[i]));
 				if(prePopulateModel.get(arrayFields[i])){
 					var value = prePopulateModel.get(arrayFields[i]);
 					if(value){
 						switch (arrayFields[i]) {
 							case 'profile_picture':
-								console.log("PROF PIC");
+								Logger.info("PROF PIC");
 								this.$('#profile-picture span').hide();
 								this.$('#placeholder-picture')
 									.attr('src', value)
@@ -75,7 +75,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 							case 'country_of_residence':
 								var savedCountryOfRes = [];
 								savedCountryOfRes = tokenArrayPopulate(value, savedCountryOfRes);
-								console.log("HERE");
+								Logger.info("HERE");
 								this.$('input#country_of_residence').tokenInput('/autocomplete/countries', {
 									"theme": "facebook",
 									"prePopulate": savedCountryOfRes,
@@ -85,14 +85,14 @@ var tokenArrayPopulate = function(value, emptyArray){
 								this.$('li.token-input-token-facebook').css('margin-top', '1px');
 								break;
 							case 'date_of_birth':
-								console.log(reformatDate(value));
+								Logger.info(reformatDate(value));
 								this.$('input#date-input').val(reformatDate(value));
 								break;
 							case 'funding_needed':
 								this.$('input#input-amount').val(value);
 								break;
 							case 'gender':
-								console.log('what', this.$('input[value=' + value +']'));
+								Logger.info('what', this.$('input[value=' + value +']'));
 								this.$('input[value=' + value +']').prop("checked", true);
 							case 'completion_date':
 								this.$('input#completion-input').val(reformatDate(value));
@@ -107,11 +107,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 		},
 		addProfilePicture: function(){
-					console.log('HI');
+					Logger.info('HI');
 					this.$("input[id='my_file']").click();
 		},
 		changePicture: function(e){
-			console.log(e);
+			Logger.info(e);
 			if (e.currentTarget.files && e.currentTarget.files[0]) {
 
 					var reader = new FileReader();
@@ -134,7 +134,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 					processData: false,
 					contentType: false
 				}).done(function(data){
-					console.log(data);
+					Logger.info(data);
 
 				});
 					reader.readAsDataURL(e.currentTarget.files[0]);
@@ -142,7 +142,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveAbout: function(e){
-			console.log( $('input[name=gender]').val());
+			Logger.info( $('input[name=gender]').val());
 			var countries = $('input#country_of_residence').val().split(',');
 			var formData = {
 				'funding_needed': $('input[name=funding_needed]').val(),
@@ -153,7 +153,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				'religion': $('select[name=religion]').val()
 			}
 			$.post('/signup/user/save', formData, function(data){
-				console.log(data);
+				Logger.info(data);
 				$('a[href="#about"]').removeClass('active');
 				$('a[href="#education"]').addClass('active');
 				$('html, body').animate({scrollTop:0}, 'slow')
@@ -229,7 +229,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				'previous_university': previousUniversity
 			}
 			$.post('/signup/user/save', formData, function(data){
-				console.log(data);
+				Logger.info(data);
 				$('a[href="#education"]').removeClass('active');
 				$('a[href="#story"]').addClass('active');
 				$('html, body').animate({scrollTop:0}, 'slow')
@@ -266,11 +266,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 				else{
 					if(documents.length == 1){
 						fileName = documents[0].title;
-						console.log(fileName);
+						Logger.info(fileName);
 
 					}
 				}
-				console.log(fileName);
+				Logger.info(fileName);
 				if(fileName){
 					this.$('input#work').next('label').html(fileName);
 				}
@@ -284,7 +284,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				'link': $('input#work-link').val()
 			}
 			$.post('/signup/user/save', formData, function(data){
-				console.log(data);
+				Logger.info(data);
 				$('a[href="#story"]').removeClass('active');
 				$('a[href="#account"]').addClass('active');
 				$('html, body').animate({scrollTop:0}, 'slow')
@@ -292,9 +292,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveFiles: function(e){
-			console.log(e);
+			Logger.info(e);
 			var $input = e.target;
-			console.log($input);
+			Logger.info($input);
 			$label = $($input).next('label');
 			labelVal = $($input).html();
 			var fileName = '';
@@ -329,7 +329,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 						processData: false,
 						contentType: false
 					}).done(function(data){
-						console.log(data);
+						Logger.info(data);
 					});
 			}
 			else{
@@ -396,7 +396,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			storyModel.fetch({
 				success: function(){
 					router.loadView(new StoryDisplay({model: storyModel}));
-					console.log(storyModel.get('description'));
+					Logger.info(storyModel.get('description'));
 					if(!storyModel.get('description')){
 						$('#story-text').html("<h3>Introduce yourself &nbsp;<em>**change header name**</em></h3><p>Give people a brief introduction to you and your story. Take an opportunity to address those that will support you.</p><h3>What are your aims?&nbsp;<em>**change header name**</em></h3><p>e.g. I'm raising £X to pursue this degree because I want to do Y. In the future I hope I can help/make/do Z.</p><h3>&nbsp;Tell your story.&nbsp;<em>**change header name**</em></h3><p>This is your chance to give people a bit of insight into your journey.</p><ul><li>Why is this important to you? How long have you been interested in your subject?</li><li>How long have you been looking for funding?</li><li>Have you tried to fund yourself?</li><li>Why should it be important to a donor? What impact will they have by giving money?</li></ul><h3>&nbsp;How will you spend your time and money? **<strong><em>change header name**</em></strong></h3><ul><li>What will you do If you exceed your target? Will &nbsp;you use your&nbsp;generosity and donate to another campaign?</li><li>Try and offer a rough breakdown of costs, something like this:</li><ul><li>Accommodation: £5300</li><li>Food: £2000</li><li>Books: £250</li><li>Travel: £300</li></ul></ul><p><em>N.B The above numbers are merely examples!</em></p><ul><li>Are there other goals you hope to accomplish? Eg &nbsp;.Societies, Hobbies etc.</li></ul>");
 					}

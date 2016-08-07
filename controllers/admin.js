@@ -260,20 +260,20 @@ module.exports = {
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+      Logger.info('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
       file.on('data', function(data) {
-        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        Logger.info('File [' + fieldname + '] got ' + data.length + ' bytes');
         jsonData += data.toString();
       });
       file.on('end', function() {
-        console.log('File [' + fieldname + '] Finished');
+        Logger.info('File [' + fieldname + '] Finished');
       });
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
     });
     busboy.on('finish', function() {
-      console.log('Done parsing form! Injecting into database...');
+      Logger.info('Done parsing form! Injecting into database...');
       var json_array = JSON.parse(jsonData);
 
       for (var ind = 0; ind < json_array.length; ind++) {
@@ -291,7 +291,7 @@ module.exports = {
         }
 
         models.funds.create( create_options ).then(function() {
-          console.log('Created fund.');
+          Logger.info('Created fund.');
         });
       }
       res.redirect('../admin');
@@ -374,7 +374,7 @@ module.exports = {
       gender: gender,
       deadline: deadline
     }).catch(function(err) {
-      console.log("There seems to have been an error: " + err);
+      Logger.info("There seems to have been an error: " + err);
     }).then(function() {
       res.redirect('/admin/funds');
     });
@@ -400,10 +400,10 @@ module.exports = {
       models.es.bulk({
         body: body
       }, function (err, resp) {
-        console.log(resp);
+        Logger.info(resp);
       });
     }).then(function() {
-      console.log('...Finished sync');
+      Logger.info('...Finished sync');
       res.redirect('../admin');
     });
   },
@@ -429,7 +429,7 @@ module.exports = {
         name: name,
         charity_id: charity_id
       }).catch(function(err) {
-        console.log("There seems to have been an error: " + err);
+        Logger.info("There seems to have been an error: " + err);
       }).then(function() {
         res.redirect('/admin/organisations');
       });
@@ -484,20 +484,20 @@ module.exports = {
       var busboy = new Busboy({ headers: req.headers });
       var jsonData = '';
       busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        Logger.info('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         file.on('data', function(data) {
-          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+          Logger.info('File [' + fieldname + '] got ' + data.length + ' bytes');
           jsonData += data.toString();
         });
         file.on('end', function() {
-          console.log('File [' + fieldname + '] Finished');
+          Logger.info('File [' + fieldname + '] Finished');
         });
       });
       busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
       });
       busboy.on('finish', function() {
-        console.log('Done parsing form! Injecting into database...');
+        Logger.info('Done parsing form! Injecting into database...');
         var json_array = JSON.parse(jsonData);
 
         for (var ind = 0; ind < json_array.length; ind++) {
@@ -516,7 +516,7 @@ module.exports = {
           }
 
           models.organisations.create( create_options ).then(function() {
-            console.log('Created fund.');
+            Logger.info('Created fund.');
           });
         }
         res.redirect('/admin/organisations');
@@ -529,7 +529,7 @@ module.exports = {
     index: function(req, res) {
       stripe.accounts.list(function(err, accounts) {
         if (err) {
-          console.log(err);
+          Logger.info(err);
         }
         accounts = accounts.data;
 

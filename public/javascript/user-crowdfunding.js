@@ -8,7 +8,7 @@ $(document).ready(function(){
     var amount = user.funding_accrued;
     var goal = user.funding_needed;
     var percentage = Math.ceil((amount/ goal) * 100);
-    console.log($('#initial-bar'));
+    Logger.info($('#initial-bar'));
     $('div#initial-bar').css('width',  percentage + '%');
     $('#percentage').html(percentage+ '% <span> funded </span>');
   }
@@ -16,8 +16,8 @@ $(document).ready(function(){
     var oneDay = 24*60*60*1000;
     var completionDate = new Date(user.completion_date.split('T')[0]);
     var nowDate = Date.now();
-    console.log("COMPLETION", completionDate);
-    console.log("NOW DATE", nowDate);
+    Logger.info("COMPLETION", completionDate);
+    Logger.info("NOW DATE", nowDate);
     var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
     $('#remaining-days').html(diffDays + '<span> days to go </span>');
   }
@@ -38,7 +38,7 @@ $(document).ready(function(){
     initialize: function(){
       var storyModel = this.model;
       this.el = this.render().el;
-      console.log(this.model);
+      Logger.info(this.model);
       var story = this.model.get('description');
       this.$('#story').html(story);
       this.$('#story').css('margin-top', '20px');
@@ -70,7 +70,7 @@ $(document).ready(function(){
       this.el = this.render().el;
       var age;
       if(user.date_of_birth){
-        console.log(user.date_of_birth);
+        Logger.info(user.date_of_birth);
         var myDate = user.date_of_birth.split("-");
         var yearFix= myDate[2].split("T");
         var day = yearFix[0];
@@ -81,7 +81,7 @@ $(document).ready(function(){
         this.$('#age').html(age);
       }
       var documents = this.model.get('documents');
-      console.log(documents);
+      Logger.info(documents);
       for(var i =0; i< documents.length; i++){
         var doc = documents[i];
         var id = doc.id;
@@ -93,7 +93,7 @@ $(document).ready(function(){
           extension = seekingExtension[1];
         }
 
-        console.log(extension);
+        Logger.info(extension);
         var fileClass;
         if(extension == "pdf"){
           fileClass = "fa fa-file-pdf-o pdf-file"
@@ -193,7 +193,7 @@ $(document).ready(function(){
       });
     }
     else{
-      console.log("HI");
+      Logger.info("HI");
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
@@ -248,7 +248,7 @@ $(document).ready(function(){
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
-        console.log('THIGS SHOULD BE HAPPENING HERE BUT THEYRE NOT, ARE THEY?')
+        Logger.info('THIGS SHOULD BE HAPPENING HERE BUT THEYRE NOT, ARE THEY?')
         var amount = $('input#donate-amount').val();
         var applicationFee = Math.ceil(amount * 0.029 + 0.2);
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
@@ -259,7 +259,7 @@ $(document).ready(function(){
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
-          console.log("DATA AMOUNT", data.amount );
+          Logger.info("DATA AMOUNT", data.amount );
           data.donorIsPaying = true;
         } else {
           data.amount = amount * 100;
@@ -303,7 +303,7 @@ $(document).ready(function(){
     };
 
     $('.fb-share').click(function(){
-      console.log("WHAT", user);
+      Logger.info("WHAT", user);
       var firstName = user.username.split(' ')[0];
       var gender = user.gender;
       var pronoun;
@@ -328,7 +328,7 @@ $(document).ready(function(){
   // Twitter popup buttons
     $('a.twitter-tweet').click(function(e){
       var offset = (screen.width/2) - Math.ceil(575/2);
-      console.log(offset);
+      Logger.info(offset);
       var username = user.username.split(' ')[0];
       var subject = user.subject;
       var gender = user.gender;
@@ -342,7 +342,7 @@ $(document).ready(function(){
 
       // var url = 'www.silofunds.com/public' + user.id;
       // $.get('/user/url-shortener', url, function(url){
-      //   console.log(url);
+      //   Logger.info(url);
       // });
       if(user.subject){
         var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=https%3a%2f%2fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
@@ -362,7 +362,7 @@ $(document).ready(function(){
     var firstProgressBar = $('#initial-bar');
     var amountAdded = parseInt(userInput);
     var newAmount = amountAdded + user.funding_accrued;
-    console.log(newAmount);
+    Logger.info(newAmount);
     var percentage = Math.ceil((newAmount/user.funding_needed) * 100);
     var addedPercentage = Math.ceil((amountAdded/user.funding_needed) * 100)
     if(userInput !== '') {

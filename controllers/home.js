@@ -5,7 +5,7 @@ module.exports = {
         try{
           res.redirect('/organisation/dashboard');
         } catch(err) {
-          console.log("redirecting", err);
+          Logger.info("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
         }
 
@@ -15,7 +15,7 @@ module.exports = {
           res.redirect('/user/dashboard');
         }
         catch(err) {
-          console.log("redirecting", err);
+          Logger.info("redirecting", err);
           res.render('index', { title: 'Express', resultsPage: false });
         }
 
@@ -29,16 +29,16 @@ module.exports = {
 
   subscribe: function(req, res) {
     mc.lists.subscribe({id: '075e6f33c2', email: {email: req.body.email}}, function(data) {
-      console.log("Successfully subscribed!");
-      console.log('ending AJAX post request...');
+      Logger.info("Successfully subscribed!");
+      Logger.info('ending AJAX post request...');
       res.status(200).end();
     }, function(error) {
       if (error.error) {
-        console.log(error.code + error.error);
+        Logger.info(error.code + error.error);
       } else {
-        console.log('some other error');
+        Logger.info('some other error');
       }
-      console.log('ending AJAX post request...');
+      Logger.info('ending AJAX post request...');
       res.status(400).end();
     });
   }

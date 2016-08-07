@@ -33,7 +33,7 @@ $(document).ready(function() {
   try {
     initiateTinyMCE();
   } catch(e) {
-    console.log("tinymce not defined!");
+    Logger.info("tinymce not defined!");
   }
 
   // NOTE: Change label name upon file upload
@@ -49,13 +49,13 @@ $(document).ready(function() {
   			alert("You can only upload 1 file at a time.");
       } else if (this.files) {
         var inputID = this.id;
-        console.log(inputID);
+        Logger.info(inputID);
 
         fileName = e.target.value.split( '\\' ).pop();
         $('label#' + inputID).removeClass('hidden');
 
       } else {
-        console.log("no file");
+        Logger.info("no file");
       }
 
   		if(fileName) {
@@ -256,7 +256,7 @@ $(document).ready(function() {
       toolbar1: "undo redo | styleselect | bullist numlist | link image | preview",
       toolbar2: 'bold italic | alignleft aligncenter alignright alignjustify | forecolor backcolor emoticons'
     }).then(function(editors){
-      // console.log(tinymce.activeEditor.getContent({format: 'text'}));
+      // Logger.info(tinymce.activeEditor.getContent({format: 'text'}));
     });
   }
 
@@ -278,7 +278,7 @@ $(document).ready(function() {
       }
     }
 
-    console.log(formData);
+    Logger.info(formData);
 
     $.post('/user/settings', formData, function(data) {
       $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');

@@ -3,11 +3,11 @@ var router = express.Router();
 var models = require('../models');
 
 router.get('/', function(req,res) {
-  console.log(req.query);
+  Logger.info(req.query);
 
   var query = req.query.term.split(" ");
   query = query[query.length - 1];
-  console.log("AUTO QUERY" + query);
+  Logger.info("AUTO QUERY" + query);
 
   models.es.suggest({
     index: "funds",
@@ -196,11 +196,11 @@ router.get('/subjects', function(req, res){
   });
 })
 router.get('/users', function(req, res){
-  console.log(req.query);
+  Logger.info(req.query);
 
   var query = req.query.term.split(" ");
   query = query[query.length - 1];
-  console.log("AUTO QUERY" + query);
+  Logger.info("AUTO QUERY" + query);
 
   models.es.suggest({
     index: "users",

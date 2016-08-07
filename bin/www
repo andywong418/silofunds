@@ -29,25 +29,25 @@ var userFields =  ["username","profile_picture","description","past_work","date_
   var users = {};
 
   io.on('connection', function(socket){
-    console.log('a user connected');
+    Logger.info('a user connected');
 
     socket.on('disconnect', function(){
-      console.log('user disconnected');
+      Logger.info('user disconnected');
     });
 
     socket.on('private message', function(data) {
-      console.log("USERS");
-      console.log(users);
+      Logger.info("USERS");
+      Logger.info(users);
 
-      console.log(data);
+      Logger.info(data);
       if (users[data.userToID]) {
         users[data.userToID].socket.join(data.roomName);
       }
       users[data.userFromID].socket.join(data.roomName);
 
       var rooms = io.sockets.adapter.rooms;
-      console.log("Clients in rooms:");
-      console.log(rooms);
+      Logger.info("Clients in rooms:");
+      Logger.info(rooms);
 
 
 
@@ -74,8 +74,8 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
     socket.on('add user', function(data) {
       users[data.userFrom.id] = { "socket" : socket };
-      console.log("A new user has been added. Here is the users object:");
-      console.log(users);
+      Logger.info("A new user has been added. Here is the users object:");
+      Logger.info(users);
     });
 
     socket.on('room join', function(data) {
@@ -109,15 +109,15 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   return message.get();
                 });
 
-                console.log('Retrieved messages:');
-                console.log(messages);
+                Logger.info('Retrieved messages:');
+                Logger.info(messages);
 
                 if (users[data.userToID]) {
                   users[data.userToID].socket.join(data.roomName);
                 }
                 users[data.userFromID].socket.join(data.roomName);
                 users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-                console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+                Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
 
                 data.bulk_messages = messages;
 
@@ -132,15 +132,15 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 return message.get();
               });
 
-              console.log('Retrieved messages:');
-              console.log(messages);
+              Logger.info('Retrieved messages:');
+              Logger.info(messages);
 
               if (users[data.userToID]) {
                 users[data.userToID].socket.join(data.roomName);
               }
               users[data.userFromID].socket.join(data.roomName);
               users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-              console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+              Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
 
               data.bulk_messages = messages;
 
@@ -166,16 +166,16 @@ var userFields =  ["username","profile_picture","description","past_work","date_
     if (error) {
       console.error('elasticsearch cluster is down!');
     } else {
-      console.log('All is well');
+      Logger.info('All is well');
     }
 
     models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
       if (err) {
-        console.log("Error checking existence of funds index:");
-        console.log(err);
+        Logger.info("Error checking existence of funds index:");
+        Logger.info(err);
       } else if (resp) {
-        console.log("Does the funds index exist?:");
-        console.log(resp);
+        Logger.info("Does the funds index exist?:");
+        Logger.info(resp);
       }
 
       // If it exists, refresh its settings & mappings by deleting & creating again. This will
@@ -185,10 +185,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         ignore: [404]
       }, function(err, resp) {
         if (err) {
-          console.log("Error deleting funds index:");
-          console.log(err);
+          Logger.info("Error deleting funds index:");
+          Logger.info(err);
         } else if (resp) {
-          console.log("Deleted funds index.");
+          Logger.info("Deleted funds index.");
         }
 
         if (process.env.NODE_ENV == "production") {
@@ -416,10 +416,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
           }
         }, function(err, resp) {
           if (err) {
-            console.log("Couldn't create funds index:");
-            console.log(err);
+            Logger.info("Couldn't create funds index:");
+            Logger.info(err);
           } else if (resp) {
-            console.log("Created funds index.");
+            Logger.info("Created funds index.");
           }
 
           // Automatically sync ALL on restart
@@ -444,7 +444,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
             models.es.bulk({
               body: body
             }, function (err, resp) {
-              console.log('Bulk sync for funds complete.');
+              Logger.info('Bulk sync for funds complete.');
 
               // Automatically sync ALL on restart
               var autocompleteCountriesBody = [];
@@ -467,10 +467,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 body: autocompleteCountriesBody
               }, function (err, resp) {
                 if (err) {
-                  console.log("Error bulk syncing countries into funds index:");
-                  console.log(err);
+                  Logger.info("Error bulk syncing countries into funds index:");
+                  Logger.info(err);
                 }
-                console.log("Bulk sync for countries complete");
+                Logger.info("Bulk sync for countries complete");
 
                 // Automatically sync ALL on restart
                 var autocompleteReligionsBody = [];
@@ -493,10 +493,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   body: autocompleteReligionsBody
                 }, function(err, resp) {
                   if (err) {
-                    console.log("Error bulk syncing religions into funds index:");
-                    console.log(err);
+                    Logger.info("Error bulk syncing religions into funds index:");
+                    Logger.info(err);
                   }
-                  console.log("Bulk sync for religions complete");
+                  Logger.info("Bulk sync for religions complete");
 
                   // Automatically sync ALL on restart
                   var autocompleteDegreesBody = [];
@@ -519,10 +519,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                     body: autocompleteDegreesBody
                   }, function(err, resp) {
                     if (err) {
-                      console.log("Error bulk syncing degrees into funds index:");
-                      console.log(err);
+                      Logger.info("Error bulk syncing degrees into funds index:");
+                      Logger.info(err);
                     }
-                    console.log("Bulk sync for degrees complete");
+                    Logger.info("Bulk sync for degrees complete");
                     var autocompleteUniversitiesBody =[];
                     var list_of_universities = require('../resources/universities.js');
                     var university_id = 0;
@@ -540,10 +540,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       body: autocompleteUniversitiesBody
                     }, function(err, res){
                       if (err) {
-                        console.log("Error bulk syncing universities into funds index:");
-                        console.log(err);
+                        Logger.info("Error bulk syncing universities into funds index:");
+                        Logger.info(err);
                       }
-                      console.log("Bulk sync for universities complete");
+                      Logger.info("Bulk sync for universities complete");
                       var autocompleteSubjectsBody = [];
                       var list_of_subjects = require('../resources/subjects.js');
                       var subject_id = 0;
@@ -561,10 +561,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                         body:autocompleteSubjectsBody
                       }, function(err, res){
                         if (err) {
-                          console.log("Error bulk syncing subjects into funds index:");
-                          console.log(err);
+                          Logger.info("Error bulk syncing subjects into funds index:");
+                          Logger.info(err);
                         }
-                        console.log("Bulk sync for subjects complete");
+                        Logger.info("Bulk sync for subjects complete");
                       })
                     })
 
@@ -575,11 +575,11 @@ var userFields =  ["username","profile_picture","description","past_work","date_
           }).then(function() {
             models.es.indices.exists({ index: 'users' }, function(err, resp){
               if (err) {
-                console.log("Error checking existence of users index:");
-                console.log(err);
+                Logger.info("Error checking existence of users index:");
+                Logger.info(err);
               } else if (resp) {
-                console.log("Does the users index exist?:");
-                console.log(resp);
+                Logger.info("Does the users index exist?:");
+                Logger.info(resp);
               }
 
               models.es.indices.delete({
@@ -587,10 +587,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 ignore: [404]
               }, function(err, resp){
                 if (err) {
-                  console.log("Error deleting users index:");
-                  console.log(err);
+                  Logger.info("Error deleting users index:");
+                  Logger.info(err);
                 } else if (resp) {
-                  console.log("Deleted users index.");
+                  Logger.info("Deleted users index.");
                 }
 
                 if (process.env.NODE_ENV == "production") {
@@ -673,10 +673,10 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                   }
                 }, function(err, resp){
                   if (err) {
-                    console.log("Couldn't create users index:");
-                    console.log(err);
+                    Logger.info("Couldn't create users index:");
+                    Logger.info(err);
                   } else if (resp) {
-                    console.log("Created users index.");
+                    Logger.info("Created users index.");
                   }
 
                   // Automatically sync ALL on restart
@@ -702,13 +702,13 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                       body: userBody
                     }, function (err, resp) {
                       if (err) {
-                        console.log(err);
+                        Logger.info(err);
                       } else if (resp) {
-                        console.log("Bulk sync for users complete");
+                        Logger.info("Bulk sync for users complete");
                       }
                     });
                   }).then(function() {
-                    console.log('...Finished sync');
+                    Logger.info('...Finished sync');
                   });
                 });
               });
@@ -723,9 +723,9 @@ var userFields =  ["username","profile_picture","description","past_work","date_
   var lastUpdate = new Date();
 
   var checkForChanges = function checkForChanges() {
-    // console.log('You will see this message every 30 second');
+    // Logger.info('You will see this message every 30 second');
     var log = 'Last updated: ' + lastUpdate;
-    // console.log(log);
+    // Logger.info(log);
 
     models.funds.findAll({
       where: {
@@ -736,7 +736,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
       order: 'created_at ASC'
     }).then(function(funds) {
       if (funds.length === 0) {
-        console.log("nothing to update....\n");
+        Logger.info("nothing to update....\n");
       } else {
         var body = [];
         var funds = funds.map(function(fund) {
@@ -763,7 +763,7 @@ var userFields =  ["username","profile_picture","description","past_work","date_
         models.es.bulk({
           body: body
         }, function (err, resp) {
-          console.log(resp);
+          Logger.info(resp);
 
           // Timestamp from table rounds down. Here is the correction to avoid duplication.
           var lastUpdateFromTable = funds[funds.length - 1].created_at;
