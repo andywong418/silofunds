@@ -18,7 +18,7 @@ $(document).ready(function() {
   tokenInputFor('target_degree', 'degrees');
   tokenInputFor('target_university', 'universities');
 
-  // // TODO: ABSTRACT BELOW BITCHHHH
+  // // TODO: ABSTRACT BELOW
   // var text;
   try {
     initiateTinyMCE();
@@ -26,6 +26,41 @@ $(document).ready(function() {
     console.log("tinymce not defined!");
   }
 
+  //Change profile picture
+  $("#userImage").click(function() {
+        console.log('HI');
+        $("input[id='my_file']").click();
+    });
+    $("input[id='my_file']").change(function(){
+
+      if (this.files && this.files[0]) {
+
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+
+        $('#userImage')
+          .attr('src', e.target.result)
+          .width(250)
+          .height(250);
+        };
+
+        reader.readAsDataURL(this.files[0]);
+      }
+      var file = this.files[0];
+      var data = new FormData();
+      data.append('profile_picture', file);
+      data.append('user', user.id);
+      $.ajax({
+        type: "POST",
+        url: "/user-edit/profile-picture",
+        data: data,
+        processData: false,
+        contentType: false,
+      }).then(function(data){
+        console.log("SUCCESS", data);
+      })
+})
   // NOTE: Change label name upon file upload
 
   var inputs = document.querySelectorAll( '.realFileUpload' );

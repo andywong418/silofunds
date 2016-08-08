@@ -28,12 +28,25 @@ p {
       -ms-flex-direction: column;
           flex-direction: column;
   height: auto; }
-  #left_div #userImage {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    border: 1px solid #e1e8ed;
-    cursor: pointer; }
+  #left_div #box-profile {
+    -webkit-transition: 2.5s;
+    transition: 2.5s; }
+    #left_div #box-profile .fa-camera {
+      position: absolute;
+      color: white;
+      font-size: 45px;
+      left: 47%;
+      top: 130px;
+      display: none; }
+    #left_div #box-profile:hover .fa-camera {
+      cursor: pointer;
+      display: block; }
+    #left_div #box-profile #userImage {
+      width: 100%;
+      max-height: 300px;
+      border-radius: 5px;
+      border: 1px solid #e1e8ed;
+      cursor: pointer; }
   #left_div .settings-tab-menu, #left_div .logout-tab {
     padding: 0;
     display: -webkit-box;

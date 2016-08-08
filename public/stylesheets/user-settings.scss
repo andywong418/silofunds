@@ -33,13 +33,31 @@ p {
   width: 23%;
   flex-direction: column;
   height: auto;
+  #box-profile{
+    transition: 2.5s;
+    .fa-camera{
+      position: absolute;
+      color: white;
+      font-size: 45px;
+      left: 47%;
+      top: 130px;
+      display: none;
+    }
+    &:hover{
+      .fa-camera{
 
-  #userImage {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    border: 1px solid $border-color;
-    cursor: pointer;
+        cursor: pointer;
+        display: block;
+      }
+    }
+    #userImage {
+      width: 100%;
+      max-height: 300px;
+      border-radius: 5px;
+      border: 1px solid $border-color;
+      cursor: pointer;
+    }
+
   }
 
   .settings-tab-menu, .logout-tab {

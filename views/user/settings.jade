@@ -16,9 +16,10 @@ block content
   #big_flex_div.container
     #left_div.col-md-3
       .profile
-        #box-profile
-          a(href='#') 
-            img#userImage(src=user.profile_picture)
+        #box-profile 
+          input#my_file(type='file', style='display: none;', name = 'profile_picture')
+          img#userImage(src=user.profile_picture)
+          i.fa.fa-camera
       .settings-tab-menu
         .list-group
           a.list-group-item(href="#")
