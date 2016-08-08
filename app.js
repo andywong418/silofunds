@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -13,20 +14,13 @@ var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
 var app = express();
 var mcapi = require('mailchimp-api');
-var mcKey;
+var mcKey = process.env.MAILCHIMP_KEY;
+mc = new mcapi.Mailchimp(mcKey);
+
 Logger = require('./logger');
 
-if (process.env.MAILCHIMP_KEY) {
-  mcKey = process.env.MAILCHIMP_KEY;
-} else {
-  var mailchimpKey = require('./app/secrets.js').MAILCHIMP_KEY;
-  mcKey = mailchimpKey;
-}
-
-mc = new mcapi.Mailchimp(mcKey);
 //Use prerender
 app.use(require('prerender-node').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
 // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:1337/').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));

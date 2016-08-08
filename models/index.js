@@ -1,23 +1,14 @@
-"use strict";
-
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
 var db        = {};
-
-var pgConnectionString = 'postgres://localhost:5432/silofunds_development';
-
-if (process.env.DATABASE_URL) {
-  // Heroku
-  pgConnectionString = process.env.DATABASE_URL;
-}
 
 var sequelizeOptions = {};
 if (process.argv.indexOf('--silent-pg') > -1) {
   sequelizeOptions.logging = false;
 }
 
-var sequelize = new Sequelize(pgConnectionString, sequelizeOptions);
+var sequelize = new Sequelize(process.env.DATABASE_URL, sequelizeOptions);
 
 fs
   .readdirSync(__dirname)
