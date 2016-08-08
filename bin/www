@@ -185,13 +185,23 @@ es.checkConnection().then(function(resp) {
   }
 });
 
+// TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+// TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
+
 var CronJob = require('cron').CronJob;
 var lastUpdate = new Date();
+var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
-var checkForChanges = function checkForChanges() {
-  // Logger.info('You will see this message every 30 second');
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///////////////////////    Helper functions    /////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+function checkForChanges() {
   var log = 'Last updated: ' + lastUpdate;
-  // Logger.info(log);
 
   models.funds.findAll({
     where: {
@@ -202,35 +212,15 @@ var checkForChanges = function checkForChanges() {
     order: 'created_at ASC'
   }).then(function(funds) {
     if (funds.length === 0) {
-      Logger.info("nothing to update....\n");
+      Logger.info("nothing to update....");
     } else {
-      var body = [];
-      var funds = funds.map(function(fund) {
-        var json = fund.toJSON();
-        return json;
-      });
+      var wrapper = {};
+      var body = prepareBulkUploadFunds(funds);
 
-      // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
-      // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
+      wrapper.fieldName = 'funds';
+      wrapper.body = body;
 
-      // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-      funds.forEach(function(fund) {
-        body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-        var wrapper = {};
-        var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
-
-        for (var i = 0; i < fields.length ; i++) {
-          wrapper[fields[i]] = fund[fields[i]];
-        }
-
-        body.push(wrapper);
-      });
-
-      es.bulk({
-        body: body
-      }, function (err, resp) {
-        Logger.info(resp);
-
+      bulkUpload(wrapper).then(function() {
         // Timestamp from table rounds down. Here is the correction to avoid duplication.
         var lastUpdateFromTable = funds[funds.length - 1].created_at;
         lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
@@ -238,8 +228,7 @@ var checkForChanges = function checkForChanges() {
       });
     }
   });
-};
-var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+}
 
 function loadSettingsForBulkPrepFor(typeName) {
   var wrapper = {};
@@ -272,6 +261,27 @@ function prepareBulkUploadFunds(funds) {
   return body;
 }
 
+function prepareBulkUploadUsers(users) {
+  var userBody = [];
+  users = fund_array_to_json(users);
+
+  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+  users.forEach(function(user) {
+    userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+    var wrapper = {};
+
+    for (var i = 0; i < userFields.length ; i++) {
+      wrapper[userFields[i]] = user[userFields[i]];
+    }
+
+    wrapper.suggest = { "input": user.username };
+
+    userBody.push(wrapper);
+  });
+
+  return userBody;
+}
+
 function prepareBulkUploadAutocomplete(typeName, keyOptions) {
   var bodyArray =[];
   var dataArray = require('../resources/' + typeName + '.js');
@@ -293,27 +303,6 @@ function prepareBulkUploadAutocomplete(typeName, keyOptions) {
   });
 
   return bodyArray;
-}
-
-function prepareBulkUploadUsers(users) {
-  var userBody = [];
-  users = fund_array_to_json(users);
-
-  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-  users.forEach(function(user) {
-    userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
-    var wrapper = {};
-
-    for (var i = 0; i < userFields.length ; i++) {
-      wrapper[userFields[i]] = user[userFields[i]];
-    }
-
-    wrapper.suggest = { "input": user.username };
-
-    userBody.push(wrapper);
-  });
-
-  return userBody;
 }
 
 function bulkUploadUsers() {
