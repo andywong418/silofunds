@@ -43,7 +43,7 @@ allShown = false;
   //Use modernizr to move search bar when screen is mobile
   // function doneResizing() {
   //   var form = document.getElementsByClassName("search_form");
-  //   Logger.info("CHECKMATe");
+  //   console.log("CHECKMATe");
   //   if(Modernizr.mq('screen and (min-width:720px)')) {
   //     // action for screen widths including and above 768 pixels
   //     $(".navbar-header").append(form);
@@ -158,7 +158,7 @@ allShown = false;
               this.$(".fund_tags" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
           }
       }
-      // Logger.info($('.fund_tags' +id).css('height'))
+      // console.log($('.fund_tags' +id).css('height'))
       if(tags.length > 8) {
         var tagId = "tagsReadmore" + id
         $('.' + "fund_tags" + id).readmore({
@@ -179,7 +179,7 @@ allShown = false;
            this.$(".nationalities" + id+ " span").css("margin-left", "5px");
            this.$(".nationalities" + id).css('textTransform', 'capitalize');
          }
-        //  Logger.info($('nationalities' +id).css('height'))
+        //  console.log($('nationalities' +id).css('height'))
          if(countries.length > 6 && countries.length < 20) {
            $('.nationalities' + id).readmore({
              collapsedHeight: 35,
@@ -219,7 +219,7 @@ allShown = false;
        if(maximum_amount && minimum_amount){
 
          this.$(".fund_min_amount"+ id).children('.control').addClass("min_amount"+ id);
-        //  Logger.info(this.$(".min_amount" + id));
+        //  console.log(this.$(".min_amount" + id));
          this.$(".min_amount" + id).addClass("label label-warning badge badge-warning");
          this.$(".min_amount"+ id).html("£" + minimum_amount);
          this.$(".fund_min_amount" + id).append("<span id='minus-sign'> - </span>");
@@ -263,7 +263,7 @@ allShown = false;
       })
       // Used following two lines to find the height of 2em + some margins, then inputted into above, useful if you want to change
       // $('.description_control').css("max-height", 'calc(2em + 8px)')
-      // Logger.info($('.description_control').height())
+      // console.log($('.description_control').height())
 
       //Conventionalised the styles in css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');

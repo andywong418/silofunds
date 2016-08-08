@@ -46,7 +46,7 @@ $(document).ready(function(){
       'click #save': 'saveGeneral'
     },
     initialize: function(){
-      Logger.info("WHY NOT HERE");
+      console.log("WHY NOT HERE");
       var generalModel = this.model;
       var view = new GeneralView({model: generalModel});
       this.$el.append(view.render().el);
@@ -54,7 +54,7 @@ $(document).ready(function(){
       $('#general').addClass('selected');
       this.$('[data-toggle="tooltip"]').tooltip();
       if(this.model.get('id')){
-        Logger.info(this.model.get('id'));
+        console.log(this.model.get('id'));
         var id = this.model.get('id');
         fundCreated(id);
         if(this.model.get('title')){
@@ -106,7 +106,7 @@ $(document).ready(function(){
       }
       if(!fund){
         $.post('/organisation/funding_creation/' + support_type + '/save_general', formData, function(data){
-          Logger.info(data);
+          console.log(data);
           fund = data;
           window.location = "/organisation/funding_creation/" + support_type + '/' + fund.id +'#eligible';
         })
@@ -178,13 +178,13 @@ var EligibleDisplay = Backbone.View.extend({
             break;
           case 'target_country':
             for(var j = 0; j < value.length; j++){
-                Logger.info(this.$('ul.token-input-list-facebook').html());
+                console.log(this.$('ul.token-input-list-facebook').html());
                 this.$('#location-form .row:nth-child(1) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
             }
             break;
           case 'country_of_residence':
             for(var j = 0; j < value.length; j++){
-                Logger.info(this.$('ul.token-input-list-facebook').html());
+                console.log(this.$('ul.token-input-list-facebook').html());
                 this.$('#location-form .row:nth-child(2) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
             }
             break;
@@ -197,7 +197,7 @@ var EligibleDisplay = Backbone.View.extend({
     $('#eligible').addClass('selected');
     //support type switch
     if(!this.model.get('merit_or_finance')){
-      Logger.info('its getting through');
+      console.log('its getting through');
       switch(support_type){
         case 'scholarship':
           this.$("#merit-input").prop("checked", true);
@@ -227,7 +227,7 @@ var EligibleDisplay = Backbone.View.extend({
   },
   saveEligible: function(e){
     e.preventDefault();
-    Logger.info($('input[name=target_country]').val());
+    console.log($('input[name=target_country]').val());
     var subject = $('input[name=subject]').val().split(',');
     var religion = $('#religion').val().split(',');
     var targetUniversity = $('input[name=target_university]').val().split(',');
@@ -301,7 +301,7 @@ var ApplicationDisplay = Backbone.View.extend({
     var applicationModel = new OptionModel();
     var view = new ApplicationView({model: applicationModel});
     this.$el.append(view.render().el);
-    Logger.info(applicationModel);
+    console.log(applicationModel);
     $('.selected').removeClass('selected');
     $('#application').addClass('selected');
     var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps','tips'];
@@ -312,7 +312,7 @@ var ApplicationDisplay = Backbone.View.extend({
       for (var i = 0; i< arrayFields.length; i++){
         if(this.model.get(arrayFields[i])){
           var value = this.model.get(arrayFields[i]);
-          Logger.info(value);
+          console.log(value);
           if(Date.parse(value)){
             value = value.split('T')[0]
           }
@@ -326,7 +326,7 @@ var ApplicationDisplay = Backbone.View.extend({
   },
   saveApplication: function(){
     var applicationDocuments = $('input[name=application_documents]').val().split(',');
-    Logger.info($('textarea#tips-area').val());
+    console.log($('textarea#tips-area').val());
     var formData={
       'application_open_date': $('input[name=start_date]').val(),
       'deadline': $('input[name=deadline]').val(),
@@ -366,7 +366,7 @@ var Router = Backbone.Router.extend({
       generalModel = new OptionModel({id: fund.id});
       generalModel.fetch({
         success:function(){
-          Logger.info("GENERAL SUCCESS");
+          console.log("GENERAL SUCCESS");
           router.loadView(new GeneralDisplay({model: generalModel}));
         }
       });
@@ -379,11 +379,11 @@ var Router = Backbone.Router.extend({
     var router = this;
     var eligibleModel = new OptionModel();
     if(fund){
-      Logger.info(fund.id);
+      console.log(fund.id);
       var eligibleModel = new OptionModel({id: fund.id});
       eligibleModel.fetch({
         success:function(){
-          Logger.info('ELIGIBLE SUCCESS');
+          console.log('ELIGIBLE SUCCESS');
           router.loadView(new EligibleDisplay({model: eligibleModel}));
         }
       });
@@ -397,7 +397,7 @@ var Router = Backbone.Router.extend({
     var router = this;
     var applicationModel = new OptionModel();
     if(fund){
-      Logger.info(fund.id);
+      console.log(fund.id);
       var applicationModel = new OptionModel({id: fund.id});
       applicationModel.fetch({
         success:function(){

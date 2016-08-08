@@ -106,9 +106,9 @@ $(document).ready(function(){
       var id = $(this).attr("id");
 			var seekid = id.split("-");
 			var element = seekid[0];
-			Logger.info(element);
+			console.log(element);
 			var value = $("#" + id + " #grey").html();
-			Logger.info(value);
+			console.log(value);
 			if(element == "description"){
 				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description'>" + value + "</textarea>");
 				$("#save-" + element).css("display","inline");
@@ -126,7 +126,7 @@ $(document).ready(function(){
 		(function( $ ){
    $.fn.saveInfo= function() {
       var id = $(this).attr("id");
-      Logger.info(id);
+      console.log(id);
 			var seekid = id.split("-");
 			var element = seekid[1];
 			return this;
@@ -156,18 +156,18 @@ $(document).ready(function(){
 			})
 		},
 		editEmailSettings: function(){
-			Logger.info("WHAT?")
+			console.log("WHAT?")
 			$("#email_updates").change(function(){
 				if(!this.checked){
 					var parameters = {email_updates: false};
 					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
-						Logger.info(data);
+						console.log(data);
 					})
 				}
 				else{
 					var parameters = {email_updates: true};
 					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
-						Logger.info(data);
+						console.log(data);
 					})
 				}
 			})
