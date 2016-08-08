@@ -18,114 +18,90 @@ var fund_array_to_json = function(array) {
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "support_type","organisation_id"];
 var userFields =  ["username","profile_picture","description","past_work","date_of_birth","country_of_residence","religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds"];
 
-// models.sequelize.sync().then(function () {
-  var port = normalizePort(process.env.PORT || '3001');
-  app.set('port', port);
+var port = normalizePort(process.env.PORT || '3001');
+app.set('port', port);
 
-  var server = http.createServer(app);
+var server = http.createServer(app);
 
-  /* Socket IO Messaging Component */
+/* Socket IO Messaging Component */
 
-  var io = require('socket.io')(server);
-  var users = {};
+var io = require('socket.io')(server);
+var users = {};
 
-  io.on('connection', function(socket){
-    Logger.info('a user connected');
+io.on('connection', function(socket){
+  Logger.info('a user connected');
 
-    socket.on('disconnect', function(){
-      Logger.info('user disconnected');
+  socket.on('disconnect', function(){
+    Logger.info('user disconnected');
+  });
+
+  socket.on('private message', function(data) {
+    Logger.info("USERS");
+    Logger.info(users);
+
+    Logger.info(data);
+    if (users[data.userToID]) {
+      users[data.userToID].socket.join(data.roomName);
+    }
+    users[data.userFromID].socket.join(data.roomName);
+
+    var rooms = io.sockets.adapter.rooms;
+    Logger.info("Clients in rooms:");
+    Logger.info(rooms);
+
+
+
+    var user_to_arr = [];
+    user_to_arr.push(data.userToID);
+    var read_by_recipient = false;
+
+    if (users[data.userToID]) {
+      if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
+        read_by_recipient = true;
+        data.read_by_recipient = true;
+      }
+    }
+
+    models.messages.create({
+      user_from: data.userFromID,
+      user_to: user_to_arr,
+      message: data.msg,
+      room_name: data.roomName,
+      read_by_recipient: read_by_recipient
     });
+    io.sockets.in(data.roomName).emit('private message', data);
+  });
 
-    socket.on('private message', function(data) {
-      Logger.info("USERS");
-      Logger.info(users);
+  socket.on('add user', function(data) {
+    users[data.userFrom.id] = { "socket" : socket };
+    Logger.info("A new user has been added. Here is the users object:");
+    Logger.info(users);
+  });
 
-      Logger.info(data);
-      if (users[data.userToID]) {
-        users[data.userToID].socket.join(data.roomName);
-      }
-      users[data.userFromID].socket.join(data.roomName);
+  socket.on('room join', function(data) {
 
-      var rooms = io.sockets.adapter.rooms;
-      Logger.info("Clients in rooms:");
-      Logger.info(rooms);
+  });
 
+  socket.on('get messages', function(data) {
+    var userToID_arr = [];
+    userToID_arr.push(data.userToID);
+    var userFromID_arr = [];
+    userFromID_arr.push(data.userFromID);
 
+    // NOTE: readyToReceiveFrom also means it has read latest message
+    models.users.findById(data.userToID).then(function(userTo) {
+      userTo = userTo.get();
 
-      var user_to_arr = [];
-      user_to_arr.push(data.userToID);
-      var read_by_recipient = false;
+      data.userTo = userTo;
 
-      if (users[data.userToID]) {
-        if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
-          read_by_recipient = true;
-          data.read_by_recipient = true;
-        }
-      }
-
-      models.messages.create({
-        user_from: data.userFromID,
-        user_to: user_to_arr,
-        message: data.msg,
+      models.messages.findAll({ where: {
         room_name: data.roomName,
-        read_by_recipient: read_by_recipient
-      });
-      io.sockets.in(data.roomName).emit('private message', data);
-    });
+        user_to: userFromID_arr
+      }}).then(function(messages) {
+        if (typeof messages !== 'undefined' && messages.length > 0) {
+          // the array is defined and has at least one element
 
-    socket.on('add user', function(data) {
-      users[data.userFrom.id] = { "socket" : socket };
-      Logger.info("A new user has been added. Here is the users object:");
-      Logger.info(users);
-    });
-
-    socket.on('room join', function(data) {
-
-    });
-
-    socket.on('get messages', function(data) {
-      var userToID_arr = [];
-      userToID_arr.push(data.userToID);
-      var userFromID_arr = [];
-      userFromID_arr.push(data.userFromID);
-
-      // NOTE: readyToReceiveFrom also means it has read latest message
-      models.users.findById(data.userToID).then(function(userTo) {
-        userTo = userTo.get();
-
-        data.userTo = userTo;
-
-        models.messages.findAll({ where: {
-          room_name: data.roomName,
-          user_to: userFromID_arr
-        }}).then(function(messages) {
-          if (typeof messages !== 'undefined' && messages.length > 0) {
-            // the array is defined and has at least one element
-
-            messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
-              models.messages.findAll({ where: {
-                room_name: data.roomName
-              }}).then(function(messages) {
-                messages = messages.map(function(message) {
-                  return message.get();
-                });
-
-                Logger.info('Retrieved messages:');
-                Logger.info(messages);
-
-                if (users[data.userToID]) {
-                  users[data.userToID].socket.join(data.roomName);
-                }
-                users[data.userFromID].socket.join(data.roomName);
-                users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-                Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
-
-                data.bulk_messages = messages;
-
-                io.sockets.in(data.roomName).emit('bulk get message', data);
-              });
-            });
-          } else {
+          messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
             models.messages.findAll({ where: {
               room_name: data.roomName
             }}).then(function(messages) {
@@ -147,316 +123,326 @@ var userFields =  ["username","profile_picture","description","past_work","date_
 
               io.sockets.in(data.roomName).emit('bulk get message', data);
             });
-          }
-        });
-      });
-    });
-  });
-
-  /* ---------------------------- */
-
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-
-  es.checkConnection().then(function(resp) {
-    if (resp) {
-      Logger.info("Connected to elasticsearch.");
-
-      es.indexExists('funds')
-        .then(es.deleteIndex('funds'))
-        .then(es.createIndex('funds'))
-        .then(bulkUploadFunds)
-        .then(function() {
-          var wrapper = {};
-          var autocompleteCountriesBody = prepareBulkUploadAutocomplete('countries', {
-            payloadKey: 'country_id',
-            normalFieldName: 'country',
-            suggestFieldName: 'suggest_countries'
           });
+        } else {
+          models.messages.findAll({ where: {
+            room_name: data.roomName
+          }}).then(function(messages) {
+            messages = messages.map(function(message) {
+              return message.get();
+            });
 
-          wrapper.fieldName = 'countries';
-          wrapper.body = autocompleteCountriesBody;
+            Logger.info('Retrieved messages:');
+            Logger.info(messages);
 
-          return wrapper;
-        }).then(bulkUpload).then(function() {
-          var wrapper = {};
-          var autocompleteReligionsBody = prepareBulkUploadAutocomplete('religions', {
-            payloadKey: 'religion_id',
-            normalFieldName: 'religion',
-            suggestFieldName: 'suggest_religions'
+            if (users[data.userToID]) {
+              users[data.userToID].socket.join(data.roomName);
+            }
+            users[data.userFromID].socket.join(data.roomName);
+            users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+            Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+            data.bulk_messages = messages;
+
+            io.sockets.in(data.roomName).emit('bulk get message', data);
           });
-
-          wrapper.fieldName = 'religions';
-          wrapper.body = autocompleteReligionsBody;
-
-          return wrapper;
-        }).then(bulkUpload).then(function() {
-          var wrapper = {};
-          var autocompleteDegreesBody = prepareBulkUploadAutocomplete('degrees', {
-            payloadKey: 'degree_id',
-            normalFieldName: 'degree',
-            suggestFieldName: 'suggest_degrees'
-          });
-
-          wrapper.fieldName = 'degrees';
-          wrapper.body = autocompleteDegreesBody;
-
-          return wrapper;
-        }).then(bulkUpload).then(function() {
-          var wrapper = {};
-          var autocompleteUniversitiesBody = prepareBulkUploadAutocomplete('universities', {
-            payloadKey: 'university_id',
-            normalFieldName: 'university',
-            suggestFieldName: 'suggest_universities'
-          });
-
-          wrapper.fieldName = 'universities';
-          wrapper.body = autocompleteUniversitiesBody;
-
-          return wrapper;
-        }).then(bulkUpload).then(function() {
-          var wrapper = {};
-          var autocompleteSubjectsBody = prepareBulkUploadAutocomplete('subjects', {
-            payloadKey: 'subject_id',
-            normalFieldName: 'subject',
-            suggestFieldName: 'suggest_subjects'
-          });
-
-          wrapper.fieldName = 'subjects';
-          wrapper.body = autocompleteSubjectsBody;
-
-          return wrapper;
-        }).then(bulkUpload).then(function() {
-          es.indexExists('users')
-            .then(es.deleteIndex('users'))
-            .then(es.createIndex('users'))
-            .then(bulkUploadUsers);
-        });
-    }
-  });
-
-  var CronJob = require('cron').CronJob;
-  var lastUpdate = new Date();
-
-  var checkForChanges = function checkForChanges() {
-    // Logger.info('You will see this message every 30 second');
-    var log = 'Last updated: ' + lastUpdate;
-    // Logger.info(log);
-
-    models.funds.findAll({
-      where: {
-        created_at: {
-          $gte: lastUpdate
-        }
-      },
-      order: 'created_at ASC'
-    }).then(function(funds) {
-      if (funds.length === 0) {
-        Logger.info("nothing to update....\n");
-      } else {
-        var body = [];
-        var funds = funds.map(function(fund) {
-          var json = fund.toJSON();
-          return json;
-        });
-
-        // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
-        // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
-
-        // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-        funds.forEach(function(fund) {
-          body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-          var wrapper = {};
-          var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
-
-          for (var i = 0; i < fields.length ; i++) {
-            wrapper[fields[i]] = fund[fields[i]];
-          }
-
-          body.push(wrapper);
-        });
-
-        es.bulk({
-          body: body
-        }, function (err, resp) {
-          Logger.info(resp);
-
-          // Timestamp from table rounds down. Here is the correction to avoid duplication.
-          var lastUpdateFromTable = funds[funds.length - 1].created_at;
-          lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
-          lastUpdate = lastUpdateFromTable;
-        });
-      }
-    });
-  };
-  var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
-
-  function prepareBulkUploadFunds(funds) {
-    var body = [];
-    funds = fund_array_to_json(funds);
-
-    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-    funds.forEach(function(fund) {
-      body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-      var wrapper = {};
-
-      for (var i = 0; i < fields.length ; i++) {
-        wrapper[fields[i]] = fund[fields[i]];
-      }
-
-      wrapper["suggest_funds"] = { "input": fund.tags };
-
-      body.push(wrapper);
-    });
-
-    return body;
-  }
-
-  function prepareBulkUploadAutocomplete(typeName, keyOptions) {
-    var bodyArray =[];
-    var dataArray = require('../resources/' + typeName + '.js');
-    var id = 0;
-    var type = 'autocomplete_' + typeName;
-
-    dataArray.forEach(function(data){
-      id++;
-      var payloadOptions = {};
-      payloadOptions[keyOptions.payloadKey] = data;
-
-      bodyArray.push({'index': {'_index': 'funds', '_type': type, '_id': id }});
-      var wrapper = {};
-
-      wrapper[keyOptions.normalFieldName] = data;
-      wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
-
-      bodyArray.push(wrapper);
-    });
-
-    return bodyArray;
-  }
-
-  function prepareBulkUploadUsers(users) {
-    var userBody = [];
-    users = fund_array_to_json(users);
-
-    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-    users.forEach(function(user) {
-      userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
-      var wrapper = {};
-
-      for (var i = 0; i < userFields.length ; i++) {
-        wrapper[userFields[i]] = user[userFields[i]];
-      }
-
-      wrapper.suggest = { "input": user.username };
-
-      userBody.push(wrapper);
-    });
-
-    return userBody;
-  }
-
-  function bulkUploadUsers() {
-    return models.users.findAll().then(prepareBulkUploadUsers).then(function(userBody) {
-      es.bulk({
-        body: userBody
-      }).catch(function(err) {
-        Logger.info("Error bulk syncing funds into users index:");
-        Logger.info(err);
-      }).then(function(resp) {
-        if (resp) {
-          Logger.info("Bulk sync for users complete");
         }
       });
     });
-  }
+  });
+});
 
-  function bulkUploadFunds() {
-    return models.funds.findAll().then(prepareBulkUploadFunds).then(function(body) {
+/* ---------------------------- */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+es.checkConnection().then(function(resp) {
+  if (resp) {
+    Logger.info("Connected to elasticsearch.");
+
+    es.indexExists('funds')
+      .then(es.deleteIndex('funds'))
+      .then(es.createIndex('funds'))
+      .then(bulkUploadFunds)
+      .then(function() {
+        var wrapper = {};
+        var autocompleteCountriesBody = prepareBulkUploadAutocomplete('countries', {
+          payloadKey: 'country_id',
+          normalFieldName: 'country',
+          suggestFieldName: 'suggest_countries'
+        });
+
+        wrapper.fieldName = 'countries';
+        wrapper.body = autocompleteCountriesBody;
+
+        return wrapper;
+      }).then(bulkUpload).then(function() {
+        var wrapper = {};
+        var autocompleteReligionsBody = prepareBulkUploadAutocomplete('religions', {
+          payloadKey: 'religion_id',
+          normalFieldName: 'religion',
+          suggestFieldName: 'suggest_religions'
+        });
+
+        wrapper.fieldName = 'religions';
+        wrapper.body = autocompleteReligionsBody;
+
+        return wrapper;
+      }).then(bulkUpload).then(function() {
+        var wrapper = {};
+        var autocompleteDegreesBody = prepareBulkUploadAutocomplete('degrees', {
+          payloadKey: 'degree_id',
+          normalFieldName: 'degree',
+          suggestFieldName: 'suggest_degrees'
+        });
+
+        wrapper.fieldName = 'degrees';
+        wrapper.body = autocompleteDegreesBody;
+
+        return wrapper;
+      }).then(bulkUpload).then(function() {
+        var wrapper = {};
+        var autocompleteUniversitiesBody = prepareBulkUploadAutocomplete('universities', {
+          payloadKey: 'university_id',
+          normalFieldName: 'university',
+          suggestFieldName: 'suggest_universities'
+        });
+
+        wrapper.fieldName = 'universities';
+        wrapper.body = autocompleteUniversitiesBody;
+
+        return wrapper;
+      }).then(bulkUpload).then(function() {
+        var wrapper = {};
+        var autocompleteSubjectsBody = prepareBulkUploadAutocomplete('subjects', {
+          payloadKey: 'subject_id',
+          normalFieldName: 'subject',
+          suggestFieldName: 'suggest_subjects'
+        });
+
+        wrapper.fieldName = 'subjects';
+        wrapper.body = autocompleteSubjectsBody;
+
+        return wrapper;
+      }).then(bulkUpload).then(function() {
+        es.indexExists('users')
+          .then(es.deleteIndex('users'))
+          .then(es.createIndex('users'))
+          .then(bulkUploadUsers);
+      });
+  }
+});
+
+var CronJob = require('cron').CronJob;
+var lastUpdate = new Date();
+
+var checkForChanges = function checkForChanges() {
+  // Logger.info('You will see this message every 30 second');
+  var log = 'Last updated: ' + lastUpdate;
+  // Logger.info(log);
+
+  models.funds.findAll({
+    where: {
+      created_at: {
+        $gte: lastUpdate
+      }
+    },
+    order: 'created_at ASC'
+  }).then(function(funds) {
+    if (funds.length === 0) {
+      Logger.info("nothing to update....\n");
+    } else {
+      var body = [];
+      var funds = funds.map(function(fund) {
+        var json = fund.toJSON();
+        return json;
+      });
+
+      // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+      // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
+
+      // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+      funds.forEach(function(fund) {
+        body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+        var wrapper = {};
+        var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
+
+        for (var i = 0; i < fields.length ; i++) {
+          wrapper[fields[i]] = fund[fields[i]];
+        }
+
+        body.push(wrapper);
+      });
+
       es.bulk({
         body: body
-      }).catch(function(err) {
-        Logger.info("Error bulk syncing funds into funds index:");
-        Logger.info(err);
-      }).then(function (resp) {
-        if (resp) {
-          Logger.info('Bulk sync for funds complete.');
-        }
+      }, function (err, resp) {
+        Logger.info(resp);
+
+        // Timestamp from table rounds down. Here is the correction to avoid duplication.
+        var lastUpdateFromTable = funds[funds.length - 1].created_at;
+        lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+        lastUpdate = lastUpdateFromTable;
       });
+    }
+  });
+};
+var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+
+function prepareBulkUploadFunds(funds) {
+  var body = [];
+  funds = fund_array_to_json(funds);
+
+  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+  funds.forEach(function(fund) {
+    body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+    var wrapper = {};
+
+    for (var i = 0; i < fields.length ; i++) {
+      wrapper[fields[i]] = fund[fields[i]];
+    }
+
+    wrapper["suggest_funds"] = { "input": fund.tags };
+
+    body.push(wrapper);
+  });
+
+  return body;
+}
+
+function prepareBulkUploadAutocomplete(typeName, keyOptions) {
+  var bodyArray =[];
+  var dataArray = require('../resources/' + typeName + '.js');
+  var id = 0;
+  var type = 'autocomplete_' + typeName;
+
+  dataArray.forEach(function(data){
+    id++;
+    var payloadOptions = {};
+    payloadOptions[keyOptions.payloadKey] = data;
+
+    bodyArray.push({'index': {'_index': 'funds', '_type': type, '_id': id }});
+    var wrapper = {};
+
+    wrapper[keyOptions.normalFieldName] = data;
+    wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
+
+    bodyArray.push(wrapper);
+  });
+
+  return bodyArray;
+}
+
+function prepareBulkUploadUsers(users) {
+  var userBody = [];
+  users = fund_array_to_json(users);
+
+  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+  users.forEach(function(user) {
+    userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+    var wrapper = {};
+
+    for (var i = 0; i < userFields.length ; i++) {
+      wrapper[userFields[i]] = user[userFields[i]];
+    }
+
+    wrapper.suggest = { "input": user.username };
+
+    userBody.push(wrapper);
+  });
+
+  return userBody;
+}
+
+function bulkUploadUsers() {
+  return models.users.findAll().then(prepareBulkUploadUsers).then(function(body) {
+    bulkUpload({
+      body: body,
+      fieldName: 'users'
     });
+  });
+}
+
+function bulkUploadFunds() {
+  return models.funds.findAll().then(prepareBulkUploadFunds).then(function(body) {
+    bulkUpload({
+      body: body,
+      fieldName: 'funds'
+    });
+  });
+}
+
+function bulkUpload(data) {
+  return es.bulk({
+            body: data.body
+          }).catch(function(err) {
+            Logger.info("Error bulk syncing " + data.fieldName + " into funds index:");
+            Logger.info(err);
+          }).then(function(resp) {
+            if (resp) {
+              Logger.info("Bulk sync for " + data.fieldName + " complete");
+            }
+          });
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
   }
 
-  function bulkUpload(data) {
-    return es.bulk({
-              body: data.body
-            }).catch(function(err) {
-              Logger.info("Error bulk syncing " + data.fieldName + " into funds index:");
-              Logger.info(err);
-            }).then(function(resp) {
-              if (resp) {
-                Logger.info("Bulk sync for " + data.fieldName + " complete");
-              }
-            });
+  if (port >= 0) {
+    // port number
+    return port;
   }
 
-  /**
-   * Normalize a port into a number, string, or false.
-   */
+  return false;
+}
 
-  function normalizePort(val) {
-    var port = parseInt(val, 10);
+/**
+ * Event listener for HTTP server "error" event.
+ */
 
-    if (isNaN(port)) {
-      // named pipe
-      return val;
-    }
-
-    if (port >= 0) {
-      // port number
-      return port;
-    }
-
-    return false;
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
   }
 
-  /**
-   * Event listener for HTTP server "error" event.
-   */
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
 
-  function onError(error) {
-    if (error.syscall !== 'listen') {
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
       throw error;
-    }
-
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
-        process.exit(1);
-        break;
-      default:
-        throw error;
-    }
   }
+}
 
-  /**
-   * Event listener for HTTP server "listening" event.
-   */
+/**
+ * Event listener for HTTP server "listening" event.
+ */
 
-  function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-    debug('Listening on ' + bind);
-  }
-// });
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
