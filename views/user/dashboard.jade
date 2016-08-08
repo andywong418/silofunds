@@ -107,8 +107,34 @@ block content
                     span < £#{fund.maximum_amount} 
                 .col-md-1
                   span= fund.deadline
-                .col-md-1#edit
-                  a= fund.status
+                .col-md-1#status
+                  a(id= 'status' + fund.id,data-toggle="modal",data-target=".application-status" + fund.id)= fund.status
+                  // Modal
+                #application-status.modal.fade(role='dialog', class='application-status' + fund.id)
+                  .modal-dialog
+                    // Modal content
+                    .modal-content
+                      .modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Manage your application
+                      .modal-body
+                        p Please confirm the outcome of this application.
+                        .radio
+                          label
+                            input(id = 'app-success' + fund.id, type='radio', name='optradio', value='success', class=fund.id)
+                            | Yes I managed to get funding.
+                            label#amount-update(class='amount-update' + fund.id) Update your supporters on your achievement!
+                              input#amount-gained(placeholder= '£', class='amount-gained' + fund.id)
+                        .radio
+                          label
+                            input(id='app-fail' + fund.id, type='radio', name='optradio', value='unsuccessful', class= fund.id)
+                            | Unfortunately I did not procure funding from this fund.
+                            label#hide-update(class='hide-update' + fund.id)
+                              input#hide(type='checkbox', value='show-unsuccessful', checked= 'checked', class= 'hide' + fund.id)
+                              | Hide this from your profile
+                      .modal-footer
+                        button.confirm-app.btn.btn-primary(id=fund.id, type='button', data-dismiss='modal') Confirm
+                        button.btn.btn-default(type='button', data-dismiss='modal') Close
           else
             .row
               .col-md-12

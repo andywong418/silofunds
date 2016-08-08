@@ -22,7 +22,15 @@ module.exports = function(sequelize, DataTypes){
       type: DataTypes.DATE,
       field: 'updated_at',
       defaultValue: sequelize.fn('NOW')
-    }
+    },
+		hide_from_profile:{
+			type: DataTypes.BOOLEAN,
+			field:'hide_from_profile'
+		},
+		amount_gained: {
+			type: DataTypes.INTEGER,
+			field: 'amount_gained'
+		}
   }, {
 		timestamps: true,
     underscored: true,

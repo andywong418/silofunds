@@ -224,11 +224,15 @@ block content
 						i.fa.fa-caret-down(aria-hidden="true")
 				if applications
 					each app in applications
-						.row.app-row
-							.col-md-9
-								a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
-							.col-md-3
-								p#status= app.status
+						if app.hide_from_profile !== true
+							.row.app-row
+								.col-md-9
+									a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
+								.col-md-3
+									if app.status == 'success'
+										p#status= '£'+ app.amount_gained
+									else
+										p#status= app.status
 							
 				else
 					p#none= user.username.split(' ')[0] + ' has not applied to any funds yet.'

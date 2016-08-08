@@ -97,6 +97,8 @@ h1 {
   #box_2 #external-link {
     color: #2980b9;
     cursor: pointer; }
+  #box_2 #left_info_div {
+    width: inherit; }
   #box_2 #bio {
     text-align: left;
     font-weight: 900;

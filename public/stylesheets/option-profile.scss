@@ -103,7 +103,9 @@ h1 {
     color: #2980b9;
     cursor: pointer;
   }
-
+  #left_info_div{
+    width: inherit;
+  }
   #bio {
     text-align: left;
     font-weight: 900;

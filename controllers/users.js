@@ -632,6 +632,19 @@ module.exports = {
 			}
 		})
 	},
+	editApplication: function(req, res){
+		var userId = req.user.id;
+		var fundId = req.params.id;
+		var amount_gained = parseInt(req.body.amount_gained);
+		models.applications.find({where: {user_id: userId, fund_id: fundId}}).then(function(app){
+			if(req.body.status == 'success'){
+				updateAppSuccess(app, res, userId, amount_gained);
+			}
+			else{
+				updateAppFailure(app,res,req);
+			}
+		});
+	},
 	createUpdate: function(req, res){
 		var userId = req.user.id;
 		models.updates.create({
@@ -1205,7 +1218,28 @@ module.exports = {
 }
 
 ////// Helper functions
-
+function updateAppSuccess(app, res, userId, amount_gained){
+	app.update({status: 'success', amount_gained: amount_gained}).then(function(app){
+		models.users.findById(userId).then(function(user){
+			if(user.funding_accrued === null){
+				user.update({funding_accrued: amount_gained}).then(function(user){
+					res.send(user);
+				});
+			}
+			else{
+				var funding_accrued = user.funding_accrued + amount_gained;
+				user.update({funding_accrued: funding_accrued}).then(function(user){
+					res.send(user);
+				});
+			}
+		});
+	});
+};
+function updateAppFailure(app, res, req){
+	app.update(req.body).then(function(app){
+		res.send(app);
+	})
+}
 function findFavourites(options, res, dataObject){
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
 		var newArray = [];
@@ -1238,6 +1272,8 @@ function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 			var newObj = {};
 			element = element.get();
 			newObj['status'] = element.status;
+			newObj['amount_gained'] = element.amount_gained;
+			newObj['hide_from_profile'] = element.hide_from_profile;
 			models.funds.findById(element.fund_id).then(function(fund){
 				newObj['title'] = fund.title;
 				newObj['id'] = fund.id;
