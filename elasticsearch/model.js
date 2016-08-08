@@ -1,3 +1,31 @@
+module.exports.autocompleteSettings = {
+  "countries": {
+    "payloadKey": 'country_id',
+    "normalFieldName": 'country',
+    "suggestFieldName": 'suggest_countries'
+  },
+  "degrees": {
+    "payloadKey": 'degree_id',
+    "normalFieldName": 'degree',
+    "suggestFieldName": 'suggest_degrees'
+  },
+  "religions": {
+    "payloadKey": 'religion_id',
+    "normalFieldName": 'religion',
+    "suggestFieldName": 'suggest_religions'
+  },
+  "subjects": {
+    "payloadKey": 'subject_id',
+    "normalFieldName": 'subject',
+    "suggestFieldName": 'suggest_subjects'
+  },
+  "universities": {
+    "payloadKey": 'university_id',
+    "normalFieldName": 'university',
+    "suggestFieldName": 'suggest_universities'
+  }
+};
+
 module.exports.userSettings = {
   "settings": {
     "analysis": {

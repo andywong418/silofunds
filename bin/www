@@ -6,6 +6,7 @@ var http = require('http');
 var models = require('../models');
 var sleep = require('sleep');
 var es = require('../elasticsearch');
+var elasticsearchModels = require('../elasticsearch/model');
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -166,72 +167,21 @@ es.checkConnection().then(function(resp) {
       .then(es.deleteIndex('funds'))
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
-      .then(function() {
-        var wrapper = {};
-        var autocompleteCountriesBody = prepareBulkUploadAutocomplete('countries', {
-          payloadKey: 'country_id',
-          normalFieldName: 'country',
-          suggestFieldName: 'suggest_countries'
-        });
+      .then(function() { return loadSettingsForBulkPrepFor('countries'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('religions'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('degrees'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('universities'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects'); })
+      .then(bulkUpload);
 
-        wrapper.fieldName = 'countries';
-        wrapper.body = autocompleteCountriesBody;
-
-        return wrapper;
-      }).then(bulkUpload).then(function() {
-        var wrapper = {};
-        var autocompleteReligionsBody = prepareBulkUploadAutocomplete('religions', {
-          payloadKey: 'religion_id',
-          normalFieldName: 'religion',
-          suggestFieldName: 'suggest_religions'
-        });
-
-        wrapper.fieldName = 'religions';
-        wrapper.body = autocompleteReligionsBody;
-
-        return wrapper;
-      }).then(bulkUpload).then(function() {
-        var wrapper = {};
-        var autocompleteDegreesBody = prepareBulkUploadAutocomplete('degrees', {
-          payloadKey: 'degree_id',
-          normalFieldName: 'degree',
-          suggestFieldName: 'suggest_degrees'
-        });
-
-        wrapper.fieldName = 'degrees';
-        wrapper.body = autocompleteDegreesBody;
-
-        return wrapper;
-      }).then(bulkUpload).then(function() {
-        var wrapper = {};
-        var autocompleteUniversitiesBody = prepareBulkUploadAutocomplete('universities', {
-          payloadKey: 'university_id',
-          normalFieldName: 'university',
-          suggestFieldName: 'suggest_universities'
-        });
-
-        wrapper.fieldName = 'universities';
-        wrapper.body = autocompleteUniversitiesBody;
-
-        return wrapper;
-      }).then(bulkUpload).then(function() {
-        var wrapper = {};
-        var autocompleteSubjectsBody = prepareBulkUploadAutocomplete('subjects', {
-          payloadKey: 'subject_id',
-          normalFieldName: 'subject',
-          suggestFieldName: 'suggest_subjects'
-        });
-
-        wrapper.fieldName = 'subjects';
-        wrapper.body = autocompleteSubjectsBody;
-
-        return wrapper;
-      }).then(bulkUpload).then(function() {
-        es.indexExists('users')
-          .then(es.deleteIndex('users'))
-          .then(es.createIndex('users'))
-          .then(bulkUploadUsers);
-      });
+    es.indexExists('users')
+      .then(es.deleteIndex('users'))
+      .then(es.createIndex('users'))
+      .then(bulkUploadUsers);
   }
 });
 
@@ -290,6 +240,16 @@ var checkForChanges = function checkForChanges() {
   });
 };
 var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+
+function loadSettingsForBulkPrepFor(typeName) {
+  var wrapper = {};
+  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName]);
+
+  wrapper.fieldName = typeName;
+  wrapper.body = body;
+
+  return wrapper;
+}
 
 function prepareBulkUploadFunds(funds) {
   var body = [];
