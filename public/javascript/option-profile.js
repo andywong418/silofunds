@@ -850,6 +850,9 @@ $(document).ready(function(){
   });
   var ApplicationDisplay = Backbone.View.extend({
     el: '#application_form',
+    events: {
+      'click #apply_now_link': 'addApplication'
+    },
     initialize: function() {
       if(!fund.application_link){
         fund.application_link = fund.link;
@@ -897,6 +900,16 @@ $(document).ready(function(){
             this.$('#documents_deadline').next('.arrow').css('display', 'none');
           }
         }
+    },
+    addApplication: function(e){
+      e.preventDefault();
+      var formData = {
+        fund_id: fund.id
+      }
+      $.post('/user/add-application', formData, function(data){
+        $('#application-notification').html(data);
+        $('#application-notification').delay(3000).fadeOut('slow');
+      })
     }
   })
   var TipsModel = Backbone.Model.extend({

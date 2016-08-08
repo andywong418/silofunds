@@ -624,7 +624,7 @@ module.exports = {
 		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(user, created) {
 			if(created){
 				user.update({status: 'pending'}).then(function(data){
-					res.send(data);
+					res.send("Your application has been sent!");
 				})
 			}
 			else{
