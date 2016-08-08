@@ -606,127 +606,10 @@ module.exports = {
       models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
         models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
             if(applications.length > 0){
-              applied_funds = [];
-              async.each(applications, function(app, callback){
-                  var app_obj = {};
-                  app = app.get();
-                  app_obj['status'] = app.status;
-                  models.funds.findById(app.fund_id).then(function(fund){
-                    app_obj['title'] = fund.title;
-                    app_obj['id'] = fund.id;
-                    applied_funds.push(app_obj);
-                    callback();
-                  });
-
-              }, function done(){
-								findStripeUser({user_id: userId}, res, {user: user, documents: documents, applications: applied_funds}, { user: user, documents: documents, applications: applied_funds, charges: false, donations: false});
-
-
-              });
+							asyncChangeApplications(applications, {user_id: userId}, res, {user: user, documents: documents}, { user: user, documents: documents});
             } else {
 							// No applications
-              models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
-                console.log("STRIPE USER", stripe_user);
-                if(stripe_user){
-                  models.sequelize.query("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'").then(function(charges){
-                    console.log("CHARGES", charges[1].rowCount);
-                    var numberOfSupporters = charges[1].rowCount;
-                    models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id}}).then(function(donations){
-                      if(donations.length != 0){
-                        donationArray = [];
-                        async.each(donations, function(donation, callback){
-                            var donationObj = {};
-                            donation = donation.get();
-                            donationObj.sender_name = donation.sender_name;
-                            donationObj.amount = (donation.amount)/100;
-                            var oneDay = 24*60*60*1000;
-                            var completionDate = new Date(donation.created_at.split('T')[0]);
-                            var nowDate = Date.now();
-                            console.log("COMPLETION", completionDate);
-                            console.log("NOW DATE", nowDate);
-                            var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
-                            donationObj.diffDays = diffDays;
-                            if(donation.user_from){
-                              models.users.findById(donation.user_from).then(function(user){
-                                donationObj.profile_picture = user.profile_picture;
-                                donationArray.push(donationObj);
-                                callback()
-                              })
-                            }
-                            else{
-                              donationArray.push(donationObj);
-                              callback();
-                            }
-
-                        }, function done(){
-													models.updates.findAll({where: {user_id: userId}}).then(function(updates){
-														if(updates){
-															for(var i = 0; i < updates.length; i++){
-																var reverseOrder = updates.length - i;
-																updates[i] = {
-																	count: reverseOrder,
-																	diffDays: updateDiffDays(updates[i].created_at),
-																	update: updates[i]
-																};
-															}
-														}
-														else{
-															//no updates
-															updates = false;
-														}
-														models.comments.findAll({where: {user_id: userId}}).then(function(comments){
-															res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: donationArray, updates: updates, comments: comments});
-														})
-
-													});
-
-                        })
-                      }else{
-												// no donations
-												models.updates.findAll({where: {user_id: userId}}).then(function(updates){
-													if(updates){
-														for(var i = 0; i < updates.length; i++){
-															var reverseOrder = updates.length - i;
-															updates[i] = {
-																count: reverseOrder,
-																diffDays: updateDiffDays(updates[i].created_at),
-																update: updates[i]
-															};
-														}
-													}
-													else{
-														//no updates
-														updates = false;
-													}
-													res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: numberOfSupporters, donations: false, updates: updates, comments: false});
-												});
-											}
-                    })
-                  })
-                }
-                else{
-									//not stripe user;
-									console.log("WHAT ON EARTH");
-									models.updates.findAll({where: {user_id: userId}}).then(function(updates){
-										if(updates){
-											var reverseOrder = updates.length - i;
-											for(var i = 0; i < updates.length; i++){
-												updates[i] = {
-													count: i,
-													diffDays: updateDiffDays(updates[i].created_at),
-													update: updates[i]
-												};
-											}
-										}
-										else{
-											//no updates
-											updates = false;
-										}
-										console.log("WHAT");
-										res.render('user-crowdfunding', { user: user, documents: documents, applications: false, charges: false, donations: false, updates: updates, comments: false});
-									});
-                }
-              })
+							findStripeUser({user_id: userId}, res, {user: user, documents: documents, applications: false},{ user: user, documents: documents, applications: false, charges: false, donations: false});
             }
         });
       });
@@ -1318,6 +1201,27 @@ module.exports = {
 }
 
 ////// Helper functions
+function asyncChangeApplications(array, options, res, dataObject, dataObject2){
+	var newArray = [];
+	async.each(array, function(element, callback){
+			var newObj = {};
+			element = element.get();
+			newObj['status'] = element.status;
+			models.funds.findById(element.fund_id).then(function(fund){
+				newObj['title'] = fund.title;
+				newObj['id'] = fund.id;
+				newArray.push(newObj);
+				callback();
+			})
+
+	}, function done(){
+		dataObject.applications = newArray;
+		dataObject2.applications = newArray;
+		dataObject2.charges = false;
+		dataObject2.donations = false;
+		findStripeUser(options, res, dataObject,dataObject2);
+	});
+}
 function findStripeUser(option, res, dataObject1, dataObject2){
 	models.stripe_users.find({where: option}).then(function(stripe_user){
 		if(stripe_user){
@@ -1379,8 +1283,13 @@ function findAllUpdatesComments(options, res, dataObject) {
 		updateCheck(updates);
 		dataObject.updates = updates;
 		models.comments.findAll({where: {user_to_id: options.user_id}, order: 'created_at DESC'}).then(function(comments){
-
-			asyncChangeComments(comments, res, dataObject);
+			if(comments.length > 0){
+				asyncChangeComments(comments, res, dataObject);
+			}
+			else{
+				dataObject.comments = false;
+				res.render('user-crowdfunding', dataObject);
+			}
 		});
 	});
 }
