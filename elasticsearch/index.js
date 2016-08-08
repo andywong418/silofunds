@@ -52,8 +52,8 @@ function deleteIndex(indexName) {
     index: indexName,
     ignore: [404]
   }).catch(function(err) {
-    Logger.info("Error deleting " + indexName + " index:");
-    Logger.info(err);
+    Logger.error("Error deleting " + indexName + " index:");
+    Logger.error(err);
   }).then(function(resp) {
     if (resp) {
       Logger.info("Deleted " + indexName + " index.");
@@ -77,8 +77,8 @@ function createIndex(indexName) {
   }
 
   return es.indices.create(createOptions).catch(function(err) {
-    Logger.info("Couldn't create " + indexName + " index:");
-    Logger.info(err);
+    Logger.error("Couldn't create " + indexName + " index:");
+    Logger.error(err);
   }).then(function(resp) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
