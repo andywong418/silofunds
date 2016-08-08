@@ -20,6 +20,7 @@ var umzugOptions = {
   }
 };
 var umzug = new Umzug(umzugOptions);
+var es = require('../elasticsearch');
 
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
@@ -397,7 +398,7 @@ module.exports = {
         body.push(wrapper);
       });
 
-      models.es.bulk({
+      es.bulk({
         body: body
       }, function (err, resp) {
         Logger.info(resp);

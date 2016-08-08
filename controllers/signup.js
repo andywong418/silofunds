@@ -14,6 +14,7 @@ var nodemailer = require('nodemailer')
 var smtpTransport = require('nodemailer-smtp-transport');
 var crypto = require('crypto');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+var es = require('../elasticsearch');
 
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_keyid = process.env.AWS_KEYID;
@@ -215,7 +216,7 @@ module.exports = {
 						}
 
 						wrapper["suggest"] = { "input": user.username };
-						models.es.create({
+						es.create({
 							index: 'users',
 							type: 'user',
 							id: user.id,

@@ -1,7 +1,8 @@
 var models = require('../models');
 var query;
 var async = require('async');
-var countries = require('../resources/countries')
+var countries = require('../resources/countries');
+var es = require('../elasticsearch');
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -156,7 +157,7 @@ module.exports = {
       }
     }
 
-    models.es.search({
+    es.search({
       index: "funds",
       type: "fund",
       body: {

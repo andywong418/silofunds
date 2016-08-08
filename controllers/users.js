@@ -15,6 +15,7 @@ var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+var es = require('../elasticsearch');
 
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_keyid = process.env.AWS_KEYID;
@@ -131,7 +132,7 @@ module.exports = {
             }
           }
           Logger.info("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
-          models.es.search({
+          es.search({
             index: "funds",
             type: "fund",
             body: {
@@ -1083,7 +1084,7 @@ module.exports = {
 			}
 		}
 
-		models.es.search({
+		es.search({
 			index: "users",
 			type: "user",
 			body: {
