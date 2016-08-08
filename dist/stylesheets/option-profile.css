@@ -59,6 +59,24 @@ h1 {
   border-radius: 5px;
   cursor: pointer; }
 
+#favourite {
+  position: absolute;
+  margin-left: -245px;
+  margin-top: 5px;
+  color: #f1c40f;
+  font-size: 20px; }
+  #favourite:hover:before {
+    content: "\2605";
+    position: absolute;
+    color: #f1c40f;
+    cursor: pointer; }
+
+.active-favourite:before {
+  content: "\2605";
+  position: absolute;
+  color: #f1c40f;
+  cursor: pointer; }
+
 #box_2 {
   display: -webkit-box;
   display: -ms-flexbox;

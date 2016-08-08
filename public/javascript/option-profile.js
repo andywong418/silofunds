@@ -164,6 +164,35 @@ $(document).ready(function(){
       })
 
   };
+  console.log(favourite);
+  $('#favourite').click(function(){
+    if(favourite){
+      $('#favourite:before').css("content", "");
+      $('#favourite').removeClass('active-favourite');
+      var formData = {
+        user_id: user.id,
+        fund_id: fund.id,
+      };
+      $.post('/user/remove-favourite/', formData, function(data){
+        console.log(data);
+      });
+      favourite = false;
+    }
+    else{
+
+      if(user && user.organisation_or_user == null){
+        $('#favourite').addClass('active-favourite');
+        favourite = true;
+        var formData = {
+          user_id: user.id,
+          fund_id: fund.id
+        };
+        $.post('/user/add-favourite/', formData, function(data){
+          console.log(data);
+        });
+      }
+    }
+  });
 
   if(user){
     if(!user.organisation_or_user){

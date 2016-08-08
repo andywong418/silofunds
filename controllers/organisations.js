@@ -294,7 +294,7 @@ homeGET: function(req, res){
       var user = req.user;
       var fundId = req.params.id;
       models.funds.findById(fundId).then(function(fund){
-        console.log("FUNDS", fund);
+
         if(fund.organisation_id){
           // If fund has an organisation/ fund user
           models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
@@ -307,32 +307,25 @@ homeGET: function(req, res){
                   fund_id: fundId
                 }}).spread(function(recent, created){
                   if(created){
-                    console.log(recent);
-                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
                   }else{
                     var dateNow = new Date(Date.now());
                     dateNow = dateNow.toISOString();
-                    console.log("PROPER DATE FORMAT", recent.updated_at);
-                    console.log("RECENT",recent);
-                    console.log("NOW DATE", dateNow);
                     recent.update({updated_at: dateNow,user_id: user.id,
                     fund_id: fundId}).then(function(recent){
-                      if(fund.organisation_id){
-
-                      }
-                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                      checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries});
                     })
                   }
                 })
               }
               else{
                 //if user is fund user
-                res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
+                res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
               }
 
             } else {
               //if no user logged in - PUBLIC VIEW
-              res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries})
+              res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false})
             }
           });
         }
@@ -347,32 +340,26 @@ homeGET: function(req, res){
                 fund_id: fundId
               }}).spread(function(recent, created){
                 if(created){
-                  console.log(recent);
-                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false});
                 }else{
                   var dateNow = new Date(Date.now());
                   dateNow = dateNow.toISOString();
-                  console.log("PROPER DATE FORMAT", recent.updated_at);
-                  console.log("RECENT",recent);
-                  console.log("NOW DATE", dateNow);
                   recent.update({updated_at: dateNow,user_id: user.id,
                   fund_id: fundId}).then(function(recent){
-                    if(fund.organisation_id){
 
-                    }
-                    res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+                    checkFavourite(user.id, fundId, res, {user: user,organisation: false, fund: fund, newUser: false, countries: countries});
                   })
                 }
               })
             }
             else{
               //if user is fund user
-              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries})
+              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false})
             }
 
           } else {
             // if no user logged in
-            res.render('option-profile', {user: false,organisation: false, fund: fund, newUser: false, countries: countries})
+            res.render('option-profile', {user: false,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false})
           }
         }
 
@@ -450,7 +437,6 @@ homeGET: function(req, res){
   },
   getOptionTips: function(req, res){
     //NEED TO MODIFY FOR CAROUSEL IN FUTURE for arrays using findAll
-    console.log("CAROUSEL");
     var fundId = req.params.id;
     models.tips.find({where: {fund_id: fundId}}).then(function(tips){
 
@@ -697,6 +683,18 @@ homeGET: function(req, res){
 
 
 // Functions
+function checkFavourite(userId, fundId, res, dataObject){
+  models.favourite_funds.find({where: {user_id: userId, fund_id: fundId} }).then(function(favourite){
+    if(favourite){
+      dataObject.favourite = true
+    }
+    else{
+      dataObject.favourite = false;
+    }
+    res.render('option-profile', dataObject);
+
+  })
+}
 function moderateObject(objectFields){
   for(var key in objectFields){
     if(objectFields[key] === ''){

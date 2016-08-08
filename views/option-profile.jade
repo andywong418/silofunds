@@ -9,8 +9,9 @@ block content
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     var fund = !{JSON.stringify(fund)};
+    var favourite = !{JSON.stringify(favourite)};
     console.log(user)
-    console.log(fund)
+    console.log(favourite)
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
@@ -25,11 +26,17 @@ block content
     #left_div.container
       #box_1
         
-        a#fundWebsite(href=fund.link, target='_blank') 
+        #fundWebsite
           if organisation
             img#fundImage(src=organisation.profile_picture)
+            span#favourite ☆
           else
-            img#fundImage(src='/images/fund_img_placeholder.jpg')
+            if user && favourite
+              img#fundImage(src='/images/fund_img_placeholder.jpg')
+              span#favourite.active-favourite ☆
+            if user && !favourite
+              img#fundImage(src='/images/fund_img_placeholder.jpg')
+              span#favourite ☆
       #box_2
         if fund.link
           a#external-link(href!=fund.link)

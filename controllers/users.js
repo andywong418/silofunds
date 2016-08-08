@@ -191,18 +191,12 @@ module.exports = {
                           verificationSuccess = verificationSuccess[0]
                         }
                         console.log('hello')
-                        models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
-                          if(!stripe_user) {
-                            res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
-                          }
-                          if (stripe_user) {
-                            res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: "created"});
-                          }
-                        })
-                      })
-                    })
+												var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess};
+												findFavourites({user_id: user.id}, res, dataObject);
+                      });
+                    });
                   });
-                })
+                });
             });
           });
       });
@@ -646,6 +640,16 @@ module.exports = {
 		}).then(function(update){
 			res.send(update);
 		})
+	},
+	addFavourite: function(req, res){
+			models.favourite_funds.create(req.body).then(function(favourite){
+				res.send(favourite);
+			});
+	},
+	removeFavourite: function(req, res){
+		models.favourite_funds.destroy({where: req.body}).then(function(favourite){
+			res.send(favourite);
+		});
 	},
   settingsGET: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
@@ -1201,6 +1205,33 @@ module.exports = {
 }
 
 ////// Helper functions
+
+function findFavourites(options, res, dataObject){
+	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
+		var newArray = [];
+		async.each(favourite_funds, function(element, callback){
+			element = element.get();
+			models.funds.findById(element.fund_id).then(function(fund){
+				newArray.push(fund);
+				callback();
+			});
+		}, function done(){
+			dataObject.favourite_funds = newArray;
+			findStripeDashboard(options, dataObject, res);
+		});
+	});
+}
+function findStripeDashboard(option, dataObject, res){
+	models.stripe_users.find({where: option}).then(function(stripe_user){
+		if(!stripe_user){
+			res.render('user/dashboard', dataObject);
+		}
+		if(stripe_user){
+			dataObject.stripe = "created";
+			res.render('user/dashboard', dataObject);
+		}
+	});
+};
 function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 	var newArray = [];
 	async.each(array, function(element, callback){

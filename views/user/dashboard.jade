@@ -118,9 +118,46 @@ block content
           .row
       .tab-pane.fade#ud-favourites
         section.header
-          .row
-            .col-md-12
-              p You don't seem to have favourited any funds yet.
+          if favourite_funds.length > 0
+            .row
+              .col-md-12
+                table.table.table-responsive#header
+                  thead
+                    tr
+                      th.col-md-1 Type
+                      th.col-md-3 Title
+                      th.col-md-2 Countries of residence
+                      th.col-md-2 Subject
+                      th.col-md-2 Amount
+                      th.col-md-1 Deadline
+                      th.col-md-1 
+            each fund in favourite_funds
+              .row#funding-card
+                .col-md-1#support_type
+                  span.label(id='#{fund.support_type}')= fund.support_type
+                .col-md-3
+                  a(href='/organisation/options/' + fund.id, target='_blank')
+                    span= fund.title
+                .col-md-2
+                  span= fund.country_of_residence
+                .col-md-2
+                  if(fund.subject)
+                    span= fund.subject.join(', ')
+                .col-md-2
+                  if (fund.minimum_amount && fund.maximum_amount)
+                    span £#{fund.minimum_amount} - £#{fund.maximum_amount}
+                  else if (fund.minimum_amount)
+                    span £#{fund.minimum_amount} +
+                  else if (fund.maximum_amount)
+                    span < £#{fund.maximum_amount} 
+                .col-md-1
+                  span= fund.deadline
+                .col-md-1#edit
+                  a(href='/organisation/options/' + fund.id, target='_blank') View
+          else
+            .row
+              .col-md-12
+                p You don't seem to have favourited any funds yet.
                 
         section.content-section
           .row
