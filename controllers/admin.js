@@ -301,6 +301,7 @@ module.exports = {
   },
 
   upload: function(req, res) {
+    var offset_number;
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -315,6 +316,7 @@ module.exports = {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
       Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
+      offset_number = val;
     });
     busboy.on('finish', function() {
       Logger.info('Done parsing form! Injecting into database...');
@@ -330,6 +332,10 @@ module.exports = {
 
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
+          }
+
+          if (fund.organisation_id) {
+            create_options["organisation_id"] = (parseInt(fund.organisation_id) + parseInt(offset_number)).toString();
           }
           // create_options["id"] = fund.id;
         }
