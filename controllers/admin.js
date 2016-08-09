@@ -301,7 +301,7 @@ module.exports = {
   },
 
   upload: function(req, res) {
-    var offset_number;
+    var fieldValues = {};
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -316,7 +316,7 @@ module.exports = {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
       Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
-      offset_number = val;
+      fieldValues[fieldname] = val;
     });
     busboy.on('finish', function() {
       Logger.info('Done parsing form! Injecting into database...');
@@ -335,9 +335,12 @@ module.exports = {
           }
 
           if (fund.organisation_id) {
-            create_options["organisation_id"] = (parseInt(fund.organisation_id) + parseInt(offset_number)).toString();
+            create_options["organisation_id"] = (parseInt(fund.organisation_id) + parseInt(fieldValues["offset_number"])).toString();
           }
-          // create_options["id"] = fund.id;
+
+          if (fieldValues.overwrite_id) {
+            create_options.id = fund.id;
+          }
         }
 
         models.funds.create( create_options ).then(function() {
@@ -556,6 +559,7 @@ module.exports = {
     },
 
     upload: function(req, res) {
+      var fieldValues = {};
       var busboy = new Busboy({ headers: req.headers });
       var jsonData = '';
       busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -570,6 +574,7 @@ module.exports = {
       });
       busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
         Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
+        fieldValues[fieldname] = val;
       });
       busboy.on('finish', function() {
         Logger.info('Done parsing form! Injecting into database...');
@@ -587,7 +592,9 @@ module.exports = {
               create_options["deleted_at"] = organisation.deleted_at;
             }
 
-            // create_options["id"] = organisation.id;
+            if (fieldValues.overwrite_id) {
+              create_options.id = organisation.id;
+            }
           }
 
           models.organisations.create( create_options ).then(function() {

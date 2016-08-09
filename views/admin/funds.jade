@@ -16,7 +16,9 @@ block content
               input(type="file", name="jsonData")
               button.btn.btn-default.btn-primary(type='submit') Upload JSON!
             .col-md-6(style='padding: 0;')
-              label(for='offset_number', style='font-size: 12px; margin-top: 15px;') Offset organisations_id by:
+              input(type='checkbox', name='overwrite_id', style='margin-right: 10px;')
+              | Use file IDs?
+              label(for='offset_number', style='font-size: 12px;') Offset organisations_id by:
               input(type='text', name='offset_number', value='0')
         .col-md-2
           form(action="/admin/funds/reset-table", method="post", name='reset-table')
