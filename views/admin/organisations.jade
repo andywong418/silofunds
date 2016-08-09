@@ -14,7 +14,9 @@ block content
               button.btn.btn-default.btn-primary(type='submit') Upload JSON!
             .col-md-6(style='padding: 0;')
               input(type='checkbox', name='overwrite_id', style='margin-right: 10px;')
-              | Use file IDs?
+              | Non-sequential IDs?
+              label(for='offset_number', style='font-size: 12px;') Offset id by:
+              input(type='text', name='offset_number', value='0')
         .col-md-2
           form(action="/admin/organisations/reset-table", method="post", name='reset-table')
             button.btn.btn-default.btn-danger(type='submit') Clear & Reset Table

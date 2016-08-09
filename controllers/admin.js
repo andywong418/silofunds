@@ -25,6 +25,15 @@ var es = require('../elasticsearch');
 /*
 NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
 */
+
+/*
+NOTE: Uploading funds with sequential IDs will not cause problems with 'organisation_id' -> 'organisation.id' references, but doing the same for organisations would. If there are gaps in the id of organisations table, check the box to make sure IDs are NOT uploaded sequentially.
+*/
+
+/*
+NOTE: TLDR; (usually) CHECK BOX when uploading organisations, DON'T CHECK when uploading funds;
+*/
+
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
@@ -593,11 +602,12 @@ module.exports = {
             }
 
             if (fieldValues.overwrite_id) {
-              create_options.id = organisation.id;
+              // Use file IDs
+              create_options.id = (parseInt(organisation.id) + parseInt(fieldValues["offset_number"])).toString();
             }
           }
 
-          models.organisations.create( create_options ).then(function() {
+          models.organisations.create( create_options ).catch(function(err) { Logger.error(err); }).then(function() {
             Logger.info('Created organisation.');
           });
         }
