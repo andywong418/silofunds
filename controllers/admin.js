@@ -293,6 +293,8 @@ module.exports = {
 
         models.funds.create( create_options ).then(function() {
           Logger.info('Created fund.');
+        }).catch(function(err) {
+          Logger.error(err);
         });
       }
       res.redirect('../admin');
