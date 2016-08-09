@@ -19,8 +19,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		emptyArray.push(wrapper);
 	}
-	return emptyArray
-}
+	return emptyArray;
+};
 
 	$('.process').click(function(){
 		console.log(this);

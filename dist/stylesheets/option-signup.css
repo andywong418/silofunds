@@ -100,7 +100,8 @@ input {
   padding-left: 5px; }
 
 .next {
-  width: 90%; }
+  width: 90%;
+  margin-top: 30px; }
 
 #tags {
   width: 50%; }
@@ -149,7 +150,6 @@ input {
 
 .criteria-container {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 70%;
@@ -159,7 +159,6 @@ input {
   .criteria-container .criteria-item {
     opacity: 0.5;
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1;
     font-size: 30px;

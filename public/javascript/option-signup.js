@@ -25,7 +25,35 @@ $(document).ready(function(){
 
 
   }
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+  var tokenArrayPopulate = function(value){
+    var emptyArray = [];
+    for (var j = 0; j < value.length; j++) {
+      var wrapper = {};
+      wrapper.id = value[j].capitalize();
+      wrapper.name = value[j].capitalize();
 
+      emptyArray.push(wrapper);
+    }
+    return emptyArray;
+  };
+  var prePopulateTokenInput = function(value, field, autocompleteField, context){
+    var fieldArray = tokenArrayPopulate(value);
+    context.$('input#' + field).tokenInput('/autocomplete/' + autocompleteField, {
+      "theme": "facebook",
+      "prePopulate": fieldArray,
+      "allowFreeTagging": true
+    });
+  };
+  function populateTokenInput(array, autocompleteField, context){
+    for(var i = 0; i < array.length; i++){
+      if(!context.model.get(array[i])){
+        context.$('input#' + array[i]).tokenInput('/autocomplete/' + autocompleteField, { "theme": "facebook", "allowFreeTagging": true});
+      }
+    }
+  }
   // have to use global variable
   var OptionModel = Backbone.Model.extend({
     urlRoot: '/organisation/option_creation/'
@@ -116,12 +144,12 @@ $(document).ready(function(){
         $.post('/organisation/funding_creation/' + support_type + '/save_general/' + fund.id, formData, function(data){
           fund = data;
           window.location = "/organisation/funding_creation/" + support_type + '/' + fund.id +'#eligible';
-        })
+        });
       }
 
     }
 
-  })
+  });
 
 
 
@@ -148,14 +176,20 @@ var EligibleDisplay = Backbone.View.extend({
     var eligibleModel = new OptionModel();
     var view = new EligibleView({model: eligibleModel});
     this.$el.append(view.render().el);
-    this.$('input#target_country').tokenInput('/autocomplete/countries', { "theme": "facebook" });
-    this.$('input#country_of_residence').tokenInput('/autocomplete/countries', { "theme": "facebook" });
 
-    var arrayFields = ['subject','religion','minimum_age', 'maximum_age', 'gender','merit_or_finance','target_university','target_degree','required_degree','required_university','required_grade','target_country','country_of_residence','specific_location','other_eligibility']
+    populateTokenInput(['country_of_residence', 'target_country'], 'countries', this);
+    populateTokenInput(['subject'], 'subjects', this);
+    populateTokenInput(['target_university', 'required_university'], 'universities', this);
+    populateTokenInput(['target_degree', 'required_degree'], 'degrees', this);
+
+    var arrayFields = ['subject','religion','minimum_age', 'maximum_age', 'gender','merit_or_finance','target_university','target_degree','required_degree','required_university','required_grade','target_country','country_of_residence','specific_location','other_eligibility'];
     for(var i = 0; i< arrayFields.length; i++){
       if(this.model.get(arrayFields[i])){
         var value = this.model.get(arrayFields[i]);
         switch(arrayFields[i]){
+          case 'subject':
+            prePopulateTokenInput(value, 'subject', 'subjects', this);
+            break;
           case 'gender':
             switch(value){
               case 'male':
@@ -164,7 +198,7 @@ var EligibleDisplay = Backbone.View.extend({
               case 'female':
                 this.$('#female-input').prop("checked", true);
                 break;
-            };
+            }
             break;
           case 'merit_or_finance':
             switch(value){
@@ -174,19 +208,25 @@ var EligibleDisplay = Backbone.View.extend({
               case 'finance':
                 this.$('#finance-input').prop("checked", true);
                 break;
-            };
+            }
             break;
           case 'target_country':
-            for(var j = 0; j < value.length; j++){
-                console.log(this.$('ul.token-input-list-facebook').html());
-                this.$('#location-form .row:nth-child(1) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
-            }
+            prePopulateTokenInput(value, 'target_country', 'countries', this);
             break;
           case 'country_of_residence':
-            for(var j = 0; j < value.length; j++){
-                console.log(this.$('ul.token-input-list-facebook').html());
-                this.$('#location-form .row:nth-child(2) .col-md-12 .token-input-list-facebook').prepend("<li class='token-input-token-facebook'><p>" + value[j] + "</p><span class='token-input-delete-token-facebook'>x</span></li>");
-            }
+            prePopulateTokenInput(value, 'country_of_residence', 'countries', this);
+            break;
+          case 'target_university':
+            prePopulateTokenInput(value, 'target_university', 'universities', this);
+            break;
+          case 'required_university':
+            prePopulateTokenInput(value,'required_university', 'universities', this);
+            break;
+          case 'target_degree':
+            prePopulateTokenInput(value,'target_degree', 'degrees', this);
+            break;
+          case 'required_degree':
+            prePopulateTokenInput(value, 'required_degree', 'degrees', this);
             break;
           default:
             this.$('#' + arrayFields[i]).val(value);

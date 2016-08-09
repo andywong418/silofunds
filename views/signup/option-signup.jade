@@ -73,7 +73,7 @@ block content
             p Other
         .criteria-form.container.center-block
           form#subject-form.selected-form
-            label(for='subject') Separate by comma and no space if more than one subject is specified
+            label(for='subject') List of required subjects (leave blank if none)
             input#subject.form-control(name='subject')
           form#personal-form
             .row
@@ -97,7 +97,7 @@ block content
                       | Female
             .row
               .col-md-6
-                label(for='religion-input') Religion*
+                label(for='religion-input') Religion
                 input#religion.form-control(name='religion')
               .col-md-6
                 label(for='gender-input') Merit or Finance
@@ -110,41 +110,41 @@ block content
                     label.radio-inline
                       input#finance-input.finance(type='radio', name='merit_or_finance', value='finance')
                       | Finance
-            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
+            //- p#separate-message.center-block *These fields are required.
 
           form#education-form
             .row
               .col-md-4
-                label(for='target-university') Target university*
+                label(for='target-university') Target university
                 input#target_university.form-control(name='target_university')
               .col-md-4
-                label(for='target-degree')  Intended degree of study*
+                label(for='target-degree')  Intended degree of study
                 input#target_degree.form-control(name='target_degree')
               .col-md-4
-                label(for='required-degree') Required degree*
+                label(for='required-degree') Required degree
                 input#required_degree.form-control(name='required_degree')
             .row
               .col-md-6
-                label(for='required-university') Previous university*
+                label(for='required-university') Previous university
                 input#required_university.form-control(name='required_university')
               .col-md-6
                 label(for='required-grade') Required grade
                 input#required_grade.form-control(name='required_grade')
-            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
+            //- p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
           form#location-form
             .row
               .col-md-12
-                label(for='target-country') Country of study*
+                label(for='target-country') Country of study
                 input#target_country.form-control(name='target_country')
             .row
               .col-md-12
-                label(for='country_of_residence') Country of residence*
+                label(for='country_of_residence') Country of residence
                 input#country_of_residence.form-control(name='country_of_residence')
             .row
               .col-md-12
-                label(for='specific_location') Borough/state*
+                label(for='specific_location') Borough/state
                 input#specific_location.form-control(name='specific_location')
-            p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
+            //- p#separate-message.center-block *These fields require separation by a comma and no space if more than one is specified.
 
           form#other-form
             label(for='other_eligibility') Please any other eligibility requirements not listed
