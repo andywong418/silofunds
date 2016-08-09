@@ -117,14 +117,9 @@ var allShown = false;
       var minimum_age = this.model.get('minimum_age');
       var maximum_age = this.model.get('maximum_age');
       if(deadline){
-        console.log("HI");
         var dateNow = moment();
         deadline = moment.utc(deadline, "DD-MM-YYYY");
-        console.log(dateNow);
-        console.log(deadline);
-        console.log(moment(dateNow).isAfter(moment(deadline)));
         if (dateNow.isAfter(deadline)){
-          console.log(this.$('.deadline-passed' + id));
           this.$('.deadline-passed' + id).css('display', 'block');
           this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
 
@@ -286,7 +281,6 @@ var allShown = false;
           k = k + 1;
         }
       }
-      console.log(k);
       $('.results h3 span').html("Your search returned " + k + " results");
 
       // **
@@ -347,6 +341,7 @@ var allShown = false;
   var dateNow = moment();
   var nonDeadlineArray = [];
   var deadlineArray = [];
+  var anotherCounter = 0;
   var k = 0;
   for(var i = 0; i < fundData.length; i++) {
     var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
@@ -359,7 +354,6 @@ var allShown = false;
     }
   }
   if(nonDeadlineArray.length <= 5 ){
-    console.log("GO IN here");
     var fundCollection = new FundCollection(nonDeadlineArray);
     var fundList = new FundList({collection: fundCollection});
     $(document.body).append(fundList.render().el);
@@ -373,8 +367,6 @@ var allShown = false;
     var scroll_pos_test = 200;
     var counter = 0;
     $(window).on('scroll', function() {
-
-      console.log(nonDeadlineArray);
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
         if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
@@ -382,7 +374,7 @@ var allShown = false;
             startPoint = startPoint +5;
             endPoint = endPoint + 5;
 
-            if(endPoint < nonDeadlineArray.length && nonDeadlineArray.length > 5){
+            if(endPoint < nonDeadlineArray.length && nonDeadlineArray.length > 5 && anotherCounter === 0){
               scroll_pos_test = scroll_pos_test + 300;
               var fundCollection = new FundCollection(nonDeadlineArray.slice(startPoint, endPoint));
               var fundList = new FundList({collection: fundCollection});
@@ -412,9 +404,7 @@ var allShown = false;
         k = k + 1;
       }
     }
-    $('body').bind('touchmove', function(e){
-      e.preventDefault();
-    });
+    anotherCounter++;
     $('.results h3 span').html("Your search returned " + k + " results");
     $(this).html("Show all funds - including those which are expired");
     $('.results h3 span').html("Your search returned " + k + " results");

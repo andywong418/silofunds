@@ -1,12 +1,51 @@
 $(document).ready(function(){
+
+
+  if(!user){
+    showLimitedProfile();
+  }
+  function showLimitedProfile(){
+    //Hide favourite
+    $('#favourite').hide();
+    $('#left_div').children().not('#box_1').css('opacity', '0.5');
+    $('#right_div, #separator_1, #review_div').children().css('opacity', '0.5');
+    $('#signup-block').show();
+    var counter = 0;
+    $(window).on('scroll', function() {
+
+        var y_scroll_pos = window.pageYOffset;
+               // set to whatever you want it to be
+        if(y_scroll_pos > 300 && counter === 0) {
+            //do stuff
+            $('#signup-modal-fade').css('background-color', 'rgba(52, 54, 66, 0.9)');
+            $('#not-now').show();
+            $('#signup-button-div').css('margin-bottom', '30px');
+            $('#signup-block').animate({top: '30%'}, 500);
+            counter++;
+        }
+
+    });
+    $('#not-now').click(function(){
+      $('#signup-modal-fade').css('background-color', 'transparent');
+      $('#not-now').hide();
+      $('#signup-button-div').css('margin-bottom', '0px');
+      $('#signup-block').animate({top: '65%'}, 500);
+    });
+
+  }
+
+  if(user && user.organisation_or_user != fund.organisation_id){
+    $('div#big_flex_div').css('margin-top', '-50px');
+  }
+
   Array.prototype.capitalize = function(){
     var emptyArray = [];
     this.forEach(function(element){
       element = element.charAt(0).toUpperCase() + element.slice(1);
       emptyArray.push(element);
-    })
+    });
     return emptyArray;
-  }
+  };
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
     console.log(userArray);
@@ -289,9 +328,9 @@ $(document).ready(function(){
 
     }
     if(user.organisation_or_user == fund.organisation_id){
-      $('#big_flex_div').css('margin-top', '0');
+      $('#big_flex_div').css('padding-top', '50px');
       $('.alert').css('display', 'block');
-      $('#right_div').css('margin-top', '20px');
+
     }
   }
   if(fund.description){

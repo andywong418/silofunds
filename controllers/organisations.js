@@ -290,15 +290,14 @@ homeGET: function(req, res){
   },
 
   getOptionProfile: function(req, res){
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    var fundId = req.params.id;
+    if(req.isAuthenticated()){
       var user = req.user;
-      var fundId = req.params.id;
       models.funds.findById(fundId).then(function(fund){
 
         if(fund.organisation_id){
           // If fund has an organisation/ fund user
           models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
-            if(user){
               //if user is logged in
               if(user.organisation_or_user == null){
                 //if user is not fund user
@@ -322,17 +321,10 @@ homeGET: function(req, res){
                 //if user is fund user
                 res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
               }
-
-            } else {
-              //if no user logged in - PUBLIC VIEW
-              res.render('option-profile', {user: false,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false})
-            }
           });
         }
         else{
           //if fund has no organisation or fund user
-          if(user){
-            //if user is logged in
             if(user.organisation_or_user == null){
               //if user is not a fund user
               models.recently_browsed_funds.findOrCreate({where: {
@@ -357,14 +349,20 @@ homeGET: function(req, res){
               res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false})
             }
 
-          } else {
-            // if no user logged in
-            res.render('option-profile', {user: false,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false})
-          }
         }
 
       });
-    });
+    }
+    else{
+      //show limited profile
+      console.log("HI");
+      models.funds.findById(fundId).then(function(fund){
+        models.organisations.findById(fund.organisation_id).then(function(organisation){
+          handleOrganisationUser(organisation, {user: false, fund: fund, countries: countries, favourite: false}, res);
+
+        });
+      });
+    }
 
   },
 
@@ -605,6 +603,21 @@ homeGET: function(req, res){
 
 
 // Functions
+function handleOrganisationUser(organisation, dataObject, res){
+  console.log(organisation);
+  if(organisation){
+    models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
+      organisation = organisation.get();
+      organisation.profile_picture = user.profile_picture;
+      dataObject.organisation = organisation;
+      res.render('option-profile', dataObject);
+    })
+  }
+  else{
+    dataObject.organisation = false;
+    res.render('option-profile', dataObject);
+  }
+}
 function checkFavourite(userId, fundId, res, dataObject){
   models.favourite_funds.find({where: {user_id: userId, fund_id: fundId} }).then(function(favourite){
     if(favourite){

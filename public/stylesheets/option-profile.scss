@@ -16,7 +16,57 @@ h1 {
   font-size: 40px;
   margin-left: 2.5%;
 }
+#signup-modal-fade{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 3;
+  overflow-y: auto;
+  -webkit-transition: opacity 0.3s 0, visibility 0 0.3s;
+  -moz-transition: opacity 0.3s 0, visibility 0 0.3s;
+  transition: opacity 0.3s 0, visibility 0 0.3s;
+}
+#signup-block{
+  display: none;
+  position: fixed;
+  width: 70%;
+  margin-left: 15%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 50px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.1);
+  padding: 30px;
+  padding-bottom: 50px;
+  top: 65%;
+  z-index: 10;
+  opacity: 1.0;
+  #helper-text{
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  #helper-text-2{
+    font-size: 17px;
+    color: grey;
+  }
+  #signup-button-div{
+    a{
+      width: 30%;
+    }
+    #signup{
+      margin-right: 30px;
+    }
 
+  }
+  #not-now{
+    display: none;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #337ab7;
+  }
+}
 .alert{
   display: none;
   height: 40px;
@@ -54,7 +104,6 @@ h1 {
   margin-left: 3%;
   flex-direction: column;
   height: auto;
-  margin-top: 4%;
   p{
     margin:0;
   }
@@ -113,6 +162,7 @@ h1 {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+    color: #2980b9;
   }
   #fundBio {
     width: 90%;
@@ -200,7 +250,6 @@ h1 {
   width: 73%;
   float: right;
   margin-right: 3%;
-  margin-top: 40px;
   flex-direction: column;
   align-items: flex-end;
 }

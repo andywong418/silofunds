@@ -22,27 +22,41 @@ block content
         a(href='/organisation/options/' + fund.id + '/edit') 
           span.glyphicon.glyphicon-pencil(aria-hidden='true')
           | Make changes to this funding profile
+  #signup-modal-fade
+  #signup-block.center-block
+    p#helper-text= 'To see more of ' + fund.title + ' you can sign up to Silo '
+    p#helper-text-2 Check your eligibility, learn about the application process and more. Log in if you already have an account.
+    #signup-button-div
+      a#signup.btn.btn-success(href='/register') Signup
+      a#login.btn.btn-primary(href='/login') Log in
+    a#not-now Not now
   #big_flex_div.container
     #left_div.container
       #box_1
-        
-        #fundWebsite
-          if organisation
-            img#fundImage(src=organisation.profile_picture)
-            span#favourite ☆
-          else
-            if user && favourite
-              img#fundImage(src='/images/fund_img_placeholder.jpg')
-              span#favourite.active-favourite ☆
-            if user && !favourite
-              img#fundImage(src='/images/fund_img_placeholder.jpg')
+        if fund.link
+          a#fundWebsite(href=fund.link)
+            if organisation
+              if(organisation.profile_picture)
+                img#fundImage(src=organisation.profile_picture)
+                span#favourite ☆
+        else
+          a#fundWebsite(href='/organisation/options/' + fund.id )
+            if organisation
+              img#fundImage(src=organisation.profile_picture)
               span#favourite ☆
       #box_2
         if fund.link
-          a#external-link(href!=fund.link)
-            h4#bio=fund.title
+          if !organisation.profile_picture
+            a#external-link(href!=fund.link, style='background: white; padding: 20px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
+              h4(style='font-size: 22px;')#bio=fund.title
+          else
+            a#external-link(href!=fund.link)
+              h4#bio=fund.title
         else  
-          h4#bio=fund.title
+          if !organisation.profile_picture
+            h4#bio(style='background: white;font-size: 22px; padding: 20px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
+          else
+            h4#bio=fund.title
         #left_info_div
           p#fundBio 
           if fund.number_of_places
@@ -73,84 +87,174 @@ block content
       //- #box_3
       //-   p#general General Info
       //-   hr
-    #right_div
-      //- #eligibility_div 
-      //-   p#eligibility_div_p This box will display any users eligibility for your fund
-      #box_3_right
-        p#eligibility_para_right Eligibility
-        hr
-        .eligibility-display
-          #subject-handler
-            .col-md-12
-              span.glyphicon.glyphicon-book
-              p.description Subject
-          #personal-handler
-            .col-md-12
-              span.glyphicon.glyphicon-user
-              p.description Personal
-          #education-handler
-            .col-md-12
-              span.glyphicon.glyphicon-education
-              p.description Education
-          #location-handler
-            .col-md-12
-              span.glyphicon.glyphicon-globe
-              p.description Location
-          #other-handler
-            .col-md-12
-              p.description Other eligibility requirements
-          .row#just-trying
-            script#image-template(type='text/template')
-              .col-md-4.criteria-box
-                .col-md-2
-                  img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
-                .col-md-10
-                  span.criteria <%=criteria %>
-            script#other-eligibility-template(type='text/template')
-              .other-box
-                .col-md-12
-                  span.criteria <%= criteria %>
+    if(!organisation.profile_picture)
+      #right_div(style='margin-top: 10px;')
+        //- #eligibility_div 
+        //-   p#eligibility_div_p This box will display any users eligibility for your fund
+        #box_3_right
+          p#eligibility_para_right Eligibility
+          hr
+          .eligibility-display
+            #subject-handler
+              .col-md-12
+                span.glyphicon.glyphicon-book
+                p.description Subject
+            #personal-handler
+              .col-md-12
+                span.glyphicon.glyphicon-user
+                p.description Personal
+            #education-handler
+              .col-md-12
+                span.glyphicon.glyphicon-education
+                p.description Education
+            #location-handler
+              .col-md-12
+                span.glyphicon.glyphicon-globe
+                p.description Location
+            #other-handler
+              .col-md-12
+                p.description Other eligibility requirements
+            .row#just-trying
+              script#image-template(type='text/template')
+                .col-md-4.criteria-box
+                  .col-md-2
+                    img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+                  .col-md-10
+                    span.criteria <%=criteria %>
+              script#other-eligibility-template(type='text/template')
+                .other-box
+                  .col-md-12
+                    span.criteria <%= criteria %>
 
-      #eligibility_div 
-        p#eligibility_div_p 
-      #notEligible.modal-box
-        .modal-container 
-          .modal-bar
-            p Eligibility explanation
-          script#notEligible-template(type='text/template')
-            .row
-              #wrong-cross.col-md-2
-                i.fa.fa-times-circle(aria-hidden="true")
-              #fund-requirements.col-md-5
-                p#requirement-description <%= requirement_description %>
-                p#requirement <%= requirement %>
-              #user-info.col-md-5
-                p#user-description <%= user_description %>
-                p#user <%= user %>
-          a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
-      #application_form
-        p.head Application process
-        hr
-        script#application-process(type='text/template')
-          if fund.application_open_date
-            #start_date  <%= application_open_date %>
-            p.arrow#arrow_1 
+        #eligibility_div 
+          p#eligibility_div_p 
+        #notEligible.modal-box
+          .modal-container 
+            .modal-bar
+              p Eligibility explanation
+            script#notEligible-template(type='text/template')
+              .row
+                #wrong-cross.col-md-2
+                  i.fa.fa-times-circle(aria-hidden="true")
+                #fund-requirements.col-md-5
+                  p#requirement-description <%= requirement_description %>
+                  p#requirement <%= requirement %>
+                #user-info.col-md-5
+                  p#user-description <%= user_description %>
+                  p#user <%= user %>
+            a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
+        #application_form
+          p.head Application process
+          hr
+          script#application-process(type='text/template')
+            if fund.application_open_date
+              #start_date  <%= application_open_date %>
+              p.arrow#arrow_1 
+                i.fa.fa-angle-double-down(aria-hidden="true")
+            #documents_deadline <%= application_documents %>
+            p.arrow#arrow_2 
               i.fa.fa-angle-double-down(aria-hidden="true")
-          #documents_deadline <%= application_documents %>
-          p.arrow#arrow_2 
-            i.fa.fa-angle-double-down(aria-hidden="true")
-          if fund.interview_date
-            #interviews <%= interview_date %>
-            p.arrow#arrow3
+            if fund.interview_date
+              #interviews <%= interview_date %>
+              p.arrow#arrow3
+                i.fa.fa-angle-double-down(aria-hidden="true")
+            if fund.application_decision_date
+              #decision_date <%= application_decision_date %>
+            if fund.other_application_steps
+              #other-application
+                p Other application steps:  
+                  span=fund.other_application_steps
+            a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
+            span#application-notification
+      script#tips-template(type='text/template')
+        .mb-style-3
+          blockquote#tips
+            p <%= tip %>
+          .mb-attribution
+              p.mb-author <%= tip_giver %>
+              cite 
+                //- a(href='#0') Funded by Silo for life
+              .mb-thumb
+                img(src!= '<%= profile_picture %>')
+    else
+      #right_div
+        //- #eligibility_div 
+        //-   p#eligibility_div_p This box will display any users eligibility for your fund
+        #box_3_right
+          p#eligibility_para_right Eligibility
+          hr
+          .eligibility-display
+            #subject-handler
+              .col-md-12
+                span.glyphicon.glyphicon-book
+                p.description Subject
+            #personal-handler
+              .col-md-12
+                span.glyphicon.glyphicon-user
+                p.description Personal
+            #education-handler
+              .col-md-12
+                span.glyphicon.glyphicon-education
+                p.description Education
+            #location-handler
+              .col-md-12
+                span.glyphicon.glyphicon-globe
+                p.description Location
+            #other-handler
+              .col-md-12
+                p.description Other eligibility requirements
+            .row#just-trying
+              script#image-template(type='text/template')
+                .col-md-4.criteria-box
+                  .col-md-2
+                    img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+                  .col-md-10
+                    span.criteria <%=criteria %>
+              script#other-eligibility-template(type='text/template')
+                .other-box
+                  .col-md-12
+                    span.criteria <%= criteria %>
+
+        #eligibility_div 
+          p#eligibility_div_p 
+        #notEligible.modal-box
+          .modal-container 
+            .modal-bar
+              p Eligibility explanation
+            script#notEligible-template(type='text/template')
+              .row
+                #wrong-cross.col-md-2
+                  i.fa.fa-times-circle(aria-hidden="true")
+                #fund-requirements.col-md-5
+                  p#requirement-description <%= requirement_description %>
+                  p#requirement <%= requirement %>
+                #user-info.col-md-5
+                  p#user-description <%= user_description %>
+                  p#user <%= user %>
+            a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
+        #application_form
+          p.head Application process
+          hr
+          script#application-process(type='text/template')
+            if fund.application_open_date
+              #start_date  <%= application_open_date %>
+              p.arrow#arrow_1 
+                i.fa.fa-angle-double-down(aria-hidden="true")
+            #documents_deadline <%= application_documents %>
+            p.arrow#arrow_2 
               i.fa.fa-angle-double-down(aria-hidden="true")
-          if fund.application_decision_date
-            #decision_date <%= application_decision_date %>
-          if fund.other_application_steps
-            #other-application
-              p Other application steps:  
-                span=fund.other_application_steps
-          a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
-          span#application-notification
+            if fund.interview_date
+              #interviews <%= interview_date %>
+              p.arrow#arrow3
+                i.fa.fa-angle-double-down(aria-hidden="true")
+            if fund.application_decision_date
+              #decision_date <%= application_decision_date %>
+            if fund.other_application_steps
+              #other-application
+                p Other application steps:  
+                  span=fund.other_application_steps
+            a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
+            span#application-notification
 
       script#tips-template(type='text/template')
         .mb-style-3
