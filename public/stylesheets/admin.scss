@@ -36,12 +36,31 @@ div#duplicateTableContainer {
   }
 }
 
+table.sortable {
+  td {
+    overflow: auto;
+  }
+
+  th {
+    cursor: pointer;
+  }
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+  content: " \25B4\25BE"
+}
+
 #support_type{
   width: 100%;
 }
 
 .hide-this-shit {
   display: none;
+}
+
+.paddingless {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 textarea {

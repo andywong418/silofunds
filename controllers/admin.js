@@ -79,6 +79,12 @@ module.exports = {
     var data = {};
     models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
+      funds = funds.map(function(fund) {
+        fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+
+        return fund;
+      });
+
       data.funds = funds;
     }).then(function() {
       models.sequelize.query('SELECT title, COUNT(*) FROM funds GROUP BY title HAVING COUNT(*) > 1').spread(function(duplicateTitles, metadata) {
@@ -295,6 +301,7 @@ module.exports = {
   },
 
   upload: function(req, res) {
+    var offset_number;
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -309,6 +316,7 @@ module.exports = {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
       Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
+      offset_number = val;
     });
     busboy.on('finish', function() {
       Logger.info('Done parsing form! Injecting into database...');
@@ -324,6 +332,10 @@ module.exports = {
 
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
+          }
+
+          if (fund.organisation_id) {
+            create_options["organisation_id"] = (parseInt(fund.organisation_id) + parseInt(offset_number)).toString();
           }
           // create_options["id"] = fund.id;
         }
@@ -504,21 +516,26 @@ module.exports = {
     },
 
     resetTable: function(req, res) {
-      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
-        for (var i = 0; i < organisations.length; i++) {
-          organisations[i].destroy({ force: true });
-        }
-      })
-      .catch(function(err) { Logger.error(err); })
-      .then(function() { Logger.warn('Cleared organisations table.'); })
-      .then(function() {
-        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
-          .catch(function(err) { Logger.error(err); })
-          .then(function(results) {
-            Logger.warn('organisations_id_seq reset to 1');
-            res.redirect('/admin/organisations');
-          });
-      });
+      if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+        models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+          for (var i = 0; i < organisations.length; i++) {
+            organisations[i].destroy({ force: true });
+          }
+        })
+        .catch(function(err) { Logger.error(err); })
+        .then(function() { Logger.warn('Cleared organisations table.'); })
+        .then(function() {
+          models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+            .catch(function(err) { Logger.error(err); })
+            .then(function(results) {
+              Logger.warn('organisations_id_seq reset to 1');
+              res.redirect('/admin/organisations');
+            });
+        });
+      } else {
+        Logger.warn('Someone just tried to clear organisations table and failed miserably.');
+        res.redirect('/admin/organisations');
+      }
     },
 
     update: function(req, res) {
