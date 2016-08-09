@@ -345,7 +345,7 @@ module.exports = {
      }
     Logger.info(religionArray);
     models.users.findById(id).then(function(user){
-      user.update({religion: religionArray}).then(function(user){
+			user.update({religion: religionArray}).then(function(user){
         models.funds.findById(user.organisation_or_user).then(function(fund){
           fund.update({
             religion: religionArray
@@ -452,8 +452,10 @@ module.exports = {
 		var token = req.params.token
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
-				req.flash('success', 'You have been verified');
-				res.redirect('/user/dashboard')
+				user.update({email_is_verified: true}).then(function(user){
+					req.flash('success', 'You have been verified');
+					res.redirect('/user/dashboard')
+				})
 			}
 			else {
 				req.flash('error', 'Wrong verification details')
