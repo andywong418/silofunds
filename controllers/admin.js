@@ -257,6 +257,24 @@ module.exports = {
     });
   },
 
+  resetTable: function(req, res) {
+    models.funds.findAll({ paranoid: false }).then(function(funds) {
+      for (var i = 0; i < funds.length; i++) {
+        funds[i].destroy({ force: true });
+      }
+    })
+    .catch(function(err) { Logger.error(err); })
+    .then(function() { Logger.warn('Cleared funds table.'); })
+    .then(function() {
+      models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
+        .catch(function(err) { Logger.error(err); })
+        .then(function(results) {
+          Logger.warn('funds_id_seq reset to 1');
+          res.redirect('/admin/funds');
+        });
+    });
+  },
+
   upload: function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
@@ -463,6 +481,24 @@ module.exports = {
 
       models.organisations.findById(id).then(function(organisation) {
         res.render('admin/organisations-edit', { organisation: organisation });
+      });
+    },
+
+    resetTable: function(req, res) {
+      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+        for (var i = 0; i < organisations.length; i++) {
+          organisations[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared organisations table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('organisations_id_seq reset to 1');
+            res.redirect('/admin/organisations');
+          });
       });
     },
 
