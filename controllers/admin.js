@@ -315,7 +315,7 @@ module.exports = {
           Logger.error(err);
         });
       }
-      res.redirect('../admin');
+      res.redirect('../admin/funds');
     });
     req.pipe(busboy);
   },
@@ -555,7 +555,7 @@ module.exports = {
           }
 
           models.organisations.create( create_options ).then(function() {
-            Logger.info('Created fund.');
+            Logger.info('Created organisation.');
           });
         }
         res.redirect('/admin/organisations');
