@@ -17,6 +17,7 @@
     "body-parser": "~1.13.2",
     "bower": "^1.7.9",
     "busboy": "^0.2.12",
+    "colors": "^1.1.2",
     "connect": "^3.4.1",
     "connect-flash": "^0.1.1",
     "connect-redis": "3.0.1",
