@@ -24,7 +24,8 @@ router.get('/option_creation/:id', funds.getOptionInfo);
 router.post('/options/:id/edit', funds.saveOptionEdit);
 router.get('/options/:id/tips', funds.getOptionTips);
 router.post('/edit_description/:id', funds.editDescription);
-router.post('/edit_dates/:id', funds.editDates)
+router.post('/edit_dates/:id', funds.editDates);
+router.get('/get-organisation-info', funds.getOrganisationInfo);
 router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);
@@ -32,7 +33,7 @@ router.get('/public/:id', funds.public);
 
 
 
-router.get('/dashboard', funds.dashboardGET)
+router.get('/dashboard', funds.dashboardGET);
 
 router.post('/signupComplete', signup.uploadInfo);
 
