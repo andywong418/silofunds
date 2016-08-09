@@ -2,11 +2,16 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Fund = sequelize.define("funds", {
-
+    id: {
+      type: DataTypes.INTEGER,
+      field: 'id',
+      primaryKey: true,
+      unique: true,
+      autoIncrement: true,
+    },
     title: {
       type: DataTypes.TEXT,
-      field: 'title',
-      unique: true
+      field: 'title'
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
