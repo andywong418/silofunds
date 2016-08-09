@@ -256,28 +256,7 @@ homeGET: function(req, res){
           if(req.body.tips){
             Logger.info("REQ BODY TIPS", req.body.tips);
             var tips = req.body.tips;
-            models.tips.findOrCreate({where: {fund_id: fundId}}).spread(function(tip, created){
-              console.log(created);
-              if(created){
-                fund = fund.get();
-                tip.update({tip: tips}).then(function(tipe){
-                  tip = tip.get();
-                  fund.tips = tip;
-                  res.send(fund);
-                });
-              }
-              else{
-                console.log("TIP", tip);
-                console.log("tip", tips);
-                tip.update({tip: tips}).then(function(tip){
-                  fund = fund.get();
-                  tip = tip.get();
-                  fund.tips = tip;
-                  res.send(fund);
-                });
-              }
-
-            });
+            findOrCreateTips(tips, {fund_id: fundId}, fund, res);
           }
           else{
             res.send(fund);
@@ -448,12 +427,8 @@ homeGET: function(req, res){
       models.funds.findById(fundId).then(function(fund){
         fund.update(fields).then(function(fund){
           if(req.body.tips){
-              models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
-                tip.update({tip: req.body.tips}).then(function(tip){
-                  fund.tips = tip.tip;
-                  res.json(fund);
-                })
-              })
+              var tips = req.body.tips;
+              findOrCreateTips(tips, {fund_id: fundId}, fund, res);
           }else{
             res.json(fund);
           }
@@ -706,6 +681,30 @@ homeGET: function(req, res){
 
 
 
+function findOrCreateTips(tips, option, fund, res){
+  models.tips.findOrCreate({where: option}).spread(function(tip, created){
+    console.log(created);
+    if(created){
+      fund = fund.get();
+      tip.update({tip: tips}).then(function(tip){
+        tip = tip.get();
+        fund.tips = tip;
+        res.send(fund);
+      });
+    }
+    else{
+      console.log("TIP", tip);
+      console.log("tip", tips);
+      tip.update({tip: tips}).then(function(tip){
+        fund = fund.get();
+        tip = tip.get();
+        fund.tips = tip;
+        res.send(fund);
+      });
+    }
+
+  });
+}
 
 
 
