@@ -1,177 +1,221 @@
 $(document).ready(function(){
-		var SettingsModel = Backbone.Model.extend({
-
-		});
-	var SettingsView = Backbone.View.extend({
-		id: 'fund-settings',
-		template: _.template($('#settings-template').html()),
+	console.log(general);
+	if(!general){
+		$('#account a').click();
+	}
+	var SettingsModel = Backbone.Model.extend({
+		url: '/organisation/get-organisation-info'
+	});
+	var GeneralSettingsView = Backbone.View.extend({
+		tagName: 'div',
+		id: 'general-handler',
+		template: _.template($('#general-template').html()),
+		events:{
+			'click .save': 'saveGeneral'
+		},
 		render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this; // enable chained calls
-    }
-	});
-
-
-	var SettingsInfo = Backbone.View.extend({
-		el: 'body',
+    },
 		initialize: function(){
-			var deadline;
-			if(fund.start_date){
-				var startArray = fund.start_date.split("T");
-				var start_date = startArray[0];
-				var deadlineArray = fund.deadline.split("T");
-				deadline = deadlineArray[0];
+			this.el = this.render().el;
+			var emailUpdates = this.model.get('email_updates');
+			var username = this.model.get('username');
+			var email = this.model.get('email');
+			var charity_id = this.model.get('charity_id');
+			var array = ["username", "email", "charity_id"];
+			var values = [username, email, charity_id];
+
+			prePopulate(array, values, this);
+			if(emailUpdates){
+				this.$('input#email_updates').attr('checked', true);
 			}
-
-			var settings_model = new SettingsModel({
-				name: fund.username,
-				description: fund.description,
-				nationality: fund.countries,
-				minAge: fund.minimum_age,
-				maxAge: fund.maximum_age,
-				minAmount: fund.minimum_amount,
-				maxAmount: fund.maximum_amount,
-				nationality: fund.countries,
-				religion: fund.religion,
-				charityNumber: fund.charity_number,
-				gender: fund.gender,
-				merit_or_finance: fund.merit_or_finance,
-				startDate: start_date,
-				deadline: deadline
-			});
-			var view = new SettingsView({model: settings_model});
-			this.$el.append(view.render().el);
-			if (!Modernizr.inputtypes.date) {
-        // If not native HTML5 support, fallback to jQuery datePicker
-            $('input[type=date]').datepicker({
-                // Consistent format with the HTML5 picker
-                    dateFormat : 'dd-mm-yy'
-                },
-                // Localization
-                $.datepicker.regional['it']
-            );
-        };
-			if(fund.email_updates == true){
-				$("#email_updates").prop("checked", true);
-			}
-			var advanced = true;
-			var advanced_2 = true;
-			$("#advanced-search").toggle(false);
-			$("#advanced-search-2").toggle(false);
-			$("#grants").click(function(){
-			    $("#advanced-search").slideDown();
-			    $("#advanced-search-2").toggle(false);
-			    $("#grants span").css("display","inline");
-			    $("#users span").css("display","none");
-			    advanced = false;
-			    return true;
-			  });
-
-			$("#users").click(function(){
-			    $("#advanced-search-2").toggle(true);
-			    $("#advanced-search").toggle(false);
-			    $("#users span").css("display","inline");
-			    $("#grants span").css("display","none");
-			    advanced_2 = false;
-			});
-			$(document).click(function(e) {
-			  if ( $(e.target).closest('#advanced-search').length == 0 && e.target.closest('#grants') === null && e.target.closest('#search_button') === null && e.target.closest('#text_search') === null) {
-			      $("#advanced-search").toggle(false);
-
-			  }
-			  else{
-			        return true;
-			      }
-
-			  if ( $(e.target).closest('#advanced-search-2').length == 0 && e.target.closest('#users' && e.target.closest('#search_button') === null) && e.target.closest('#text_search') === null) {
-			    $("#advanced-search-2").toggle(false);
-			  }
-			  else{
-			        return true;
-			  }
-			});
-			this.editAccount();
-			this.editEmailSettings();
+			this.checkPassword();
 		},
-		editAccount: function(){
-		if(general== false){
-			$('.general').css("display", "none");
-			$('.profile-edit').css("display", "inline");
-			$('#general-settings').css("color", "grey");
-			$('#account').css("color", "black")
-		}
-
-			(function( $ ){
-   $.fn.displaySave = function() {
-      var id = $(this).attr("id");
-			var seekid = id.split("-");
-			var element = seekid[0];
-			console.log(element);
-			var value = $("#" + id + " #grey").html();
-			console.log(value);
-			if(element == "description"){
-				$("#" + id + " #grey").replaceWith("<textarea class= 'change-input' form = 'change-settings' id = 'input" + element+ "' name = 'description'>" + value + "</textarea>");
-				$("#save-" + element).css("display","inline");
-				$(".save").not("#save-" + element).css("display", "none");
-			}
-			else{
-			$("#" + id + " #grey").replaceWith("<input type = 'text' class= 'change-input' id = 'input" +element+ "' name = '"+ element +"' value = '"+ value + "'> </input>");
-			$("#save-" + element).css("display","inline");
-		  $(".save").not("#save-" + element).css("display", "none");
-			}
-			return this;
-   		};
-		})( jQuery );
-
-		(function( $ ){
-   $.fn.saveInfo= function() {
-      var id = $(this).attr("id");
-      console.log(id);
-			var seekid = id.split("-");
-			var element = seekid[1];
-			return this;
-   		};
-		})( jQuery );
-
-			$(".row").click(function(){
-				$(this).displaySave();
+		checkPassword: function(){
+			var previousPassword = this.$('#previous-password');
+			var newPassword = this.$('#new-password');
+			var confirmPassword = this.$('#confirm-password');
+			var email = this.model.get('email');
+			previousPassword.on('blur', function(){
+				var formData = {
+					email: email,
+					password: previousPassword.val()
+				};
+				$.post('/validation', formData, function(data){
+					if(data == 'The password is incorrect'){
+						$('#password-check').css('color', 'red');
+						$('#password-check').html(data);
+					}
+					else{
+						$('#password-check').css('color', 'green');
+						$('#password-check').html("This password is correct");
+					}
+				});
 			});
-
-			$(".save").click(function(){
-				$(this).saveInfo();
-			})
-
-				$("#account").click(function(){
-				$('.general').css("display", "none");
-				$('.profile-edit').css("display", "inline");
-				$('#general-settings').css("color", "grey");
-			$('#account').css("color", "black")
-			})
-
-			$("#general-settings").click(function(){
-				$('.general').css("display", "inline");
-				$('.profile-edit').css("display", "none");
-				$('#general-settings').css("color", "black");
-				$('#account').css("color", "grey")
-			})
-		},
-		editEmailSettings: function(){
-			console.log("WHAT?")
-			$("#email_updates").change(function(){
-				if(!this.checked){
-					var parameters = {email_updates: false};
-					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
-						console.log(data);
-					})
+			confirmPassword.on('blur', function(){
+				if(confirmPassword.val() != newPassword.val() ){
+					$('#password-match').css('color', 'red');
+					$('#password-match').html('The passwords do not match');
 				}
 				else{
-					var parameters = {email_updates: true};
-					$.post('/user/email-settings/'+ fund.id, parameters, function(data){
-						console.log(data);
-					})
+					$('#password-match').css('color', 'green');
+					$('#password-match').html('The passwords match');
 				}
+			});
+		},
+		saveGeneral: function(e){
+			e.preventDefault();
+			var previousPassword = this.$('#previous-password');
+			var newPassword = this.$('#new-password');
+			var confirmPassword = this.$('#confirm-password');
+			var email = this.model.get('email');
+			var newEmail = $('#email').val();
+			if(!previousPassword.val() && (newPassword.val() || confirmPassword.val())){
+				$('#password-check').css('color', 'red');
+				$('#password-check').html("You must enter your previous password for a new password.");
+			}
+			if(previousPassword.val()){
+				var formData = {
+					email: email,
+					password: previousPassword.val()
+				};
+				$.post('/validation', formData, function(data){
+					if(data == 'The password is incorrect'){
+						$('#password-check').css('color', 'red');
+						$('#password-check').html(data);
+					}
+					else{
+						if(newPassword.val() || confirmPassword.val()){
+							if(confirmPassword.val() != newPassword.val() ){
+								$('#password-match').css('color', 'red');
+								$('#password-match').html('The passwords do not match');
+							}
+							else{
+								// Okay to post data
+								if(checkEmail(newEmail)){
+									$('form#change-settings').submit();
+								}
+							}
+						}
+
+					}
+				});
+			}
+			if(!previousPassword.val() && !newPassword.val() && !confirmPassword.val()){
+				//okay to post data again;
+				$('form#change-settings').submit();
+			}
+
+
+		}
+
+	});
+
+	var AccountSettingsView = Backbone.View.extend({
+		tagName: 'div',
+		id: 'account-handler',
+		events:{
+			'click #userImage': 'changePicture',
+			"change input[id='my_file']": 'savePicture'
+		},
+		template: _.template($('#account-settings').html()),
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+		initialize: function(){
+			this.el = this.render().el;
+		},
+		changePicture: function(){
+			$("input[id='my_file']").click();
+		},
+		savePicture: function(e){
+			if (e.currentTarget.files && e.currentTarget.files[0]) {
+
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+
+				$('#userImage')
+					.attr('src', e.target.result);
+				};
+
+				reader.readAsDataURL(e.currentTarget.files[0]);
+			}
+			var file = e.currentTarget.files[0];
+			var data = new FormData();
+			data.append('profile_picture', file);
+			data.append('user', user.id);
+			$.ajax({
+				type: "POST",
+				url: "/user-edit/profile-picture",
+				data: data,
+				processData: false,
+				contentType: false,
+			}).then(function(data){
+				console.log("SUCCESS", data);
 			})
 		}
-	})
-		var settingsInfo = new SettingsInfo()
-})
+	});
+
+	var Router = Backbone.Router.extend({
+		routes: {
+			"": "general",
+			"general": "general",
+			"account": "account"
+		},
+		general: function(){
+			var router = this;
+			var generalModel = new SettingsModel();
+			generalModel.fetch({
+				success: function(){
+					$('.active-link').removeClass('active-link');
+					$('#general-settings a').addClass('active-link');
+					router.loadView(new GeneralSettingsView({model: generalModel}));
+				}
+			});
+		},
+		account: function(){
+			var router = this;
+			var accountModel = new SettingsModel();
+			accountModel.fetch({
+				success: function(){
+					console.log(accountModel);
+					$('.active-link').removeClass('active-link');
+					$('#account a').addClass('active-link');
+					router.loadView(new AccountSettingsView({model: accountModel}));
+				}
+			});
+		},
+		loadView: function(viewing){
+			if(this.view){
+				this.view.stopListening();
+				this.view.off();
+				this.view.unbind();
+				this.view.remove();
+			}
+			this.view = viewing;
+			$('#change-settings').append(viewing.el);
+		}
+	});
+
+	var router = new Router();
+  Backbone.history.start();
+	//helper Functions
+	function prePopulate(array, values, context){
+		for(var i =0; i < array.length; i++){
+			context.$('input#' + array[i]).val(values[i]);
+		}
+	}
+	function checkEmail(email){
+		 var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		 if(!re.test(email)){
+			 $('#email-check').html('Please enter a valid email address');
+			 return false;
+		 }
+		 else{
+			 return true;
+		 }
+	}
+});
