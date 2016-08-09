@@ -79,6 +79,12 @@ module.exports = {
     var data = {};
     models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
+      funds = funds.map(function(fund) {
+        fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+
+        return fund;
+      });
+
       data.funds = funds;
     }).then(function() {
       models.sequelize.query('SELECT title, COUNT(*) FROM funds GROUP BY title HAVING COUNT(*) > 1').spread(function(duplicateTitles, metadata) {
