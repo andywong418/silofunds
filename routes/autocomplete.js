@@ -1,15 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+var es = require('../elasticsearch');
 
 router.get('/', function(req,res) {
-  console.log(req.query);
+  Logger.info(req.query);
 
   var query = req.query.term.split(" ");
   query = query[query.length - 1];
-  console.log("AUTO QUERY" + query);
+  Logger.info("AUTO QUERY" + query);
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -37,7 +38,7 @@ router.get('/countries', function(req,res) {
   var query = req.query.q.split(" ");
   query = query[query.length - 1];
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -70,7 +71,7 @@ router.get('/degrees', function(req,res) {
   var query = req.query.q.split(" ");
   query = query[query.length - 1];
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -103,7 +104,7 @@ router.get('/religions', function(req,res) {
   var query = req.query.q.split(" ");
   query = query[query.length - 1];
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -135,7 +136,7 @@ router.get('/universities', function(req, res){
   var query = req.query.q.split(" ");
   query = query[query.length - 1];
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -167,7 +168,7 @@ router.get('/subjects', function(req, res){
   var query = req.query.q.split(" ");
   query = query[query.length - 1];
 
-  models.es.suggest({
+  es.suggest({
     index: "funds",
     body: {
       suggest: {
@@ -196,13 +197,13 @@ router.get('/subjects', function(req, res){
   });
 })
 router.get('/users', function(req, res){
-  console.log(req.query);
+  Logger.info(req.query);
 
   var query = req.query.term.split(" ");
   query = query[query.length - 1];
-  console.log("AUTO QUERY" + query);
+  Logger.info("AUTO QUERY" + query);
 
-  models.es.suggest({
+  es.suggest({
     index: "users",
     body: {
       suggest: {

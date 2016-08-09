@@ -115,6 +115,10 @@ $(document).ready(function(){
 	var AccountSettingsView = Backbone.View.extend({
 		tagName: 'div',
 		id: 'account-handler',
+		events:{
+			'click #userImage': 'changePicture',
+			"change input[id='my_file']": 'savePicture'
+		},
 		template: _.template($('#account-settings').html()),
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
@@ -122,6 +126,36 @@ $(document).ready(function(){
 		},
 		initialize: function(){
 			this.el = this.render().el;
+		},
+		changePicture: function(){
+			$("input[id='my_file']").click();
+		},
+		savePicture: function(e){
+			if (e.currentTarget.files && e.currentTarget.files[0]) {
+
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+
+				$('#userImage')
+					.attr('src', e.target.result);
+				};
+
+				reader.readAsDataURL(e.currentTarget.files[0]);
+			}
+			var file = e.currentTarget.files[0];
+			var data = new FormData();
+			data.append('profile_picture', file);
+			data.append('user', user.id);
+			$.ajax({
+				type: "POST",
+				url: "/user-edit/profile-picture",
+				data: data,
+				processData: false,
+				contentType: false,
+			}).then(function(data){
+				console.log("SUCCESS", data);
+			})
 		}
 	});
 

@@ -6,7 +6,7 @@ var utils = require('../../routes/utils');
 // Export ensureAuthenticated function (redirects to user login page)
 module.exports.ensureAuthenticated = function(req, res, next){
   if(req.isAuthenticated()){
-    console.log("HI");
+    Logger.info("HI");
     // next() fucks things up here
     next();
   } else {
@@ -26,18 +26,18 @@ function issueToken(user, done) {
 }
 function saveRememberMeToken(token, uid, fn) {
   tokens[token] = uid;
-  console.log("TOKENS", tokens[token]);
+  Logger.info("TOKENS", tokens[token]);
   return fn();
 }
 function consumeRememberMeToken(token, fn) {
   var uid = tokens[token];
   tokens = {};
   tokens[token] = uid;
-  console.log("HIHI", token);
-  console.log("TOKENS", tokens);
+  Logger.info("HIHI", token);
+  Logger.info("TOKENS", tokens);
   // invalidate the single-use token
   delete tokens[token];
-  console.log("deleted TOKENS", tokens);
+  Logger.info("deleted TOKENS", tokens);
   return fn(null, uid);
 }
 module.exports.issueToken = issueToken;

@@ -18,6 +18,24 @@ a.back-to-top {
   border-radius: 30px;
 }
 
+div#duplicateTableContainer {
+  overflow: auto;
+  height: 200px;
+  margin-bottom: 50px;
+
+  table#duplicateTitle, table#duplicateEmail {
+    table-layout: fixed;
+
+    td {
+      overflow: auto;
+    }
+
+    th#countHeader {
+      width: 100px;
+    }
+  }
+}
+
 #support_type{
   width: 100%;
 }

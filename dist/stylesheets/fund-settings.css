@@ -172,7 +172,29 @@ ul {
   padding-bottom: 30px;
   margin-bottom: 30px; }
 
-textarea {
+.profile-edit #box-profile {
+  -webkit-transition: 2.5s;
+  transition: 2.5s;
+  margin-bottom: 30px; }
+  .profile-edit #box-profile .fa-camera {
+    position: absolute;
+    color: white;
+    font-size: 45px;
+    left: 47%;
+    top: 30%;
+    display: none; }
+  .profile-edit #box-profile:hover .fa-camera {
+    cursor: pointer;
+    display: block; }
+  .profile-edit #box-profile #userImage {
+    width: 50%;
+    margin-left: 25%;
+    max-height: 500px;
+    border-radius: 5px;
+    border: 1px solid #e1e8ed;
+    cursor: pointer; }
+
+.profile-edit textarea {
   padding: 10px;
   height: 100px;
   width: 100%; }

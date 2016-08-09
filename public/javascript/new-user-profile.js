@@ -19,8 +19,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		emptyArray.push(wrapper);
 	}
-	return emptyArray
-}
+	return emptyArray;
+};
 
 	$('.process').click(function(){
 		console.log(this);
@@ -111,7 +111,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 					this.$("input[id='my_file']").click();
 		},
 		changePicture: function(e){
-			console.log(e);
 			if (e.currentTarget.files && e.currentTarget.files[0]) {
 
 					var reader = new FileReader();

@@ -10,8 +10,6 @@ block content
     var user = !{JSON.stringify(user)};
     var fund = !{JSON.stringify(fund)};
     var favourite = !{JSON.stringify(favourite)};
-    console.log(user)
-    console.log(favourite)
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
@@ -267,13 +265,13 @@ block content
               .mb-thumb
                 img(src!= '<%= profile_picture %>')
           //-         #scholars_div
-  #separator_1      
-  #review_div.container-fluid.center-block
-    .col-md-6
-      p#review-number 0 Reviews from the Silo community
-    .col-md-2
-    .col-md-2
-      a.btn.btn-primary Write a review
+  //- #separator_1      
+  //- #review_div.container-fluid.center-block
+  //-   .col-md-6
+  //-     p#review-number 0 Reviews from the Silo community
+  //-   .col-md-2
+  //-   .col-md-2
+  //-     a.btn.btn-primary Write a review
       
   //- #scholars_div
   //- 

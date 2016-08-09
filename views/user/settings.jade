@@ -22,13 +22,13 @@ block content
           i.fa.fa-camera
       .settings-tab-menu
         .list-group
-          a.list-group-item(href="#")
+          a.list-group-item.active(href="#")
             h5 General settings
               span.glyphicon.glyphicon-menu-right
           a.list-group-item(href="#")
             h5 Personal settings
               span.glyphicon.glyphicon-menu-right
-          a.list-group-item.active(href="#")
+          a.list-group-item(href="#")
             h5 Campaign settings
               span.glyphicon.glyphicon-menu-right
           a.list-group-item(href="#")
@@ -40,7 +40,7 @@ block content
             h5 Logout
     #right_div.col-md-9
       .settings-tab
-        #general-settings.settings-tab-content
+        #general-settings.settings-tab-content.active
           .col-md-12.header
             h3 General Settings
             p.help-block Change your bio and other key information.
@@ -97,6 +97,18 @@ block content
                 .col-md-6
                   input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
               .col-md-12
+                label.col-md-3(for='gender') Gender
+                .col-md-2
+                  label.radio-inline
+                    input#male(type='radio', name= 'gender', value= 'male')
+                    | Male
+                .col-md-2
+                  label.radio-inline
+                    input#female(type='radio', name='gender', value='female')
+                    | Female
+                .col-md-2.clear
+                  a#clear_gender(href='#') Clear
+              .col-md-12
                 label.col-md-3(for='religion') Religion
                 .col-md-6
                   input#religion.form-control(type='text', name='religion', value=user.religion)
@@ -107,7 +119,7 @@ block content
           .col-md-12.footer
             button#save-personal-settings.btn.btn-primary(type='submit') Save changes
             #save-personal-settings-notification Your changes have been saved
-        #campaign-settings.settings-tab-content.active
+        #campaign-settings.settings-tab-content
           .col-md-12.header
             h3 Campaign Settings
             p.help-block Change your campaigning details.

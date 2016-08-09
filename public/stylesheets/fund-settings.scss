@@ -197,8 +197,38 @@ margin-top: 10px;
 	padding-bottom: 30px;
 	margin-bottom: 30px;
 }
-textarea{
-  padding: 10px;
-  height: 100px;
-  width: 100%;
+.profile-edit{
+  #box-profile{
+    transition: 2.5s;
+    margin-bottom: 30px;
+    .fa-camera{
+      position: absolute;
+      color: white;
+      font-size: 45px;
+      left: 47%;
+      top: 30%;
+      display: none;
+    }
+    &:hover{
+      .fa-camera{
+
+        cursor: pointer;
+        display: block;
+      }
+    }
+    #userImage {
+      width: 50%;
+      margin-left: 25%;
+      max-height: 500px;
+      border-radius: 5px;
+      border: 1px solid #e1e8ed;
+      cursor: pointer;
+    }
+
+  }
+  textarea{
+    padding: 10px;
+    height: 100px;
+    width: 100%;
+  }
 }

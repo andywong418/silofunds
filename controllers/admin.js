@@ -20,7 +20,11 @@ var umzugOptions = {
   }
 };
 var umzug = new Umzug(umzugOptions);
+var es = require('../elasticsearch');
 
+/*
+NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
+*/
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
@@ -72,9 +76,20 @@ module.exports = {
   },
 
   funds: function(req, res) {
+    var data = {};
     models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
-      res.render('admin/funds', { funds: funds });
+      data.funds = funds;
+    }).then(function() {
+      models.sequelize.query('SELECT title, COUNT(*) FROM funds GROUP BY title HAVING COUNT(*) > 1').spread(function(duplicateTitles, metadata) {
+        data.duplicateTitles = duplicateTitles;
+      }).then(function() {
+        models.sequelize.query('SELECT email, COUNT(*) FROM funds WHERE email IS NOT NULL GROUP BY email HAVING COUNT(*) > 1').spread(function(duplicateEmails, metadata) {
+          data.duplicateEmails = duplicateEmails;
+
+          res.render('admin/funds', { funds: data.funds, fundsWithDuplicateTitles: data.duplicateTitles, fundsWithDuplicateEmails: data.duplicateEmails });
+        });
+      });
     });
   },
 
@@ -256,24 +271,47 @@ module.exports = {
     });
   },
 
+  resetTable: function(req, res) {
+    if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+      models.funds.findAll({ paranoid: false }).then(function(funds) {
+        for (var i = 0; i < funds.length; i++) {
+          funds[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared funds table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('funds_id_seq reset to 1');
+            res.redirect('/admin/funds');
+          });
+      });
+    } else {
+      Logger.warn('Someone just tried to clear funds table and failed miserably.');
+      res.redirect('/admin/funds');
+    }
+  },
+
   upload: function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-      console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+      Logger.info('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
       file.on('data', function(data) {
-        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        Logger.info('File [' + fieldname + '] got ' + data.length + ' bytes');
         jsonData += data.toString();
       });
       file.on('end', function() {
-        console.log('File [' + fieldname + '] Finished');
+        Logger.info('File [' + fieldname + '] Finished');
       });
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
     });
     busboy.on('finish', function() {
-      console.log('Done parsing form! Injecting into database...');
+      Logger.info('Done parsing form! Injecting into database...');
       var json_array = JSON.parse(jsonData);
 
       for (var ind = 0; ind < json_array.length; ind++) {
@@ -287,14 +325,16 @@ module.exports = {
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
           }
-          create_options["id"] = fund.id;
+          // create_options["id"] = fund.id;
         }
 
         models.funds.create( create_options ).then(function() {
-          console.log('Created fund.');
+          Logger.info('Created fund.');
+        }).catch(function(err) {
+          Logger.error(err);
         });
       }
-      res.redirect('../admin');
+      res.redirect('../admin/funds');
     });
     req.pipe(busboy);
   },
@@ -374,7 +414,7 @@ module.exports = {
       gender: gender,
       deadline: deadline
     }).catch(function(err) {
-      console.log("There seems to have been an error: " + err);
+      Logger.info("There seems to have been an error: " + err);
     }).then(function() {
       res.redirect('/admin/funds');
     });
@@ -397,13 +437,13 @@ module.exports = {
         body.push(wrapper);
       });
 
-      models.es.bulk({
+      es.bulk({
         body: body
       }, function (err, resp) {
-        console.log(resp);
+        Logger.info(resp);
       });
     }).then(function() {
-      console.log('...Finished sync');
+      Logger.info('...Finished sync');
       res.redirect('../admin');
     });
   },
@@ -429,7 +469,7 @@ module.exports = {
         name: name,
         charity_id: charity_id
       }).catch(function(err) {
-        console.log("There seems to have been an error: " + err);
+        Logger.info("There seems to have been an error: " + err);
       }).then(function() {
         res.redirect('/admin/organisations');
       });
@@ -463,6 +503,24 @@ module.exports = {
       });
     },
 
+    resetTable: function(req, res) {
+      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+        for (var i = 0; i < organisations.length; i++) {
+          organisations[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared organisations table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('organisations_id_seq reset to 1');
+            res.redirect('/admin/organisations');
+          });
+      });
+    },
+
     update: function(req, res) {
       var id = req.params.id;
 
@@ -484,20 +542,20 @@ module.exports = {
       var busboy = new Busboy({ headers: req.headers });
       var jsonData = '';
       busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+        Logger.info('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         file.on('data', function(data) {
-          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+          Logger.info('File [' + fieldname + '] got ' + data.length + ' bytes');
           jsonData += data.toString();
         });
         file.on('end', function() {
-          console.log('File [' + fieldname + '] Finished');
+          Logger.info('File [' + fieldname + '] Finished');
         });
       });
       busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-        console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
       });
       busboy.on('finish', function() {
-        console.log('Done parsing form! Injecting into database...');
+        Logger.info('Done parsing form! Injecting into database...');
         var json_array = JSON.parse(jsonData);
 
         for (var ind = 0; ind < json_array.length; ind++) {
@@ -512,11 +570,11 @@ module.exports = {
               create_options["deleted_at"] = organisation.deleted_at;
             }
 
-            create_options["id"] = organisation.id;
+            // create_options["id"] = organisation.id;
           }
 
           models.organisations.create( create_options ).then(function() {
-            console.log('Created fund.');
+            Logger.info('Created organisation.');
           });
         }
         res.redirect('/admin/organisations');
@@ -529,7 +587,7 @@ module.exports = {
     index: function(req, res) {
       stripe.accounts.list(function(err, accounts) {
         if (err) {
-          console.log(err);
+          Logger.info(err);
         }
         accounts = accounts.data;
 

@@ -82,6 +82,10 @@ block content
 								#save-general-settings-notification Your changes have been saved
 					script#account-settings(type='text/template')
 						.profile-edit
+							#box-profile 
+								input#my_file(type='file', style='display: none;', name = 'profile_picture')
+								img#userImage(src=user.profile_picture)
+								i.fa.fa-camera
 							.row#description-row
 								.col-md-3
 									p Description:

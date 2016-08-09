@@ -8,7 +8,6 @@ block content
     var user = !{JSON.stringify(user)};
     var applied_funds = !{JSON.stringify(applied_funds)};
     var recent_funds = !{JSON.stringify(recent_funds)};
-    console.log(recent_funds);
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
@@ -21,16 +20,18 @@ block content
       if !user.email_is_verified
         a(href="/user/dashboard")
           #emailVerification.alert.alert-danger Your account has not yet been verified, click me if you need us to send you another email!
-      if user.email_is_verified && verificationSuccess
+      if user.email_is_verified && success
         .alert.alert-success
           strong Success!
           |  You are now a verified user. 
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
-      if user.email_is_verified && !verificationSuccess && !stripe
+      if user.email_is_verified && !success && !stripe
         .alert.alert-warning
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
+      if user.email_is_verified && !success && stripe
+        .spacing_div
       .col-md-12.text-center
         h2#name= 'Welcome to your dashboard, ' + user.username.split(' ')[0]
     section#recommended

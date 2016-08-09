@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -13,19 +16,13 @@ var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/silofunds_development';
 var app = express();
 var mcapi = require('mailchimp-api');
-var mcKey;
-
-if (process.env.MAILCHIMP_KEY) {
-  mcKey = process.env.MAILCHIMP_KEY;
-} else {
-  var mailchimpKey = require('./app/secrets.js').MAILCHIMP_KEY;
-  mcKey = mailchimpKey;
-}
-
+var mcKey = process.env.MAILCHIMP_KEY;
 mc = new mcapi.Mailchimp(mcKey);
+
+Logger = require('./logger');
+
 //Use prerender
 app.use(require('prerender-node').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
 // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:1337/').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
@@ -38,7 +35,9 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+if (process.argv.indexOf('--silent-http') === -1) {
+  app.use(logger('dev'));
+}
 app.use(cookieParser('keyboard cat'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,7 +52,7 @@ if (process.env.REDIS_URL) {
     redisPort = rtg.port;
     redisHost = rtg.hostname;
     redis.auth(rtg.auth.split(':')[1]);
-    console.log("HERE IT IS", redis);
+    Logger.info("HERE IT IS", redis);
 }
 else{
   var redis = require("redis").createClient();
@@ -66,7 +65,9 @@ app.use(session({
     client: redis,
     host: redisHost,
     port: redisPort
-  })
+  }),
+  resave: true,
+  saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());

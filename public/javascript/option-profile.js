@@ -4,6 +4,9 @@ $(document).ready(function(){
   if(!user){
     showLimitedProfile();
   }
+  if(user){
+    $('#signup-modal-fade').hide();
+  }
   function showLimitedProfile(){
     //Hide favourite
     $('#favourite').hide();
@@ -794,7 +797,7 @@ $(document).ready(function(){
                 for(var i =0; i < targetCountry.length; i++){
                   var imageModel = new ImageModel({
                     imageSource: '/images/128/' + targetCountry[i] + '.png',
-                    criteria: 'For ' + targetCountry[i],
+                    criteria: 'To ' + targetCountry[i],
                     section: targetCountry[i]
                   });
                   var view = new ImageView({ model: imageModel });

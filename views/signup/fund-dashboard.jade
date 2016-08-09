@@ -6,7 +6,6 @@ block content
 		script.
 			var bodyEl = document.getElementsByTagName('body');
 			var user = !{JSON.stringify(user)};
-			console.log(user);
 			if(user){
 				bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 			}

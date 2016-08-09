@@ -18,7 +18,19 @@ $(document).ready(function() {
   tokenInputFor('target_degree', 'degrees');
   tokenInputFor('target_university', 'universities');
 
-  // // TODO: ABSTRACT BELOW
+
+  if(user.gender !== null) {
+    $("#" + user.gender).prop("checked", true);
+  }
+
+  $("#clear_gender").click(function(evt) {
+    evt.preventDefault();
+
+    $("#male, #female").prop("checked", false);
+  });
+
+  // // TODO: ABSTRACT BELOW BITCHHHH
+
   // var text;
   try {
     initiateTinyMCE();
@@ -164,7 +176,16 @@ $(document).ready(function() {
   $('#save-personal-settings').click(function(e) {
     e.preventDefault();
 
-    saveActivePaneSettings('personal', ['username', 'date_of_birth', 'religion', 'country_of_residence']);
+    var gender;
+
+    if($('#male').is(":checked")){
+      gender = 'male';
+    }
+    if($('#female').is(":checked")){
+      gender = 'female';
+    }
+
+    saveActivePaneSettings('personal', ['username', 'date_of_birth', 'religion', 'country_of_residence'], { gender: gender });
   });
 
   $('#save-campaign-settings').click(function(e) {

@@ -1,7 +1,8 @@
 var models = require('../models');
 var query;
 var async = require('async');
-var countries = require('../resources/countries')
+var countries = require('../resources/countries');
+var es = require('../elasticsearch');
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -156,7 +157,7 @@ module.exports = {
       }
     }
 
-    models.es.search({
+    es.search({
       index: "funds",
       type: "fund",
       body: {
@@ -173,17 +174,17 @@ module.exports = {
           hash[fields[i]] = hit._source[fields[i]];
         }
         // Sync id separately, because it is hit._id, NOT hit._source.id
-        console.log("HASH", hash);
+        Logger.info("HASH", hash);
         hash.id = hit._id;
         fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
         hash.fund_user = false; // for the user logic later
-        console.log(fund_id_list);
+        Logger.info(fund_id_list);
         return hash;
       });
 
       models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
-          console.log("YSER",user);
+          Logger.info("YSER",user);
           for (var i=0; i < funds.length; i++) {
             if (funds[i].organisation_id == user.organisation_or_user) {
               funds[i].fund_user = true;
@@ -244,7 +245,7 @@ module.exports = {
   fundingSignupProcess: function(req,res){
     var id = req.params.id;
     var option = req.params.option;
-    console.log("Check params", req.params);
+    Logger.info("Check params", req.params);
     models.users.findById(id).then(function(user){
       models.organisations.findById(user.organisation_or_user).then(function(fund){
         for (var attrname in fund['dataValues']){
@@ -277,7 +278,7 @@ module.exports = {
     var userId = req.params.id;
     var option = req.params.option;
     var fundId = req.params.fund_id;
-    console.log(req.params.fund_id);
+    Logger.info(req.params.fund_id);
     models.users.findById(userId).then(function(user){
       models.organisations.findById(user.organisation_or_user).then(function(organisation){
         models.funds.findById(fundId).then(function(fund){
@@ -308,14 +309,14 @@ module.exports = {
 
   },
   getOptionInfo: function(req, res){
-    console.log("WHAT");
+    Logger.info("WHAT");
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       models.tips.find({where:{fund_id: fund.id}}).then(function(tip){
         if(tip){
           fund = fund.get();
           fund.tips = tip.tip;
-          console.log(fund);
+          Logger.info(fund);
           res.json(fund);
         }
         else{
@@ -352,7 +353,7 @@ module.exports = {
   updateGeneralInfo: function(req, res){
     var id = req.params.fund_id;
     var fields = req.body;
-    console.log(fields);
+    Logger.info(fields);
     fields = moderateObject(fields);
     if(fields['tags[]']){
       fields['tags'] = fields['tags[]'];
@@ -364,15 +365,15 @@ module.exports = {
     })
   },
   updateEligibility: function(req, res){
-    console.log("Check it again")
+    Logger.info("Check it again")
     var fundId = req.params.fund_id;
     var fields = req.body;
-    console.log(req.body);
+    Logger.info(req.body);
     var arrayFields = ['subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location'];
     fields = moderateObject(fields);
-    console.log("again",fields);
+    Logger.info("again",fields);
     fields = changeArrayfields(fields, arrayFields);
-    console.log('test',fields);
+    Logger.info('test',fields);
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
         res.send(fund);
@@ -386,11 +387,11 @@ module.exports = {
     var arrayFields = ['application_documents'];
     fields = moderateObject(fields);
     fields = changeArrayfields(fields, arrayFields);
-    console.log("HI");
+    Logger.info("HI");
     models.funds.findById(fundId).then(function(fund){
       fund.update(fields).then(function(fund){
         if(req.body.tips){
-          console.log("REQ BODY TIPS", req.body.tips);
+          Logger.info("REQ BODY TIPS", req.body.tips);
           models.tips.find({where: {fund_id: fundId}}).then(function(tip){
             tip.update({tip: req.body.tips}).then(function(tip){
               fund = fund.get();
@@ -417,7 +418,7 @@ module.exports = {
   },
 
   getOptionProfile: function(req, res){
-    console.log("HELL",req.user);
+    Logger.info("HELL",req.user);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
@@ -430,7 +431,7 @@ module.exports = {
               fund_id: fundId
             }).spread(function(recent, created){
               if(created){
-                console.log(recent);
+                Logger.info(recent);
                 res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries})
               }else{
                 var dateNow = Date.now();
@@ -503,12 +504,12 @@ module.exports = {
   },
   getOptionTips: function(req, res){
     //NEED TO MODIFY FOR CAROUSEL IN FUTURE for arrays using findAll
-    console.log("CAROUSEL");
+    Logger.info("CAROUSEL");
     var fundId = req.params.id;
     models.tips.find({where: {fund_id: fundId}}).then(function(tips){
 
       models.funds.findById(tips.fund_id).then(function(fund){
-        console.log(fund);
+        Logger.info(fund);
         models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
           tips = tips.get();
           tips.tip_giver = fund.title;
@@ -531,7 +532,7 @@ module.exports = {
   },
   editDates: function(req, res){
     var fundId = req.params.id;
-    console.log("DATES", req.body);
+    Logger.info("DATES", req.body);
     models.users.findById(fundId).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(fund){
         fund.update(req.body).then(function(data){
@@ -545,7 +546,7 @@ module.exports = {
     var session = req.params.session;
     var id = req.params.id;
     var general_settings = true;
-    console.log("HERE HERE HERE")
+    Logger.info("HERE HERE HERE")
       models.users.findById(id).then(function(user){
       var fundUser = user;
       models.funds.findById(user.organisation_or_user).then(function(fund){
@@ -568,7 +569,7 @@ module.exports = {
     var id = req.params.id;
     var general_settings;
     var body = req.body;
-    console.log(req.body);
+    Logger.info(req.body);
     if('username' in body || 'email' in body || 'password' in body || 'charity_number' in body){
       general_settings = true;
       if('charity_number' in body){
@@ -621,7 +622,7 @@ module.exports = {
     else{
       general_settings = false;
       if('description' in body){
-        console.log("What's going on");
+        Logger.info("What's going on");
         models.users.findById(id).then(function(user){
           user.update({description: body.description}).then(function(user){
             models.funds.findById(user.organisation_or_user).then(function(fund){
@@ -638,10 +639,10 @@ module.exports = {
       }
       if('religion' in body){
         body.religion = body.religion.replace(/\s*,\s*/g, ',');
-        console.log(body.religion);
+        Logger.info(body.religion);
         var religion = [];
         var religionArray = body.religion.split(",");
-        console.log("BODY", religionArray);
+        Logger.info("BODY", religionArray);
         for(var i = 0; i < religionArray.length; i++){
           religion.push(religionArray[i]);
         }
@@ -662,17 +663,17 @@ module.exports = {
         })
       }
       else{
-        console.log("TELL ME THE BODY", body);
+        Logger.info("TELL ME THE BODY", body);
         if('countries' in body){
           body.countries = body.countries.replace(/\s*,\s*/g, ',');
-          console.log(body.countries);
+          Logger.info(body.countries);
           var countries = [];
           var bodyArray = body.countries.split(",");
-          console.log("BODY", bodyArray);
+          Logger.info("BODY", bodyArray);
           for(var i = 0; i < bodyArray.length; i++){
             countries.push(bodyArray[i]);
           }
-          console.log(countries);
+          Logger.info(countries);
           body.countries = countries;
         }
 
@@ -692,7 +693,7 @@ module.exports = {
     }
   },
   logout: function(req, res){
-    console.log("WHY NOT HERE?")
+    Logger.info("WHY NOT HERE?")
     req.session.destroy(function(err) {
   // cannot access session here
       res.redirect('/');

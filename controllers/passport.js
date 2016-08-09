@@ -31,7 +31,7 @@ module.exports = function(passport) {
             if (!res) {
               return done(null, false, { message: 'Wrong password'} );
             } else {
-              console.log(user);
+              Logger.info(user);
               return done(null, user);
             }
           });
@@ -50,7 +50,7 @@ module.exports = function(passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
-          console.log("EMAIL", email);
+          Logger.info("EMAIL", email);
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
         models.users.find({
@@ -63,7 +63,7 @@ module.exports = function(passport) {
               password: password,
               email_updates: true
             }).then(function(user){
-              console.log("AM I HERE");
+              Logger.info("AM I HERE");
               return done(null, user);
 
             });

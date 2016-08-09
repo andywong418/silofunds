@@ -5,12 +5,15 @@ block content
       h1.text-center Funds Table
       hr
       .row
-        .col-md-3
+        .col-md-2
           a.btn.btn-default.btn-success(href='/admin/new', role='button') Create a new fund
-        .col-md-3
+        .col-md-2
           form(action="/admin/upload", method="post", enctype="multipart/form-data")
             input(type="file", name="jsonData")
             button.btn.btn-default.btn-primary(type='submit') Upload JSON!
+        .col-md-2
+          form(action="/admin/funds/reset-table", method="post", name='reset-table')
+            button.btn.btn-default.btn-danger(type='submit') Clear & Reset Table
         .col-md-3
           form(action="/admin/sync", method="post", name="sync_db")
             button.btn.btn-warning(type="submit") Sync ES to PG
@@ -18,6 +21,28 @@ block content
           a.btn.btn-default.btn-link#downloader(href='/admin/download' download) Generate download link
           .downloader#generated_download_link
       hr
+      .col-md-6
+        h3.duplicate-titles Duplicate titles
+        div#duplicateTableContainer
+          table#duplicateTitle.table.table-bordered.table-responsive
+            tr
+              th Title
+              th#countHeader Count
+            each fund in fundsWithDuplicateTitles
+              tr
+                td= fund.title
+                td= fund.count
+      .col-md-6
+        h3.duplicate-titles Duplicate emails
+        div#duplicateTableContainer
+          table#duplicateEmail.table.table-bordered.table-responsive
+            tr
+              th Email
+              th#countHeader Count
+            each fund in fundsWithDuplicateEmails
+              tr
+                td= fund.email
+                td= fund.count
       a.back-to-top(href='#')
       table.table.table-bordered.table-responsive
         tr

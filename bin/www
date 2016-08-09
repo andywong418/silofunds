@@ -5,6 +5,8 @@ var debug = require('debug')('potfund:server');
 var http = require('http');
 var models = require('../models');
 var sleep = require('sleep');
+var es = require('../elasticsearch');
+var elasticsearchModels = require('../elasticsearch/model');
 
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -17,114 +19,90 @@ var fund_array_to_json = function(array) {
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "support_type","organisation_id"];
 var userFields =  ["username","profile_picture","description","past_work","date_of_birth","country_of_residence","religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds"];
 
-// models.sequelize.sync().then(function () {
-  var port = normalizePort(process.env.PORT || '3001');
-  app.set('port', port);
+var port = normalizePort(process.env.PORT || '3001');
+app.set('port', port);
 
-  var server = http.createServer(app);
+var server = http.createServer(app);
 
-  /* Socket IO Messaging Component */
+/* Socket IO Messaging Component */
 
-  var io = require('socket.io')(server);
-  var users = {};
+var io = require('socket.io')(server);
+var users = {};
 
-  io.on('connection', function(socket){
-    console.log('a user connected');
+io.on('connection', function(socket){
+  Logger.info('a user connected');
 
-    socket.on('disconnect', function(){
-      console.log('user disconnected');
+  socket.on('disconnect', function(){
+    Logger.info('user disconnected');
+  });
+
+  socket.on('private message', function(data) {
+    Logger.info("USERS");
+    Logger.info(users);
+
+    Logger.info(data);
+    if (users[data.userToID]) {
+      users[data.userToID].socket.join(data.roomName);
+    }
+    users[data.userFromID].socket.join(data.roomName);
+
+    var rooms = io.sockets.adapter.rooms;
+    Logger.info("Clients in rooms:");
+    Logger.info(rooms);
+
+
+
+    var user_to_arr = [];
+    user_to_arr.push(data.userToID);
+    var read_by_recipient = false;
+
+    if (users[data.userToID]) {
+      if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
+        read_by_recipient = true;
+        data.read_by_recipient = true;
+      }
+    }
+
+    models.messages.create({
+      user_from: data.userFromID,
+      user_to: user_to_arr,
+      message: data.msg,
+      room_name: data.roomName,
+      read_by_recipient: read_by_recipient
     });
+    io.sockets.in(data.roomName).emit('private message', data);
+  });
 
-    socket.on('private message', function(data) {
-      console.log("USERS");
-      console.log(users);
+  socket.on('add user', function(data) {
+    users[data.userFrom.id] = { "socket" : socket };
+    Logger.info("A new user has been added. Here is the users object:");
+    Logger.info(users);
+  });
 
-      console.log(data);
-      if (users[data.userToID]) {
-        users[data.userToID].socket.join(data.roomName);
-      }
-      users[data.userFromID].socket.join(data.roomName);
+  socket.on('room join', function(data) {
 
-      var rooms = io.sockets.adapter.rooms;
-      console.log("Clients in rooms:");
-      console.log(rooms);
+  });
 
+  socket.on('get messages', function(data) {
+    var userToID_arr = [];
+    userToID_arr.push(data.userToID);
+    var userFromID_arr = [];
+    userFromID_arr.push(data.userFromID);
 
+    // NOTE: readyToReceiveFrom also means it has read latest message
+    models.users.findById(data.userToID).then(function(userTo) {
+      userTo = userTo.get();
 
-      var user_to_arr = [];
-      user_to_arr.push(data.userToID);
-      var read_by_recipient = false;
+      data.userTo = userTo;
 
-      if (users[data.userToID]) {
-        if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
-          read_by_recipient = true;
-          data.read_by_recipient = true;
-        }
-      }
-
-      models.messages.create({
-        user_from: data.userFromID,
-        user_to: user_to_arr,
-        message: data.msg,
+      models.messages.findAll({ where: {
         room_name: data.roomName,
-        read_by_recipient: read_by_recipient
-      });
-      io.sockets.in(data.roomName).emit('private message', data);
-    });
+        user_to: userFromID_arr
+      }}).then(function(messages) {
+        if (typeof messages !== 'undefined' && messages.length > 0) {
+          // the array is defined and has at least one element
 
-    socket.on('add user', function(data) {
-      users[data.userFrom.id] = { "socket" : socket };
-      console.log("A new user has been added. Here is the users object:");
-      console.log(users);
-    });
-
-    socket.on('room join', function(data) {
-
-    });
-
-    socket.on('get messages', function(data) {
-      var userToID_arr = [];
-      userToID_arr.push(data.userToID);
-      var userFromID_arr = [];
-      userFromID_arr.push(data.userFromID);
-
-      // NOTE: readyToReceiveFrom also means it has read latest message
-      models.users.findById(data.userToID).then(function(userTo) {
-        userTo = userTo.get();
-
-        data.userTo = userTo;
-
-        models.messages.findAll({ where: {
-          room_name: data.roomName,
-          user_to: userFromID_arr
-        }}).then(function(messages) {
-          if (typeof messages !== 'undefined' && messages.length > 0) {
-            // the array is defined and has at least one element
-
-            messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
-              models.messages.findAll({ where: {
-                room_name: data.roomName
-              }}).then(function(messages) {
-                messages = messages.map(function(message) {
-                  return message.get();
-                });
-
-                console.log('Retrieved messages:');
-                console.log(messages);
-
-                if (users[data.userToID]) {
-                  users[data.userToID].socket.join(data.roomName);
-                }
-                users[data.userFromID].socket.join(data.roomName);
-                users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-                console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
-
-                data.bulk_messages = messages;
-
-                io.sockets.in(data.roomName).emit('bulk get message', data);
-              });
-            });
-          } else {
+          messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
             models.messages.findAll({ where: {
               room_name: data.roomName
             }}).then(function(messages) {
@@ -132,706 +110,288 @@ var userFields =  ["username","profile_picture","description","past_work","date_
                 return message.get();
               });
 
-              console.log('Retrieved messages:');
-              console.log(messages);
+              Logger.info('Retrieved messages:');
+              Logger.info(messages);
 
               if (users[data.userToID]) {
                 users[data.userToID].socket.join(data.roomName);
               }
               users[data.userFromID].socket.join(data.roomName);
               users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-              console.log("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+              Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
 
               data.bulk_messages = messages;
 
               io.sockets.in(data.roomName).emit('bulk get message', data);
             });
-          }
-        });
-      });
-    });
-  });
-
-  /* ---------------------------- */
-
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-  models.es.ping({
-    requestTimeout: 30000,
-
-    // undocumented params are appended to the query string
-    hello: "elasticsearch"
-  }, function (error) {
-    if (error) {
-      console.error('elasticsearch cluster is down!');
-    } else {
-      console.log('All is well');
-    }
-
-    models.es.indices.exists({ index: ['funds', 'users'] }, function(err, resp) {
-      if (err) {
-        console.log("Error checking existence of funds index:");
-        console.log(err);
-      } else if (resp) {
-        console.log("Does the funds index exist?:");
-        console.log(resp);
-      }
-
-      // If it exists, refresh its settings & mappings by deleting & creating again. This will
-      // wipe the existing records. So, once the settings and mappings are FINALIZED, remove deleting function.
-      models.es.indices.delete({
-        index: 'funds',
-        ignore: [404]
-      }, function(err, resp) {
-        if (err) {
-          console.log("Error deleting funds index:");
-          console.log(err);
-        } else if (resp) {
-          console.log("Deleted funds index.");
-        }
-
-        if (process.env.NODE_ENV == "production") {
-          sleep.sleep(10);
-        }
-
-        models.es.indices.create({
-          index: 'funds',
-          body: {
-            "settings": {
-              "analysis": {
-                "filter": {
-                  "autocomplete_filter": {
-                    "type": "edge_ngram",
-                    "min_gram": 1,
-                    "max_gram": 20
-                  }
-                },
-                "analyzer": {
-                  "autocomplete": {
-                    "type": "custom",
-                    "tokenizer": "standard",
-                    "filter": [
-                      "lowercase",
-                      "autocomplete_filter"
-                    ]
-                  },
-                  "my_english": {
-                    "type":      "english",
-                    "stopwords": "_english_"
-                  }
-                }
-              }
-            },
-            'mappings': {
-              'autocomplete_countries': {
-                'properties': {
-                  'country': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                    }
-                  },
-                  "suggest_countries": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": true
-                  }
-                }
-              },
-              'autocomplete_degrees': {
-                'properties': {
-                  'degree': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                    }
-                  },
-                  "suggest_degrees": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": true
-                  }
-                }
-              },
-              'autocomplete_universities': {
-                'properties': {
-                  'university': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                    }
-                  },
-                  "suggest_universities": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": true
-                  }
-                }
-              },
-              'autocomplete_religions': {
-                'properties': {
-                  'degree': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                    }
-                  },
-                  "suggest_religions": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": true
-                  }
-                }
-              },
-              'autocomplete_subjects': {
-                'properties': {
-                  'subject': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                    }
-                  },
-                  "suggest_subjects": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": true
-                  }
-                }
-              },
-              'fund': {
-                'properties': {
-                  "application_decision_date": {
-                    "type": "date"
-                  },
-                  "application_documents": {
-                    "type": "string"
-                  },
-                  "application_open_date": {
-                    "type": "date"
-                  },
-                  'title': {
-                    'type': 'string',
-                    'fields': {
-                      "autocomplete": { "type": "string", "index_analyzer": "autocomplete" }
-                    }
-                  },
-                  "tags": {
-                    "type": "string",
-                    "index_name": "tag"
-                  },
-                  "duration_of_scholarship": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "maximum_amount": {
-                    "type": "long"
-                  },
-                  "minimum_amount": {
-                    "type": "long"
-                  },
-                  "maximum_age": {
-                    "type": "integer"
-                  },
-                  "minimum_age": {
-                    "type": "integer"
-                  },
-                  "number_of_places": {
-                    "type": "integer"
-                  },
-                  "interview_date": {
-                    "type": "date"
-                  },
-                  "invite_only": {
-                    "type": "boolean"
-                  },
-                  "link": {
-                    "type": "string"
-                  },
-                  "religion": {
-                    "type": "string"
-                  },
-                  "gender": {
-                    "type": "string"
-                  },
-                  "financial_situation": {
-                    "type": "string"
-                  },
-                  "merit_or_finance": {
-                    "type": "string"
-                  },
-                  "country_of_residence": {
-                    "type": "string"
-                  },
-                  "target_country": {
-                    "type": "string"
-                  },
-                  "required_grade": {
-                    "type": "string"
-                  },
-                  "specific_location": {
-                    "type": "string"
-                  },
-                  "subject": {
-                    "type": "string"
-                  },
-                  "target_degree": {
-                    "type": "string"
-                  },
-                  "target_university": {
-                    "type": "string"
-                  },
-                  "required_degree": {
-                    "type": "string"
-                  },
-                  "required_university": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                  },
-                  "suggest_funds": {
-                    "type": "completion",
-                    "index_analyzer": "simple",
-                    "search_analyzer": "simple",
-                    "payloads": false
-                  },
-                  "deadline": {
-                    "type": "date"
-                  },
-                  "organisation_id" : {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }, function(err, resp) {
-          if (err) {
-            console.log("Couldn't create funds index:");
-            console.log(err);
-          } else if (resp) {
-            console.log("Created funds index.");
-          }
-
-          // Automatically sync ALL on restart
-          models.funds.findAll().then(function(funds) {
-            var body = [];
-            funds = fund_array_to_json(funds);
-
-            // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-            funds.forEach(function(fund) {
-              body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-              var wrapper = {};
-
-              for (var i = 0; i < fields.length ; i++) {
-                wrapper[fields[i]] = fund[fields[i]];
-              }
-
-              wrapper["suggest_funds"] = { "input": fund.tags };
-
-              body.push(wrapper);
-            });
-
-            models.es.bulk({
-              body: body
-            }, function (err, resp) {
-              console.log('Bulk sync for funds complete.');
-
-              // Automatically sync ALL on restart
-              var autocompleteCountriesBody = [];
-              var list_of_countries = require('../resources/countries.js');
-              var country_id = 0;
-
-              // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-              list_of_countries.forEach(function(country) {
-                country_id++;
-                autocompleteCountriesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_countries', '_id': country_id }});
-                var wrapper = {};
-
-                wrapper["country"] = country;
-                wrapper["suggest_countries"] = { "input": country.split(' '), "output": country, "payload": { "country_id": country }};
-
-                autocompleteCountriesBody.push(wrapper);
-              });
-
-              models.es.bulk({
-                body: autocompleteCountriesBody
-              }, function (err, resp) {
-                if (err) {
-                  console.log("Error bulk syncing countries into funds index:");
-                  console.log(err);
-                }
-                console.log("Bulk sync for countries complete");
-
-                // Automatically sync ALL on restart
-                var autocompleteReligionsBody = [];
-                var list_of_religions = require('../resources/religions.js');
-                var religion_id = 0;
-
-                // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                list_of_religions.forEach(function(religion) {
-                  religion_id++;
-                  autocompleteReligionsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_religions', '_id': religion_id }});
-                  var wrapper = {};
-
-                  wrapper["religion"] = religion;
-                  wrapper["suggest_religions"] = { "input": religion, "output": religion, "payload": { "religion_id": religion }};
-
-                  autocompleteReligionsBody.push(wrapper);
-                });
-
-                models.es.bulk({
-                  body: autocompleteReligionsBody
-                }, function(err, resp) {
-                  if (err) {
-                    console.log("Error bulk syncing religions into funds index:");
-                    console.log(err);
-                  }
-                  console.log("Bulk sync for religions complete");
-
-                  // Automatically sync ALL on restart
-                  var autocompleteDegreesBody = [];
-                  var list_of_degrees = require('../resources/degrees.js');
-                  var degree_id = 0;
-
-                  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                  list_of_degrees.forEach(function(degree) {
-                    degree_id++;
-                    autocompleteDegreesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_degrees', '_id': degree_id }});
-                    var wrapper = {};
-
-                    wrapper["degree"] = degree;
-                    wrapper["suggest_degrees"] = { "input": degree.split(' '), "output": degree, "payload": { "degree_id": degree }};
-
-                    autocompleteDegreesBody.push(wrapper);
-                  });
-
-                  models.es.bulk({
-                    body: autocompleteDegreesBody
-                  }, function(err, resp) {
-                    if (err) {
-                      console.log("Error bulk syncing degrees into funds index:");
-                      console.log(err);
-                    }
-                    console.log("Bulk sync for degrees complete");
-                    var autocompleteUniversitiesBody =[];
-                    var list_of_universities = require('../resources/universities.js');
-                    var university_id = 0;
-                    list_of_universities.forEach(function(university){
-                      university_id++;
-                      autocompleteUniversitiesBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_universities', '_id': university_id }});
-                      var wrapper = {};
-
-                      wrapper["university"] = university;
-                      wrapper["suggest_universities"] = { "input": university.split(' '), "output": university, "payload": { "university_id": university }};
-
-                      autocompleteUniversitiesBody.push(wrapper);
-                    })
-                    models.es.bulk({
-                      body: autocompleteUniversitiesBody
-                    }, function(err, res){
-                      if (err) {
-                        console.log("Error bulk syncing universities into funds index:");
-                        console.log(err);
-                      }
-                      console.log("Bulk sync for universities complete");
-                      var autocompleteSubjectsBody = [];
-                      var list_of_subjects = require('../resources/subjects.js');
-                      var subject_id = 0;
-                      list_of_subjects.forEach(function(subject){
-                        subject_id++;
-                        autocompleteSubjectsBody.push({'index': {'_index': 'funds', '_type': 'autocomplete_subjects', '_id': subject_id}});
-                        var wrapper = {};
-                        wrapper["subject"] = subject;
-                        wrapper["suggest_subjects"] = {"input": subject.split(' '), "output": subject, "payload": {
-                          "subject_id": subject
-                        }};
-                        autocompleteSubjectsBody.push(wrapper);
-                      })
-                      models.es.bulk({
-                        body:autocompleteSubjectsBody
-                      }, function(err, res){
-                        if (err) {
-                          console.log("Error bulk syncing subjects into funds index:");
-                          console.log(err);
-                        }
-                        console.log("Bulk sync for subjects complete");
-                      })
-                    })
-
-                  });
-                });
-              });
-            });
-          }).then(function() {
-            models.es.indices.exists({ index: 'users' }, function(err, resp){
-              if (err) {
-                console.log("Error checking existence of users index:");
-                console.log(err);
-              } else if (resp) {
-                console.log("Does the users index exist?:");
-                console.log(resp);
-              }
-
-              models.es.indices.delete({
-                index: 'users',
-                ignore: [404]
-              }, function(err, resp){
-                if (err) {
-                  console.log("Error deleting users index:");
-                  console.log(err);
-                } else if (resp) {
-                  console.log("Deleted users index.");
-                }
-
-                if (process.env.NODE_ENV == "production") {
-                  sleep.sleep(10);
-                }
-
-                models.es.indices.create({
-                  index: 'users',
-                  body: {
-                    "settings": {
-                      "analysis": {
-                        "filter": {
-                          "autocomplete_filter": {
-                            "type": "edge_ngram",
-                            "min_gram": 1,
-                            "max_gram": 20
-                          }
-                        },
-                        "analyzer": {
-                          "autocomplete": {
-                            "type": "custom",
-                            "tokenizer": "standard",
-                            "filter": [
-                              "lowercase",
-                              "autocomplete_filter"
-                            ]
-                          },
-                          "my_english": {
-                            "type":      "english",
-                            "stopwords": "_english_"
-                          }
-                        }
-                      }
-                    },
-                    'mappings': {
-                      'user': {
-                        'properties': {
-                          'username': {
-                            'type': 'string',
-                            'fields': {
-                              "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
-                            }
-                          },
-                          "profile_picture": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                          },
-                          "description": {
-                            "type": "string",
-                            "search_analyzer": "my_english"
-                          },
-                          "past_work": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                          },
-                          "date_of_birth": {
-                            "type": "date"
-                          },
-                          "nationality": {
-                            "type": "string"
-                          },
-                          "religion": {
-                            "type": "string"
-                          },
-                          "funding_needed": {
-                            "type": "integer"
-                          },
-                          "organisation_or_user": {
-                            "type": "boolean"
-                          },
-                          "suggest": {
-                            "type": "completion",
-                            "index_analyzer": "simple",
-                            "search_analyzer": "simple",
-                            "payloads": false
-                          }
-                        }
-                      }
-                    }
-                  }
-                }, function(err, resp){
-                  if (err) {
-                    console.log("Couldn't create users index:");
-                    console.log(err);
-                  } else if (resp) {
-                    console.log("Created users index.");
-                  }
-
-                  // Automatically sync ALL on restart
-                  models.users.findAll().then(function(users) {
-                    var userBody = [];
-                    users = fund_array_to_json(users);
-
-                    // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-                    users.forEach(function(user) {
-                      userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
-                      var wrapper = {};
-
-                      for (var i = 0; i < userFields.length ; i++) {
-                        wrapper[userFields[i]] = user[userFields[i]];
-                      }
-
-                      wrapper["suggest"] = { "input": user.username };
-
-                      userBody.push(wrapper);
-                    });
-
-                    models.es.bulk({
-                      body: userBody
-                    }, function (err, resp) {
-                      if (err) {
-                        console.log(err);
-                      } else if (resp) {
-                        console.log("Bulk sync for users complete");
-                      }
-                    });
-                  }).then(function() {
-                    console.log('...Finished sync');
-                  });
-                });
-              });
-            });
           });
-        });
+        } else {
+          models.messages.findAll({ where: {
+            room_name: data.roomName
+          }}).then(function(messages) {
+            messages = messages.map(function(message) {
+              return message.get();
+            });
+
+            Logger.info('Retrieved messages:');
+            Logger.info(messages);
+
+            if (users[data.userToID]) {
+              users[data.userToID].socket.join(data.roomName);
+            }
+            users[data.userFromID].socket.join(data.roomName);
+            users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+            Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+            data.bulk_messages = messages;
+
+            io.sockets.in(data.roomName).emit('bulk get message', data);
+          });
+        }
       });
     });
   });
+});
 
-  var CronJob = require('cron').CronJob;
-  var lastUpdate = new Date();
+/* ---------------------------- */
 
-  var checkForChanges = function checkForChanges() {
-    // console.log('You will see this message every 30 second');
-    var log = 'Last updated: ' + lastUpdate;
-    // console.log(log);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-    models.funds.findAll({
-      where: {
-        created_at: {
-          $gte: lastUpdate
-        }
-      },
-      order: 'created_at ASC'
-    }).then(function(funds) {
-      if (funds.length === 0) {
-        console.log("nothing to update....\n");
-      } else {
-        var body = [];
-        var funds = funds.map(function(fund) {
-          var json = fund.toJSON();
-          return json;
-        });
+es.checkConnection().then(function(resp) {
+  if (resp) {
+    Logger.info("Connected to elasticsearch.");
 
-        // TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
-        // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
+    es.indexExists('funds')
+      .then(es.deleteIndex('funds'))
+      .then(es.createIndex('funds'))
+      .then(bulkUploadFunds)
+      .then(function() { return loadSettingsForBulkPrepFor('countries'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('religions'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('degrees'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('universities'); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects'); })
+      .then(bulkUpload);
 
-        // Prepare body for _bulk processing. Each element in body array HAS to be an object.
-        funds.forEach(function(fund) {
-          body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
-          var wrapper = {};
-          var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places"];
+    es.indexExists('users')
+      .then(es.deleteIndex('users'))
+      .then(es.createIndex('users'))
+      .then(bulkUploadUsers);
+  }
+});
 
-          for (var i = 0; i < fields.length ; i++) {
-            wrapper[fields[i]] = fund[fields[i]];
-          }
+// TODO: check queue for duplications! Duplications MAY occur due to timestamp rounding error
+// TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
 
-          body.push(wrapper);
-        });
+var CronJob = require('cron').CronJob;
+var lastUpdate = new Date();
+var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
-        models.es.bulk({
-          body: body
-        }, function (err, resp) {
-          console.log(resp);
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///////////////////////    Helper functions    /////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
-          // Timestamp from table rounds down. Here is the correction to avoid duplication.
-          var lastUpdateFromTable = funds[funds.length - 1].created_at;
-          lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
-          lastUpdate = lastUpdateFromTable;
-        });
+function checkForChanges() {
+  var log = 'Last updated: ' + lastUpdate;
+
+  models.funds.findAll({
+    where: {
+      created_at: {
+        $gte: lastUpdate
       }
+    },
+    order: 'created_at ASC'
+  }).then(function(funds) {
+    if (funds.length === 0) {
+      Logger.info("nothing to update....");
+    } else {
+      var wrapper = {};
+      var body = prepareBulkUploadFunds(funds);
+
+      wrapper.fieldName = 'funds';
+      wrapper.body = body;
+
+      bulkUpload(wrapper).then(function() {
+        // Timestamp from table rounds down. Here is the correction to avoid duplication.
+        var lastUpdateFromTable = funds[funds.length - 1].created_at;
+        lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+        lastUpdate = lastUpdateFromTable;
+      });
+    }
+  });
+}
+
+function loadSettingsForBulkPrepFor(typeName) {
+  var wrapper = {};
+  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName]);
+
+  wrapper.fieldName = typeName;
+  wrapper.body = body;
+
+  return wrapper;
+}
+
+function prepareBulkUploadFunds(funds) {
+  var body = [];
+  funds = fund_array_to_json(funds);
+
+  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+  funds.forEach(function(fund) {
+    body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+    var wrapper = {};
+
+    for (var i = 0; i < fields.length ; i++) {
+      wrapper[fields[i]] = fund[fields[i]];
+    }
+
+    wrapper["suggest_funds"] = { "input": fund.tags };
+
+    body.push(wrapper);
+  });
+
+  return body;
+}
+
+function prepareBulkUploadUsers(users) {
+  var userBody = [];
+  users = fund_array_to_json(users);
+
+  // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+  users.forEach(function(user) {
+    userBody.push({'index': {'_index': 'users', '_type': 'user', '_id': user.id}});
+    var wrapper = {};
+
+    for (var i = 0; i < userFields.length ; i++) {
+      wrapper[userFields[i]] = user[userFields[i]];
+    }
+
+    wrapper.suggest = { "input": user.username };
+
+    userBody.push(wrapper);
+  });
+
+  return userBody;
+}
+
+function prepareBulkUploadAutocomplete(typeName, keyOptions) {
+  var bodyArray =[];
+  var dataArray = require('../resources/' + typeName + '.js');
+  var id = 0;
+  var type = 'autocomplete_' + typeName;
+
+  dataArray.forEach(function(data){
+    id++;
+    var payloadOptions = {};
+    payloadOptions[keyOptions.payloadKey] = data;
+
+    bodyArray.push({'index': {'_index': 'funds', '_type': type, '_id': id }});
+    var wrapper = {};
+
+    wrapper[keyOptions.normalFieldName] = data;
+    wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
+
+    bodyArray.push(wrapper);
+  });
+
+  return bodyArray;
+}
+
+function bulkUploadUsers() {
+  return models.users.findAll().then(prepareBulkUploadUsers).then(function(body) {
+    bulkUpload({
+      body: body,
+      fieldName: 'users'
     });
-  };
-  var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+  });
+}
 
-  /**
-   * Normalize a port into a number, string, or false.
-   */
+function bulkUploadFunds() {
+  return models.funds.findAll().then(prepareBulkUploadFunds).then(function(body) {
+    bulkUpload({
+      body: body,
+      fieldName: 'funds'
+    });
+  });
+}
 
-  function normalizePort(val) {
-    var port = parseInt(val, 10);
+function bulkUpload(data) {
+  return es.bulk({
+            body: data.body
+          }).catch(function(err) {
+            Logger.info("Error bulk syncing " + data.fieldName + " into funds index:");
+            Logger.info(err);
+          }).then(function(resp) {
+            if (resp) {
+              Logger.info("Bulk sync for " + data.fieldName + " complete");
+            }
+          });
+}
 
-    if (isNaN(port)) {
-      // named pipe
-      return val;
-    }
+/**
+ * Normalize a port into a number, string, or false.
+ */
 
-    if (port >= 0) {
-      // port number
-      return port;
-    }
+function normalizePort(val) {
+  var port = parseInt(val, 10);
 
-    return false;
+  if (isNaN(port)) {
+    // named pipe
+    return val;
   }
 
-  /**
-   * Event listener for HTTP server "error" event.
-   */
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-  function onError(error) {
-    if (error.syscall !== 'listen') {
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
       throw error;
-    }
-
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
-        process.exit(1);
-        break;
-      default:
-        throw error;
-    }
   }
+}
 
-  /**
-   * Event listener for HTTP server "listening" event.
-   */
+/**
+ * Event listener for HTTP server "listening" event.
+ */
 
-  function onListening() {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-    debug('Listening on ' + bind);
-  }
-// });
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

@@ -14,6 +14,17 @@ a.back-to-top {
   background-size: contain;
   border-radius: 30px; }
 
+div#duplicateTableContainer {
+  overflow: auto;
+  height: 200px;
+  margin-bottom: 50px; }
+  div#duplicateTableContainer table#duplicateTitle, div#duplicateTableContainer table#duplicateEmail {
+    table-layout: fixed; }
+    div#duplicateTableContainer table#duplicateTitle td, div#duplicateTableContainer table#duplicateEmail td {
+      overflow: auto; }
+    div#duplicateTableContainer table#duplicateTitle th#countHeader, div#duplicateTableContainer table#duplicateEmail th#countHeader {
+      width: 100px; }
+
 #support_type {
   width: 100%; }
 
