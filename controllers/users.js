@@ -185,19 +185,23 @@ module.exports = {
                         })
                       }, function done(){
                         // Flash message logic here
-                        var verificationSuccess = req.flash('verificationSuccess')
-                        if(verificationSuccess.length = 0) {
-                          verificationSuccess = null
+                        var success = req.flash('success')
+                        if(success.length = 0) {
+                          success = null
                         } else {
-                          verificationSuccess = verificationSuccess[0]
+                          success = success[0]
                         }
                         Logger.info('hello')
+                        console.log('Trapper')
+                        var success = req.flash('emailSuccess')[0]
+                        console.log(success)
+                        console.log('Trapper')
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
                           if(!stripe_user) {
-                            res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess});
+                            res.render('user/dashboard', {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success});
                           }
                           if (stripe_user) {
-                            res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: verificationSuccess, stripe: true});
+                            res.render('user/dashboard', {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true});
                           }
                         })
                       })
