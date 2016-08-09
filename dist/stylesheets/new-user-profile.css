@@ -207,19 +207,30 @@ body {
               outline: 0; }
     #signup-wrapper #signup-form #email-row {
       border-bottom: none; }
-      #signup-wrapper #signup-form #email-row a {
-        margin-top: 20px;
-        width: 50%;
-        background-color: #05d257; }
-        #signup-wrapper #signup-form #email-row a:hover {
-          background-color: #04a042; }
-      #signup-wrapper #signup-form #email-row #verify-text {
-        margin-top: 25px;
-        padding-left: 0;
+    #signup-wrapper #signup-form #account-handler .row {
+      border-bottom: none; }
+    #signup-wrapper #signup-form #account-handler #address-row .row {
+      margin-left: 0;
+      margin-right: 0;
+      padding-bottom: 0; }
+      #signup-wrapper #signup-form #account-handler #address-row .row #postal-code {
+        padding-left: 0; }
+      #signup-wrapper #signup-form #account-handler #address-row .row #city {
         padding-right: 0;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        display: none; }
+        padding-left: 0; }
+    #signup-wrapper #signup-form #account-handler a {
+      margin-top: 20px;
+      width: 50%;
+      background-color: #05d257; }
+      #signup-wrapper #signup-form #account-handler a:hover {
+        background-color: #04a042; }
+    #signup-wrapper #signup-form #account-handler #verify-text {
+      margin-top: 25px;
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      display: none; }
 
 #emailSent {
   text-align: center; }

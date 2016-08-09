@@ -36,7 +36,6 @@ module.exports = {
 
   dashboard: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
-      Logger.info("REQ USER", req.user);
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
           var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
@@ -185,18 +184,15 @@ module.exports = {
                         });
                       }, function done(){
                         // Flash message logic here
-
-                        Logger.info('hello');
-                        console.log('Trapper');
                         var success = req.flash('emailSuccess')[0];
-                        console.log(success);
-                        console.log('Trapper');
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
                           if(!stripe_user) {
+                            console.log("STRIPE FUNDs", funds);
                             var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                           if (stripe_user) {
+                            console.log("NOT STRIPE FUNDS", funds);
                             var dataObject = {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
@@ -394,9 +390,13 @@ module.exports = {
         url: userPublicProfile,
         business_name: userPublicProfile,
         business_type: "sole_prop",
-        country: 'UK',
+        country: user.billing_country,
         first_name: user.username.split(' ')[0],
-        last_name: user.username.split(' ')[1]
+        last_name: user.username.split(' ')[1],
+        street_address: user.address_line1,
+        zip: user.address_zip,
+        city: user.address_city
+
       }
     };
 

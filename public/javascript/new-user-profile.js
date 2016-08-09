@@ -343,7 +343,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		id: 'account-handler',
 		template: _.template($('#account-template').html()),
 		events:{
-			'click #verify': 'emailVerify'
+			'click #verify': 'addressPost'
 		},
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -351,16 +351,17 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		initialize: function(){
 			this.el = this.render().el;
-			this.$('#email-verify').val(user.email);
 		},
-		emailVerify: function(){
-			var emailData = {
-				"email": $('input#email-verify').val()
+		addressPost: function(){
+			var addressData = {
+				"address_line1": $('input#address_line1').val(),
+				"address_zip": $('input#address_zip').val(),
+				"address_city": $('input#address_city').val(),
+				"billing_country": $('#billing_country').val()
 			};
-			$.post('/signup/verify', emailData, function(data){
-				$('#verify-text').show();
-				$('#verify-text').html(data);
-			})
+			$.post('/signup/address', addressData, function(data){
+				window.location = '/user/dashboard';
+			});
 		}
 	})
 	var Router = Backbone.Router.extend({
