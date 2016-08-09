@@ -76,9 +76,20 @@ module.exports = {
   },
 
   funds: function(req, res) {
+    var data = {};
     models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
-      res.render('admin/funds', { funds: funds });
+      data.funds = funds;
+    }).then(function() {
+      models.sequelize.query('SELECT title, COUNT(*) FROM funds GROUP BY title HAVING COUNT(*) > 1').spread(function(duplicateTitles, metadata) {
+        data.duplicateTitles = duplicateTitles;
+      }).then(function() {
+        models.sequelize.query('SELECT email, COUNT(*) FROM funds WHERE email IS NOT NULL GROUP BY email HAVING COUNT(*) > 1').spread(function(duplicateEmails, metadata) {
+          data.duplicateEmails = duplicateEmails;
+
+          res.render('admin/funds', { funds: data.funds, fundsWithDuplicateTitles: data.duplicateTitles, fundsWithDuplicateEmails: data.duplicateEmails });
+        });
+      });
     });
   },
 

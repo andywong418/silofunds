@@ -21,6 +21,28 @@ block content
           a.btn.btn-default.btn-link#downloader(href='/admin/download' download) Generate download link
           .downloader#generated_download_link
       hr
+      .col-md-6
+        h3.duplicate-titles Duplicate titles
+        div#duplicateTableContainer
+          table#duplicateTitle.table.table-bordered.table-responsive
+            tr
+              th Title
+              th#countHeader Count
+            each fund in fundsWithDuplicateTitles
+              tr
+                td= fund.title
+                td= fund.count
+      .col-md-6
+        h3.duplicate-titles Duplicate emails
+        div#duplicateTableContainer
+          table#duplicateEmail.table.table-bordered.table-responsive
+            tr
+              th Email
+              th#countHeader Count
+            each fund in fundsWithDuplicateEmails
+              tr
+                td= fund.email
+                td= fund.count
       a.back-to-top(href='#')
       table.table.table-bordered.table-responsive
         tr
