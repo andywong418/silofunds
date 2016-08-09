@@ -17,6 +17,7 @@ router.post('/download', admin.download);
 router.get('/migrations', admin.migrations);
 router.get('/migrateUp?*', admin.migrateUp);
 router.get('/migrateDown', admin.migrateDown);
+router.post('/funds/reset-table', admin.resetTable);
 
 router.get('/mc-list', admin_mc.index);
 router.get('/mc-list/:id', admin_mc.view);
@@ -32,5 +33,6 @@ router.post('/organisations/:id/edit', admin.organisations.update);
 router.post('/organisations/:id/destroy', admin.organisations.destroy);
 router.post('/organisations/download', admin.organisations.download);
 router.post('/organisations/upload', admin.organisations.upload);
+router.post('/organisations/reset-table', admin.organisations.resetTable);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $("div.settings-tab-menu div.list-group a").click(function(e) {
     e.preventDefault();
 
@@ -9,8 +10,20 @@ $(document).ready(function() {
     $("div.settings-tab div.settings-tab-content").removeClass("active");
     $("div.settings-tab div.settings-tab-content").eq(index).addClass("active");
   });
+  function reformatDateInput(date, field){
+    if(date){
+      var newDate = date.split('T')[0];
+      $('input#' + field).val(newDate);
+    }
+  }
 
   // TODO: ABSTRACT BELOW BITCHHHH
+
+    reformatDateInput(fund.deadline, 'deadline');
+    reformatDateInput(fund.application_open_date, 'application_open_date');
+    reformatDateInput(fund.application_decision_date, 'application_decision_date');
+    reformatDateInput(fund.interview_date, 'interview_date');
+
   var text;
   try {
 
@@ -47,6 +60,7 @@ $(document).ready(function() {
 
     $("#merit, #finance").prop("checked", false);
   });
+
 
   ///////////
   //submit form data
@@ -119,7 +133,7 @@ $(document).ready(function() {
   $('#save-application-process').click(function(){
     var applicationDocuments = $('input[name=application_documents]').val().split(',');
     var formData={
-      'application_open_date': $('input[name=start_date]').val(),
+      'application_open_date': $('input[name=application_open_date]').val(),
       'deadline': $('input[name=deadline]').val(),
       'interview_date': $('input[name=interview_date]').val(),
       'application_decision_date':$('input[name=application_decision_date]').val(),

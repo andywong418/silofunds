@@ -22,7 +22,10 @@ var umzugOptions = {
 var umzug = new Umzug(umzugOptions);
 var es = require('../elasticsearch');
 
-var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","organisation_id","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
+/*
+NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
+*/
+var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
 
@@ -257,6 +260,24 @@ module.exports = {
     });
   },
 
+  resetTable: function(req, res) {
+    models.funds.findAll({ paranoid: false }).then(function(funds) {
+      for (var i = 0; i < funds.length; i++) {
+        funds[i].destroy({ force: true });
+      }
+    })
+    .catch(function(err) { Logger.error(err); })
+    .then(function() { Logger.warn('Cleared funds table.'); })
+    .then(function() {
+      models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
+        .catch(function(err) { Logger.error(err); })
+        .then(function(results) {
+          Logger.warn('funds_id_seq reset to 1');
+          res.redirect('/admin/funds');
+        });
+    });
+  },
+
   upload: function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
@@ -293,9 +314,11 @@ module.exports = {
 
         models.funds.create( create_options ).then(function() {
           Logger.info('Created fund.');
+        }).catch(function(err) {
+          Logger.error(err);
         });
       }
-      res.redirect('../admin');
+      res.redirect('../admin/funds');
     });
     req.pipe(busboy);
   },
@@ -464,6 +487,24 @@ module.exports = {
       });
     },
 
+    resetTable: function(req, res) {
+      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+        for (var i = 0; i < organisations.length; i++) {
+          organisations[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared organisations table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('organisations_id_seq reset to 1');
+            res.redirect('/admin/organisations');
+          });
+      });
+    },
+
     update: function(req, res) {
       var id = req.params.id;
 
@@ -517,7 +558,7 @@ module.exports = {
           }
 
           models.organisations.create( create_options ).then(function() {
-            Logger.info('Created fund.');
+            Logger.info('Created organisation.');
           });
         }
         res.redirect('/admin/organisations');

@@ -17,7 +17,7 @@ block content
     #left_div.col-md-3
       .profile
         #box-profile
-          a#fundWebsite(href=fund.link) 
+          a(href!='/organisation/options/' + fund.id)
             img#fundImage(src=user.profile_picture)
       .settings-tab-menu
         .list-group

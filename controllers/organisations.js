@@ -255,13 +255,8 @@ homeGET: function(req, res){
         fund.update(fields).then(function(fund){
           if(req.body.tips){
             Logger.info("REQ BODY TIPS", req.body.tips);
-            models.tips.find({where: {fund_id: fundId}}).then(function(tip){
-              tip.update({tip: req.body.tips}).then(function(tip){
-                fund = fund.get();
-                fund.tips = tip;
-                res.send(fund);
-              })
-            })
+            var tips = req.body.tips;
+            findOrCreateTips(tips, {fund_id: fundId}, fund, res);
           }
           else{
             res.send(fund);
@@ -352,9 +347,6 @@ homeGET: function(req, res){
                 }else{
                   var dateNow = new Date(Date.now());
                   dateNow = dateNow.toISOString();
-                  Logger.info("PROPER DATE FORMAT", recent.updated_at);
-                  Logger.info("RECENT",recent);
-                  Logger.info("NOW DATE", dateNow);
                   recent.update({updated_at: dateNow,user_id: user.id,
                   fund_id: fundId}).then(function(recent){
                     if(fund.organisation_id){
@@ -388,10 +380,10 @@ homeGET: function(req, res){
       models.funds.findById(fundId).then(function(fund){
           if(user.organisation_or_user == fund.organisation_id){
             var fund = fund.get();
-            fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
-            fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
-            fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
-            fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
+            // fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+            // fund.application_open_date = fund.application_open_date ? reformatDate(fund.application_open_date) : null;
+            // fund.application_decision_date = fund.application_decision_date ? reformatDate(fund.application_decision_date) : null;
+            // fund.interview_date = fund.interview_date ? reformatDate(fund.interview_date) : null;
             models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
               if (tip) {
                 fund.tips = tip.tip;
@@ -435,12 +427,8 @@ homeGET: function(req, res){
       models.funds.findById(fundId).then(function(fund){
         fund.update(fields).then(function(fund){
           if(req.body.tips){
-              models.tips.find({where: {fund_id: fund.id}}).then(function(tip){
-                tip.update({tip: req.body.tips}).then(function(tip){
-                  fund.tips = tip.tip;
-                  res.json(fund);
-                })
-              })
+              var tips = req.body.tips;
+              findOrCreateTips(tips, {fund_id: fundId}, fund, res);
           }else{
             res.json(fund);
           }
@@ -693,6 +681,30 @@ homeGET: function(req, res){
 
 
 
+function findOrCreateTips(tips, option, fund, res){
+  models.tips.findOrCreate({where: option}).spread(function(tip, created){
+    console.log(created);
+    if(created){
+      fund = fund.get();
+      tip.update({tip: tips}).then(function(tip){
+        tip = tip.get();
+        fund.tips = tip;
+        res.send(fund);
+      });
+    }
+    else{
+      console.log("TIP", tip);
+      console.log("tip", tips);
+      tip.update({tip: tips}).then(function(tip){
+        fund = fund.get();
+        tip = tip.get();
+        fund.tips = tip;
+        res.send(fund);
+      });
+    }
+
+  });
+}
 
 
 
