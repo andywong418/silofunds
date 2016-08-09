@@ -516,21 +516,26 @@ module.exports = {
     },
 
     resetTable: function(req, res) {
-      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
-        for (var i = 0; i < organisations.length; i++) {
-          organisations[i].destroy({ force: true });
-        }
-      })
-      .catch(function(err) { Logger.error(err); })
-      .then(function() { Logger.warn('Cleared organisations table.'); })
-      .then(function() {
-        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
-          .catch(function(err) { Logger.error(err); })
-          .then(function(results) {
-            Logger.warn('organisations_id_seq reset to 1');
-            res.redirect('/admin/organisations');
-          });
-      });
+      if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+        models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+          for (var i = 0; i < organisations.length; i++) {
+            organisations[i].destroy({ force: true });
+          }
+        })
+        .catch(function(err) { Logger.error(err); })
+        .then(function() { Logger.warn('Cleared organisations table.'); })
+        .then(function() {
+          models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+            .catch(function(err) { Logger.error(err); })
+            .then(function(results) {
+              Logger.warn('organisations_id_seq reset to 1');
+              res.redirect('/admin/organisations');
+            });
+        });
+      } else {
+        Logger.warn('Someone just tried to clear organisations table and failed miserably.');
+        res.redirect('/admin/organisations');
+      }
     },
 
     update: function(req, res) {
