@@ -272,21 +272,26 @@ module.exports = {
   },
 
   resetTable: function(req, res) {
-    models.funds.findAll({ paranoid: false }).then(function(funds) {
-      for (var i = 0; i < funds.length; i++) {
-        funds[i].destroy({ force: true });
-      }
-    })
-    .catch(function(err) { Logger.error(err); })
-    .then(function() { Logger.warn('Cleared funds table.'); })
-    .then(function() {
-      models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
-        .catch(function(err) { Logger.error(err); })
-        .then(function(results) {
-          Logger.warn('funds_id_seq reset to 1');
-          res.redirect('/admin/funds');
-        });
-    });
+    if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+      models.funds.findAll({ paranoid: false }).then(function(funds) {
+        for (var i = 0; i < funds.length; i++) {
+          funds[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared funds table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('funds_id_seq reset to 1');
+            res.redirect('/admin/funds');
+          });
+      });
+    } else {
+      Logger.warn('Someone just tried to clear funds table and failed miserably.');
+      res.redirect('/admin/funds');
+    }
   },
 
   upload: function(req, res) {
