@@ -277,6 +277,15 @@ h1 {
   border-radius: 5px;
   padding-top: 10px;
   color: white;
+  #ignore{
+    color: white;
+    text-decoration: underline;
+    font-size: 18px;
+    margin-left: 5px;
+     &:hover{
+       color: white;
+     }
+  }
   p {
     margin-bottom: 0;
     margin-left: 3%;
@@ -476,7 +485,7 @@ h1 {
       #wrong-cross{
         text-align: center;
         i{
-          color:red;
+          color:rgb(236, 198, 44);
           font-size: 30px;
         }
       }
