@@ -483,6 +483,16 @@ homeGET: function(req, res){
     });
 
   },
+  getOrganisationInfo: function(req, res){
+    var organisationId = req.user.id;
+    models.users.findById(organisationId).then(function(user){
+      models.organisations.findById(user.organisation_or_user).then(function(organisation){
+        user = user.get();
+        user.charity_id = organisation.charity_id;
+        res.send(user);
+      })
+    })
+  },
   settings: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var session = req.params.session;
@@ -490,15 +500,13 @@ homeGET: function(req, res){
       var general_settings = true;
         models.users.findById(id).then(function(user){
         var fundUser = user;
+        user = user.get();
         console.log(user.organisation_or_user);
-        console.log("FUCK ME SIDEWAYS");
-        models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(fund){
-          for (var attrname in fund['dataValues']){
-            if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-              user["dataValues"][attrname] = fund[attrname];
-            }
-          }
-          res.render('fund-settings', {user: user, newUser: true, general: general_settings});
+        models.organisations.findById(user.organisation_or_user).then(function(organisation){
+          console.log(organisation);
+          user.charity_id = organisation.charity_id;
+          console.log("USER", user);
+          res.render('fund-settings', {user: user, general: general_settings});
         })
       })
     });
@@ -511,127 +519,41 @@ homeGET: function(req, res){
       var id = req.user.id;
       var general_settings;
       var body = req.body;
+      var charity_id = req.body.charity_id;
       console.log(req.body);
-      if('username' in body || 'email' in body || 'password' in body || 'charity_number' in body){
-        general_settings = true;
-        if('charity_number' in body){
-          models.users.findById(id).then(function(user){
-            user.update(body).then(function(user){
-              models.organisations.findById(user.organisation_or_user).then(function(fund){
-                fund.update({charity_number: body.charity_number}).then(function(newfund){
-                  for (var attrname in newfund['dataValues']){
-                    if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                      user["dataValues"][attrname] = newfund[attrname];
-                    }
-                  }
-                  // res.render('fund-settings', {user: user, general: general_settings});
-                  res.redirect('/organisation/settings')
-                })
-              })
-            })
-          })
-        } else {
-          models.users.findById(id).then(function(user){
-            user.update(body).then(function(newUser){
-              models.organisations.findById(user.organisation_or_user).then(function(fund){
-                  if('username' in body){
-                    fund.update({title: newUser.username}).then(function(newFund){
-                      for (var attrname in newFund['dataValues']){
-                        if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                          newUser["dataValues"][attrname] = newFund[attrname];
-                        }
-                      }
-                      res.render('fund-settings', {user: user, session: session, general: general_settings});
-                    })
-                  }
-                  else{
-                    fund.update({email: newUser.email}).then(function(newFund){
-                      for (var attrname in newFund['dataValues']){
-                        if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                          newUser["dataValues"][attrname] = newFund[attrname];
-                        }
-                      }
-                      res.render('fund-settings', {user: user, general: general_settings});
-                    })
-                  }
-              });
-            });
-          });
-       }
+      if(req.body.password == ''){
+        delete req.body.password;
       }
-      else{
-        general_settings = false;
-        if('description' in body){
-          console.log("What's going on");
-          models.users.findById(id).then(function(user){
-            user.update({description: body.description}).then(function(user){
-              models.organisations.findById(user.organisation_or_user).then(function(fund){
-              for (var attrname in fund['dataValues']){
-                if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                  user["dataValues"][attrname] = fund[attrname];
-                }
-              }
-              res.render('fund-settings', {user: user, general: general_settings});
-              });
-            });
-          })
-        }
-        if('religion' in body){
-          body.religion = body.religion.replace(/\s*,\s*/g, ',');
-          console.log(body.religion);
-          var religion = [];
-          var religionArray = body.religion.split(",");
-          console.log("BODY", religionArray);
-          for(var i = 0; i < religionArray.length; i++){
-            religion.push(religionArray[i]);
-          }
-          body.religion = religion;
-          models.users.findById(id).then(function(user){
-            user.update({religion: body.religion}).then(function(user){
-              models.organisations.findById(user.organisation_or_user).then(function(fund){
-                fund.update(body.religion).then(function(fund){
-                  for (var attrname in fund['dataValues']){
-                    if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                      user["dataValues"][attrname] = fund[attrname];
-                    }
-                  }
-                  res.render('fund-settings', {user: user, general: general_settings});
-                })
-              });
-            });
-          })
-        }
-        else{
-          console.log("TELL ME THE BODY", body);
-          if('countries' in body){
-            body.countries = body.countries.replace(/\s*,\s*/g, ',');
-            console.log(body.countries);
-            var countries = [];
-            var bodyArray = body.countries.split(",");
-            console.log("BODY", bodyArray);
-            for(var i = 0; i < bodyArray.length; i++){
-              countries.push(bodyArray[i]);
+      if(!req.body['email-updates'] && !req.body.description.length){
+        console.log("hi", req.body.description);
+        req.body.email_updates = false;
+      }
+      if(req.body['email-updates']){
+        console.log('yo');
+        req.body.email_updates = true;
+      }
+      models.users.findById(id).then(function(user){
+        user.update(req.body).then(function(user){
+          models.organisations.findById(user.organisation_or_user).then(function(organisation){
+            if(req.body.charity_id && req.body.charity_id != ''){
+              organisation.update({charity_id: charity_id}).then(function(organisation){
+                res.redirect('/organisation/settings');
+              })
             }
-            console.log(countries);
-            body.countries = countries;
-          }
-
-          models.users.findById(id).then(function(user){
-            models.organisations.findById(user.organisation_or_user).then(function(fund){
-              fund.update(body).then(function(fund){
-                for (var attrname in fund['dataValues']){
-                  if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-                    user["dataValues"][attrname] = fund[attrname];
-                  }
-                }
-                res.render('fund-settings', {user: user, general: general_settings});
-              })
-            })
+            else{
+              if(req.body.description){
+                console.log('description')
+                user.charity_id = organisation.charity_id;
+                res.redirect('/organisation/settings#account');
+              }
+              else{
+                res.redirect('/organisation/settings');
+              }
+            }
           })
-        }
-      }
+        })
+      })
     });
-
   },
   public: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
