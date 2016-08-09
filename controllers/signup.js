@@ -452,7 +452,7 @@ module.exports = {
 		var token = req.params.token
 		models.users.find({where: {email_verify_token: token}}).then(function(user) {
 			if(user){
-				user.update({email_verify_token: true}).then(function(user){
+				user.update({email_is_verified: true}).then(function(user){
 					req.flash('success', 'You have been verified');
 					res.redirect('/user/dashboard')
 				})

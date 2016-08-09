@@ -401,6 +401,7 @@ $(document).ready(function(){
   }
 
   function displayCompletionMessage(data) {
+    console.log('IS ANYTHING HAPPENING RIGHT NOW')
     $('#payment-div').append('Thank you, your payment has been processed');
     $('#payment-div').removeClass('hidden');
     $('#payment-div').animate({'left': '85%'}, 'slow')

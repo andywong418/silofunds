@@ -30,6 +30,8 @@ block content
         .alert.alert-warning
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
+      if user.email_is_verified && !success && stripe
+        .spacing_div
       .col-md-12.text-center
         h2#name= 'Welcome to your dashboard, ' + user.username.split(' ')[0]
     section#recommended
