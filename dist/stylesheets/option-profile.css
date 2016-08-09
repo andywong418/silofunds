@@ -73,7 +73,6 @@ h1 {
 
 #big_flex_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
@@ -83,14 +82,12 @@ h1 {
 /* Left div */
 #left_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 23%;
   margin-left: 3%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   height: auto; }
@@ -123,20 +120,16 @@ h1 {
 
 #box_2 {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
   -webkit-box-align: start;
-  -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
   width: 100%;
@@ -216,7 +209,6 @@ h1 {
 /* Right div */
 #right_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 73%;
@@ -224,11 +216,9 @@ h1 {
   margin-right: 3%;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: end;
-  -webkit-align-items: flex-end;
       -ms-flex-align: end;
           align-items: flex-end; }
 
@@ -253,6 +243,13 @@ h1 {
   border-radius: 5px;
   padding-top: 10px;
   color: white; }
+  #eligibility_div #ignore {
+    color: white;
+    text-decoration: underline;
+    font-size: 18px;
+    margin-left: 5px; }
+    #eligibility_div #ignore:hover {
+      color: white; }
   #eligibility_div p {
     margin-bottom: 0;
     margin-left: 3%;
@@ -387,7 +384,7 @@ h1 {
       #notEligible .modal-container #notEligible-handler #wrong-cross {
         text-align: center; }
         #notEligible .modal-container #notEligible-handler #wrong-cross i {
-          color: red;
+          color: #ecc62c;
           font-size: 30px; }
       #notEligible .modal-container #notEligible-handler #requirement-description, #notEligible .modal-container #notEligible-handler #user-description {
         margin-bottom: 5px;
@@ -422,20 +419,16 @@ h1 {
   #application_form #application-handler {
     margin-top: 15px;
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
     -webkit-box-pack: center;
-    -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
-    -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
     padding-top: 15px; }
@@ -588,51 +581,41 @@ h1 {
 /* Scholars div */
 #scholars_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 90%;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   margin-left: 5%; }
 
 #scholars_main_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center; }
 
 #scholars_second_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   width: 100%; }
@@ -645,15 +628,12 @@ h1 {
 
 #scholars_info_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   -webkit-box-align: start;
-  -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
   width: 94%; }
@@ -669,17 +649,14 @@ h1 {
 
 #pic1_div, #pic2_div, #pic3_div, #pic4_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin: 3%;
   -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   text-align: center; }
@@ -695,7 +672,6 @@ h1 {
 /* Reviews */
 #review_div {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin-top: 50px;
@@ -711,7 +687,6 @@ h1 {
 #separator_1 {
   height: 10px;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
@@ -722,7 +697,6 @@ h1 {
   margin-bottom: 3%;
   height: 40px;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;

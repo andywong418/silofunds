@@ -49,6 +49,7 @@ $(document).ready(function(){
     });
     return emptyArray;
   };
+  // Improve eligibility calculator function checkSubjectField()
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
     console.log(userArray);
@@ -171,13 +172,10 @@ $(document).ready(function(){
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
 
-    $('#left_div').css('opacity', '0.5');
-    $('#right_div').children().not('#eligibility_div, #eligibility_div_p, #notEligible').css('opacity', '0.5');
-    $('#scholars_div').css('opacity', '0.5');
+
     $('#eligibility_div').css('display', 'block');
-    $('#eligibility_div').css('background-color', '#c0392b');
-    $('#eligibility_div_p').css('opacity', '1');
-    $('p#eligibility_div_p ').html('Sorry, you are not eligible for this fund - click this bar to learn why.');
+    $('#eligibility_div').css('background-color', 'rgb(236, 198, 44)');
+    $('p#eligibility_div_p ').html('You may not be eligible for this fund - click this bar to learn why. <a id="ignore"> Ignore for now </a>');
     $(document).on('click', '#eligibility_div', function(){
       $('#notEligible').css('display', 'block');
       //add criteria to explanation modal
@@ -193,7 +191,7 @@ $(document).ready(function(){
           var view = new NotEligibleView({model: model});
           this.$el.append(view.render().el);
         }
-      })
+      });
       var notEligibleDisplay = new NotEligibleDisplay();
     });
 
@@ -203,7 +201,15 @@ $(document).ready(function(){
           $("div[id*=notEligible-handler]").remove();
 
         }
-      })
+      });
+      $(document).on('click', '#ignore', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('#eligibility_div').hide(500);
+        $('#application_form').css('margin-top', '6%');
+        $('#notEligible').css('display', 'none');
+        $("div[id*=notEligible-handler]").remove();
+      });
 
   };
   console.log(favourite);
