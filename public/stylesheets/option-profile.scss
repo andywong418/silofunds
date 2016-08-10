@@ -16,7 +16,57 @@ h1 {
   font-size: 40px;
   margin-left: 2.5%;
 }
+#signup-modal-fade{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 3;
+  overflow-y: auto;
+  -webkit-transition: opacity 0.3s 0, visibility 0 0.3s;
+  -moz-transition: opacity 0.3s 0, visibility 0 0.3s;
+  transition: opacity 0.3s 0, visibility 0 0.3s;
+}
+#signup-block{
+  display: none;
+  position: fixed;
+  width: 70%;
+  margin-left: 15%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 50px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.1);
+  padding: 30px;
+  padding-bottom: 50px;
+  top: 65%;
+  z-index: 10;
+  opacity: 1.0;
+  #helper-text{
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  #helper-text-2{
+    font-size: 17px;
+    color: grey;
+  }
+  #signup-button-div{
+    a{
+      width: 30%;
+    }
+    #signup{
+      margin-right: 30px;
+    }
 
+  }
+  #not-now{
+    display: none;
+    margin-top: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #337ab7;
+  }
+}
 .alert{
   display: none;
   height: 40px;
@@ -54,7 +104,6 @@ h1 {
   margin-left: 3%;
   flex-direction: column;
   height: auto;
-  margin-top: 4%;
   p{
     margin:0;
   }
@@ -66,7 +115,29 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
 }
-
+#favourite{
+  position: absolute;
+  margin-left: -245px;
+  margin-top: 5px;
+  color:#f1c40f;
+  font-size: 20px;
+  &:hover{
+    &:before{
+      content: "\2605";
+      position: absolute;
+      color: #f1c40f;
+      cursor: pointer;
+    }
+  }
+}
+.active-favourite{
+  &:before{
+    content: "\2605";
+    position: absolute;
+    color: #f1c40f;
+    cursor: pointer;
+  };
+}
 #box_2 {
 
   display: flex;
@@ -81,7 +152,9 @@ h1 {
     color: #2980b9;
     cursor: pointer;
   }
-
+  #left_info_div{
+    width: inherit;
+  }
   #bio {
     text-align: left;
     font-weight: 900;
@@ -89,6 +162,7 @@ h1 {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+    color: #2980b9;
   }
   #fundBio {
     width: 90%;
@@ -176,7 +250,6 @@ h1 {
   width: 73%;
   float: right;
   margin-right: 3%;
-  margin-top: 40px;
   flex-direction: column;
   align-items: flex-end;
 }
@@ -204,6 +277,15 @@ h1 {
   border-radius: 5px;
   padding-top: 10px;
   color: white;
+  #ignore{
+    color: white;
+    text-decoration: underline;
+    font-size: 18px;
+    margin-left: 5px;
+     &:hover{
+       color: white;
+     }
+  }
   p {
     margin-bottom: 0;
     margin-left: 3%;
@@ -403,7 +485,7 @@ h1 {
       #wrong-cross{
         text-align: center;
         i{
-          color:red;
+          color:rgb(236, 198, 44);
           font-size: 30px;
         }
       }
@@ -518,6 +600,9 @@ h1 {
     background: #008989;
     transition: 1.2s;
   }
+}
+#application-notification{
+  margin-top: 10px;
 }
 
 

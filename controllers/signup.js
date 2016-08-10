@@ -463,6 +463,15 @@ module.exports = {
 			}
 		})
 	},
+	verifyAddress: function(req, res){
+		var userId = req.user.id;
+		console.log("hi req body", req.body);
+		models.users.findById(userId).then(function(user){
+			user.update(req.body).then(function(user){
+				res.send(user);
+			})
+		})
+	},
   fundAccount: function(req, res){
     var userId = req.params.id;
     var bucketName = "silo-fund-profile-" + userId;

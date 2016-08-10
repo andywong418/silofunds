@@ -7,17 +7,23 @@ block content
       .row
         .col-md-2
           a.btn.btn-default.btn-success(href='/admin/organisations/new', role='button') Create a new organisation
-        .col-md-2
+        .col-md-4
           form(action="/admin/organisations/upload", method="post", enctype="multipart/form-data")
-            input(type="file", name="jsonData")
-            button.btn.btn-default.btn-primary(type='submit') Upload JSON!
+            .col-md-6(style='padding: 0;')
+              input(type="file", name="jsonData")
+              button.btn.btn-default.btn-primary(type='submit') Upload JSON!
+            .col-md-6(style='padding: 0;')
+              input(type='checkbox', name='overwrite_id', style='margin-right: 10px;')
+              | Non-sequential IDs?
+              label(for='offset_number', style='font-size: 12px;') Offset id by:
+              input(type='text', name='offset_number', value='0')
         .col-md-2
-          form(action="/admin/organisations/reset-table", method="post")
+          form(action="/admin/organisations/reset-table", method="post", name='reset-table')
             button.btn.btn-default.btn-danger(type='submit') Clear & Reset Table
-        .col-md-3
+        .col-md-2
           form(action="/admin/organisations/sync", method="post", name="sync_db")
             button.btn.btn-warning(type="submit" disabled) Sync ES to PG
-        .col-md-3
+        .col-md-2
           a.btn.btn-default.btn-link#downloader(href='/admin/organisations/download' download) Generate download link
           .downloader#generated_download_link
       hr

@@ -25,6 +25,15 @@ var es = require('../elasticsearch');
 /*
 NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
 */
+
+/*
+NOTE: Uploading funds with sequential IDs will not cause problems with 'organisation_id' -> 'organisation.id' references, but doing the same for organisations would. If there are gaps in the id of organisations table, check the box to make sure IDs are NOT uploaded sequentially.
+*/
+
+/*
+NOTE: TLDR; (usually) CHECK BOX when uploading organisations, DON'T CHECK when uploading funds;
+*/
+
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
@@ -76,9 +85,26 @@ module.exports = {
   },
 
   funds: function(req, res) {
+    var data = {};
     models.funds.findAll({ order: 'id DESC' }).then(function(funds) {
       funds = fund_array_to_json(funds);
-      res.render('admin/funds', { funds: funds });
+      funds = funds.map(function(fund) {
+        fund.deadline = fund.deadline ? reformatDate(fund.deadline) : null;
+
+        return fund;
+      });
+
+      data.funds = funds;
+    }).then(function() {
+      models.sequelize.query('SELECT title, COUNT(*) FROM funds GROUP BY title HAVING COUNT(*) > 1').spread(function(duplicateTitles, metadata) {
+        data.duplicateTitles = duplicateTitles;
+      }).then(function() {
+        models.sequelize.query('SELECT email, COUNT(*) FROM funds WHERE email IS NOT NULL GROUP BY email HAVING COUNT(*) > 1').spread(function(duplicateEmails, metadata) {
+          data.duplicateEmails = duplicateEmails;
+
+          res.render('admin/funds', { funds: data.funds, fundsWithDuplicateTitles: data.duplicateTitles, fundsWithDuplicateEmails: data.duplicateEmails });
+        });
+      });
     });
   },
 
@@ -261,24 +287,30 @@ module.exports = {
   },
 
   resetTable: function(req, res) {
-    models.funds.findAll({ paranoid: false }).then(function(funds) {
-      for (var i = 0; i < funds.length; i++) {
-        funds[i].destroy({ force: true });
-      }
-    })
-    .catch(function(err) { Logger.error(err); })
-    .then(function() { Logger.warn('Cleared funds table.'); })
-    .then(function() {
-      models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
-        .catch(function(err) { Logger.error(err); })
-        .then(function(results) {
-          Logger.warn('funds_id_seq reset to 1');
-          res.redirect('/admin/funds');
-        });
-    });
+    if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+      models.funds.findAll({ paranoid: false }).then(function(funds) {
+        for (var i = 0; i < funds.length; i++) {
+          funds[i].destroy({ force: true });
+        }
+      })
+      .catch(function(err) { Logger.error(err); })
+      .then(function() { Logger.warn('Cleared funds table.'); })
+      .then(function() {
+        models.sequelize.query("SELECT setval('funds_id_seq', 1, false)")
+          .catch(function(err) { Logger.error(err); })
+          .then(function(results) {
+            Logger.warn('funds_id_seq reset to 1');
+            res.redirect('/admin/funds');
+          });
+      });
+    } else {
+      Logger.warn('Someone just tried to clear funds table and failed miserably.');
+      res.redirect('/admin/funds');
+    }
   },
 
   upload: function(req, res) {
+    var fieldValues = {};
     var busboy = new Busboy({ headers: req.headers });
     var jsonData = '';
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -293,6 +325,7 @@ module.exports = {
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
       Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
+      fieldValues[fieldname] = val;
     });
     busboy.on('finish', function() {
       Logger.info('Done parsing form! Injecting into database...');
@@ -309,7 +342,14 @@ module.exports = {
           if (fund.deleted_at) {
             create_options["deleted_at"] = fund.deleted_at;
           }
-          // create_options["id"] = fund.id;
+
+          if (fund.organisation_id) {
+            create_options["organisation_id"] = (parseInt(fund.organisation_id) + parseInt(fieldValues["offset_number"])).toString();
+          }
+
+          if (fieldValues.overwrite_id) {
+            create_options.id = fund.id;
+          }
         }
 
         models.funds.create( create_options ).then(function() {
@@ -488,21 +528,26 @@ module.exports = {
     },
 
     resetTable: function(req, res) {
-      models.organisations.findAll({ paranoid: false }).then(function(organisations) {
-        for (var i = 0; i < organisations.length; i++) {
-          organisations[i].destroy({ force: true });
-        }
-      })
-      .catch(function(err) { Logger.error(err); })
-      .then(function() { Logger.warn('Cleared organisations table.'); })
-      .then(function() {
-        models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
-          .catch(function(err) { Logger.error(err); })
-          .then(function(results) {
-            Logger.warn('organisations_id_seq reset to 1');
-            res.redirect('/admin/organisations');
-          });
-      });
+      if (req.body.password === process.env.CLEAR_DB_PASSWORD) {
+        models.organisations.findAll({ paranoid: false }).then(function(organisations) {
+          for (var i = 0; i < organisations.length; i++) {
+            organisations[i].destroy({ force: true });
+          }
+        })
+        .catch(function(err) { Logger.error(err); })
+        .then(function() { Logger.warn('Cleared organisations table.'); })
+        .then(function() {
+          models.sequelize.query("SELECT setval('organisations_id_seq', 1, false)")
+            .catch(function(err) { Logger.error(err); })
+            .then(function(results) {
+              Logger.warn('organisations_id_seq reset to 1');
+              res.redirect('/admin/organisations');
+            });
+        });
+      } else {
+        Logger.warn('Someone just tried to clear organisations table and failed miserably.');
+        res.redirect('/admin/organisations');
+      }
     },
 
     update: function(req, res) {
@@ -523,6 +568,7 @@ module.exports = {
     },
 
     upload: function(req, res) {
+      var fieldValues = {};
       var busboy = new Busboy({ headers: req.headers });
       var jsonData = '';
       busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -537,6 +583,7 @@ module.exports = {
       });
       busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
         Logger.info('Field [' + fieldname + ']: value: ' + inspect(val));
+        fieldValues[fieldname] = val;
       });
       busboy.on('finish', function() {
         Logger.info('Done parsing form! Injecting into database...');
@@ -554,10 +601,13 @@ module.exports = {
               create_options["deleted_at"] = organisation.deleted_at;
             }
 
-            // create_options["id"] = organisation.id;
+            if (fieldValues.overwrite_id) {
+              // Use file IDs
+              create_options.id = (parseInt(organisation.id) + parseInt(fieldValues["offset_number"])).toString();
+            }
           }
 
-          models.organisations.create( create_options ).then(function() {
+          models.organisations.create( create_options ).catch(function(err) { Logger.error(err); }).then(function() {
             Logger.info('Created organisation.');
           });
         }

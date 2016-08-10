@@ -8,7 +8,7 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 	aws_key = process.env.AWS_KEY;
 } else {
 	var secrets = require('../app/secrets');
-	
+
 	aws_keyid = secrets.AWS_KEYID;
 	aws_key = secrets.AWS_KEY;
 }
@@ -66,15 +66,16 @@ module.exports = {
 		var userId;
 		var bucketName;
 		Logger.info("CHECKING USER OR FUNd", req.body);
-		if(req.body.user){
-			 userId = req.body.user;
+		if(!req.user.organisation_or_user){
+			 userId = req.user.id;
 			 bucketName = "silo-user-profile-" + userId
 		}
-		else if (req.body.fund){
-			userId = req.body.fund;
+		else{
+			console.log("hey");
+			userId = req.user.id;
 			bucketName = "silo-fund-profile-" + userId
 		}
-		
+
 
 
 

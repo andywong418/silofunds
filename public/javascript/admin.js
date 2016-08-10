@@ -251,6 +251,14 @@ try {
     }
   });
 
+  $("form[name='reset-table']").submit(function(e) {
+    var password = prompt("ENTER THE FUCKING PASSWORD OR GET FUCKED.");
+    $("form[name='reset-table']").append("<input type='password' name='password' style='display: none;'>");
+    $("form[name='reset-table'] input[type='password']").val(password);
+
+    return true;
+  });
+
   $("form[name='create_fund']").submit(function(e){
     e.preventDefault();
 

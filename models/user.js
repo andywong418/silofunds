@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'country_of_residence'
     },
     address_line1: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       field: 'address_line1'
     },
     address_zip: {
@@ -52,6 +52,10 @@ module.exports = function(sequelize, DataTypes) {
     address_city: {
       type: DataTypes.STRING,
       field: 'address_city'
+    },
+    billing_country: {
+      type: DataTypes.TEXT,
+      field: 'billing_country'
     },
     religion: {
       type: DataTypes.TEXT,

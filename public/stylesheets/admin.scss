@@ -18,12 +18,49 @@ a.back-to-top {
   border-radius: 30px;
 }
 
+div#duplicateTableContainer {
+  overflow: auto;
+  height: 200px;
+  margin-bottom: 50px;
+
+  table#duplicateTitle, table#duplicateEmail {
+    table-layout: fixed;
+
+    td {
+      overflow: auto;
+    }
+
+    th#countHeader {
+      width: 100px;
+    }
+  }
+}
+
+table.sortable {
+  td {
+    overflow: auto;
+  }
+
+  th {
+    cursor: pointer;
+  }
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+  content: " \25B4\25BE"
+}
+
 #support_type{
   width: 100%;
 }
 
 .hide-this-shit {
   display: none;
+}
+
+.paddingless {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 textarea {

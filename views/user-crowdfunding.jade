@@ -37,7 +37,8 @@ block content
 		var user = !{JSON.stringify(user)};
 		var documents = !{JSON.stringify(documents)};
 		var applications = !{JSON.stringify(applications)}
-		var donations = !{JSON.stringify(donations)}
+		var donations = !{JSON.stringify(donations)};
+		var updates = !{JSON.stringify(updates)};
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 		}
@@ -69,9 +70,13 @@ block content
 					a.menu-item(href='#about')
 						p About 
 					a.menu-item(href='#updates')
-						p Updates
+						p= 'Updates '
+							if updates
+								span.badge= updates.length
 					a.menu-item(href='#comments')
-						p Comments
+						p= 'Comments '
+							if comments
+								span.badge= comments.length
 				#tab-content
 					script#story-template(type='text/template')
 						p#story
@@ -124,8 +129,46 @@ block content
 								i(class!= '<%= fileClass %>')
 									a(href!='<%= fileLink %>') <%=fileName %>
 								
-											
-										
+					script#update-template(type='text/template')
+						if updates
+							each update in updates
+								p#update-header= 'Update #' + update.count 
+									if update.diffDays === 0
+										span#update-date Today
+									if update.diffDays === 1
+										span#update-date Yesterday
+									if update.diffDays > 1
+										span#update-date= update.diffDays + ' ago'
+								hr
+								span#update-span=update.update.message
+						.initial-image
+							p#created-at
+							img#project-launch(src='/images/project-launch.svg')
+							p#launch-text Project Launched!
+					script#comment-template(type='text/template')
+							if comments.length > 0
+								each comment in comments
+									.comment-row.row
+										.col-md-1
+											if comment.profile_picture
+												img#comment-picture(src=comment.profile_picture)
+											else
+												img#comment-picture(src='/images/profile-placeholder.jpg')
+										.col-md-11
+											p#commentator= comment.commentator_name
+												if comment.diffDays == 0
+													span#comment-diffDays Today
+												if comment.diffDays == 1
+													span#comment-diffDays Yesterday
+												if comment.diffDays > 1
+													span#comment-diffDays= diffDays + ' ago'
+									.real-comment-row.row
+										.col-md-1
+										.col-md-11
+											p#comment= comment.comment
+							else
+								p#no-comment= 'You can add a comment by donating. Otherwise you can contact ' +user.username.split(' ')[0] + ' '
+									a(href=user.email) here.
 									
 					
 				
@@ -172,17 +215,23 @@ block content
 									button#recipientpays.btn.btn-default(type='button') Nope.
 						#helperDiv.col-md-7
 							span#process-fee
+						#comment-div
+							textarea#comment-text(placeholder= 'Leave a note to show your support!')
 			#funding-institutions.row
 				#fund-banner
 					p Funding applications
 						i.fa.fa-caret-down(aria-hidden="true")
 				if applications
 					each app in applications
-						.row.app-row
-							.col-md-9
-								a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
-							.col-md-3
-								p#status= app.status
+						if app.hide_from_profile !== true
+							.row.app-row
+								.col-md-9
+									a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
+								.col-md-3
+									if app.status == 'success'
+										p#status= '£'+ app.amount_gained
+									else
+										p#status= app.status
 							
 				else
 					p#none= user.username.split(' ')[0] + ' has not applied to any funds yet.'
@@ -222,6 +271,8 @@ block content
 		
 
 block scripts
+	//moment
+	script(src='/bower_components/moment/min/moment-with-locales.js')
 	script(src='/javascript/signup-login.js')
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/user-crowdfunding.js')

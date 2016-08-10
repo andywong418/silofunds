@@ -15,8 +15,7 @@ module.exports = function(sequelize, DataTypes){
 		},
     charity_id: {
       type: DataTypes.INTEGER,
-      field: 'charity_id',
-      unique: true
+      field: 'charity_id'
     },
 		created_at: {
       type: DataTypes.DATE,

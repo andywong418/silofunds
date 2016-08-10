@@ -1,3 +1,7 @@
+body {
+  font-family: 'Source Sans Pro';
+  background-color: #e9f0f4; }
+
 #categories {
   top: 80px;
   position: relative;
@@ -6,32 +10,28 @@
   height: 400px;
   padding-top: 30px; }
 
+p {
+  font-size: 100%; }
+
 ul {
   list-style: none; }
-
-#advanced-search, #advanced-search-2 {
-  top: 80px;
-  display: none; }
-
-#brand-image {
-  margin-top: -13px;
-  height: auto;
-  width: auto;
-  max-width: 100px;
-  max-height: 100px;
-  position: relative;
-  z-index: 11; }
 
 #categories ul {
   margin-left: -30px; }
 
 #categories i {
   margin-left: -10px;
-  margin-right: 10px; }
+  margin-right: 10px;
+  color: black; }
 
 #general-settings, #account {
   margin-left: 10px;
   padding: 0; }
+  #general-settings a, #account a {
+    color: grey; }
+
+.active-link {
+  color: black !important; }
 
 #general-settings:hover, #account:hover {
   cursor: pointer; }
@@ -58,33 +58,29 @@ ul {
   padding-left: 30px;
   bottom: 50px; }
 
-#email-row:hover, #username-row:hover, #password-row:hover, #description-row:hover, #nationality-row:hover, #countries-row:hover, #religion-row:hover, #funding_needed-row:hover, #minimum_age-row:hover, #maximum_age-row:hover, #minimum_amount-row:hover, #maximum_amount-row:hover, #gender-row:hover, #merit_or_finance-row:hover, #charity_number-row:hover {
-  background-color: #d8deea;
-  cursor: pointer; }
-
 #email-row, #username-row {
-  padding-top: 10px;
-  cursor: pointer; }
+  padding-top: 15px; }
+  #email-row p, #username-row p {
+    margin-bottom: 20px;
+    padding-top: 5px; }
+  #email-row #username, #username-row #username {
+    font-size: inherit; }
 
-#password-row {
-  padding-top: 10px;
-  cursor: pointer; }
+#previous-password-row, #charity_number-row {
+  padding-top: 15px; }
+  #previous-password-row p, #charity_number-row p {
+    padding-top: 5px; }
 
-#grey {
-  color: grey;
-  cursor: pionter; }
+#charity_number-row p {
+  margin-bottom: 20px; }
 
-.profile-edit {
-  display: none; }
+.grey {
+  padding: 5px;
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #ccc; }
 
-.edit {
-  display: inline; }
-
-.fa-pencil {
-  display: inline;
-  margin-right: 10px; }
-
-.save {
+#save-div .save {
   background: #457fca;
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #457fca, #5691c8);
@@ -103,14 +99,17 @@ ul {
   border-radius: 5px;
   position: relative;
   margin: 0 auto;
-  margin-top: 20px;
-  display: none; }
+  margin-top: 20px; }
 
-.save:focus {
+#save-div .save:focus {
   background-color: #446CB3; }
 
-.save:active {
+#save-div .save:active {
   background-color: #446CB3; }
+
+#save-div #save-general-settings-notification {
+  display: none;
+  margin-top: 5px; }
 
 #save-password {
   margin-bottom: 30px; }
@@ -172,3 +171,30 @@ ul {
 #profile-settings {
   padding-bottom: 30px;
   margin-bottom: 30px; }
+
+.profile-edit #box-profile {
+  -webkit-transition: 2.5s;
+  transition: 2.5s;
+  margin-bottom: 30px; }
+  .profile-edit #box-profile .fa-camera {
+    position: absolute;
+    color: white;
+    font-size: 45px;
+    left: 47%;
+    top: 30%;
+    display: none; }
+  .profile-edit #box-profile:hover .fa-camera {
+    cursor: pointer;
+    display: block; }
+  .profile-edit #box-profile #userImage {
+    width: 50%;
+    margin-left: 25%;
+    max-height: 500px;
+    border-radius: 5px;
+    border: 1px solid #e1e8ed;
+    cursor: pointer; }
+
+.profile-edit textarea {
+  padding: 10px;
+  height: 100px;
+  width: 100%; }

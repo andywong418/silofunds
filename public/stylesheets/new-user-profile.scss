@@ -270,26 +270,45 @@ body{
 
 	#email-row{
 		border-bottom: none;
-			a{
-				margin-top: 20px;
-				width: 50%;
-				background-color: #05d257;
-				&:hover{
-					background-color: #04a042;
-				}
-			}
-			#verify-text{
-				margin-top: 25px;
-				padding-left: 0;
-				padding-right: 0;
-				padding-top: 5px;
-				padding-bottom: 5px;
-				display: none;
-			}
+
 
 	}
 
-
+	#account-handler{
+		.row{
+			border-bottom: none;
+		}
+		#address-row{
+			.row{
+				margin-left: 0;
+				margin-right: 0;
+				padding-bottom: 0;
+				#postal-code{
+					padding-left: 0;
+				}
+				#city{
+					padding-right: 0;
+					padding-left: 0;
+				}
+			}
+		}
+		a{
+			margin-top: 20px;
+			width: 50%;
+			background-color: #05d257;
+			&:hover{
+				background-color: #04a042;
+			}
+		}
+		#verify-text{
+			margin-top: 25px;
+			padding-left: 0;
+			padding-right: 0;
+			padding-top: 5px;
+			padding-bottom: 5px;
+			display: none;
+		}
+	}
 
 
 		}

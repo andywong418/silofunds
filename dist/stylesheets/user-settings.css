@@ -28,36 +28,25 @@ p {
       -ms-flex-direction: column;
           flex-direction: column;
   height: auto; }
-  #left_div .profile {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    width: 100% !important;
-    height: 215px !important; }
-    #left_div .profile .picture-container {
-      width: 100% !important;
-      height: 100% !important; }
-      #left_div .profile .picture-container #userImage, #left_div .profile .picture-container #overlay {
-        position: absolute;
-        width: 240px;
-        height: 215px;
-        border-radius: 5px;
-        border: 1px solid #e1e8ed;
-        cursor: pointer; }
-      #left_div .profile .picture-container #overlay {
-        visibility: hidden; }
-      #left_div .profile .picture-container:hover #overlay {
-        visibility: visible; }
+  #left_div #box-profile {
+    -webkit-transition: 2.5s;
+    transition: 2.5s; }
+    #left_div #box-profile .fa-camera {
+      position: absolute;
+      color: white;
+      font-size: 45px;
+      left: 47%;
+      top: 130px;
+      display: none; }
+    #left_div #box-profile:hover .fa-camera {
+      cursor: pointer;
+      display: block; }
+    #left_div #box-profile #userImage {
+      width: 100%;
+      max-height: 300px;
+      border-radius: 5px;
+      border: 1px solid #e1e8ed;
+      cursor: pointer; }
   #left_div .settings-tab-menu, #left_div .logout-tab {
     padding: 0;
     display: -webkit-box;

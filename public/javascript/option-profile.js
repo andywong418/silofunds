@@ -1,12 +1,55 @@
 $(document).ready(function(){
+
+
+  if(!user){
+    showLimitedProfile();
+  }
+  if(user){
+    $('#signup-modal-fade').hide();
+  }
+  function showLimitedProfile(){
+    //Hide favourite
+    $('#favourite').hide();
+    $('#left_div').children().not('#box_1').css('opacity', '0.5');
+    $('#right_div, #separator_1, #review_div').children().css('opacity', '0.5');
+    $('#signup-block').show();
+    var counter = 0;
+    $(window).on('scroll', function() {
+
+        var y_scroll_pos = window.pageYOffset;
+               // set to whatever you want it to be
+        if(y_scroll_pos > 300 && counter === 0) {
+            //do stuff
+            $('#signup-modal-fade').css('background-color', 'rgba(52, 54, 66, 0.9)');
+            $('#not-now').show();
+            $('#signup-button-div').css('margin-bottom', '30px');
+            $('#signup-block').animate({top: '30%'}, 500);
+            counter++;
+        }
+
+    });
+    $('#not-now').click(function(){
+      $('#signup-modal-fade').css('background-color', 'transparent');
+      $('#not-now').hide();
+      $('#signup-button-div').css('margin-bottom', '0px');
+      $('#signup-block').animate({top: '65%'}, 500);
+    });
+
+  }
+
+  if(user && user.organisation_or_user != fund.organisation_id){
+    $('div#big_flex_div').css('margin-top', '-50px');
+  }
+
   Array.prototype.capitalize = function(){
     var emptyArray = [];
     this.forEach(function(element){
       element = element.charAt(0).toUpperCase() + element.slice(1);
       emptyArray.push(element);
-    })
+    });
     return emptyArray;
-  }
+  };
+  // Improve eligibility calculator function checkSubjectField()
   function checkIfElementInArray(fundArray, userArray){
     var counter = 0;
     console.log(userArray);
@@ -129,13 +172,10 @@ $(document).ready(function(){
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
 
-    $('#left_div').css('opacity', '0.5');
-    $('#right_div').children().not('#eligibility_div, #eligibility_div_p, #notEligible').css('opacity', '0.5');
-    $('#scholars_div').css('opacity', '0.5');
+
     $('#eligibility_div').css('display', 'block');
-    $('#eligibility_div').css('background-color', '#c0392b');
-    $('#eligibility_div_p').css('opacity', '1');
-    $('p#eligibility_div_p ').html('Sorry, you are not eligible for this fund - click this bar to learn why.');
+    $('#eligibility_div').css('background-color', 'rgb(236, 198, 44)');
+    $('p#eligibility_div_p ').html('You may not be eligible for this fund - click this bar to learn why. <a id="ignore"> Ignore for now </a>');
     $(document).on('click', '#eligibility_div', function(){
       $('#notEligible').css('display', 'block');
       //add criteria to explanation modal
@@ -151,7 +191,7 @@ $(document).ready(function(){
           var view = new NotEligibleView({model: model});
           this.$el.append(view.render().el);
         }
-      })
+      });
       var notEligibleDisplay = new NotEligibleDisplay();
     });
 
@@ -161,9 +201,46 @@ $(document).ready(function(){
           $("div[id*=notEligible-handler]").remove();
 
         }
-      })
+      });
+      $(document).on('click', '#ignore', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        $('#eligibility_div').hide(500);
+        $('#application_form').css('margin-top', '6%');
+        $('#notEligible').css('display', 'none');
+        $("div[id*=notEligible-handler]").remove();
+      });
 
   };
+  console.log(favourite);
+  $('#favourite').click(function(){
+    if(favourite){
+      $('#favourite:before').css("content", "");
+      $('#favourite').removeClass('active-favourite');
+      var formData = {
+        user_id: user.id,
+        fund_id: fund.id,
+      };
+      $.post('/user/remove-favourite/', formData, function(data){
+        console.log(data);
+      });
+      favourite = false;
+    }
+    else{
+
+      if(user && user.organisation_or_user == null){
+        $('#favourite').addClass('active-favourite');
+        favourite = true;
+        var formData = {
+          user_id: user.id,
+          fund_id: fund.id
+        };
+        $.post('/user/add-favourite/', formData, function(data){
+          console.log(data);
+        });
+      }
+    }
+  });
 
   if(user){
     if(!user.organisation_or_user){
@@ -260,9 +337,9 @@ $(document).ready(function(){
 
     }
     if(user.organisation_or_user == fund.organisation_id){
-      $('#big_flex_div').css('margin-top', '0');
+      $('#big_flex_div').css('padding-top', '50px');
       $('.alert').css('display', 'block');
-      $('#right_div').css('margin-top', '20px');
+
     }
   }
   if(fund.description){
@@ -821,6 +898,9 @@ $(document).ready(function(){
   });
   var ApplicationDisplay = Backbone.View.extend({
     el: '#application_form',
+    events: {
+      'click #apply_now_link': 'addApplication'
+    },
     initialize: function() {
       if(!fund.application_link){
         fund.application_link = fund.link;
@@ -868,6 +948,16 @@ $(document).ready(function(){
             this.$('#documents_deadline').next('.arrow').css('display', 'none');
           }
         }
+    },
+    addApplication: function(e){
+      e.preventDefault();
+      var formData = {
+        fund_id: fund.id
+      }
+      $.post('/user/add-application', formData, function(data){
+        $('#application-notification').html(data);
+        $('#application-notification').delay(3000).fadeOut('slow');
+      })
     }
   })
   var TipsModel = Backbone.Model.extend({
