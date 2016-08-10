@@ -1229,8 +1229,6 @@ module.exports = {
       res.redirect('/user/dashboard')
     }
   }
-
-
 }
 
 ////// Helper functions
