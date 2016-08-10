@@ -390,8 +390,9 @@ var allShown = false;
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
-        if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
+        if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5 && anotherCounter === 0) {
             //do stuff
+            console.log(anotherCounter);
             startPoint = startPoint +5;
             endPoint = endPoint + 5;
 

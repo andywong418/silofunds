@@ -157,7 +157,7 @@ module.exports = {
         }
       }
     }
-
+    Logger.info(queryOptions);
     es.search({
       index: "funds",
       type: "fund",
