@@ -64,7 +64,8 @@
   .selected a {
     color: white; }
     .selected a:hover {
-      text-decoration: none; }
+      text-decoration: none;
+      color: white !important; }
   .selected:hover, .selected:active, .selected:focus {
     border: 1px solid #194c7f !important;
     background: #236bb2 !important;
@@ -74,8 +75,10 @@
   border-color: 1px solid #194c7f;
   background: #236bb2; }
 
-.progress-track a:hover {
-  text-decoration: none; }
+.progress-track {
+  cursor: auto; }
+  .progress-track a:hover {
+    text-decoration: none; }
 
 .bursary-selected {
   background-color: #009862;
@@ -216,3 +219,14 @@ input {
   text-align: left;
   padding-left: 4px !important;
   padding-top: 2px !important; }
+
+#general:hover, #application:hover, #eligible:hover {
+  background-color: white;
+  border-color: #bdd2e7;
+  color: #337ab7; }
+
+a:hover {
+  color: #337ab7 !important; }
+
+a:active:hover {
+  color: black; }

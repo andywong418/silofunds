@@ -1,5 +1,13 @@
 $(document).ready(function(){
 
+	$('#charity-input-required').css('background-color', 'red')
+
+	if($('#charity-input').val() !== '') {
+		console.log('in here')
+		$('#charity-input-required').append('A charity number is required')
+		console.log($('#next'))
+	}
+
 	var FundModel = Backbone.Model.extend({
 		url: '/signup/fund_account/' + fund_setup.id
 	});
@@ -17,6 +25,9 @@ $(document).ready(function(){
 
   var AccountDisplay = Backbone.View.extend({
   	tagName: 'div',
+		events:{
+			'click a#next': 'checkCharityId'
+		},
   	id: "account-handler",
   	initialize: function(){
   		var account = new FundModel({
@@ -112,7 +123,16 @@ $(document).ready(function(){
   			})
 
   		})
-  	}
+  	},
+		checkCharityId: function(){
+			if(this.$('#charity-input').val() == '') {
+				$('#charity-input-required').append('You must enter your charity number')
+				$('#charity-input-required').css('color', '#B60000')
+				$('#charity-input-required').css('font-size', '10px')
+			} else {
+				$('#next').attr("href", '/organisation/funding_creation')
+			}
+		}
   });
 
   var Router = Backbone.Router.extend({
