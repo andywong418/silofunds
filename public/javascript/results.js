@@ -256,10 +256,7 @@ var allShown = false;
         $('#fade_div' + id).hide();
       }
       var collapsedHeight = 28 + 28 + 28 + 28 + 16
-      // Used following two lines to find the height of 2em + some margins, then inputted into above, useful if you want to change
-      // $('.description_control').css("max-height", 'calc(6em + 12px)')
-      // console.log($('.description_control').height())
-
+      
       // css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
