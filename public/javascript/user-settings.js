@@ -40,7 +40,6 @@ $(document).ready(function() {
 
   //Change profile picture
   $("#userImage").click(function() {
-        console.log('HI');
         $("input[id='my_file']").click();
     });
     $("input[id='my_file']").change(function(){

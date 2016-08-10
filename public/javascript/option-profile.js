@@ -8,7 +8,7 @@ $(document).ready(function(){
     $('#signup-modal-fade').hide();
   }
   function showLimitedProfile(){
-    //Hide favourite
+    // Hide favourite
     $('#favourite').hide();
     $('#left_div').children().not('#box_1').css('opacity', '0.5');
     $('#right_div, #separator_1, #review_div').children().css('opacity', '0.5');
@@ -228,7 +228,6 @@ $(document).ready(function(){
       });
 
   };
-  console.log(favourite);
   if(favourite){
     $('#favourite').addClass('active-favourite');
   }
@@ -941,7 +940,6 @@ $(document).ready(function(){
       })
 
       var view = new ApplicationView({ model: applicationModel });
-      console.log(view.model);
       if(!fund.application_documents){
         if(fund.deadline && view.model){
           view.model.set({
@@ -960,7 +958,6 @@ $(document).ready(function(){
           })
         }
       }
-      console.log(view.model)
       this.$el.append(view.render().el);
 
 
@@ -1013,5 +1010,40 @@ $(document).ready(function(){
   var eligibilityDisplay = new EligibilityDisplay();
   var applicationFormDisplay = new ApplicationDisplay();
   var TipsDisplay = new TipsDisplay();
+
+  // Updating profile profile_picture
+  $('#fund_img_placeholder, #fundImage').click(function() {
+    $('#photoUpdateModal').modal('toggle')
+  })
+  $(document).on('click', '#profile-picture', function(){
+      $("input[id='my_file']").click();
+  });
+  $(document).on('change', "input[id='my_file']", function(e){
+      if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+        $('#profile-picture')
+          .attr('src', e.target.result)
+          .width(250)
+          .height(250);
+        };
+        var file = this.files[0];
+        var data = new FormData();
+        data.append('profile_picture', file);
+        data.append('user', user.id);
+        $.ajax({
+          type: 'POST',
+          url: "/signup/fund_signup/" + user.id,
+          data: data,
+          processData: false,
+          contentType: false
+        }).done(function(data){
+          location.reload()
+          console.log(data);
+        });
+        reader.readAsDataURL(this.files[0]);
+        $("#add-profile").css("display", "none");
+      }
+  });
 }
 )
