@@ -168,6 +168,9 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
+        "country": {
+          'type': 'string'
+        },
         "suggest_universities": {
           "type": "completion",
           "index_analyzer": "simple",

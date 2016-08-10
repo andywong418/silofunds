@@ -172,15 +172,17 @@ es.checkConnection().then(function(resp) {
       .then(es.deleteIndex('funds'))
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
-      .then(function() { return loadSettingsForBulkPrepFor('countries', countries.countries); })
+      .then(function() { return loadSettingsForBulkPrepFor('countries', null, countries.countries); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('religions', religions.religions); })
+      .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('degrees', degrees.degrees); })
+      .then(function() { return loadSettingsForBulkPrepFor('degrees', null, degrees.degrees); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('universities', universities.universities); })
+      .then(function() { return loadSettingsForBulkPrepFor('universities', { "country": "uk" }, universities.ukUniversities); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('subjects', subjects.subjects); })
+      .then(function() { return loadSettingsForBulkPrepFor('universities', { "country": "us" }, universities.usUniversities); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', null, subjects.subjects); })
       .then(bulkUpload);
 
     es.indexExists('users')
@@ -235,9 +237,9 @@ function checkForChanges() {
   });
 }
 
-function loadSettingsForBulkPrepFor(typeName, dataSource) {
+function loadSettingsForBulkPrepFor(typeName, extraOptions, dataSource) {
   var wrapper = {};
-  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName], dataSource);
+  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName], extraOptions, dataSource);
 
   wrapper.fieldName = typeName;
   wrapper.body = body;
@@ -287,7 +289,7 @@ function prepareBulkUploadUsers(users) {
   return userBody;
 }
 
-function prepareBulkUploadAutocomplete(typeName, keyOptions, dataSource) {
+function prepareBulkUploadAutocomplete(typeName, keyOptions, extraOptions, dataSource) {
   var bodyArray =[];
   var id = 0;
   var type = 'autocomplete_' + typeName;
@@ -302,6 +304,15 @@ function prepareBulkUploadAutocomplete(typeName, keyOptions, dataSource) {
 
     wrapper[keyOptions.normalFieldName] = data;
     wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
+
+    if (extraOptions) {
+      var extraOptionsKeys = Object.keys(extraOptions);
+
+      for (var i = 0; i < extraOptionsKeys.length; i++) {
+        var extraOptionsKey = extraOptionsKeys[i];
+        wrapper[extraOptionsKey] = extraOptions[extraOptionsKey];
+      }
+    }
 
     bodyArray.push(wrapper);
   });
