@@ -162,20 +162,25 @@ server.on('listening', onListening);
 es.checkConnection().then(function(resp) {
   if (resp) {
     Logger.info("Connected to elasticsearch.");
+    var countries = require('../resources/countries');
+    var religions = require('../resources/religions');
+    var degrees = require('../resources/degrees');
+    var universities = require('../resources/universities');
+    var subjects = require('../resources/subjects');
 
     es.indexExists('funds')
       .then(es.deleteIndex('funds'))
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
-      .then(function() { return loadSettingsForBulkPrepFor('countries'); })
+      .then(function() { return loadSettingsForBulkPrepFor('countries', countries.countries); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('religions'); })
+      .then(function() { return loadSettingsForBulkPrepFor('religions', religions.religions); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('degrees'); })
+      .then(function() { return loadSettingsForBulkPrepFor('degrees', degrees.degrees); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('universities'); })
+      .then(function() { return loadSettingsForBulkPrepFor('universities', universities.universities); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('subjects'); })
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', subjects.subjects); })
       .then(bulkUpload);
 
     es.indexExists('users')
@@ -230,9 +235,9 @@ function checkForChanges() {
   });
 }
 
-function loadSettingsForBulkPrepFor(typeName) {
+function loadSettingsForBulkPrepFor(typeName, dataSource) {
   var wrapper = {};
-  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName]);
+  var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName], dataSource);
 
   wrapper.fieldName = typeName;
   wrapper.body = body;
@@ -282,13 +287,12 @@ function prepareBulkUploadUsers(users) {
   return userBody;
 }
 
-function prepareBulkUploadAutocomplete(typeName, keyOptions) {
+function prepareBulkUploadAutocomplete(typeName, keyOptions, dataSource) {
   var bodyArray =[];
-  var dataArray = require('../resources/' + typeName + '.js');
   var id = 0;
   var type = 'autocomplete_' + typeName;
 
-  dataArray.forEach(function(data){
+  dataSource.forEach(function(data){
     id++;
     var payloadOptions = {};
     payloadOptions[keyOptions.payloadKey] = data;
