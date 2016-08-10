@@ -330,6 +330,7 @@ module.exports = {
     busboy.on('finish', function() {
       Logger.info('Done parsing form! Injecting into database...');
       var json_array = JSON.parse(jsonData);
+      var createOptionsArr = [];
 
       for (var ind = 0; ind < json_array.length; ind++) {
         var fund = json_array[ind];
@@ -352,13 +353,18 @@ module.exports = {
           }
         }
 
-        models.funds.create( create_options ).then(function() {
-          Logger.info('Created fund.');
-        }).catch(function(err) {
-          Logger.error(err);
-        });
+        createOptionsArr.push(create_options);
       }
-      res.redirect('../admin/funds');
+
+      models.funds.bulkCreate(createOptionsArr).then(function() {
+        Logger.info('Created funds.');
+      }).catch(function(err) {
+        Logger.error(err);
+      }).then(function() {
+        models.sequelize.query("SELECT setval('funds_id_seq', MAX(id)) FROM funds").spread(function(results, metadata) {
+          res.redirect('/admin/funds');
+        });
+      });
     });
     req.pipe(busboy);
   },
@@ -588,6 +594,7 @@ module.exports = {
       busboy.on('finish', function() {
         Logger.info('Done parsing form! Injecting into database...');
         var json_array = JSON.parse(jsonData);
+        var createOptionsArr = [];
 
         for (var ind = 0; ind < json_array.length; ind++) {
           var organisation = json_array[ind];
@@ -607,11 +614,18 @@ module.exports = {
             }
           }
 
-          models.organisations.create( create_options ).catch(function(err) { Logger.error(err); }).then(function() {
-            Logger.info('Created organisation.');
-          });
+          createOptionsArr.push(create_options);
         }
-        res.redirect('/admin/organisations');
+
+        models.organisations.bulkCreate(createOptionsArr).then(function() {
+          Logger.info('Created organisations.');
+        }).catch(function(err) {
+          Logger.error(err);
+        }).then(function() {
+          models.sequelize.query("SELECT setval('organisations_id_seq', MAX(id)) FROM organisations").spread(function(results, metadata) {
+            res.redirect('/admin/organisations');
+          });
+        });
       });
       req.pipe(busboy);
     }
