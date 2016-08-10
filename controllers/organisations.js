@@ -297,7 +297,7 @@ homeGET: function(req, res){
             //TODO Abstract
               //if user is logged in
               if(organisation){
-                //organisation not in user table
+                //organisation in user table
                 if(user.organisation_or_user == null){
                   //if user is not fund user
                   console.log("organisation", organisation);
@@ -306,14 +306,15 @@ homeGET: function(req, res){
                     fund_id: fundId
                   }}).spread(function(recent, created){
                     if(created){
+                      //first time browsed
 
-                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
+                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false, newVisit: true});
                     }else{
                       var dateNow = new Date(Date.now());
                       dateNow = dateNow.toISOString();
                       recent.update({updated_at: dateNow,user_id: user.id,
                       fund_id: fundId}).then(function(recent){
-                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries});
+                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, newVisit: false});
                       });
                     }
                   });
@@ -325,22 +326,22 @@ homeGET: function(req, res){
               } else{
                 //organisation not in user table
                 models.organisations.findById(fund.organisation_id).then(function(organisation){
+                  console.log("NOT IN TUSER", organisation);
                   if(user.organisation_or_user == null){
                     //if user is not fund user
-                    console.log("organisation", organisation);
                     models.recently_browsed_funds.findOrCreate({where: {
                       user_id: user.id,
                       fund_id: fundId
                     }}).spread(function(recent, created){
                       if(created){
 
-                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
+                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false, newVisit: true});
                       }else{
                         var dateNow = new Date(Date.now());
                         dateNow = dateNow.toISOString();
                         recent.update({updated_at: dateNow,user_id: user.id,
                         fund_id: fundId}).then(function(recent){
-                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries});
+                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, newVisit: false});
                         });
                       }
                     });
@@ -523,10 +524,8 @@ homeGET: function(req, res){
     var fundId = req.params.id;
     var userId = req.user.id;
     console.log("REQ BODY", req.body);
-    models.known_funds.find({where: {fund_id: fundId, user_id: userId }}).then(function(known){
-      known.update(req.body).then(function(data){
-        res.send(data);
-      });
+    models.known_funds.create({fund_id: fundId, user_id: userId, known: req.body.known }).then(function(known){
+      res.send(known);
     });
   },
   settings: function(req, res){
@@ -691,17 +690,7 @@ function checkFavourite(userId, fundId, res, dataObject){
     else{
       dataObject.favourite = false;
     }
-    models.known_funds.findOrCreate({where: {user_id: userId, fund_id: fundId}}).spread(function(fund, created){
-      if(created){
-        dataObject.newVisit = true;
-      }
-      else{
-        dataObject.newVisit = false;
-      }
-        res.render('option-profile', dataObject);
-    })
-
-
+    res.render('option-profile', dataObject);
   })
 }
 function moderateObject(objectFields){

@@ -227,7 +227,6 @@ var allShown = false;
          this.$(".max_age" + id).css("margin-left", "-10px");
        }
     },
-
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
@@ -235,20 +234,42 @@ var allShown = false;
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
       if(description){
+        var html_fade_div_id = '<div id="fade_div' + id + '"></div>'
         this.$("#" + id).children('.description_control').html(description);
+        this.$('#' + id).children('.description_control').append(html_fade_div_id)
+        this.$("#" + id).children('.description_control').attr('id', 'id' + id);
       }
-      $('.description_control').readmore({
-        moreLink: '<a href="#">...read more</a>',
-        collapsedHeight: 40,
-      })
-      // Used following two lines to find the height of 2em + some margins, then inputted into above, useful if you want to change
-      // $('.description_control').css("max-height", 'calc(2em + 8px)')
-      // console.log($('.description_control').height())
-
-      //Conventionalised the styles in css
+      if($('#id' + id).height() > 200) {
+        $('#id' + id).readmore({
+          moreLink: '<a href="#">...read more</a>',
+          lessLink: '<a href="#">read less</a>',
+          collapsedHeight: collapsedHeight,
+          beforeToggle: function(trigger, element, expanded) {
+            if(expanded) {
+              $('#fade_div' + id).show()
+            } if(!expanded) {
+              $('#fade_div' + id).hide()
+            }
+          }
+        })
+      } else {
+        $('#fade_div' + id).hide();
+      }
+      var collapsedHeight = 28 + 28 + 28 + 28 + 16
+      
+      // css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
       this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
+      $('#fade_div' + id).css('position', 'absolute')
+      $('#fade_div' + id).css('width', '100%')
+      $('#fade_div' + id).css('top', '120px')
+      $('#fade_div' + id).css('height', '80px')
+      $('#fade_div' + id).css('background', '-webkit-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
+      $('#fade_div' + id).css('background-image', '-ms-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
+      $('#fade_div' + id).css('background-image', '-o-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
+      $('#fade_div' + id).css('background-image', 'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
+      $('#fade_div' + id).css('background-image', '-moz-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
     },
     addApplication: function(){
       if(user && !user.organisation_or_user){
@@ -369,8 +390,9 @@ var allShown = false;
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
-        if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5) {
+        if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5 && anotherCounter === 0) {
             //do stuff
+            console.log(anotherCounter);
             startPoint = startPoint +5;
             endPoint = endPoint + 5;
 
@@ -506,3 +528,5 @@ function upperCase(str) {
    }
    return splitStr.join(' ');
 }
+
+var i = 0;

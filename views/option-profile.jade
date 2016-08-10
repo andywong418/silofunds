@@ -15,10 +15,10 @@ block content
     }
   include ./navbar.jade
   include ./signup-modal.jade
-  if user && !user.organisation_or_user && newVisit
+  if user && newVisit
     .alert-known.alert-success
       .container-block.center-block
-        span Have you heard of this fund?
+        span Have you heard of this fund before?
         label.radio-inline
           input(type='radio', name='fund_known', value= "true")
           | Yes
@@ -50,19 +50,23 @@ block content
         else
           a#fundWebsite(href='/organisation/options/' + fund.id )
             if organisation
-              img#fundImage(src=organisation.profile_picture)
-              span#favourite ☆
+              if(organisation.profile_picture)
+                img#fundImage(src=organisation.profile_picture)
+                span#favourite ☆
       #box_2
         if fund.link
           if !organisation.profile_picture
-            a#external-link(href!=fund.link, style='background: white; padding: 20px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
+            a#external-link(href!=fund.link, style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
+              span#favourite(style='margin-left: -20px;margin-top: -25px') ☆
               h4(style='font-size: 22px;')#bio=fund.title
+              
           else
             a#external-link(href!=fund.link)
               h4#bio=fund.title
         else  
           if !organisation.profile_picture
-            h4#bio(style='background: white;font-size: 22px; padding: 20px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
+            span#favourite(style='margin-left: 10px;margin-top: 13px') ☆
+            h4#bio(style='background: white;font-size: 22px; padding: 30px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
           else
             h4#bio=fund.title
         #left_info_div
