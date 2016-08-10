@@ -11,13 +11,14 @@ block content
     .container.progress-buttons
       h4=support_type.charAt(0).toUpperCase() + support_type.slice(1) + ' Creation'
       button#general.progress-track.btn.btn-default
-        a(href='#general') General information
+        a#general_link.activeHoverColor General information
           span.glyphicon.glyphicon-menu-right
       button#eligible.progress-track.btn.btn-default
-        a(href='#eligible') Eligibility requirements
+        //- a(href='#eligible') Eligibility requirements
+        a#eligible_link Eligiblity requirements
           span.glyphicon.glyphicon-menu-right
       button#application.progress-track.btn.btn-default
-        a(href='#application') Application Process
+        a#application_link Application Process
           span.glyphicon.glyphicon-menu-right
       hr
     div.template-container
@@ -26,9 +27,11 @@ block content
           p#name= 'Name of ' + support_type
         div.container.name
           input#fund-name(name='title')
+          .required#fund-name-required
         div.container.description.bio-container
           p#bio Add a few sentences to tell potential applicants and donors what this fund is about.
           textarea#bio-area.form-control(form='save-general', name='description')
+          .required#bio-area-required
         div.container.description.form-group
           p.amount-offer Amount offered
             span.glyphicon.glyphicon-info-sign(data-toggle="tooltip", title="This should be the total amount offered, having considered duration of the " + support_type)
@@ -187,6 +190,7 @@ block content
         div.container.next.description
           button#save(type='submit', form='save-eligible')
             a#save-progress(href="#application") Finish
+            #stillRequired
 
 block scripts
   script(src='/javascript/option-signup.js')

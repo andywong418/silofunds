@@ -12,7 +12,7 @@ block content
 							p#almost Finish the signup by entering details about your trust.
 						.col-sm-0.col-xs-4
 						.col-sm-4.col-xs-6.center-block
-							a#next.account-submit(href="/organisation/funding_creation", type="button") Done
+							a#next.account-submit(type="button") Done
 					section#account-info.container.content-section
 						h4#name <%= fundName %>
 							.row
@@ -29,9 +29,11 @@ block content
 								.col-md-12.center-block
 									p#charity-number 2. Please enter your registered charity number:
 									input(type = 'number', id = 'charity-input')
+									#charity-input-required
 
 block scripts
 	script(src='../../javascript/lib/modernizr-input.js')
+	script(src='/javascript/new-fund-profile.js')
 	script.
 		var fund_setup = !{JSON.stringify(user)};
 		// Google Analytics

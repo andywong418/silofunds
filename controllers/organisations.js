@@ -187,6 +187,7 @@ homeGET: function(req, res){
       var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
       fields = moderateObject(fields);
       fields = changeArrayfields(fields, arrayFields);
+      console.log("No error before");
       models.users.findById(userId).then(function(user){
         fields['organisation_id'] = user.organisation_or_user;
         models.funds.create(fields).then(function(fund){
