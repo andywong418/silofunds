@@ -3,6 +3,7 @@ var query;
 var async = require('async');
 var countries = require('../resources/countries');
 var es = require('../elasticsearch');
+var elasticsearchModels = require('../elasticsearch/model');
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -126,7 +127,7 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
             "query": query.tags,
-            "fields": ["tags","title.autocomplete, subject"],
+            "fields": elasticsearchModels.multiMatchFields,
             "operator":   "and",
             "boost": 3
           }

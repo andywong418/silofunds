@@ -537,16 +537,13 @@ module.exports = {
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
-      Logger.info("ERQ USER")
       passportFunctions.ensureAuthenticated(req, res, function(){
         res.redirect('/user/dashboard');
-
       });
     }
     else {
       passportFunctions.ensureAuthenticated(req, res, function(){
         res.redirect('/organisation/dashboard');
-
       });
     }
   },
@@ -589,7 +586,6 @@ module.exports = {
               res.render('signup/user-dashboard', {user: user, newUser: false, documents: documents, applications: false});
             });
         }
-
       })
     });
   },
@@ -1220,9 +1216,19 @@ module.exports = {
     } else {
       next()
     }
+  },
+  facebookSplit: function(req, res) {
+    if(req.user.facebook_registering == true) {
+      models.users.findById(req.user.id).then(function(user) {
+        user.update({facebook_registering: false}).then(function(user) {
+          res.redirect('/user/create')
+        })
+      })
+    } else {
+      console.log('what am i oing here?')
+      res.redirect('/user/dashboard')
+    }
   }
-
-
 }
 
 ////// Helper functions

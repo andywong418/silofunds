@@ -114,6 +114,8 @@ passport.use('registrationStrategy', new LocalStrategy({
                     if (!user && data.password == confirmPassword) {
                         models.organisations.create({
                             name: name
+                        }).catch(function(err) {
+                          Logger.error(err);
                         }).then(function(organisation) {
                             models.users.create({
                                 username: name,
@@ -168,6 +170,7 @@ passport.use('registrationStrategy', new LocalStrategy({
           models.users.create({
             username: profile.displayName,
             email: profile.emails[0].value,
+            facebook_registering: 'TRUE',
             token: accessToken
           }).then(function(newUser) {
             return done(null, newUser);
