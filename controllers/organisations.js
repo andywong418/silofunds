@@ -480,8 +480,18 @@ homeGET: function(req, res){
         user = user.get();
         user.charity_id = organisation.charity_id;
         res.send(user);
-      })
-    })
+      });
+    });
+  },
+  insertFundKnown: function(req, res){
+    var fundId = req.params.id;
+    var userId = req.user.id;
+    console.log("REQ BODY", req.body);
+    models.known_funds.find({where: {fund_id: fundId, user_id: userId }}).then(function(known){
+      known.update(req.body).then(function(data){
+        res.send(data);
+      });
+    });
   },
   settings: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
@@ -645,7 +655,16 @@ function checkFavourite(userId, fundId, res, dataObject){
     else{
       dataObject.favourite = false;
     }
-    res.render('option-profile', dataObject);
+    models.known_funds.findOrCreate({where: {user_id: userId, fund_id: fundId}}).spread(function(fund, created){
+      if(created){
+        dataObject.newVisit = true;
+      }
+      else{
+        dataObject.newVisit = false;
+      }
+        res.render('option-profile', dataObject);
+    })
+
 
   })
 }
