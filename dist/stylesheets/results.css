@@ -710,6 +710,8 @@ i {
   text-align: left;
   font-size: 16px; }
   .queryToken #tokenKey {
+    margin-top: 10px;
+    display: inline-block;
     margin-left: 15px;
     background-color: #87D37C;
     border: 1px solid #26A65B;

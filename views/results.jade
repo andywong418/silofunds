@@ -15,10 +15,14 @@ block content
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
 				.queryToken
-					span You searched for:
+					span#wrapper-span You searched for:
 						each key, value in query
-							span#tokenKey(class = value)= key
-								i.fa.fa-times
+							if value.indexOf('_') != -1
+								span#tokenKey(class=value)= value.split('_').join(' ') + ": "  + key
+									i.fa.fa-times
+							else
+								span#tokenKey(class = value)=value + ": "  + key
+									i.fa.fa-times
 				.col-lg-8.col-lg-offset-2
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog
