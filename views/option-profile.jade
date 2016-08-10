@@ -53,6 +53,14 @@ block content
               img#fundImage(src=organisation.profile_picture)
               span#favourite ☆
       #box_2
+        if ownedFund
+          img(src="/images/fund_img_placeholder.jpg")
+          .arrow_box
+            | You still need to
+            br
+            | add an image (or logo)
+            br
+            | for your fund
         if fund.link
           if !organisation.profile_picture
             a#external-link(href!=fund.link, style='background: white; padding: 20px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')

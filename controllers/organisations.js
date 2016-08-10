@@ -278,7 +278,7 @@ homeGET: function(req, res){
         Logger.info(user);
         models.funds.findById(fundId).then(function(fund){
           Logger.info(fund);
-          res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries});
+          res.render('option-profile', {user: user, organisation: user, fund: fund, newUser: true, countries: countries, ownedFund: true});
         });
       });
     });
