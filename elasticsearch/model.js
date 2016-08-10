@@ -69,7 +69,7 @@ var userSettings = {
         },
         "description": {
           "type": "string",
-          "search_analyzer": "my_english"
+          "index": "not_analyzed"
         },
         "past_work": {
           "type": "string",
