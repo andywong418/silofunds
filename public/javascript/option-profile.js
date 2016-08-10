@@ -229,6 +229,9 @@ $(document).ready(function(){
 
   };
   console.log(favourite);
+  if(favourite){
+    $('#favourite').addClass('active-favourite');
+  }
   $('#favourite').click(function(){
     if(favourite){
       $('#favourite:before').css("content", "");

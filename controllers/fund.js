@@ -126,7 +126,7 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
             "query": query.tags,
-            "fields": ["tags","title.autocomplete"],
+            "fields": ["tags","title.autocomplete, subject"],
             "operator":   "and",
             "boost": 3
           }
@@ -156,7 +156,7 @@ module.exports = {
         }
       }
     }
-
+    Logger.info(queryOptions);
     es.search({
       index: "funds",
       type: "fund",
