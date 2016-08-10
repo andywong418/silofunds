@@ -1,4 +1,8 @@
-module.exports.autocompleteSettings = {
+module.exports.autocompleteSettings = autocompleteSettings;
+module.exports.userSettings = userSettings;
+module.exports.fundSettings = fundSettings;
+
+var autocompleteSettings = {
   "countries": {
     "payloadKey": 'country_id',
     "normalFieldName": 'country',
@@ -26,7 +30,7 @@ module.exports.autocompleteSettings = {
   }
 };
 
-module.exports.userSettings = {
+var userSettings = {
   "settings": {
     "analysis": {
       "filter": {
@@ -99,7 +103,7 @@ module.exports.userSettings = {
   }
 };
 
-module.exports.fundSettings = {
+var fundSettings = {
   "settings": {
     "analysis": {
       "filter": {
