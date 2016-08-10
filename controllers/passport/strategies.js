@@ -114,6 +114,8 @@ passport.use('registrationStrategy', new LocalStrategy({
                     if (!user && data.password == confirmPassword) {
                         models.organisations.create({
                             name: name
+                        }).catch(function(err) {
+                          Logger.error(err);
                         }).then(function(organisation) {
                             models.users.create({
                                 username: name,
