@@ -152,12 +152,19 @@ module.exports = {
           // if query.tags doesn't exist, multi_match query won't exist
           if (notTitle && query.tags) {
             // Push the field name into the "multi_match" fields array for matching tags
-            queryOptions.filtered.query.bool.should[0].multi_match.fields.push(key);
+            // queryOptions.filtered.query.bool.should[0].multi_match.fields.push(key); // TODO: remove this and do the above TODO.
           }
         }
       }
     }
-    Logger.info(queryOptions);
+
+    Logger.debug("queryOptions\n", queryOptions);
+    Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
+
+    if (queryOptions.filtered.filter) {
+      Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
+    }
+
     es.search({
       index: "funds",
       type: "fund",
@@ -175,11 +182,9 @@ module.exports = {
           hash[fields[i]] = hit._source[fields[i]];
         }
         // Sync id separately, because it is hit._id, NOT hit._source.id
-        Logger.info("HASH", hash);
         hash.id = hit._id;
         fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
         hash.fund_user = false; // for the user logic later
-        Logger.info(fund_id_list);
         return hash;
       });
 
