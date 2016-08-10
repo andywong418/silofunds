@@ -120,6 +120,11 @@ module.exports = function(sequelize, DataTypes) {
     gender: {
       type: DataTypes.TEXT,
       field: 'gender'
+    },
+    facebook_registering: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 'FALSE',
+      field: 'facebook_registering'
     }
   }, {
     timestamps: true,

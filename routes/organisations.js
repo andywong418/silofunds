@@ -26,6 +26,7 @@ router.get('/options/:id/tips', funds.getOptionTips);
 router.post('/edit_description/:id', funds.editDescription);
 router.post('/edit_dates/:id', funds.editDates);
 router.get('/get-organisation-info', funds.getOrganisationInfo);
+router.post('/fund_known/:id', funds.insertFundKnown);
 router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);

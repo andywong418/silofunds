@@ -168,6 +168,7 @@ passport.use('registrationStrategy', new LocalStrategy({
           models.users.create({
             username: profile.displayName,
             email: profile.emails[0].value,
+            facebook_registering: 'TRUE',
             token: accessToken
           }).then(function(newUser) {
             return done(null, newUser);

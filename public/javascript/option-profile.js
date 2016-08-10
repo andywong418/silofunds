@@ -37,6 +37,22 @@ $(document).ready(function(){
 
   }
 
+  $('input[name=fund_known]').click(function(){
+    console.log(this);
+    console.log($(this).attr('value'));
+    // $.post('/organisation/fund_known/' + fund.id, )
+    var formData = {};
+    if($(this).attr('value') === 'true'){
+      formData.known = true;
+    }
+    if($(this).attr('value') == 'false'){
+      formData.known = false;
+    }
+    $.post('/organisation/fund_known/' + fund.id, formData, function(data){
+      $('.container-block').html('Thank you very much for your feedback.');
+      $('.alert-known').fadeOut(10000);
+    });
+  });
   if(user && user.organisation_or_user != fund.organisation_id){
     $('div#big_flex_div').css('margin-top', '-50px');
   }
@@ -922,10 +938,10 @@ $(document).ready(function(){
       })
 
       var view = new ApplicationView({ model: applicationModel });
-      this.$el.append(view.render().el);
+      console.log(view.model);
       if(!fund.application_documents){
-        if(fund.deadline && this.model){
-          this.model.set({
+        if(fund.deadline && view.model){
+          view.model.set({
             application_documents: 'Deadline for applications are on ' + reformatDate(fund.deadline)
           })
         }
@@ -936,11 +952,14 @@ $(document).ready(function(){
       }
       if(!fund.deadline){
         if(fund.application_documents){
-          this.model.set({
+          view.model.set({
             application_documents: returnStringfromArray2(fund.application_documents).capitalize() + ' are required'
           })
         }
       }
+      console.log(view.model)
+      this.$el.append(view.render().el);
+
 
       var listOfBoxes = ['#start_date', '#documents_deadline', '#interviews'];
         if(this.$('#documents_deadline').is(":visible")){

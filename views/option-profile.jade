@@ -15,6 +15,16 @@ block content
     }
   include ./navbar.jade
   include ./signup-modal.jade
+  if user && !user.organisation_or_user && newVisit
+    .alert-known.alert-success
+      .container-block.center-block
+        span Have you heard of this fund?
+        label.radio-inline
+          input(type='radio', name='fund_known', value= "true")
+          | Yes
+        label.radio-inline
+          input(type='radio', name='fund_known', value = "false")
+          | No
   if user.organisation_or_user === fund.organisation_id && fund.organisation_id
     .alert.alert-info(role='alert')
         a(href='/organisation/options/' + fund.id + '/edit') 

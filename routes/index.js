@@ -38,7 +38,8 @@ router.get(/user/, users.userBlocker)
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
-router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/', failureRedirect: '/login'}));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/login'}));
+router.get('/facebookSplit', users.facebookSplit)
 
 
 router.get('/public/:id', users.crowdFundingPage);
