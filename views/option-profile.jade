@@ -10,15 +10,17 @@ block content
     var user = !{JSON.stringify(user)};
     var fund = !{JSON.stringify(fund)};
     var favourite = !{JSON.stringify(favourite)};
+    var newVisit = !{JSON.stringify(newVisit)};
+    console.log(newVisit);
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
   include ./navbar.jade
   include ./signup-modal.jade
-  if user && !user.organisation_or_user && newVisit
+  if user && newVisit
     .alert-known.alert-success
       .container-block.center-block
-        span Have you heard of this fund?
+        span Have you heard of this fund before?
         label.radio-inline
           input(type='radio', name='fund_known', value= "true")
           | Yes

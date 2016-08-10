@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
   });
   if(user && user.organisation_or_user != fund.organisation_id){
-    $('div#big_flex_div').css('margin-top', '-50px');
+    $('div#big_flex_div').css('margin-top', '0px');
   }
 
   Array.prototype.capitalize = function(){
