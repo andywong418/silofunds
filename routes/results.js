@@ -4,8 +4,9 @@ var users = require('../controllers/users');
 var passport = require('passport');
 require('../controllers/passport')(passport);
 var router = express.Router();
+var elasticsearch = require('../controllers/elasticsearch');
 
-router.get('/', fund.search);
+router.get('/', elasticsearch.fundSearch);
 
 router.post('/', passport.authenticate('local-login', {
 	failureRedirect: '/login/error'
