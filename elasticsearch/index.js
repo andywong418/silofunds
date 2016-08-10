@@ -1,6 +1,7 @@
 var elasticsearch = require('elasticsearch');
 var esConnectionString = 'localhost:9200';
 var elasticsearchModel = require('./model');
+var sleep = require('sleep');
 
 if (process.env.SEARCHBOX_URL) {
   // Heroku
