@@ -1,4 +1,6 @@
-module.exports.autocompleteSettings = {
+var multiMatchFields = ["tags","title.autocomplete", "religion", "gender", "financial_situation", "country_of_residence", "target_country", "required_grade", "specific_location", "subject", "target_degree", "target_university", "required_degree", "required_university"];
+
+var autocompleteSettings = {
   "countries": {
     "payloadKey": 'country_id',
     "normalFieldName": 'country',
@@ -26,7 +28,7 @@ module.exports.autocompleteSettings = {
   }
 };
 
-module.exports.userSettings = {
+var userSettings = {
   "settings": {
     "analysis": {
       "filter": {
@@ -99,7 +101,7 @@ module.exports.userSettings = {
   }
 };
 
-module.exports.fundSettings = {
+var fundSettings = {
   "settings": {
     "analysis": {
       "filter": {
@@ -316,3 +318,8 @@ module.exports.fundSettings = {
     }
   }
 };
+
+module.exports.autocompleteSettings = autocompleteSettings;
+module.exports.userSettings = userSettings;
+module.exports.fundSettings = fundSettings;
+module.exports.multiMatchFields = multiMatchFields;
