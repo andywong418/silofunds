@@ -34,13 +34,15 @@ p {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Montserrat',"Helvetica Neue",Helvetica,Arial,sans-serif;
   background-color: #2d4a76;
   font-size: 13.5px;
   height: 55px; }
   .navbar-custom #container {
     padding-top: 5px;
     height: inherit; }
+  .navbar-custom #category-funding, .navbar-custom #category-users {
+    text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
   .navbar-custom .navbar-brand {
@@ -703,10 +705,32 @@ i {
 #about {
   margin-top: 100px; }
 
+.queryToken {
+  margin-bottom: 30px;
+  text-align: left;
+  font-size: 16px; }
+  .queryToken #tokenKey {
+    margin-left: 15px;
+    background-color: #87D37C;
+    border: 1px solid #26A65B;
+    color: white;
+    padding: 8px;
+    font-weight: lighter;
+    border-radius: 6px;
+    font-size: 14px; }
+    .queryToken #tokenKey i {
+      margin-left: 7px;
+      cursor: pointer;
+      padding: 2px;
+      background-color: #26A65B;
+      border-radius: 2px; }
+
 .results {
+  width: 66%;
+  margin-left: 17%;
   height: 50px;
-  padding-top: 8px;
-  border-width: 5px;
+  padding: 5px;
+  border-width: 3px;
   border-style: solid;
   border-color: #3c547a;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e5799+0,2989d8+50,207cca+51,7db9e8+100;Blue+Gloss+Default */
@@ -724,7 +748,7 @@ i {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
   /* IE6-9 */ }
-  .results > h3 {
+  .results p {
     color: #3C5675; }
 
 .fund_list {

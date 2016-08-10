@@ -13,6 +13,7 @@ block content
     }
   include ../navbar.jade
   include ../signup-modal.jade
+  include ../advanced-search.jade
   #big_flex_div.container
     #left_div.col-md-3
       .profile
@@ -267,6 +268,7 @@ block content
             button#save-education-settings.btn.btn-primary(type='submit') Save changes
             #save-education-settings-notification Your changes have been saved            
 block scripts
+  script(src='/javascript/advanced-search.js')
   script(src="/javascript/user-settings.js")
   script(src='/javascript/lib/jquery.tokeninput.js')
   script(src='https://cdn.tinymce.com/4/tinymce.min.js')

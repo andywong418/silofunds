@@ -39,13 +39,15 @@ p {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Montserrat',"Helvetica Neue",Helvetica,Arial,sans-serif;
   background-color: #2d4a76;
   font-size: 13.5px;
   height: 55px; }
   .navbar-custom #container {
     padding-top: 5px;
     height: inherit; }
+  .navbar-custom #category-funding, .navbar-custom #category-users {
+    text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
   .navbar-custom .navbar-brand {

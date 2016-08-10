@@ -76,12 +76,13 @@ module.exports = {
       };
 
       //TODO: consider using type:"most_fields"; it is now by default "best_fields"
+      //LET USER CHANGE THIS
       if (query.tags) {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
             "query": query.tags,
             "fields": elasticsearchModels.multiMatchFields,
-            "operator":   "and",
+            "operator":   "or",
             "boost": 3
           }
         });

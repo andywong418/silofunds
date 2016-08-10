@@ -115,6 +115,8 @@ $(document).ready(function(){
     var currentTarget = event.target;
     var emptyInputFields = 0;
     var searchFormInputs = $("input[form='search-form']");
+    console.log($('li.active').attr('id'));
+    var target = $('li.active').attr('id');
 
     for (var i = 0; i < searchFormInputs.length; i++) {
       var id = searchFormInputs[i].id;
@@ -140,8 +142,17 @@ $(document).ready(function(){
     if ((emptyInputFields === searchFormInputs.length) && (!dangerZoneEntered)) {
       $("form#search-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='search-form'>");
     }
-
-    currentTarget.submit();
+    if(target == 'search-for-funding'){
+      $('#search_button').attr('form', 'advs-funding-form');
+      $('input#advanced_tags').val($('input#text_search').val());
+      $('#search_button').click();
+    }
+    else{
+      $('#search_button').attr('form', 'advs-user-form');
+      $('input#advanced_user_tags').val($('input#text_search').val());
+      $('#search_button').click();
+    }
+    // currentTarget.submit();
   });
 
   // remove parameter from query string if value === '' for advs-funding-form

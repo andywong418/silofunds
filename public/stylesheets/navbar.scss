@@ -3,7 +3,7 @@
   margin-bottom: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Montserrat',"Helvetica Neue",Helvetica,Arial,sans-serif;
   background-color: rgba(45, 74, 118, 1);
   font-size: 13.5px;
   height: 55px;
@@ -13,8 +13,12 @@
     height: inherit;
   }
 
+  #category-funding,#category-users{
+    text-transform: capitalize;
+  }
   a {
     color: #fff;
+
   }
 
   .navbar-brand {
