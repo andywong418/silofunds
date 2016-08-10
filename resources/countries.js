@@ -8,8 +8,10 @@ var meCountries = ["Afghanistan","Armenia","Azerbaijan","Bahrain","Cyprus","Iran
 
 var asianCountries = ["Afghanistan","Armenia","Azerbaijan","Bahrain","Bangladesh","Bhutan","Brunei","Cambodia","China","Cyprus","Georgia","India","Indonesia","Iran","Iraq","Israel","Japan","Jordan","Kazakhstan","Kuwait","Kyrgyzstan","Laos","Lebanon","Malaysia","Maldives","Mongolia","Myanmar (Burma)","Nepal","North Korea","Oman","Pakistan","Palestine","Philippines","Qatar","Russia","Saudi Arabia","Singapore","South Korea","Sri Lanka","Syria","Taiwan","Tajikistan","Thailand","Timor-Leste","Turkey","Turkmenistan","United Arab Emirates (UAE)","Uzbekistan","Vietnam","Yemen"];
 
-module.exports.countries = countries;
-module.exports.africanCountries = africanCountries;
-module.exports.euCountries = euCountries;
-module.exports.meCountries = meCountries;
-module.exports.asianCountries = asianCountries;
+module.exports = {
+  "countries": countries,
+  "africanCountries": africanCountries,
+  "euCountries": euCountries,
+  "meCountries": meCountries,
+  "asianCountries": asianCountries
+};

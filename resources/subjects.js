@@ -10,9 +10,11 @@ var arts = ["Architecture", "Art & design","Clothing / Fashion Design","Fine Art
 
 var socialSciences = ["Business studies", "Economics", "International Relations", "Journalism", "Politics", "Political Science", "Psychology", "Management Studies","Marketing", "Planning (Urban, Rural & Regional)", "Social policy","Social work","Sociology", "Law"];
 
-module.exports.subjects = subjects;
-module.exports.modernLanguages = modernLanguages;
-module.exports.humanities = humanities;
-module.exports.education = education;
-module.exports.arts = arts;
-module.exports.socialSciences = socialSciences;
+module.exports = {
+  "subjects": subjects,
+  "modernLanguages": modernLanguages,
+  "humanities": humanities,
+  "education": education,
+  "arts": arts,
+  "socialSciences": socialSciences
+};
