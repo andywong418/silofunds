@@ -10,6 +10,15 @@ module.exports = {
     var query = req.query;
 
     // NOTE: LEVEL 1 SEARCH -- find out whether we should return "uk" or "us" universities
+
+    var universityNames = [];
+    universityNames.push(query.tags ? query.tags : "");
+    universityNames.push(query.target_university ? query.target_university : "");
+    universityNames.push(query.required_university ? query.required_university : "");
+    universityNames = universityNames.join(' ');
+    var queryArr = [];
+    queryArr.push(universityNames);
+
     es.search({
       index: "funds",
       type: "autocomplete_universities",
@@ -17,8 +26,9 @@ module.exports = {
         "size": 2000,
         "query": {
           "multi_match": {
-            "query": query.tags, //TODO: target_university and required_university from advs
-            "fields": ["university"]
+            "query": queryArr,
+            "fields": ["university"],
+            "operator": "or"
           }
         }
       }
@@ -96,9 +106,9 @@ module.exports = {
         if (query.tags) {
           queryOptions.filtered.query.bool.should.push({
             "multi_match" : {
-              "query": query.tags,
+              "query": query.tags, // NOTE: MAYBE HAS TO BE ARRAY OF ONE STRING, STRING IS A JOIN(' ') OF ALL INDIVIDUAL STRINGS FROM DIFFERENT FIELDS -----> reference above
               "fields": elasticsearchModels.multiMatchFields,
-              "operator":   "and",
+              "operator": "and", // NOTE: and MAYBE THIS IS "or"
               "boost": 3
             }
           });
