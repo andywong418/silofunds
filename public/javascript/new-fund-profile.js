@@ -126,6 +126,7 @@ $(document).ready(function(){
   	},
 		checkCharityId: function(){
 			if(this.$('#charity-input').val() == '') {
+				$('#charity-input-required').empty()
 				$('#charity-input-required').append('You must enter your charity number')
 				$('#charity-input-required').css('color', '#B60000')
 				$('#charity-input-required').css('font-size', '10px')
