@@ -15,7 +15,6 @@ if(typeof query != 'undefined' && query){
 $('#show-all').html("Show all funds - including those which are expired");
 var allShown = false;
 
-
   //Use modernizr to move search bar when screen is mobile
   // function doneResizing() {
   //   var form = document.getElementsByClassName("search_form");
@@ -126,10 +125,6 @@ var allShown = false;
         }
       }
 
-
-      // $('#tags').readmore({
-      //     collapsedHeight: 20
-      // })
       if (!tags) {
           this.$(".fund_tags" + id).toggle(false);
       } else {
@@ -239,32 +234,55 @@ var allShown = false;
         this.$('#' + id).children('.description_control').append(html_fade_div_id)
         this.$("#" + id).children('.description_control').attr('id', 'id' + id);
       }
-      if($('#id' + id).height() > 200) {
-        $('#id' + id).readmore({
-          moreLink: '<a href="#">...read more</a>',
-          lessLink: '<a href="#">read less</a>',
-          collapsedHeight: collapsedHeight,
-          beforeToggle: function(trigger, element, expanded) {
-            if(expanded) {
-              $('#fade_div' + id).show()
-            } if(!expanded) {
-              $('#fade_div' + id).hide()
+      console.log
+      if($('#id' + id).height() >= 170) {
+        if($('#id' + id).height() < 190) {
+          $('#fade_div' + id).hide();
+        } else {
+          $('#id' + id).readmore({
+            moreLink: '<a href="#">...read more</a>',
+            lessLink: '<a href="#">read less</a>',
+            collapsedHeight: 170,
+            heightMargin: 0,
+            beforeToggle: function(trigger, element, expanded) {
+              $('.description_control').css('overflow', 'hidden');
+              if(expanded) {
+                $('#fade_div' + id).show()
+              } if(!expanded) {
+                $('#fade_div' + id).hide()
+              }
+            },
+            afterToggle: function(trigger, element,expanded){
+              if(expanded){
+                $('#id' + id).css('overflow', 'visible');
+                var lastParagraph = $('#id' + id + ' p').last()
+                var lastSpan = $('#id' + id + ' span')
+                var lastLi = $('#id' + id + ' li')
+                var height = lastParagraph.height()
+                var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
+                var newHeight = vbl + height
+                $('#id' + id).css('height', newHeight)
+
+              }
+              if(!expanded){
+                $('#id' + id).css('overflow', 'hidden');
+              }
             }
-          }
-        })
+          })
+        }
       } else {
         $('#fade_div' + id).hide();
       }
-      var collapsedHeight = 28 + 28 + 28 + 28 + 16
-      
+
       // css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
       this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
       $('#fade_div' + id).css('position', 'absolute')
       $('#fade_div' + id).css('width', '100%')
+      // top + height must equal if($('#id' + id).height() >= THISNUMBER) (line 237)
       $('#fade_div' + id).css('top', '120px')
-      $('#fade_div' + id).css('height', '80px')
+      $('#fade_div' + id).css('height', '50px')
       $('#fade_div' + id).css('background', '-webkit-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
       $('#fade_div' + id).css('background-image', '-ms-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
       $('#fade_div' + id).css('background-image', '-o-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)')
@@ -392,7 +410,6 @@ var allShown = false;
                // set to whatever you want it to be
         if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5 && anotherCounter === 0) {
             //do stuff
-            console.log(anotherCounter);
             startPoint = startPoint +5;
             endPoint = endPoint + 5;
 
