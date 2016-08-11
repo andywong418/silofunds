@@ -5,11 +5,14 @@ var utils = require('../../routes/utils');
 
 // Export ensureAuthenticated function (redirects to user login page)
 module.exports.ensureAuthenticated = function(req, res, next){
+  console.log('here?')
   if(req.isAuthenticated()){
+    console.log(req.isAuthenticated())
     Logger.info("HI");
     // next() fucks things up here
     next();
   } else {
+    Logger.info('hello')
     res.redirect('/login');
   }
 };

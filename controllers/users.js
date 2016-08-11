@@ -1191,15 +1191,19 @@ module.exports = {
     var checkFirstLetters = url.substring(1,5);
     var profile = url.split('/')[2];
     if(checkFirstLetters == 'user') {
-      if(req.user.organisation_or_user !== null && profile !="profile") {
-        res.render(error)
-        res.end()
+      if(req.user) {
+        if(req.user.organisation_or_user !== null && profile !== "profile") {
+          res.render(error)
+          res.end()
+        } else {
+          next()
+        }
+        } else {
+          next()
+        }
       } else {
-        next()
+        res.redirect('/login')
       }
-    } else {
-      next()
-    }
   },
   fundBlocker: function(req, res, next){
     var url = req.url;
@@ -1207,15 +1211,19 @@ module.exports = {
     var checkFirstLetters = url.substring(1,13)
     var options = url.split('/')[2];
     if(checkFirstLetters == 'organisation' && options!= 'options') {
-      if(req.user.organisation_or_user == null ) {
-        res.render(error);
-        res.end()
+      if(req.user) {
+        if(req.user.organisation_or_user == null ) {
+          res.render(error);
+          res.end()
+        } else {
+          next()
+        }
+        } else {
+          next()
+        }
       } else {
-        next()
+        res.redirect('/login')
       }
-    } else {
-      next()
-    }
   },
   facebookSplit: function(req, res) {
     if(req.user.facebook_registering == true) {
@@ -1225,7 +1233,6 @@ module.exports = {
         })
       })
     } else {
-      console.log('what am i oing here?')
       res.redirect('/user/dashboard')
     }
   }
