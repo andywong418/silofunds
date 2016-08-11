@@ -4,7 +4,10 @@ var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var async = require('async');
-var countries = require('../resources/countries')
+var countries = require('../resources/countries');
+var subjects = require('../resources/subjects');
+var universities = require('../resources/universities');
+var degrees = require('../resources/degrees');
 
 var parseIfInt = function(string) {
   if (string !== '') {
@@ -308,20 +311,20 @@ homeGET: function(req, res){
                     if(created){
                       //first time browsed
 
-                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false, newVisit: true});
+                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
                     }else{
                       var dateNow = new Date(Date.now());
                       dateNow = dateNow.toISOString();
                       recent.update({updated_at: dateNow,user_id: user.id,
                       fund_id: fundId}).then(function(recent){
-                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, newVisit: false});
+                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees, newVisit: false});
                       });
                     }
                   });
                 }
                 else{
                   //if user is fund user
-                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
+                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
                 }
               } else{
                 //organisation not in user table
@@ -335,20 +338,20 @@ homeGET: function(req, res){
                     }}).spread(function(recent, created){
                       if(created){
 
-                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false, newVisit: true});
+                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
                       }else{
                         var dateNow = new Date(Date.now());
                         dateNow = dateNow.toISOString();
                         recent.update({updated_at: dateNow,user_id: user.id,
                         fund_id: fundId}).then(function(recent){
-                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, newVisit: false});
+                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  newVisit: false});
                         });
                       }
                     });
                   }
                   else{
                     //if user is fund user
-                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, favourite: false});
+                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries, subjects: subjects, universities: universities, degrees: degrees, favourite: false});
                   }
                 });
               }
@@ -364,21 +367,21 @@ homeGET: function(req, res){
                 fund_id: fundId
               }}).spread(function(recent, created){
                 if(created){
-                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false});
+                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
                 }else{
                   var dateNow = new Date(Date.now());
                   dateNow = dateNow.toISOString();
                   recent.update({updated_at: dateNow,user_id: user.id,
                   fund_id: fundId}).then(function(recent){
 
-                    checkFavourite(user.id, fundId, res, {user: user,organisation: false, fund: fund, newUser: false, countries: countries});
-                  })
+                    checkFavourite(user.id, fundId, res, {user: user,organisation: false, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees});
+                  });
                 }
-              })
+              });
             }
             else{
               //if user is fund user
-              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries, favourite: false});
+              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
             }
 
         }
@@ -390,7 +393,7 @@ homeGET: function(req, res){
       console.log("HI");
       models.funds.findById(fundId).then(function(fund){
         models.organisations.findById(fund.organisation_id).then(function(organisation){
-          handleOrganisationUser(organisation, {user: false, fund: fund, countries: countries, favourite: false}, res);
+          handleOrganisationUser(organisation, {user: false, fund: fund, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
 
         });
       });
