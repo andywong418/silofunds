@@ -182,7 +182,7 @@ es.checkConnection().then(function(resp) {
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('universities', { "country": "us" }, universities.usUniversities); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('subjects', null, subjects.subjects); })
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.subjects); })
       .then(bulkUpload);
 
     es.indexExists('users')
