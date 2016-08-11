@@ -36,6 +36,22 @@ block content
         a(href='/organisation/options/' + fund.id + '/edit') 
           span.glyphicon.glyphicon-pencil(aria-hidden='true')
           | Make changes to this funding profile
+  if ownedFund
+    #photoUpdateModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Update your profile picture
+            .modal-body
+              #update_pic_div
+                figure#profile-figure
+                    input#my_file(type='file', style='display: none;', name = 'profile_picture')
+                    img#profile-picture(src="/images/fund_img_placeholder.jpg")
+                  figcaption#add-profile Upload a profile picture
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
   #signup-modal-fade
   #signup-block.center-block
     p#helper-text= 'To see more of ' + fund.title + ' you can sign up to Silo '
@@ -54,17 +70,23 @@ block content
                 img#fundImage(src=organisation.profile_picture)
                 span#favourite ☆
         else
-          a#fundWebsite(href='/organisation/options/' + fund.id )
-            if organisation
-              if(organisation.profile_picture)
-                img#fundImage(src=organisation.profile_picture)
-                span#favourite ☆
+          //- a#fundWebsite(href='/organisation/options/' + fund.id )
+          if organisation
+            if(organisation.profile_picture)
+              img#fundImage(src=organisation.profile_picture)
+              span#favourite ☆
       #box_2
+        if ownedFund && !organisation.profile_picture
+          img#fund_img_placeholder(src="/images/fund_img_placeholder.jpg")
+          #arrow_box_div
+            .arrow_box
+              | You still need to add an image (or logo) for your fund
         if fund.link
           if !organisation.profile_picture
             a#external-link(href!=fund.link, style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
               span#favourite(style='margin-left: -20px;margin-top: -25px') ☆
-              h4(style='font-size: 22px;')#bio=fund.title
+              #fund_title_div
+                h4(style='font-size: 22px;')#bio=fund.title
               
           else
             a#external-link(href!=fund.link)

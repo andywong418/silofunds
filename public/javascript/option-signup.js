@@ -402,7 +402,7 @@ var ApplicationDisplay = Backbone.View.extend({
     } else {
       $.post('/organisation/funding_creation/' + support_type + '/save_application/' + fund.id, formData, function(data){
         fund = data;
-        window.location = "/organisation/funding_creation/" + support_type + '/' + fund.id +'/completed';
+        window.location = "/organisation/options/" + fund.id;
       })
     }
   }
