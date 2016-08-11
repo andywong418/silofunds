@@ -82,7 +82,7 @@ module.exports = {
           "multi_match" : {
             "query": query.tags,
             "fields": elasticsearchModels.multiMatchFields,
-            "operator":   "or",
+            "operator":   "and",
             "boost": 3
           }
         });
