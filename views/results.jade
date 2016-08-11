@@ -14,6 +14,15 @@ block content
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
+				.queryToken
+					span#wrapper-span You searched for:
+						each key, value in query
+							if value.indexOf('_') != -1
+								span#tokenKey(class=value)= value.split('_').join(' ') + ": "  + key
+									i.fa.fa-times
+							else
+								span#tokenKey(class = value)=value + ": "  + key
+									i.fa.fa-times
 				.col-lg-8.col-lg-offset-2
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog
@@ -27,7 +36,7 @@ block content
 								.modal-footer
 									button.btn.btn-default(type='button', data-dismiss='modal') Close
 					div.results
-						h3
+						p
 							span
 						button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
 					.contact-div
@@ -80,6 +89,7 @@ block scripts
 		var resultsPage = !{JSON.stringify(resultsPage)};
 
 		var query = !{JSON.stringify(query)};
+		console.log(query);
 		// Google Analytics
 	script.
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

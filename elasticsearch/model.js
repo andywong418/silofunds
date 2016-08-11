@@ -69,7 +69,7 @@ var userSettings = {
         },
         "description": {
           "type": "string",
-          "search_analyzer": "my_english"
+          "index": "not_analyzed"
         },
         "past_work": {
           "type": "string",
@@ -167,6 +167,9 @@ var fundSettings = {
           'fields': {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
+        },
+        "country": {
+          'type': 'string'
         },
         "suggest_universities": {
           "type": "completion",

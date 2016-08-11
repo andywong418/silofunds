@@ -11,6 +11,15 @@ if(typeof query != 'undefined' && query){
     }
   }
 }
+$('span#tokenKey i').click(function(){
+  var field = $(this).parent('#tokenKey').attr('class');
+  console.log(field);
+  if(field == 'tags'){
+    $('input#text_search').val('');
+  }
+  $(this).closest('#tokenKey').fadeOut();
+  $('input#advanced_' +field).val('');
+})
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
 var allShown = false;
@@ -320,7 +329,7 @@ var allShown = false;
           k = k + 1;
         }
       }
-      $('.results h3 span').html("Your search returned " + k + " results");
+      $('.results p span').html("Your search returned " + k + " results");
 
       // **
       function load(img)
@@ -352,7 +361,7 @@ var allShown = false;
       if(k == 0){
         $('.contact-div').css('display', 'block');
         $('.page-header').css('margin-top', '0');
-        $('.results h3 span').html("Your search returned " + 0 + " results");
+        $('.results p span').html("Your search returned " + 0 + " results");
       }
 
       this.collection.each(function(fund){
@@ -444,9 +453,9 @@ var allShown = false;
       }
     }
     anotherCounter++;
-    $('.results h3 span').html("Your search returned " + k + " results");
+    $('.results p span').html("Your search returned " + k + " results");
     $(this).html("Show all funds - including those which are expired");
-    $('.results h3 span').html("Your search returned " + k + " results");
+    $('.results p span').html("Your search returned " + k + " results");
     allShown = false;
 
   }
@@ -458,7 +467,7 @@ var allShown = false;
     $('*[class*=fund_list]:hidden').css('display', 'block');
     var k = fundData.length;
     $(this).html("Only show funds which have not passed their deadline");
-    $('.results h3 span').html("Your search returned " + k + " results");
+    $('.results p span').html("Your search returned " + k + " results");
     allShown = true;
   }
   });
@@ -514,7 +523,7 @@ var allShown = false;
 
 var id;
 
-// $('.results h3 span').html("Your search returned " + !$('*[class*=fund_list]').hasClass('#deadline-passed').length + " results");
+// $('.results p span').html("Your search returned " + !$('*[class*=fund_list]').hasClass('#deadline-passed').length + " results");
 // if($('*[class*=fund_list]:visible').length == 0){
 //   $('.contact-div').css('display', 'block');
 //   $('.page-header').css('margin-top', '0');
