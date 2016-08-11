@@ -674,10 +674,18 @@ function handleOrganisationUser(organisation, dataObject, res){
   console.log(organisation);
   if(organisation){
     models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
-      organisation = organisation.get();
-      organisation.profile_picture = user.profile_picture;
-      dataObject.organisation = organisation;
-      res.render('option-profile', dataObject);
+      if(user){
+        organisation = organisation.get();
+        console.log("again", organisation);
+        organisation.profile_picture = user.profile_picture;
+        dataObject.organisation = organisation;
+        res.render('option-profile', dataObject);
+      }
+      else{
+        dataObject.organisation = organisation;
+        res.render('option-profile', dataObject);
+      }
+
     })
   }
   else{
