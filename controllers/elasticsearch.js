@@ -21,13 +21,13 @@ module.exports = {
 
     es.search({
       index: "funds",
-      type: "autocomplete_universities",
+      type: ["autocomplete_universities", "autocomplete_subjects"],
       body: {
         "size": 2000,
         "query": {
           "multi_match": {
             "query": queryArr,
-            "fields": ["university"],
+            "fields": ["university", "subject"],
             "operator": "or"
           }
         }
@@ -140,22 +140,45 @@ module.exports = {
 
 
       ///////////////////// NOTE: SPECIAL NEEDS /////////////////////////
+      Logger.warn(resp.hits.hits);
 
       if (resp.hits.hits.length !== 0) {
         var list_of_countries_for_universities = [];
+        var subject_categories = [];
 
         for (var i = 0; i < resp.hits.hits.length; i++) {
           var hit = resp.hits.hits[i];
-          if (list_of_countries_for_universities.indexOf(hit._source["country"]) === -1 ) {
-            list_of_countries_for_universities.push(hit._source["country"]);
+
+          if (hit._type === 'autocomplete_subjects') {
+            Logger.info('*********** autocomplete_subjects ***********');
+
+            if (subject_categories.indexOf(hit._source["subject_category"]) === -1 ) {
+              subject_categories.push(hit._source["subject_category"]);
+            }
+          }
+
+          if (hit._type === 'autocomplete_universities') {
+            Logger.info('*********** autocomplete_universities ***********');
+
+            if (list_of_countries_for_universities.indexOf(hit._source["country"]) === -1 ) {
+              list_of_countries_for_universities.push(hit._source["country"]);
+            }
           }
         }
 
-        Logger.warn(list_of_countries_for_universities);
+        Logger.warn("list_of_countries_for_universities" + list_of_countries_for_universities);
+        Logger.warn("subject_categories" + subject_categories);
+
+        // TODO: match for required_university too?
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "target_university": list_of_countries_for_universities.join(' ')
+          }
+        });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_university": list_of_countries_for_universities[0]
+            "subject": subject_categories.join(' ')
           }
         });
       }
