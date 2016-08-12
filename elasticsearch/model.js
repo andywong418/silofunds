@@ -152,6 +152,9 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
+        'degree_category': {
+          'type': 'string'
+        },
         "suggest_degrees": {
           "type": "completion",
           "index_analyzer": "simple",

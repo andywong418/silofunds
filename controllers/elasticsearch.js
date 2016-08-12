@@ -21,13 +21,13 @@ module.exports = {
 
     es.search({
       index: "funds",
-      type: ["autocomplete_universities", "autocomplete_subjects"],
+      type: ["autocomplete_universities", "autocomplete_subjects", "autocomplete_degrees"],
       body: {
         "size": 2000,
         "query": {
           "multi_match": {
             "query": queryArr,
-            "fields": ["university", "subject"],
+            "fields": ["university", "subject", "degree"],
             "operator": "or"
           }
         }
@@ -145,6 +145,7 @@ module.exports = {
       if (resp.hits.hits.length !== 0) {
         var list_of_countries_for_universities = [];
         var subject_categories = [];
+        var degreeCategories = [];
 
         for (var i = 0; i < resp.hits.hits.length; i++) {
           var hit = resp.hits.hits[i];
@@ -164,10 +165,20 @@ module.exports = {
               list_of_countries_for_universities.push(hit._source["country"]);
             }
           }
+
+
+          if (hit._type === 'autocomplete_degrees') {
+            Logger.info('*********** autocomplete_degrees ***********');
+
+            if (degreeCategories.indexOf(hit._source["degree_category"]) === -1 ) {
+              degreeCategories.push(hit._source["degree_category"]);
+            }
+          }
         }
 
         Logger.warn("list_of_countries_for_universities" + list_of_countries_for_universities);
         Logger.warn("subject_categories" + subject_categories);
+        Logger.warn("degreeCategories" + degreeCategories);
 
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
@@ -179,6 +190,12 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "subject": subject_categories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "target_degree": degreeCategories.join(' ')
           }
         });
       }
