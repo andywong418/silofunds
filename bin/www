@@ -203,6 +203,8 @@ es.checkConnection().then(function(resp) {
       .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
       .then(bulkUpload);
 
     es.indexExists('users')
