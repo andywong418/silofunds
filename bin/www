@@ -253,7 +253,6 @@ function loadSettingsForBulkPrepFor(typeName, extraOptions, dataSource) {
 
   wrapper.fieldName = typeName;
   wrapper.body = body;
-
   return wrapper;
 }
 
@@ -301,15 +300,13 @@ function prepareBulkUploadUsers(users) {
 
 function prepareBulkUploadAutocomplete(typeName, keyOptions, extraOptions, dataSource) {
   var bodyArray =[];
-  var id = 0;
   var type = 'autocomplete_' + typeName;
 
   dataSource.forEach(function(data){
-    id++;
     var payloadOptions = {};
     payloadOptions[keyOptions.payloadKey] = data;
 
-    bodyArray.push({'index': {'_index': 'funds', '_type': type, '_id': id }});
+    bodyArray.push({'index': {'_index': 'funds', '_type': type }});
     var wrapper = {};
 
     wrapper[keyOptions.normalFieldName] = data;
