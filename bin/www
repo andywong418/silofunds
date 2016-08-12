@@ -192,7 +192,7 @@ es.checkConnection().then(function(resp) {
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.subjects); })
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
       .then(bulkUpload)
