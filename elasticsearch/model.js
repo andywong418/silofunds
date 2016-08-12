@@ -136,6 +136,9 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
+        'country_category': {
+          'type': 'string'
+        },
         "suggest_countries": {
           "type": "completion",
           "index_analyzer": "simple",

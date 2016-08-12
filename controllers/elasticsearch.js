@@ -21,13 +21,13 @@ module.exports = {
 
     es.search({
       index: "funds",
-      type: ["autocomplete_universities", "autocomplete_subjects", "autocomplete_degrees"],
+      type: ["autocomplete_universities", "autocomplete_subjects", "autocomplete_degrees", "autocomplete_countries"],
       body: {
         "size": 2000,
         "query": {
           "multi_match": {
             "query": queryArr,
-            "fields": ["university", "subject", "degree"],
+            "fields": ["university", "subject", "degree", "country"],
             "operator": "or"
           }
         }
@@ -146,6 +146,7 @@ module.exports = {
         var universityCategories = [];
         var subject_categories = [];
         var degreeCategories = [];
+        var countryCategories = [];
 
         for (var i = 0; i < resp.hits.hits.length; i++) {
           var hit = resp.hits.hits[i];
@@ -174,11 +175,20 @@ module.exports = {
               degreeCategories.push(hit._source["degree_category"]);
             }
           }
+
+          if (hit._type === 'autocomplete_countries') {
+            Logger.info('*********** autocomplete_countries ***********');
+
+            if (countryCategories.indexOf(hit._source["country_category"]) === -1 ) {
+              countryCategories.push(hit._source["country_category"]);
+            }
+          }
         }
 
-        Logger.warn("universityCategories" + universityCategories);
-        Logger.warn("subject_categories" + subject_categories);
-        Logger.warn("degreeCategories" + degreeCategories);
+        Logger.warn("universityCategories\n" + universityCategories);
+        Logger.warn("subject_categories\n" + subject_categories);
+        Logger.warn("degreeCategories\n" + degreeCategories);
+        Logger.warn("countryCategories\n" + countryCategories);
 
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
@@ -196,6 +206,12 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "target_degree": degreeCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "target_country": countryCategories.join(' ')
           }
         });
       }
