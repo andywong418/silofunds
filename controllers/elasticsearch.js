@@ -113,11 +113,12 @@ module.exports = {
     }
 
     Logger.debug("queryOptions\n", queryOptions);
-    Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
-
-    if (queryOptions.filtered.filter) {
-      Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
-    }
+    // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
+    //
+    // if (queryOptions.filtered.filter) {
+    //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
+    // }
+    
 
     es.search({
       index: "funds",

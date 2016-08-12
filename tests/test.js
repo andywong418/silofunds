@@ -1,7 +1,7 @@
 // https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/
 var request = require('supertest');
-require = require('really-need');
-var expect = require('expect.js');
+// var expect = require('expect.js');
+var expect = require('chai').expect;
 var should = require('should');
 var sequelize = require('../models').sequelize;
 
@@ -24,6 +24,13 @@ describe('loading express', function() {
       done(err);
     });
   });
+
+  it('responds to /results', function() {
+    request(server).get('/results').end(function(err, res) {
+      res.status.should.equal(200);
+      done(err);
+    })
+  })
 
   it('404s everything else', function testPath(done) {
     request(server).get('/foo/bar').end(function(err, res) {

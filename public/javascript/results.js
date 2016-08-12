@@ -147,7 +147,7 @@ var allShown = false;
           }
       }
       // console.log($('.fund_tags' +id).css('height'))
-      if(tags.length > 8) {
+      if(tags && tags.length > 8) {
         var tagId = "tagsReadmore" + id
         $('.' + "fund_tags" + id).readmore({
           collapsedHeight: 35,
@@ -238,6 +238,7 @@ var allShown = false;
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
+      console.log(description);
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
