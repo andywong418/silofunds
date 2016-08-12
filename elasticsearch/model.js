@@ -171,7 +171,7 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
-        "country": {
+        'university_category': {
           'type': 'string'
         },
         "suggest_universities": {

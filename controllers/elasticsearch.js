@@ -143,7 +143,7 @@ module.exports = {
       Logger.warn(resp.hits.hits);
 
       if (resp.hits.hits.length !== 0) {
-        var list_of_countries_for_universities = [];
+        var universityCategories = [];
         var subject_categories = [];
         var degreeCategories = [];
 
@@ -161,8 +161,8 @@ module.exports = {
           if (hit._type === 'autocomplete_universities') {
             Logger.info('*********** autocomplete_universities ***********');
 
-            if (list_of_countries_for_universities.indexOf(hit._source["country"]) === -1 ) {
-              list_of_countries_for_universities.push(hit._source["country"]);
+            if (universityCategories.indexOf(hit._source["university_category"]) === -1 ) {
+              universityCategories.push(hit._source["university_category"]);
             }
           }
 
@@ -176,14 +176,14 @@ module.exports = {
           }
         }
 
-        Logger.warn("list_of_countries_for_universities" + list_of_countries_for_universities);
+        Logger.warn("universityCategories" + universityCategories);
         Logger.warn("subject_categories" + subject_categories);
         Logger.warn("degreeCategories" + degreeCategories);
 
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_university": list_of_countries_for_universities.join(' ')
+            "target_university": universityCategories.join(' ')
           }
         });
 
