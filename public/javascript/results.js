@@ -134,7 +134,6 @@ var allShown = false;
 
         }
         if(dateNow.isAfter(deadline) && !allShown){
-          console.log("SUP");
           this.$('.fund_list').hide();
         }
       }

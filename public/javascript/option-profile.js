@@ -182,7 +182,11 @@ $(document).ready(function(){
       diff = allCountries.filter(function(x){
         return userArray.indexOf(x) && x != 'United Kingdom';
       });
-      console.log(diff);
+    }
+    if(fundArray.indexOf('non us') > -1 || fundArray.indexOf('not US') < -1 || fundArray.indexOf('non US')> -1 && fundArray.indexOf('not us') > -1){
+      diff = allCountries.filter(function(x){
+        return userArray.indexOf(x) && x != 'United States of America';
+      });
     }
     if(fundArray.indexOf('africa') > -1){
       diff = africanCountries.filter(function(x){
@@ -209,7 +213,10 @@ $(document).ready(function(){
     if(newArray.length > 0){
       diff.push(newArray);
     }
-
+    var anotherArray = countryNotHandler(fundArray, userArray);
+    if(anotherArray.length > 0){
+      diff.push(anotherArray);
+    }
     console.log(diff);
     if(diff && diff.length >0 ){
       return true;
@@ -232,15 +239,24 @@ $(document).ready(function(){
     });
     return newArray;
   }
-  // function countryNotHandler(fundArray, userArray){
-  //   fundArray.forEach(function(element, index, array){
-  //     if(element).indexOf
-  //   })
-  // }
+  function countryNotHandler(fundArray, userArray){
+    var allCountries = countries.countries;
+    var newArray = [];
+    fundArray.forEach(function(element, index, array){
+      if(element.indexOf('not') > -1 || element.indexOf('non') > -1){
+        var country = element.split(' ')[1].capitalize();
+        console.log(country);
+        var diff = allCountries.filter(function(x){
+          return userArray.indexOf(x) > -1 && x != country;
+        });
+        console.log(diff);
+        newArray.push(diff);
+      }
+    });
+    return newArray;
+  }
   function checkIfElementInArray(fundArray, userArray, field){
     var counter = 0;
-    console.log(userArray);
-    console.log(fundArray);
     if(userArray && fundArray){
       if(field == 'universities'){
         if(checkUniversity(fundArray, userArray)){
