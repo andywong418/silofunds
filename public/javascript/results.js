@@ -127,10 +127,14 @@ var allShown = false;
       if(deadline){
         var dateNow = moment();
         deadline = moment.utc(deadline, "DD-MM-YYYY");
-        if (dateNow.isAfter(deadline)){
+        if (dateNow.isAfter(deadline) && allShown){
+          console.log('heya');
           this.$('.deadline-passed' + id).css('display', 'block');
           this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
 
+        }
+        if(dateNow.isAfter(deadline) && !allShown){
+          this.$('.fund_list').hide();
         }
       }
 
@@ -311,13 +315,14 @@ var allShown = false;
       var fundId = this.model.get('id');
       var link = this.model.get('link');
       var fund_user = this.model.get('fund_user');
-      if (fund_user){
-        this.$("#profile_link" + fundId).attr('href', '/organisation/options/' + fundId);
-      }
-      else{
-        this.$("#profile_link" + fundId).attr('href',  link)
-        this.$("#profile_link" + fundId).attr('target',  "_blank")
-      }
+      this.$("#profile_link" + fundId).attr('href', '/organisation/options/' + fundId);
+      // if (fund_user){
+      //   this.$("#profile_link" + fundId).attr('href', '/organisation/options/' + fundId);
+      // }
+      // else{
+      //   this.$("#profile_link" + fundId).attr('href',  link)
+      //   this.$("#profile_link" + fundId).attr('target',  "_blank")
+      // }
     },
     lazyLoad: function(){
       var scope = this;
@@ -341,6 +346,7 @@ var allShown = false;
           img.fadeIn(1000);
         });
       }
+
       this.$('.lazyload').lazyload({load: load});
     }
   });
@@ -444,6 +450,7 @@ var allShown = false;
   $('#show-all').on('click', function(){
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
+    console.log($('*[id*=deadline-passed]:visible'));
     var dateNow = moment();
     var k = 0;
     for(var i = 0; i < fundData.length; i++) {
