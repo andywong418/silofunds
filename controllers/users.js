@@ -1209,8 +1209,12 @@ module.exports = {
     var url = req.url;
     Logger.info("URL", url);
     var checkFirstLetters = url.substring(1,13)
+    var checkIfProfile = url.substring(1,21)
+    console.log(checkIfProfile)
+    console.log(checkIfProfile == 'organisation/options')
+    console.log('true')
     var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options!= 'options') {
+    if(checkFirstLetters == 'organisation' && options!= 'options' && checkIfProfile !== 'organisation/profile') {
       if(req.user) {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
@@ -1219,9 +1223,12 @@ module.exports = {
           next()
         }
         } else {
-          next()
+          next();
         }
-      } else {
+      } else if (checkIfProfile == 'organisation/options') {
+        next();
+      }
+        else {
         res.redirect('/login')
       }
   },

@@ -1,9 +1,9 @@
 // https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/
 var request = require('supertest');
-// var expect = require('expect.js');
-var expect = require('chai').expect;
-var should = require('should');
+var chai = require('chai')
 var sequelize = require('../models').sequelize;
+var expect = chai.expect;
+var should = chai.should();
 
 describe('environment', function() {
   it('should have access to postgres', function() {
@@ -12,30 +12,38 @@ describe('environment', function() {
 });
 
 describe('loading express', function() {
-  var server;
+  var app;
 
   beforeEach(function() {
-    server = require('../app.js', { bustCache: true });
+    app = require('../app.js', { bustCache: true });
   });
 
   it('responds to /', function testSlash(done) {
-    request(server).get('/').end(function(err, res) {
+    request(app).get('/').end(function(err, res) {
       res.status.should.equal(200);
       done(err);
     });
   });
 
-  it('responds to /results', function() {
-    request(server).get('/results').end(function(err, res) {
-      res.status.should.equal(200);
-      done(err);
-    })
-  })
+  // Route response
+  it('/', routeTester('/'))
 
   it('404s everything else', function testPath(done) {
-    request(server).get('/foo/bar').end(function(err, res) {
-      res.status.should.equal(404);
-      done(err);
-    });
+    request(app).get('/foo/bar').end(function(err, res) {
+      expect(res.status).to.equal(404)
+      done(err)
+    })
   });
+
+
+  // Reusable functions
+  function routeTester(route) {
+    it('returns status 200', function(done) {
+      request(app).get(route).end(function(err, res) {
+        expect(res.status).to.equal(200);
+        console.log('hi')
+        done(err);
+      })
+    })
+  }
 });
