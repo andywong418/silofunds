@@ -446,7 +446,7 @@ var allShown = false;
   }
 
 
-
+  var counter3 = 0;
   $('#show-all').on('click', function(){
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
@@ -469,8 +469,10 @@ var allShown = false;
   else{
     var fundCollection = new FundCollection(deadlineArray);
     var fundList = new FundList({collection: fundCollection});
-    $(document.body).append(fundList.render().el);
-
+    if(counter3 === 0){
+      $(document.body).append(fundList.render().el);
+    }
+    counter3++;
     $('*[class*=fund_list]:hidden').css('display', 'block');
     var k = fundData.length;
     $(this).html("Only show funds which have not passed their deadline");
