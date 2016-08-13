@@ -199,6 +199,12 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
+            "required_university": universityCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
             "subject": subject_categories.join(' ')
           }
         });
@@ -211,7 +217,19 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
+            "required_degree": degreeCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
             "target_country": countryCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "country_of_residence": countryCategories.join(' ')
           }
         });
       }
