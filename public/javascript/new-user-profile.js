@@ -252,6 +252,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var storyModel = this.model;
 			this.el = this.render().el;
       // this.$el.detach();
+			if(this.model.get('video')){
+				var video = this.model.get('video');
+				this.$('input#video').val(video);
+			}
 			if(this.model.get('link')){
 				var link = this.model.get('link')
 				this.$('input#work-link').val(link);
@@ -280,7 +284,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var story = tinymce.activeEditor.getContent();
 			var formData = {
 				'description': story,
-				'link': $('input#work-link').val()
+				'link': $('input#work-link').val(),
+				'video': $('input#video').val()
 			}
 			$.post('/signup/user/save', formData, function(data){
 				console.log(data);
@@ -373,11 +378,18 @@ var tokenArrayPopulate = function(value, emptyArray){
 			"account": "account"
 		},
 		about: function(){
+			console.log("WHAT");
 			var router = this;
 			var aboutModel = new UserModel();
+			console.log(aboutModel);
 			aboutModel.fetch({
 				success:function(){
+					console.log("Hello");
 					router.loadView(new AboutDisplay({model: aboutModel}));
+				},
+				error: function(model,arguments){
+					console.log('error arguments: ', arguments);
+    console.log("error retrieving model");
 				}
 			});
 		},
@@ -406,11 +418,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 					 tinymce.EditorManager.execCommand('mceAddEditor',true, "story-text");
 
 				}
-			})
+			});
 		},
 		account: function(){
 			var accountModel = new UserModel();
-			var router = this
+			var router = this;
 			accountModel.fetch({
 				success: function(){
 					router.loadView(new AccountDisplay({model: accountModel }))

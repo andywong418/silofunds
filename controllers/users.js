@@ -1190,7 +1190,7 @@ module.exports = {
     var url = req.url
     var checkFirstLetters = url.substring(1,5);
     var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user') {
+    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign') {
       if(req.user) {
         if(req.user.organisation_or_user !== null && profile !== "profile") {
           res.render(error)
@@ -1202,6 +1202,7 @@ module.exports = {
           next()
         }
       } else {
+        console.log("It;s here");
         res.redirect('/login')
       }
   },

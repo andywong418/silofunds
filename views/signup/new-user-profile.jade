@@ -146,6 +146,17 @@ block content
 					a#skip(href='#story') Skip
 			script#story-template(type='text/template')
 				p#story-header.description We have some guidelines based on successful campaigns to help you. However this is your journey. Change the headers and text to tell us your story.
+				.row.video-row
+					.col-md-6.col-md-offset-3
+						h6 Link us to your campaign video
+						p &#40 Make sure you copy and paste an
+							a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank') embedded link&#41
+						.input-group.center-block
+							span.input-group-btn
+								i.fa.fa-link.btn.btn-default(aria-hidden='true')
+							input#video.form-control(type='text',name="video",placeholder='E.g. https://www.youtube.com/embed/Qa5tocl0BeA')
+						p If you have not created one, you can make one
+							a(href='https://www.youtube.com/upload', target='_blank') here
 				.row.story-row
 					.col-md-8.col-md-offset-2
 						textarea#story-text

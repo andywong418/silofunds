@@ -127,6 +127,19 @@ block content
           .col-md-12.content
             .col-md-12.sub-content
               h4 About your campaign
+              .col-md-12 
+                label.col-md-3(for='video') Your project video
+                .col-md-8
+                  if user.video
+                    input#video( value = user.video, name="video")
+                    p Remember to use an 
+                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= 'embedded link '
+                      | by copying and pasting the url from the iframe html
+                  else
+                    input#video(placholder = 'https://www.youtube.com/embed/Qa5tocl0BeA', name='video')
+                    p Remember to use an
+                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank') embedded link
+                      | by copying and pasting the url from the iframe html
               .col-md-12
                 label.col-md-3(for='description') Describe your goal
                 .col-md-8

@@ -222,7 +222,14 @@ label.removeFile {
     display: inline;
   }
 }
-
+#video{
+  border-radius: 3px;
+  width: 60%;
+  padding: 5px;
+  margin-top: 3px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+}
 .hidden {
   display: none;
 }
