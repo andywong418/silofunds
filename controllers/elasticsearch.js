@@ -11,13 +11,25 @@ module.exports = {
 
     // NOTE: LEVEL 1 SEARCH -- find out whether we should return "uk" or "us" universities
 
-    var universityNames = [];
-    universityNames.push(query.tags ? query.tags : "");
-    universityNames.push(query.target_university ? query.target_university : "");
-    universityNames.push(query.required_university ? query.required_university : "");
-    universityNames = universityNames.join(' ');
-    var queryArr = [];
-    queryArr.push(universityNames);
+    var queryTerms = [];
+    queryTerms.push(query.tags ? query.tags : "");
+    queryTerms.push(query.subject ? query.subject : "");
+    queryTerms.push(query.target_university ? query.target_university : "");
+    queryTerms.push(query.target_degree ? query.target_degree : "");
+    queryTerms.push(query.required_university ? query.required_university : "");
+    queryTerms.push(query.required_degree ? query.required_degree : "");
+    queryTerms.push(query.required_grade ? query.required_grade : "");
+    queryTerms.push(query.country_of_residence ? query.country_of_residence : "");
+    queryTerms.push(query.specific_location ? query.specific_location : "");
+    queryTerms.push(query.target_country ? query.target_country : "");
+    queryTerms.push(query.religion ? query.religion : "");
+    queryTerms.push(query.title ? query.title : "");
+    queryTerms = queryTerms.join(' ');
+    var queryString = [];
+    queryString.push(queryTerms);
+
+    Logger.warn("queryString");
+    Logger.warn(queryString);
 
     es.search({
       index: "funds",
@@ -26,7 +38,7 @@ module.exports = {
         "size": 2000,
         "query": {
           "multi_match": {
-            "query": queryArr,
+            "query": queryString,
             "fields": ["university", "subject", "degree", "country"],
             "operator": "or"
           }
@@ -199,6 +211,12 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
+            "required_university": universityCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
             "subject": subject_categories.join(' ')
           }
         });
@@ -211,7 +229,19 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
+            "required_degree": degreeCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
             "target_country": countryCategories.join(' ')
+          }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "country_of_residence": countryCategories.join(' ')
           }
         });
       }
