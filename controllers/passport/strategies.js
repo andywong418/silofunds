@@ -4,10 +4,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt');
 var passport = require('passport')
 var configAuth = require('../../config/auth')
-var utils = require('../../routes/utils')
 var FacebookStrategy = require('passport-facebook').Strategy;
 var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
-
+var passportFunctions = require('./functions')
 
 
 
@@ -131,6 +130,21 @@ passport.use('registrationStrategy', new LocalStrategy({
         });
     }));
 
+  // Remember Me cookie strategy
+  //   This strategy consumes a remember me token, supplying the user the
+  //   token was originally issued to.  The token is single-use, so a new
+  //   token is then issued to replace it.
+  passport.use(new RememberMeStrategy(
+    function(token, done) {
+      passportFunctions.consumeRememberMeToken(token, function(err, uid) {
+        models.users.findById(26).then(function(user) {
+          if(!user){return done(null, false)}
+          return(done(null, user));
+        })
+      });
+    },
+    passportFunctions.issueToken
+  ))
 
   // Facebook Strategy
   passport.use('facebook', new FacebookStrategy({

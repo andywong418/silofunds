@@ -2,7 +2,7 @@ var models = require('../models');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
-var pzpt = require('./passport/functions');
+var passportFunctions = require('./passport/functions');
 var async = require('async');
 var countries = require('../resources/countries')
 
@@ -34,19 +34,19 @@ homeGET: function(req, res){
 },
 // Initial creation
   createGET: function(req, res) {
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     res.render('signup/new-fund-profile', {user: req.user})
   },
   // Dashboard
     dashboardGET: function(req, res) {
-      pzpt.ensureAuthenticated(req, res);
+      passportFunctions.ensureAuthenticated(req, res);
       res.render('signup/fund-dashboard', {fund: req.user})
     },
 
 
 // Main fund creation page
   createFund: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var id = req.user.id;
     models.users.findById(id).then(function(user){
       var fundUser = user;
@@ -63,7 +63,7 @@ homeGET: function(req, res){
   },
 // Four fund type creations
   fundingSignupProcess: function(req,res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var id = req.user.id;
     var option = req.params.option;
     console.log("Check params", req.params);
@@ -97,7 +97,7 @@ homeGET: function(req, res){
   // Test
 
   fundingSignupProcess: function(req,res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var id = req.user.id;
     var option = req.params.option;
     console.log("Check params", req.params);
@@ -130,7 +130,7 @@ homeGET: function(req, res){
   },
 
   fundCreatedSignup: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
     var option = req.params.option;
     var fundId = req.params.fund_id;
@@ -165,7 +165,7 @@ homeGET: function(req, res){
   },
 
   createNewFund: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fields = req.body;
     var userId = req.user.id;
     console.log(userId)
@@ -182,7 +182,7 @@ homeGET: function(req, res){
   },
 
   updateGeneralInfo: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var id = req.params.fund_id;
     var fields = req.body;
     console.log(fields);
@@ -198,7 +198,7 @@ homeGET: function(req, res){
   },
 
   updateEligibility: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.fund_id;
     var fields = req.body;
     console.log(req.body);
@@ -215,7 +215,7 @@ homeGET: function(req, res){
   },
 
   updateApplication: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.fund_id;
     var fields = req.body;
     var arrayFields = ['application_documents'];
@@ -229,7 +229,7 @@ homeGET: function(req, res){
   },
 
   newOptionProfile: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var userId = req.user.id;
     var fundId = req.params.fund_id;
     var session = req.session;
@@ -244,7 +244,7 @@ homeGET: function(req, res){
   },
 
   getOptionProfile: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     console.log(req.user);
     var user = req.user;
     var fundId = req.params.id;
@@ -260,7 +260,7 @@ homeGET: function(req, res){
   },
 
   editOptionProfile: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var user = req.user;
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
@@ -280,7 +280,7 @@ homeGET: function(req, res){
   },
 
   getOptionInfo: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.funds.findById(fundId).then(function(fund){
       res.json(fund);
@@ -288,7 +288,7 @@ homeGET: function(req, res){
   },
 
   saveOptionEdit: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     var arrayFields = ['tags','subject','religion', 'target_university', 'target_degree', 'required_degree', 'required_university','target_country', 'country_of_residence', 'specific_location', 'application_documents'];
     var fields = req.body;
@@ -302,7 +302,7 @@ homeGET: function(req, res){
   },
 
   editDescription: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     models.users.findById(fundId).then(function(user){
       models.funds.findById(user.organisation_or_user).then(function(fund){
@@ -314,7 +314,7 @@ homeGET: function(req, res){
   },
 
   editDates: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var fundId = req.params.id;
     console.log("DATES", req.body);
     models.users.findById(fundId).then(function(user){
@@ -327,7 +327,7 @@ homeGET: function(req, res){
 
   },
   settings: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var session = req.params.session;
     var id = req.user.id;
     var general_settings = true;
@@ -346,7 +346,7 @@ homeGET: function(req, res){
   },
 
   changeSettings: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var session = req.params.session;
     var id = req.user.id;
     var general_settings;
@@ -472,7 +472,7 @@ homeGET: function(req, res){
     }
   },
   public: function(req, res){
-    pzpt.ensureAuthenticated(req, res);
+    passportFunctions.ensureAuthenticated(req, res);
     var loggedInUser;
     var id = req.params.id;
     if(req.session.passport.user){
