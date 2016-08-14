@@ -1217,7 +1217,8 @@ module.exports = {
   fundBlocker: function(req, res, next){
     var url = req.url;
     Logger.info("URL", url);
-    var checkFirstLetters = url.substring(1,13)
+    var checkFirstLetters = url.substring(1,13);
+    var checkAdmin = url.substring(1, 6);
     console.log(checkFirstLetters);
     var options = url.split('/')[2];
     console.log("OPTIONS", options);
