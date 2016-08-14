@@ -61,7 +61,7 @@ else{
 
 app.use(session({
   secret: 'so secret',
-  cookie: {secure: false, maxAge: (4 * 60 * 60 * 1000)},
+  cookie: {secure: false, maxAge: (5000)},
   store: new RedisStore({
     client: redis,
     host: redisHost,

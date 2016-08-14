@@ -117,6 +117,8 @@ module.exports = {
 // Pages once logged in
   homeGET: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res);
+    console.log(req.cookies)
+    console.log('^^^^^^^^^^^^^^')
     var user = req.user;
     var id = user.id;
     models.applications.findAll({where: {user_id: user.id}}).then(function(application){
@@ -559,7 +561,7 @@ module.exports = {
     if (!req.body.remember_me) {res.redirect('loginSplit')}
     passportFunctions.issueToken(req.user.get(), function(err, token) {
       if (err) {return next(err)}
-      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 604800000});
+      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
       res.redirect('loginSplit')
     });
   },
