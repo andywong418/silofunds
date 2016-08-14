@@ -186,7 +186,7 @@ es.checkConnection().then(function(resp) {
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "graduate masters" }, degrees.gradDegrees); })
+      .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
       .then(bulkUpload)
