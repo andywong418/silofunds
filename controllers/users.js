@@ -1214,7 +1214,7 @@ module.exports = {
     console.log(checkAdmin);
     var options = url.split('/')[2];
     console.log("OPTIONS", options);
-    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin === 'admin') {
+    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin !== 'admin') {
       if(req.user) {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
