@@ -1,49 +1,63 @@
-// https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/
-var request = require('supertest');
-var chai = require('chai')
-var sequelize = require('../models').sequelize;
-var expect = chai.expect;
-var should = chai.should();
+var test = require('./testFunctions')
 
-describe('environment', function() {
-  it('should have access to postgres', function() {
-    return sequelize.authenticate();
-  });
-});
-
-describe('loading express', function() {
-  var app;
-
-  beforeEach(function() {
-    app = require('../app.js', { bustCache: true });
+describe('Route tests', function() {
+  test.logSuppress();
+  describe('Non passport auth routes', function() {
+    test.route('/');
+    test.route('/login');
+    test.route('/register');
+    test.route('/results'); // Make sure elasticsearch is on
+    test.route('/forgot');
+    // test.route('/organisation/options/:id')
   });
 
-  it('responds to /', function testSlash(done) {
-    request(app).get('/').end(function(err, res) {
-      res.status.should.equal(200);
-      done(err);
-    });
+  describe('Passport authenticated routes for user login', function() {
+    test.fakeUserLogin();
+    test.passportRoute('/user/create', 200);
+    test.passportRoute('/user/dashboard', 200);
+    test.passportRoute('/user/settings', 200);
   });
 
-  // Route response
-  it('/', routeTester('/'))
-
-  it('404s everything else', function testPath(done) {
-    request(app).get('/foo/bar').end(function(err, res) {
-      expect(res.status).to.equal(404)
-      done(err)
-    })
+  describe('Passport authenticated routes for organisation login', function() {
+    test.fakeOrganisationLogin();
+    test.passportRoute('/organisation/create', 200);
+    test.passportRoute('/organisation/dashboard', 200);
+    test.passportRoute('/organisation/funding_creation', 200);
+    test.passportRoute('/organisation/funding_creation/scholarship', 200);
+    test.passportRoute('/organisation/funding_creation/bursary', 200);
+    test.passportRoute('/organisation/funding_creation/grant', 200);
+    test.passportRoute('/organisation/funding_creation/prize', 200);
   });
 
+  describe('User blocker routes', function() {
+    test.fakeUserLogin();
+    test.passportRoute('/organisation/create', 500);
+    test.passportRoute('/organisation/dashboard', 500);
+    test.passportRoute('/organisation/funding_creation', 500);
+    test.passportRoute('/organisation/funding_creation/scholarship', 500);
+    test.passportRoute('/organisation/funding_creation/bursary', 500);
+    test.passportRoute('/organisation/funding_creation/grant', 500);
+    test.passportRoute('/organisation/funding_creation/prize', 500);
+  });
 
-  // Reusable functions
-  function routeTester(route) {
-    it('returns status 200', function(done) {
-      request(app).get(route).end(function(err, res) {
-        expect(res.status).to.equal(200);
-        console.log('hi')
-        done(err);
-      })
-    })
-  }
-});
+  describe('Organisation blocker routes', function() {
+    test.fakeOrganisationLogin();
+    test.passportRoute('/user/create', 500);
+    test.passportRoute('/user/dashboard', 500);
+    test.passportRoute('/user/settings', 500);
+  });
+
+  describe('Make sure passport routes when not authenticated redirect to login', function() {
+    test.loginRedirect('/user/dashboard');
+    test.loginRedirect('/organisation/dashboard');
+  });
+
+  describe('Database checks', function() {
+    test.postgres();
+    test.userCreation();
+  });
+})
+
+// test.passportRoute('/organisation/options/:id');
+// describe('/organisation/options/:id', test.passportRoute('/organisation/options/:id'))
+// describe('/organisation/options/:id/edit', test.passportRoute('/organisation/options/:id/edit'))
