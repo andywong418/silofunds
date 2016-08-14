@@ -74,41 +74,54 @@ module.exports = {
       };
 
       if (query.all !== "true" || emptyQueryObj) {
+        // Setting up filter
+        queryOptions.filtered.filter.bool.should = [];
+        var shouldFilter = queryOptions.filtered.filter.bool.should;
+
         if (query.amount_offered || query.age) {
-          var queryOptionsShouldArr = [
-            {
-              "range": {
-                "minimum_amount": {
-                  "lte": query.amount_offered
-                }
-              }
-            },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": query.amount_offered
-                }
-              }
-            },
-            {
-              "range": {
-                "minimum_age": {
-                  "lte": query.age
-                }
-              }
-            },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": query.age
-                }
+          shouldFilter.push({
+            "range": {
+              "minimum_amount": {
+                "lte": query.amount_offered
               }
             }
-          ];
-
-          queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+          });
+          shouldFilter.push({
+            "range": {
+              "maximum_amount": {
+                "gte": query.amount_offered
+              }
+            }
+          });
+          shouldFilter.push({
+            "range": {
+              "minimum_age": {
+                "lte": query.age
+              }
+            }
+          });
+          shouldFilter.push({
+            "range": {
+              "maximum_amount": {
+                "gte": query.age
+              }
+            }
+          });
         }
 
+        if (!query.specific_location) {
+          // If specific location is not specified in the search query append missing filter to "specific_location"
+          shouldFilter.push({
+            "missing": { "field": "specific_location" }
+          });
+        }
+
+        // If nothing has been appended to should filter, restore it to "match_all"
+        if (typeof shouldFilter !== 'undefined' && shouldFilter.length === 0) {
+          shouldFilter = { "match_all": {} };
+        }
+
+        // Setting up filtered query
         queryOptions.filtered.query = {
           "bool": {
             "should": [{
@@ -215,6 +228,55 @@ module.exports = {
               countryCategories.push(hit._source["country_category"]);
             }
           }
+        }
+
+        var boolQuery = queryOptions.filtered.query.bool;
+        boolQuery.must_not = [];
+
+        var countryOfResidence = query.country_of_residence ? query.country_of_residence : null;
+
+        if (countryOfResidence) {
+          var notString = "not " + countryOfResidence;
+          var notCountryCategories = countryCategories.map(function(country) {
+            return "not " + country;
+          });
+          Logger.info(notCountryCategories);
+          Logger.info(notString);
+          boolQuery.must_not.push({
+            "match": {
+              "country_of_residence": {
+                "query": notString,
+                "operator": "and"
+              }
+            }
+          });
+
+          if (typeof notCountryCategories !== 'undefined' && notCountryCategories.length === 0) {
+            for (var j = 0; j < notCountryCategories.length; j++) {
+              boolQuery.must_not.push({
+                "match": {
+                  "country_of_residence": {
+                    "query": notCountryCategories[j],
+                    "operator": "and"
+                  }
+                }
+              });
+            }
+          }
+        }
+
+        var targetCountry = query.target_country ? query.target_country : null;
+
+        if (targetCountry) {
+          var notTargetCountry = "not " + targetCountry;
+          boolQuery.must_not.push({
+            "match": {
+              "country_of_residence": {
+                "query": notTargetCountry,
+                "operator": "and"
+              }
+            }
+          });
         }
 
         Logger.warn("universityCategories\n" + universityCategories);

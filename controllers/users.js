@@ -1220,8 +1220,8 @@ module.exports = {
     var checkFirstLetters = url.substring(1,13)
     console.log(checkFirstLetters);
     var options = url.split('/')[2];
-    console.log(options);
-    if(checkFirstLetters == 'organisation') {
+    console.log("OPTIONS", options);
+    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin !== 'admin') {
       if(req.user) {
         if(req.user.organisation_or_user == null && options !== 'options') {
           console.log("WHAT");

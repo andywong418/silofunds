@@ -444,7 +444,6 @@ $(document).ready(function(){
   };
   $('*').not('#notEligible').click(function(e){
     e.preventDefault();
-    console.log("WHAAAAA", e);
     if($('#notEligible').is(':visible')){
       $('#notEligible').css('display', 'none');
       $("div[id*=notEligible-handler]").remove();
