@@ -328,6 +328,7 @@ $(document).ready(function(){
           url: '/user/charge',
           data: data
         }).done(function(data) {
+          //calculate width of bar and supporters and bar
           displayCompletionMessage(data);
         });
       }
@@ -468,6 +469,7 @@ $(document).ready(function(){
     $('#payment-div-invisible').click(function() {
       $('#payment-div').fadeOut('slow')
     })
-    $('#payment-div').delay(6000).fadeOut('slow')
+    $('#payment-div').delay(3000).fadeOut('slow');
+    location.reload();
   }
 });

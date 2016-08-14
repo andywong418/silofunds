@@ -285,7 +285,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(user){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -327,7 +331,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(charge){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -1210,13 +1218,17 @@ module.exports = {
     var url = req.url;
     Logger.info("URL", url);
     var checkFirstLetters = url.substring(1,13)
+    console.log(checkFirstLetters);
     var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options!= 'options') {
+    console.log(options);
+    if(checkFirstLetters == 'organisation') {
       if(req.user) {
-        if(req.user.organisation_or_user == null ) {
+        if(req.user.organisation_or_user == null && options !== 'options') {
+          console.log("WHAT");
           res.render(error);
           res.end()
         } else {
+          console.log("WHAT");
           next()
         }
         } else {

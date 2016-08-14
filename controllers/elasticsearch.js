@@ -205,44 +205,69 @@ module.exports = {
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_university": universityCategories.join(' ')
+            "target_university": {
+              "query":   universityCategories.join(' '),
+              "operator": "and"
+            }
+
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "required_university": universityCategories.join(' ')
+            "required_university": {
+              "query": universityCategories.join(' '),
+              "operator": "and"
+            }
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "subject": subject_categories.join(' ')
+            "subject": {
+              "query": subject_categories.join(' '),
+              "operator": "and"
+            }
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_degree": degreeCategories.join(' ')
+            "target_degree":{
+              "query": degreeCategories.join(' '),
+              "operator": "and"
+            }
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "required_degree": degreeCategories.join(' ')
+            "required_degree": {
+              "query": degreeCategories.join(' '),
+              "operator": "and"
+
+          }
+        }
+        });
+
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "target_country": {
+              "query": countryCategories.join(' '),
+              "operator": "and"
+
+            }
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_country": countryCategories.join(' ')
-          }
-        });
+            "country_of_residence": {
+              "query": countryCategories.join(' '),
+              "operator": "and"
 
-        queryOptions.filtered.query.bool.should.push({
-          "match": {
-            "country_of_residence": countryCategories.join(' ')
           }
+        }
         });
       }
 
@@ -254,7 +279,7 @@ module.exports = {
       // if (queryOptions.filtered.filter) {
       //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
       // }
-
+      Logger.error(queryOptions.filtered.query.bool);
       es.search({
         index: "funds",
         type: "fund",
