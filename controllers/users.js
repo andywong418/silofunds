@@ -1208,9 +1208,12 @@ module.exports = {
   fundBlocker: function(req, res, next){
     var url = req.url;
     Logger.info("URL", url);
-    var checkFirstLetters = url.substring(1,13)
+    var checkFirstLetters = url.substring(1,13);
+    var checkAdmin = url.substring(1, 6);
+    console.log(checkAdmin);
     var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options!= 'options') {
+    console.log("OPTIONS", options);
+    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin === 'admin') {
       if(req.user) {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
@@ -1222,7 +1225,7 @@ module.exports = {
           next()
         }
       } else {
-        res.redirect('/login')
+        next();
       }
   },
   facebookSplit: function(req, res) {
