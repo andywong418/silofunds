@@ -74,41 +74,47 @@ module.exports = {
       };
 
       if (query.all !== "true" || emptyQueryObj) {
+        // Setting up filter
+        queryOptions.filtered.filter.bool.should = [];
+        var shouldFilter = queryOptions.filtered.filter.bool.should;
+
         if (query.amount_offered || query.age) {
-          var queryOptionsShouldArr = [
-            {
-              "range": {
-                "minimum_amount": {
-                  "lte": query.amount_offered
-                }
-              }
-            },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": query.amount_offered
-                }
-              }
-            },
-            {
-              "range": {
-                "minimum_age": {
-                  "lte": query.age
-                }
-              }
-            },
-            {
-              "range": {
-                "maximum_amount": {
-                  "gte": query.age
-                }
+          shouldFilter.push({
+            "range": {
+              "minimum_amount": {
+                "lte": query.amount_offered
               }
             }
-          ];
-
-          queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+          });
+          shouldFilter.push({
+            "range": {
+              "maximum_amount": {
+                "gte": query.amount_offered
+              }
+            }
+          });
+          shouldFilter.push({
+            "range": {
+              "minimum_age": {
+                "lte": query.age
+              }
+            }
+          });
+          shouldFilter.push({
+            "range": {
+              "maximum_amount": {
+                "gte": query.age
+              }
+            }
+          });
         }
 
+        // If nothing has been appended to should filter, restore it to "match_all"
+        if (typeof shouldFilter !== 'undefined' && shouldFilter.length === 0) {
+          shouldFilter = { "match_all": {} };
+        }
+
+        // Setting up filtered query
         queryOptions.filtered.query = {
           "bool": {
             "should": [{
