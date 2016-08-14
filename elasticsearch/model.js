@@ -312,7 +312,7 @@ var fundSettings = {
         },
         "description": {
           "type": "string",
-          "index": "not_analyzed"
+          "index": "no"
         },
         "suggest_funds": {
           "type": "completion",
