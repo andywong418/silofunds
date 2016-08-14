@@ -106,7 +106,8 @@ body {
       width: 100%;
       border-radius: 2px;
       padding: 3px;
-      font-size: 13px; }
+      font-size: 13px;
+      height: 30px; }
       #signup-wrapper #signup-form input:active, #signup-wrapper #signup-form input:focus {
         border: 2px solid #9ba7d8;
         outline: none; }
@@ -148,6 +149,22 @@ body {
       margin-top: 15px;
       width: 70%;
       margin-left: 15%; }
+    #signup-wrapper #signup-form .video-row .col-md-6 h6 {
+      font-family: 'Source Sans Pro';
+      font-size: 16px;
+      margin-bottom: 15px; }
+    #signup-wrapper #signup-form .video-row .col-md-6 p {
+      margin-top: 10px;
+      margin-bottom: 20px; }
+    #signup-wrapper #signup-form .video-row span i {
+      color: black;
+      font-size: 14px;
+      border: 2px solid #ccc;
+      border-right: 0;
+      background-color: #e6e6e6; }
+    #signup-wrapper #signup-form .video-row a {
+      margin-left: 3px;
+      cursor: pointer; }
     #signup-wrapper #signup-form .story-row {
       padding-bottom: 30px; }
     #signup-wrapper #signup-form #work {

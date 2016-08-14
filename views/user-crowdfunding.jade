@@ -48,9 +48,11 @@ block content
 	#payment-div-invisible
 	#crowdfunding-wrapper.container
 		.col-md-7
-			if user.profile_picture
+			if user.profile_picture && !user.video
 				img#profile_picture(src!=user.profile_picture)
-			else
+			if user.video
+				iframe(style='width: 100%', height='400', src=user.video, frameborder='0', allowfullscreen='')
+			if !user.profile_picture && !user.video
 				img#profile_picture(src='/images/fund_img_placeholder.jpg')
 			#social-media-flex-container
 				a.social.fb-share
@@ -76,7 +78,7 @@ block content
 					a.menu-item(href='#comments')
 						p= 'Comments '
 							if comments
-								span.badge= comments.length
+								span#comments.badge= comments.length
 				#tab-content
 					script#story-template(type='text/template')
 						p#story
@@ -138,7 +140,7 @@ block content
 									if update.diffDays === 1
 										span#update-date Yesterday
 									if update.diffDays > 1
-										span#update-date= update.diffDays + ' ago'
+										span#update-date= update.diffDays + ' days ago'
 								hr
 								span#update-span=update.update.message
 						.initial-image
@@ -175,12 +177,20 @@ block content
 		#user-progress.col-md-5
 			#progress-card
 				h3= user.username
-				if user.funding_accrued != null || user.funding_accrued > 0
-					p#raised= '£' +user.funding_accrued
-						span= 'of £' + user.funding_needed + ' reached'
+				if user.funding_needed
+					if user.funding_accrued != null || user.funding_accrued > 0
+						p#raised= '£' +user.funding_accrued
+							span= 'of £' + user.funding_needed + ' reached'
+					else
+						p#raised £0
+							span= 'of ' + user.funding_needed + ' reached'
 				else
-					p#raised £0
-						span= 'of ' + user.funding_needed + ' reached'
+					if user.funding_accrued != null || user.funding_accrued > 0
+						p#raised= '£' +user.funding_accrued
+							span= ' reached'
+					else
+						p#raised £0
+							span=' reached'
 				.progress
 					.progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
 					.progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')

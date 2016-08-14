@@ -301,8 +301,14 @@ $(document).ready(function(){
   String.prototype.capitalize= function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
   };
-  function capitalizeArray(element, index, array){
-  }
+
+  function checkImage(imageSrc, imageCountry, good, bad) {
+    var img = new Image();
+    img.onload = good;
+    img.onerror = bad;
+    img.src = imageSrc;
+    img.country = imageCountry;
+}
 
   function noIcon(){
     $('*[id*=icon-image]:visible').each(function() {
@@ -396,15 +402,17 @@ $(document).ready(function(){
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
 
-
     $('#eligibility_div').css('display', 'block');
     $('#eligibility_div').css('background-color', 'rgb(236, 198, 44)');
     $('p#eligibility_div_p ').html('You may not be eligible for this fund - click this bar to learn why. <a id="ignore"> Ignore for now </a>');
-    $(document).on('click', '#eligibility_div', function(){
+    $(document).on('click', '#eligibility_div', function(e){
       $('#notEligible').css('display', 'block');
       //add criteria to explanation modal
       var NotEligibleDisplay = Backbone.View.extend({
         el: '.modal-container',
+        events:{
+          'click notEligible-handler': 'preventClose'
+        },
         initialize: function(){
           var model = new NotEligibleModel({
             requirement_description: 'Fund ' + criteriaDescription,
@@ -414,18 +422,16 @@ $(document).ready(function(){
           })
           var view = new NotEligibleView({model: model});
           this.$el.append(view.render().el);
+        },
+        preventClose: function(e){
+          e.preventDefault();
+          e.stopPropagation();
         }
       });
       var notEligibleDisplay = new NotEligibleDisplay();
     });
 
-      $('*').not('#notEligible').click(function(){
-        if($('#notEligible').is(':visible')){
-          $('#notEligible').css('display', 'none');
-          $("div[id*=notEligible-handler]").remove();
 
-        }
-      });
       $(document).on('click', '#ignore', function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -436,10 +442,25 @@ $(document).ready(function(){
       });
 
   };
+  $('*').not('#notEligible').click(function(e){
+    e.preventDefault();
+    if($('#notEligible').is(':visible')){
+      $('#notEligible').css('display', 'none');
+      $("div[id*=notEligible-handler]").remove();
+
+    }
+  });
+  $(document).on('click', '#notEligible', function(e){
+    console.log("WHAT", e);
+    e.preventDefault();
+    e.stopPropagation();
+  });
   if(favourite){
     $('#favourite').addClass('active-favourite');
   }
-  $('#favourite').click(function(){
+  $('#favourite').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
     if(favourite){
       $('#favourite:before').css("content", "");
       $('#favourite').removeClass('active-favourite');
@@ -1034,14 +1055,38 @@ $(document).ready(function(){
               var targetCountry = fund.target_country;
               if(targetCountry){
                 for(var i =0; i < targetCountry.length; i++){
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/128/' + targetCountry[i] + '.png',
-                    criteria: 'To ' + targetCountry[i],
-                    section: targetCountry[i]
-                  });
-                  var view = new ImageView({ model: imageModel });
-                  this.$('#location-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                  if(targetCountry[i].toLowerCase() == 'uk'){
+                    targetCountry[i] = "United Kingdom"
+                  }
+                  if(targetCountry[i].toLowerCase() == 'eu'){
+                    targetCountry[i] = "European Union"
+                  }
+                  if(targetCountry[i].toLowerCase() == 'us'){
+                    targetCountry[i] = "United Sates of America"
+                  }
+                  checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
+                    console.log(this.src);
+                    var imageModel = new ImageModel({
+                      imageSource: this.src,
+                      criteria: 'For study in ' + this.country,
+                      section: this.country
+                    });
+
+                    var view = new ImageView({ model: imageModel });
+                    context.$('#location-handler').append(view.render().el);
+                    context.$('[data-toggle="tooltip"]').tooltip();
+                  }, function(){
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/128/flag_placeholder.svg',
+                      criteria: 'For study in ' + this.country,
+                      section: this.country
+                    });
+
+                    var view = new ImageView({ model: imageModel });
+                    context.$('#location-handler').append(view.render().el);
+                    context.$('[data-toggle="tooltip"]').tooltip();
+                    context.$('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                  })
                 }
               }
 
@@ -1049,15 +1094,42 @@ $(document).ready(function(){
             case 'country_of_residence':
               var requiredCountry = fund.country_of_residence;
               if(requiredCountry){
+
                 for(var i =0; i < requiredCountry.length; i++){
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/128/' + requiredCountry[i] + '.png',
-                    criteria: 'From ' + requiredCountry[i],
-                    section: requiredCountry[i]
-                  });
-                  var view = new ImageView({ model: imageModel });
-                  this.$('#location-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                  if(requiredCountry[i].toLowerCase() == 'uk'){
+                    requiredCountry[i] = "United Kingdom"
+                  }
+                  if(requiredCountry[i].toLowerCase() == 'eu'){
+                    requiredCountry[i] = "European Union"
+                  }
+                  if(requiredCountry[i].toLowerCase() == 'us'){
+                    requiredCountry[i] = "United Sates of America"
+                  }
+                  var context = this;
+                  checkImage('/images/128/' + requiredCountry[i] + '.png', requiredCountry[i], function(){
+                    console.log(this.src);
+                    var imageModel = new ImageModel({
+                      imageSource: this.src,
+                      criteria: 'From ' + this.country,
+                      section: this.country
+                    });
+
+                    var view = new ImageView({ model: imageModel });
+                    context.$('#location-handler').append(view.render().el);
+                    context.$('[data-toggle="tooltip"]').tooltip();
+                  }, function(){
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/128/flag_placeholder.svg',
+                      criteria: 'From ' + this.country,
+                      section: this.country
+                    });
+
+                    var view = new ImageView({ model: imageModel });
+                    context.$('#location-handler').append(view.render().el);
+                    context.$('[data-toggle="tooltip"]').tooltip();
+                    context.$('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                  })
+
                 }
               }
               break;
@@ -1067,7 +1139,7 @@ $(document).ready(function(){
                 for (var i =0; i<specific_location.length; i++){
                   var imageModel = new ImageModel({
                     imageSource: '/images/specific_location.svg',
-                    criteria: specific_location,
+                    criteria: specific_location[i],
                     section: 'Specific locations'
                   })
                   var view = new ImageView({ model: imageModel });

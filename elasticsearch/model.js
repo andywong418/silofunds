@@ -136,6 +136,9 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
+        'country_category': {
+          'type': 'string'
+        },
         "suggest_countries": {
           "type": "completion",
           "index_analyzer": "simple",
@@ -151,6 +154,9 @@ var fundSettings = {
           'fields': {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
+        },
+        'degree_category': {
+          'type': 'string'
         },
         "suggest_degrees": {
           "type": "completion",
@@ -168,7 +174,7 @@ var fundSettings = {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
         },
-        "country": {
+        'university_category': {
           'type': 'string'
         },
         "suggest_universities": {
@@ -202,6 +208,9 @@ var fundSettings = {
           'fields': {
             "autocomplete": { "type": "string", "index_analyzer": "autocomplete", "search_analyzer": "my_english" }
           }
+        },
+        "subject_category": {
+          'type': 'string'
         },
         "suggest_subjects": {
           "type": "completion",
@@ -303,7 +312,7 @@ var fundSettings = {
         },
         "description": {
           "type": "string",
-          "index": "not_analyzed"
+          "index": "no"
         },
         "suggest_funds": {
           "type": "completion",

@@ -110,14 +110,16 @@ module.exports = {
 		})
 	},
  getSignupInfo: function(req, res){
+	 Logger.info("What's going on");
 	 var userId = req.params.id;
+	 console.log("huh");
 	 models.users.findById(userId).then(function(user){
 		 user = user.get();
 		 models.documents.findAll({where:{user_id: user.id} }).then(function(documents){
 			 user.documents = documents;
 			 res.json(user);
-		 })
-	 })
+		 });
+	 });
  },
   uploadPicture: function(req,res){
     var userId = req.params.id;

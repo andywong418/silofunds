@@ -131,6 +131,7 @@ body{
 			border-radius: 2px;
 			padding: 3px;
 			font-size: 13px;
+			height: 30px;
 			&:active, &:focus{
 				border: 2px solid #9ba7d8;
 				outline: none;
@@ -180,18 +181,45 @@ body{
 
 		}
 
-		#story-header,#education-header,#about-header, #verify-header{
-			background: #f2f3f9;
-			padding: 10px;
-			border-radius: 3px;
-			font-size: 16px;
-			margin-top: 15px;
-			width:70%;
-			margin-left: 15%;
+	#story-header,#education-header,#about-header, #verify-header{
+		background: #f2f3f9;
+		padding: 10px;
+		border-radius: 3px;
+		font-size: 16px;
+		margin-top: 15px;
+		width:70%;
+		margin-left: 15%;
+	}
+	.video-row{
+		.col-md-6{
+			h6{
+				font-family: 'Source Sans Pro';
+				font-size: 16px;
+				margin-bottom: 15px;
+			}
+			p{
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
 		}
-		.story-row{
-			padding-bottom: 30px;
+
+		span{
+			i{
+				color: black;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-right: 0;
+    background-color: #e6e6e6;
+			}
 		}
+		a{
+			margin-left: 3px;
+			cursor: pointer;
+		}
+	}
+	.story-row{
+		padding-bottom: 30px;
+	}
 
 #work{
 	border-bottom: none;

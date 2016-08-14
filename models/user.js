@@ -125,6 +125,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: 'FALSE',
       field: 'facebook_registering'
+    },
+    video: {
+      type: DataTypes.TEXT,
+      field: 'video'
     }
   }, {
     timestamps: true,

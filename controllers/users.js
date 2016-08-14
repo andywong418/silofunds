@@ -285,7 +285,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(user){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -327,7 +331,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(charge){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -1190,7 +1198,7 @@ module.exports = {
     var url = req.url
     var checkFirstLetters = url.substring(1,5);
     var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user') {
+    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign') {
       if(req.user) {
         if(req.user.organisation_or_user !== null && profile !== "profile") {
           res.render(error)
@@ -1202,6 +1210,7 @@ module.exports = {
           next()
         }
       } else {
+        console.log("It;s here");
         res.redirect('/login')
       }
   },
@@ -1209,27 +1218,23 @@ module.exports = {
     var url = req.url;
     Logger.info("URL", url);
     var checkFirstLetters = url.substring(1,13)
-    var checkIfProfile = url.substring(1,21)
-    console.log(checkIfProfile)
-    console.log(checkIfProfile == 'organisation/options')
-    console.log('true')
+    console.log(checkFirstLetters);
     var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options!= 'options' && checkIfProfile !== 'organisation/profile') {
+    console.log("OPTIONS", options);
+    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin !== 'admin') {
       if(req.user) {
-        if(req.user.organisation_or_user == null ) {
-          res.render(error);
-          res.end()
+        if(req.user.organisation_or_user == null && options !== 'options') {
+          console.log("fucked");
+          res.redirect('/login');
         } else {
+          console.log("WHAT");
           next()
         }
         } else {
           next();
         }
-      } else if (checkIfProfile == 'organisation/options') {
+      } else {
         next();
-      }
-        else {
-        res.redirect('/login')
       }
   },
   facebookSplit: function(req, res) {
