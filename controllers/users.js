@@ -187,12 +187,10 @@ module.exports = {
                         var success = req.flash('emailSuccess')[0];
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
                           if(!stripe_user) {
-                            console.log("STRIPE FUNDs", funds);
                             var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                           if (stripe_user) {
-                            console.log("NOT STRIPE FUNDS", funds);
                             var dataObject = {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
@@ -459,13 +457,16 @@ module.exports = {
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
     Logger.info("HUH")
-    if (!req.body.remember_me) {res.redirect('loginSplit')}
-    passportFunctions.issueToken(req.user.get(), function(err, token) {
-      Logger.info("BUG TOKEN", token);
-      if (err) {return next(err)}
-      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
-      res.redirect('loginSplit')
-    });
+    if (!req.body.remember_me) {
+      res.redirect('loginSplit');
+    } else {
+      passportFunctions.issueToken(req.user.get(), function(err, token) {
+        Logger.info("BUG TOKEN", token);
+        if (err) {return next(err)}
+        res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+        res.redirect('loginSplit')
+      });
+    }
   },
 
   registerSplit: function(req, res) {
@@ -1194,36 +1195,31 @@ module.exports = {
       if(req.user) {
         if(req.user.organisation_or_user !== null && profile !== "profile") {
           res.render(error)
-          res.end()
-        } else {
-          next()
-        }
         } else {
           next()
         }
       } else {
-        res.redirect('/login')
+        next()
       }
+    } else {
+      res.redirect('/login')
+    }
   },
   fundBlocker: function(req, res, next){
     var url = req.url;
     Logger.info("URL", url);
     var checkFirstLetters = url.substring(1,13)
     var checkIfProfile = url.substring(1,21)
-    console.log(checkIfProfile)
-    console.log(checkIfProfile == 'organisation/options')
-    console.log('true')
     var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options!= 'options' && checkIfProfile !== 'organisation/profile') {
+    if(checkFirstLetters == 'organisation' && options !== 'options' && checkIfProfile !== 'organisation/profile') {
       if(req.user) {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
-          res.end()
         } else {
           next()
         }
         } else {
-          next();
+          res.redirect('/login')
         }
       } else if (checkIfProfile == 'organisation/options') {
         next();

@@ -112,13 +112,12 @@ module.exports = {
       }
     }
 
-    Logger.debug("queryOptions\n", queryOptions);
     // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
     //
     // if (queryOptions.filtered.filter) {
     //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
     // }
-    
+
 
     es.search({
       index: "funds",
@@ -145,7 +144,6 @@ module.exports = {
 
       models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
         if (user) {
-          Logger.info("YSER",user);
           for (var i=0; i < funds.length; i++) {
             if (funds[i].organisation_id == user.organisation_or_user) {
               funds[i].fund_user = true;
