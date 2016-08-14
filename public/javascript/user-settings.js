@@ -211,7 +211,7 @@ $(document).ready(function() {
       data: JSON.stringify(descriptionData)
     });
 
-    saveActivePaneSettings('campaign', ['link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
+    saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
   });
 
 
