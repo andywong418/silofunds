@@ -137,7 +137,7 @@ passport.use('registrationStrategy', new LocalStrategy({
   passport.use(new RememberMeStrategy(
     function(token, done) {
       passportFunctions.consumeRememberMeToken(token, function(err, uid) {
-        models.users.findById(26).then(function(user) {
+        models.users.findById(req.user.id).then(function(user) {
           if(!user){return done(null, false)}
           return(done(null, user));
         })

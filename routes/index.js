@@ -14,7 +14,6 @@ router.post('/subscribe', home.subscribe);
 
 // Login
 router.get('/login', users.loginGET)
-// Authenticate loginPOST request sends to intermediate route and then sends on to fun or user profile as we need info from the req
 router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}), users.rememberMe)
 router.get('/loginSplit', users.loginSplit)
 
