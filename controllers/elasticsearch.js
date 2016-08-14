@@ -230,6 +230,55 @@ module.exports = {
           }
         }
 
+        var boolQuery = queryOptions.filtered.query.bool;
+        boolQuery.must_not = [];
+
+        var countryOfResidence = query.country_of_residence ? query.country_of_residence : null;
+
+        if (countryOfResidence) {
+          var notString = "not " + countryOfResidence;
+          var notCountryCategories = countryCategories.map(function(country) {
+            return "not " + country;
+          });
+          Logger.info(notCountryCategories);
+          Logger.info(notString);
+          boolQuery.must_not.push({
+            "match": {
+              "country_of_residence": {
+                "query": notString,
+                "operator": "and"
+              }
+            }
+          });
+
+          if (typeof notCountryCategories !== 'undefined' && notCountryCategories.length === 0) {
+            for (var j = 0; j < notCountryCategories.length; j++) {
+              boolQuery.must_not.push({
+                "match": {
+                  "country_of_residence": {
+                    "query": notCountryCategories[j],
+                    "operator": "and"
+                  }
+                }
+              });
+            }
+          }
+        }
+
+        var targetCountry = query.target_country ? query.target_country : null;
+
+        if (targetCountry) {
+          var notTargetCountry = "not " + targetCountry;
+          boolQuery.must_not.push({
+            "match": {
+              "country_of_residence": {
+                "query": notTargetCountry,
+                "operator": "and"
+              }
+            }
+          });
+        }
+
         Logger.warn("universityCategories\n" + universityCategories);
         Logger.warn("subject_categories\n" + subject_categories);
         Logger.warn("degreeCategories\n" + degreeCategories);
