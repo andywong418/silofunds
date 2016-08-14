@@ -1235,7 +1235,7 @@ module.exports = {
           next()
         }
       } else {
-        res.redirect('/login')
+        next();
       }
   },
   facebookSplit: function(req, res) {

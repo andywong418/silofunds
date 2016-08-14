@@ -295,7 +295,8 @@ h1 {
       margin: 10px 0; }
       #box_3_right .eligibility-display .criteria-box img {
         width: 30px;
-        height: auto; }
+        height: auto;
+        margin-left: 10px; }
       #box_3_right .eligibility-display .criteria-box .criteria {
         font-size: 15px;
         text-transform: capitalize;

@@ -8,6 +8,7 @@ var elasticsearchModels = require('../elasticsearch/model');
 module.exports = {
   fundSearch: function(req, res) {
     var query = req.query;
+    Logger.debug("query\n", query);
 
     // NOTE: LEVEL 1 SEARCH -- find out whether we should return "uk" or "us" universities
 
@@ -28,8 +29,8 @@ module.exports = {
     var queryString = [];
     queryString.push(queryTerms);
 
-    Logger.warn("queryString");
-    Logger.warn(queryString);
+    Logger.info("queryString");
+    Logger.info(queryString);
 
     es.search({
       index: "funds",
@@ -110,7 +111,11 @@ module.exports = {
 
         queryOptions.filtered.query = {
           "bool": {
-            "should": []
+            "should": [{
+              "bool": {
+                "must": []
+              }
+            }]
           }
         };
 
@@ -135,12 +140,27 @@ module.exports = {
 
           if (notTags && notAge && notAmount) {
             var matchObj = {
-              "match": {}
+              "bool": {
+                "should": [{
+                  "match": {}
+                }]
+              }
             };
+            var fieldsWithAllParam = ["subject", "country_of_residence", "required_degree", "target_degree", "required_university", "target_university"];
+            matchObj.bool.should[0].match[key] = {
+              "query": query[key],
+              "boost": 10
+            };
+            if (fieldsWithAllParam.indexOf(key) > -1) {
+              var obj = {
+                "match": {}
+              };
 
-            matchObj.match[key] = query[key];
-            queryOptions.filtered.query.bool.should.push(matchObj);
+              obj.match[key] = "all";
+              matchObj.bool.should.push(obj);
+            }
 
+            queryOptions.filtered.query.bool.should[0].bool.must.push(matchObj);
             // if query.tags doesn't exist, multi_match query won't exist
             if (notTitle && query.tags) {
               // Push the field name into the "multi_match" fields array for matching tags
@@ -205,11 +225,11 @@ module.exports = {
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_university": {
-              "query":   universityCategories.join(' '),
+            "target_university":{
+              "query": universityCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
             }
-
           }
         });
 
@@ -217,6 +237,7 @@ module.exports = {
           "match": {
             "required_university": {
               "query": universityCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
             }
           }
@@ -226,6 +247,7 @@ module.exports = {
           "match": {
             "subject": {
               "query": subject_categories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
             }
           }
@@ -233,8 +255,9 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "target_degree":{
-              "query": degreeCategories.join(' '),
+            "target_degree": {
+              "query":   degreeCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
             }
           }
@@ -242,32 +265,34 @@ module.exports = {
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "required_degree": {
+            "required_degree":{
               "query": degreeCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
-
+            }
           }
-        }
+
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "target_country": {
               "query": countryCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
-
             }
           }
         });
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
-            "country_of_residence": {
+            "country_of_residence":{
               "query": countryCategories.join(' '),
+              "minimum_should_match": "100%",
               "operator": "and"
-
+            }
           }
-        }
+        
         });
       }
 
@@ -279,52 +304,64 @@ module.exports = {
       // if (queryOptions.filtered.filter) {
       //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
       // }
-      Logger.error(queryOptions.filtered.query.bool);
-      es.search({
-        index: "funds",
-        type: "fund",
+
+      Logger.error(queryOptions.filtered.query.bool.should[6].match)
+      es.explain({
+        index: 'funds',
+        type: 'fund',
+        id: '459',
         body: {
-          "size": 1000,
           "query": queryOptions
         }
-      }).then(function(resp) {
-        var fund_id_list = [];
-        var funds = resp.hits.hits.map(function(hit) {
-          var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
-          var hash = {};
-
-          for (var i = 0; i < fields.length ; i++) {
-            hash[fields[i]] = hit._source[fields[i]];
+      }, function (error, response) {
+        // Logger.error(response.explanation.details[0].details[1].details);
+        // Logger.error(response.explanation.details[0].details[0].details);
+        es.search({
+          index: "funds",
+          type: "fund",
+          body: {
+            "size": 1000,
+            "query": queryOptions
           }
-          // Sync id separately, because it is hit._id, NOT hit._source.id
-          hash.id = hit._id;
-          fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
-          hash.fund_user = false; // for the user logic later
-          return hash;
-        });
+        }).then(function(resp) {
+          var fund_id_list = [];
+          var funds = resp.hits.hits.map(function(hit) {
+            var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+            var hash = {};
 
-        models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
-          if (user) {
-            Logger.info("YSER",user);
-            for (var i=0; i < funds.length; i++) {
-              if (funds[i].organisation_id == user.organisation_or_user) {
-                funds[i].fund_user = true;
+            for (var i = 0; i < fields.length ; i++) {
+              hash[fields[i]] = hit._source[fields[i]];
+            }
+            // Sync id separately, because it is hit._id, NOT hit._source.id
+            hash.id = hit._id;
+            fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+            hash.fund_user = false; // for the user logic later
+            return hash;
+          });
+
+          models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
+            if (user) {
+              Logger.info("YSER",user);
+              for (var i=0; i < funds.length; i++) {
+                if (funds[i].organisation_id == user.organisation_or_user) {
+                  funds[i].fund_user = true;
+                }
               }
             }
-          }
-        }).then(function() {
-          var results_page = true;
-          if (user) {
-            models.users.findById(user.id).then(function(user) {
-              res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
-            });
-          } else {
-            res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
-          }
+          }).then(function() {
+            var results_page = true;
+            if (user) {
+              models.users.findById(user.id).then(function(user) {
+                res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+              });
+            } else {
+              res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
+            }
+          });
+        }, function(err) {
+          console.trace(err.message);
+          res.render('error');
         });
-      }, function(err) {
-        console.trace(err.message);
-        res.render('error');
       });
     });
   }
