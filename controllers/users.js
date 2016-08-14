@@ -1224,15 +1224,14 @@ module.exports = {
     if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin !== 'admin') {
       if(req.user) {
         if(req.user.organisation_or_user == null && options !== 'options') {
-          console.log("WHAT");
-          res.render(error);
-          res.end()
+          console.log("fucked");
+          res.redirect('/login');
         } else {
           console.log("WHAT");
           next()
         }
         } else {
-          next()
+          next();
         }
       } else {
         next();
