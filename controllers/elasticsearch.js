@@ -362,7 +362,7 @@ module.exports = {
         });
       }
 
-      //////////////////////////////////////////////////////////////////
+
 
       // Logger.debug("queryOptions\n", queryOptions);
       // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
@@ -395,11 +395,9 @@ module.exports = {
             var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
             var hash = {};
 
-      models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
-        if (user) {
-          for (var i=0; i < funds.length; i++) {
-            if (funds[i].organisation_id == user.organisation_or_user) {
-              funds[i].fund_user = true;
+
+            for (var i = 0; i < fields.length ; i++) {
+              hash[fields[i]] = hit._source[fields[i]];
             }
             // Sync id separately, because it is hit._id, NOT hit._source.id
             hash.id = hit._id;
