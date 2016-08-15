@@ -4,6 +4,11 @@ var async = require('async');
 var countries = require('../resources/countries');
 var es = require('../elasticsearch');
 var elasticsearchModels = require('../elasticsearch/model');
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+};
 
 module.exports = {
   fundSearch: function(req, res) {
@@ -47,7 +52,6 @@ module.exports = {
       }
     }).then(function(resp) {
       // NOTE: NORMAL SHIT
-
       // Parse integer fields
       if (query.age) {
         query.age = parseIfInt(query.age);
@@ -75,6 +79,7 @@ module.exports = {
 
       if (query.all !== "true" || emptyQueryObj) {
         // Setting up filter
+
         queryOptions.filtered.filter.bool.should = [];
         var shouldFilter = queryOptions.filtered.filter.bool.should;
 
@@ -108,7 +113,6 @@ module.exports = {
             }
           });
         }
-
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
           shouldFilter.push({
