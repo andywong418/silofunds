@@ -167,7 +167,7 @@ $(document).ready(function(){
 
   }
   function checkCountry(fundArray, userArray){
-    var allCountries = countries.countries;
+    var allCountries = allFields.countries;
     var africanCountries = countries.africanCountries;
     var euCountries = countries.euCountries;
     var meCountries = countries.meCountries;
@@ -240,17 +240,21 @@ $(document).ready(function(){
     return newArray;
   }
   function countryNotHandler(fundArray, userArray){
-    var allCountries = countries.countries;
+    var allCountries = allFields.countries;
     var newArray = [];
     fundArray.forEach(function(element, index, array){
       if(element.indexOf('not') > -1 || element.indexOf('non') > -1){
-        var country = element.split(' ')[1].capitalize();
-        console.log(country);
-        var diff = allCountries.filter(function(x){
-          return userArray.indexOf(x) > -1 && x != country;
-        });
-        console.log(diff);
-        newArray.push(diff);
+          console.log(element);
+          var country = element.split(' ')[1].capitalize();
+          console.log(country);
+          console.log(allCountries);
+          var diff = allCountries.filter(function(x){
+            return userArray.indexOf(x) > -1 && x != country;
+          });
+          console.log(diff);
+          newArray.push(diff);
+
+
       }
     });
     return newArray;

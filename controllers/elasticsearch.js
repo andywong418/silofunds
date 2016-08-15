@@ -354,7 +354,7 @@ module.exports = {
               "operator": "and"
             }
           }
-        
+
         });
       }
 
@@ -367,7 +367,7 @@ module.exports = {
       //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
       // }
 
-      Logger.error(queryOptions.filtered.query.bool.should[6].match)
+
       es.explain({
         index: 'funds',
         type: 'fund',
