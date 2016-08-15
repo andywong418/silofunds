@@ -24,12 +24,18 @@ function issueToken(user, done) {
 }
 function saveRememberMeToken(token, uid, fn) {
   tokens[token] = uid;
+  console.log("TOKENS", tokens[token]);
   return fn();
 }
 function consumeRememberMeToken(token, fn) {
   var uid = tokens[token];
+  tokens = {};
+  tokens[token] = uid;
+  console.log("HIHI", token);
+  console.log("TOKENS", tokens);
   // invalidate the single-use token
   delete tokens[token];
+  console.log("deleted TOKENS", tokens)
   return fn(null, uid);
 }
 module.exports.issueToken = issueToken
