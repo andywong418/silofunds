@@ -415,7 +415,7 @@ $(document).ready(function(){
       var NotEligibleDisplay = Backbone.View.extend({
         el: '.modal-container',
         events:{
-          'click notEligible-handler': 'preventClose'
+          'click #notEligible-handler': 'preventClose'
         },
         initialize: function(){
           var model = new NotEligibleModel({
@@ -447,7 +447,6 @@ $(document).ready(function(){
 
   };
   $('*').not('#notEligible').click(function(e){
-    e.preventDefault();
     if($('#notEligible').is(':visible')){
       $('#notEligible').css('display', 'none');
       $("div[id*=notEligible-handler]").remove();
