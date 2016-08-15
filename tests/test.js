@@ -1,7 +1,5 @@
 var test = require('./testFunctions')
 
-
-
 describe('Route tests', function() {
   test.logSuppress();
   describe('Non passport auth routes', function() {

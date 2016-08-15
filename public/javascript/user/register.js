@@ -22,6 +22,7 @@ $(document).ready(function(){
     var parameters = {email: email, loginEmail: email}
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if(!re.test(email) && email.length !== 0) {
+      $('#emailSuccess').empty();
       $('#emailError').empty()
       $('#emailError').show()
       $('#emailError').append('Please enter a valid email address')
@@ -29,11 +30,13 @@ $(document).ready(function(){
     if(re.test(email)) {
       $.post('/validation/register', parameters, function(data) {
         if(data) {
+          $('#emailSuccess').empty();
           $('#emailError').empty();
           $('#emailError').show();
           $('#emailError').append(data)
         }
         if(!data) {
+          $('#emailError').empty();
           $('#emailSuccess').empty();
           $('#emailError').hide();
           $('#emailSuccess').show();

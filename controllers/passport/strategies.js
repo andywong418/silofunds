@@ -166,12 +166,17 @@ passport.use('registrationStrategy', new LocalStrategy({
   }, function(accessToken, refreshToken, profile, done) {
     var data = profile._json
     process.nextTick(function() {
+      console.log('THIS IS THE PROFILE ^^^^^^^^^^^^^^^^')
+      console.log(profile)
+      console.log('THIS IS THE PROFILE ^^^^^^^^^^^^^^^^')
+      console.log(data.location.name)
+      console.log('THIS IS DATA.LOCATION')
+      console.log(data.hometown)
+      console.log('THIS IS DATA.HOMETOWN')
       models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
         if(user) {
           return done(null, user); // user found, return that user
         } else {
-          console.log(profile)
-          console.log('here though')
           var university = [];
           if(data.education) {
             for(var i = 0; i < data.education.length; i++) {
@@ -192,8 +197,9 @@ passport.use('registrationStrategy', new LocalStrategy({
             email: profile.emails[0].value,
             // Facebook permissions required
             date_of_birth: data.birthday,
-            address_city: data.location,
+            address_city: data.location.name,
             previous_university: university,
+            link: data.website,
             religion: religion,
             facebook_registering: 'TRUE',
             token: accessToken
