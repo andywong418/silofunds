@@ -162,6 +162,7 @@ passport.use('registrationStrategy', new LocalStrategy({
     callbackURL: configAuth.facebookAuth.callbackURL,
     profileFields : ['id', 'displayName', 'email']
   }, function(accessToken, refreshToken, profile, done) {
+    console.log('Look here')
     process.nextTick(function() {
       models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
         if(user) {

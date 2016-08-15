@@ -10,7 +10,6 @@ describe('Route tests', function() {
     test.route('/register');
     test.route('/results'); // Make sure elasticsearch is on, also this takes a few seconds before it will work after restarting
     test.route('/forgot');
-    // test.route('/organisation/options/:id')
   });
 
   describe('Passport authenticated routes for user login', function() {
@@ -60,6 +59,7 @@ describe('Route tests', function() {
   });
 })
 
+// test.route('/organisation/options/:id')
 // test.passportRoute('/organisation/options/:id');
 // describe('/organisation/options/:id', test.passportRoute('/organisation/options/:id'))
 // describe('/organisation/options/:id/edit', test.passportRoute('/organisation/options/:id/edit'))
