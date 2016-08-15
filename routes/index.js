@@ -39,6 +39,11 @@ router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/login'}));
 router.get('/facebookSplit', users.facebookSplit)
 
+// Privacy policy
+router.get('/privacy_policy', function(req, res) {
+  res.render('privacy_policy')
+})
+
 
 router.get('/public/:id', users.crowdFundingPage);
 
