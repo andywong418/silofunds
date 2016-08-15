@@ -32,11 +32,12 @@ module.exports = {
 
   route: function(route) {
     it(route + ' returns status 200', function(done) {
+      if (route === '/results') this.timeout(10000);
       request(app).get(route).end(function(err, res) {
         expect(res.status).to.equal(200);
-        done(err)
-      })
-    })
+        done(err);
+      });
+    });
   },
 
   passportRoute: function(route, status) {
