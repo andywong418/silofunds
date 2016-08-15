@@ -2,7 +2,9 @@ $border-color: #e1e8ed;
 $body-height: calc(100% - 55px);
 $input-form-height: 50px;
 $timestamp-color: rgb(133, 133, 133);
-
+i.fa.fa-user{
+  padding-top: 5px;
+}
 * {
   margin: 0;
   padding: 0;

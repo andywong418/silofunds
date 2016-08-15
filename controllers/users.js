@@ -1082,7 +1082,7 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
             "query": query.tags,
-            "fields": ["username","description"],
+            "fields": ["username","subject", "country_of_residence", "target_country", "previous_degree", "previous_university", "target_degree", "target_university"],
             "operator": "and",
             "boost": 3
           }
@@ -1111,7 +1111,7 @@ module.exports = {
         }
       }
     }
-
+    Logger.error(queryOptions.filtered.filter);
     es.search({
       index: "users",
       type: "user",
@@ -1125,7 +1125,7 @@ module.exports = {
       var users = resp.hits.hits.map(function(hit) {
         Logger.info("Hit:");
         Logger.info(hit);
-        var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
+        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];
@@ -1137,9 +1137,8 @@ module.exports = {
       var results_page = true;
       Logger.info("USERS", users);
       if(user){
-        Logger.info("Checking the user",user);
         models.users.findById(user.id).then(function(user){
-          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query } );
+          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query });
         })
       }
       else{
@@ -1198,7 +1197,7 @@ module.exports = {
     var url = req.url
     var checkFirstLetters = url.substring(1,5);
     var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign') {
+    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign' || checkFirstLetters == 'resu') {
       if(req.user) {
         if(req.user.organisation_or_user !== null && profile !== "profile") {
           res.render(error)

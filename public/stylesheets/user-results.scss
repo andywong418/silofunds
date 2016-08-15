@@ -1,0 +1,64 @@
+body{
+  background-color: #f0f2f4;
+}
+.results{
+  margin-top: 100px;
+  text-align: center;
+  h3{
+    padding-top: 4px;
+    color: #2d4a76;
+  }
+}
+.page-header{
+  background-color: white;
+  border-radius: 3px;
+}
+.database{
+  display: block;
+  p{
+    margin-left: 13px;
+  }
+  a{
+    cursor: pointer;
+  }
+}
+#picture{
+  height: 100%;
+}
+#user-picture{
+  width: 250px;
+  height: 250px;
+}
+#user-nationality, #user-religion, #target_country, #previous_university,#target_university, #subject{
+  color: grey;
+}
+
+#message{
+  background-color: #5bc0de;
+  color: white;
+  border: none;
+  font-size: 16px;
+  i{
+    margin-right: 10px;
+  }
+}
+.username{
+  margin-left: 13px;
+  margin-bottom: -5px;
+}
+.user_list{
+  background-color: white;
+  border-radius: 15px;
+  margin-bottom: 60px;
+  margin-right: 35px;
+
+}
+#user-info{
+  padding-left: 30px;
+  p{
+    margin-bottom: 0;
+  }
+}
+.control{
+margin-left: 4px;
+}
