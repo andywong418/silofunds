@@ -2,11 +2,16 @@ $(document).ready(function() {
 
   var socket = io();
   socket.emit('add user', { userFrom: user });
-
-  $(".list-group-item:nth-child(3)").addClass("active");
+  console.log($(".list-group-item")[0]);
+  $($(".list-group-item")[0]).addClass("active");
 
   //////////////////////////
-  var userToID = $('.list-group-item.active').attr("id").split("-")[1];
+  var userToID;
+  try{
+    userToID = $('.list-group-item.active').attr("id").split("-")[1];
+  } catch(e){
+    console.log(e);
+  }
   var userFromID = user.id;
   var readyToReceiveFrom = userToID;
   var roomName;
@@ -21,7 +26,9 @@ $(document).ready(function() {
 
   /////////////////////
 
-
+  $('#nowspan').click(function(){
+    $('.arrow_box').show();
+  });
   $("div.list-group a").click(function(e) {
     e.preventDefault();
     //
@@ -46,7 +53,8 @@ $(document).ready(function() {
 
   /* Socket IO Client */
 
-  $('form').submit(function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
     var msg = $('#m').val();
     var userToID = $('.list-group-item.active').attr("id").split("-")[1];
     var userFromID = user.id;
@@ -58,11 +66,13 @@ $(document).ready(function() {
     } else {
       roomName = 'user' + userToID + '-'+ 'user' + userFromID;
     }
+    if(msg !== ''){
+      socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg, roomName: roomName });
+      $('#m').val('');
+      $('.read_col').remove();
+      return false;
+    }
 
-    socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg, roomName: roomName });
-    $('#m').val('');
-    $('.read_col').remove();
-    return false;
   });
 
   socket.on('private message', function(data){

@@ -27,7 +27,8 @@ body {
   height: 250px; }
 
 #user-nationality, #user-religion, #target_country, #previous_university, #target_university, #subject {
-  color: grey; }
+  color: grey;
+  font-size: 14px; }
 
 #message {
   background-color: #5bc0de;

@@ -90,6 +90,7 @@ io.on('connection', function(socket){
     userFromID_arr.push(data.userFromID);
 
     // NOTE: readyToReceiveFrom also means it has read latest message
+    console.log(data.userToID);
     models.users.findById(data.userToID).then(function(userTo) {
       userTo = userTo.get();
 

@@ -26,7 +26,7 @@ block content
 								img#user-picture(src!= '<%= profile_picture%>')
 							#user-info.col-md-6
 								a(href != '/public/' + '<%= user_id %>')
-									h3.username <%= username %>
+									h4.username <%= username %>
 								.row
 									.col-md-12
 										p#subject(class!='subject' + '<%= user_id %>') Studying
@@ -46,7 +46,7 @@ block content
 									.col-md-12
 										p#user-religion(class!= 'user-religion' + '<%= user_id %>')
 							#user-action.col-md-2
-								a#message.center-block.btn.btn-default
+								a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
 									i.fa.fa-comments-o(aria-hidden="true")
 									|Message 
 
