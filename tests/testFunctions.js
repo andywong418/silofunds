@@ -15,10 +15,18 @@ module.exports = {
     beforeEach(function() {
       // var stub = sinon.stub(console, 'log')
       var loggerInfo = sinon.stub(Logger, 'info')
+      var loggerWarn = sinon.stub(Logger, 'warn')
+      var loggerDebug = sinon.stub(Logger, 'debug')
+      var loggerTime = sinon.stub(Logger, 'time')
+      var loggerError = sinon.stub(Logger, 'error')
     });
     afterEach(function() {
-      Logger.info.restore();
       // console.log.restore();
+      Logger.info.restore();
+      Logger.warn.restore();
+      Logger.debug.restore();
+      Logger.time.restore();
+      Logger.error.restore();
     });
   },
 

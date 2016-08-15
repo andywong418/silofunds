@@ -1224,7 +1224,6 @@ module.exports = {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
         } else {
-          console.log("WHAT");
           next()
         }
         } else {

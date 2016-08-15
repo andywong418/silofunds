@@ -1,12 +1,14 @@
 var test = require('./testFunctions')
 
+
+
 describe('Route tests', function() {
   test.logSuppress();
   describe('Non passport auth routes', function() {
     test.route('/');
     test.route('/login');
     test.route('/register');
-    test.route('/results'); // Make sure elasticsearch is on
+    test.route('/results'); // Make sure elasticsearch is on, also this takes a few seconds before it will work after restarting
     test.route('/forgot');
     // test.route('/organisation/options/:id')
   });
