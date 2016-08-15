@@ -248,7 +248,7 @@ var allShown = false;
         this.$('#' + id).children('.description_control').append(html_fade_div_id)
         this.$("#" + id).children('.description_control').attr('id', 'id' + id);
       }
-      console.log
+
       if($('#id' + id).height() >= 170) {
         if($('#id' + id).height() < 190) {
           $('#fade_div' + id).hide();
@@ -269,10 +269,12 @@ var allShown = false;
             afterToggle: function(trigger, element,expanded){
               if(expanded){
                 $('#id' + id).css('overflow', 'visible');
-                var lastParagraph = $('#id' + id + ' p').last()
-                var lastSpan = $('#id' + id + ' span')
-                var lastLi = $('#id' + id + ' li')
-                var height = lastParagraph.height()
+                var divLength = $('#id' + id ).children().length - 2;
+                console.log(divLength);
+                var lastParagraph = $('#id' + id ).children()[divLength];
+                console.log($(lastParagraph));
+                lastParagraph = $(lastParagraph);
+                var height = lastParagraph.height();
                 var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
                 var newHeight = vbl + height
                 $('#id' + id).css('height', newHeight)

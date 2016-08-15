@@ -283,7 +283,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(user){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -325,7 +329,11 @@ module.exports = {
 										source_cvc_check: charge.source.cvc_check,
 										user_from: user_from,
 										created_at: created_at,
-									});
+									}).then(function(charge){
+                    user = user.get();
+                    user.comment = comment;
+                    res.send(user);
+                  });
 								});
 							});
 						});
@@ -1191,7 +1199,7 @@ module.exports = {
     var url = req.url
     var checkFirstLetters = url.substring(1,5);
     var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user') {
+    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign') {
       if(req.user) {
         if(req.user.organisation_or_user !== null && profile !== "profile") {
           res.render(error)
@@ -1199,7 +1207,7 @@ module.exports = {
           next()
         }
       } else {
-        next()
+        res.redirect('/login')
       }
     } else {
       res.redirect('/login')
@@ -1216,16 +1224,14 @@ module.exports = {
         if(req.user.organisation_or_user == null ) {
           res.render(error);
         } else {
+          console.log("WHAT");
           next()
         }
         } else {
           res.redirect('/login')
         }
-      } else if (checkIfProfile == 'organisation/options') {
+      } else {
         next();
-      }
-        else {
-        res.redirect('/login')
       }
   },
   facebookSplit: function(req, res) {

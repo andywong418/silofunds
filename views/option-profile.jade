@@ -13,6 +13,7 @@ block content
     var subjects = !{JSON.stringify(subjects)};
     var degrees = !{JSON.stringify(degrees)};
     var universities = !{JSON.stringify(universities)};
+    var allFields = !{JSON.stringify(allFields)};
     console.log(subjects);
     console.log(degrees);
     console.log(universities);
@@ -21,6 +22,7 @@ block content
     }
   include ./navbar.jade
   include ./signup-modal.jade
+  include ./advanced-search.jade
   if user && newVisit
     .alert-known.alert-success
       .container-block.center-block
@@ -83,7 +85,7 @@ block content
               | You still need to add an image (or logo) for your fund
         if fund.link
           if !organisation.profile_picture
-            a#external-link(href!=fund.link, style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
+            a#external-link( href!= fund.link, target='_blank', style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
               span#favourite(style='margin-left: -20px;margin-top: -25px') ☆
               #fund_title_div
                 h4(style='font-size: 22px;')#bio=fund.title
@@ -191,9 +193,10 @@ block content
               #start_date  <%= application_open_date %>
               p.arrow#arrow_1 
                 i.fa.fa-angle-double-down(aria-hidden="true")
-            #documents_deadline <%= application_documents %>
-            p.arrow#arrow_2 
-              i.fa.fa-angle-double-down(aria-hidden="true")
+            if fund.application_documents
+              #documents_deadline <%= application_documents %>
+              p.arrow#arrow_2 
+                i.fa.fa-angle-double-down(aria-hidden="true")
             if fund.interview_date
               #interviews <%= interview_date %>
               p.arrow#arrow3
@@ -364,6 +367,7 @@ block scripts
     var user = !{JSON.stringify(user)}
   script(src="/javascript/signup-login.js")
   script(src="/node_modules/readmore-js/readmore.min.js")
+  script(src="/javascript/advanced-search.js")
   script(src="/javascript/option-profile.js")
   
 

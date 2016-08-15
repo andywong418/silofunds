@@ -172,17 +172,39 @@ es.checkConnection().then(function(resp) {
       .then(es.deleteIndex('funds'))
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
-      .then(function() { return loadSettingsForBulkPrepFor('countries', null, countries.countries); })
+      .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('degrees', null, degrees.degrees); })
+      .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('universities', { "country": "uk" }, universities.ukUniversities); })
+      .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('universities', { "country": "us" }, universities.usUniversities); })
+      .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
       .then(bulkUpload)
-      .then(function() { return loadSettingsForBulkPrepFor('subjects', null, subjects.subjects); })
+      .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+      .then(bulkUpload)
+      .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
       .then(bulkUpload);
 
     es.indexExists('users')
@@ -243,7 +265,6 @@ function loadSettingsForBulkPrepFor(typeName, extraOptions, dataSource) {
 
   wrapper.fieldName = typeName;
   wrapper.body = body;
-
   return wrapper;
 }
 
@@ -291,15 +312,13 @@ function prepareBulkUploadUsers(users) {
 
 function prepareBulkUploadAutocomplete(typeName, keyOptions, extraOptions, dataSource) {
   var bodyArray =[];
-  var id = 0;
   var type = 'autocomplete_' + typeName;
 
   dataSource.forEach(function(data){
-    id++;
     var payloadOptions = {};
     payloadOptions[keyOptions.payloadKey] = data;
 
-    bodyArray.push({'index': {'_index': 'funds', '_type': type, '_id': id }});
+    bodyArray.push({'index': {'_index': 'funds', '_type': type }});
     var wrapper = {};
 
     wrapper[keyOptions.normalFieldName] = data;
