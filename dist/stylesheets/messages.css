@@ -1,5 +1,10 @@
 i.fa.fa-user {
-  padding-top: 5px; }
+  padding-top: 6px; }
+
+i.fa.fa-comment {
+  margin-right: -6px;
+  padding-left: 7px;
+  margin-top: 5px; }
 
 * {
   margin: 0;

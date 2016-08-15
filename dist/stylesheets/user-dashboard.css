@@ -83,6 +83,19 @@ p {
   position: absolute;
   z-index: 10; }
 
+a#user-message span, a#home span {
+  display: none;
+  color: white;
+  background: red;
+  padding: 3px;
+  font-size: 11px;
+  position: absolute;
+  border-radius: 2px;
+  top: -3px; }
+
+.fa-comment {
+  margin-right: -10px; }
+
 .fa-cog {
   color: white; }
 
@@ -644,16 +657,13 @@ div.navbar-center-container {
 #settings-menu a:hover {
   color: black; }
 
-.fa-comment-o {
-  display: none; }
-
-.fa-cog, .fa-user {
+.fa-cog, .fa-user, .fa-comment {
   font-size: 20px; }
-  .fa-cog:hover, .fa-user:hover {
+  .fa-cog:hover, .fa-user:hover, .fa-comment:hover {
     cursor: pointer;
     font-size: 20px;
     color: #D2D7D3; }
-  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited {
+  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited, .fa-comment:active, .fa-comment:visited {
     color: #D2D7D3; }
 
 /*.fa-user{
@@ -771,6 +781,19 @@ p {
   position: absolute;
   z-index: 10; }
 
+a#user-message span, a#home span {
+  display: none;
+  color: white;
+  background: red;
+  padding: 3px;
+  font-size: 11px;
+  position: absolute;
+  border-radius: 2px;
+  top: -3px; }
+
+.fa-comment {
+  margin-right: -10px; }
+
 .fa-cog {
   color: white; }
 
@@ -1332,16 +1355,13 @@ div.navbar-center-container {
 #settings-menu a:hover {
   color: black; }
 
-.fa-comment-o {
-  display: none; }
-
-.fa-cog, .fa-user {
+.fa-cog, .fa-user, .fa-comment {
   font-size: 20px; }
-  .fa-cog:hover, .fa-user:hover {
+  .fa-cog:hover, .fa-user:hover, .fa-comment:hover {
     cursor: pointer;
     font-size: 20px;
     color: #D2D7D3; }
-  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited {
+  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited, .fa-comment:active, .fa-comment:visited {
     color: #D2D7D3; }
 
 /*.fa-user{

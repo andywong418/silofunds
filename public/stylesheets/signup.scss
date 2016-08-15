@@ -507,11 +507,9 @@
   color: black;
 }
 
-.fa-comment-o {
-  display: none;
-}
 
-.fa-cog, .fa-user {
+
+.fa-cog, .fa-user, .fa-comment {
   font-size: 20px;
   &:hover {
     cursor: pointer;
