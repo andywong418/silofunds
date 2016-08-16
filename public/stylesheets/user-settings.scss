@@ -1,6 +1,11 @@
 $silo-color: #e9f0f4;
 $border-color: #e1e8ed;
 
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
 body {
   background-color: $silo-color;
 }
