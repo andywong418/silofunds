@@ -1,4 +1,4 @@
-#advanced-search, #advanced-search-2{
+#advanced-search, #advanced-search-2 {
 	top: 80px;
 	z-index: 11;
 	display: none;
@@ -6,7 +6,7 @@
 .search_form input{
 	font-size: 13px;
 }
-#brand-image{
+#brand-image {
   margin-top: -13px;
    height: auto;
     width: auto;
@@ -15,14 +15,14 @@
     position: relative;
     z-index: 11;
 }
-#fund-info{
+#fund-info {
 	top: 90px;
 	position: relative;
 	z-index: 10;
 	width: 70%;
 }
 
-#fund-picture{
+#fund-picture {
 	width: 250px;
 	height: 250px;
 	border: 5px solid white;
@@ -38,16 +38,15 @@
   clear: both;
 }
 
-.switcher{
-
+.switcher {
     list-style: none;
     display: -webkit-box;
     float:left;
     display: inline;
     margin-top: 50px;
-
 }
-.switcher li{
+
+.switcher li {
 	margin: 10px;
 	background-color: white;
 	float: left;
@@ -66,20 +65,20 @@
 	z-index: 7
 }
 
-#overview, #eligibility{
+#overview, #eligibility {
 	border-right: 2px solid #BFBFBF;
 }
-#overview-paragraph, #eligibility-paragraph, #application-paragraph{
+#overview-paragraph, #eligibility-paragraph, #application-paragraph {
 	display: inline;
 	color: black;
 }
-.switcher li i{
+.switcher li i {
 	display: inline;
 	margin-right: 7px;
 
 }
 
-#overview-container{
+#overview-container {
 	background-color: white;
 	display: block;
 	position: relative;
@@ -90,7 +89,7 @@
 	margin-bottom: 60px;
 }
 
-#overview-form, #eligible-form{
+#overview-form, #eligible-form {
 	text-align: center;
 	padding-top: 30px;
 	padding-bottom: 10px;
@@ -98,90 +97,90 @@
 }
 
 
-#description-intro, #application-dates{
+#description-intro, #application-dates {
 	margin: 0 auto;
 	position: relative;
 	text-align: center;
 	margin-right: 35%
 }
 
-#edit-description, #edit-dates{
+#edit-description, #edit-dates {
 margin-left: 15px;
 color: #22A7F0;
 cursor: pointer;
 }
 
-.description-filler{
+.description-filler {
 	margin-top: 20px;
 	width: 50%;
 	margin-right: 35%;
 }
 
-#dates{
+#dates {
 	width: 65%;
 	padding: 30px;
 }
-.dates{
+.dates {
 	width: 100%
 }
-.start-date-filler, .deadline-filler{
+.start-date-filler, .deadline-filler {
 	display: inline;
 	float: left;
 	margin: 30px 7%;
 }
-.deadline-filler{
+.deadline-filler {
 	margin: 30px 5%;
 }
-#eligible-form p{
+#eligible-form p {
 	margin-top: 20px;
 	font-size: 18px;
 	color: #22313F;
 
 }
 
-#countries{
+#countries {
 	margin-bottom: 0;
 }
 
 
 
-.added-countries{
+.added-countries {
 	display: inline-block;
 	margin-left: 10px;
 	color: #446CB3;
 	margin-top: 5px;
 }
 
-.added-age{
+.added-age {
 	color: #9B59B6;
 }
-.added-amount{
+.added-amount {
 	color: #336E7B;
 }
 
-.added-religion{
+.added-religion {
 	display: inline-block;
 	margin-left: 10px;
 	color: #67809F;
 }
 
-.added-gender{
+.added-gender {
 	color: #4ECDC4;
 }
 
-.added-merit{
+.added-merit {
 	color: #1BA39C;
 }
 
 /*Application css*/
-#application{
+#application {
 	border-top-right-radius: 3px;
 }
-#application-setup{
+#application-setup {
 	padding-top: 10px;
 	padding-bottom: 30px;
 }
-#application-info{
+#application-info {
 	border-radius: 10px;
 	width: 90%;
 	text-align: center;
@@ -199,7 +198,7 @@ cursor: pointer;
   clear: both;
 }
 
-.cd-switcher, .category-switcher{
+.cd-switcher, .category-switcher {
     list-style: none;
     display: -webkit-box;
 /*    float: left;*/
@@ -209,8 +208,8 @@ cursor: pointer;
 
 margin-top: 20px;
 }
-.cd-switcher li, .category-switcher li{
 
+.cd-switcher li, .category-switcher li {
 	background-color: white;
 	float: left;
 	display: inline;
@@ -232,18 +231,18 @@ align-items: flex-end;
 }
 
 
-.cd-switcher li:first-child, .category-switcher li:first-child{
+.cd-switcher li:first-child, .category-switcher li:first-child {
 		border-top-left-radius: 3px;
 		border-bottom-left-radius: 3px;
 }
 
-.cd-switcher li:last-child, .category-switcher li:last-child{
+.cd-switcher li:last-child, .category-switcher li:last-child {
 		border-top-right-radius: 3px;
 		border-bottom-right-radius: 3px;
 		background-color: #BFBFBF;
 }
 
-#application-form{
+#application-form {
 
 	background-color: white;
 	display: block;
@@ -252,7 +251,7 @@ align-items: flex-end;
 		border-top-left-radius: 0;
 		padding-bottom: 60px;
 }
-#add-category{
+#add-category {
 	cursor: pointer;
 	border-top-left-radius: 0;
 	border-top-right-radius: 3px;
@@ -261,7 +260,7 @@ align-items: flex-end;
 	background-color: white;
 }
 
-#add-field, #delete-category{
+#add-field, #delete-category {
 	margin-top: 20px;
 	border: 3px #337ab7 dashed;
 	color:#337ab7;
@@ -273,14 +272,14 @@ align-items: flex-end;
 	text-align: left;
 }
 
-#add-icon,#delete-icon{
+#add-icon,#delete-icon {
 	font-size: 17px;
 	margin-left: 10px;
 }
 
 
 
-#field-modal{
+#field-modal {
 	position: fixed;
 	z-index: 11;
 	color: black;
@@ -295,7 +294,7 @@ align-items: flex-end;
 	display: none;
 }
 
-#text,#upload,#checkbox, #questions,#description-text{
+#text,#upload,#checkbox, #questions,#description-text {
 	margin-top: 20px;
 	margin-left: 20px;
 	margin-right: 10px;
@@ -317,81 +316,81 @@ align-items: flex-end;
     cursor: pointer;
 }
 
-.add-text-question{
+.add-text-question {
 	margin-top: 30px;
 	width: 150%;
 	margin-left: -25%;
 	margin-bottom: 20px;
 }
 
-.add-text-answer{
+.add-text-answer {
 	width: 100%
 }
 
-.add-text{
+.add-text {
 	width: 100%;
 
 }
 
-.add-file-question{
+.add-file-question {
 	margin-top: 30px;
 	display: inline-block;
 	width: 80%;
 }
-.add-file-answer{
 
+.add-file-answer {
 	display: inline-block;
 	margin: 3% 20%;
 	margin-bottom: 20px;
 }
 
-.add-checkbox-question{
+.add-checkbox-question {
 	width: 80%;
 	margin-right: 20px;
 	margin-top: 30px;
 	margin-bottom: 20px;
 }
 
-.add-checkbox-answer{
+.add-checkbox-answer {
 	display: inline;
 	margin-left: 10px !important;
 	margin-bottom: 10%;
 }
 
-.input-filler{
+.input-filler {
 	display: inline;
 	font-size: 16.5px;
 }
 
-.add-description-field{
+.add-description-field {
 	width: 150%;
 	margin-top: 30px;
 	height: 150px;
 	margin-left: -25%;
 }
 
-.paragraph-filler, .description-filler{
+.paragraph-filler, .description-filler {
 	margin-top: 20px;
 	font-size: 16.5px;
 }
 
-.add, .delete{
+.add, .delete {
 	float: right;
 	color: #81CFE0;
 	cursor: pointer;
 	margin-bottom: 15px;
 	margin-top: 5px !important;
 }
-.add{
+
+.add {
 	margin-right: 20px;
 	margin-left: 20px;
 }
 
-
-hr{
+hr {
 	border-top: 1px solid white
 }
-.edit-text-question, .edit-text-description{
+.edit-text-question, .edit-text-description {
 	width: 150%;
 	margin-left: -25%;
 }

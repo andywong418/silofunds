@@ -16,38 +16,40 @@ p {
     font-size: 14px;
     line-height: 1.5;
 }
-h4{
+h4 {
   font-size: 18px;
 }
 
-#fund-info{
+#fund-info {
   top: 0;
 }
 
-#add-field,#delete-category{
+#add-field,#delete-category {
   display: none;
 }
-#fund-picture{
+
+#fund-picture {
   cursor: default;
 }
 
-.cd-switcher li{
+.cd-switcher li {
   border-bottom: none;
   padding: 0;
 }
-.search_form{
+.search_form {
   margin-top: 5px
 }
-.collapse{
+.collapse {
   margin-top: -5px;
 }
-.post-signin{
+.post-signin {
   margin-top: 15px;
 }
-#brand-image{
+#brand-image {
   margin-top: -16px;
 }
-#gender{
+
+#gender {
   margin: 20px auto;
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
