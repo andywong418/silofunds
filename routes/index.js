@@ -35,7 +35,7 @@ router.get(/user/, users.userBlocker)
 
 
 // Facebook auth strategy
-router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+router.get('/auth/facebook', passport.authenticate('facebook', {authType: 'rerequest', scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/login'}));
 router.get('/facebookSplit', users.facebookSplit)
 

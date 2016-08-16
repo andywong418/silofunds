@@ -1,4 +1,8 @@
 $edit-color: rgba(151, 176, 199, 1);
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
 
 body {
   font-size: 14px;

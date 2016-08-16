@@ -160,17 +160,47 @@ passport.use('registrationStrategy', new LocalStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret,
     callbackURL: configAuth.facebookAuth.callbackURL,
-    profileFields : ['id', 'displayName', 'email']
+    enableProof: true,
+    profileFields: ['id', 'displayName', 'emails', 'birthday', 'location', 'hometown', 'website', 'religion', 'education'],
+    scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']
   }, function(accessToken, refreshToken, profile, done) {
-    console.log('Look here')
+    var data = profile._json
     process.nextTick(function() {
+      console.log('THIS IS THE PROFILE ^^^^^^^^^^^^^^^^')
+      console.log(profile)
+      console.log('THIS IS THE PROFILE ^^^^^^^^^^^^^^^^')
+      console.log(data.location.name)
+      console.log('THIS IS DATA.LOCATION')
+      console.log(data.hometown)
+      console.log('THIS IS DATA.HOMETOWN')
       models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
         if(user) {
           return done(null, user); // user found, return that user
         } else {
+          var university = [];
+          if(data.education) {
+            for(var i = 0; i < data.education.length; i++) {
+              console.log(data.education[i].type)
+              if(data.education[i].type == 'college' || 'university') {
+                university.push(data.education[i].school.name);
+              }
+            }
+          }
+          var religion;
+          if(data.religion) {
+            religion = data.religion.split('(')[0].substr(0, data.religion.split('(')[0].length - 1)
+          } else {
+            religion = ''
+          }
           models.users.create({
             username: profile.displayName,
             email: profile.emails[0].value,
+            // Facebook permissions required
+            date_of_birth: data.birthday,
+            address_city: data.location.name,
+            previous_university: university,
+            link: data.website,
+            religion: religion,
             facebook_registering: 'TRUE',
             token: accessToken
           }).then(function(newUser) {
@@ -180,8 +210,5 @@ passport.use('registrationStrategy', new LocalStrategy({
       });
     });
   }));
-
-
-
 
 }

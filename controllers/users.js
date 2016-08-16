@@ -35,6 +35,7 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
+    Logger.info(req.user)
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
@@ -213,7 +214,7 @@ module.exports = {
     var email = req.body.email;
     var donorIsPaying = req.body.donorIsPaying;
 		var comment = req.body.comment;
-		console.log("COMMENT", comment);
+		Logger.info("COMMENT", comment);
     var user_from;
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
@@ -1153,48 +1154,6 @@ module.exports = {
     });
   },
 
-  public: function(req, res){
-    var id = req.params.id;
-    var loggedInUser;
-    if(req.session.passport.user){
-      loggedInUser = req.session.passport.user;
-    }
-    else{
-      loggedInUser = false;
-    }
-    Logger.info("CHECKING ID",id)
-    models.users.findById(id).then(function(user){
-      models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-        Logger.info("checking applications");
-        if(application.length != 0){
-          applied_funds = [];
-          async.each(application, function(app, callback){
-              var app_obj = {};
-              app_obj['status'] = app.dataValues.status;
-              models.funds.findById(app.dataValues.fund_id).then(function(fund){
-                app_obj['title'] = fund.title;
-                Logger.info("WHAT FUND", fund);
-                applied_funds.push(app_obj);
-                Logger.info("I'M HERE", applied_funds);
-                callback();
-              })
-
-          }, function done(){
-            models.documents.findAll({where: {user_id: id}}).then(function(documents){
-              res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: applied_funds});
-            });
-          })
-        }
-        else {
-          Logger.info("HI", loggedInUser);
-          models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: false});
-          });
-        }
-      })
-    });
-  },
-
   userBlocker: function(req, res, next){
     var url = req.url
     var checkFirstLetters = url.substring(1,5);
@@ -1407,19 +1366,19 @@ function asyncChangeComments(array, res, dataObject){
 	async.each(array, function(element, callback){
 		var newObj = {};
 		element = element.get();
-		console.log("ELEMENT", element);
+		Logger.info("ELEMENT", element);
 		newObj.commentator_name = element.commentator_name;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		newObj.comment = element.comment;
 		if(element.user_from_id){
-			console.log("if case", newObj);
+			Logger.info("if case", newObj);
 			models.users.findById(element.user_from_id).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
 		}else{
-			console.log("else case", newObj)
+			Logger.info("else case", newObj)
 			newArray.push(newObj);
 			callback();
 		}

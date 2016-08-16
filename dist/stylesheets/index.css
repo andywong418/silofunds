@@ -100,6 +100,11 @@ p {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#brand-image {
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer; }
+
 @media (min-width: 768px) {
   .navbar-custom {
     padding: 20px 0;
