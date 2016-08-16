@@ -1,5 +1,4 @@
 var express = require('express');
-var fund = require('../controllers/fund');
 var users = require('../controllers/users');
 var passport = require('passport');
 require('../controllers/passport')(passport);

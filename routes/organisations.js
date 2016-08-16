@@ -30,8 +30,6 @@ router.post('/fund_known/:id', funds.insertFundKnown);
 router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);
-router.get('/public/:id', funds.public);
-
 
 
 router.get('/dashboard', funds.dashboardGET);
