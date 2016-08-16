@@ -12,6 +12,7 @@ var user_edit = require('../routes/user-edit');
 var user = require('../routes/users');
 var organisation = require('../routes/organisations');
 var basicAuth = require('basic-auth');
+var notifications = require('../routes/notifications');
 
 var auth_admin = function (req, res, next) {
   function unauthorized(res) {
@@ -68,4 +69,5 @@ module.exports.initialize = function (app) {
   app.use('/user', user);
   app.use('/organisation', organisation);
   app.use('/messages', messages);
+  app.use('/notifications', notifications);
 };

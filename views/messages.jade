@@ -10,8 +10,8 @@ block content
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
-  include navbar.jade
-  include advanced-search.jade
+  include ./navbar.jade
+  include ./advanced-search.jade 
   #search-helper-text
     .arrow_box Use the search bar to find relevant funding opportunities and connect with other users
   section#content
@@ -41,5 +41,5 @@ block content
 block scripts
   script(src='https://cdn.socket.io/socket.io-1.4.5.js')
   script(src='http://code.jquery.com/jquery-1.11.1.js')
-  script(src='/javascript/advanced-search.js')
   script(src='/javascript/messages.js')
+  script(src='/javascript/advanced-search.js')

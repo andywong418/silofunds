@@ -37,7 +37,18 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
             button
               a#home
                 i.fa.fa-user
-                span#notification
+                span#notification-count 6
+              .notification_box 
+                span#note-header Notifications
+                hr
+                span#no-notification You don't have any notifications yet.
+                .notification-wrapper
+                script#notification-template(type='text/template')
+                  .notification-row.row(id!= '<%= id %>')
+                    .col-xs-2
+                      i(class!= 'fa ' + '<%= category %>')
+                    .col-xs-10
+                      span#notification <%= notification %>
           li.post-signin
             button
               a#user-message(href='/messages')

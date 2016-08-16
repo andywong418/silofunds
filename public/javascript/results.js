@@ -94,7 +94,7 @@ var allShown = false;
   });
   var FundCollection = Backbone.Collection.extend({
     model: FundModel
-  })
+  });
 
   var FundView = Backbone.View.extend({
     tagname: 'div',

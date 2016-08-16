@@ -382,4 +382,4 @@ $("#login-form").submit(function(e){
 
    });
   var userNav = new UserNav();
-})
+});

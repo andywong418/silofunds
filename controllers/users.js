@@ -220,6 +220,9 @@ module.exports = {
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
     }
+    else{
+      user_from = null;
+    }
     stripe.customers.create({
       source: stripeToken,
       description: email
@@ -241,145 +244,53 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      Logger.info("CHARGE");
-      Logger.info(charge);
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
-      models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-				if(comment && comment !== ''){
-					if(user_from){
-						models.comments.create({
-							user_to_id: stripe_user.user_id,
-							user_from_id: user_from,
-							commentator_name: charge.source.name,
-							comment: comment
-						}).then(function(comment){
-							models.users.findById(stripe_user.user_id).then(function(user){
-								var amount;
-								if(user.funding_accrued == null){
-									amount = chargeAmountPounds;
-								}
-								else{
-									amount = (user.funding_accrued + chargeAmountPounds);
-								}
-								user.update({funding_accrued: amount}).then(function(user){
-									return models.stripe_charges.create({
-										charge_id: charge.id,
-										amount: parseFloat(charge.amount),
-										application_fee: application_fee,
-										balance_transaction: charge.balance_transaction,
-										captured: charge.captured,
-										customer_id: charge.customer,
-										description: charge.description,
-										destination_id: charge.destination,
-										fingerprint: charge.source.fingerprint,
-										livemode: charge.livemode,
-										paid: charge.paid,
-										status: charge.status,
-										transfer_id: charge.transfer,
-										sender_name: charge.source.name,
-										source_id: charge.source.id,
-										source_address_line1_check: charge.source.address_line1_check,
-										source_address_zip_check: charge.source.address_zip_check,
-										source_cvc_check: charge.source.cvc_check,
-										user_from: user_from,
-										created_at: created_at,
-									}).then(function(user){
-                    user = user.get();
-                    user.comment = comment;
-                    res.send(user);
+      stripe.customers.retrieve(
+        charge.customer,
+        function(err, customer){
+          console.log(customer);
+          charge.email = customer.description;
+          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
+            if(comment && comment !== ''){
+              if(user_from){
+                models.comments.create({
+                  user_to_id: stripe_user.user_id,
+                  user_from_id: user_from,
+                  commentator_name: charge.source.name,
+                  comment: comment
+                }).then(function(comment){
+                  models.users.findById(stripe_user.user_id).then(function(user){
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
-								});
-							});
-						});
+                });
 
-					}
-					else{
-						models.comments.create({
-							user_to_id: stripe_user.user_id,
-							commentator_name: charge.source.name,
-							comment: comment
-						}).then(function(comment){
-							models.users.findById(stripe_user.user_id).then(function(user){
-								var amount;
-								if(user.funding_accrued == null){
-									amount = chargeAmountPounds;
-								}
-								else{
-									amount = (user.funding_accrued + chargeAmountPounds);
-								}
-								user.update({funding_accrued: amount}).then(function(user){
-									return models.stripe_charges.create({
-										charge_id: charge.id,
-										amount: parseFloat(charge.amount),
-										application_fee: application_fee,
-										balance_transaction: charge.balance_transaction,
-										captured: charge.captured,
-										customer_id: charge.customer,
-										description: charge.description,
-										destination_id: charge.destination,
-										fingerprint: charge.source.fingerprint,
-										livemode: charge.livemode,
-										paid: charge.paid,
-										status: charge.status,
-										transfer_id: charge.transfer,
-										sender_name: charge.source.name,
-										source_id: charge.source.id,
-										source_address_line1_check: charge.source.address_line1_check,
-										source_address_zip_check: charge.source.address_zip_check,
-										source_cvc_check: charge.source.cvc_check,
-										user_from: user_from,
-										created_at: created_at,
-									}).then(function(charge){
-                    user = user.get();
-                    user.comment = comment;
-                    res.send(user);
+              }
+              else{
+                models.comments.create({
+                  user_to_id: stripe_user.user_id,
+                  commentator_name: charge.source.name,
+                  comment: comment
+                }).then(function(comment){
+                  models.users.findById(stripe_user.user_id).then(function(user){
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
-								});
-							});
-						});
+                });
 
-					}
+              }
 
 
-				}
-				else{
-					models.users.findById(stripe_user.user_id).then(function(user){
-						var amount;
-						if(user.funding_accrued == null){
-							amount = chargeAmountPounds;
-						}
-						else{
-							amount = (user.funding_accrued + chargeAmountPounds);
-						}
-						user.update({funding_accrued: amount}).then(function(user){
-							return models.stripe_charges.create({
-								charge_id: charge.id,
-								amount: parseFloat(charge.amount),
-								application_fee: application_fee,
-								balance_transaction: charge.balance_transaction,
-								captured: charge.captured,
-								customer_id: charge.customer,
-								description: charge.description,
-								destination_id: charge.destination,
-								fingerprint: charge.source.fingerprint,
-								livemode: charge.livemode,
-								paid: charge.paid,
-								status: charge.status,
-								transfer_id: charge.transfer,
-								sender_name: charge.source.name,
-								source_id: charge.source.id,
-								source_address_line1_check: charge.source.address_line1_check,
-								source_address_zip_check: charge.source.address_zip_check,
-								source_cvc_check: charge.source.cvc_check,
-								user_from: user_from,
-								created_at: created_at,
-							});
-						});
-					});
-				}
-      });
+            }
+            else{
+              models.users.findById(stripe_user.user_id).then(function(user){
+                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+              });
+            }
+          });
+        }
+      );
+
 
     });
   },
@@ -1251,6 +1162,63 @@ module.exports = {
 }
 
 ////// Helper functions
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at){
+  var amount;
+  if(user.funding_accrued == null){
+    amount = chargeAmountPounds;
+  }
+  else{
+    amount = (user.funding_accrued + chargeAmountPounds);
+  }
+  user.update({funding_accrued: amount}).then(function(user){
+    return models.stripe_charges.create({
+      charge_id: charge.id,
+      amount: parseFloat(charge.amount),
+      application_fee: application_fee,
+      balance_transaction: charge.balance_transaction,
+      captured: charge.captured,
+      customer_id: charge.customer,
+      description: charge.description,
+      destination_id: charge.destination,
+      fingerprint: charge.source.fingerprint,
+      livemode: charge.livemode,
+      paid: charge.paid,
+      status: charge.status,
+      transfer_id: charge.transfer,
+      sender_name: charge.source.name,
+      source_id: charge.source.id,
+      source_address_line1_check: charge.source.address_line1_check,
+      source_address_zip_check: charge.source.address_zip_check,
+      source_cvc_check: charge.source.cvc_check,
+      user_from: user_from,
+      created_at: created_at,
+    }).then(function(object){
+      Logger.error(charge.email);
+      var options;
+      if(user_from){
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> here </a>",
+          category: "donation",
+          read_by_user: false
+        }
+      }
+      else{
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> here </a>",
+          category: "donation",
+          read_by_user: false
+        };
+      }
+
+      models.notifications.create(options).then(function(notification){
+        res.send(notification);
+      });
+    });
+  });
+};
+
 function updateAppSuccess(app, res, userId, amount_gained){
 	app.update({status: 'success', amount_gained: amount_gained}).then(function(app){
 		models.users.findById(userId).then(function(user){
@@ -1362,7 +1330,7 @@ function asyncChangeDonations(options, array, res, dataObject){
 			callback();
 		}
 	}, function done(){
-		dataObject.donations = newArray;
+		dataObject.donations = newArray.reverse();
 		findAllUpdatesComments(options, res, dataObject);
 	});
 }
@@ -1411,19 +1379,16 @@ function asyncChangeComments(array, res, dataObject){
 	async.each(array, function(element, callback){
 		var newObj = {};
 		element = element.get();
-		console.log("ELEMENT", element);
 		newObj.commentator_name = element.commentator_name;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		newObj.comment = element.comment;
 		if(element.user_from_id){
-			console.log("if case", newObj);
 			models.users.findById(element.user_from_id).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
 		}else{
-			console.log("else case", newObj)
 			newArray.push(newObj);
 			callback();
 		}
