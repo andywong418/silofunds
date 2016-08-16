@@ -35,7 +35,7 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    console.log(req.user)
+    Logger.info(req.user)
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
@@ -214,7 +214,7 @@ module.exports = {
     var email = req.body.email;
     var donorIsPaying = req.body.donorIsPaying;
 		var comment = req.body.comment;
-		console.log("COMMENT", comment);
+		Logger.info("COMMENT", comment);
     var user_from;
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
@@ -1408,19 +1408,19 @@ function asyncChangeComments(array, res, dataObject){
 	async.each(array, function(element, callback){
 		var newObj = {};
 		element = element.get();
-		console.log("ELEMENT", element);
+		Logger.info("ELEMENT", element);
 		newObj.commentator_name = element.commentator_name;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		newObj.comment = element.comment;
 		if(element.user_from_id){
-			console.log("if case", newObj);
+			Logger.info("if case", newObj);
 			models.users.findById(element.user_from_id).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
 		}else{
-			console.log("else case", newObj)
+			Logger.info("else case", newObj)
 			newArray.push(newObj);
 			callback();
 		}
