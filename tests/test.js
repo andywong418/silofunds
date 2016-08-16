@@ -15,6 +15,7 @@ describe('Route tests', function() {
     test.passportRoute('/user/create', 200);
     test.passportRoute('/user/dashboard', 200);
     test.passportRoute('/user/settings', 200);
+    test.passportRoute('/messages', 200);
   });
 
   describe('Passport authenticated routes for organisation login', function() {
@@ -26,6 +27,7 @@ describe('Route tests', function() {
     test.passportRoute('/organisation/funding_creation/bursary', 200);
     test.passportRoute('/organisation/funding_creation/grant', 200);
     test.passportRoute('/organisation/funding_creation/prize', 200);
+    test.passportRoute('/messages', 200);
   });
 
   describe('User blocker routes', function() {

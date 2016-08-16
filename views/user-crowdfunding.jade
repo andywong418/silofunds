@@ -1,7 +1,6 @@
 extend layout
 
 block extraHeader
-	link(href='/stylesheets/results.css', rel='stylesheet')
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
 	meta(property='og:url', content='http://www.silofunds.com')
 	meta(property='og:type', content='website')
@@ -17,11 +16,11 @@ block content
 	script.
 		window.fbAsyncInit = function() {
 			FB.init({
-					appId      : '506830149486287',
-					xfbml      : true,
-					status: true,
-					cookie: true,
-					version    : 'v2.5'
+					appId  : '506830149486287',
+					xfbml  : true,
+					status : true,
+					cookie : true,
+					version: 'v2.5'
 			});
 		};
 

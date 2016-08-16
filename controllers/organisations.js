@@ -293,7 +293,6 @@ homeGET: function(req, res){
     if(req.isAuthenticated()){
       var user = req.user;
       models.funds.findById(fundId).then(function(fund){
-        console.log("fund", fund);
         if(fund.organisation_id){
           // If fund has an organisation/ fund user
           models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
@@ -324,7 +323,7 @@ homeGET: function(req, res){
                 }
                 else{
                   //if user is fund user
-                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
+                  res.render('option-profile', {user: user, organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, favourite: false});
                 }
               } else{
                 //organisation not in user table

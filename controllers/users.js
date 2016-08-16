@@ -1154,48 +1154,6 @@ module.exports = {
     });
   },
 
-  public: function(req, res){
-    var id = req.params.id;
-    var loggedInUser;
-    if(req.session.passport.user){
-      loggedInUser = req.session.passport.user;
-    }
-    else{
-      loggedInUser = false;
-    }
-    Logger.info("CHECKING ID",id)
-    models.users.findById(id).then(function(user){
-      models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-        Logger.info("checking applications");
-        if(application.length != 0){
-          applied_funds = [];
-          async.each(application, function(app, callback){
-              var app_obj = {};
-              app_obj['status'] = app.dataValues.status;
-              models.funds.findById(app.dataValues.fund_id).then(function(fund){
-                app_obj['title'] = fund.title;
-                Logger.info("WHAT FUND", fund);
-                applied_funds.push(app_obj);
-                Logger.info("I'M HERE", applied_funds);
-                callback();
-              })
-
-          }, function done(){
-            models.documents.findAll({where: {user_id: id}}).then(function(documents){
-              res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: applied_funds});
-            });
-          })
-        }
-        else {
-          Logger.info("HI", loggedInUser);
-          models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: false});
-          });
-        }
-      })
-    });
-  },
-
   userBlocker: function(req, res, next){
     var url = req.url
     var checkFirstLetters = url.substring(1,5);

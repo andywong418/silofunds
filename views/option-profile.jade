@@ -1,7 +1,6 @@
 extends layout
 
 block extraHeader
-  link(href='/stylesheets/results.css', rel='stylesheet')
   link(href='/stylesheets/option-profile.css', rel='stylesheet')
 
 block content
@@ -21,7 +20,7 @@ block content
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
   include ./navbar.jade
-  include ./signup-modal.jade
+  include ./partials/signup-modal.jade
   include ./advanced-search.jade
   if user && newVisit
     .alert-known.alert-success
