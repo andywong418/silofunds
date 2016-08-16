@@ -115,9 +115,9 @@ module.exports = {
         }
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
-          shouldFilter.push({
+          queryOptions.filtered.filter.bool.must = {
             "missing": { "field": "specific_location" }
-          });
+          };
         }
 
         // If nothing has been appended to should filter, restore it to "match_all"
