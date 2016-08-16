@@ -1,33 +1,37 @@
-
-.database{
+.database {
   display: block;
 }
-#picture{
+
+#picture {
   height: 100%;
 }
-#user-picture{
+
+#user-picture {
   max-width: 350px;
   height: auto;
 }
-.username{
+
+.username {
   margin-left: 13px;
   margin-bottom: -5px;
 }
-.user_list{
+
+.user_list {
   background-color: white;
   border-radius: 15px;
   margin-bottom: 60px;
   margin-right: 35px;
   padding: 30px;
-
 }
-#user-info{
+
+#user-info {
   padding-left: 30px;
 }
-.control{
-margin-left: 4px;
+
+.control {
+  margin-left: 4px;
 }
 
-.post-signin{
+.post-signin {
   margin-top: 13px;
 }
