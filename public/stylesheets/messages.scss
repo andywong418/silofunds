@@ -3,6 +3,17 @@ $body-height: calc(100% - 55px);
 $input-form-height: 50px;
 $timestamp-color: rgb(133, 133, 133);
 
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+#brand-image {
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
 * {
   margin: 0;
   padding: 0;
