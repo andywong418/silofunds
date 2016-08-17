@@ -17,10 +17,10 @@ block content
   section#content
     #messages-tab-menu.col-md-3.container-fluid
       .list-group
-        #search-group.input-group
-          span#basic-addon1.input-group-addon 
-            i.fa.fa-search
-          input.form-control(type='text', placeholder='Search')
+        //- #search-group.input-group
+        //-   span#basic-addon1.input-group-addon 
+        //-     i.fa.fa-search
+        //-   input.form-control(type='text', placeholder='Search')
         if allUsers
           each user in allUsers
             a.list-group-item(id="user-" + user.id)
@@ -43,3 +43,5 @@ block scripts
   script(src='http://code.jquery.com/jquery-1.11.1.js')
   script(src='/javascript/messages.js')
   script(src='/javascript/advanced-search.js')
+  script.
+    var user = !{JSON.stringify(user)}

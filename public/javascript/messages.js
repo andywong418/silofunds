@@ -1,5 +1,15 @@
 $(document).ready(function() {
+  if(user.organisation_or_user){
+    $("#home").attr("href", '/organisation/dashboard');
+    $(".settings").attr("href", '/organisation/settings');
+    $(".logout").attr("href", '/organisation/logout');
+  }
+  else{
 
+    $("#home").attr("href", '/user/dashboard');
+    $(".settings").attr("href", '/user/settings' );
+    $(".logout").attr("href", '/user/logout');
+  }
   var socket = io();
   socket.emit('add user', { userFrom: user });
   console.log($(".list-group-item")[0]);
