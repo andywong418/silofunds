@@ -577,8 +577,26 @@ module.exports = {
 		});
 	},
 	addFavourite: function(req, res){
-			models.favourite_funds.create(req.body).then(function(favourite){
-				res.send(favourite);
+      console.log(req.body);
+      models.favourite_funds.create(req.body).then(function(favourite){
+        models.users.findById(req.body.user_id).then(function(user){
+          models.funds.findById(req.body.fund_id).then(function(fund){
+            models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+              var options = {
+                user_id: fundUser.id,
+                notification: user.username + ' favourited your fund! <a href="/public/' + user.id + '"> See their profile. </a>',
+                category: 'favourite',
+                read_by_user: false
+              };
+              models.notifications.create(options).then(function(notification){
+                res.send(favourite);
+              })
+
+            });
+          });
+        });
+
+
 			});
 	},
 	removeFavourite: function(req, res){
@@ -1169,7 +1187,7 @@ function notifyUsers(user_id, fund_id, res, app){
         if(fundUser){
           var options = {
             user_id: fundUser.id,
-            notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile </a>',
+            notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile. </a>',
             category: 'application',
             read_by_user: false
           };
@@ -1235,7 +1253,7 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
   async.each(allUsers, function(otherUser, callback){
     var options = {
       user_id: otherUser.id,
-      notification: user.username + ' has applied to the' + fund.title + '. <a href="/public/' + user.id + '"> See their progress.</a>',
+      notification: user.username + ' has applied to the ' + fund.title + '. <a href="/public/' + user.id + '"> See their progress.</a>',
       category: 'application',
       read_by_user: false
     };

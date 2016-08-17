@@ -121,6 +121,8 @@ a#user-message span, a#home span {
           color: #e74c3c; }
         .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-sticky-note {
           color: #9b59b6; }
+        .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-star {
+          color: #f1c40f; }
       .notification_box .notification-wrapper #notification-handler span#notification {
         display: inline-block; }
     .notification_box .notification-wrapper #notification-handler:last-child hr {

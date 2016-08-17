@@ -51,6 +51,9 @@ $(document).ready(function(){
         if(notification.attributes.category == 'application'){
           notification.attributes.category = 'fa-sticky-note';
         }
+        if(notification.attributes.category == 'favourite'){
+          notification.attributes.category = 'fa-star'
+        }
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
       }, this);
