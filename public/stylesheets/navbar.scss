@@ -164,10 +164,15 @@ a#user-message, a#home{
       .col-xs-2{
         text-align: right;
         padding-top: 3px;
-        i{
-          color: #2ecc71;
+        i.fa-money{
           font-size: 22px;
           padding-left: 10px;
+        }
+        .fa-money{
+          color: #2ecc71;
+        }
+        .fa-calendar{
+          color: #e74c3c;
         }
       }
       span#notification{

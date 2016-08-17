@@ -45,6 +45,9 @@ $(document).ready(function(){
         if(notification.attributes.category == 'donation'){
           notification.attributes.category = 'fa-money';
         }
+        if(notification.attributes.category == 'deadline'){
+          notification.attributes.category = 'fa-calendar';
+        }
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
       }, this);
@@ -65,26 +68,30 @@ $(document).ready(function(){
       $('.notification_box').hide();
     }
   });
-  $.get('/notifications/new', function(data){
-    console.log(data);
-    var notificationCollection = new NotificationCollection(data);
-    console.log(notificationCollection);
-    var notificationList = new NotificationList({collection: notificationCollection});
-    $(".notification-wrapper").append(notificationList.render().el);
-    var unReadNotifications = [];
-    data.forEach(function(obj, index, array){
-      if(obj.read_by_user === false){
-        unReadNotifications.push(obj);
+
+  $.get('/notifications/favourites', function(data){
+    $.get('/notifications/new', function(data){
+      console.log(data);
+      var notificationCollection = new NotificationCollection(data);
+      console.log(notificationCollection);
+      var notificationList = new NotificationList({collection: notificationCollection});
+      $(".notification-wrapper").append(notificationList.render().el);
+      var unReadNotifications = [];
+      data.forEach(function(obj, index, array){
+        if(obj.read_by_user === false){
+          unReadNotifications.push(obj);
+        }
+      });
+      console.log(unReadNotifications);
+      if(unReadNotifications.length > 0){
+        $("#notification-count").show();
+
+        $("#notification-count").html(unReadNotifications.length);
       }
+
     });
-    console.log(unReadNotifications);
-    if(unReadNotifications.length > 0){
-      $("#notification-count").show();
-
-      $("#notification-count").html(unReadNotifications.length);
-    }
-
   });
+
   //get new messages
   $.get('/messages/new/new-messages', function(data){
     if(data.new_messages){

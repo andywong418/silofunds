@@ -1198,7 +1198,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
       if(user_from){
         options = {
           user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> here </a>",
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
           category: "donation",
           read_by_user: false
         }
@@ -1206,7 +1206,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
       else{
         options = {
           user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> here </a>",
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
           category: "donation",
           read_by_user: false
         };

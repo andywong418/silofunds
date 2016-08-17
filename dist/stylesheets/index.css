@@ -148,10 +148,13 @@ a#user-message span, a#home span {
       .notification_box .notification-wrapper #notification-handler .col-xs-2 {
         text-align: right;
         padding-top: 3px; }
-        .notification_box .notification-wrapper #notification-handler .col-xs-2 i {
-          color: #2ecc71;
+        .notification_box .notification-wrapper #notification-handler .col-xs-2 i.fa-money {
           font-size: 22px;
           padding-left: 10px; }
+        .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-money {
+          color: #2ecc71; }
+        .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-calendar {
+          color: #e74c3c; }
       .notification_box .notification-wrapper #notification-handler span#notification {
         display: inline-block; }
     .notification_box .notification-wrapper #notification-handler:last-child hr {
