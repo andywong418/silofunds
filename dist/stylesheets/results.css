@@ -131,7 +131,7 @@ a#user-message span, a#home span {
       padding-top: 20px;
       border-top: 1px solid rgba(100, 100, 100, 0.4); }
       .notification_box .notification-wrapper #notification-handler:hover {
-        background-color: #f6f9fa; }
+        background-color: #f6f9fa !important; }
       .notification_box .notification-wrapper #notification-handler a {
         font-size: 14px;
         margin-top: -3px; }
@@ -150,6 +150,8 @@ a#user-message span, a#home span {
           color: #2ecc71; }
         .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-calendar {
           color: #e74c3c; }
+        .notification_box .notification-wrapper #notification-handler .col-xs-2 .fa-sticky-note {
+          color: #9b59b6; }
       .notification_box .notification-wrapper #notification-handler span#notification {
         display: inline-block; }
     .notification_box .notification-wrapper #notification-handler:last-child hr {

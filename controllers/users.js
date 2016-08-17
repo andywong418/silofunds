@@ -544,16 +544,15 @@ module.exports = {
 	addApplication: function(req, res){
 		var user_id = req.user.id;
 		var fund_id = req.body.fund_id;
-		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(user, created) {
+		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(app, created) {
 			if(created){
-				user.update({status: 'pending'}).then(function(data){
-					res.send("Your application has been sent!");
-				})
+        console.log("HI");
+        notifyUsers(user_id, fund_id, res, app);
 			}
 			else{
 				res.send("Already applied!");
 			}
-		})
+		});
 	},
 	editApplication: function(req, res){
 		var userId = req.user.id;
@@ -1162,6 +1161,93 @@ module.exports = {
 }
 
 ////// Helper functions
+function notifyUsers(user_id, fund_id, res, app){
+  models.users.findById(user_id).then(function(user){
+    models.funds.findById(fund_id).then(function(fund){
+      models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+        console.log("HI", fundUser);
+        if(fundUser){
+          var options = {
+            user_id: fundUser.id,
+            notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile </a>',
+            category: 'application',
+            read_by_user: false
+          };
+          models.notifications.create(options).then(function(notif){
+            console.log("Getting in here", notif);
+            notifyMessagedUsers(user, res, app, fund);
+          });
+        }
+        else{
+          console.log("two");
+          notifyMessagedUsers(user, res, app, fund);
+        }
+      });
+    });
+  });
+
+}
+//find all users that have messaged or been messaged by user who just applied and notify them
+function notifyMessagedUsers(user, res, app, fund){
+  var userArray = [user.id];
+  var allUsers = [];
+  console.log("HERE", user);
+  models.messages.findAll({where: {$or: [{user_from: user.id}, {user_to: {$contains: userArray}}]}}).then(function(messages){
+    console.log("WHAT", messages);
+    if(messages.length > 0){
+      async.each(messages, function(msg, callback){
+        var userObj = {};
+        if(msg.user_to[0] === user.id){
+            //the message is sent to user
+          models.users.findById(msg.user_from).then(function(user){
+            userObj['id'] = user.id;
+            var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});
+            if(!alreadyIn){
+              allUsers.push(userObj);
+            }
+            callback();
+          });
+        }
+        else{
+            //the message is sent from user
+          models.users.findById(msg.user_to[0]).then(function(user){
+            userObj["id"] = user.id;
+            var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});
+            if(!alreadyIn){
+              allUsers.push(userObj);
+            }
+            callback();
+          });
+        }
+      }, function done(){
+        asyncCreateNotifications(allUsers,user, res, app, fund);
+      });
+    }
+    else{
+      // No messaged users; No need for notifications sent elsewhere
+      app.update({status: 'pending'}).then(function(data){
+        res.send("Your application has been sent!");
+      });
+    }
+  });
+}
+function asyncCreateNotifications(allUsers,user, res, app, fund){
+  async.each(allUsers, function(otherUser, callback){
+    var options = {
+      user_id: otherUser.id,
+      notification: user.username + ' has applied to the' + fund.title + '. <a href="/public/' + user.id + '"> See their progress.</a>',
+      category: 'application',
+      read_by_user: false
+    };
+    models.notifications.create(options).then(function(notif){
+      callback();
+    });
+  }, function done(){
+    app.update({status: 'pending'}).then(function(data){
+      res.send("Your application has been sent!");
+    });
+  });
+}
 function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at){
   var amount;
   if(user.funding_accrued == null){

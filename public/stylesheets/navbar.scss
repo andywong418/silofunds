@@ -148,7 +148,7 @@ a#user-message, a#home{
       padding-top: 20px;
       border-top: 1px solid rgba(100, 100, 100, .4);
       &:hover{
-        background-color: #f6f9fa;
+        background-color: #f6f9fa !important;
       }
       a{
         font-size: 14px;
@@ -173,6 +173,9 @@ a#user-message, a#home{
         }
         .fa-calendar{
           color: #e74c3c;
+        }
+        .fa-sticky-note{
+          color: #9b59b6;
         }
       }
       span#notification{

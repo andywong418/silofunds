@@ -48,6 +48,9 @@ $(document).ready(function(){
         if(notification.attributes.category == 'deadline'){
           notification.attributes.category = 'fa-calendar';
         }
+        if(notification.attributes.category == 'application'){
+          notification.attributes.category = 'fa-sticky-note';
+        }
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
       }, this);

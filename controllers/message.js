@@ -72,7 +72,7 @@ module.exports = {
           async.each(messages, function(message, callback){
             var userObj = {};
             console.log("message to", message.user_to[0]);
-            //Only handle one to one user first
+            //Only handle one to one user first. Use indexOf for multiple users. 
             if(message.user_to[0] == userFrom){
               //message was sent to logged in user
               models.users.findById(message.user_from).then(function(user){
@@ -117,7 +117,7 @@ module.exports = {
                 else{
                   var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});
                   if(!alreadyIn){
-                    allUsers.push(userObj);        
+                    allUsers.push(userObj);
                   }
                 }
                 console.log("array check", allUsers);
