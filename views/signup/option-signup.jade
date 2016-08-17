@@ -57,7 +57,7 @@ block content
             a#save-progress(href="#eligible") Save progress
           a#skip(href='#eligible') Skip
       script#eligible-template(type='text/template')
-        span#helpBlock.help-block.center-block Only add a field if it does not apply to all aspects of the category. E.g. Do not add a subject field if the fund applies to all subjects. 
+        span#helpBlock.help-block.center-block= "Add 'all' to a specific field if you have no special requirements for that criteria. E.g. if you do not specify a subject please put 'all' in the input box." 
         .criteria-container.container.center-block
           #subject.criteria-item.item-selected
             span.glyphicon.glyphicon-book
