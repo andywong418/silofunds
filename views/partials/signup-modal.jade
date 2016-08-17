@@ -1,3 +1,5 @@
+link(href='/stylesheets/test.css', rel='stylesheets')
+
 .row
   .cd-user-modal
     .cd-user-modal-container
@@ -21,10 +23,6 @@
             input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='password')
             a.hide-password(href='#0') Hide
             span#password-error.cd-error-message Error message here!
-          p#fb-social.signup-social-btn
-            a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-              span.fa.fa-facebook
-              | Log in with Facebook
           p#google-social.signup-social-btn
             a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
               span.fa.fa-google
@@ -47,7 +45,14 @@
               a(href='#0') Terms
               span#terms-error Please agree to the terms and conditions
           p#signup-btn.fieldset
-            button.full-width.has-padding(type='submit', id = "signup-button") Create account
+            button.full-width(type='submit', id = "signup-button") Create account
+          hr
+          center
+            h4 OR
+          p#fb-social.login-social-btn
+            a.full-width.btn.btn-lg.btn-facebook.btn-block(href = "/auth/facebook")
+              span.fa.fa-facebook
+              |   Register via Facebook
 
       #cd-login
         // log in form
@@ -61,10 +66,6 @@
             input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
             a.hide-password(href='#0') Hide
             span#signin-password-error.cd-error-message Error message here!
-          p#fb-social.login-social-btn
-            a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-              span.fa.fa-facebook
-              | Log in with Facebook
           p#google-social.login-social-btn
             a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
               span.fa.fa-google
@@ -77,7 +78,14 @@
             input#remember-me(type='checkbox', checked='')
             label(for='remember-me') Remember me
           p#email-login-btn.fieldset
-            button#login-button.full-width.has-padding(type='submit') Login
+            button#login-button.full-width(type='submit') Login
+          hr
+          center
+            h4 OR
+          p#fb-social.login-social-btn
+            a.full-width.btn.btn-lg.btn-facebook.btn-block(href = "/auth/facebook")
+              span.fa.fa-facebook
+              |   Log in with Facebook
           //
             p#email-option
               a(href="#0") Continue with email

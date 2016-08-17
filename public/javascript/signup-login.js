@@ -23,7 +23,7 @@ $(document).ready(function(){
    if($(event.target).is($main_nav) ) {
      //set body to be static
      $('html, body').css({
-       'overflow': 'hidden',
+       'overflow': 'auto',
        'height': '100%'
       });
       // on mobile close submenu
@@ -32,7 +32,7 @@ $(document).ready(function(){
      $form_modal.addClass('is-visible');
      //set cd-modal to be static
      $form_modal.css({
-       'overflow': 'hidden',
+       'overflow': 'auto',
        'height': '100%'
      });
      //show the selected form
