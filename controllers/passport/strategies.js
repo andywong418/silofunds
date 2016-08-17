@@ -167,7 +167,6 @@ passport.use('registrationStrategy', new LocalStrategy({
     var data = profile._json
     console.log(profile)
     if(profile.hasOwnProperty('emails') && data.name) {
-      console.log('shouldnt be here')
       process.nextTick(function() {
         models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
           if(user) {

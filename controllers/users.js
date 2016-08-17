@@ -35,6 +35,7 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
+    console.log(req.user)
     Logger.info(req.user)
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
@@ -1163,44 +1164,46 @@ module.exports = {
     });
   },
 
-  userBlocker: function(req, res, next){
+  organisationBlocker: function(req, res, next) {
     var url = req.url
-    var checkFirstLetters = url.substring(1,5);
-    var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign') {
-      if(req.user) {
-        if(req.user.organisation_or_user !== null && profile !== "profile") {
-          res.render(error)
-        } else {
-          next()
-        }
+    var urlSeparation = url.split('/')
+    var exceptionChecker;
+    for(i = 0; i < urlSeparation.length; i++) {
+      if(urlSeparation[i] == 'profile' || urlSeparation[i] == 'exception') { // Add exception strings here
+        exceptionChecker = 'exception'
+      }
+    }
+    if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
+      if(exceptionChecker == 'exception') {
+        next()
       } else {
-        res.redirect('/login')
+        res.render(error)
       }
     } else {
-      res.redirect('/login')
+      next();
     }
   },
-  fundBlocker: function(req, res, next){
-    var url = req.url;
-    Logger.info("URL", url);
-    var checkFirstLetters = url.substring(1,13)
-    var checkIfProfile = url.substring(1,21)
-    var options = url.split('/')[2];
-    if(checkFirstLetters == 'organisation' && options !== 'options' && checkIfProfile !== 'organisation/profile') {
-      if(req.user) {
-        if(req.user.organisation_or_user == null ) {
-          res.render(error);
-        } else {
-          next()
-        }
-        } else {
-          res.redirect('/login')
-        }
-      } else {
-        next();
+
+  userBlocker: function(req, res, next) {
+    var url = req.url
+    var urlSeparation = url.split('/')
+    var exceptionChecker;
+    for(i = 0; i < urlSeparation.length; i++) {
+      if(urlSeparation[i] == 'profile' || urlSeparation[i] == 'exception') { // Add exception strings here
+        exceptionChecker = 'exception'
       }
+    }
+    if(req.user.organisation_or_user == null && urlSeparation[1] == 'organisation') {
+      if(exceptionChecker == 'exception') {
+        next()
+      } else {
+        res.render(error)
+      }
+    } else {
+      next();
+    }
   },
+
   facebookSplit: function(req, res) {
     if(req.user.facebook_registering == true) {
       models.users.findById(req.user.id).then(function(user) {
@@ -1209,6 +1212,9 @@ module.exports = {
         })
       })
     } else {
+      console.log("here then?")
+      console.log(req.user)
+      console.log('this is req.user ^^^^^^^^^^^^^')
       res.redirect('/user/dashboard')
     }
   }
