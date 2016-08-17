@@ -165,55 +165,28 @@ passport.use('registrationStrategy', new LocalStrategy({
     scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']
   }, function(accessToken, refreshToken, profile, done) {
     var data = profile._json
-    process.nextTick(function() {
-      models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
-        if(user) {
-          return done(null, user); // user found, return that user
-        } else {
-          var university = [];
-          var username;
-          var email;
-          if(profile.displayName) {
-            username = profile.displayName
+    console.log(profile)
+    if(profile.hasOwnProperty('emails') && data.name) {
+      console.log('shouldnt be here')
+      process.nextTick(function() {
+        models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
+          if(user) {
+            return done(null, user); // user found, return that user
           } else {
-            username = ''
+            models.users.create({
+              username: data.name,
+              email: profile.emails[0].value,
+              facebook_registering: 'TRUE',
+              token: accessToken
+            }).then(function(newUser) {
+              return done(null, newUser);
+            });
           }
-          if(profile.emails[0].value) {
-            email = profile.emails[0].value
-          } else {
-            email = ''
-          }
-          // if(data.education) {
-          //   for(var i = 0; i < data.education.length; i++) {
-          //     console.log(data.education[i].type)
-          //     if(data.education[i].type == 'college' || 'university') {
-          //       university.push(data.education[i].school.name);
-          //     }
-          //   }
-          // }
-          // var religion;
-          // if(data.religion) {
-          //   religion = data.religion.split('(')[0].substr(0, data.religion.split('(')[0].length - 1)
-          // } else {
-          //   religion = ''
-          // }
-          models.users.create({
-            username: username,
-            email: email,
-            // Facebook permissions required
-            // date_of_birth: data.birthday,
-            // address_city: data.location.name,
-            // previous_university: university,
-            // link: data.website,
-            // religion: religion,
-            facebook_registering: 'TRUE',
-            token: accessToken
-          }).then(function(newUser) {
-            return done(null, newUser);
-          });
-        }
+        });
       });
-    });
+    } else {
+      done()
+    }
   }));
 
 }

@@ -560,12 +560,21 @@ module.exports = {
 
   register: function(req, res) {
     // Flash messages for nonmatching passwords and taken usernames
+    console.log(req.header('Referer'))
     var flashMsg = req.flash('flashMsg')
+    var facebookError = req.flash('facebookError')
     if(flashMsg.length !== 0) {
       res.render('user/register', {flashMsg: flashMsg})
+    } else if (facebookError.length !== 0) {
+      res.render('user/register', {flashMsg: facebookError})
     } else {
       res.render('user/register')
     }
+  },
+
+  facebookAuthError: function(req, res) {
+    req.flash('facebookError', 'Sorry, we have not been able to get your details via facebook, please register (or sign in) manually');
+    res.redirect('/register')
   },
 
 // Pages once logged in
