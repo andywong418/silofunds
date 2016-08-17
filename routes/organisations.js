@@ -7,7 +7,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
 require('../controllers/passport/strategies')(passport);
 
-router.get('/dashboard', funds.homeGET);
+router.get('/dashboard', funds.dashboard);
 router.get('/create', funds.initialCreation);
 router.get('/funding_creation', funds.createFund);
 router.get('/funding_creation/:option', funds.fundingSignupProcess);
@@ -31,7 +31,6 @@ router.post('/fund_known/:id', funds.insertFundKnown);
 router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);
-router.get('/dashboard', funds.dashboardGET);
 router.post('/signupComplete', signup.uploadInfo);
 
 

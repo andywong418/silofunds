@@ -35,8 +35,6 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    console.log(req.user)
-    Logger.info(req.user)
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
@@ -561,7 +559,7 @@ module.exports = {
 
   register: function(req, res) {
     // Flash messages for nonmatching passwords and taken usernames
-    console.log(req.header('Referer'))
+    Logger.info(req.header('Referer'))
     var flashMsg = req.flash('flashMsg')
     var facebookError = req.flash('facebookError')
     if(flashMsg.length !== 0) {
@@ -1173,11 +1171,15 @@ module.exports = {
         exceptionChecker = 'exception'
       }
     }
-    if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
-      if(exceptionChecker == 'exception') {
-        next()
+    if(req.user !== {} && req.user && req.user !== undefined) {
+      if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
+        if(exceptionChecker == 'exception') {
+          next();
+        } else {
+          res.render(error)
+        }
       } else {
-        res.render(error)
+        next();
       }
     } else {
       next();
@@ -1193,11 +1195,16 @@ module.exports = {
         exceptionChecker = 'exception'
       }
     }
-    if(req.user.organisation_or_user == null && urlSeparation[1] == 'organisation') {
-      if(exceptionChecker == 'exception') {
-        next()
+    if(req.user !== {} && req.user && req.user !== undefined) {
+      console.log('here')
+      if(req.user.organisation_or_user == null && urlSeparation[1] == 'organisation') {
+        if(exceptionChecker == 'exception') {
+          next()
+        } else {
+          res.render(error)
+        }
       } else {
-        res.render(error)
+        next();
       }
     } else {
       next();
@@ -1212,9 +1219,9 @@ module.exports = {
         })
       })
     } else {
-      console.log("here then?")
-      console.log(req.user)
-      console.log('this is req.user ^^^^^^^^^^^^^')
+      Logger.info("here then?")
+      Logger.info(req.user)
+      Logger.info('this is req.user ^^^^^^^^^^^^^')
       res.redirect('/user/dashboard')
     }
   }

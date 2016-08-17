@@ -4,8 +4,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var utils = require('../../routes/utils');
 
 // Export ensureAuthenticated function (redirects to user login page)
-module.exports.ensureAuthenticated = function(req, res, next){
-  if(req.isAuthenticated()){
+module.exports.ensureAuthenticated = function(req, res, next) {
+  if(req.isAuthenticated()) {
     // next() fucks things up here
     next();
   } else {

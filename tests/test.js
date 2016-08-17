@@ -50,7 +50,6 @@ describe('Route tests', function() {
 
   describe('Make sure passport routes when not authenticated redirect to login', function() {
     test.loginRedirect('/user/dashboard');
-    test.loginRedirect('/organisation/dashboard');
   });
 
   describe('Database checks', function() {

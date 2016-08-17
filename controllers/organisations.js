@@ -17,24 +17,7 @@ var parseIfInt = function(string) {
 
 
 module.exports = {
-// Page arrived at on login
-homeGET: function(req, res){
-  var session = req.params.session; // use it for authentication
-  var id = req.user.id;
-  models.users.findById(id).then(function(user){
-    var organisation_id = user.get().organisation_or_user;
-    models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
-      funds = funds.map(function(fund) {
-        var json = fund.get();
-        json.deadline = json.deadline ? reformatDate(json.deadline) : null;
-        json.created_at = json.created_at ? reformatDate(json.created_at) : null;
-        json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
-        return json;
-      });
-      res.render('signup/fund-dashboard', { user: user, funds: funds });
-    });
-  });
-},
+
 // Initial creation
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
@@ -45,13 +28,23 @@ homeGET: function(req, res){
       }
     });
   },
-  // Dashboard
-    dashboardGET: function(req, res) {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.render('signup/fund-dashboard', {fund: req.user})
+// Dashboard
+dashboard: function(req, res) {
+  passportFunctions.ensureAuthenticated(req, res, function() {
+    var user = req.user
+    var organisation_id = user.organisation_or_user;
+    models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+      funds = funds.map(function(fund) {
+        var json = fund.get();
+        json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+        json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+        json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
+        return json;
       });
-    },
-
+      res.render('signup/fund-dashboard', {user: user, funds: funds})
+    })
+  })
+},
 
 // Main fund creation page
   createFund: function(req, res){
