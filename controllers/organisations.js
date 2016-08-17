@@ -183,7 +183,6 @@ dashboard: function(req, res) {
       var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
       fields = moderateObject(fields);
       fields = changeArrayfields(fields, arrayFields);
-      console.log("No error before");
       models.users.findById(userId).then(function(user){
         fields['organisation_id'] = user.organisation_or_user;
         models.funds.create(fields).then(function(fund){
@@ -295,7 +294,7 @@ dashboard: function(req, res) {
                 //organisation in user table
                 if(user.organisation_or_user == null){
                   //if user is not fund user
-                  console.log("organisation", organisation);
+                  Logger.info("organisation", organisation);
                   models.recently_browsed_funds.findOrCreate({where: {
                     user_id: user.id,
                     fund_id: fundId
@@ -321,7 +320,7 @@ dashboard: function(req, res) {
               } else{
                 //organisation not in user table
                 models.organisations.findById(fund.organisation_id).then(function(organisation){
-                  console.log("NOT IN TUSER", organisation);
+                  Logger.info("NOT IN TUSER", organisation);
                   if(user.organisation_or_user == null){
                     //if user is not fund user
                     models.recently_browsed_funds.findOrCreate({where: {
@@ -382,7 +381,7 @@ dashboard: function(req, res) {
     }
     else{
       //show limited profile
-      console.log("HI");
+      Logger.info("HI");
       models.funds.findById(fundId).then(function(fund){
         models.organisations.findById(fund.organisation_id).then(function(organisation){
           handleOrganisationUser(organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
@@ -518,7 +517,7 @@ dashboard: function(req, res) {
   insertFundKnown: function(req, res){
     var fundId = req.params.id;
     var userId = req.user.id;
-    console.log("REQ BODY", req.body);
+    Logger.info("REQ BODY", req.body);
     models.known_funds.create({fund_id: fundId, user_id: userId, known: req.body.known }).then(function(known){
       res.send(known);
     });
@@ -532,11 +531,11 @@ dashboard: function(req, res) {
         var fundUser = user;
 
         user = user.get();
-        console.log(user.organisation_or_user);
+        Logger.info(user.organisation_or_user);
         models.organisations.findById(user.organisation_or_user).then(function(organisation){
-          console.log(organisation);
+          Logger.info(organisation);
           user.charity_id = organisation.charity_id;
-          console.log("USER", user);
+          Logger.info("USER", user);
           res.render('fund-settings', {user: user, general: general_settings});
         })
       })
@@ -556,11 +555,11 @@ dashboard: function(req, res) {
         delete req.body.password;
       }
       if(!req.body['email-updates'] && !req.body.description.length){
-        console.log("hi", req.body.description);
+        Logger.info("hi", req.body.description);
         req.body.email_updates = false;
       }
       if(req.body['email-updates']){
-        console.log('yo');
+        Logger.info('yo');
         req.body.email_updates = true;
       }
       delete req.body.profile_picture;
@@ -575,7 +574,7 @@ dashboard: function(req, res) {
             }
             else{
               if(req.body.description){
-                console.log('description')
+                Logger.info('description')
                 user.charity_id = organisation.charity_id;
                 res.redirect('/organisation/settings#account');
               }
@@ -603,7 +602,7 @@ dashboard: function(req, res) {
 
 function findOrCreateTips(tips, option, fund, res){
   models.tips.findOrCreate({where: option}).spread(function(tip, created){
-    console.log(created);
+    Logger.info(created);
     if(created){
       fund = fund.get();
       tip.update({tip: tips}).then(function(tip){
@@ -613,8 +612,8 @@ function findOrCreateTips(tips, option, fund, res){
       });
     }
     else{
-      console.log("TIP", tip);
-      console.log("tip", tips);
+      Logger.info("TIP", tip);
+      Logger.info("tip", tips);
       tip.update({tip: tips}).then(function(tip){
         fund = fund.get();
         tip = tip.get();
@@ -630,12 +629,12 @@ function findOrCreateTips(tips, option, fund, res){
 
 // Functions
 function handleOrganisationUser(organisation, dataObject, res){
-  console.log(organisation);
+  Logger.info(organisation);
   if(organisation){
     models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
       if(user){
         organisation = organisation.get();
-        console.log("again", organisation);
+        Logger.info("again", organisation);
         organisation.profile_picture = user.profile_picture;
         dataObject.organisation = organisation;
         res.render('option-profile', dataObject);

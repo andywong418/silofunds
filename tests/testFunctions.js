@@ -52,8 +52,21 @@ module.exports = {
     })
   },
 
-  fakeUserLogin: function() {
-    it('Login fake user', loginUser())
+  fakeUserLogin: function(email) {
+    it('Login fake user', function() {
+      return function(done) {
+        server
+          .post('/login')
+          .send({email: email, password: 'password'})
+          .expect('Location', 'loginSplit')
+          .expect(302)
+          .end(onResponse);
+        function onResponse(err, res) {
+          if(err) return done(err)
+          return done();
+        }
+      }
+    })
   },
 
   fakeOrganisationLogin: function() {
@@ -110,20 +123,7 @@ module.exports = {
 
 
 // Functions used above
-function loginUser() {
-  return function(done) {
-    server
-      .post('/login')
-      .send({email: 'testuser@silofunds.com', password: 'password'})
-      .expect('Location', 'loginSplit')
-      .expect(302)
-      .end(onResponse);
-    function onResponse(err, res) {
-      if(err) return done(err)
-      return done();
-    }
-  }
-}
+
 
 function loginOrganisation() {
   return function(done) {

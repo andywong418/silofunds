@@ -17,6 +17,10 @@ var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var es = require('../elasticsearch');
 
+// Add route exceptions to be blocked here 
+var userExceptionRoutesArray = ['profile'];
+var organisationExceptionRoutesArray = ['profile'];
+
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
   aws_keyid = process.env.AWS_KEYID;
   aws_key = process.env.AWS_KEY;
@@ -1161,14 +1165,13 @@ module.exports = {
       res.render('error');
     });
   },
-
   organisationBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
     var exceptionChecker;
     for(i = 0; i < urlSeparation.length; i++) {
-      if(urlSeparation[i] == 'profile' || urlSeparation[i] == 'exception') { // Add exception strings here
-        exceptionChecker = 'exception'
+      if (userExceptionRoutesArray.indexOf(urlSeparation[i]) > -1) {
+        exceptionChecker = 'exception';
       }
     }
     if(req.user !== {} && req.user && req.user !== undefined) {
@@ -1191,12 +1194,11 @@ module.exports = {
     var urlSeparation = url.split('/')
     var exceptionChecker;
     for(i = 0; i < urlSeparation.length; i++) {
-      if(urlSeparation[i] == 'profile' || urlSeparation[i] == 'exception') { // Add exception strings here
-        exceptionChecker = 'exception'
+      if (organisationExceptionRoutesArray.indexOf(urlSeparation[i]) > -1) {
+        exceptionChecker = 'exception';
       }
     }
     if(req.user !== {} && req.user && req.user !== undefined) {
-      console.log('here')
       if(req.user.organisation_or_user == null && urlSeparation[1] == 'organisation') {
         if(exceptionChecker == 'exception') {
           next()
