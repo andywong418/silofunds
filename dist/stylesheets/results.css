@@ -845,6 +845,10 @@ i {
       color: white; }
       .queryToken #tokenKey a:hover {
         color: white; }
+  .queryToken #suggester {
+    display: block;
+    font-family: 'Source Sans Pro';
+    margin-bottom: 5px; }
 
 .results {
   width: 66%;

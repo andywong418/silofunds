@@ -20,15 +20,28 @@ block content
 							a#many-results advanced search 
 							| to narrow down your results.
 				.queryToken
+					if relevant_terms
+						span#suggester= 'Did you mean - '
+							a#suggester-link
+								each term in relevant_terms
+									if relevant_terms.indexOf(term) == relevant_terms.length - 1
+										each key, val in term
+											span= val.split('_').join(' ') + ': ' 
+												b= key
+									else
+										each key, val in term
+											span= val.split('_').join(' ') + ': ' 
+												b= key + ', '
+								| ?
 					span#wrapper-span You searched for:
 						each value, key in query
 							if key.indexOf('_') != -1
-									span#tokenKey(class=value)= key.split('_').join(' ') + ": "  
+									span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
 										each tag in value.split(' ')
 											a(href='/results?' + key+'=' + tag)= tag
 										i.fa.fa-times
 							else
-									span#tokenKey(class = value)=key + ": " 
+									span#tokenKey(class = key)=key + ": " 
 										each tag in value.split(' ')
 											a(href='/results?' + key +'=' + tag)= tag
 										i.fa.fa-times
@@ -63,7 +76,7 @@ block content
 												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
 											</li>
 											<li class="fund_info">
-												<p class="fund_tags<%= id %>">Tags:</p>
+												<p class="fund_subjects<%= id %>">Subjects:</p>
 												<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
 												<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
 												<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
@@ -97,9 +110,9 @@ block scripts
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};
 		var resultsPage = !{JSON.stringify(resultsPage)};
-
+		var relevant_terms = !{JSON.stringify(relevant_terms)};
+		console.log(relevant_terms);
 		var query = !{JSON.stringify(query)};
-		console.log(query);
 		// Google Analytics
 	script.
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
