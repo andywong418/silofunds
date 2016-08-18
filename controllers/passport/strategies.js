@@ -165,7 +165,37 @@ passport.use('registrationStrategy', new LocalStrategy({
     scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']
   }, function(accessToken, refreshToken, profile, done) {
     var data = profile._json
-    console.log(profile)
+    // If variables do not exist, things will go funny, so am doing if's for everything
+    var birthday = null;
+    var location = null;
+    var hometown = null;
+    var website = null;
+    var religion = null;
+    var educationArray = null;
+    if(data.hasOwnProperty('birthday')) {
+      birthday = data.birthday
+    }
+    if(data.hasOwnProperty('location')) {
+      location = data.location.name
+    }
+    if(data.hasOwnProperty('hometown')) {
+      hometown = data.location.name
+    }
+    if(data.hasOwnProperty('website')) {
+      website = data.website
+    }
+    if(data.hasOwnProperty('religion')) {
+      religion = data.religion.split('(')[0]
+      console.log(religion)
+    }
+    if(data.hasOwnProperty('education')) {
+      educationArray = [];
+      for(var i = 0; i < data.education.length; i++) {
+        if(data.education[i].type == 'College' || data.education[i].type == 'University') {
+          educationArray.push(data.education[i].school.name)
+        }
+      }
+    }
     if(profile.hasOwnProperty('emails') && data.name) {
       process.nextTick(function() {
         models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
@@ -175,6 +205,11 @@ passport.use('registrationStrategy', new LocalStrategy({
             models.users.create({
               username: data.name,
               email: profile.emails[0].value,
+              date_of_birth: birthday,
+              address_city: location,
+              link: website,
+              religion: religion,
+              previous_university: educationArray,
               facebook_registering: 'TRUE',
               token: accessToken
             }).then(function(newUser) {
