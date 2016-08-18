@@ -45,8 +45,16 @@ module.exports = {
         "query": {
           "multi_match": {
             "query": queryString,
-            "fields": ["university", "subject", "degree", "country"],
+            "fields": ["university", "subject", "abbreviated_degree", "country"],
             "operator": "or"
+          }
+        },
+        "highlight": {
+          "fields": {
+            "university": {},
+            "subject": {},
+            "abbreviated_degree": {},
+            "country": {},
           }
         }
       }
@@ -197,6 +205,8 @@ module.exports = {
         var degreeCategories = [];
         var countryCategories = [];
 
+        var relevantTerms = {}; // NOTE: Whole object to be passed into view for "Did you mean?" prompt.
+
         for (var i = 0; i < resp.hits.hits.length; i++) {
           var hit = resp.hits.hits[i];
 
@@ -206,6 +216,9 @@ module.exports = {
             if (subject_categories.indexOf(hit._source["subject_category"]) === -1 ) {
               subject_categories.push(hit._source["subject_category"]);
             }
+
+            var relevantTerm = hit.highlight.subject[0].split('<')[1].split('>')[1];
+            relevantTerms.subject = relevantTerm;
           }
 
           if (hit._type === 'autocomplete_universities') {
@@ -214,6 +227,9 @@ module.exports = {
             if (universityCategories.indexOf(hit._source["university_category"]) === -1 ) {
               universityCategories.push(hit._source["university_category"]);
             }
+
+            var relevantTerm = hit.highlight.university[0].split('<')[1].split('>')[1];
+            relevantTerms.targetUniversity = relevantTerm;
           }
 
 
@@ -223,6 +239,10 @@ module.exports = {
             if (degreeCategories.indexOf(hit._source["degree_category"]) === -1 ) {
               degreeCategories.push(hit._source["degree_category"]);
             }
+
+            Logger.error(hit.highlight.abbreviated_degree);
+            var relevantTerm = hit.highlight.abbreviated_degree[0].split('<')[1].split('>')[1];
+            relevantTerms.targetDegree = relevantTerm;
           }
 
           if (hit._type === 'autocomplete_countries') {
@@ -231,6 +251,10 @@ module.exports = {
             if (countryCategories.indexOf(hit._source["country_category"]) === -1 ) {
               countryCategories.push(hit._source["country_category"]);
             }
+
+
+            var relevantTerm = hit.highlight.country[0].split('<')[1].split('>')[1];
+            relevantTerms.targetCountry = relevantTerm;
           }
         }
 

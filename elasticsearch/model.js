@@ -181,6 +181,9 @@ var fundSettings = {
           "index_analyzer": "simple",
           "search_analyzer": "simple",
           "payloads": true
+        },
+        "abbreviated_degree": {
+          "type": "string"
         }
       }
     },
