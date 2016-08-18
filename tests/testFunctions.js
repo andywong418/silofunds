@@ -138,7 +138,10 @@ module.exports = {
   }
 }
 
-// Reused functions
+
+
+
+// Functions used more than once in testing
 function passportRoute(route, status) {
   it(route + ' returns status ' + status, function(done) {
     server
