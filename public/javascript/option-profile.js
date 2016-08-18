@@ -72,6 +72,9 @@ $(document).ready(function(){
     var usUniversities = universities.usUniversities;
     var irishUniversities = universities.irishUniversities;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('uk university') > -1){
        diff = ukUniversities.filter(function(x) { return userArray.indexOf(x) > -1; });
     }
@@ -100,6 +103,9 @@ $(document).ready(function(){
     var socialSciences = subjects.socialSciences;
     var sciences = subjects.sciences;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('education') > -1){
       diff = education.filter(function(x){
         return userArray.indexOf(x) > -1;
@@ -147,6 +153,9 @@ $(document).ready(function(){
     var undergradDegrees = degrees.undergradDegrees;
     var gradDegrees = degrees.gradDegrees;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('undergraduate') > -1 || fundArray.indexOf('bachelor') > -1){
       diff = undergradDegrees.filter(function(x){
         return userArray.indexOf(x) > -1;
@@ -173,6 +182,9 @@ $(document).ready(function(){
     var meCountries = countries.meCountries;
     var asianCountries = countries.asianCountries;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('uk') > -1){
       if(userArray.indexOf('United Kingdom') > -1 || userArray.indexOf('united kingdom') > -1){
         diff.push('United Kingdom');

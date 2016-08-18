@@ -134,7 +134,6 @@ module.exports = {
               }
             }
           }
-          Logger.info("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
           es.search({
             index: "funds",
             type: "fund",
@@ -171,7 +170,6 @@ module.exports = {
                   async.each(applications, function(app, callback){
                       models.funds.findById(app.dataValues.fund_id).then(function(fund){
                         fund['status'] = app.dataValues.status;
-
                         applied_funds.push(fund);
                         callback();
                       });
@@ -183,7 +181,6 @@ module.exports = {
                         fund = fund.get();
                         models.funds.findById(fund.fund_id).then(function(fund){
                           recently_browsed_funds.push(fund);
-                          Logger.info(recently_browsed_funds);
                           callback();
                         });
                       }, function done(){
@@ -222,6 +219,9 @@ module.exports = {
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
     }
+    else{
+      user_from = null;
+    }
     stripe.customers.create({
       source: stripeToken,
       description: email
@@ -243,145 +243,53 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      Logger.info("CHARGE");
-      Logger.info(charge);
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
-      models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-				if(comment && comment !== ''){
-					if(user_from){
-						models.comments.create({
-							user_to_id: stripe_user.user_id,
-							user_from_id: user_from,
-							commentator_name: charge.source.name,
-							comment: comment
-						}).then(function(comment){
-							models.users.findById(stripe_user.user_id).then(function(user){
-								var amount;
-								if(user.funding_accrued == null){
-									amount = chargeAmountPounds;
-								}
-								else{
-									amount = (user.funding_accrued + chargeAmountPounds);
-								}
-								user.update({funding_accrued: amount}).then(function(user){
-									return models.stripe_charges.create({
-										charge_id: charge.id,
-										amount: parseFloat(charge.amount),
-										application_fee: application_fee,
-										balance_transaction: charge.balance_transaction,
-										captured: charge.captured,
-										customer_id: charge.customer,
-										description: charge.description,
-										destination_id: charge.destination,
-										fingerprint: charge.source.fingerprint,
-										livemode: charge.livemode,
-										paid: charge.paid,
-										status: charge.status,
-										transfer_id: charge.transfer,
-										sender_name: charge.source.name,
-										source_id: charge.source.id,
-										source_address_line1_check: charge.source.address_line1_check,
-										source_address_zip_check: charge.source.address_zip_check,
-										source_cvc_check: charge.source.cvc_check,
-										user_from: user_from,
-										created_at: created_at,
-									}).then(function(user){
-                    user = user.get();
-                    user.comment = comment;
-                    res.send(user);
+      stripe.customers.retrieve(
+        charge.customer,
+        function(err, customer){
+          console.log(customer);
+          charge.email = customer.description;
+          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
+            if(comment && comment !== ''){
+              if(user_from){
+                models.comments.create({
+                  user_to_id: stripe_user.user_id,
+                  user_from_id: user_from,
+                  commentator_name: charge.source.name,
+                  comment: comment
+                }).then(function(comment){
+                  models.users.findById(stripe_user.user_id).then(function(user){
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
-								});
-							});
-						});
+                });
 
-					}
-					else{
-						models.comments.create({
-							user_to_id: stripe_user.user_id,
-							commentator_name: charge.source.name,
-							comment: comment
-						}).then(function(comment){
-							models.users.findById(stripe_user.user_id).then(function(user){
-								var amount;
-								if(user.funding_accrued == null){
-									amount = chargeAmountPounds;
-								}
-								else{
-									amount = (user.funding_accrued + chargeAmountPounds);
-								}
-								user.update({funding_accrued: amount}).then(function(user){
-									return models.stripe_charges.create({
-										charge_id: charge.id,
-										amount: parseFloat(charge.amount),
-										application_fee: application_fee,
-										balance_transaction: charge.balance_transaction,
-										captured: charge.captured,
-										customer_id: charge.customer,
-										description: charge.description,
-										destination_id: charge.destination,
-										fingerprint: charge.source.fingerprint,
-										livemode: charge.livemode,
-										paid: charge.paid,
-										status: charge.status,
-										transfer_id: charge.transfer,
-										sender_name: charge.source.name,
-										source_id: charge.source.id,
-										source_address_line1_check: charge.source.address_line1_check,
-										source_address_zip_check: charge.source.address_zip_check,
-										source_cvc_check: charge.source.cvc_check,
-										user_from: user_from,
-										created_at: created_at,
-									}).then(function(charge){
-                    user = user.get();
-                    user.comment = comment;
-                    res.send(user);
+              }
+              else{
+                models.comments.create({
+                  user_to_id: stripe_user.user_id,
+                  commentator_name: charge.source.name,
+                  comment: comment
+                }).then(function(comment){
+                  models.users.findById(stripe_user.user_id).then(function(user){
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
-								});
-							});
-						});
+                });
 
-					}
+              }
 
 
-				}
-				else{
-					models.users.findById(stripe_user.user_id).then(function(user){
-						var amount;
-						if(user.funding_accrued == null){
-							amount = chargeAmountPounds;
-						}
-						else{
-							amount = (user.funding_accrued + chargeAmountPounds);
-						}
-						user.update({funding_accrued: amount}).then(function(user){
-							return models.stripe_charges.create({
-								charge_id: charge.id,
-								amount: parseFloat(charge.amount),
-								application_fee: application_fee,
-								balance_transaction: charge.balance_transaction,
-								captured: charge.captured,
-								customer_id: charge.customer,
-								description: charge.description,
-								destination_id: charge.destination,
-								fingerprint: charge.source.fingerprint,
-								livemode: charge.livemode,
-								paid: charge.paid,
-								status: charge.status,
-								transfer_id: charge.transfer,
-								sender_name: charge.source.name,
-								source_id: charge.source.id,
-								source_address_line1_check: charge.source.address_line1_check,
-								source_address_zip_check: charge.source.address_zip_check,
-								source_cvc_check: charge.source.cvc_check,
-								user_from: user_from,
-								created_at: created_at,
-							});
-						});
-					});
-				}
-      });
+            }
+            else{
+              models.users.findById(stripe_user.user_id).then(function(user){
+                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+              });
+            }
+          });
+        }
+      );
+
 
     });
   },
@@ -647,16 +555,15 @@ module.exports = {
 	addApplication: function(req, res){
 		var user_id = req.user.id;
 		var fund_id = req.body.fund_id;
-		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(user, created) {
+		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(app, created) {
 			if(created){
-				user.update({status: 'pending'}).then(function(data){
-					res.send("Your application has been sent!");
-				})
+        console.log("HI");
+        notifyUsers(user_id, fund_id, res, app);
 			}
 			else{
 				res.send("Already applied!");
 			}
-		})
+		});
 	},
 	editApplication: function(req, res){
 		var userId = req.user.id;
@@ -681,8 +588,26 @@ module.exports = {
 		});
 	},
 	addFavourite: function(req, res){
-			models.favourite_funds.create(req.body).then(function(favourite){
-				res.send(favourite);
+      console.log(req.body);
+      models.favourite_funds.create(req.body).then(function(favourite){
+        models.users.findById(req.body.user_id).then(function(user){
+          models.funds.findById(req.body.fund_id).then(function(fund){
+            models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+              var options = {
+                user_id: fundUser.id,
+                notification: user.username + ' favourited your fund! <a href="/public/' + user.id + '"> See their profile. </a>',
+                category: 'favourite',
+                read_by_user: false
+              };
+              models.notifications.create(options).then(function(notification){
+                res.send(favourite);
+              })
+
+            });
+          });
+        });
+
+
 			});
 	},
 	removeFavourite: function(req, res){
@@ -1096,7 +1021,7 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
             "query": query.tags,
-            "fields": ["username","description"],
+            "fields": ["username","subject", "country_of_residence", "target_country", "previous_degree", "previous_university", "target_degree", "target_university"],
             "operator": "and",
             "boost": 3
           }
@@ -1125,7 +1050,6 @@ module.exports = {
         }
       }
     }
-
     es.search({
       index: "users",
       type: "user",
@@ -1134,12 +1058,8 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
-      Logger.info("This is the response:");
-      Logger.info(resp);
       var users = resp.hits.hits.map(function(hit) {
-        Logger.info("Hit:");
-        Logger.info(hit);
-        var fields  =  ["username","profile_picture","description","past_work","date_of_birth","nationality","religion","funding_needed","organisation_or_user"];
+        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];
@@ -1149,15 +1069,12 @@ module.exports = {
         return hash;
       });
       var results_page = true;
-      Logger.info("USERS", users);
       if(user){
-        Logger.info("Checking the user",user);
         models.users.findById(user.id).then(function(user){
-          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query } );
+          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query });
         })
       }
       else{
-        Logger.info("check if user-results is there", query);
         res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
       }
     }, function(err) {
@@ -1230,6 +1147,150 @@ module.exports = {
 }
 
 ////// Helper functions
+function notifyUsers(user_id, fund_id, res, app){
+  models.users.findById(user_id).then(function(user){
+    models.funds.findById(fund_id).then(function(fund){
+      models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+        console.log("HI", fundUser);
+        if(fundUser){
+          var options = {
+            user_id: fundUser.id,
+            notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile. </a>',
+            category: 'application',
+            read_by_user: false
+          };
+          models.notifications.create(options).then(function(notif){
+            console.log("Getting in here", notif);
+            notifyMessagedUsers(user, res, app, fund);
+          });
+        }
+        else{
+          console.log("two");
+          notifyMessagedUsers(user, res, app, fund);
+        }
+      });
+    });
+  });
+
+}
+//find all users that have messaged or been messaged by user who just applied and notify them
+function notifyMessagedUsers(user, res, app, fund){
+  var userArray = [user.id];
+  var allUsers = [];
+  console.log("HERE", user);
+  models.messages.findAll({where: {$or: [{user_from: user.id}, {user_to: {$contains: userArray}}]}}).then(function(messages){
+    console.log("WHAT", messages);
+    if(messages.length > 0){
+      async.each(messages, function(msg, callback){
+        var userObj = {};
+        if(msg.user_to[0] === user.id){
+            //the message is sent to user
+          models.users.findById(msg.user_from).then(function(user){
+            userObj['id'] = user.id;
+            var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});
+            if(!alreadyIn){
+              allUsers.push(userObj);
+            }
+            callback();
+          });
+        }
+        else{
+            //the message is sent from user
+          models.users.findById(msg.user_to[0]).then(function(user){
+            userObj["id"] = user.id;
+            var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});
+            if(!alreadyIn){
+              allUsers.push(userObj);
+            }
+            callback();
+          });
+        }
+      }, function done(){
+        asyncCreateNotifications(allUsers,user, res, app, fund);
+      });
+    }
+    else{
+      // No messaged users; No need for notifications sent elsewhere
+      app.update({status: 'pending'}).then(function(data){
+        res.send("Your application has been sent!");
+      });
+    }
+  });
+}
+function asyncCreateNotifications(allUsers,user, res, app, fund){
+  async.each(allUsers, function(otherUser, callback){
+    var options = {
+      user_id: otherUser.id,
+      notification: user.username + ' has applied to the ' + fund.title + '. <a href="/public/' + user.id + '"> See their progress.</a>',
+      category: 'application',
+      read_by_user: false
+    };
+    models.notifications.create(options).then(function(notif){
+      callback();
+    });
+  }, function done(){
+    app.update({status: 'pending'}).then(function(data){
+      res.send("Your application has been sent!");
+    });
+  });
+}
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at){
+  var amount;
+  if(user.funding_accrued == null){
+    amount = chargeAmountPounds;
+  }
+  else{
+    amount = (user.funding_accrued + chargeAmountPounds);
+  }
+  user.update({funding_accrued: amount}).then(function(user){
+    return models.stripe_charges.create({
+      charge_id: charge.id,
+      amount: parseFloat(charge.amount),
+      application_fee: application_fee,
+      balance_transaction: charge.balance_transaction,
+      captured: charge.captured,
+      customer_id: charge.customer,
+      description: charge.description,
+      destination_id: charge.destination,
+      fingerprint: charge.source.fingerprint,
+      livemode: charge.livemode,
+      paid: charge.paid,
+      status: charge.status,
+      transfer_id: charge.transfer,
+      sender_name: charge.source.name,
+      source_id: charge.source.id,
+      source_address_line1_check: charge.source.address_line1_check,
+      source_address_zip_check: charge.source.address_zip_check,
+      source_cvc_check: charge.source.cvc_check,
+      user_from: user_from,
+      created_at: created_at,
+    }).then(function(object){
+      Logger.error(charge.email);
+      var options;
+      if(user_from){
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
+          category: "donation",
+          read_by_user: false
+        }
+      }
+      else{
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
+          category: "donation",
+          read_by_user: false
+        };
+      }
+
+      models.notifications.create(options).then(function(notification){
+        res.send(notification);
+      });
+    });
+  });
+};
+
 function updateAppSuccess(app, res, userId, amount_gained){
 	app.update({status: 'success', amount_gained: amount_gained}).then(function(app){
 		models.users.findById(userId).then(function(user){
@@ -1341,7 +1402,7 @@ function asyncChangeDonations(options, array, res, dataObject){
 			callback();
 		}
 	}, function done(){
-		dataObject.donations = newArray;
+		dataObject.donations = newArray.reverse();
 		findAllUpdatesComments(options, res, dataObject);
 	});
 }
@@ -1390,19 +1451,17 @@ function asyncChangeComments(array, res, dataObject){
 	async.each(array, function(element, callback){
 		var newObj = {};
 		element = element.get();
-		Logger.info("ELEMENT", element);
+
 		newObj.commentator_name = element.commentator_name;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		newObj.comment = element.comment;
 		if(element.user_from_id){
-			Logger.info("if case", newObj);
 			models.users.findById(element.user_from_id).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
 		}else{
-			Logger.info("else case", newObj)
 			newArray.push(newObj);
 			callback();
 		}

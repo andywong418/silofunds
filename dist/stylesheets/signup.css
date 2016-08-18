@@ -396,16 +396,13 @@
 #settings-menu a:hover {
   color: black; }
 
-.fa-comment-o {
-  display: none; }
-
-.fa-cog, .fa-user {
+.fa-cog, .fa-user, .fa-comment {
   font-size: 20px; }
-  .fa-cog:hover, .fa-user:hover {
+  .fa-cog:hover, .fa-user:hover, .fa-comment:hover {
     cursor: pointer;
     font-size: 20px;
     color: #D2D7D3; }
-  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited {
+  .fa-cog:active, .fa-cog:visited, .fa-user:active, .fa-user:visited, .fa-comment:active, .fa-comment:visited {
     color: #D2D7D3; }
 
 /*.fa-user{

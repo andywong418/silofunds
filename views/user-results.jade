@@ -5,138 +5,58 @@ block extraHeader
 	link(href='/stylesheets/user-results.css', rel='stylesheet')
 
 block content
+	script.
+		var bodyEl = document.getElementsByTagName('body');
+		var user = !{JSON.stringify(user)};
+		if(user){
+			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+		}
 	include ./navbar.jade
 	include ./advanced-search.jade
-	section#about.container.content-section.text-center
-		.row
-			.cd-user-modal
-				.cd-user-modal-container
-					ul.cd-switcher
-						li
-							a(href='#0') Log in
-						li
-							a(href='#0') New account
-					#cd-signup
-					form(id='signup-form', class='cd-form', action='/register', method="post", name="signup_form")
-							p#email-username.fieldset
-								label.image-replace.cd-username(for='signup-username')
-								input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
-								span#username-error.cd-error-message
-							p#email-signup.fieldset
-								label.image-replace.cd-email(for='signup-email') Email
-								input#signup-email.full-width.has-padding.has-border(type='email', placeholder='Email Address', name='email')
-								span#email-error.cd-error-message
-							p#email-signup-password.fieldset
-								label.image-replace.cd-password(for='signup-password') Password
-								input#signup-password.full-width.has-padding.has-border(type='text', placeholder='Password', name='userpassword')
-								a.hide-password(href='#0') Hide
-								span#password-error.cd-error-message Error message here!
-							p#fb-social.signup-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-									span.fa.fa-facebook
-									| Log in with Facebook
-							p#google-social.signup-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
-									span.fa.fa-google
-									| Log in with Google
-							p#linkedin-social.signup-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/google")
-								span.fa.fa-linkedin
-								| Log in with Linkedin
-								//
-									p#email-signup-option
-										a(href='#0') Continue with email.
-										span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
-								p#signup-terms.fieldset
-									input#accept-terms(type='checkbox')
-									label(for='accept-terms' id = "terms")
-										| I agree to the
-										a(href='#0') Terms
-										span#terms-error	Please agree to the terms and conditions
-								p#signup-btn.fieldset
-									button.full-width.has-padding(type='submit', id = "signup-button") Create account
-
-					#cd-login
-						// log in form
-						form.cd-form(id = 'login-form', action = "/login", method = "post", name = "login_form")
-							p#email-login.fieldset
-								label.image-replace.cd-email(for='signin-email') E-mail
-								input#signin-email.full-width.has-padding.has-border(type='email', placeholder='E-mail', name = 'email')
-								span#login-email-error.cd-error-message Error message here!
-							p#email-login-password.fieldset
-								label.image-replace.cd-password(for='signin-password') Password
-								input#signin-password.full-width.has-padding.has-border(type='text', placeholder='Password', name = 'password')
-								a.hide-password(href='#0') Hide
-								span#signin-password-error.cd-error-message Error message here!
-							p#fb-social.login-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-facebook(href = "/auth/facebook")
-									span.fa.fa-facebook
-									| Log in with Facebook
-							p#google-social.login-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
-									span.fa.fa-google
-									| Log in with Google
-							p#linkedin-social.login-social-btn
-								a.btn.btn-block.btn-social.btn-lg.btn-linkedin(href = "/auth/linkedin")
-									span.fa.fa-linkedin
-									| Log in with Linkedin
-							p#remember.fieldset
-								input#remember-me(type='checkbox', checked='')
-								label(for='remember-me') Remember me
-							p#email-login-btn.fieldset
-								button#login-button.full-width.has-padding(type='submit') Login
-							//
-								p#email-option
-									a(href="#0") Continue with email
-						p.cd-form-bottom-message
-							a(href="#0") Forgot your password?
-					#cd-reset-password
-						// reset password form
-						p.cd-form-message
-							| Lost your password? Please enter your email address. You will receive a link to create a new password.
-						form.cd-form
-							p#resend-email.fieldset
-								label.image-replace.cd-email(for='reset-email') E-mail
-								input#reset-email.full-width.has-padding.has-border(type='email', placeholder='E-mail')
-								span.cd-error-message Error message here!
-							p#reset-password.fieldset
-								button#reset-password.full-width.has-padding(type='submit') Reset password
-						p.cd-form-bottom-message
-							a(href='#0') Back to log-in
-					// cd-reset-password
-					a.cd-close-form(href='#0') Close
-						//
-					// cd-login
-			.col-lg-8.col-lg-offset-2
-				div.results
-					h3
-						span='Your search returned ' + users.length + ' results'
-				div.page-header
-					script#user-template(type='text/template')
-						.database
-							.user_list
+	.col-lg-10.col-lg-offset-1
+		div.results
+			h3
+				span='Your search returned ' + users.length + ' results'
+		div.page-header
+			script#user-template(type='text/template')
+				.database
+					.user_list
+						.row
+							.col-md-4
+								img#user-picture(src!= '<%= profile_picture%>')
+							#user-info.col-md-6
+								a(href != '/public/' + '<%= user_id %>')
+									h4.username <%= username %>
 								.row
-									.col-md-6
-										img#user-picture(src!= '<%= profile_picture%>')
-									#user-info.col-md-6
-										a(href != '/user/public/' + '<%= user_id %>')
-											h3.username <%= username %>
-										.row
-											.col-md-3
-												p#user-age(class!= 'user-age' + '<%= user_id %>' ) Age:
-													span.control <%= user_age %>
-											.col-md-8
-												p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Nationality:
-													span.control <%= user_nationality %>
-										.row
-											.col-md-5
-												p#user-religion(class!= 'user-religion' + '<%= user_id %>' ) Religion:
+									.col-md-12
+										p#subject(class!='subject' + '<%= user_id %>') Studying
+											span.control <%= subject %>
+									.col-md-12
+										p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
+											span.control <%= user_nationality %>
+									.col-md-12
+										p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
+											span.control <%= target_country %>
+									.col-md-12
+										p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
+											span.control <%=previous_university %>
+									.col-md-12
+										p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
+											span.control <%= target_university %>				
+									.col-md-12
+										p#user-religion(class!= 'user-religion' + '<%= user_id %>')
+							#user-action.col-md-2
+								a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+									i.fa.fa-comments-o(aria-hidden="true")
+									|Message 
 
 block scripts
 	script(src='/javascript/index.js')
-	script(src='/javascript/user-results.js')
+	script(src='/javascript/signup-login.js')
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/lib/modernizr-custom.js')
+	script(src='/javascript/notifications.js')
+	script(src='/javascript/user-results.js')
 	script.
 		var userData =!{JSON.stringify(users)};
 		var user = !{JSON.stringify(user)};
