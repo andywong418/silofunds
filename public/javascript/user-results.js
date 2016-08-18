@@ -1,32 +1,7 @@
 $(document).ready(function(){
-  var UserNav = Backbone.View.extend({
-    el: ".nav li",
-
-    initialize: function(){
-      if (user) {
-        $('.pre-signin').css("display", "none");
-        $('.post-signin').css("display","inline");
-        $('.post-signin').css("z-index", "11");
-        if (user.organisation_or_user) {
-          $("#home").attr("href", '/organisation');
-          $(".settings").attr("href", '/organisation/settings');
-          $(".logout").attr("href", 'organisation/logout');
-        } else {
-          $("#home").attr("href", '/user');
-          $(".settings").attr("href", '/user/settings');
-          $(".logout").attr("href", 'user/logout');
-        }
-      }
-      else{
-        $('.post-signin').css("display","none");
-      }
-      // $('.pre-signin').css("display","none");
-    }
-  });
-
-  var userNav = new UserNav();
 
   for (var i = 0; i < userData.length; i++) {
+    console.log("two");
     var UserModel = Backbone.Model.extend({
       defaults: {
         username: '',
@@ -36,9 +11,10 @@ $(document).ready(function(){
         user_id: 0
       }
     });
-
+    console.log("one");
     var UserView = Backbone.View.extend({
       tagname: 'div',
+      id: 'user-handler',
       template: _.template($('#user-template').html()),
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -57,19 +33,37 @@ $(document).ready(function(){
         }
       },
       userDisplay: function() {
-        var myDate = userData[i].date_of_birth.split("-");
-        var yearFix= myDate[2].split("T");
-        var day = yearFix[0];
-        var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-        var birthDate = new Date(newDate).getTime();
-        var nowDate = new Date().getTime();
-        var age = Math.floor((nowDate - birthDate) / 31536000000 );
+        var header;
+        var age;
+        if(userData[i].date_of_birth){
+          var myDate = userData[i].date_of_birth.split("-");
+          var yearFix= myDate[2].split("T");
+          var day = yearFix[0];
+          var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+          var birthDate = new Date(newDate).getTime();
+          var nowDate = new Date().getTime();
+          age = Math.floor((nowDate - birthDate) / 31536000000 );
+          header = userData[i].username + ', ' + age;
+        }
+        else{
+          header = userData[i].username;
+        }
 
+        var profile_picture;
+        if(userData[i].profile_picture){
+          profile_picture = userData[i].profile_picture;
+        }
+        else{
+          profile_picture = '/images/profile-placeholder.jpg';
+        }
         var user = new UserModel({
-          username: userData[i].username,
-          profile_picture: userData[i].profile_picture,
-          user_age: age,
-          user_nationality: userData[i].nationality,
+          username: header,
+          profile_picture: profile_picture,
+          subject: userData[i].subject,
+          user_nationality: userData[i].country_of_residence,
+          target_country: userData[i].target_country,
+          previous_university: userData[i].previous_university,
+          target_university: userData[i].target_university,
           user_religion: userData[i].religion,
           user_id: userData[i].id
         });
@@ -77,17 +71,29 @@ $(document).ready(function(){
         var view = new UserView({ model: user });
         var religion = userData[i].religion;
         var id = userData[i].id;
-
+        console.log(this.$el);
         this.$el.append(view.render().el);
-        // Do the date
-
-        for (j = 0; j < religion.length; j++) {
-          if (religion[j] != 'null') {
-            $('.user-religion' + id).append("<span class = control>" + religion[j] + "</span>" );
-          } else {
-            $('.user-religion' + id).css('display', 'none');
+        console.log(userData[i].country_of_residence);
+        if(userData[i].country_of_residence === null){
+          $('p.user-nationality' + id).hide();
+        }
+        var arrayFields= ['subject', 'target_country', 'previous_university', 'target_university'];
+        for(var j = 0; j < arrayFields.length; j++){
+          if(userData[i][arrayFields[j]] === null || userData[i][arrayFields[j]] ===undefined  ){
+            $('p.' + arrayFields[j] + ''+ id).hide();
+          }
+          else{
+            console.log(userData[i][arrayFields[j]]);
           }
         }
+        // Do the date
+        if(religion){
+          $('.user-religion' + id).append("<span class = control style='margin-left: 0; margin-top: -5px'>" + religion + "</span>" );
+        }
+        else{
+          $('.user-religion' + id).css('display', 'none');
+        }
+
       }
     });
 

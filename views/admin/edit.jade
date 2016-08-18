@@ -89,11 +89,11 @@ block content
                 select#religion.form-control(data-placeholder='Choose a religion...', name= "religion")
                   option(value='') -- select one --
                   option(value='null') I prefer not to say
-                  each religion in religions
+                  each religion in religions.religions
                     if fund.religion == religion
-                      option(value=religion, selected='selected') #{religion}
+                      option(value=religion, selected='selected')= religion
                     else
-                      option(value=religion) #{religion}
+                      option(value=religion)= religion
               .col-md-3.form-group
                 label Gender
                 .row

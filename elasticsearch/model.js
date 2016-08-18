@@ -78,9 +78,27 @@ var userSettings = {
         "date_of_birth": {
           "type": "date"
         },
-        "nationality": {
+        "subject":{
           "type": "string"
         },
+        "country_of_residence": {
+          "type": "string"
+        },
+        "target_country": {
+         "type": "string"
+       },
+       "target_degree": {
+         "type": "string"
+       },
+       "previous_degree":{
+         "type": "string"
+       },
+       "target_university": {
+         "type": "string"
+       },
+       "previous_university":{
+         "type": "string"
+       },
         "religion": {
           "type": "string"
         },

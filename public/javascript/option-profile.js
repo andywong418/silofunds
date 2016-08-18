@@ -72,6 +72,9 @@ $(document).ready(function(){
     var usUniversities = universities.usUniversities;
     var irishUniversities = universities.irishUniversities;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('uk university') > -1){
        diff = ukUniversities.filter(function(x) { return userArray.indexOf(x) > -1; });
     }
@@ -100,6 +103,9 @@ $(document).ready(function(){
     var socialSciences = subjects.socialSciences;
     var sciences = subjects.sciences;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('education') > -1){
       diff = education.filter(function(x){
         return userArray.indexOf(x) > -1;
@@ -147,6 +153,9 @@ $(document).ready(function(){
     var undergradDegrees = degrees.undergradDegrees;
     var gradDegrees = degrees.gradDegrees;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('undergraduate') > -1 || fundArray.indexOf('bachelor') > -1){
       diff = undergradDegrees.filter(function(x){
         return userArray.indexOf(x) > -1;
@@ -173,6 +182,9 @@ $(document).ready(function(){
     var meCountries = countries.meCountries;
     var asianCountries = countries.asianCountries;
     var diff = [];
+    if(fundArray.indexOf('all') > -1){
+      diff.push('all');
+    }
     if(fundArray.indexOf('uk') > -1){
       if(userArray.indexOf('United Kingdom') > -1 || userArray.indexOf('united kingdom') > -1){
         diff.push('United Kingdom');
@@ -1068,16 +1080,16 @@ $(document).ready(function(){
                     targetCountry[i] = "United Sates of America"
                   }
                   checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
-                    console.log(this.src);
+                    console.log(this.country);
                     var imageModel = new ImageModel({
                       imageSource: this.src,
                       criteria: 'For study in ' + this.country,
                       section: this.country
                     });
-
+                    console.log($(this));
                     var view = new ImageView({ model: imageModel });
-                    context.$('#location-handler').append(view.render().el);
-                    context.$('[data-toggle="tooltip"]').tooltip();
+                    $('#location-handler').append(view.render().el);
+                    $('[data-toggle="tooltip"]').tooltip();
                   }, function(){
                     var imageModel = new ImageModel({
                       imageSource: '/images/128/flag_placeholder.svg',
@@ -1086,9 +1098,9 @@ $(document).ready(function(){
                     });
 
                     var view = new ImageView({ model: imageModel });
-                    context.$('#location-handler').append(view.render().el);
-                    context.$('[data-toggle="tooltip"]').tooltip();
-                    context.$('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    $('#location-handler').append(view.render().el);
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
                   })
                 }
               }
@@ -1108,7 +1120,7 @@ $(document).ready(function(){
                   if(requiredCountry[i].toLowerCase() == 'us'){
                     requiredCountry[i] = "United Sates of America"
                   }
-                  var context = this;
+
                   checkImage('/images/128/' + requiredCountry[i] + '.png', requiredCountry[i], function(){
                     console.log(this.src);
                     var imageModel = new ImageModel({
@@ -1118,8 +1130,8 @@ $(document).ready(function(){
                     });
 
                     var view = new ImageView({ model: imageModel });
-                    context.$('#location-handler').append(view.render().el);
-                    context.$('[data-toggle="tooltip"]').tooltip();
+                    $('#location-handler').append(view.render().el);
+                    $('[data-toggle="tooltip"]').tooltip();
                   }, function(){
                     var imageModel = new ImageModel({
                       imageSource: '/images/128/flag_placeholder.svg',
@@ -1128,9 +1140,9 @@ $(document).ready(function(){
                     });
 
                     var view = new ImageView({ model: imageModel });
-                    context.$('#location-handler').append(view.render().el);
-                    context.$('[data-toggle="tooltip"]').tooltip();
-                    context.$('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    $('#location-handler').append(view.render().el);
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
                   })
 
                 }

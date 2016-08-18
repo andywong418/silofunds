@@ -2,6 +2,15 @@ $border-color: #e1e8ed;
 $body-height: calc(100% - 55px);
 $input-form-height: 50px;
 $timestamp-color: rgb(133, 133, 133);
+i.fa.fa-user{
+  padding-top: 6px;
+}
+i.fa.fa-comment{
+  margin-right: -6px;
+padding-left: 7px;
+margin-top: 5px;
+
+}
 
 @import 'general.scss';
 @import 'navbar.scss';
@@ -14,6 +23,7 @@ $timestamp-color: rgb(133, 133, 133);
   cursor: pointer;
 }
 
+
 * {
   margin: 0;
   padding: 0;
@@ -25,6 +35,47 @@ body {
   overflow-y: hidden;
   height: 100%;
   position: absolute;
+}
+.arrow_box {
+	position: absolute;
+  z-index: 20;
+  top:90px;
+  left: 50%;
+	background: #88b7d5;
+	border: 4px solid #c2e1f5;
+  width: 200px;
+  font-size: 15px;
+  display: none;
+  padding: 20px;
+  color: white;
+}
+.arrow_box:after, .arrow_box:before {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #88b7d5;
+	border-width: 30px;
+	margin-left: -30px;
+}
+.arrow_box:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-bottom-color: #c2e1f5;
+	border-width: 36px;
+	margin-left: -36px;
+}
+#text_search{
+  &:focus{
+    border: 2px solid #66afe9;
+  }
 }
 
 section#content {
@@ -46,7 +97,23 @@ section#content {
 
   .list-group {
     margin: 0;
-
+    #search-group{
+      padding: 10px;
+      margin-top: 5px;
+    }
+    #no-messages{
+      font-size: 15px;
+      text-align: center;
+      margin-top: 20px;
+      span{
+        margin-left: 4px;
+        color: #337ab7;
+        cursor: pointer;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
     .list-group-item {
       padding-top: 20px;
       padding-bottom: 20px;
