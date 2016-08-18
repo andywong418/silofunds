@@ -52,7 +52,7 @@ $(document).ready(function(){
           notification.attributes.category = 'fa-sticky-note';
         }
         if(notification.attributes.category == 'favourite'){
-          notification.attributes.category = 'fa-star'
+          notification.attributes.category = 'fa-star';
         }
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
@@ -69,7 +69,6 @@ $(document).ready(function(){
   });
 
   $(document).click(function(e){
-    console.log($(e.target).attr('class'));
     if($(e.target).attr('class') != 'fa fa-user' && $(e.target).attr('id') !='notification-handler' && $(e.target).id != 'home'){
       $('.notification_box').hide();
     }
@@ -97,7 +96,6 @@ $(document).ready(function(){
 
     });
   });
-
   //get new messages
   $.get('/messages/new/new-messages', function(data){
     if(data.new_messages){
@@ -106,4 +104,8 @@ $(document).ready(function(){
     }
 
   });
+  $('#user-message').click(function(){
+    $('span#new-message').hide();
+  });
+
 });

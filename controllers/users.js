@@ -17,6 +17,10 @@ var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var es = require('../elasticsearch');
 
+// Add route exceptions to be blocked here
+var userExceptionRoutesArray = ['profile'];
+var organisationExceptionRoutesArray = ['profile', 'options'];
+
 if (process.env.AWS_KEYID && process.env.AWS_KEY) {
   aws_keyid = process.env.AWS_KEYID;
   aws_key = process.env.AWS_KEY;
@@ -130,7 +134,6 @@ module.exports = {
               }
             }
           }
-          Logger.info("CHECK PRE SEARCH", queryOptions.filtered.query.bool.should);
           es.search({
             index: "funds",
             type: "fund",
@@ -167,7 +170,6 @@ module.exports = {
                   async.each(applications, function(app, callback){
                       models.funds.findById(app.dataValues.fund_id).then(function(fund){
                         fund['status'] = app.dataValues.status;
-
                         applied_funds.push(fund);
                         callback();
                       });
@@ -179,7 +181,6 @@ module.exports = {
                         fund = fund.get();
                         models.funds.findById(fund.fund_id).then(function(fund){
                           recently_browsed_funds.push(fund);
-                          Logger.info(recently_browsed_funds);
                           callback();
                         });
                       }, function done(){
@@ -187,12 +188,10 @@ module.exports = {
                         var success = req.flash('emailSuccess')[0];
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
                           if(!stripe_user) {
-                            console.log("STRIPE FUNDs", funds);
                             var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                           if (stripe_user) {
-                            console.log("NOT STRIPE FUNDS", funds);
                             var dataObject = {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
@@ -215,7 +214,7 @@ module.exports = {
     var email = req.body.email;
     var donorIsPaying = req.body.donorIsPaying;
 		var comment = req.body.comment;
-		console.log("COMMENT", comment);
+		Logger.info("COMMENT", comment);
     var user_from;
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
@@ -378,13 +377,16 @@ module.exports = {
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
     Logger.info("HUH")
-    if (!req.body.remember_me) {res.redirect('loginSplit')}
-    passportFunctions.issueToken(req.user.get(), function(err, token) {
-      Logger.info("BUG TOKEN", token);
-      if (err) {return next(err)}
-      res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
-      res.redirect('loginSplit')
-    });
+    if (!req.body.remember_me) {
+      res.redirect('loginSplit');
+    } else {
+      passportFunctions.issueToken(req.user.get(), function(err, token) {
+        Logger.info("BUG TOKEN", token);
+        if (err) {return next(err)}
+        res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+        res.redirect('loginSplit')
+      });
+    }
   },
 
   registerSplit: function(req, res) {
@@ -469,12 +471,21 @@ module.exports = {
 
   register: function(req, res) {
     // Flash messages for nonmatching passwords and taken usernames
+    Logger.info(req.header('Referer'))
     var flashMsg = req.flash('flashMsg')
+    var facebookError = req.flash('facebookError')
     if(flashMsg.length !== 0) {
       res.render('user/register', {flashMsg: flashMsg})
+    } else if (facebookError.length !== 0) {
+      res.render('user/register', {flashMsg: facebookError})
     } else {
       res.render('user/register')
     }
+  },
+
+  facebookAuthError: function(req, res) {
+    req.flash('facebookError', 'Sorry, we have not been able to get your details via facebook, please register (or sign in) manually');
+    res.redirect('/register')
   },
 
 // Pages once logged in
@@ -1039,7 +1050,6 @@ module.exports = {
         }
       }
     }
-    Logger.error(queryOptions.filtered.filter);
     es.search({
       index: "users",
       type: "user",
@@ -1048,11 +1058,7 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
-      Logger.info("This is the response:");
-      Logger.info(resp);
       var users = resp.hits.hits.map(function(hit) {
-        Logger.info("Hit:");
-        Logger.info(hit);
         var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
@@ -1063,14 +1069,12 @@ module.exports = {
         return hash;
       });
       var results_page = true;
-      Logger.info("USERS", users);
       if(user){
         models.users.findById(user.id).then(function(user){
           res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query });
         })
       }
       else{
-        Logger.info("check if user-results is there", query);
         res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
       }
     }, function(err) {
@@ -1078,93 +1082,54 @@ module.exports = {
       res.render('error');
     });
   },
-
-  public: function(req, res){
-    var id = req.params.id;
-    var loggedInUser;
-    if(req.session.passport.user){
-      loggedInUser = req.session.passport.user;
-    }
-    else{
-      loggedInUser = false;
-    }
-    Logger.info("CHECKING ID",id)
-    models.users.findById(id).then(function(user){
-      models.applications.findAll({where: {user_id: user.id}}).then(function(application){
-        Logger.info("checking applications");
-        if(application.length != 0){
-          applied_funds = [];
-          async.each(application, function(app, callback){
-              var app_obj = {};
-              app_obj['status'] = app.dataValues.status;
-              models.funds.findById(app.dataValues.fund_id).then(function(fund){
-                app_obj['title'] = fund.title;
-                Logger.info("WHAT FUND", fund);
-                applied_funds.push(app_obj);
-                Logger.info("I'M HERE", applied_funds);
-                callback();
-              })
-
-          }, function done(){
-            models.documents.findAll({where: {user_id: id}}).then(function(documents){
-              res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: applied_funds});
-            });
-          })
-        }
-        else {
-          Logger.info("HI", loggedInUser);
-          models.documents.findAll({where: {user_id: id}}).then(function(documents){
-            res.render('user-public', {loggedInUser: loggedInUser, user: user, newUser: false, documents: documents, applications: false});
-          });
-        }
-      })
-    });
-  },
-
-  userBlocker: function(req, res, next){
+  organisationBlocker: function(req, res, next) {
     var url = req.url
-    var checkFirstLetters = url.substring(1,5);
-    var profile = url.split('/')[2];
-    if(checkFirstLetters == 'user' || checkFirstLetters == 'sign' || checkFirstLetters == 'resu') {
-      if(req.user) {
-        if(req.user.organisation_or_user !== null && profile !== "profile") {
-          res.render(error)
-          res.end()
-        } else {
-          next()
-        }
-        } else {
-          next()
-        }
-      } else {
-        console.log("It;s here");
-        res.redirect('/login')
+    var urlSeparation = url.split('/')
+    var exceptionChecker;
+    for(i = 0; i < urlSeparation.length; i++) {
+      if (userExceptionRoutesArray.indexOf(urlSeparation[i]) > -1) {
+        exceptionChecker = 'exception';
       }
-  },
-  fundBlocker: function(req, res, next){
-    var url = req.url;
-    Logger.info("URL", url);
-    var checkFirstLetters = url.substring(1,13);
-    var checkAdmin = url.substring(1, 6);
-    console.log(checkFirstLetters);
-    var options = url.split('/')[2];
-    console.log("OPTIONS", options);
-    if((checkFirstLetters == 'organisation' && options!= 'options') || checkAdmin !== 'admin') {
-      if(req.user) {
-        if(req.user.organisation_or_user == null && options !== 'options') {
-          console.log("fucked");
-          res.redirect('/login');
-        } else {
-          console.log("WHAT");
-          next()
-        }
-        } else {
+    }
+    if(req.user !== {} && req.user && req.user !== undefined) {
+      if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
+        if(exceptionChecker == 'exception') {
           next();
+        } else {
+          res.render(error)
         }
       } else {
         next();
       }
+    } else {
+      next();
+    }
   },
+
+  userBlocker: function(req, res, next) {
+    var url = req.url
+    var urlSeparation = url.split('/')
+    var exceptionChecker;
+    for(i = 0; i < urlSeparation.length; i++) {
+      if (organisationExceptionRoutesArray.indexOf(urlSeparation[i]) > -1) {
+        exceptionChecker = 'exception';
+      }
+    }
+    if(req.user !== {} && req.user && req.user !== undefined) {
+      if(req.user.organisation_or_user == null && urlSeparation[1] == 'organisation') {
+        if(exceptionChecker == 'exception') {
+          next()
+        } else {
+          res.render(error)
+        }
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  },
+
   facebookSplit: function(req, res) {
     if(req.user.facebook_registering == true) {
       models.users.findById(req.user.id).then(function(user) {
@@ -1173,6 +1138,9 @@ module.exports = {
         })
       })
     } else {
+      Logger.info("here then?")
+      Logger.info(req.user)
+      Logger.info('this is req.user ^^^^^^^^^^^^^')
       res.redirect('/user/dashboard')
     }
   }
@@ -1483,6 +1451,7 @@ function asyncChangeComments(array, res, dataObject){
 	async.each(array, function(element, callback){
 		var newObj = {};
 		element = element.get();
+
 		newObj.commentator_name = element.commentator_name;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		newObj.comment = element.comment;

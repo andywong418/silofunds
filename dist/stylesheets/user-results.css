@@ -4,9 +4,10 @@ body {
 .results {
   margin-top: 100px;
   text-align: center; }
-  .results h3 {
-    padding-top: 4px;
-    color: #2d4a76; }
+
+.results h3 {
+  padding-top: 4px;
+  color: #2d4a76; }
 
 .page-header {
   background-color: white;
@@ -14,10 +15,12 @@ body {
 
 .database {
   display: block; }
-  .database p {
-    margin-left: 13px; }
-  .database a {
-    cursor: pointer; }
+
+.database p {
+  margin-left: 13px; }
+
+.database a {
+  cursor: pointer; }
 
 #picture {
   height: 100%; }
@@ -27,16 +30,16 @@ body {
   height: 250px; }
 
 #user-nationality, #user-religion, #target_country, #previous_university, #target_university, #subject {
-  color: grey;
-  font-size: 14px; }
+  color: grey; }
 
 #message {
   background-color: #5bc0de;
   color: white;
   border: none;
   font-size: 16px; }
-  #message i {
-    margin-right: 10px; }
+
+#message i {
+  margin-right: 10px; }
 
 .username {
   margin-left: 13px;
@@ -50,11 +53,9 @@ body {
 
 #user-info {
   padding-left: 30px; }
-  #user-info p {
-    margin-bottom: 0; }
+
+#user-info p {
+  margin-bottom: 0; }
 
 .control {
   margin-left: 4px; }
-
-i.fa-comment {
-  background-color: transparent; }

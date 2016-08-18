@@ -59,7 +59,7 @@ module.exports = {
     var name = username.split(" ");
     var firstName = name[0];
     var lastName = name[1];
-		previousPage = url.parse(req.headers.referer).path;
+		// previousPage = url.parse(req.headers.referer).path; // Commented out for testing reasons
 		Logger.info("PREVIOUS", firstName);
 		Logger.info("HI", lastName);
 		Logger.info("EMAIL", email);

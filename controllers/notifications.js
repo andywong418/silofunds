@@ -5,6 +5,7 @@ module.exports = {
   newNotifications: function(req, res){
     var userId = req.user.id;
     models.notifications.findAll({where: {user_id: userId}, order: 'created_at DESC'}).then(function(notifications){
+      console.log("NOTIFC", notifications);
       res.send(notifications);
     });
   },
@@ -23,7 +24,6 @@ module.exports = {
           var nonAppliedFunds = favourite.filter(function(obj){
             return app.indexOf(obj) == -1;
           });
-          console.log("HEHE", nonAppliedFunds);
           asyncChangeFavourites(userId, nonAppliedFunds, res);
         });
     });
@@ -70,12 +70,16 @@ function asyncChangeFavourites(userId, favourites, res){
             }
           });
         }
+        else{
+          callback();
+        }
       }
       else{
         callback();
       }
     });
   }, function done(){
+    console.log("NOTIFARRAY");
     res.send(notifArray);
   });
 }

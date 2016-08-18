@@ -2,7 +2,6 @@ extend ../layout
 
 block extraHeader
   link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
-  link(href='/stylesheets/results.css', rel='stylesheet')
   link(href='/stylesheets/user-settings.css', rel='stylesheet')
 block content
   script.
@@ -12,7 +11,6 @@ block content
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
     }
   include ../navbar.jade
-  include ../signup-modal.jade
   include ../advanced-search.jade
   #big_flex_div.container
     #left_div.col-md-3

@@ -11,6 +11,19 @@ padding-left: 7px;
 margin-top: 5px;
 
 }
+
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+
+#brand-image {
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer;
+}
+
+
 * {
   margin: 0;
   padding: 0;

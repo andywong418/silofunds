@@ -187,6 +187,11 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#brand-image {
+  margin-top: -15px;
+  position: relative;
+  cursor: pointer; }
+
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -446,7 +451,7 @@ div.navbar-center-container {
       transform: translateY(-50%);
       height: 20px;
       width: 20px;
-      overflow: hidden;
+      overflow: auto;
       text-indent: 100%;
       white-space: nowrap;
       color: transparent;
@@ -595,7 +600,7 @@ div.navbar-center-container {
   background: url("../images/cd-icon-close.svg") no-repeat center center;
   text-indent: 100%;
   white-space: nowrap;
-  overflow: hidden; }
+  overflow: auto; }
 
 @media only screen and (min-width: 1170px) {
   .cd-close-form {
@@ -774,6 +779,13 @@ margin-right: -40px;
 
 .jsEnabled .pre-signin {
   display: none; }
+
+#fb-social {
+  display: block;
+  width: 100%; }
+
+#borderme {
+  border: 3px solid pink; }
 
 /*customised code*/
 #brand-image {

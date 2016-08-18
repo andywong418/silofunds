@@ -56,7 +56,7 @@ module.exports = function(passport) {
 
 // Create a registraton strategy
 passport.use('registrationStrategy', new LocalStrategy({
-        // Passport default patameters are username and password, must override the username parameter.
+        // Passport default parameters are username and password, must override the username parameter.
         usernameField: 'email',
         // This allows req to be used in the callback
         passReqToCallback: true
@@ -67,6 +67,7 @@ passport.use('registrationStrategy', new LocalStrategy({
         process.nextTick(function() {
             models.users.find({where: {email: email}
             }).then(function(user) {
+              Logger.info(user)
                 var data = req.body;
                 // If a user go via this route
                 // Some logic to make both the modal box and the stand alone login pages work
@@ -95,7 +96,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                   } else if (data.password !== data.confirmPassword) {
                       return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
                   } else {
-                      return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                    return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                   }
                 // If a fund, go via this route
                 } else {
@@ -104,7 +105,6 @@ passport.use('registrationStrategy', new LocalStrategy({
                   var name;
                   Logger.info("FUND SIGNUP");
                   if(data.confirmPassword == null) {
-                    Logger.info("WE HERE")
                     name = data.username;
                     confirmPassword = data.password
                   } else {
@@ -160,27 +160,32 @@ passport.use('registrationStrategy', new LocalStrategy({
     clientID: configAuth.facebookAuth.clientID,
     clientSecret: configAuth.facebookAuth.clientSecret,
     callbackURL: configAuth.facebookAuth.callbackURL,
-    profileFields : ['id', 'displayName', 'email']
+    enableProof: true,
+    profileFields: ['id', 'displayName', 'emails', 'birthday', 'location', 'hometown', 'website', 'religion', 'education'],
+    scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']
   }, function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function() {
-      models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
-        if(user) {
-          return done(null, user); // user found, return that user
-        } else {
-          models.users.create({
-            username: profile.displayName,
-            email: profile.emails[0].value,
-            facebook_registering: 'TRUE',
-            token: accessToken
-          }).then(function(newUser) {
-            return done(null, newUser);
-          });
-        }
+    var data = profile._json
+    console.log(profile)
+    if(profile.hasOwnProperty('emails') && data.name) {
+      process.nextTick(function() {
+        models.users.find({where: {email: profile.emails[0].value}}).then(function(user) {
+          if(user) {
+            return done(null, user); // user found, return that user
+          } else {
+            models.users.create({
+              username: data.name,
+              email: profile.emails[0].value,
+              facebook_registering: 'TRUE',
+              token: accessToken
+            }).then(function(newUser) {
+              return done(null, newUser);
+            });
+          }
+        });
       });
-    });
+    } else {
+      done()
+    }
   }));
-
-
-
 
 }

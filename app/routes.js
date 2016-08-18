@@ -1,6 +1,5 @@
 var index = require('../routes/index');
 var users = require('../routes/users');
-var funds = require('../routes/funds');
 var results = require('../routes/results');
 var signup = require('../routes/signup');
 var auth = require('../routes/auth');

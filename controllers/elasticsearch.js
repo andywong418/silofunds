@@ -115,9 +115,9 @@ module.exports = {
         }
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
-          shouldFilter.push({
+          queryOptions.filtered.filter.bool.must = {
             "missing": { "field": "specific_location" }
-          });
+          };
         }
 
         // If nothing has been appended to should filter, restore it to "match_all"
@@ -362,7 +362,7 @@ module.exports = {
         });
       }
 
-      //////////////////////////////////////////////////////////////////
+
 
       // Logger.debug("queryOptions\n", queryOptions);
       // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
@@ -394,6 +394,7 @@ module.exports = {
           var funds = resp.hits.hits.map(function(hit) {
             var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
             var hash = {};
+
 
             for (var i = 0; i < fields.length ; i++) {
               hash[fields[i]] = hit._source[fields[i]];

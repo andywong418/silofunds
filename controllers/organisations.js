@@ -17,24 +17,7 @@ var parseIfInt = function(string) {
 
 
 module.exports = {
-// Page arrived at on login
-homeGET: function(req, res){
-  var session = req.params.session; // use it for authentication
-  var id = req.user.id;
-  models.users.findById(id).then(function(user){
-    var organisation_id = user.get().organisation_or_user;
-    models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
-      funds = funds.map(function(fund) {
-        var json = fund.get();
-        json.deadline = json.deadline ? reformatDate(json.deadline) : null;
-        json.created_at = json.created_at ? reformatDate(json.created_at) : null;
-        json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
-        return json;
-      });
-      res.render('signup/fund-dashboard', { user: user, funds: funds });
-    });
-  });
-},
+
 // Initial creation
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
@@ -45,13 +28,23 @@ homeGET: function(req, res){
       }
     });
   },
-  // Dashboard
-    dashboardGET: function(req, res) {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.render('signup/fund-dashboard', {fund: req.user})
+// Dashboard
+dashboard: function(req, res) {
+  passportFunctions.ensureAuthenticated(req, res, function() {
+    var user = req.user
+    var organisation_id = user.organisation_or_user;
+    models.funds.findAll({ where: { organisation_id: organisation_id }}).then(function(funds) {
+      funds = funds.map(function(fund) {
+        var json = fund.get();
+        json.deadline = json.deadline ? reformatDate(json.deadline) : null;
+        json.created_at = json.created_at ? reformatDate(json.created_at) : null;
+        json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
+        return json;
       });
-    },
-
+      res.render('signup/fund-dashboard', {user: user, funds: funds})
+    })
+  })
+},
 
 // Main fund creation page
   createFund: function(req, res){
@@ -190,7 +183,6 @@ homeGET: function(req, res){
       var arrayFields = ['tags','subject', 'religion', 'target_university', 'target_degree', 'required_degree', 'target_country', 'country_of_residence', 'specific_location','application_documents'];
       fields = moderateObject(fields);
       fields = changeArrayfields(fields, arrayFields);
-      console.log("No error before");
       models.users.findById(userId).then(function(user){
         fields['organisation_id'] = user.organisation_or_user;
         models.funds.create(fields).then(function(fund){
@@ -293,7 +285,6 @@ homeGET: function(req, res){
     if(req.isAuthenticated()){
       var user = req.user;
       models.funds.findById(fundId).then(function(fund){
-        console.log("fund", fund);
         if(fund.organisation_id){
           // If fund has an organisation/ fund user
           models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
@@ -303,7 +294,7 @@ homeGET: function(req, res){
                 //organisation in user table
                 if(user.organisation_or_user == null){
                   //if user is not fund user
-                  console.log("organisation", organisation);
+                  Logger.info("organisation", organisation);
                   models.recently_browsed_funds.findOrCreate({where: {
                     user_id: user.id,
                     fund_id: fundId
@@ -324,12 +315,12 @@ homeGET: function(req, res){
                 }
                 else{
                   //if user is fund user
-                  res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
+                  res.render('option-profile', {user: user, organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, favourite: false});
                 }
               } else{
                 //organisation not in user table
                 models.organisations.findById(fund.organisation_id).then(function(organisation){
-                  console.log("NOT IN TUSER", organisation);
+                  Logger.info("NOT IN TUSER", organisation);
                   if(user.organisation_or_user == null){
                     //if user is not fund user
                     models.recently_browsed_funds.findOrCreate({where: {
@@ -390,7 +381,7 @@ homeGET: function(req, res){
     }
     else{
       //show limited profile
-      console.log("HI");
+      Logger.info("HI");
       models.funds.findById(fundId).then(function(fund){
         models.organisations.findById(fund.organisation_id).then(function(organisation){
           handleOrganisationUser(organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
@@ -526,7 +517,7 @@ homeGET: function(req, res){
   insertFundKnown: function(req, res){
     var fundId = req.params.id;
     var userId = req.user.id;
-    console.log("REQ BODY", req.body);
+    Logger.info("REQ BODY", req.body);
     models.known_funds.create({fund_id: fundId, user_id: userId, known: req.body.known }).then(function(known){
       res.send(known);
     });
@@ -540,11 +531,11 @@ homeGET: function(req, res){
         var fundUser = user;
 
         user = user.get();
-        console.log(user.organisation_or_user);
+        Logger.info(user.organisation_or_user);
         models.organisations.findById(user.organisation_or_user).then(function(organisation){
-          console.log(organisation);
+          Logger.info(organisation);
           user.charity_id = organisation.charity_id;
-          console.log("USER", user);
+          Logger.info("USER", user);
           res.render('fund-settings', {user: user, general: general_settings});
         })
       })
@@ -564,11 +555,11 @@ homeGET: function(req, res){
         delete req.body.password;
       }
       if(!req.body['email-updates'] && !req.body.description.length){
-        console.log("hi", req.body.description);
+        Logger.info("hi", req.body.description);
         req.body.email_updates = false;
       }
       if(req.body['email-updates']){
-        console.log('yo');
+        Logger.info('yo');
         req.body.email_updates = true;
       }
       delete req.body.profile_picture;
@@ -583,7 +574,7 @@ homeGET: function(req, res){
             }
             else{
               if(req.body.description){
-                console.log('description')
+                Logger.info('description')
                 user.charity_id = organisation.charity_id;
                 res.redirect('/organisation/settings#account');
               }
@@ -596,37 +587,6 @@ homeGET: function(req, res){
       })
     });
   },
-  public: function(req, res){
-    passportFunctions.ensureAuthenticated(req, res, function(){
-      var loggedInUser;
-      var id = req.params.id;
-      if(req.session.passport.user){
-        loggedInUser = req.session.passport.user;
-      }
-      else{
-        loggedInUser = false;
-      }
-      models.users.find({where: {organisation_or_user: id}}).then(function(user){
-        var fundUser = user;
-        models.funds.findById(user.organisation_or_user).then(function(fund){
-          for (var attrname in fund['dataValues']){
-            if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-              user["dataValues"][attrname] = fund[attrname];
-
-            }
-          }
-          var fields= [];
-          models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
-              models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
-              user["dataValues"]["categories"] = categories;
-              res.render('fund-public', {loggedInUser: loggedInUser, user: user, newUser: false});
-             })
-          })
-        })
-      })
-    });
-
-  },
 
   logout: function(req, res) {
     res.clearCookie('remember_me');
@@ -634,8 +594,6 @@ homeGET: function(req, res){
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
   }
-
-
 }
 
 
@@ -644,7 +602,7 @@ homeGET: function(req, res){
 
 function findOrCreateTips(tips, option, fund, res){
   models.tips.findOrCreate({where: option}).spread(function(tip, created){
-    console.log(created);
+    Logger.info(created);
     if(created){
       fund = fund.get();
       tip.update({tip: tips}).then(function(tip){
@@ -654,8 +612,8 @@ function findOrCreateTips(tips, option, fund, res){
       });
     }
     else{
-      console.log("TIP", tip);
-      console.log("tip", tips);
+      Logger.info("TIP", tip);
+      Logger.info("tip", tips);
       tip.update({tip: tips}).then(function(tip){
         fund = fund.get();
         tip = tip.get();
@@ -671,12 +629,12 @@ function findOrCreateTips(tips, option, fund, res){
 
 // Functions
 function handleOrganisationUser(organisation, dataObject, res){
-  console.log(organisation);
+  Logger.info(organisation);
   if(organisation){
     models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
       if(user){
         organisation = organisation.get();
-        console.log("again", organisation);
+        Logger.info("again", organisation);
         organisation.profile_picture = user.profile_picture;
         dataObject.organisation = organisation;
         res.render('option-profile', dataObject);

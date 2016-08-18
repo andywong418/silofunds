@@ -30,14 +30,20 @@ router.post('/reset/:token', users.resetPasswordConfirm)
 
 
 // NOTE: without below, an organisation can get onto user page and vice versa
-router.get(/organisation/, users.fundBlocker)
-router.get(/user/, users.userBlocker)
+router.get(/organisation/, users.userBlocker)
+router.get(/user/, users.organisationBlocker)
 
 
 // Facebook auth strategy
-router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
-router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/login'}));
-router.get('/facebookSplit', users.facebookSplit)
+router.get('/auth/facebook', passport.authenticate('facebook', {authType: 'rerequest', scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']}));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/facebookError'}));
+router.get('/facebookSplit', users.facebookSplit);
+router.get('/facebookError', users.facebookAuthError)
+
+// Privacy policy
+router.get('/privacy_policy', function(req, res) {
+  res.render('privacy_policy')
+})
 
 
 router.get('/public/:id', users.crowdFundingPage);
