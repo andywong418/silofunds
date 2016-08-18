@@ -21,13 +21,17 @@ block content
 							| to narrow down your results.
 				.queryToken
 					span#wrapper-span You searched for:
-						each key, value in query
-							if value.indexOf('_') != -1
-								span#tokenKey(class=value)= value.split('_').join(' ') + ": "  + key
-									i.fa.fa-times
+						each value, key in query
+							if key.indexOf('_') != -1
+									span#tokenKey(class=value)= key.split('_').join(' ') + ": "  
+										each tag in value.split(' ')
+											a(href='/results?' + key+'=' + tag)= tag
+										i.fa.fa-times
 							else
-								span#tokenKey(class = value)=value + ": "  + key
-									i.fa.fa-times
+									span#tokenKey(class = value)=key + ": " 
+										each tag in value.split(' ')
+											a(href='/results?' + key +'=' + tag)= tag
+										i.fa.fa-times
 				.col-lg-8.col-lg-offset-2
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog

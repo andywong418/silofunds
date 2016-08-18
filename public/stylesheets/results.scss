@@ -59,8 +59,22 @@ i {
       margin-left: 7px;
       cursor: pointer;
       padding: 2px;
-      background-color: #26A65B;
+      &:hover{
+        background-color: #26A65B;
+
+      }
       border-radius: 2px;
+    }
+    i:before{
+          padding: 3px;
+    }
+    a{
+      cursor: pointer;
+      margin-left: 5px;
+      color: white;
+      &:hover{
+        color: white;
+      }
     }
   }
 }

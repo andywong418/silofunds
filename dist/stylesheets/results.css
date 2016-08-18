@@ -834,8 +834,17 @@ i {
       margin-left: 7px;
       cursor: pointer;
       padding: 2px;
-      background-color: #26A65B;
       border-radius: 2px; }
+      .queryToken #tokenKey i:hover {
+        background-color: #26A65B; }
+    .queryToken #tokenKey i:before {
+      padding: 3px; }
+    .queryToken #tokenKey a {
+      cursor: pointer;
+      margin-left: 5px;
+      color: white; }
+      .queryToken #tokenKey a:hover {
+        color: white; }
 
 .results {
   width: 66%;
