@@ -19,7 +19,8 @@ $('span#tokenKey i').click(function(){
   }
   $(this).closest('#tokenKey').fadeOut();
   $('input#advanced_' +field).val('');
-})
+});
+
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
 var allShown = false;

@@ -14,7 +14,17 @@
 i {
   color: white;
 }
-
+.alert-info{
+  margin-top: -20px;
+  p{
+    font-size: 16px;
+    a{
+      cursor: pointer;
+    }
+  }
+  width: 80%;
+  margin-left: 10%;
+}
 .fa {
   &.fa-chevron-circle-down, &.fa-chevron-circle-up {
     color: black;

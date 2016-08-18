@@ -14,6 +14,11 @@ block content
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
+				if funds.length > 100
+					.alert.alert-info
+						p Your search has returned many results. Use the 
+							a#many-results advanced search 
+							| to narrow down your results.
 				.queryToken
 					span#wrapper-span You searched for:
 						each key, value in query
