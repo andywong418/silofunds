@@ -14,15 +14,60 @@ block content
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
+				if funds.length > 100
+					.alert.alert-info
+						p Your search has returned many results. Use the 
+							a#many-results advanced search 
+							| to narrow down your results.
 				.queryToken
+					if relevant_terms
+						span#suggester= 'Did you mean - '
+							a#suggester-link
+								each term in relevant_terms
+									if relevant_terms.indexOf(term) == relevant_terms.length - 1
+										each key, val in term
+											span= val.split('_').join(' ') + ': ' 
+												b= key
+									else
+										each key, val in term
+											span= val.split('_').join(' ') + ': ' 
+												b= key + ', '
+								| ?
 					span#wrapper-span You searched for:
-						each key, value in query
-							if value.indexOf('_') != -1
-								span#tokenKey(class=value)= value.split('_').join(' ') + ": "  + key
-									i.fa.fa-times
-							else
-								span#tokenKey(class = value)=value + ": "  + key
-									i.fa.fa-times
+						each value, key in query
+							if key != 'sort_by'
+								if key.indexOf('_') != -1
+										span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
+											each tag in value.split(' ')
+												a(href='/results?' + key+'=' + tag)= tag
+											i.fa.fa-times
+								else
+										span#tokenKey(class = key)=key + ": " 
+											each tag in value.split(' ')
+												a(href='/results?' + key +'=' + tag)= tag
+											i.fa.fa-times
+						span#sort Sort by:
+							.dropdown
+								button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+									if sort_by
+										if sort_by == 'deadline'
+											| Deadline
+										if sort_by == 'highest_amount'
+											| Higest amount
+										if sort_by == 'lowest_amount'
+											| Lowest amount
+									else
+										| Relevance
+									span.caret
+								ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+									li
+										a#relevance-sort Relevance
+									li
+										a#deadline-sort(href='#') Deadline
+									li
+										a#highest-amount-sort(href='#') Highest amount
+									li
+										a#lowest-amount-sort Least amount
 				.col-lg-8.col-lg-offset-2
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog
@@ -54,7 +99,7 @@ block content
 												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
 											</li>
 											<li class="fund_info">
-												<p class="fund_tags<%= id %>">Tags:</p>
+												<p class="fund_subjects<%= id %>">Subjects:</p>
 												<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
 												<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
 												<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
@@ -88,9 +133,10 @@ block scripts
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};
 		var resultsPage = !{JSON.stringify(resultsPage)};
-
+		var relevant_terms = !{JSON.stringify(relevant_terms)};
+		var sort_by = !{JSON.stringify(sort_by)};
+		console.log(sort_by)
 		var query = !{JSON.stringify(query)};
-		console.log(query);
 		// Google Analytics
 	script.
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

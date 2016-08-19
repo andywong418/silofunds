@@ -315,27 +315,60 @@ function prepareBulkUploadAutocomplete(typeName, keyOptions, extraOptions, dataS
   var bodyArray =[];
   var type = 'autocomplete_' + typeName;
 
-  dataSource.forEach(function(data){
-    var payloadOptions = {};
-    payloadOptions[keyOptions.payloadKey] = data;
+  // Extra field for degrees ("abbreviated_degree") to handle abbreviations
+  if (typeName === 'degrees') {
+    // Currently only degrees.js has format in array of JSON
+    dataSource.forEach(function(data){
+      // NOTE: Careful with future Object.prototype keys manipulation
+      for (var key in data) {
+        var payloadOptions = {};
 
-    bodyArray.push({'index': {'_index': 'funds', '_type': type }});
-    var wrapper = {};
+        payloadOptions[keyOptions.payloadKey] = data[key];
 
-    wrapper[keyOptions.normalFieldName] = data;
-    wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
+        bodyArray.push({'index': {'_index': 'funds', '_type': type }});
+        var wrapper = {};
 
-    if (extraOptions) {
-      var extraOptionsKeys = Object.keys(extraOptions);
+        wrapper[keyOptions.normalFieldName] = data[key];
+        wrapper[keyOptions.suggestFieldName] = { "input": data[key].split(' '), "output": data[key], "payload": payloadOptions};
 
-      for (var i = 0; i < extraOptionsKeys.length; i++) {
-        var extraOptionsKey = extraOptionsKeys[i];
-        wrapper[extraOptionsKey] = extraOptions[extraOptionsKey];
+        if (extraOptions) {
+          var extraOptionsKeys = Object.keys(extraOptions);
+
+          for (var i = 0; i < extraOptionsKeys.length; i++) {
+            var extraOptionsKey = extraOptionsKeys[i];
+            wrapper[extraOptionsKey] = extraOptions[extraOptionsKey];
+          }
+        }
+
+        // The only thing different from the else case below.
+        wrapper.abbreviated_degree = key;
+
+        bodyArray.push(wrapper);
       }
-    }
+    });
+  } else {
+    dataSource.forEach(function(data){
+      var payloadOptions = {};
+      payloadOptions[keyOptions.payloadKey] = data;
 
-    bodyArray.push(wrapper);
-  });
+      bodyArray.push({'index': {'_index': 'funds', '_type': type }});
+      var wrapper = {};
+
+      wrapper[keyOptions.normalFieldName] = data;
+      wrapper[keyOptions.suggestFieldName] = { "input": data.split(' '), "output": data, "payload": payloadOptions};
+
+      if (extraOptions) {
+        var extraOptionsKeys = Object.keys(extraOptions);
+
+        for (var i = 0; i < extraOptionsKeys.length; i++) {
+          var extraOptionsKey = extraOptionsKeys[i];
+          wrapper[extraOptionsKey] = extraOptions[extraOptionsKey];
+        }
+      }
+
+      bodyArray.push(wrapper);
+    });
+  }
 
   return bodyArray;
 }

@@ -9,14 +9,42 @@ var parseIfInt = function(string) {
     return parseInt(string);
   }
 };
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        var listKeys = Object.keys(list[i]);
+        var valueKeys = Object.keys(obj);
+        if(valueKeys[0] == 'target_university'){
+          if(listKeys[0] == valueKeys[0]){
+            return true;
+          }
+        }
+        else{
+          if (listKeys[0] == valueKeys[0] && list[i][listKeys[0]].toLowerCase() == obj[valueKeys[0]].toLowerCase()) {
+              return true;
+          }
+        }
 
+    }
+
+    return false;
+}
+var sort_by;
 module.exports = {
   fundSearch: function(req, res) {
     var query = req.query;
     Logger.debug("query\n", query);
 
     // NOTE: LEVEL 1 SEARCH -- find out whether we should return "uk" or "us" universities
+    if(req.query.sort_by){
+      sort_by = req.query.sort_by;
+      delete req.query.sort_by;
+    }
+    else{
+      sort_by = false;
+    }
 
+    Logger.error(req.query);
     var queryTerms = [];
     queryTerms.push(query.tags ? query.tags : "");
     queryTerms.push(query.subject ? query.subject : "");
@@ -45,8 +73,16 @@ module.exports = {
         "query": {
           "multi_match": {
             "query": queryString,
-            "fields": ["university", "subject", "degree", "country"],
+            "fields": ["university", "subject", "abbreviated_degree", "country"],
             "operator": "or"
+          }
+        },
+        "highlight": {
+          "fields": {
+            "university": {},
+            "subject": {},
+            "abbreviated_degree": {},
+            "country": {},
           }
         }
       }
@@ -191,52 +227,91 @@ module.exports = {
       ///////////////////// NOTE: SPECIAL NEEDS /////////////////////////
       Logger.warn(resp.hits.hits);
 
+      var relevantTerms = []; // NOTE: Whole object to be passed into view for "Did you mean?" prompt.
+
       if (resp.hits.hits.length !== 0) {
         var universityCategories = [];
         var subject_categories = [];
         var degreeCategories = [];
         var countryCategories = [];
 
+
         for (var i = 0; i < resp.hits.hits.length; i++) {
           var hit = resp.hits.hits[i];
 
           if (hit._type === 'autocomplete_subjects') {
             Logger.info('*********** autocomplete_subjects ***********');
-
+            var subjectObj = {};
             if (subject_categories.indexOf(hit._source["subject_category"]) === -1 ) {
               subject_categories.push(hit._source["subject_category"]);
+            }
+            var relevantTerm = hit.highlight.subject[0].split('<')[1].split('>')[1];
+            subjectObj.subject = relevantTerm;
+            if(!containsObject(subjectObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(subjectObj);
             }
           }
 
           if (hit._type === 'autocomplete_universities') {
             Logger.info('*********** autocomplete_universities ***********');
-
+            var uniObj = {};
             if (universityCategories.indexOf(hit._source["university_category"]) === -1 ) {
               universityCategories.push(hit._source["university_category"]);
             }
+            //only don't split university;
+            var firstSplit = hit.highlight.university[0].split('<em>').join((''));
+            Logger.info(firstSplit.replace("</em>", ""));
+            var relevantTerm = firstSplit.replace("</em>", "");
+
+            console.log("RELEVANT TERM", relevantTerm);
+            uniObj.target_university = relevantTerm;
+            console.log(uniObj);
+            console.log(relevantTerms);
+            console.log({ target_university: 'Oxford' } === { target_university: 'Oxford' });
+            console.log(containsObject(uniObj, relevantTerms));
+            if(!containsObject(uniObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(uniObj);
+            }
+
           }
 
 
           if (hit._type === 'autocomplete_degrees') {
             Logger.info('*********** autocomplete_degrees ***********');
-
+            var degreeObj = {};
             if (degreeCategories.indexOf(hit._source["degree_category"]) === -1 ) {
               degreeCategories.push(hit._source["degree_category"]);
+            }
+
+            Logger.error(hit.highlight.abbreviated_degree);
+            var relevantTerm = hit.highlight.abbreviated_degree[0].split('<')[1].split('>')[1];
+            degreeObj.target_degree = relevantTerm;
+            if(!containsObject(degreeObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(degreeObj);
             }
           }
 
           if (hit._type === 'autocomplete_countries') {
             Logger.info('*********** autocomplete_countries ***********');
-
+            var countryObj = {};
             if (countryCategories.indexOf(hit._source["country_category"]) === -1 ) {
               countryCategories.push(hit._source["country_category"]);
             }
+
+
+            var relevantTerm = hit.highlight.country[0].split('<')[1].split('>')[1];
+            countryObj.country_of_residence = relevantTerm;
+            if(!containsObject(countryObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(countryObj);
+            }
           }
         }
-
         var boolQuery = queryOptions.filtered.query.bool;
         boolQuery.must_not = [];
-
         var countryOfResidence = query.country_of_residence ? query.country_of_residence : null;
 
         if (countryOfResidence) {
@@ -282,11 +357,11 @@ module.exports = {
             }
           });
         }
-
-        Logger.warn("universityCategories\n" + universityCategories);
-        Logger.warn("subject_categories\n" + subject_categories);
-        Logger.warn("degreeCategories\n" + degreeCategories);
-        Logger.warn("countryCategories\n" + countryCategories);
+        //
+        // Logger.warn("universityCategories\n" + universityCategories);
+        // Logger.warn("subject_categories\n" + subject_categories);
+        // Logger.warn("degreeCategories\n" + degreeCategories);
+        // Logger.warn("countryCategories\n" + countryCategories);
 
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
@@ -363,7 +438,6 @@ module.exports = {
       }
 
 
-
       // Logger.debug("queryOptions\n", queryOptions);
       // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
       //
@@ -382,13 +456,47 @@ module.exports = {
       }, function (error, response) {
         // Logger.error(response.explanation.details[0].details[1].details);
         // Logger.error(response.explanation.details[0].details[0].details);
+        var bodyObj;
+        Logger.debug(sort_by);
+        if(!sort_by){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions
+          };
+        }
+        if(sort_by == 'deadline'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"deadline": {"order": "asc"}}
+            ]
+          };
+        }
+        if(sort_by == 'highest_amount'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"maximum_amount": {"order": "desc"}}
+            ]
+          };
+        }
+        if(sort_by == 'lowest_amount'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"maximum_amount": {"order": "asc"}}
+            ]
+          };
+        }
+
+        delete query.sort_by;
         es.search({
           index: "funds",
           type: "fund",
-          body: {
-            "size": 1000,
-            "query": queryOptions
-          }
+          body: bodyObj
         }).then(function(resp) {
           var fund_id_list = [];
           var funds = resp.hits.hits.map(function(hit) {
@@ -419,10 +527,23 @@ module.exports = {
             var results_page = true;
             if (user) {
               models.users.findById(user.id).then(function(user) {
-                res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query } );
+                if (query.tags && Object.keys(query).length === 1) {
+                  Logger.error(relevantTerms);
+                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
+                }
+                else{
+                  console.log("Where")
+                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
+                }
               });
             } else {
-              res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query });
+              if (query.tags && Object.keys(query).length === 1){
+                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
+
+              }
+              else{
+                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
+              }
             }
           });
         }, function(err) {
