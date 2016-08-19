@@ -14,22 +14,37 @@ function containsObject(obj, list) {
     for (i = 0; i < list.length; i++) {
         var listKeys = Object.keys(list[i]);
         var valueKeys = Object.keys(obj);
-        console.log("LIst keys", listKeys);
-        console.log("value keys", valueKeys);
-        if (listKeys[0] == valueKeys[0] && list[i][listKeys[0]] == obj[valueKeys[0]]) {
+        if(valueKeys[0] == 'target_university'){
+          if(listKeys[0] == valueKeys[0]){
             return true;
+          }
         }
+        else{
+          if (listKeys[0] == valueKeys[0] && list[i][listKeys[0]].toLowerCase() == obj[valueKeys[0]].toLowerCase()) {
+              return true;
+          }
+        }
+
     }
 
     return false;
 }
+var sort_by;
 module.exports = {
   fundSearch: function(req, res) {
     var query = req.query;
     Logger.debug("query\n", query);
 
     // NOTE: LEVEL 1 SEARCH -- find out whether we should return "uk" or "us" universities
+    if(req.query.sort_by){
+      sort_by = req.query.sort_by;
+      delete req.query.sort_by;
+    }
+    else{
+      sort_by = false;
+    }
 
+    Logger.error(req.query);
     var queryTerms = [];
     queryTerms.push(query.tags ? query.tags : "");
     queryTerms.push(query.subject ? query.subject : "");
@@ -230,10 +245,12 @@ module.exports = {
             if (subject_categories.indexOf(hit._source["subject_category"]) === -1 ) {
               subject_categories.push(hit._source["subject_category"]);
             }
-
             var relevantTerm = hit.highlight.subject[0].split('<')[1].split('>')[1];
             subjectObj.subject = relevantTerm;
-            relevantTerms.push(subjectObj);
+            if(!containsObject(subjectObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(subjectObj);
+            }
           }
 
           if (hit._type === 'autocomplete_universities') {
@@ -242,8 +259,10 @@ module.exports = {
             if (universityCategories.indexOf(hit._source["university_category"]) === -1 ) {
               universityCategories.push(hit._source["university_category"]);
             }
-
-            var relevantTerm = hit.highlight.university[0].split('<')[1].split('>')[1];
+            //only don't split university;
+            var firstSplit = hit.highlight.university[0].split('<em>').join((''));
+            Logger.info(firstSplit.replace("</em>", ""));
+            var relevantTerm = firstSplit.replace("</em>", "");
 
             console.log("RELEVANT TERM", relevantTerm);
             uniObj.target_university = relevantTerm;
@@ -269,7 +288,10 @@ module.exports = {
             Logger.error(hit.highlight.abbreviated_degree);
             var relevantTerm = hit.highlight.abbreviated_degree[0].split('<')[1].split('>')[1];
             degreeObj.target_degree = relevantTerm;
-            relevantTerms.push(degreeObj);
+            if(!containsObject(degreeObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(degreeObj);
+            }
           }
 
           if (hit._type === 'autocomplete_countries') {
@@ -282,13 +304,14 @@ module.exports = {
 
             var relevantTerm = hit.highlight.country[0].split('<')[1].split('>')[1];
             countryObj.country_of_residence = relevantTerm;
-            relevantTerms.push(countryObj);
+            if(!containsObject(countryObj, relevantTerms)){
+              //rnot in there
+                relevantTerms.push(countryObj);
+            }
           }
         }
-
         var boolQuery = queryOptions.filtered.query.bool;
         boolQuery.must_not = [];
-
         var countryOfResidence = query.country_of_residence ? query.country_of_residence : null;
 
         if (countryOfResidence) {
@@ -334,11 +357,11 @@ module.exports = {
             }
           });
         }
-
-        Logger.warn("universityCategories\n" + universityCategories);
-        Logger.warn("subject_categories\n" + subject_categories);
-        Logger.warn("degreeCategories\n" + degreeCategories);
-        Logger.warn("countryCategories\n" + countryCategories);
+        //
+        // Logger.warn("universityCategories\n" + universityCategories);
+        // Logger.warn("subject_categories\n" + subject_categories);
+        // Logger.warn("degreeCategories\n" + degreeCategories);
+        // Logger.warn("countryCategories\n" + countryCategories);
 
         // TODO: match for required_university too?
         queryOptions.filtered.query.bool.should.push({
@@ -433,13 +456,47 @@ module.exports = {
       }, function (error, response) {
         // Logger.error(response.explanation.details[0].details[1].details);
         // Logger.error(response.explanation.details[0].details[0].details);
+        var bodyObj;
+        Logger.debug(sort_by);
+        if(!sort_by){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions
+          };
+        }
+        if(sort_by == 'deadline'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"deadline": {"order": "asc"}}
+            ]
+          };
+        }
+        if(sort_by == 'highest_amount'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"maximum_amount": {"order": "desc"}}
+            ]
+          };
+        }
+        if(sort_by == 'lowest_amount'){
+          bodyObj = {
+            "size": 1000,
+            "query": queryOptions,
+            "sort": [
+              {"maximum_amount": {"order": "asc"}}
+            ]
+          };
+        }
+
+        delete query.sort_by;
         es.search({
           index: "funds",
           type: "fund",
-          body: {
-            "size": 1000,
-            "query": queryOptions
-          }
+          body: bodyObj
         }).then(function(resp) {
           var fund_id_list = [];
           var funds = resp.hits.hits.map(function(hit) {
@@ -472,20 +529,20 @@ module.exports = {
               models.users.findById(user.id).then(function(user) {
                 if (query.tags && Object.keys(query).length === 1) {
                   Logger.error(relevantTerms);
-                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms });
+                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
                 }
                 else{
                   console.log("Where")
-                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false } );
+                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                 }
               });
             } else {
               if (query.tags && Object.keys(query).length === 1){
-                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms });
+                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
 
               }
               else{
-                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false });
+                res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
               }
             }
           });

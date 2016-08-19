@@ -48,6 +48,34 @@ if(relevant_terms){
   console.log(baseUrl);
   $('a#suggester-link').attr("href", baseUrl);
 }
+function removeSort(url){
+  var location = url.indexOf('sort_by');
+  if(location > -1){
+    return url.substring(0,location-1);
+  }
+  else{
+    return url;
+  }
+}
+removeSort(window.location.href);
+$('#relevance-sort').attr('href', removeSort(window.location.href));
+$('#deadline-sort').attr('href', removeSort(window.location.href) + '&sort_by=deadline');
+$('#highest-amount-sort').attr('href', removeSort(window.location.href) + '&sort_by=highest_amount');
+$('#lowest-amount-sort').attr('href', removeSort(window.location.href) + '&sort_by=lowest_amount');
+switch(sort_by){
+  case 'deadline':
+    $('#deadline-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+  case 'highest_amount':
+    $('#highest-amount-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+  case 'lowest_amount':
+    $('#lowest-amount-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+}
+if(!sort_by){
+  $('#relevance-sort').append("<i class = 'fa fa-check'></i>");
+}
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
 var allShown = false;
@@ -180,7 +208,7 @@ var allShown = false;
           }
           for (var y = 0; y < subjects.length; y++) {
               var searchTags = subjects[y].split(" ").join("+");
-              this.$(".fund_subjects" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + subjects[y] + "</a></span>");
+              this.$(".fund_subjects" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?subject=" + searchTags + "'>" + subjects[y] + "</a></span>");
           }
       }
       // console.log($('.fund_tags' +id).css('height'))

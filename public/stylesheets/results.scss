@@ -82,6 +82,23 @@ i {
     font-family: 'Source Sans Pro';
     margin-bottom: 5px;
   }
+  #sort{
+    margin-top: 10px;
+    float: right;
+    .dropdown{
+      font-size: 15px;
+      display: inline;
+      margin-left: 10px;
+      .caret{
+        margin-left: 5px;
+      }
+      .fa-check{
+        color: #2ecc71;
+        margin-left: 30px;
+        padding-top: 5px;
+      }
+    }
+  }
 }
 .results {
   width: 66%;

@@ -849,6 +849,19 @@ i {
     display: block;
     font-family: 'Source Sans Pro';
     margin-bottom: 5px; }
+  .queryToken #sort {
+    margin-top: 10px;
+    float: right; }
+    .queryToken #sort .dropdown {
+      font-size: 15px;
+      display: inline;
+      margin-left: 10px; }
+      .queryToken #sort .dropdown .caret {
+        margin-left: 5px; }
+      .queryToken #sort .dropdown .fa-check {
+        color: #2ecc71;
+        margin-left: 30px;
+        padding-top: 5px; }
 
 .results {
   width: 66%;
