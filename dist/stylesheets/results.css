@@ -796,6 +796,15 @@ margin-right: -40px;
 i {
   color: white; }
 
+.alert-info {
+  margin-top: -20px;
+  width: 80%;
+  margin-left: 10%; }
+  .alert-info p {
+    font-size: 16px; }
+    .alert-info p a {
+      cursor: pointer; }
+
 .fa.fa-chevron-circle-down, .fa.fa-chevron-circle-up {
   color: black;
   margin-left: 5px; }
@@ -825,8 +834,34 @@ i {
       margin-left: 7px;
       cursor: pointer;
       padding: 2px;
-      background-color: #26A65B;
       border-radius: 2px; }
+      .queryToken #tokenKey i:hover {
+        background-color: #26A65B; }
+    .queryToken #tokenKey i:before {
+      padding: 3px; }
+    .queryToken #tokenKey a {
+      cursor: pointer;
+      margin-left: 5px;
+      color: white; }
+      .queryToken #tokenKey a:hover {
+        color: white; }
+  .queryToken #suggester {
+    display: block;
+    font-family: 'Source Sans Pro';
+    margin-bottom: 5px; }
+  .queryToken #sort {
+    margin-top: 10px;
+    float: right; }
+    .queryToken #sort .dropdown {
+      font-size: 15px;
+      display: inline;
+      margin-left: 10px; }
+      .queryToken #sort .dropdown .caret {
+        margin-left: 5px; }
+      .queryToken #sort .dropdown .fa-check {
+        color: #2ecc71;
+        margin-left: 30px;
+        padding-top: 5px; }
 
 .results {
   width: 66%;

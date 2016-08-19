@@ -19,7 +19,63 @@ $('span#tokenKey i').click(function(){
   }
   $(this).closest('#tokenKey').fadeOut();
   $('input#advanced_' +field).val('');
-})
+});
+
+if(relevant_terms){
+  var baseUrl = '/results?';
+  for( var i = 0; i < relevant_terms.length; i++){
+    var obj = relevant_terms[i];
+    var key = Object.keys(obj)[0];
+    console.log(key);
+    var value = obj[key].split(' ');
+    var valueString = '';
+    for(var j = 0; j< value.length; j++){
+      if(j == value.length - 1){
+        valueString = valueString + value[j];
+      }
+      else{
+        valueString = valueString + value[j] + '+';
+      }
+
+    }
+    if( i == relevant_terms.length - 1){
+      baseUrl = baseUrl + key+ '=' + valueString;
+    }
+    else{
+      baseUrl = baseUrl + key + '=' + valueString + '&';
+    }
+  }
+  console.log(baseUrl);
+  $('a#suggester-link').attr("href", baseUrl);
+}
+function removeSort(url){
+  var location = url.indexOf('sort_by');
+  if(location > -1){
+    return url.substring(0,location-1);
+  }
+  else{
+    return url;
+  }
+}
+removeSort(window.location.href);
+$('#relevance-sort').attr('href', removeSort(window.location.href));
+$('#deadline-sort').attr('href', removeSort(window.location.href) + '&sort_by=deadline');
+$('#highest-amount-sort').attr('href', removeSort(window.location.href) + '&sort_by=highest_amount');
+$('#lowest-amount-sort').attr('href', removeSort(window.location.href) + '&sort_by=lowest_amount');
+switch(sort_by){
+  case 'deadline':
+    $('#deadline-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+  case 'highest_amount':
+    $('#highest-amount-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+  case 'lowest_amount':
+    $('#lowest-amount-sort').append("<i class = 'fa fa-check'></i>");
+    break;
+}
+if(!sort_by){
+  $('#relevance-sort').append("<i class = 'fa fa-check'></i>");
+}
 //show and hide past deadline funds
 $('#show-all').html("Show all funds - including those which are expired");
 var allShown = false;
@@ -120,6 +176,8 @@ var allShown = false;
       var id = this.model.get('id');
       var tags = this.model.get('tags');
       var countries = this.model.get('country_of_residence');
+      var subjects = this.model.get('subject');
+      console.log(subjects);
       var minimum_amount = this.model.get('minimum_amount');
       var maximum_amount = this.model.get('maximum_amount');
       var minimum_age = this.model.get('minimum_age');
@@ -137,19 +195,26 @@ var allShown = false;
           this.$('.fund_list').hide();
         }
       }
+      else{
+        this.$('.deadline'+ id).hide();
+      }
 
-      if (!tags) {
-          this.$(".fund_tags" + id).toggle(false);
+      if (!subjects) {
+          this.$(".fund_subjects" + id).hide();
       } else {
-          for (var y = 0; y < tags.length; y++) {
-              var searchTags = tags[y].split(" ").join("+");
-              this.$(".fund_tags" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?tags=" + searchTags + "'>" + tags[y] + "</a></span>");
+          var allSubjects = subjects.indexOf('all');
+          if(allSubjects > -1){
+            subjects[allSubjects] = 'All subjects';
+          }
+          for (var y = 0; y < subjects.length; y++) {
+              var searchTags = subjects[y].split(" ").join("+");
+              this.$(".fund_subjects" + id).append("<span class = 'badge badge-tags'><a class='display' href= '/results?subject=" + searchTags + "'>" + subjects[y] + "</a></span>");
           }
       }
       // console.log($('.fund_tags' +id).css('height'))
-      if(tags && tags.length > 8) {
+      if(subjects && subjects.length > 8) {
         var tagId = "tagsReadmore" + id
-        $('.' + "fund_tags" + id).readmore({
+        $('.' + "fund_subjects" + id).readmore({
           collapsedHeight: 35,
           moreLink: '<a href="#">...</a>'
         })
@@ -162,6 +227,10 @@ var allShown = false;
          this.$(".nationalities"+ id).toggle(false);
       }
       else{
+        var all = countries.indexOf('all');
+        if(all > -1){
+          countries[all] = 'from all countries';
+        }
          for(var j = 0; j < countries.length; j++){
            this.$(".nationalities" + id).append("<span class = 'badge badge-error'><a class = 'display' href= '/results?tags=&age=&nationality=" + countries[j] + "'>" + countries[j] + "</a></span>");
            this.$(".nationalities" + id+ " span").css("margin-left", "5px");

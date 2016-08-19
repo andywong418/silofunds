@@ -103,7 +103,8 @@ $(document).ready(function(){
     return false;
   });
 
-  $('a#advs-link').click(function(){
+  $('a#advs-link, #many-results').click(function(){
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     $("#advanced-search").slideDown();
 
     return false;
