@@ -3,12 +3,14 @@ var models = require('../models');
 var users = require('../controllers/users');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var elasticsearch = require('../controllers/elasticsearch');
 require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 // User profile pages, these all use passport authentication
 router.get('/create', users.initialCreation);
-router.get('/dashboard', users.dashboard)
+router.get('/dashboard', users.dashboard);
+router.get('/generosity', elasticsearch.generosityUserSearch);
 router.get('/profile', users.crowdFundingPage);
 router.get('/settings', users.settingsGET);
 router.post('/settings', users.settingsPOST);

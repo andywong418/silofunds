@@ -15,6 +15,23 @@ block content
   include ../advanced-search.jade
     
   section#user-dashboard.container.content-section
+    #user-finished
+      #finished-card
+        #header
+          img(src='/images/celebratory-finish.svg', style= 'width: 100%')
+        p#congrats-text Congratulations! You have reached your goal. 
+        p#help-users There are similar users who need your help.
+        .user-row
+        script#generosity-template(type='text/template')
+          #offset.col-md-1
+          .col-md-5
+            img#user-picture(src!= '<%= imgSrc %>')
+            p#user-name <%= username %>
+            .progress
+              .progress-bar(role='progressbar', aria-valuemin='0', aria-valuemax='100', style!='width:' + '<%= funding_progress %>')
+            span#progress-marker!= '<%= funding_progress %>' + '% funded'
+            p#similarities Also studied at Oxford
+        #buttons-div
     .row
       // Flash messages
       if !user.email_is_verified

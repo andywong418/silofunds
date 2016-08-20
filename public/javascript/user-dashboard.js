@@ -1,8 +1,50 @@
 $(document).ready(function(){
+
+  var GenerosityModel = Backbone.Model.extend({
+
+  });
+  var GenerosityCollection = Backbone.Collection.extend({
+    model: GenerosityModel
+  });
+  var GenerosityView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'generosity-handler',
+    template: _.template($('#generosity-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this; // enable chained calls
+    },
+    initialize: function(){
+      this.el = this.render().el;
+    }
+  });
+  var GenerosityList = Backbone.View.extend({
+    el: '.user-row',
+    render: function(){
+      this.collection.each(function(user){
+        var generosityModel = new GenerosityModel({
+          "imgSrc": user.attributes.profile_picture,
+          "username": user.attributes.username,
+          "funding_progress": (user.attributes.funding_accrued/user.attributes.funding_needed) * 100
+        });
+        console.log(generosityModel);
+        var generosityView = new GenerosityView({model: generosityModel});
+        this.$el.append(generosityView.el);
+      }, this);
+      return this;
+    }
+  });
+  $.get('/user/generosity', function(data){
+    console.log(data);
+    var generosityCollection = new GenerosityCollection(data);
+    var generosityList = new GenerosityList({collection: generosityCollection});
+    $('.user-row').append(generosityList.render().el);
+  });
+
   $('#explore, #start-browsing').click(function(){
     $('html, body').animate({scrollTop:0}, 'slow');
     $('#text_search').focus();
-  })
+  });
 
   $('.update').click(function(){
       console.log("WHAT");

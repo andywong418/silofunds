@@ -15,6 +15,73 @@ $tab-border: 3px solid #2390fd;
   }
 }
 
+#user-finished{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(52, 54, 66, 0.9);
+  z-index: 10000;
+  overflow-y: auto;
+  cursor: pointer;
+  border-radius: 3px;
+
+  #finished-card{
+    background: white;
+    margin-top: 50px;
+    width: 60%;
+    margin-left: 20%;
+    padding-bottom: 50px;
+    overflow: hidden;
+    border-radius: 3px;
+    #header{
+      background-color: #e9f0f4;
+    }
+    img{
+      margin-bottom: 15px;
+    }
+    #congrats-text{
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+    #help-users{
+      font-size: 16px;
+      color: grey;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    #generosity-handler{
+      p{
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+      img{
+        max-width: 250px;
+        margin-bottom: 5px;;
+      }
+      #user-name{
+        font-size: 18px;
+      }
+      .progress{
+        margin-bottom: 3px;
+        width: 60%;
+        display: inline-block;
+      }
+      #progress-marker{
+        position: absolute;
+        margin-left: 10px;
+
+      }
+      #similarities{
+        color: grey;
+      }
+    }
+  }
+}
+
 body {
   background-color: #f0f2f4;
   h1,h2,h3,h4,h5,h6{

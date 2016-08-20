@@ -187,6 +187,10 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#dashboard, #profile {
+  padding-top: 7px;
+  padding-bottom: 7px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -203,7 +207,7 @@ div.navbar-center-container {
   div.navbar-center-container form.search_form {
     width: 100%;
     text-align: center;
-    margin-top: 7.4px; }
+    margin-top: 9px; }
     div.navbar-center-container form.search_form div.advs-link {
       display: inline-block;
       -webkit-transform: translate(-220%, 0);
@@ -795,6 +799,9 @@ margin-right: -40px;
 
 body {
   background-color: #e9f0f4; }
+
+.ui-widget-content {
+  padding-top: 10px; }
 
 section {
   padding-top: 100px;

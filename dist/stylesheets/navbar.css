@@ -156,6 +156,10 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#dashboard, #profile {
+  padding-top: 7px;
+  padding-bottom: 7px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;

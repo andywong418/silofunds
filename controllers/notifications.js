@@ -5,7 +5,6 @@ module.exports = {
   newNotifications: function(req, res){
     var userId = req.user.id;
     models.notifications.findAll({where: {user_id: userId}, order: 'created_at DESC'}).then(function(notifications){
-      console.log("NOTIFC", notifications);
       res.send(notifications);
     });
   },
@@ -58,7 +57,6 @@ function asyncChangeFavourites(userId, favourites, res){
           }
 
           models.notifications.find({where: options}).then(function(notif){
-            console.log("NOTIF", notif);
             if(!notif){
               models.notifications.create(options).then(function(notif){
                 notifArray.push(notif);
@@ -79,7 +77,6 @@ function asyncChangeFavourites(userId, favourites, res){
       }
     });
   }, function done(){
-    console.log("NOTIFARRAY");
     res.send(notifArray);
   });
 }

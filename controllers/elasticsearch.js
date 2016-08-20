@@ -532,7 +532,6 @@ module.exports = {
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
                 }
                 else{
-                  console.log("Where")
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                 }
               });
@@ -551,6 +550,71 @@ module.exports = {
           res.render('error');
         });
       });
+    });
+  },
+  generosityUserSearch: function(req, res){
+    Logger.info("YOOOOOOO", req.user);
+    var user = req.user;
+    var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+    var queryOptions = {
+      "filtered": {
+        "filter": {
+          "not": {
+            "term": { "_id": req.user.id }
+          }
+        }
+      }
+    };
+    queryOptions.filtered.query = {
+      "bool": {
+        "should": []
+      },
+    };
+
+    for (var i = 0; i< searchFields.length; i++) {
+      var key = searchFields[i];
+      var notReligion = key !== "religion";
+
+      if (notReligion) {
+        if (user[key]) {
+          user[key] = user[key].join(", ");
+        }
+      }
+
+        var matchObj = {
+          "match": {}
+        };
+
+        if (user[key] !== null) {
+            matchObj.match[key] = user[key];
+          queryOptions.filtered.query.bool.should.push(matchObj);
+        }
+
+    }
+    Logger.warn(queryOptions.filtered.filter);
+    es.search({
+      index: "users",
+      type: "user",
+      body: {
+        "size": 2,
+        "query": queryOptions
+      }
+    }).then(function(resp){
+      Logger.error(resp);
+      var users = resp.hits.hits.map(function(hit){
+        console.log(hit);
+        var userFields = ["username", "profile_picture", "funding_accrued", "funding_needed", 'country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+        var hash = {};
+        for (var i = 0; i < userFields.length ; i++) {
+          hash[userFields[i]] = hit._source[userFields[i]];
+        }
+        // Sync id separately, because it is hit._id, NOT hit._source.id
+        hash.id = hit._id;
+        console.log("HASH", hash);
+        return hash;
+      });
+      Logger.error(users);
+      res.send(users);
     });
   }
 };

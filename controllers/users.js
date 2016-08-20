@@ -522,22 +522,35 @@ module.exports = {
 
   crowdFundingPage: function(req, res){
     var userId;
+    var loggedInUser;
     Logger.info(req.params.id);
     if(req.params.id){
+      Logger.info("one");
       userId = req.params.id;
+      if(req.isAuthenticated()){
+        Logger.info('three', req);
+        loggedInUser = req.user.id;
+      }
+      else{
+        Logger.info("MAYBE");
+        loggedInUser = false;
+      }
+      Logger.warn(loggedInUser);
     }
     else{
       userId = req.user.id;
+      loggedInUser = false;
     }
     models.users.findById(userId).then(function(user){
       models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
 
         models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
             if(applications.length > 0){
-							asyncChangeApplications(applications, {user_id: userId}, res, {user: user, documents: documents}, { user: user, documents: documents});
+              console.log("LOGIN", loggedInUser);
+							asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});
             } else {
 							// No applications
-							findStripeUser({user_id: userId}, res, {user: user, documents: documents, applications: false},{ user: user, documents: documents, applications: false, charges: false, donations: false});
+							findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});
             }
         });
       });

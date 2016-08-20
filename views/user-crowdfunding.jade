@@ -60,9 +60,14 @@ block content
 				a.social.twitter-tweet
 					i.fa.fa-twitter-square(aria-hidden="true")
 					| Tweet
-				a.social.email(href='mailto:' + user.email)
-					i.fa.fa-envelope-o(aria-hidden="true")
-					| Email
+				if loggedInUser
+					a.social.email(href='/messages/' + user.id)
+						i.fa.fa-envelope-o(aria-hidden="true")
+						| Message
+				else
+					a.social.email(href='mailto:' + user.email)
+						i.fa.fa-envelope-o(aria-hidden="true")
+						| Email
 					
 			#tab-table
 				#tab-menu-flex

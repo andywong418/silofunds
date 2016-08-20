@@ -9,3 +9,6 @@
     .navbar-custom.top-nav-collapse {
       padding: 0;
       background: #2d4a76; } }
+
+#brand-image {
+  margin-top: -7px; }

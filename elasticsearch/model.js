@@ -105,6 +105,9 @@ var userSettings = {
         "funding_needed": {
           "type": "integer"
         },
+        "funding_accrued": {
+          "type": "integer"
+        },
         "organisation_or_user": {
           "type": "boolean"
         },
