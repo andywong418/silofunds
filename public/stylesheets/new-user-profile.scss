@@ -120,6 +120,9 @@ body{
 			margin-top: 5px;
 			.radio-inline{
 				float: left;
+				input{
+					margin-top: -5px;
+				}
 			}
 		}
 
