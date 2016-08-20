@@ -884,6 +884,8 @@ body {
       margin-top: 5px; }
       #signup-wrapper #signup-form .gender-row .radio-inline {
         float: left; }
+        #signup-wrapper #signup-form .gender-row .radio-inline input {
+          margin-top: -5px; }
     #signup-wrapper #signup-form #religion-row, #signup-wrapper #signup-form #previous-university-row {
       border-bottom: none; }
     #signup-wrapper #signup-form #religion-select {
