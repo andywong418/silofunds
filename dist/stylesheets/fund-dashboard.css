@@ -192,6 +192,10 @@ a#user-message span, a#home span {
   position: relative;
   cursor: pointer; }
 
+#dashboard, #profile {
+  padding-top: 7px;
+  padding-bottom: 7px; }
+
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -203,7 +207,7 @@ div.navbar-center-container {
   div.navbar-center-container form.search_form {
     width: 100%;
     text-align: center;
-    margin-top: 7.4px; }
+    margin-top: 9px; }
     div.navbar-center-container form.search_form div.advs-link {
       display: inline-block;
       -webkit-transform: translate(-220%, 0);

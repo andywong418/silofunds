@@ -197,6 +197,10 @@ a#user-message span, a#home span {
   position: relative;
   cursor: pointer; }
 
+#dashboard, #profile {
+  padding-top: 7px;
+  padding-bottom: 7px; }
+
 @media (min-width: 768px) {
   .navbar-custom {
     padding: 20px 0;

@@ -160,3 +160,7 @@ a#user-message span, a#home span {
   margin-top: -15px;
   position: relative;
   cursor: pointer; }
+
+#dashboard, #profile {
+  padding-top: 7px;
+  padding-bottom: 7px; }
