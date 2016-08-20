@@ -9,7 +9,7 @@
 @import "navbar-homepage.scss";
 @import "signup.scss";
 
-//Intro space
+//Intro space linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)
 .intro {
   display: table;
   width: 100%;
@@ -17,7 +17,7 @@
   padding: 100px 0;
   text-align: center;
   color: #fff;
-  background: url(../images/graduation.png) no-repeat bottom center scroll;
+  background: url(../images/homepage.jpg) no-repeat bottom center scroll;
   background-color: #000;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -25,6 +25,7 @@
   -o-background-size: cover;
   background-position: 50% 18%;
   .intro-body {
+    background: rgba(0,0,0,0.5);
     display: table-cell;
     vertical-align: middle;
     .brand-heading {
@@ -53,7 +54,7 @@
     .intro-body {
       .brand-heading {
         font-family: 'Source Sans Pro', sans-serif;
-        padding-top: 80px;
+        padding-top: 20px;
         letter-spacing: 2px;
         text-transform: uppercase;
       }
@@ -136,7 +137,7 @@ footer {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  margin-top: 80px;
+  margin-top: 130px;
 }
 
 #text_search {
@@ -230,22 +231,38 @@ a.cd-login {
 
 //about section
 #number-of-funds {
-  font-size: 44px;
+  font-size: 34px;
   width: 200px;
   margin: 0px auto;
   padding: 20px;
   border-color: rgba(45, 74, 118, 1);
-  border-width: 15px;
+  border-width: 10px;
   border-style: solid;
   border-radius: 10px;
+  color: #555555;
 }
 
 #funds-brief {
   width: 300px;
-  margin: 71px auto;
-  margin-left: -20px;
+  margin: 83px auto;
 }
+#amount-searched{
+  font-size: 34px;
+margin: 0px auto;
+padding: 20px;
+padding-left:10px;
+padding-right: 10px;
+width: 80%;
+border-color: #ff9673;
+border-width: 10px;
+border-style: solid;
+border-radius: 10px;
+color: #555555;
 
+}
+#amount-available{
+margin-top: 83px;
+}
 #postgraduate-brief {
   margin-top: 0;
 }
@@ -255,7 +272,41 @@ a.cd-login {
   text-transform: lowercase;
   color: #ff5050;
 }
+#start-now{
+  display: inline-block;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #05d257;
+  border-radius: 3px;
+  color: white;
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 17px;
+  cursor: pointer;
 
+}
+#fund-sign-up{
+  display: inline-block;
+  margin-top: 70px;
+  margin-bottom: 30px;
+  background-color: #337ab7;
+  border-radius: 3px;
+  color: white;
+  padding: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 17px;
+  cursor: pointer;
+
+}
+#user-profile{
+  margin: 50px;
+  margin-top: 20px;
+}
+#description-cols{
+  margin-left: 20px;
+}
 /*Progress circular bar css */
 
 #page {
@@ -283,10 +334,11 @@ a.cd-login {
     margin: 0;
     padding: 0;
     width: 275px;
-    top: -460px;
-    font-size: 44px;
+    top: -448px;
+    font-size: 34px;
     font-weight: 900;
     text-align: center;
+    color: #555555;
   }
 }
 
@@ -297,6 +349,7 @@ a.cd-login {
   top: 320px;
   padding: 10px 80px;
   display: none;
+
 }
 
 /*silo description*/
@@ -373,40 +426,46 @@ a.cd-login {
 
 #line-break {
   border-width: 3px;
+  margin-bottom: 0;
 }
 
 #about-us {
-  height: 578px;
+  margin-top: 0;
+padding: 20px;
+width: 100%;
+background: #f1f1f1;
 }
 
 #about-intro {
+  margin-top: 20px;
   color: #22313F;
 }
 
 #free, #crowd-funding, #network {
-  width: 40%;
+  width: 100%;
   height: auto;
+  margin-top: 20px;
 }
 
 #crowd-funding-paragraph, #free-paragraph, #network-paragraph {
-  font-size: 18px;
+  font-size: 14px;
   color: #34495E;
   margin-top: 25px;
+  text-align: left;
 }
 
 #showcase {
-  background-color: #e4ecf2;
   position: relative;
   width: 100%;
   padding-top: 40px;
-  margin-bottom: 0;
+  margin-bottom: 100px;
   margin-top: 10px;
+  .row{
+    margin-top: 50px;
+  }
 }
 
-#user-profile, #search-profile {
-  max-width: 100%;
-  height: auto;
-}
+
 
 #user-features {
   font-size: 18px;
@@ -451,14 +510,14 @@ a.cd-login {
 }
 
 #fund-profile, #application {
-  max-width: 70%;
+  max-width: 100%;
   height: auto;
+  border-radius: 5px;
 }
 
 #profile-features, #application-feature, #coming-features {
   font-size: 18px;
   color: #6C7A89;
-  margin-top: -50px;
   margin-bottom: -16px;
 }
 
@@ -481,14 +540,7 @@ a.cd-login {
   margin-bottom: 100px;
 }
 
-.carousel-control {
-  .glyphicon-chevron-left, .icon-prev {
-    margin-left: -55px;
-  }
-  .glyphicon-chevron-right, .icon-next {
-    margin-right: -55px;
-  }
-}
+
 
 .messages {
   position: fixed;
@@ -500,25 +552,7 @@ a.cd-login {
   margin-left: 20%;
 }
 
-#generosity {
-  margin-top: 0;
-  height: 578px;
-  width: 100%;
-  background: url("../images/Noon-Years-Confetti.png") no-repeat fixed;
-  background-position: center;
-}
 
-#generosity-intro {
-  color: #34495E;
-}
-
-#generosity-paragraph {
-  width: 60%;
-  margin-left: 20%;
-  font-size: 19px;
-  color: #34495E;
-  line-height: 2.5;
-}
 
 .hideme {
   opacity: 0;
@@ -785,9 +819,7 @@ a.cd-login {
     width: 94%;
     margin-left: 3%;
   }
-  #features, #showcase {
-    display: none;
-  }
+
 }
 
 @media (max-width: 630px) {

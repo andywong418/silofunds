@@ -154,7 +154,9 @@ $(document).ready(function() {
     });
 
   });
-
+$('#start-now').click(function(){
+  $('a.cd-signup').click();
+});
 
   $(window).scroll(function(event) {
     $(".module-2").each(function(i, el){

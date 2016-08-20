@@ -609,6 +609,9 @@ $(document).ready(function(){
     $('#fundBio').find('*').css('font-family', 'PT Sans');
     $('#fundBio').find('*').css('line-height', '1.5');
     $('#fundBio').find('*').css('background-color', '#e9f0f4');
+    if($('#fundBio').find('.container')){
+      $('#fundBio').find('.container').removeClass('.container');
+    }
     var paragraphs = $('#fundBio').find('p');
     console.log(paragraphs);
     for (var i =0; i < paragraphs.length; i++ ){

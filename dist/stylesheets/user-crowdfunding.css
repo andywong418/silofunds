@@ -868,8 +868,55 @@ body {
               background-color: #4b4f56; }
       body #crowdfunding-wrapper #tab-table #tab-content {
         padding: 20px; }
-        body #crowdfunding-wrapper #tab-table #tab-content #story {
+        body #crowdfunding-wrapper #tab-table #tab-content #story-handler #story {
           font-size: 16px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #story-handler .documents {
+          margin-top: 15px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #story-handler #header {
+          margin-bottom: 0;
+          font-size: 16px;
+          font-weight: bold; }
+        body #crowdfunding-wrapper #tab-table #tab-content #story-handler hr {
+          margin-top: 10px;
+          margin-bottom: 10px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row {
+          margin-top: -15px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row hr {
+            margin-bottom: 0; }
+          body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span {
+            margin-left: 15px; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span i {
+              font-size: 25px;
+              margin: 20px 0px 10px 0px; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .pdf-file {
+              color: #f39c12; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .photo-file {
+              color: #c0392b; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .video-file {
+              color: #8e44ad; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .excel-file {
+              color: #16a085; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .word-file {
+              color: #2980b9; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .powerpoint-file {
+              color: #e67e22; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .code-file {
+              color: #e62240; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .filename {
+              color: #7f8c8d; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span .hyperlink {
+              font-size: 20px; }
+            body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row span a {
+              display: inline;
+              font-size: 15px;
+              margin: 10px;
+              font-family: 'Montserrat'; }
+          body #crowdfunding-wrapper #tab-table #tab-content #story-handler .document-row #file-description {
+            display: block;
+            color: black;
+            font-size: 15px;
+            margin-top: 5px;
+            padding-left: 13px; }
         body #crowdfunding-wrapper #tab-table #tab-content #about-handler #header {
           margin-bottom: 0;
           font-size: 16px;
@@ -900,36 +947,6 @@ body {
           margin-top: 10px; }
         body #crowdfunding-wrapper #tab-table #tab-content #about-handler .documents, body #crowdfunding-wrapper #tab-table #tab-content #about-handler .education {
           margin-top: 15px; }
-        body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row {
-          margin-top: -15px; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row hr {
-            margin-bottom: 0; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span i {
-            font-size: 25px;
-            margin: 20px 0px 10px 0px; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .pdf-file {
-            color: #f39c12; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .photo-file {
-            color: #c0392b; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .video-file {
-            color: #8e44ad; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .excel-file {
-            color: #16a085; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .word-file {
-            color: #2980b9; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .powerpoint-file {
-            color: #e67e22; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .code-file {
-            color: #e62240; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .filename {
-            color: #7f8c8d; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span .hyperlink {
-            font-size: 20px; }
-          body #crowdfunding-wrapper #tab-table #tab-content #about-handler .document-row span a {
-            display: inline;
-            font-size: 15px;
-            margin: 10px;
-            font-family: 'Montserrat'; }
         body #crowdfunding-wrapper #tab-table #tab-content #update-handler #update-header {
           margin-top: 20px;
           font-size: 15px;

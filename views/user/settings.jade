@@ -21,9 +21,9 @@ block content
             img#userImage(src=user.profile_picture)
             i.fa.fa-camera
           else
-          input#my_file(type='file', style='display: none;', name = 'profile_picture')
-          img#userImage(src='/images/profile-placeholder.jpg')
-          i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
+            input#my_file(type='file', style='display: none;', name = 'profile_picture')
+            img#userImage(src='/images/profile-placeholder.jpg')
+            i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
       .settings-tab-menu
         .list-group
           a.list-group-item.active(href="#")
@@ -136,12 +136,12 @@ block content
                   if user.video
                     input#video( value = user.video, name="video")
                     p Remember to use an 
-                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= 'embedded link '
+                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
                   else
                     input#video(placholder = 'https://www.youtube.com/embed/Qa5tocl0BeA', name='video')
                     p Remember to use an
-                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank') embedded link
+                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
               .col-md-12
                 label.col-md-3(for='description') Describe your goal
