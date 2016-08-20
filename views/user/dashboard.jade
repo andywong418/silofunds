@@ -38,39 +38,56 @@ block content
       p#header Recommended for you
       .row.recommended-row
         each fund in funds
-          .col-md-3
-            img(src='/images/fund_img_placeholder.jpg')
+          .col-md-3.col-xs-6
+            img.col-xs-12(src='/images/fund_img_placeholder.jpg')
             p
               a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
     section#updates
-      p#header Post an update
+      .desktop
+        p#header Post an update
+      .col-xs-2.mobile
+        img#profile_picture(src= user.profile_picture)
+        p#header Post an update
       .row.update-row
-        .col-md-1
+        .col-md-1.desktop
           img#profile_picture(src= user.profile_picture)
         .col-md-10
           textarea#update-text(placeholder="Update your supporters on your progress and attract new donors!")
           #social-media-flex-container
-            a#update.social.update
-              | Post your update
-            span#save-update-notification Your update has been posted
-            //- a.social.twitter-tweet
-            //-   i.fa.fa-twitter-square(aria-hidden="true")
-            //-   | Tweet
-            //- a.social.fb-share
-            //-   i.fa.fa-facebook-official(aria-hidden="true")
-            //-   | Share
+            .social-media-flex-div
+              a#update.social.update
+                | Post your update
+              span#save-update-notification Your update has been posted
+            .social-media-flex-div#flex-end
+              #view-profile.mobile
+                a.user-dashboard.btn.btn-primary(href='/user/profile') View your profile
+              //- a.social.twitter-tweet
+              //-   i.fa.fa-twitter-square(aria-hidden="true")
+              //-   | Tweet
+              //- a.social.fb-share
+              //-   i.fa.fa-facebook-official(aria-hidden="true")
+              //-   | Share
           
-        
-    section
-      ul.nav.nav-tabs
-        li#tab-applications.active
-          a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Your Applications
-        li#tab-favorites
-          a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
-        li#tab-recently-browsed
-          a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Browsed
-        li#view-profile
-          a.user-dashboard.btn.btn-primary(href='/user/profile') View your profile
+    .desktop   
+      section
+        ul.nav.nav-tabs
+          li#tab-applications.active
+            a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Your Applications
+          li#tab-favorites
+            a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
+          li#tab-recently-browsed
+            a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Browsed
+          li#view-profile
+            a.user-dashboard.btn.btn-primary(href='/user/profile') View your profile
+    .mobile 
+      section
+        ul.nav.nav-tabs
+          li#tab-applications.col-xs-4.active
+            a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Applications
+          li#tab-favorites.col-xs-4
+            a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
+          li#tab-recently-browsed.col-xs-4
+            a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Viewed       
     .tab-content
       .tab-pane.active.fade.in#ud-applications
         section.header
