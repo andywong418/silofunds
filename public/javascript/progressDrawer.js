@@ -5,9 +5,9 @@
   var aProgress = document.getElementById('activeProgress');
   var iProgressCTX = iProgress.getContext('2d');
 
-  
+
   drawInactive(iProgressCTX);
-  
+
   $pc.on('change', function(){
     var percentage = $(this).val() / 100;
     console.log(percentage + '%');
@@ -17,25 +17,19 @@
   function drawInactive(iProgressCTX){
     iProgressCTX.lineCap = 'square';
 
-    //outer ring
-    iProgressCTX.beginPath();
-    iProgressCTX.lineWidth = 15;
-    iProgressCTX.strokeStyle = '#e1e1e1';
-    iProgressCTX.arc(137.5,137.5,99,0,2*Math.PI);
-    iProgressCTX.stroke();
 
     //progress bar
     iProgressCTX.beginPath();
     iProgressCTX.lineWidth = 0;
     iProgressCTX.fillStyle = '#e6e6e6';
-    iProgressCTX.arc(137.5,137.5,91,0,2*Math.PI);
+    iProgressCTX.arc(137.5,137.5,85.2,0,2*Math.PI);
     iProgressCTX.fill();
 
     //progressbar caption
     iProgressCTX.beginPath();
     iProgressCTX.lineWidth = 0;
     iProgressCTX.fillStyle = '#fff';
-    iProgressCTX.arc(137.5,137.5,70,0,2*Math.PI);
+    iProgressCTX.arc(137.5,137.5,74,0,2*Math.PI);
     iProgressCTX.fill();
 
   }
@@ -49,9 +43,9 @@
     barCTX.lineCap = 'square';
 
     barCTX.beginPath();
-    barCTX.lineWidth = 20;
+    barCTX.lineWidth = 10.2;
     barCTX.strokeStyle = '#76e1e5';
-    barCTX.arc(137.5,137.5,81,startingAngle, endingAngle);
+    barCTX.arc(137.5,137.5,80.4,startingAngle, endingAngle);
     barCTX.stroke();
 
     $pCaption.text( (parseInt(percentage * 100, 10)) + '%');
@@ -59,4 +53,3 @@
 
     var percentage = $pc.val() / 100;
     drawProgress(aProgress, percentage, $pCaption);
-

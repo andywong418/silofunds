@@ -114,30 +114,37 @@ models.funds.findAll().then(function(funds){
 // })
 
 //get rid of religion
-async.each(funds, function(fund,callback){
-  fund = fund.get();
-  var subject = fund.subject;
-  var id = fund.id;
-  if(subject){
-    if(subject.indexOf("arts and law") != -1 && subject.indexOf("engineering and physical sciences") != -1 && subject.indexOf("medical and dental sciences") != -1 && subject.indexOf("social sciences") != -1 && subject.indexOf("life and environmental sciences")) {
-      console.log("JUST HERE");
-      models.funds.findById(id).then(function(fund){
-        console.log("I'm here");
-        fund.update({
-          subject: null
-        }).then(function(){
-          callback();
-        });
-      });
-    }
-    else {
-      callback();
-    }
-  }
-  else{
-    callback();
+// async.each(funds, function(fund,callback){
+//   fund = fund.get();
+//   var subject = fund.subject;
+//   var id = fund.id;
+//   if(subject){
+//     if(subject.indexOf("arts and law") != -1 && subject.indexOf("engineering and physical sciences") != -1 && subject.indexOf("medical and dental sciences") != -1 && subject.indexOf("social sciences") != -1 && subject.indexOf("life and environmental sciences")) {
+//       console.log("JUST HERE");
+//       models.funds.findById(id).then(function(fund){
+//         console.log("I'm here");
+//         fund.update({
+//           subject: null
+//         }).then(function(){
+//           callback();
+//         });
+//       });
+//     }
+//     else {
+//       callback();
+//     }
+//   }
+//   else{
+//     callback();
+//   }
+//
+// });
+var totalAmount = 0;
+for (var i =0; i < funds.length; i++){
+  if(funds[i].maximum_amount){
+    totalAmount = totalAmount + funds[i].maximum_amount;
   }
 
-});
-
+}
+console.log(totalAmount);
 });

@@ -41,7 +41,7 @@ block content
 					!= messages('messages', locals)
 					h1.brand-heading
 					p.intro-text The search for funding shouldn't be draining.
-					p.intro-text-2 Fund your goals
+					p.intro-text-2 Fund your education
 						span#emphasis(style='margin-left: 7px') now.
 					form#search-form.search_form(action='/results', method='get', name='search_form')
 						input#text_search(type='text', name='tags', placeholder='Subject, Target University, Target Degree level')
@@ -51,12 +51,7 @@ block content
 	// About Section
 	section#about.container.content-section.text-center
 		.row
-			.col-md-3.col-md-offset-2.hideme
-				h1#number-of-funds 8800
-				p#funds-brief There are 8800 grants in the UK giving approximately £2.5 billion in funds annually.
-			.col-md-2.hideme
-				h1#yet yet...
-			.col-md-3.hideme
+			.col-md-4.hideme
 				#page
 					.progress-bar
 						canvas#inactiveProgress.progress-inactive(height='275px', width='275px')
@@ -65,64 +60,58 @@ block content
 					#progressControllerContainer
 						input#progressController(type='range', min='0', max='100', value='72')
 					p#postgraduate-brief 72% of postgraduate students have no financial help.
+			.col-md-4.hideme
+				h1#number-of-funds 1200
+				p#funds-brief With over 1200 grants, we are the most updated funding database in the UK.
+			.col-md-4.hideme
+				h1#amount-searched £10 million
+				p#amount-available There are over £10 million worth of grants at Silo.
 
 			.col-md-2
 			.col-lg-8.col-lg-offset-2
 				p#silo-here Silo connects you with the institutions most likely to award you funding. We’re simplifying the search process and saving you time.
 	hr#line-break
 	section#about-us.container.content-section.text-center
-		.col-md-12.center-block
-			h3#about-intro.module About us
-			.col-md-4.module
-				img#free(src="images/free.svg")
-				p#free-paragraph We understand the financial pressures of student-life. So we made Silo free to use.
-			.col-md-4.module
-				img#crowd-funding(src="images/crowd-funding.svg")
-				p#crowd-funding-paragraph Our platform aggregates crowdfunding tools and traditional fundraising methods to maximize your chances of success.
-			.col-md-4.module
-				img#network(src="images/network.svg")
-				p#network-paragraph *Silo is the first service to directly connect grant institutions to you.
-				p#coming-soon *Coming soon...
+		h3#about-intro.module Students
+		.col-md-6
+			img#user-profile(src="images/user-profile.png", style="width: 100%;")
+		.col-md-1
+		#description-cols.col-md-4
+			.row
+				.col-md-3
+					img#free(src="images/free.svg")
+				.col-md-9
+					p#free-paragraph We understand the financial pressures of student-life. Silo's crowdfunding fee is lower than all its competitors.
+			.row
+				.col-md-3
+					img#crowd-funding(src="images/crowd-funding.svg")
+				.col-md-9
+					p#crowd-funding-paragraph By combining crowdfunding and grant searching, we maximise the chances of a student reaching their goal.
+			.row
+				.col-md-3
+					img#network(src="images/connections.svg")
+				.col-md-9
+					p#network-paragraph Silo connects you with relevant people who are interested in helping you. This can be other students, alumni or organisations.
+		span#start-now Start now
 	section#showcase.container.content-section.text-center
-		#profile-views.carousel.slide(data-ride = 'carousel')
-			ol.carousel-indicators
-				li.active(data-target='#profile-views', data-slide-to='0')
-				li(data-target='#profile-views', data-slide-to='1')
-				li(data-target='#profile-views', data-slide-to='2')
-			.carousel-inner(role='listbox')
-				.item.active
-					h3#applicant-intro Applicants
-					img#user-profile(src="images/homescreen-user.png")
-					p#user-features Customise your profile by showcasing past work, track your application process and engage with like-minded people in our supportive community.
-				.item
-					.row
-						h3#search-intro Search
-						img#search-profile(src="images/search_1.png")
-						p#search-features Use our unique search engine to look for funds tailored to your specific needs.
-				.item
-					.row#intro-row
-						h3#fund-intro Funds
-						.col-md-1
-						#profile-row.col-md-5
-							img#fund-profile(src="images/profile.png")
-							p#profile-features Display your eligibility criteria and other relevant information.
-						#application-row.col-md-5
-							img#application(src="images/application.png")
-							p#application-feature Create and edit an online application form for potential applicants.
-						.col-md-1
-						//
-							#coming-soon.col-md-3
-								h4#coming Coming soon ...
-								p#coming-features Manage your applicants and their applications.
-			a.left.carousel-control(href='#profile-views', role='button', data-slide='prev')
-				span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
-				span.sr-only Previous
-			a.right.carousel-control(href='#profile-views', role='button', data-slide='next')
-				span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-				span.sr-only Next
-	section#generosity.container.content-section.text-center
-		h3#generosity-intro.hideme Generosity
-		p#generosity-paragraph.hideme Lend a helping hand. After you’ve exceeded your fundraising target, we’ll provide you with a list of students who have fallen just short of their minimum viable targets. A small donation could make a big difference. Your generosity will help more people achieve their dreams.
+		#profile-views
+			h3#fund-intro.module Funds
+			.row
+				.col-md-1
+				#profile-row.col-md-7
+					img#fund-profile(src="images/dashboard.png")
+				.col-md-3
+					p#profile-features Manage multiple awards at the same time. Every week you can receive analytics on how many people visited/favourited your page. You can also approve student applications on their crowdfunding page - legitimising their information.
+				.col-md-1
+			.row
+				.col-md-1
+				.col-md-3
+					p#application-feature Create an award page to display general information, eligibility criteria and application processes. 
+				#application-row.col-md-7
+					img#application(src="images/fund-profile.png")
+				.col-md-1
+			span#fund-sign-up Sign up
+				
 	footer.footer-distributed
 				.footer-left
 					p.footer-links

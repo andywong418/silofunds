@@ -26,7 +26,17 @@ $(document).ready(function(){
   }
   var UserModel = Backbone.Model.extend({
     url: '/signup/user_signup/' + user.id,
-  })
+  });
+  var DocumentModel = Backbone.Model.extend();
+  var DocumentView = Backbone.View.extend({
+    tagName:'div',
+    id:'document-handler',
+    template: _.template($('#document-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this; // enable chained calls
+    }
+  });
   var StoryView = Backbone.View.extend({
     tagName: 'div',
     id: 'story-handler',
@@ -45,41 +55,6 @@ $(document).ready(function(){
       this.$('#story').find('*').css('font-size', '16px');
       this.$('#story').find('*').css('color', '#4b4f56');
       this.$('#story').find('p').css('font-size', '15px')
-    }
-  });
-  var DocumentModel = Backbone.Model.extend();
-  var DocumentView = Backbone.View.extend({
-    tagName:'div',
-    id:'document-handler',
-    template: _.template($('#document-template').html()),
-    render: function(){
-      this.$el.html(this.template(this.model.toJSON()));
-      return this; // enable chained calls
-    }
-  })
-  var AboutView = Backbone.View.extend({
-    tagName: 'div',
-    id: 'about-handler',
-    template: _.template($('#about-template').html()),
-    render: function(){
-      this.$el.html(this.template(this.model.toJSON()));
-      return this;
-    },
-    initialize: function(){
-      var aboutModel = this.model;
-      this.el = this.render().el;
-      var age;
-      if(user.date_of_birth){
-        console.log(user.date_of_birth);
-        var myDate = user.date_of_birth.split("-");
-        var yearFix= myDate[2].split("T");
-        var day = yearFix[0];
-        var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
-        var birthDate = new Date(newDate).getTime();
-        var nowDate = new Date().getTime();
-        var age = Math.floor((nowDate - birthDate) / 31536000000 );
-        this.$('#age').html(age);
-      }
       var documents = this.model.get('documents');
       console.log(documents);
       for(var i =0; i< documents.length; i++){
@@ -87,6 +62,7 @@ $(document).ready(function(){
         var id = doc.id;
         var link = doc.link;
         var file = doc.title;
+        var description = doc.description;
         var extension;
         if(file){
           var seekingExtension = file.split(".");
@@ -127,13 +103,41 @@ $(document).ready(function(){
         var documentModel = new DocumentModel({
           fileClass: fileClass,
           fileLink: link,
-          fileName: file
+          fileName: file,
+          fileDescription: description
         });
         var docView = new DocumentView({model: documentModel});
         this.$('.document-row').append(docView.render().el);
 
 
       }
+    }
+  });
+
+  var AboutView = Backbone.View.extend({
+    tagName: 'div',
+    id: 'about-handler',
+    template: _.template($('#about-template').html()),
+    render: function(){
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    },
+    initialize: function(){
+      var aboutModel = this.model;
+      this.el = this.render().el;
+      var age;
+      if(user.date_of_birth){
+        console.log(user.date_of_birth);
+        var myDate = user.date_of_birth.split("-");
+        var yearFix= myDate[2].split("T");
+        var day = yearFix[0];
+        var newDate = myDate[1]+"/"+day+"/"+ myDate[0];
+        var birthDate = new Date(newDate).getTime();
+        var nowDate = new Date().getTime();
+        var age = Math.floor((nowDate - birthDate) / 31536000000 );
+        this.$('#age').html(age);
+      }
+
 
     }
   });

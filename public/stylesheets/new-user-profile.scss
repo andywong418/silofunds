@@ -264,14 +264,16 @@ body{
 	 }
 	 #work-span{
 	  margin-top: -20px;
-	  margin-bottom: 20px;
+	  margin-bottom: 8px;
 		background-color: #05d257;
 		border: none;
 		&:hover{
 			background-color: #04a042;
 		}
 	 }
-
+	 #edit-later{
+		 margin-bottom:15px;
+	 }
 	 #work-span label{
 	  cursor: pointer;
 	  margin-left:10px;
