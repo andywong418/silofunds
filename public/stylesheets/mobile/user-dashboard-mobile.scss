@@ -173,7 +173,7 @@
   .tab-content {
     padding-bottom: 0px;
     .tab-pane {
-      margin-top: 25px;
+      margin-top: 10px;
       p {
         font-size: 16px;
         color: #010138;
@@ -231,5 +231,13 @@
         }
       }
     }
+  }
+
+
+  .padding-reduce-mobile-lg {
+    padding-top: 30px;
+  }
+  .padding-reduce-mobile-sm {
+    padding-top: 10px;
   }
 }

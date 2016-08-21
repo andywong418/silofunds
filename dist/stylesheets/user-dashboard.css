@@ -1771,7 +1771,7 @@ table#header {
   .tab-content {
     padding-bottom: 0px; }
     .tab-content .tab-pane {
-      margin-top: 25px; }
+      margin-top: 10px; }
       .tab-content .tab-pane p {
         font-size: 16px;
         color: #010138; }
@@ -1807,7 +1807,11 @@ table#header {
         #application-status .modal-dialog .modal-content .modal-body #hide-update #hide {
           margin-right: 6px; }
     #application-status .modal-dialog .modal-content .modal-footer button {
-      margin-top: 10px; } }
+      margin-top: 10px; }
+  .padding-reduce-mobile-lg {
+    padding-top: 30px; }
+  .padding-reduce-mobile-sm {
+    padding-top: 10px; } }
 
 @media (min-width: 861px) {
   .mobile {

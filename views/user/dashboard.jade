@@ -80,7 +80,7 @@ block content
           li#view-profile
             a.user-dashboard.btn.btn-primary(href='/user/profile') View your profile
     .mobile 
-      section
+      section.padding-reduce-mobile-lg
         ul.nav.nav-tabs
           li#tab-applications.col-xs-4.active
             a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Applications
@@ -90,7 +90,7 @@ block content
             a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Viewed       
     .tab-content
       .tab-pane.active.fade.in#ud-applications
-        section.header
+        section.header.padding-reduce-mobile-sm
           if applied_funds.length > 0
             .row
               .col-md-12
@@ -161,7 +161,7 @@ block content
         section.content-section
           .row
       .tab-pane.fade#ud-favourites
-        section.header
+        section.header.padding-reduce-mobile-sm
           if favourite_funds.length > 0
             .row
               .col-md-12
@@ -206,7 +206,7 @@ block content
         section.content-section
           .row
       .tab-pane.fade#ud-recently-browsed
-        section.header
+        section.header.padding-reduce-mobile-sm
           if recent_funds.length > 0
             .row
               .col-md-12
