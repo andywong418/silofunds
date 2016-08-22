@@ -78,7 +78,7 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
-app.use(gzip.staticGzip(__dirname + '/bower_components', { matchType: /javascript/ }));
+app.use(gzip.staticGzip(__dirname + '/bower_components/jquery/dist', { matchType: /javascript/ }));
 // Load routes
 routes.initialize(app);
 
