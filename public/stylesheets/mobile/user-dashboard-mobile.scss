@@ -4,6 +4,7 @@
 @import '../signup.scss';
 @import '../fund-dashboard.scss';
 
+
 @media (max-width: 862px) {
   .desktop {
     display: none
@@ -299,5 +300,21 @@
 
   #status {
     margin-top: 8px
+  }
+
+  .fund-imgs {
+    width: 45%;
+    img {
+      width: 100%;
+    }
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .flex-it {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }

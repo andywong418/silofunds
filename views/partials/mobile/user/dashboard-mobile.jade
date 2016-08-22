@@ -1,0 +1,76 @@
+.mobile 
+  section.padding-reduce-lg
+    ul.nav.nav-tabs
+      li#tab-applications.col-xs-4.active
+        a#tab-applications.user-dashboard(href="#ud-applications" data-toggle="tab") Applications
+      li#tab-favorites.col-xs-4
+        a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
+      li#tab-recently-browsed.col-xs-4
+        a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Viewed  
+.tab-content
+  .tab-pane.active.fade.in#ud-applications
+    section.header.padding-reduce-sm        
+      .mobile
+        if applied_funds.length > 0
+          each fund in applied_funds
+            .row.col-xs-12#funding-card
+              .row.top-row
+                .col-xs-8
+                  a(href='/organisation/options/' + fund.id, target='_blank')
+                    span= fund.title
+                .col-xs-4
+                  span.label(id='#{fund.support_type}') Type: #{fund.support_type}
+              .row
+                .col-xs-12
+                  span Amount: 
+                  if (fund.minimum_amount && fund.maximum_amount)
+                    span £#{fund.minimum_amount} - £#{fund.maximum_amount}
+                  else if (fund.minimum_amount)
+                    span £#{fund.minimum_amount} +
+                  else if (fund.maximum_amount)
+                    span < £#{fund.maximum_amount} 
+              .row
+                .col-xs-12
+                  if(fund.deadline)
+                    span Deadline: 
+                    span= fund.deadline
+              .row
+                .col-xs-3
+                .col-xs-6#status
+                  span Status: 
+                  a(id= 'status' + fund.id,data-toggle="modal",data-target=".application-status" + fund.id)= fund.status
+                .col-xs-3
+                // Modal
+              #application-status.modal.fade(role='dialog', class='application-status' + fund.id)
+                .modal-dialog
+                  // Modal content
+                  .modal-content
+                    .modal-header
+                      button.close(type='button', data-dismiss='modal') ×
+                      h4.modal-title Manage your application
+                    .modal-body
+                      p Please confirm the outcome of this application.
+                      .radio
+                        label
+                          input(id = 'app-success' + fund.id, type='radio', name='optradio', value='success', class=fund.id)
+                          | Yes I managed to get funding.
+                          label#amount-update(class='amount-update' + fund.id) Update your supporters on your achievement!
+                            input#amount-gained(placeholder= '£', class='amount-gained' + fund.id)
+                      .radio
+                        label
+                          input(id='app-fail' + fund.id, type='radio', name='optradio', value='unsuccessful', class= fund.id)
+                          | Unfortunately I did not procure funding from this fund.
+                          label#hide-update(class='hide-update' + fund.id)
+                            input#hide(type='checkbox', value='show-unsuccessful', checked= 'checked', class= 'hide' + fund.id)
+                            | Hide this from your profile
+                    .modal-footer
+                      button.confirm-app.btn.btn-primary(id=fund.id, type='button', data-dismiss='modal') Confirm
+                      button.btn.btn-default(type='button', data-dismiss='modal') Close
+        else
+          .row
+            .col-md-12
+              p You don't seem to have applied to any funds yet. 
+                a#explore Explore now!
+        .spacing_div      
+  
+  

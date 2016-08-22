@@ -37,15 +37,12 @@ block content
     section#recommended
       p#header Recommended for you
       .row.recommended-row
-        each fund in funds
-          .col-md-3.col-xs-6.desktop
-            img.col-md-12(src='/images/fund_img_placeholder.jpg')
-            p
-              a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
-          .col-md-3.col-xs-6.padding-div.mobile
-            img.col-xs-12(src='/images/fund_img_placeholder.jpg')
-            p
-              a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+        .flex-it
+          each fund in funds
+            .col-md-3.col-xs-6.fund-imgs
+              img.col-md-12(src='/images/fund_img_placeholder.jpg')
+              p
+                a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
     section#updates
       .desktop
         p#header Post an update
@@ -72,7 +69,6 @@ block content
               //- a.social.fb-share
               //-   i.fa.fa-facebook-official(aria-hidden="true")
               //-   | Share
-          
     .desktop   
       section
         ul.nav.nav-tabs
