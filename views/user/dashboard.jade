@@ -69,6 +69,8 @@ block content
               //- a.social.fb-share
               //-   i.fa.fa-facebook-official(aria-hidden="true")
               //-   | Share
+              
+    // Navigation bar          
     .desktop   
       section
         ul.nav.nav-tabs
@@ -89,11 +91,12 @@ block content
             a#tab-favourites.user-dashboard(href="#ud-favourites" data-toggle="tab") Favourites
           li#tab-recently-browsed.col-xs-4
             a#tab-recently-browsed.user-dashboard(href="#ud-recently-browsed" data-toggle="tab") Recently Viewed       
-  
+            
+            
+    // Applications        
     .tab-content
       .tab-pane.active.fade.in#ud-applications
-        section.header.padding-reduce-sm
-        
+        section.header.padding-reduce-sm  
           .desktop
             if applied_funds.length > 0
               .row
@@ -228,7 +231,7 @@ block content
                     a#explore Explore now!
             .spacing_div      
       
-      
+      // Favourites
       .tab-pane.fade#ud-favourites
         section.header.padding-reduce-sm
           if favourite_funds.length > 0
@@ -312,7 +315,7 @@ block content
         section.content-section
           .row
           
-          
+      // Recently browsed    
       .tab-pane.fade#ud-recently-browsed
         section.header.padding-reduce-sm.desktop
           if recent_funds.length > 0
