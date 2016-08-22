@@ -1683,10 +1683,11 @@ h2#name {
     border-radius: 50%; }
   #updates .update-row textarea {
     width: 80%;
-    height: 300px;
+    height: 100px;
     border-radius: 3px;
-    font-size: 18px;
-    padding: 8px; }
+    font-size: 15px;
+    padding: 8px;
+    resize: none; }
   #updates .update-row #social-media-flex-container {
     width: 80%;
     display: inline-block;
