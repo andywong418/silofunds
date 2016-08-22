@@ -56,11 +56,21 @@
     #social-media-flex-container {
       width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
+      align-items: flex-start;
+      justify-content: space-between;;
       margin-top: 15px;
+      .update_div {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        #save-update-notification {
+          width: 80%;
+        }
+        .social-media-flex-div {
+          width: 100%;
+        }
+      }
       .social-media-flex-div {
-        width: 45%;
         display: flex;
         justify-content: flex-start;
         padding: 0;
@@ -125,7 +135,7 @@
     section {
       li.active {
         a {
-          font-size: 14px;
+          font-size: 12px;
           border-bottom: 2px solid #2390fd;
           color:#3588cf;
           &:hover, &:focus {
@@ -138,7 +148,7 @@
         text-align: center;
         padding: 0;
         a{
-          font-size: 14px;
+          font-size: 12px;
           width: 100%;
           margin: 0;
           color: #010138;
@@ -234,10 +244,60 @@
   }
 
 
-  .padding-reduce-mobile-lg {
-    padding-top: 30px;
+
+  // Extra bits
+  .padding-reduce-lg {
+    padding-top: 30px
   }
-  .padding-reduce-mobile-sm {
-    padding-top: 10px;
+
+  .padding-reduce-sm {
+    padding-top: 5px;
+  }
+
+  .mobile {
+    ul.nav.nav-tabs {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .spacing_div {
+    clear: both;
+    height: 25px;
+  }
+
+  #funding-card .col-xs-4 .label {
+    margin-right: 2px;
+  }
+
+  section .row#funding-card {
+    padding: 6px 0px;
+    margin-bottom: 0px;
+    .label {
+      padding: .2em .2em .3em
+    }
+    div {
+      padding: 0px 10px;
+    }
+    .row {
+      padding: 0px;
+      margin: 0px;
+    }
+    .top-row {
+      margin-bottom: 2px;
+    }
+  }
+
+  #ud-applications, #ud-favourites, #ud-recently-browsed {
+    margin-top: 0px;
+  }
+
+  .padding-div {
+    padding: 5px;
+  }
+
+  #status {
+    margin-top: 8px
   }
 }

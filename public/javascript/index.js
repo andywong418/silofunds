@@ -154,6 +154,11 @@ $(document).ready(function() {
     });
 
   });
+$('#start-now, #fund-sign-up').click(function(){
+  $('a.cd-signup').click();
+});
+var parallax = document.querySelectorAll(".parallax"),
+      speed = 0.5;
 
 
   $(window).scroll(function(event) {
@@ -162,7 +167,22 @@ $(document).ready(function() {
         if (el.visible(true)) {
           el.addClass("come-in-2");
         }
-    })
+    });
+    $(".module-3").each(function(i, el){
+      var el = $(el);
+      if (el.visible(true)) {
+        el.addClass("come-in-3");
+      }
+    });
+  [].slice.call(parallax).forEach(function(el,i){
+    console.log(el);
+    console.log(i);
+  var windowYOffset = window.pageYOffset,
+      elBackgrounPos = "50% " + (windowYOffset * speed) + "px";
+
+  el.style.backgroundPosition = elBackgrounPos;
+
+});
   });
   var className;
   $(".footer-distributed .footer-right a").hover(function(){

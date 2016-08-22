@@ -991,11 +991,13 @@ body {
           margin-bottom: 40px; }
         #signup-wrapper #signup-form #work #work-row #work-span {
           margin-top: -20px;
-          margin-bottom: 20px;
+          margin-bottom: 8px;
           background-color: #05d257;
           border: none; }
           #signup-wrapper #signup-form #work #work-row #work-span:hover {
             background-color: #04a042; }
+        #signup-wrapper #signup-form #work #work-row #edit-later {
+          margin-bottom: 15px; }
         #signup-wrapper #signup-form #work #work-row #work-span label {
           cursor: pointer;
           margin-left: 10px; }

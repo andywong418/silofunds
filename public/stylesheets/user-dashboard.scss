@@ -48,6 +48,14 @@
         font-size: 16px;
       }
     }
+    textarea {
+      width: 80%;
+      height: 100px;
+      border-radius: 3px;
+      font-size: 15px;
+      padding: 8px;
+      resize: none;
+    }
   }
   #updates {
     margin-bottom: 40px;

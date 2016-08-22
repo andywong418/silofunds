@@ -1687,14 +1687,28 @@ table#header {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
+      -webkit-box-align: start;
+          -ms-flex-align: start;
+              align-items: flex-start;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
       margin-top: 15px; }
+      #updates #social-media-flex-container .update_div {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -ms-flex-negative: 0;
+            flex-shrink: 0; }
+        #updates #social-media-flex-container .update_div #save-update-notification {
+          width: 80%; }
+        #updates #social-media-flex-container .update_div .social-media-flex-div {
+          width: 100%; }
       #updates #social-media-flex-container .social-media-flex-div {
-        width: 45%;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -1744,7 +1758,7 @@ table#header {
         margin-top: 10px;
         display: none; }
   .mobile section li.active a {
-    font-size: 14px;
+    font-size: 12px;
     border-bottom: 2px solid #2390fd;
     color: #3588cf; }
     .mobile section li.active a:hover, .mobile section li.active a:focus {
@@ -1754,7 +1768,7 @@ table#header {
     text-align: center;
     padding: 0; }
     .mobile section li a {
-      font-size: 14px;
+      font-size: 12px;
       width: 100%;
       margin: 0;
       color: #010138;
@@ -1808,7 +1822,40 @@ table#header {
           margin-right: 6px; }
     #application-status .modal-dialog .modal-content .modal-footer button {
       margin-top: 10px; }
-  .padding-reduce-mobile-lg {
+  .padding-reduce-lg {
     padding-top: 30px; }
-  .padding-reduce-mobile-sm {
-    padding-top: 10px; } }
+  .padding-reduce-sm {
+    padding-top: 5px; }
+  .mobile ul.nav.nav-tabs {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+  .spacing_div {
+    clear: both;
+    height: 25px; }
+  #funding-card .col-xs-4 .label {
+    margin-right: 2px; }
+  section .row#funding-card {
+    padding: 6px 0px;
+    margin-bottom: 0px; }
+    section .row#funding-card .label {
+      padding: .2em .2em .3em; }
+    section .row#funding-card div {
+      padding: 0px 10px; }
+    section .row#funding-card .row {
+      padding: 0px;
+      margin: 0px; }
+    section .row#funding-card .top-row {
+      margin-bottom: 2px; }
+  #ud-applications, #ud-favourites, #ud-recently-browsed {
+    margin-top: 0px; }
+  .padding-div {
+    padding: 5px; }
+  #status {
+    margin-top: 8px; } }
