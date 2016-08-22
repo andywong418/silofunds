@@ -1,8 +1,12 @@
 @import './mobile/user-dashboard-mobile.scss';
 
-@media (min-width: 861px) {
+@media (min-width: 994px) {
   .mobile {
     display: none;
+  }
+
+  #user-dashboard {
+    padding-top: 0px;
   }
 
   $tab-border: 3px solid #2390fd;
@@ -254,5 +258,12 @@
 
   .spacing_div {
     margin-top: 64px;
+  }
+
+  @media (max-width: 998px) {
+    #ud-favourites, #ud-applications, #ud-recently-browsed {
+      margin: 0;
+      padding: 0;
+    }
   }
 }

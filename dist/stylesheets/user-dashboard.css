@@ -1648,7 +1648,13 @@ table#header {
     color: #8E9FB1;
     white-space: nowrap; }
 
-@media (max-width: 862px) {
+@media (max-width: 993px) and (max-width: 600px) {
+  h2 {
+    font-size: 22px; }
+  #header, #update {
+    font-size: 16px; } }
+
+@media (max-width: 993px) {
   .desktop {
     display: none; }
   .row.recommended-row img, #recommended {
@@ -1859,12 +1865,6 @@ table#header {
     padding: 5px; }
   #status {
     margin-top: 8px; }
-  .fund-imgs {
-    width: 45%; }
-    .fund-imgs img {
-      width: 100%; }
-    .fund-imgs p {
-      font-size: 15px; }
   .flex-it {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1873,11 +1873,59 @@ table#header {
         -ms-flex-pack: justify;
             justify-content: space-between;
     -ms-flex-wrap: wrap;
-        flex-wrap: wrap; } }
+        flex-wrap: wrap; }
+  .fund-imgs {
+    padding: 3%;
+    width: 47%; }
+    .fund-imgs img {
+      width: 100%; }
+    .fund-imgs p {
+      font-size: 15px; }
+  #user-dashboard {
+    padding: 4px;
+    padding-top: 100px; }
+  .alert {
+    font-size: 12px; } }
 
-@media (min-width: 861px) {
+@media (min-width: 600px) {
+  #user-dashboard {
+    padding: 3%;
+    padding-top: 100px; }
+  .alert {
+    font-size: 100%;
+    padding: 15px; } }
+
+@media (max-width: 1000px) {
+  #user-dashboard {
+    padding: 0;
+    padding-top: 100px; } }
+
+@media (max-width: 1000px) and (min-width: 600px) {
+  .flex-it {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+  .fund-imgs {
+    width: 25%; }
+    .fund-imgs img {
+      width: 100%; }
+    .fund-imgs p {
+      font-size: 15px; } }
+
+@media (max-width: 1000px) {
+  .container {
+    width: 92%; } }
+
+@media (min-width: 994px) {
   .mobile {
     display: none; }
+  #user-dashboard {
+    padding-top: 0px; }
   #brand-image {
     margin-top: -15px;
     position: relative;
@@ -2042,3 +2090,8 @@ table#header {
     margin-top: 64px; }
   .spacing_div {
     margin-top: 64px; } }
+
+@media (min-width: 994px) and (max-width: 998px) {
+  #ud-favourites, #ud-applications, #ud-recently-browsed {
+    margin: 0;
+    padding: 0; } }

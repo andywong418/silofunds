@@ -5,7 +5,17 @@
 @import '../fund-dashboard.scss';
 
 
-@media (max-width: 862px) {
+@media (max-width: 993px) {
+
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 22px;
+    }
+    #header, #update {
+      font-size: 16px;
+    }
+  }
+
   .desktop {
     display: none
   }
@@ -302,8 +312,15 @@
     margin-top: 8px
   }
 
+  .flex-it {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
   .fund-imgs {
-    width: 45%;
+    padding: 3%;
+    width: 47%;
     img {
       width: 100%;
     }
@@ -312,9 +329,52 @@
     }
   }
 
-  .flex-it {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  #user-dashboard {
+    padding: 4px;
+    padding-top: 100px;
+  }
+
+  .alert {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 600px) {
+  #user-dashboard {
+    padding: 3%;
+    padding-top: 100px;
+  }
+  .alert {
+    font-size: 100%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1000px) {
+  #user-dashboard {
+    padding: 0;
+    padding-top: 100px;
+  }
+
+  @media (min-width: 600px) {
+    .flex-it {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .fund-imgs {
+      width: 25%;
+      img {
+        width: 100%;
+      }
+      p {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .container {
+    width: 92%;
   }
 }
