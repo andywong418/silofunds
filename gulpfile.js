@@ -45,7 +45,7 @@ gulp.task('images', ['clean-images'], function() {
 
   return gulp
       .src(config.images)
-      .pipe($.cache($.imagemin({ optimization: 4 })))
+      .pipe($.cache($.imagemin({ optimization: 3 })))
       .pipe(gulp.dest(config.dist + 'images'));
 });
 
