@@ -19,6 +19,7 @@ var RedisStore = require('connect-redis')(session);
 var app = express();
 var mcapi = require('mailchimp-api');
 var mcKey = process.env.MAILCHIMP_KEY;
+var gzip = require('connect-gzip');
 mc = new mcapi.Mailchimp(mcKey);
 
 Logger = require('./logger');
@@ -77,6 +78,7 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
+app.use(gzip.staticGzip(__dirname + '/bower_components', { matchType: /javascript/ }));
 // Load routes
 routes.initialize(app);
 
