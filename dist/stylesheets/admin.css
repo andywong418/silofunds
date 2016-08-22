@@ -1,0 +1,51 @@
+.hidden {
+  display: none; }
+
+a.back-to-top {
+  display: none;
+  width: 40px;
+  height: 40px;
+  text-indent: -9999px;
+  position: fixed;
+  z-index: 999;
+  right: 20px;
+  bottom: 20px;
+  background: #27AE61 url("../images/back-to-top.png") no-repeat center;
+  background-size: contain;
+  border-radius: 30px; }
+
+div#duplicateTableContainer {
+  overflow: auto;
+  height: 200px;
+  margin-bottom: 50px; }
+  div#duplicateTableContainer table#duplicateTitle, div#duplicateTableContainer table#duplicateEmail {
+    table-layout: fixed; }
+    div#duplicateTableContainer table#duplicateTitle td, div#duplicateTableContainer table#duplicateEmail td {
+      overflow: auto; }
+    div#duplicateTableContainer table#duplicateTitle th#countHeader, div#duplicateTableContainer table#duplicateEmail th#countHeader {
+      width: 100px; }
+
+table.sortable td {
+  overflow: auto; }
+
+table.sortable th {
+  cursor: pointer; }
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+  content: " \25B4\25BE"; }
+
+#support_type {
+  width: 100%; }
+
+.hide-this-shit {
+  display: none; }
+
+.paddingless {
+  padding-left: 5px;
+  padding-right: 5px; }
+
+textarea {
+  resize: none; }
+
+select {
+  width: 100%; }
