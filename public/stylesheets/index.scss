@@ -17,7 +17,7 @@
   padding: 100px 0;
   text-align: center;
   color: #fff;
-  background: url(../images/homepage.jpg) no-repeat bottom center scroll;
+  background: url(../images/homepage.jpg) no-repeat scroll;
   background-color: #000;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -35,6 +35,7 @@
       font-size: 18px;
       font-family: "Montserrat";
       /*margin: ;*/
+      margin-top: 130px;
       letter-spacing: 1px;
       font-weight: 100;
     }
@@ -139,7 +140,11 @@ footer {
   -webkit-box-sizing: border-box;
   margin-top: 130px;
 }
-
+#search-form{
+  input{
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1.0) inset;
+  }
+}
 #text_search {
   height: 40px;
   width: 340px;
@@ -671,22 +676,31 @@ background-size: cover;
     vertical-align: top;
   }
   .footer-left {
-    width: 40%;
+    width: 50%;
     p {
-      color: #8f9296;
-      font-size: 14px;
+      color: white;
+      font-size: 15px;
       margin: 0;
+      a{
+        color:white;
+        cursor: pointer;
+        font-weight: lighter;
+        &:hover{
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+    #about-header, #guide-header{
+      font-weight: 600;
+      margin-left: 20px;
     }
   }
 }
 
 /* Footer left */
 
-.footer-center p {
-  color: #8f9296;
-  font-size: 14px;
-  margin: 0;
-}
+
 
 .footer-distributed {
   .footer-left a {
@@ -698,13 +712,8 @@ background-size: cover;
   }
 }
 
-/* Footer center */
 
-.footer-center p {
-  text-align: center;
-  vertical-align: middle;
-  margin-top: 65px;
-}
+
 
 /* Footer links */
 
@@ -724,32 +733,59 @@ background-size: cover;
     }
   }
   .footer-right {
-    float: right;
     margin-top: -3px;
-    width: 40%;
-    a {
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      background-color: transparent;
-      border-radius: 18px;
-      border: 0.3px solid white;
-      font-size: 20px;
-      color: #ffffff;
-      text-align: center;
-      line-height: 35px;
-      margin-left: 15px;
-      margin-top: 8px;
-      &:hover {
-        background-color: white;
-      }
-      i:hover {
-        color: black;
-      }
-      &:first-child {
-        margin-left: 0;
+    width: 50%;
+    p {
+      color: white;
+      font-size: 15px;
+      margin: 0;
+      a{
+        color:white;
+        cursor: pointer;
+        font-weight: lighter;
+        &:hover{
+          color: white;
+          text-decoration: none;
+        }
       }
     }
+    #contact-header{
+      font-weight: 600;
+    }
+    .footer-social{
+      a {
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        background-color: transparent;
+        border-radius: 18px;
+        border: 0.3px solid white;
+        font-size: 20px;
+        color: #ffffff;
+        text-align: center;
+        line-height: 35px;
+        margin-left: 15px;
+        margin-top: 8px;
+        &:hover {
+          background-color: white;
+        }
+        i:hover {
+          color: black;
+        }
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+    .footer-center p {
+      color: #8f9296;
+      font-size: 14px;
+      margin: 0;
+      margin-top: 15px;
+      text-align: left;
+      margin-left: 5px;
+    }
+
   }
 }
 

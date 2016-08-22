@@ -19,9 +19,11 @@ block content
 			.collapse.navbar-collapse.navbar-main-collapse
 				ul.nav.navbar-nav.navbar-left
 						li#features
-							a(href="#") About us
+							a(href="#") Features
 						li
 							a(href='http://siloblogs.tumblr.com/') Blog
+						li
+							a(href="#") Explore
 			.collapse.navbar-collapse.navbar-right.navbar-main-collapse
 				ul.nav.navbar-nav
 					li
@@ -72,7 +74,7 @@ block content
 				p#silo-here Silo connects you with the institutions most likely to award you funding. We’re simplifying the search process and saving you time.
 	hr#line-break
 	section#about-us.container.content-section.text-center
-		h3#about-intro.module Students
+		h3#about-intro.module Features for students
 		.col-md-6
 			img#user-profile.module(src="images/user-profile.png", style="width: 100%;")
 		.col-md-1
@@ -95,7 +97,7 @@ block content
 		span#start-now Start now
 	section#showcase.container.content-section.text-center
 		#profile-views.module
-			h3#fund-intro Funds
+			h3#fund-intro Features for funds
 			.row.module-2
 				.col-md-1
 				#profile-row.col-md-7
@@ -143,13 +145,38 @@ block content
 					span Software Developer
 	footer.footer-distributed
 				.footer-left
-					p.footer-links
-						a#about-scroll About
-						a(href="#") ·
-						a(href='mailto:howard@silofunds.com') Contact
-				.footer-center
-					p Silo © 2016
+					.col-md-6
+						p#about-header About us
+						p 
+							a What is Silo?
+						p 
+							a Team 
+						p 
+							a Partners
+						p 
+							a Blog
+						p 
+							a Terms and conditions
+						p 
+							a Privacy policy
+					.col-md-6
+						p#guide-header Advice
+						p
+							a Crowdfunding advice
+						p
+							a Student video guide
+						p 
+							a Fund profile set up
+						
 				.footer-right
+					.col-md-6
+						p#contact-header Contact us
+						p 
+							a(href="mailto:andros@silofunds.com") andros@silofunds.com
+						p +44 7960 478277
+						p New College, Oxford
+						p OX1 3BN
+						
 					p.footer-social
 						a(href='https://www.facebook.com/SiloFunds/?fref=ts')
 							i.fa.fa-facebook
@@ -159,6 +186,8 @@ block content
 							i.fa.fa-instagram
 						a(href='#')
 							i.fa.fa-google-plus
+					.footer-center
+						p Silo © 2016
 block scripts
 	// Custom Theme JavaScript
 	script(src='javascript/index.js')
