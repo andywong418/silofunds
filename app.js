@@ -89,7 +89,8 @@ app.use(gzip.staticGzip(__dirname + '/bower_components/jquery/dist', { matchType
 if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(express_enforces_ssl());
-  app.all('/*', function(req, res, next) {
+  console.log("going inn");
+  app.all('*', function(req, res, next) {
     console.log(req.headers.host);
     console.log(req.url);
     if (req.headers.host.match(/^www/) === null ) {
