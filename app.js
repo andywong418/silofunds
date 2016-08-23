@@ -24,6 +24,7 @@ var mcapi = require('mailchimp-api');
 var mcKey = process.env.MAILCHIMP_KEY;
 var gzip = require('connect-gzip');
 mc = new mcapi.Mailchimp(mcKey);
+var compress = require('compression');
 
 var MAX_CONTENT_LENGTH_ACCEPTED = 9999;
 
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules',  express.static(__dirname + '/node_modules'));
+app.use(compression());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 if (process.argv.indexOf('--silent-http') === -1) {
