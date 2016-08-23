@@ -1,0 +1,87 @@
+.col-md-12.col-xs-12, label.col-md-3.col-xs-3 {
+  padding: 0px; }
+
+label.col-md-3.col-xs-3 {
+  padding-right: 0px !important; }
+
+@media (max-width: 936px) {
+  #big_flex_div.container {
+    padding: 0px;
+    padding-top: 45px; }
+  #right_div {
+    padding-left: 0px;
+    padding-right: 20px; }
+  #left_div {
+    padding-left: 20px;
+    padding-right: 0px; } }
+
+label#describe_your_goal {
+  padding-top: 23px;
+  font-size: 13px;
+  text-align: left;
+  border-top: 1px solid #e1e8ed; }
+
+@media (max-width: 795px) {
+  #left_div .settings-tab-menu .list-group a h5 {
+    font-size: 12px; }
+  label {
+    font-size: 12px; }
+  h4 {
+    font-size: 14px; }
+  h3 {
+    font-size: 16px; }
+    h3 p {
+      font-size: 14px; } }
+
+@media (max-width: 540px) {
+  #left_div.desktop {
+    display: none; }
+  #big_flex_div.container #right_div .settings-tab {
+    border-radius: 0; }
+  #right_div .text-left {
+    text-align: right; }
+  #right_div .sub-content {
+    padding-top: 10px;
+    padding-bottom: 0px; }
+    #right_div .sub-content .remove-padding {
+      padding: 0; }
+      #right_div .sub-content .remove-padding .remove-padding {
+        padding: 0; }
+    #right_div .sub-content label.margin-removal {
+      margin: 0 !important; } }
+
+#top_div.col-xs-12 {
+  padding-right: 10px;
+  padding-left: 10px; }
+  #top_div.col-xs-12 .list-group {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    #top_div.col-xs-12 .list-group .active-mobile {
+      width: 100%;
+      z-index: 3;
+      background-color: #337ab7;
+      color: #fff;
+      border-color: #337ab7; }
+      #top_div.col-xs-12 .list-group .active-mobile a {
+        background-color: transparent;
+        color: white; }
+    #top_div.col-xs-12 .list-group .list-group-item {
+      border-radius: 0;
+      height: 3em;
+      margin: 0;
+      padding: 0; }
+      #top_div.col-xs-12 .list-group .list-group-item h5 {
+        margin: 6px; }
+    #top_div.col-xs-12 .list-group .flex-box {
+      width: 25%; }

@@ -13,7 +13,7 @@ block content
   include ../navbar.jade
   include ../advanced-search.jade
   #big_flex_div.container
-    #left_div.col-md-3
+    #left_div.col-md-3.col-sm-3.col-xs-4
       .profile
         #box-profile 
           if user.profile_picture
@@ -28,111 +28,127 @@ block content
         .list-group
           a.list-group-item.active(href="#")
             h5 General settings
-              span.glyphicon.glyphicon-menu-right
+              span.glyphicon.glyphicon-menu-right.remove-sm
           a.list-group-item(href="#")
             h5 Personal settings
-              span.glyphicon.glyphicon-menu-right
+              span.glyphicon.glyphicon-menu-right.remove-sm
           a.list-group-item(href="#")
             h5 Campaign settings
-              span.glyphicon.glyphicon-menu-right
+              span.glyphicon.glyphicon-menu-right.remove-sm
           a.list-group-item(href="#")
             h5 Education settings
-              span.glyphicon.glyphicon-menu-right
+              span.glyphicon.glyphicon-menu-right.remove-sm
       .logout-tab
         .list-group
           a.list-group-item(href="/user/logout")
             h5 Logout
-    #right_div.col-md-9
+    #top_div.col-xs-12 
+      .settings-tab-menu.flex-box
+        .list-group
+          .flex-box.active-mobile
+            a.list-group-item(href="#")
+              h5 General settings
+          .flex-box
+            a.list-group-item(href="#")
+              h5 Personal settings
+          .flex-box
+            a.list-group-item(href="#")
+              h5 Campaign settings
+          .flex-box
+            a.list-group-item(href="#")
+              h5 Education settings      
+    #right_div.col-md-9.col-sm-9.col-xs-8
       .settings-tab
-        #general-settings.settings-tab-content.active
+        #general-settings.settings-tab-content.active.active-mobile
           .col-md-12.header
             h3 General Settings
             p.help-block Change your bio and other key information.
-          .col-md-12.content
-            .col-md-12.sub-content
+          .col-md-12.col-xs-12.content
+            .col-md-12.col-xs-12.sub-content
               h4 Email preferences
-              .col-md-12
-                label.col-md-3(for='email') Email
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-4(for='email') Email
+                .col-md-6.col-sm-7.col-xs-8
                   input#email.form-control(type='text', name='email', value=user.email)
-              .col-md-12
-                label.col-md-3(for='email') Send me updates
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-4(for='email') Send me updates
+                .col-md-6.col-sm-7.col-xs-8
                   if user.email_updates
                     input#email_updates(type='checkbox', name='email', checked)
                   else
                     input#email_updates(type='checkbox', name='email')
-            .col-md-12.sub-content
+            .col-md-12.col-xs-12.sub-content
               h4 Change your password
-              .col-md-12
-                label.col-md-3(for='previous_password') Previous password
-                .col-md-3
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-4#remove-margin(for='previous_password') Previous password
+                .col-md-4.col-sm-6.col-xs-8
                   input#previous_password.password.form-control(type='password', name='previous_password')
-                .col-md-6
+                .col-md-6.col-xs-5
                   span#previous_password_message.password_message
-              .col-md-12
-                label.col-md-3(for='new_password') New password
-                .col-md-3
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-4(for='new_password') New password
+                .col-md-4.col-sm-6.col-xs-8
                   input#new_password.password.form-control(type='password', name='new_password')
-                .col-md-6
+                .col-md-6.col-sm-6.col-xs-6
                   span#new_password_message.password_message
-              .col-md-12
-                label.col-md-3(for='confirm_new_password') Confirm new password
-                .col-md-3
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-4#sizered(for='confirm_new_password') Confirm
+                .col-md-4.col-sm-6.col-xs-8
                   input#confirm_new_password.password.form-control(type='password', name='confirm_new_password')
-                .col-md-6
+                .col-md-6.col-xs-6
                   span#confirm_new_password_message.password_message
-          .col-md-12.footer
+          .col-md-12.col-xs-12.footer
             button#save-general-settings.btn.btn-primary(type='submit') Save changes
             #save-general-settings-notification Your changes have been saved
         #personal-settings.settings-tab-content
-          .col-md-12.header
+          .col-md-12.col-xs-12.header
             h3 Personal Settings
             p.help-block Change your personal details.
-          .col-md-12.content
-            .col-md-12.sub-content
+          .col-md-12.col-xs-12.content
+            .col-md-12.col-xs-12.sub-content
               h4 Subject Requirements
-              .col-md-12
-                label.col-md-3(for='username') Name
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='username') Name
+                .col-md-6.col-xs-9
                   input#username.form-control(type='text', name='username', value=user.username)
-              .col-md-12
-                label.col-md-3(for='date_of_birth') Date of Birth
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='date_of_birth') Date of Birth
+                .col-md-6.col-xs-6
                   input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
-              .col-md-12
-                label.col-md-3(for='gender') Gender
-                .col-md-2
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='gender') Gender
+                .col-md-2.col-xs-2
                   label.radio-inline
                     input#male(type='radio', name= 'gender', value= 'male')
                     | Male
-                .col-md-2
+                .col-md-2.col-xs-2
                   label.radio-inline
                     input#female(type='radio', name='gender', value='female')
                     | Female
-                .col-md-2.clear
+                .col-xs-1
+                .col-md-2.col-xs-2.text-left.clear
                   a#clear_gender(href='#') Clear
-              .col-md-12
-                label.col-md-3(for='religion') Religion
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='religion') Religion
+                .col-md-6.col-xs-9
                   input#religion.form-control(type='text', name='religion', value=user.religion)
-              .col-md-12
-                label.col-md-3(for='country_of_residence') Country of Residence
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3.margin-removal(for='country_of_residence') Country of Residence
+                .col-md-6.col-xs-9
                   input#country_of_residence.form-control(type='text', name='country_of_residence', value=user.country_of_residence)
-          .col-md-12.footer
+          .col-md-12.col-xs-12.footer
             button#save-personal-settings.btn.btn-primary(type='submit') Save changes
             #save-personal-settings-notification Your changes have been saved
         #campaign-settings.settings-tab-content
-          .col-md-12.header
+          .col-md-12.col-xs-12.header
             h3 Campaign Settings
             p.help-block Change your campaigning details.
-          .col-md-12.content
-            .col-md-12.sub-content
+          .col-md-12.col-xs-12.content
+            .col-md-12.col-xs-12.sub-content
               h4 About your campaign
-              .col-md-12 
-                label.col-md-3(for='video') Your project video
-                .col-md-8
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='video') Your project video
+                .col-md-8.col-xs-9
                   if user.video
                     input#video( value = user.video, name="video")
                     p Remember to use an 
@@ -143,46 +159,46 @@ block content
                     p Remember to use an
                       a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
-              .col-md-12
-                label.col-md-3(for='description') Describe your goal
-                .col-md-8
+              .col-md-12.col-xs-12.remove-padding
+                label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
+                .col-md-8.col-xs-12.remove-padding
                   textarea#description.form-control(name='description', rows='5')=user.description
-              .col-md-12
-                label.col-md-3(for='funding_needed') Target amount
-                .col-md-3
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='funding_needed') Target amount
+                .col-md-3.col-xs-9
                   input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
-              .col-md-12
-                label.col-md-3(for='completion_date') to be achieved by
-                .col-md-3
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='completion_date') to be achieved by
+                .col-md-3.col-xs-9
                   input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
-            .col-md-12.sub-content
+            .col-md-12.col-xs-12.sub-content
               h4 Showcase your accomplishments
               each document in documents
                 div(id=document.id)
-                  .col-md-12
-                    label.col-md-3(for='past_work_#{document.count}') Past work ##{document.count}
-                    .col-md-6
+                  .col-md-12.col-xs-12
+                    label.col-md-3.col-xs-3(for='past_work_#{document.count}') Past work #{document.count}
+                    .col-md-6.col-xs-9
                       label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
                       input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
                       label.removeFile(id='past_work_#{document.count}')
                         i.fa.fa-times
                         p Remove
-                  .col-md-12
-                    label.col-md-3(for='past_work_#{document.count}_description') Brief description
-                    .col-md-6(id="past_work_#{document.count}")
+                  .col-md-12.col-xs-12
+                    label.col-md-3.col-xs-3(for='past_work_#{document.count}_description') Brief description
+                    .col-md-6.col-xs-9(id="past_work_#{document.count}")
                       textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
               each id in remainingPastWorkDivs
-                .col-md-12
-                  label.col-md-3(for='past_work_#{id}') Past work ##{id}
-                  .col-md-6
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='past_work_#{id}') Past work ##{id}
+                  .col-md-6.col-xs-9
                     label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
                     input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
                     label.removeFile.hidden(id='past_work_#{id}')
                       i.fa.fa-times
                       p Remove
-                .col-md-12
-                  label.col-md-3(for='past_work_#{id}_description') Brief description
-                  .col-md-6(id="past_work_#{id}")
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='past_work_#{id}_description') Brief description
+                  .col-md-6.col-xs-9(id="past_work_#{id}")
                     textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
               //- .col-md-12
               //-   label.col-md-3(for='past_work_1') Past work #1
@@ -244,43 +260,43 @@ block content
               //-   label.col-md-3(for='past_work_5_description') Brief description
               //-   .col-md-6
               //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
-              .col-md-12
-                label.col-md-3(for='link') Link
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='link') Link
+                .col-md-6.col-xs-9
                   input#link.form-control(type='text', name='link', placeholder='Link to your website, portfolio, Github profile etc.', value=user.link)
-          .col-md-12.footer
+          .col-md-12.col-xs-12.footer
             button#save-campaign-settings.btn.btn-primary(type='submit') Save changes
             #save-campaign-settings-notification Your changes have been saved
         #education-settings.settings-tab-content
-          .col-md-12.header
+          .col-md-12.col-xs-12.header
             h3 Education Settings
             p.help-block Change your education details.
-          .col-md-12.content
-            .col-md-12.sub-content
+          .col-md-12.col-xs-12.content
+            .col-md-12.col-xs-12.sub-content
               h4 Your education history
-              .col-md-12
-                label.col-md-3(for='previous_degree') Completed degrees
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='previous_degree') Completed degrees
+                .col-md-6.col-xs-9
                   input#previous_degree.form-control(type='text', name='previous_degree', value=user.previous_degree)
-              .col-md-12
-                label.col-md-3(for='previous_university') from these universities
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='previous_university') from these universities
+                .col-md-6.col-xs-9
                   input#previous_university.form-control(type='text', name='previous_university', form='', value=user.previous_university)
-            .col-md-12.sub-content
+            .col-md-12.col-xs-12.sub-content
               h4 Furher education
-              .col-md-12
-                label.col-md-3(for='subject') Target subjects
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='subject') Target subjects
+                .col-md-6.col-xs-9
                   input#subject.form-control(type='text', name='subject', value=user.subject)
-              .col-md-12
-                label.col-md-3(for='target_degree') Target degrees
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='target_degree') Target degrees
+                .col-md-6.col-xs-9
                   input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
-              .col-md-12
-                label.col-md-3(for='target_university') Target universities
-                .col-md-6
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='target_university') Target universities
+                .col-md-6.col-xs-9
                   input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
-          .col-md-12.footer
+          .col-md-12.col-xs-12.footer
             button#save-education-settings.btn.btn-primary(type='submit') Save changes
             #save-education-settings-notification Your changes have been saved            
 block scripts
