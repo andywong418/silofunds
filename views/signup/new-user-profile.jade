@@ -25,57 +25,57 @@ block content
 			script#about-template(type='text/template')
 				p#about-header.description Get started by telling us more about yourself, your funding goals and the date by which you want to reach your goal.
 				.row#picture-row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#picture.description Profile Picture
-					.col-md-6
+					.col-md-6.col-sm-8
 						#profile-picture
 							img#placeholder-picture(src="../../images/fund_img_placeholder.jpg")
 							span Upload a profile picture. This can help you make a great first impression on funds and potential donors!
 						input#my_file(type='file', style='display: none;', name = 'profile_picture')
 				.row.fund-goal
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#amount.description Your Fund goal
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#input-amount(placeholder="£", type="number", name='funding_needed') 
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#finish-date.description Completion time
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#completion-input(type='date', name= "completion_date")
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#date_of_birth.description Date of Birth
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#date-input(type='date', name="date_of_birth")
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#gender.description Gender
-					.col-md-6.gender-row
-						.col-md-4
+					.col-md-6.col-sm-8.gender-row
+						.col-sm-4
 							label.radio-inline
 								input(type='radio', name='gender', value='male')
 								| Male
-						.col-md-4
+						.col-sm-4
 							label.radio-inline
 								input(type='radio', name='gender', value='female')
 								| Female
 								
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#country_of_residence.description Country of residence
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#country_of_residence(name="country_of_residence")
 				.row#religion-row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p#religion.description Religious beliefs
-					.col-md-6
+					.col-md-6.col-sm-8
 						span.input-group-btn
 							select#religion-select.form-control(data-placeholder='Choose a religion...', name= "religion")
 								option(value='') -- select one --
@@ -111,34 +111,34 @@ block content
 			script#education-template(type='text/template')
 				p#education-header.description Specifying your educational past and targets can help us match you with funding institutions more quickly!
 				.row
-					.col-md-1 
-					.col-md-3 
+					.col-sm-0.col-md-1 
+					.col-sm-3 
 						p#subject-description.description Subject of study
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#subject-input(name="subject")
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p.description Intended degree of study
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#targetDegree-input(name="target_degree" )
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p.description Completed/current degree levels
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#requiredDegree-input(name="previous_degree")
 				.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p.description Target university
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#target-university(name="target_university")
 				#previous-university-row.row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p.description Previously/currently enrolled universities
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#previous-university(name="previous_university")
 				.container-fluid.save
 					a#save.btn.btn-primary(href="#story") Save progress
@@ -146,7 +146,7 @@ block content
 			script#story-template(type='text/template')
 				p#story-header.description We have some guidelines based on successful campaigns to help you. However this is your journey. Change the headers and text to tell us your story.
 				.row.video-row
-					.col-md-6.col-md-offset-3
+					.col-md-6.col-sm-12.col-md-offset-3
 						h6 Link us to your campaign video
 						p &#40 Make sure you copy and paste an
 							a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank') embedded link&#41
@@ -157,10 +157,10 @@ block content
 						p If you have not created one, you can make one
 							a(href='https://www.youtube.com/upload', target='_blank') here
 				.row.story-row
-					.col-md-8.col-md-offset-2
+					.col-md-8.col-md-offset-2.col-sm-12
 						textarea#story-text
 				.row#work
-						#work-row.col-md-8.col-md-offset-2
+						#work-row.col-md-8.col-md-offset-2.col-sm-12
 							h6 Showcase your talents.
 							p#stand-out Bolster your application by letting funds and peers see your best work - e.g. Essays, articles, artwork, etc.
 							#work-span.btn.btn-primary.btn-file
@@ -173,7 +173,7 @@ block content
 							#hyperlink
 								p or
 								.row.hyperlink-row
-									.col-md-6.col-md-offset-3
+									.col-md-6.col-md-offset-3.col-sm-12
 										.input-group.center-block
 											span.input-group-btn
 												i.fa.fa-link.btn.btn-default(aria-hidden='true')
@@ -184,15 +184,15 @@ block content
 			script#account-template(type='text/template')
 				p#verify-header.description You&#39re almost finished! Enter your address below so it will be easier to set up a stripe account later.
 				.row#address-row
-					.col-md-1
-					.col-md-3
+					.col-sm-0.col-md-1
+					.col-sm-3
 						p.description Address
-					.col-md-6
+					.col-md-6.col-sm-8
 						input#address_line1(placeholder='Address', x-autocompletetype="street-address", autocompletetype="street-address", autocapitalize="off", autocorrect="off", spellcheck="false", name='address_line1')
 						.row
-							.col-md-6#postal-code
+							.col-md-6.col-sm-8#postal-code
 								input#address_zip(placeholder='Postcode', x-autocompletetype="postal-code", autocompletetype="postal-code", autocapitalize="off", autocorrect="off", spellcheck="false", name='address_zip')
-							.col-md-6#city
+							.col-md-6.col-sm-8#city
 								input#address_city(placeholder='City', x-autocompletetype="locality", autocompletetype="locality", autocapitalize="off", autocorrect="off", spellcheck="false", name='address_city')
 						.row
 							span.input-group-btn

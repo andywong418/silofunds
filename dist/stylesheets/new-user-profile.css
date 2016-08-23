@@ -195,6 +195,15 @@ a#user-message span, a#home span {
   padding-top: 7px;
   padding-bottom: 7px; }
 
+@media (max-width: 992px) and (min-width: 875px) {
+  #brand-heading {
+    margin-left: -30px; } }
+
+@media (max-width: 875px) {
+  #brand-heading img {
+    margin-left: -60px;
+    border: 2px solid green; } }
+
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -1047,3 +1056,10 @@ body {
 
 #emailSent {
   text-align: center; }
+
+@media (max-width: 762px) {
+  #signup-wrapper #signup-form {
+    width: 90%; }
+  #signup-wrapper #greeting {
+    width: 80%;
+    margin-left: 10%; } }

@@ -347,13 +347,28 @@ body{
 			display: none;
 		}
 	}
-
-
 		}
-
-
 }
 
 #emailSent {
 	text-align: center;
+}
+
+
+// Mobile optimization
+@media (max-width: 762px) {
+	#signup-wrapper #signup-form {
+		width: 90%;
+	}
+	#signup-wrapper #greeting {
+		width: 80%;
+		margin-left: 10%;
+	}
+
+	// #process-flex-container {
+	// 	padding-left: 40px;
+	// 	padding-right: 40px;
+	// 	display: flex;
+	// 	justify-content: space-between;
+	// }
 }
