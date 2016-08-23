@@ -19,6 +19,7 @@
     "busboy": "^0.2.12",
     "chai": "^3.5.0",
     "colors": "^1.1.2",
+    "compression": "^1.6.2",
     "connect": "^3.4.1",
     "connect-flash": "^0.1.1",
     "connect-gzip": "^0.1.6",

@@ -1146,8 +1146,7 @@ a.cd-login {
 
 #relevant-people {
   background: url(../images/relevant-people.jpg) no-repeat;
-  text-align: center;
-  background-size: cover; }
+  text-align: center; }
   #relevant-people #relevant-div {
     padding: 50px;
     height: 100%;
