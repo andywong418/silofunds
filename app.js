@@ -101,18 +101,17 @@ app.use(helmet.hsts({
   preload: true
 }));
 // TODO: This shit is not working out someone get on this.
-app.use(helmet.contentSecurityPolicy({
-  // Specify directives as normal.
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'", "https://*.hotjar.com", "'https://*.maxcdn.com'", "'https://*.amazonaws.com'"],
-    imgSrc: ["'self'", "'http://*.tumblr.com'"],
-    styleSrc: ["'self'", "https://*.googleapis.com"],
-    fontSrc: ["https://*.googleapis.com"],
-  },
-  disableAndroid: false,
-  browserSniff: true
-}));
+// app.use(helmet.contentSecurityPolicy({
+//   // Specify directives as normal.
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", "'unsafe-inline'", "https://*.hotjar.com", "'https://oss.maxcdn.com'", "'https://s3.amazonaws.com'"],
+//     imgSrc: ["'self'", "http://33.media.tumblr.com"],
+//     styleSrc: ["'self'", "https://fonts.googleapis.com"],
+//   },
+//   disableAndroid: false,
+//   browserSniff: true
+// }));
 
 // Load routes
 routes.initialize(app);
