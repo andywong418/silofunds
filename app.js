@@ -98,6 +98,16 @@ app.use(helmet.hsts({
   includeSubdomains: true, // Must be enabled to be approved by Google
   preload: true
 }));
+app.use(helmet.contentSecurityPolicy({
+  // Specify directives as normal.
+  directives: {
+    defaultSrc: ["'self'", 'silofunds.com'],
+    scriptSrc: ["'self'", "'unsafe-inline'"],
+  },
+  reportOnly: false,
+  disableAndroid: false,
+  browserSniff: true
+}));
 
 // Load routes
 routes.initialize(app);
