@@ -108,7 +108,7 @@ label#describe_your_goal {
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse; }
     #top_div .logout-tab .list-group #extra_div {
-      margin-top: 20%;
+      margin-top: 40%;
       height: 30%; }
       #top_div .logout-tab .list-group #extra_div a {
         width: 100%;
