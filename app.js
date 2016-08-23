@@ -105,6 +105,7 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'", 'silofunds.com'],
     scriptSrc: ["'self'", "'unsafe-inline'"],
+    styleSrc: ["'self'"],
   },
   reportOnly: false,
   disableAndroid: false,
