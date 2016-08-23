@@ -43,6 +43,22 @@ block content
           a.list-group-item(href="/user/logout")
             h5 Logout
     #top_div.col-xs-12 
+      #profile-mob-flex
+        .profile
+          #box-profile 
+            if user.profile_picture
+              input#my_file(type='file', style='display: none;', name = 'profile_picture')
+              img#userImage(src=user.profile_picture)
+              //- i.fa.fa-camera
+            else
+              input#my_file(type='file', style='display: none;', name = 'profile_picture')
+              img#userImage(src='/images/profile-placeholder.jpg')
+              i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
+        #profile-logout-space
+        .logout-tab
+          .list-group
+            a.list-group-item(href="/user/logout")
+              h5 Logout
       .settings-tab-menu.flex-box
         .list-group
           .flex-box.active-mobile
@@ -67,11 +83,11 @@ block content
             .col-md-12.col-xs-12.sub-content
               h4 Email preferences
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-4(for='email') Email
+                label.col-md-3.col-xs-4.padding-top-add(for='email') Email
                 .col-md-6.col-sm-7.col-xs-8
                   input#email.form-control(type='text', name='email', value=user.email)
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-4(for='email') Send me updates
+                label.col-md-3.col-xs-4.padding-top-add(for='email') Send me updates
                 .col-md-6.col-sm-7.col-xs-8
                   if user.email_updates
                     input#email_updates(type='checkbox', name='email', checked)
@@ -80,19 +96,19 @@ block content
             .col-md-12.col-xs-12.sub-content
               h4 Change your password
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-4#remove-margin(for='previous_password') Previous password
+                label.col-md-3.col-xs-4#remove-margin.padding-top-reducer-lg.padding-top-edit.padding-top-add(for='previous_password') Previous password
                 .col-md-4.col-sm-6.col-xs-8
                   input#previous_password.password.form-control(type='password', name='previous_password')
                 .col-md-6.col-xs-5
                   span#previous_password_message.password_message
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-4(for='new_password') New password
+                label.col-md-3.col-xs-4.padding-top-reducer-sm.padding-top-add(for='new_password') New password
                 .col-md-4.col-sm-6.col-xs-8
                   input#new_password.password.form-control(type='password', name='new_password')
                 .col-md-6.col-sm-6.col-xs-6
                   span#new_password_message.password_message
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-4#sizered(for='confirm_new_password') Confirm
+                label.col-md-3.col-xs-4.padding-top-add#sizered(for='confirm_new_password') Confirm
                 .col-md-4.col-sm-6.col-xs-8
                   input#confirm_new_password.password.form-control(type='password', name='confirm_new_password')
                 .col-md-6.col-xs-6
@@ -108,12 +124,12 @@ block content
             .col-md-12.col-xs-12.sub-content
               h4 Subject Requirements
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='username') Name
+                label.col-md-3.col-xs-3.padding-top-add(for='username') Name
                 .col-md-6.col-xs-9
                   input#username.form-control(type='text', name='username', value=user.username)
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='date_of_birth') Date of Birth
-                .col-md-6.col-xs-6
+                label.col-md-3.col-xs-3.padding-top-add(for='date_of_birth') Date of Birth
+                .col-md-6.col-xs-9
                   input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
               .col-md-12.col-xs-12
                 label.col-md-3.col-xs-3(for='gender') Gender
@@ -121,6 +137,7 @@ block content
                   label.radio-inline
                     input#male(type='radio', name= 'gender', value= 'male')
                     p.personal-padding-1 Male
+                .col-sm-0.col-xs-1
                 .col-md-2.col-xs-2
                   label.radio-inline
                     input#female(type='radio', name='gender', value='female')
@@ -147,7 +164,7 @@ block content
             .col-md-12.col-xs-12.sub-content
               h4 About your campaign
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='video') Your project video
+                label.col-md-3.col-xs-3.padding-top-add(for='video') Your project video
                 .col-md-8.col-xs-9
                   if user.video
                     input#video( value = user.video, name="video")
@@ -164,11 +181,11 @@ block content
                 .col-md-8.col-xs-12.remove-padding
                   textarea#description.form-control(name='description', rows='5')=user.description
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='funding_needed') Target amount
+                label.col-md-3.col-xs-3.padding-top-add(for='funding_needed') Target amount
                 .col-md-3.col-xs-9
                   input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='completion_date') to be achieved by
+                label.col-md-3.col-xs-3.padding-top-add.padding-top-rm-1(for='completion_date') to be achieved by
                 .col-md-3.col-xs-9
                   input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
             .col-md-12.col-xs-12.sub-content
@@ -176,7 +193,7 @@ block content
               each document in documents
                 div(id=document.id)
                   .col-md-12.col-xs-12
-                    label.col-md-3.col-xs-3(for='past_work_#{document.count}') Past work #{document.count}
+                    label.col-md-3.col-xs-3.pad.padding-top-add(for='past_work_#{document.count}') Past work #{document.count}
                     .col-md-6.col-xs-9
                       label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
                       input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
@@ -184,12 +201,12 @@ block content
                         i.fa.fa-times
                         p Remove
                   .col-md-12.col-xs-12
-                    label.col-md-3.col-xs-3(for='past_work_#{document.count}_description') Brief description
+                    label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{document.count}_description') Brief description
                     .col-md-6.col-xs-9(id="past_work_#{document.count}")
                       textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
               each id in remainingPastWorkDivs
                 .col-md-12.col-xs-12
-                  label.col-md-3.col-xs-3(for='past_work_#{id}') Past work ##{id}
+                  label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}') Past work ##{id}
                   .col-md-6.col-xs-9
                     label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
                     input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
@@ -197,7 +214,7 @@ block content
                       i.fa.fa-times
                       p Remove
                 .col-md-12.col-xs-12
-                  label.col-md-3.col-xs-3(for='past_work_#{id}_description') Brief description
+                  label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}_description') Brief description
                   .col-md-6.col-xs-9(id="past_work_#{id}")
                     textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
               //- .col-md-12
@@ -261,7 +278,7 @@ block content
               //-   .col-md-6
               //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='link') Link
+                label.col-md-3.col-xs-3.padding-top-add(for='link') Link
                 .col-md-6.col-xs-9
                   input#link.form-control(type='text', name='link', placeholder='Link to your website, portfolio, Github profile etc.', value=user.link)
           .col-md-12.col-xs-12.footer

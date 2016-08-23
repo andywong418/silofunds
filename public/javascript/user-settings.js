@@ -69,7 +69,7 @@ $(document).ready(function() {
       }).then(function(data){
         console.log("SUCCESS", data);
       })
-})
+    })
   // NOTE: Change label name upon file upload
 
   var inputs = document.querySelectorAll( '.realFileUpload' );
@@ -338,13 +338,12 @@ $(document).ready(function() {
     $("div.settings-tab div.settings-tab-content").removeClass("active-mobile");
     $("div.settings-tab div.settings-tab-content").eq(index).addClass("active-mobile");
   });
-
 });
 
 
 // Functions for mobile stuff
 function barSwitcher() {
-  if($('#big_flex_div').width() <= 500) {
+  if($(window).width() <= 541) {
     $('#left_div').hide();
     $('#top_div').show();
     $('#right_div').removeClass('col-xs-8');

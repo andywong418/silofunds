@@ -33,8 +33,8 @@ label#describe_your_goal {
     h3 p {
       font-size: 14px; } }
 
-@media (max-width: 540px) {
-  #left_div.desktop {
+@media (max-width: 541px) {
+  #left_div {
     display: none; }
   #big_flex_div.container #right_div .settings-tab {
     border-radius: 0; }
@@ -85,3 +85,52 @@ label#describe_your_goal {
         margin: 6px; }
     #top_div.col-xs-12 .list-group .flex-box {
       width: 25%; }
+
+#top_div #profile-mob-flex {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+#top_div #profile-logout-space {
+  width: 50%; }
+
+#top_div .logout-tab {
+  width: 25%; }
+  #top_div .logout-tab .list-group {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    height: 100%; }
+    #top_div .logout-tab .list-group #sit_down a {
+      width: 100%;
+      height: 35px; }
+
+#top_div .profile {
+  width: 25%; }
+  #top_div .profile #box-profile {
+    -webkit-transition: 2.5s;
+    transition: 2.5s; }
+    #top_div .profile #box-profile .fa-camera {
+      position: absolute;
+      color: white;
+      font-size: 45px;
+      left: 47%;
+      top: 130px;
+      display: none; }
+    #top_div .profile #box-profile:hover .fa-camera {
+      cursor: pointer;
+      display: block; }
+    #top_div .profile #box-profile #userImage {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      border: 1px solid #e1e8ed;
+      cursor: pointer; }

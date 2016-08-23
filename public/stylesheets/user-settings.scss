@@ -69,7 +69,6 @@ p {
 
   .settings-tab-menu, .logout-tab {
     padding: 0;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -77,11 +76,9 @@ p {
     width: 100%;
     margin-top: 20px;
     border-radius: 5px;
-
     .list-group {
       margin-bottom: 0;
       width: 100%;
-
       a {
         margin-bottom: 0;
         padding: 15px 10px;
@@ -273,9 +270,12 @@ label.removeFile {
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 541px) {
   #big_flex_div.container {
     flex-direction: column;
+  }
+  #video {
+    width: 100%;
   }
   .settings-tab-content:not(.active-mobile) {
     display: none;
@@ -297,8 +297,49 @@ label.removeFile {
       padding-top: 9px;
     }
   }
-  .padding-up {
-    padding-top: -90px;
-    border: 1px solid pink
+}
+
+@media (max-width: 408px) {
+  #general-settings {
+    label.padding-top-reducer-lg {
+      padding-top: 0px;
+    }
+    @media (max-width: 350px) {
+      label.padding-top-reducer-sm {
+        padding-top: 0px;
+      }
+    }
   }
+}
+
+@media (max-width: 1000px) {
+  #campaign-settings {
+    label.padding-top-add {
+      padding-top: 8px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  #general-settings {
+    label.padding-top-add {
+      padding-top: 8px;
+    }
+    @media (max-width: 600px) {
+      label.padding-top-edit {
+        padding-top: 0px;
+      }
+    }
+    @media (max-width: 600px) {
+      label.padding-top-edit {
+        padding-top: 9px;
+      }
+    }
+    @media (max-width: 400px) {
+      label.padding-top-edit {
+        padding-top: 0px;
+      }
+    }
+  }
+
 }
