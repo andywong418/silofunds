@@ -107,7 +107,6 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'", "'unsafe-inline'", 'hotjar.com'],
     styleSrc: ["'self'"],
   },
-  reportOnly: true,
   disableAndroid: false,
   browserSniff: true
 }));
