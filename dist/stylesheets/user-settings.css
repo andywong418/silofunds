@@ -1083,4 +1083,15 @@ label.removeFile {
   .settings-tab-content:not(.active-mobile) {
     display: none; }
   .col-md-8 .col-xs-12 {
-    padding: 0; } }
+    padding: 0; }
+  #describe_your_goal {
+    padding-top: 3px; }
+  #general-settings label.personal-padding-1, #general-settings p.personal-padding-1, #general-settings .clear.personal-padding-1, #personal-settings label.personal-padding-1, #personal-settings p.personal-padding-1, #personal-settings .clear.personal-padding-1 {
+    padding-top: 3px; }
+  #general-settings label.personal-padding-2, #personal-settings label.personal-padding-2 {
+    padding-top: 0px; }
+  #general-settings label, #personal-settings label {
+    padding-top: 9px; }
+  .padding-up {
+    padding-top: -90px;
+    border: 1px solid pink; } }

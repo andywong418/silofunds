@@ -120,20 +120,20 @@ block content
                 .col-md-2.col-xs-2
                   label.radio-inline
                     input#male(type='radio', name= 'gender', value= 'male')
-                    | Male
+                    p.personal-padding-1 Male
                 .col-md-2.col-xs-2
                   label.radio-inline
                     input#female(type='radio', name='gender', value='female')
-                    | Female
+                    p.personal-padding-1 Female
                 .col-xs-1
-                .col-md-2.col-xs-2.text-left.clear
+                .col-md-2.col-xs-2.text-left.clear.personal-padding-1
                   a#clear_gender(href='#') Clear
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='religion') Religion
+                label.col-md-3.col-xs-3.personal-padding-1(for='religion') Religion
                 .col-md-6.col-xs-9
                   input#religion.form-control(type='text', name='religion', value=user.religion)
               .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3.margin-removal(for='country_of_residence') Country of Residence
+                label.col-md-3.col-xs-3.margin-removal.personal-padding-2(for='country_of_residence') Country of Residence
                 .col-md-6.col-xs-9
                   input#country_of_residence.form-control(type='text', name='country_of_residence', value=user.country_of_residence)
           .col-md-12.col-xs-12.footer
