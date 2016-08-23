@@ -1063,3 +1063,85 @@ body {
   #signup-wrapper #greeting {
     width: 80%;
     margin-left: 10%; } }
+
+@media (max-width: 592px) {
+  #signup-wrapper #greeting {
+    width: 95%;
+    margin-left: 2.5%; }
+    #signup-wrapper #greeting h4 {
+      font-size: 16px; }
+  #signup-wrapper #process-flex-container .process {
+    padding: 10px; }
+  #signup-wrapper.container-fluid {
+    padding-left: 0;
+    padding-right: 0; } }
+
+@media (max-width: 542px) {
+  .center-block {
+    display: block; }
+  .input-group.center-block {
+    display: table; }
+  #dashboard.desktop {
+    display: none; }
+  #signup-wrapper #signup-form {
+    width: 98%; }
+  #greeting {
+    width: 98%;
+    margin-left: 1%; }
+    #greeting h3 {
+      font-size: 20px; }
+    #greeting h4 {
+      font-size: 16px; }
+  #process-flex-container a {
+    font-size: 14px; }
+  #signup-wrapper #signup-form #education-handler #education-header, #signup-wrapper #signup-form #education-handler #about-header, #signup-wrapper #signup-form #education-handler #story-header, #signup-wrapper #signup-form #education-handler #verify-header, #signup-wrapper #signup-form #account-handler #education-header, #signup-wrapper #signup-form #account-handler #about-header, #signup-wrapper #signup-form #account-handler #story-header, #signup-wrapper #signup-form #account-handler #verify-header, #signup-wrapper #signup-form #story-handler #education-header, #signup-wrapper #signup-form #story-handler #about-header, #signup-wrapper #signup-form #story-handler #story-header, #signup-wrapper #signup-form #story-handler #verify-header, #signup-wrapper #signup-form #about-handler #education-header, #signup-wrapper #signup-form #about-handler #about-header, #signup-wrapper #signup-form #about-handler #story-header, #signup-wrapper #signup-form #about-handler #verify-header {
+    font-size: 14px;
+    margin-top: 10px;
+    width: 90%;
+    margin-left: 5%; }
+  #signup-wrapper #signup-form #education-handler p, #signup-wrapper #signup-form #account-handler p, #signup-wrapper #signup-form #story-handler p, #signup-wrapper #signup-form #about-handler p {
+    font-size: 14px; } }
+
+@media (max-width: 399px) {
+  #signup-wrapper #process-flex-container {
+    width: 100%; }
+    #signup-wrapper #process-flex-container .process {
+      margin: 3px;
+      padding: 3px 2px 3px 2px;
+      margin-top: -4px; }
+      #signup-wrapper #process-flex-container .process a {
+        font-size: 13px; }
+  #signup-wrapper #signup-form #picture-row {
+    margin-top: -20px; } }
+
+@media (max-width: 670px) {
+  #signup-form.center-block .col-xs-4, #signup-form.center-block .col-sm-3, #education-handler .col-xs-4, #education-handler .col-sm-3 {
+    padding-left: 2px;
+    padding-right: 3px; } }
+
+@media (max-width: 466px) {
+  #signup-wrapper #signup-form p.line-wrap-466px {
+    margin-top: -7px; } }
+
+@media (max-width: 817px) {
+  #signup-wrapper #signup-form p {
+    text-align: center; }
+  #signup-wrapper #signup-form p.line-wrap-817px {
+    margin-top: -7px; } }
+
+@media (max-width: 988px) {
+  #signup-wrapper #signup-form p.line-wrap-988px {
+    margin-top: -7px; } }
+
+@media (max-width: 1200px) {
+  #signup-wrapper #signup-form .col-sm-4 {
+    padding-left: 3px;
+    text-align: right; } }
+
+@media (max-width: 380px) {
+  #signup-form.center-block p#country_of_residence.description.line-wrap-380px {
+    margin-top: -7px; }
+  #signup-wrapper #signup-form .gender-row .radio-inline input#femaleRadioInput {
+    width: 30%; }
+  #signup-wrapper #signup-form .gender-row .radio-inline input#maleRadioInput {
+    width: 40%; } }
