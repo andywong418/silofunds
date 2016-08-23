@@ -90,7 +90,10 @@ if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(express_enforces_ssl());
   app.all('/*', function(req, res, next) {
+    console.log(req.headers.host);
+    console.log(req.url);
     if (req.headers.host.match(/^www/) === null ) {
+      console.log("redirecting.....");
       res.redirect('https://www' + req.url);
     } else {
       next();
