@@ -260,9 +260,7 @@ i {
 }
 
 @media (max-width: 920px) {
-  .results {
-    margin-top: 80px;
-  }
+
   .search_form {
     width: 100%;
   }
@@ -435,9 +433,9 @@ i {
     margin-top: 10px;
   }
   .queryToken{
-    overflow: auto;
+    white-space: normal;
     #sort{
-      float: left;
+      float: none;
       margin-top: 20px;
       display: block;
     }
@@ -516,6 +514,17 @@ i {
 }
 
 @media (max-width: 470px) {
+  .alert-info{
+    margin-top: -20px;
+    p{
+      font-size: 12px;
+      a{
+        cursor: pointer;
+      }
+    }
+    width: 100%;
+    margin-left: 0;
+  }
   #text_search {
     width: 210px;
     margin-left: 0;

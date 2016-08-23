@@ -993,8 +993,6 @@ i {
   display: none; }
 
 @media (max-width: 920px) {
-  .results {
-    margin-top: 80px; }
   .search_form {
     width: 100%; }
   #search_button {
@@ -1119,9 +1117,9 @@ i {
   .radio-inline {
     margin-top: 10px; }
   .queryToken {
-    overflow: auto; }
+    white-space: normal; }
     .queryToken #sort {
-      float: left;
+      float: none;
       margin-top: 20px;
       display: block; } }
 
@@ -1176,6 +1174,14 @@ i {
     color: #2C3E50; } }
 
 @media (max-width: 470px) {
+  .alert-info {
+    margin-top: -20px;
+    width: 100%;
+    margin-left: 0; }
+    .alert-info p {
+      font-size: 12px; }
+      .alert-info p a {
+        cursor: pointer; }
   #text_search {
     width: 210px;
     margin-left: 0; }
