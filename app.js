@@ -89,6 +89,13 @@ app.use(gzip.staticGzip(__dirname + '/bower_components/jquery/dist', { matchType
 if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(express_enforces_ssl());
+  app.all('/*', function(req, res, next) {
+    if (req.headers.host.match(/^www/) === null ) {
+      res.redirect('https://www' + req.url);
+    } else {
+      next();
+    }
+  });
 }
 app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
 app.use(helmet({ dnsPrefetchControl: false }));
