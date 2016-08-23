@@ -446,15 +446,13 @@ body{
 	}
 }
 @media (max-width: 330px) {
-	#signup-wrapper #process-flex-container {
+	#signup-wrapper.container-fluid #process-flex-container {
 		width: 100%;
 		.process {
 			margin: 2px;
-			padding: 7px 3px 7px 2px;
+			padding: 7px 3px 7px 3px;
 			margin-top: -4px;
-			a {
-				font-size: 13px;
-			}
+			font-size: 14px;
 		}
 	}
 }

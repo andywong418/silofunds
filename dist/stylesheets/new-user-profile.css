@@ -1117,14 +1117,13 @@ body {
       margin-top: -20px; } }
 
 @media (max-width: 330px) {
-  #signup-wrapper #process-flex-container {
+  #signup-wrapper.container-fluid #process-flex-container {
     width: 100%; }
-    #signup-wrapper #process-flex-container .process {
+    #signup-wrapper.container-fluid #process-flex-container .process {
       margin: 2px;
-      padding: 7px 3px 7px 2px;
-      margin-top: -4px; }
-      #signup-wrapper #process-flex-container .process a {
-        font-size: 13px; } }
+      padding: 7px 3px 7px 3px;
+      margin-top: -4px;
+      font-size: 14px; } }
 
 @media (max-width: 670px) {
   #signup-form.center-block .col-xs-4, #signup-form.center-block .col-sm-3, #education-handler .col-xs-4, #education-handler .col-sm-3 {
