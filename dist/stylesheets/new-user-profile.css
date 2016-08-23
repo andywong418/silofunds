@@ -1144,4 +1144,7 @@ body {
   #signup-wrapper #signup-form .gender-row .radio-inline input#femaleRadioInput {
     width: 30%; }
   #signup-wrapper #signup-form .gender-row .radio-inline input#maleRadioInput {
-    width: 40%; } }
+    width: 40%; }
+  #signup-wrapper #signup-form #profile-picture img {
+    width: 200px !important;
+    height: auto !important; } }
