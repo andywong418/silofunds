@@ -174,16 +174,28 @@ var parallax = document.querySelectorAll(".parallax"),
         el.addClass("come-in-3");
       }
     });
-  [].slice.call(parallax).forEach(function(el,i){
-    console.log(el);
-    console.log(i);
-  var windowYOffset = window.pageYOffset,
-      elBackgrounPos = "50% " + (windowYOffset * speed) + "px";
-
-  el.style.backgroundPosition = elBackgrounPos;
-
-});
+//   [].slice.call(parallax).forEach(function(el,i){
+//     console.log(el);
+//     console.log(i);
+//   var windowYOffset = window.pageYOffset,
+//       elBackgrounPos = "50% " + (windowYOffset * speed) + "px";
+//
+//   el.style.backgroundPosition = elBackgrounPos;
+//
+// });
   });
+  $.stellar();
+  var viewPortWidth = $(window).width();
+  if(viewPortWidth < 994){
+    $('#relevant-div').css('background-repeat', 'none');
+    $('#relevant-div').css('background-position', 'center');
+    $('#relevant-div').css('background-attachment', 'fixed');
+  }
+  if(viewPortWidth < 991){
+    $('#application-row').insertBefore($('#application-text'));
+  }
+
+
   var className;
   $(".footer-distributed .footer-right a").hover(function(){
    var classNameArray = $(this).children().attr('class').split(" ");
