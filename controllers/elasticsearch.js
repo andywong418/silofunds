@@ -457,7 +457,6 @@ module.exports = {
         // Logger.error(response.explanation.details[0].details[1].details);
         // Logger.error(response.explanation.details[0].details[0].details);
         var bodyObj;
-        Logger.debug(sort_by);
         if(!sort_by){
           bodyObj = {
             "size": 1000,
@@ -491,7 +490,6 @@ module.exports = {
             ]
           };
         }
-
         delete query.sort_by;
         es.search({
           index: "funds",
@@ -502,7 +500,6 @@ module.exports = {
           var funds = resp.hits.hits.map(function(hit) {
             var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
             var hash = {};
-
 
             for (var i = 0; i < fields.length ; i++) {
               hash[fields[i]] = hit._source[fields[i]];
@@ -516,7 +513,6 @@ module.exports = {
 
           models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
             if (user) {
-              Logger.info("YSER",user);
               for (var i=0; i < funds.length; i++) {
                 if (funds[i].organisation_id == user.organisation_or_user) {
                   funds[i].fund_user = true;
@@ -532,16 +528,17 @@ module.exports = {
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
                 }
                 else{
-                  console.log("Where")
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                 }
               });
             } else {
               if (query.tags && Object.keys(query).length === 1){
+                console.log("RESULTS");
                 res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
 
               }
               else{
+                console.log("ANOTHER RESULTS", query);
                 res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
               }
             }

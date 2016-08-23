@@ -1145,7 +1145,7 @@ a.cd-login {
             transform: translateX(0); } }
 
 #relevant-people {
-  background: url(../images/relevant-people.jpg);
+  background: url(../images/relevant-people.jpg) no-repeat;
   text-align: center;
   background-size: cover; }
   #relevant-people #relevant-div {

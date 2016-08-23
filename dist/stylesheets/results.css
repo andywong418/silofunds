@@ -1016,15 +1016,31 @@ i {
     margin-top: 30px; }
   .database {
     width: auto;
-    margin-left: 0; } }
+    margin-left: 0; }
+  .navbar-collapse {
+    background: #2d4a76; } }
 
-@media (max-width: 531px) {
-  .results {
-    height: 70px; } }
+@media (max-width: 480px) {
+  .database {
+    padding-left: 10px;
+    padding-right: 10px; }
+    .database .fund_list {
+      margin-right: 0; }
+  h3.fund_title {
+    font-size: 18px; }
+  .fund_info span {
+    margin-top: 0; }
+  .fund_info p {
+    font-size: 15px; }
+  .fund_info a {
+    font-size: 14px; } }
+
+@media (max-width: 457px) {
+  #show-all {
+    white-space: normal; } }
 
 @media (max-width: 400px) {
-  .results {
-    padding: 0 10px;
+  .results p {
     padding-top: 5px; } }
 
 /* form sign in */
@@ -1101,7 +1117,13 @@ i {
   #merit, #finance, #male, #female {
     margin-top: 1.5px; }
   .radio-inline {
-    margin-top: 10px; } }
+    margin-top: 10px; }
+  .queryToken {
+    overflow: auto; }
+    .queryToken #sort {
+      float: left;
+      margin-top: 20px;
+      display: block; } }
 
 @media (max-width: 920px) {
   #brand-image {
@@ -1128,6 +1150,8 @@ i {
     margin-left: -20px; } }
 
 @media (max-width: 767px) {
+  #wrapper-span {
+    display: block; }
   #search-dropdown {
     display: none; }
   #brand-image {
@@ -1139,6 +1163,11 @@ i {
     margin-top: -50px; }
   .post-signin {
     margin-top: 12px; } }
+
+@media (max-width: 676px) {
+  .results {
+    width: 100%;
+    margin-left: 0; } }
 
 @media (max-width: 719px) {
   .search_form {
