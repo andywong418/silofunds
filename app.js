@@ -24,7 +24,7 @@ var mcapi = require('mailchimp-api');
 var mcKey = process.env.MAILCHIMP_KEY;
 var gzip = require('connect-gzip');
 mc = new mcapi.Mailchimp(mcKey);
-var compress = require('compression');
+var compression = require('compression');
 
 var MAX_CONTENT_LENGTH_ACCEPTED = 9999;
 
