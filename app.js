@@ -104,10 +104,10 @@ app.use(helmet.contentSecurityPolicy({
   // Specify directives as normal.
   directives: {
     defaultSrc: ["'self'", 'silofunds.com'],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
+    scriptSrc: ["'self'", "'unsafe-inline'", 'hotjar.com'],
     styleSrc: ["'self'"],
   },
-  reportOnly: false,
+  reportOnly: true,
   disableAndroid: false,
   browserSniff: true
 }));
