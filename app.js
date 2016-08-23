@@ -17,10 +17,15 @@ require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var app = express();
+var contentLength = require('express-content-length-validator');
+var express_enforces_ssl = require('express-enforces-ssl');
+var helmet = require('helmet');
 var mcapi = require('mailchimp-api');
 var mcKey = process.env.MAILCHIMP_KEY;
 var gzip = require('connect-gzip');
 mc = new mcapi.Mailchimp(mcKey);
+
+var MAX_CONTENT_LENGTH_ACCEPTED = 9999;
 
 Logger = require('./logger');
 
@@ -61,7 +66,7 @@ else{
 
 app.use(session({
   secret: 'so secret',
-  cookie: {secure: false, maxAge: 14400000},
+  cookie: {secure: true, maxAge: 14400000},
   store: new RedisStore({
     client: redis,
     host: redisHost,
@@ -79,6 +84,21 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(gzip.staticGzip(__dirname + '/bower_components/jquery/dist', { matchType: /javascript/ }));
+
+// Security Shit
+if (process.env.NODE_ENV === 'production') {
+  app.enable('trust proxy');
+  app.use(express_enforces_ssl());
+}
+app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
+app.use(helmet({ dnsPrefetchControl: false }));
+app.use(helmet.frameguard({ action: 'deny' }));
+app.use(helmet.hsts({
+  maxAge: 10886400000,     // Must be at least 18 weeks to be approved by Google
+  includeSubdomains: true, // Must be enabled to be approved by Google
+  preload: true
+}));
+
 // Load routes
 routes.initialize(app);
 
