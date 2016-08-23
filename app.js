@@ -103,9 +103,10 @@ app.use(helmet.hsts({
 app.use(helmet.contentSecurityPolicy({
   // Specify directives as normal.
   directives: {
-    defaultSrc: ["'self'", 'silofunds.com'],
-    scriptSrc: ["'self'", "'unsafe-inline'", 'hotjar.com'],
-    styleSrc: ["'self'"],
+    defaultSrc: ["'self'", "'silofunds.com'"],
+    scriptSrc: ["'self'", "'unsafe-inline'", "'hotjar.com'", "'oss.maxcdn.com'", "'s3.amazonaws.com'"],
+    imgSrc: ["'self'", "'tumblr.com'"],
+    styleSrc: ["'self'", "'googleapis.com'"],
   },
   disableAndroid: false,
   browserSniff: true
