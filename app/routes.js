@@ -48,6 +48,9 @@ module.exports.initialize = function (app) {
   // Redirects
   if (process.env.NODE_ENV == 'production') {
     app.get('*', function(req, res, next) {
+      console.log("req.headers:");
+      console.log(req.headers);
+      console.log("req.url", req.url);
       if(req.headers['x-forwarded-proto']!='https') {
         res.redirect('https://www.silofunds.com'+req.url);
       } else {
