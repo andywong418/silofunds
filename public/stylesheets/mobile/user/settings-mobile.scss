@@ -120,14 +120,17 @@ label#describe_your_goal {
   .logout-tab {
     width: 25%;
     .list-group {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
       height: 100%;
-      #sit_down {
+      width: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+      #extra_div {
+        margin-top: 20%;
+        height: 30%;
         a {
           width: 100%;
-          height: 35px;
+          height: 2.5em;
+          margin-bottom: 5px;
         }
       }
     }

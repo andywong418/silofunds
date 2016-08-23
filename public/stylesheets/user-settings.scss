@@ -329,13 +329,16 @@ label.removeFile {
       label.padding-top-edit {
         padding-top: 0px;
       }
+      label.padding-top-add {
+        padding-top: 8px
+      }
     }
     @media (max-width: 600px) {
       label.padding-top-edit {
         padding-top: 9px;
       }
     }
-    @media (max-width: 400px) {
+    @media (max-width: 399px) {
       label.padding-top-edit {
         padding-top: 0px;
       }

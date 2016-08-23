@@ -48,8 +48,8 @@ block content
           #box-profile 
             if user.profile_picture
               input#my_file(type='file', style='display: none;', name = 'profile_picture')
-              img#userImage(src=user.profile_picture)
-              //- i.fa.fa-camera
+              img.userImageMobile#userImage(src=user.profile_picture)
+              i.fa.fa-camera
             else
               input#my_file(type='file', style='display: none;', name = 'profile_picture')
               img#userImage(src='/images/profile-placeholder.jpg')
@@ -57,8 +57,9 @@ block content
         #profile-logout-space
         .logout-tab
           .list-group
-            a.list-group-item(href="/user/logout")
-              h5 Logout
+            #extra_div
+              a.list-group-item(href="/user/logout")
+                h5 Logout
       .settings-tab-menu.flex-box
         .list-group
           .flex-box.active-mobile
