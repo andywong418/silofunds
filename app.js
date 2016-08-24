@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(express_enforces_ssl());
 }
-app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
+// app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
 app.use(helmet({ dnsPrefetchControl: false }));
 app.use(helmet.frameguard({ action: 'deny' }));
 app.use(helmet.hsts({
