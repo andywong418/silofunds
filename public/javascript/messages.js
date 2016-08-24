@@ -39,7 +39,7 @@ $(document).ready(function() {
   $('#nowspan').click(function(){
     $('.arrow_box').show();
   });
-  $("div.list-group a").click(function(e) {
+  $(document).on('click', 'div.list-group a', function(e) {
     e.preventDefault();
     //
     $(this).siblings('a.active').removeClass("active");
@@ -86,20 +86,30 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
-    if(data.userToID == userActiveID || data.userFromID == userActiveID){
-        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+    var userFromIsNotAppended = $('#messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
+
+    if (userFromIsNotAppended && user.id === parseInt(data.userToID)) {
+      $('#messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
     }
 
-    console.log(data);
-    if(data.read_by_recipient && data.userFromID == user.id){
-      console.log("READ");
-      $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+    try {
+      var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
+      if(data.userToID == userActiveID || data.userFromID == userActiveID){
+          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+      }
+
+      console.log(data);
+      if(data.read_by_recipient && data.userFromID == user.id){
+        console.log("READ");
+        $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+      }
+      else{
+        $('.read_col').remove();
+      }
+      $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+    } catch (e) {
+      console.log(e);
     }
-    else{
-      $('.read_col').remove();
-    }
-    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
   socket.on('bulk get message', function(data) {
