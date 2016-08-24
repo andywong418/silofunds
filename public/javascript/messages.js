@@ -131,9 +131,6 @@ $(document).ready(function() {
         var messageSentLastWeek = Date.parse(dateOfMessage)  >= Date.parse(dateLastWeek) && !messageSentYesterday && !messageSentToday;
         var messageSentLastYear =  Date.parse(dateLastWeek) > Date.parse(dateOfMessage) && Date.parse(dateOfMessage) > Date.parse(dateLastYear) ;
         var messageSentLongAgo = Date.parse(dateOfMessage) < Date.parse(dateLastYear);
-        console.log(messageSentLastYear);
-        console.log(messageSentLongAgo);
-
 
         if (messageSentToday && appendTodayToFirstMessage === 0) {
           // Case when messages are sent today and requires 'Today' helper text
@@ -159,7 +156,7 @@ $(document).ready(function() {
           appendYesterdayToFirstMessage++;
         }
         else if(messageSentLastWeek && appendLastWeekFirstMessage === 0){
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage.split(' ')[0]);
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{
@@ -169,8 +166,7 @@ $(document).ready(function() {
           appendLastWeekFirstMessage++;
         }
         else if(messageSentLastYear && appendLastYearFirstMessage === 0){
-          console.log("HERE I AM");
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage.split(' ').slice(0, 3).join(' '));
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{
@@ -180,7 +176,7 @@ $(document).ready(function() {
           appendLastYearFirstMessage++;
         }
         else if(messageSentLongAgo && appendLongAgoFirstMessage ==0){
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage);
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{
