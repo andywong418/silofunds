@@ -650,7 +650,7 @@ body{
 	#crowdfunding-wrapper.container {
 		#user-progress {
 			#progress-card {
-				padding: 0;
+				padding: 10px;
 				.flex-container {
 					display: flex;
 					justify-content: space-between;
@@ -690,6 +690,7 @@ body{
 			#recent-donations {
 				margin: 0;
 				margin-top: 20px;
+				margin-bottom: 30px;
 				p {
 					margin-bottom: 6px;
 				}
@@ -711,16 +712,13 @@ body{
 			padding: 10px;
 			margin: 10px;
 		}
-		#progress-card {
-			#amount{
-				margin-left: 15px;
-			}
-			#donate {
-				margin-right: 15px;
+		#user-progress #progress-card {
+			#amount {
+				margin: 0;
 			}
 		}
 		#tab-table {
-			padding: 0;
+			padding: 10px;
 			padding-bottom: 20px;
 			#tab-menu-flex {
 				border-bottom: 1px solid #e1e8ed;
@@ -749,6 +747,10 @@ body{
 		margin-bottom: 15px;
 	}
 	body {
-		font-style: Source Sans Pro !important;
+		font-family: Source Sans Pro !important;
 	}
+}
+
+nav {
+	display: none;
 }
