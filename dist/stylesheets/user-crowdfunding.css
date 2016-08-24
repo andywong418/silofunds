@@ -800,6 +800,17 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
+@media (max-width: 992px) {
+  #crowdfunding-wrapper.container {
+    width: 95%;
+    margin-left: 2.5%; }
+  #progress-card {
+    margin-top: 0; }
+  #profile_picture {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px; } }
+
 body {
   background-color: #f0f2f4; }
   body .navbar-custom {
@@ -1216,3 +1227,112 @@ body {
 
 .hidden {
   display: none; }
+
+@media (max-width: 992px) {
+  body #crowdfunding-wrapper #user-progress #funding-institutions {
+    margin-top: 30px; }
+  body #crowdfunding-wrapper #social-media-flex-container {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    body #crowdfunding-wrapper #social-media-flex-container .social-margin-end {
+      margin-right: 12px;
+      margin-left: 12px; }
+    body #crowdfunding-wrapper #social-media-flex-container .social-margin-middle {
+      margin: 0; } }
+
+@media (min-width: 769px) {
+  .mobile {
+    display: none !important; } }
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none !important; }
+  body #crowdfunding-wrapper.container {
+    margin: 0;
+    padding: 0;
+    width: 100%; }
+    body #crowdfunding-wrapper.container .col-md-7.col-xs-12.col-sm-6.remove-margin {
+      margin: 0; }
+    body #crowdfunding-wrapper.container .col-md-7.col-sm-6.col-xs-12 {
+      margin-bottom: 40px;
+      padding: 0; }
+      body #crowdfunding-wrapper.container .col-md-7.col-sm-6.col-xs-12 #profile_picture {
+        padding-left: 0;
+        padding-right: 0; }
+    body #crowdfunding-wrapper.container #user-progress {
+      clear: both;
+      padding-left: 0;
+      padding-right: 0;
+      margin-top: -5px; }
+      body #crowdfunding-wrapper.container #user-progress #progress-card {
+        margin-top: 0; }
+  #crowdfunding-wrapper.container #user-progress #progress-card {
+    padding: 0; }
+    #crowdfunding-wrapper.container #user-progress #progress-card .flex-container {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      height: 90px; }
+      #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div {
+        height: inherit;
+        padding-top: 10px; }
+        #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div img.ifVideoPhoto#profile_picture {
+          float: right;
+          margin-right: 15px;
+          height: 100%;
+          width: auto;
+          padding: 0;
+          margin: 0; }
+      #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div-name {
+        padding-top: 38px;
+        padding-left: 10px;
+        -webkit-box-flex: 3;
+            -ms-flex-positive: 3;
+                flex-grow: 3;
+        position: relative; }
+        #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div-name span {
+          position: relative;
+          bottom: -20px;
+          left: 5px; }
+          #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div-name span h3 {
+            text-align: left; }
+      #crowdfunding-wrapper.container #user-progress #progress-card .flex-container .flex-div-image {
+        padding-right: 10px;
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1; }
+  #crowdfunding-wrapper.container p#raised {
+    border-top: 1px solid #e1e8ed; }
+  #crowdfunding-wrapper.container p#raised, #crowdfunding-wrapper.container .progress {
+    padding: 10px;
+    margin: 10px; }
+  #crowdfunding-wrapper.container #progress-card #amount {
+    margin-left: 15px; }
+  #crowdfunding-wrapper.container #progress-card #donate {
+    margin-right: 15px; }
+  #crowdfunding-wrapper.container #tab-table {
+    padding: 0;
+    padding-bottom: 20px; }
+    #crowdfunding-wrapper.container #tab-table #tab-menu-flex {
+      border-bottom: 1px solid #e1e8ed; }
+      #crowdfunding-wrapper.container #tab-table #tab-menu-flex a.menu-item p {
+        padding-bottom: 3px;
+        padding-top: 7px; }
+    #crowdfunding-wrapper.container #tab-table #tab-content {
+      margin-top: -5px;
+      padding: 0px 8px 0px 8px; }
+      #crowdfunding-wrapper.container #tab-table #tab-content p#header {
+        border-bottom: 1px solid #e1e8ed; }
+      #crowdfunding-wrapper.container #tab-table #tab-content hr {
+        border-color: transparent; }
+      #crowdfunding-wrapper.container #tab-table #tab-content #comment-handler p#no-comment {
+        padding: 10px;
+        margin: 20px 0px 15px 0px; }
+  #social-media-flex-container {
+    margin-bottom: 100px; }
+  body {
+    font-style: Source Sans Pro !important; } }

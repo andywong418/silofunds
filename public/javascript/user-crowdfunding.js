@@ -8,7 +8,6 @@ $(document).ready(function(){
     var amount = user.funding_accrued;
     var goal = user.funding_needed;
     var percentage = Math.ceil((amount/ goal) * 100);
-    console.log($('#initial-bar'));
     $('div#initial-bar').css('width',  percentage + '%');
     $('#percentage').html(percentage+ '% <span> funded </span>');
   }
@@ -16,8 +15,6 @@ $(document).ready(function(){
     var oneDay = 24*60*60*1000;
     var completionDate = new Date(user.completion_date.split('T')[0]);
     var nowDate = Date.now();
-    console.log("COMPLETION", completionDate);
-    console.log("NOW DATE", nowDate);
     var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
     $('#remaining-days').html(diffDays + '<span> days to go </span>');
   }
@@ -48,7 +45,6 @@ $(document).ready(function(){
     initialize: function(){
       var storyModel = this.model;
       this.el = this.render().el;
-      console.log(this.model);
       var story = this.model.get('description');
       this.$('#story').html(story);
       this.$('#story').css('margin-top', '20px');
@@ -56,7 +52,6 @@ $(document).ready(function(){
       this.$('#story').find('*').css('color', '#4b4f56');
       this.$('#story').find('p').css('font-size', '15px')
       var documents = this.model.get('documents');
-      console.log(documents);
       for(var i =0; i< documents.length; i++){
         var doc = documents[i];
         var id = doc.id;
@@ -69,7 +64,6 @@ $(document).ready(function(){
           extension = seekingExtension[1];
         }
 
-        console.log(extension);
         var fileClass;
         if(extension == "pdf"){
           fileClass = "fa fa-file-pdf-o pdf-file"
@@ -127,7 +121,6 @@ $(document).ready(function(){
       this.el = this.render().el;
       var age;
       if(user.date_of_birth){
-        console.log(user.date_of_birth);
         var myDate = user.date_of_birth.split("-");
         var yearFix= myDate[2].split("T");
         var day = yearFix[0];
@@ -153,7 +146,6 @@ $(document).ready(function(){
     initialize: function(){
       this.el = this.render().el;
       var createdAt = reformatDate(this.model.get('created_at'));
-      console.log(createdAt);
       if(createdAt){
         this.$('#created-at').html(createdAt);
       }
@@ -223,7 +215,7 @@ $(document).ready(function(){
         this.view.remove();
       }
       this.view = viewing;
-      $('#tab-content').append(viewing.el);
+      $('#tab-content, .tab-content-mobile').append(viewing.el);
     }
   })
   var router = new Router();
@@ -247,7 +239,6 @@ $(document).ready(function(){
       });
     }
     else{
-      console.log("HI");
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
@@ -302,7 +293,6 @@ $(document).ready(function(){
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
-        console.log('THIGS SHOULD BE HAPPENING HERE BUT THEYRE NOT, ARE THEY?')
         var amount = $('input#donate-amount').val();
         var applicationFee = Math.ceil(amount * 0.029 + 0.2);
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
@@ -314,7 +304,6 @@ $(document).ready(function(){
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
-          console.log("DATA AMOUNT", data.amount );
           data.donorIsPaying = true;
         } else {
           data.amount = amount * 100;
@@ -360,7 +349,6 @@ $(document).ready(function(){
     };
 
     $('.fb-share').click(function(){
-      console.log("WHAT", user);
       var firstName = user.username.split(' ')[0];
       var gender = user.gender;
       var pronoun;
@@ -385,7 +373,6 @@ $(document).ready(function(){
   // Twitter popup buttons
     $('a.twitter-tweet').click(function(e){
       var offset = (screen.width/2) - Math.ceil(575/2);
-      console.log(offset);
       var username = user.username.split(' ')[0];
       var subject = user.subject;
       var gender = user.gender;
@@ -419,7 +406,6 @@ $(document).ready(function(){
     var firstProgressBar = $('#initial-bar');
     var amountAdded = parseInt(userInput);
     var newAmount = amountAdded + user.funding_accrued;
-    console.log(newAmount);
     var percentage = Math.ceil((newAmount/user.funding_needed) * 100);
     var addedPercentage = Math.ceil((amountAdded/user.funding_needed) * 100)
     if(userInput !== '') {
@@ -466,7 +452,6 @@ $(document).ready(function(){
 
   };
   function displayCompletionMessage(data) {
-    console.log('IS ANYTHING HAPPENING RIGHT NOW')
     $('#payment-div').append('Thank you, your payment has been processed');
     $('#payment-div').removeClass('hidden');
     $('#payment-div').animate({'left': '85%'}, 'slow')
@@ -476,4 +461,57 @@ $(document).ready(function(){
     $('#payment-div').delay(3000).fadeOut('slow');
     location.reload();
   }
+
+  // Stuff for mobile
+  $('.video-div, .video-div').html(user.video)
+  $('.video-div iframe').addClass('iframe')
+
+  initialWidth = $('.iframe').width()
+  console.log(initialWidth)
+  initialHeight = $('.iframe').height()
+  videoRatio = initialWidth / initialHeight
+
+  tabContentMobileAdd();
+  iframeResize();
+  $(window).resize(function() {
+    tabContentMobileAdd();
+    iframeResize();
+  })
+
+
 });
+
+// Functions
+var initialWidth;
+var initialHeight;
+var videoRatio;
+function tabContentMobileAdd() {
+  if($(window).width() <= 768) {
+    $('#tab-content').removeClass('tab-content-mobile')
+    $('#tab-content').addClass('tab-content-mobile')
+  } else {
+    $('#tab-content').removeClass('tab-content-mobile')
+  }
+}
+
+function iframeResize() {
+  if($(window).width() <= 670) {
+    $('.video-div.mobile').css('margin-left', '0px')
+    $('.video-div.mobile').css('margin-top', '-6px')
+    $('#user-progress').css('padding-left', '0px')
+    $('#user-progress').css('padding-right', '0px')
+    $('#user-progress').css('margin-top', '-5px')
+    var newWidth = $(window).width()
+    var widthChange = initialWidth - newWidth
+    var newHeight = initialHeight - widthChange/videoRatio
+    $('.iframe').css('width', newWidth);
+    $('.iframe').css('height', newHeight);
+  } else if(671 < $(window).width() <= 769) {
+    var marginLeft = ($(window).width() - $('.iframe').width())/2
+    $('.video-div.mobile').css('margin-left', marginLeft)
+    $('.video-div.mobile').css('margin-top', marginLeft/5)
+    $('#user-progress').css('padding-left', (marginLeft)/3)
+    $('#user-progress').css('padding-right', (marginLeft)/3)
+    $('#user-progress').css('margin-top', (marginLeft)/5)
+  }
+}
