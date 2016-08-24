@@ -506,12 +506,21 @@ function iframeResize() {
     var newHeight = initialHeight - widthChange/videoRatio
     $('.iframe').css('width', newWidth);
     $('.iframe').css('height', newHeight);
-  } else if(671 < $(window).width() <= 769) {
+  } else if($(window).width() > 671 &&  $(window).width() <= 769) {
     var marginLeft = ($(window).width() - $('.iframe').width())/2
+    $('.iframe').css('width', '671px')
+    $('.iframe').css('height', 671/videoRatio)
     $('.video-div.mobile').css('margin-left', marginLeft)
     $('.video-div.mobile').css('margin-top', marginLeft/5)
     $('#user-progress').css('padding-left', (marginLeft)/3)
     $('#user-progress').css('padding-right', (marginLeft)/3)
     $('#user-progress').css('margin-top', (marginLeft)/5)
+  } else if($(window).width() > 769) {
+    $('.iframe').css('width', '100%')
+    $('#user-progress').css('padding-left', '') // Reset to defaults
+    $('#user-progress').css('padding-right', '')
+    $('#user-progress').css('margin-top', '')
+    var width = $('.video-div.desktop').width() - 30
+    $('.iframe').css('height', width/videoRatio)
   }
 }
