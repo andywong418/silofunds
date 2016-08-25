@@ -5,10 +5,10 @@
   if applications
     each app in applications
       if app.hide_from_profile !== true
-        .row.app-row
+        .row.app-row#applications-div
           .col-md-9.col-sm-9.col-xs-9
             a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
-          .col-md-3.col-sm-3.col-xs-3
+          .col-md-3.col-sm-3.col-xs-3.padding-fix
             if app.status == 'success'
               p#status= '£'+ app.amount_gained
             else
@@ -22,7 +22,7 @@
       i.fa.fa-caret-down(aria-hidden="true")
   if donations.length > 0
     each donation in donations
-      .row.donation-row
+      .row.donation-row#some-donations
         .col-md-2.col-sm-2.col-xs-2
           if donation.profile_picture
             img#donation-picture(src= donation.profile_picture)

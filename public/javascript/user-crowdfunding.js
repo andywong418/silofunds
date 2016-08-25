@@ -478,19 +478,22 @@ $(document).ready(function(){
     iframeResize();
   })
 
-
 });
 
 // Functions
 var initialWidth;
 var initialHeight;
 var videoRatio;
+
 function tabContentMobileAdd() {
   if($(window).width() <= 768) {
-    $('#tab-content').removeClass('tab-content-mobile')
-    $('#tab-content').addClass('tab-content-mobile')
+    $('.fixed-class').removeClass('tab-content-mobile')
+    $('.fixed-class').removeAttr('id')
+    $('.fixed-class').addClass('tab-content-mobile')
   } else {
-    $('#tab-content').removeClass('tab-content-mobile')
+    $('.fixed-class').removeClass('tab-content-mobile')
+    $('.fixed-class').removeAttr('id')
+    $('.fixed-class').attr('id', 'tab-content')
   }
 }
 
@@ -512,9 +515,10 @@ function iframeResize() {
     $('.iframe').css('height', 671/videoRatio)
     $('.video-div.mobile').css('margin-left', marginLeft)
     $('.video-div.mobile').css('margin-top', marginLeft/5)
-    $('#user-progress').css('padding-left', (marginLeft)/3)
-    $('#user-progress').css('padding-right', (marginLeft)/3)
-    $('#user-progress').css('margin-top', (marginLeft)/5)
+    $('.video-div.mobile').css('margin-bottom', marginLeft/5)
+    $('#user-progress').css('padding-left', (marginLeft)/8)
+    $('#user-progress').css('padding-right', (marginLeft)/8)
+    $('#user-progress').css('margin-top', (marginLeft)/10)
   } else if($(window).width() > 769) {
     $('.iframe').css('width', '100%')
     $('#user-progress').css('padding-left', '') // Reset to defaults
@@ -524,3 +528,5 @@ function iframeResize() {
     $('.iframe').css('height', width/videoRatio)
   }
 }
+
+console.log($('.fixed-class'))

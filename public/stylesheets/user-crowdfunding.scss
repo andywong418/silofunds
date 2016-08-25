@@ -14,6 +14,7 @@ $donate-button-height: 48px;
 @import './mobile/user/user-crowdfunding-mobile.scss';
 
 body{
+	font-family: Source Sans Pro;
 	background-color: #f0f2f4;
 	.navbar-custom{
 		position:relative;
@@ -26,15 +27,14 @@ body{
 		padding-bottom: 50px;
 		#social-media-flex-container{
 			display: flex;
+			justify-content: space-between;
 			margin-top: 15px;
-
-			.social{
+			.social {
 				font-size: 15px;
-				padding: 10px;
+				padding: 10px 0px 10px 0px;
 				padding-left: 15px;
 				border-radius: 3px;
 				cursor: pointer;
-				margin-right: 20px;
 				flex-grow: 1;
 				color: white;
 				font-family: 'Helvetica Neue';
@@ -47,11 +47,19 @@ body{
 				-moz-transition: background-color 0.2s ease-in-out;
 				-o-transition: background-color 0.2s ease-in-out;
 				transition: background-color 0.2s ease-in-out;
-				i{
+				i {
 					font-size: 20px;
 					float: left;
 				}
-
+			}
+			.social-margin-left {
+				margin-right: 20px;
+			}
+			.social-margin-right {
+				margin-left: 20px;
+			}
+			.social-margin-middle {
+				margin: 0;
 			}
 			.fb-share{
 				background-color: #306199;
@@ -597,12 +605,18 @@ body{
 
 // Mobile stuff
 @media (max-width: 992px) {
-	body #crowdfunding-wrapper #user-progress #funding-institutions {
-		margin-top: 30px;
+ 	#crowdfunding-wrapper {
+		#user-progress #funding-institutions {
+			margin-top: 30px;
+		}
+		.no-vid-pic-border #profile_picture {
+			padding: 0;
+			margin-top: 0;
+		}
 	}
 	body #crowdfunding-wrapper #social-media-flex-container {
 		justify-content: space-between;
-		.social-margin-end {
+		.social-margin-left, .social-margin-right {
 			margin-right: 12px;
 			margin-left: 12px;
 		}
@@ -626,6 +640,15 @@ body{
 		margin: 0;
 		padding: 0;
 		width: 100%;
+		.no-vid-pic-border {
+			width: 100%;
+			background-color: #f0f2f4;
+			#profile_picture {
+				width: 70%;
+				margin: 15px 0px 15px 15%;
+				height: auto;
+			}
+		}
 		.col-md-7.col-xs-12.col-sm-6.remove-margin {
 			margin: 0;
 		}
@@ -660,7 +683,6 @@ body{
 						padding-top: 10px;
 						img.ifVideoPhoto#profile_picture {
 							float: right;
-							margin-right: 15px;
 							height: 100%;
 							width: auto;
 							padding: 0;
@@ -682,22 +704,29 @@ body{
 						}
 					}
 					.flex-div-image {
-						padding-right: 10px;
+						padding-right: 20px;
 						flex-grow: 1;
 					}
 				}
 			}
-			#recent-donations {
-				margin: 0;
-				margin-top: 20px;
-				margin-bottom: 30px;
-				p {
-					margin-bottom: 6px;
+			#funding-institutions, #recent-donations {
+				margin: 15px 10px 20px 10px;
+				background-color: #f0f2f4;
+				padding-bottom: 10px;
+				#some-donations, #no-donations, #applications-div {
+					font-size: 14px
 				}
-			}
-			#funding-institutions {
-				margin: 0;
-				#fund-banner {
+				.app-row {
+					#fund-title {
+						font-size: 14px;
+					}
+					.padding-fix {
+						padding-right: 10px;
+						padding-left: 0px;
+					}
+				}
+				#fund-banner, #donation-banner {
+					margin-bottom: 6px;
 					p {
 						margin: 0;
 						margin-bottom: 6px;
@@ -706,11 +735,17 @@ body{
 			}
 		}
 		p#raised {
+			margin: 10px 0px 0px 0px;
+			padding: 10px 15px 0px 15px;
 			border-top: 1px solid #e1e8ed;
 		}
-		p#raised, .progress {
-			padding: 10px;
+		.progress {
+			height: 20px;
 			margin: 10px;
+			#initial-bar {
+				height: 100%;
+				background-color: rgb(85, 230, 165);
+			}
 		}
 		#user-progress #progress-card {
 			#amount {
@@ -718,10 +753,13 @@ body{
 			}
 		}
 		#tab-table {
+			margin: 10px;
 			padding: 10px;
 			padding-bottom: 20px;
+			background-color: #f0f2f4;
+			border-radius: 4px;
 			#tab-menu-flex {
-				border-bottom: 1px solid #e1e8ed;
+				// border-bottom: 1px solid #e1e8ed;
 					a.menu-item p {
 					padding-bottom: 3px;
 					padding-top: 7px;
@@ -731,7 +769,7 @@ body{
 				margin-top: -5px;
 				padding: 0px 8px 0px 8px;
 				p#header {
-					border-bottom: 1px solid#e1e8ed
+					border-bottom: 1px solid#e1e8ed;
 				}
 				hr {
 					border-color: transparent;
@@ -747,10 +785,22 @@ body{
 		margin-bottom: 15px;
 	}
 	body {
-		font-family: Source Sans Pro !important;
+		background-color: white;
 	}
 }
 
 nav {
 	display: none;
+}
+
+@media (min-width: 400px) {
+	@media (max-width: 768px) {
+		#crowdfunding-wrapper.container {
+			#user-progress {
+				.progress {
+					height: 25px;
+				}
+			}
+		}
+	}
 }

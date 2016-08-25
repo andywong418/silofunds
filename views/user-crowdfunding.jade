@@ -46,14 +46,15 @@ block content
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible
 	#crowdfunding-wrapper.container
-		.col-md-7.col-sm-6.col-xs-12.remove-margin#pic-vid-div
+		#pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
 			if user.profile_picture && !user.video
-				img#profile_picture(src!=user.profile_picture)
+				.no-vid-pic-border
+					img#profile_picture.pic-resize(src!=user.profile_picture)
 			if user.video
 				.video-div.mobile
 				.video-div.desktop
 			if !user.profile_picture && !user.video
-				img#profile_picture(src='/images/fund_img_placeholder.jpg')
+				img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
 			.desktop
 				include ./partials/user/crowdfunding/social-buttons.jade
 				include ./partials/user/crowdfunding/story-about-updates.jade
@@ -63,13 +64,16 @@ block content
 				if !user.video
 					h3= user.username
 				if user.video
-					.flex-container
-						.flex-div.flex-div-name
-							span#sit_the_h3_down
-								h3= user.username
-						.flex-div.flex-div-middle
-						.flex-div.flex-div-image
-							img.ifVideoPhoto#profile_picture(src!=user.profile_picture)
+					if user.profile_picture
+						.flex-container
+							.flex-div.flex-div-name
+								span#sit_the_h3_down
+									h3= user.username
+							.flex-div.flex-div-middle
+							.flex-div.flex-div-image
+								img.ifVideoPhoto#profile_picture(src!=user.profile_picture)
+					if !user.profile_picture
+						h3= user.username
 				if user.funding_needed
 					if user.funding_accrued != null || user.funding_accrued > 0
 						p#raised= '£' +user.funding_accrued
