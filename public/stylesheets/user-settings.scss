@@ -344,5 +344,18 @@ label.removeFile {
       }
     }
   }
+}
 
+@media (min-width: 542px) {
+  #general-settings, #personal-settings {
+    #gender-div {
+      padding-bottom:0;
+    }
+    .personal-padding-1 {
+      margin-left: 10px;
+    }
+  }
+  #right_div div.settings-tab .settings-tab-content .col-md-12.content .sub-content .clear {
+    margin: 0;
+  }
 }
