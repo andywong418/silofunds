@@ -532,8 +532,8 @@ module.exports = {
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
                 }
                 else{
-                  console.log("Where")
-                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
+                  console.log("Where");
+                  res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
                 }
               });
             } else {

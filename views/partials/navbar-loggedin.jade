@@ -1,0 +1,120 @@
+//- includes/navbar.jade
+script(src="../javascript/signup-login.js")
+nav.navbar.navbar-custom.navbar-fixed-top.desktop(role='navigation')
+  #container.container
+    .row
+      .navbar-header
+        a#brand-heading.navbar-brand.desktop-brand-heading(href='/')
+          img#brand-image(src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px')
+        .navbar-center-container
+          form#search-form.search_form(action='/results', method='get', name='search_form')
+            .advs-link.desktop-loggedin-advs
+              a#advs-link(href='#') Advanced
+            .form-group.desktop-form#navbar-form
+              .input-group.desktop-input-group
+                .input-group-btn
+                  button#category.btn.btn-info.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Funding 
+                    span.caret
+                  ul.dropdown-menu
+                    li
+                      a#category-funding.category(href='#') Funding
+                    li
+                      a#category-users.category(href='#') Users
+                input#text_search.tags.form-control.input-sm.loggedin-desktop-input(type='text', name='tags', placeholder='Search funds', form="search-form")
+            .submit-navbar-form
+              button#search_button.btn.btn-info.btn-sm.loggedin-desktop-button(type='submit')
+                i.fa.fa-search
+      ul.right-nav
+        li
+          a.cd-login.pre-signin(href='#0') Log in
+        li
+          a.cd-signup.pre-signin(href='#0') Sign up
+          li.post-signin
+            a.desktop-dashboard#dashboard(href='/user/dashboard') Home
+          li.post-signin
+            a.desktop-profile#profile(href='/user/profile') Profile
+        li.post-signin
+          button
+            a#home
+              i.fa.fa-user
+              span#notification-count 6
+            .notification_box.notification_box_desktop 
+              span#note-header Notifications
+              hr
+              span#no-notification You don't have any notifications yet.
+              .notification-wrapper
+              script#notification-template(type='text/template')
+                .notification-row.row(id!= '<%= id %>')
+                  .col-xs-2
+                    i(class!= 'fa ' + '<%= category %>')
+                  .col-xs-10
+                    span#notification <%= notification %>
+        li.post-signin
+          button
+            a#user-message(href='/messages')
+              i.fa.fa-comment
+              span#new-message
+        li.post-signin.mobile
+          .dropdown
+            button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+              i.fa.fa-cog
+            ul#settings-menu.dropdown-menu
+              li#settings
+                a.settings
+                  | Settings
+              li.divider(role='separator')
+              li#logout
+                a.logout
+                  | Log out
+nav.navbar.navbar-custom.navbar-fixed-top.mobile(role='navigation')
+  #container.container
+    .row
+      .navbar-header
+        button.navbar-toggle.toggle-mobile(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+          i.fa.fa-bars
+        #navbar-center-mobile.navbar-center-container.col-md-12
+          .col-md-3
+            a#mobile-search.navbar-toggle(data-toggle='collapse' data-target='.search-collapse')
+              i.fa.fa-search
+          .col-md-3
+            a#user-message(href='/messages')
+              i.fa.fa-comment
+              span#new-message
+          .col-md-3
+            a#home
+              i.fa.fa-user
+              span#notification-count
+      .notification_box.notification-mobile
+        span#note-header Notifications
+        hr
+        span#no-notification You don't have any notifications yet.
+        .notification-wrapper
+        script#notification-template(type='text/template')
+          .notification-row.row(id!= '<%= id %>')
+            .col-xs-2
+              i(class!= 'fa ' + '<%= category %>')
+            .col-xs-10
+              span#notification <%= notification %>
+        .see-all-mobile
+          p#see-all See all
+      .search-collapse.collapse
+        .row.header-row
+          p#search-text Search for:
+          span.active-mobile-item.search-mobile-option.mobile-funding Funding
+          span.search-mobile-option.mobile-users Users
+        .row.search-mobile-row
+          .col-xs-2.advanced-mobile-row
+            a#advanced-search-mobile(href='/advanced-search') advanced
+          .col-xs-9
+            form#search-form-mobile.search_form(action='/results', method='get', name='search_form')
+              input#text-search-mobile(type='text', name='tags', placeholder='Search funds', form="search-form-mobile")
+              button#search_button.btn.btn-info.btn-sm.loggedin-desktop-button(type='submit')
+                i.fa.fa-search
+      #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse.navbar-mobile-collapse
+          a.mobile-dashboard#dashboard(href='/user/dashboard') Home
+          a.mobile-profile#profile(href='/user/profile') Profile
+          a.settings.mobile-settings 
+            | Settings
+          a.logout.mobile-logout
+            | Log out
+        

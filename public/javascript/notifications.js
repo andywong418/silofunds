@@ -62,10 +62,19 @@ $(document).ready(function(){
   });
   //get new notifications
   var notificationArray;
-  $('#home, .fa-user').click(function(e){
-    e.preventDefault();
-    $('.notification_box').show();
-    $('#notification-count').hide();
+  var displayNotif = false;
+  $(document).on('click', '#home', function(e){
+    console.log(displayNotif);
+    if(displayNotif === false){
+      e.preventDefault();
+      $('.notification_box').show();
+      $('#notification-count').hide();
+      displayNotif = true;
+    }
+    else{
+        $('.notification_box').hide();
+        displayNotif = false;
+    }
   });
 
   $(document).click(function(e){
@@ -77,7 +86,20 @@ $(document).ready(function(){
   $.get('/notifications/favourites', function(data){
     $.get('/notifications/new', function(data){
       console.log(data);
-      var notificationCollection = new NotificationCollection(data);
+      windowPortWidth = $(window).width();
+      var notificationCollection;
+      if(windowPortWidth < 767){
+        if(data.length > 5){
+          notificationCollection = new NotificationCollection(data.slice(0,4));
+        }
+        else{
+          notificationCollection = new NotificationCollection(data);
+        }
+      }
+      else{
+         notificationCollection = new NotificationCollection(data);
+      }
+
       console.log(notificationCollection);
       var notificationList = new NotificationList({collection: notificationCollection});
       $(".notification-wrapper").append(notificationList.render().el);

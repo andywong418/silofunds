@@ -105,9 +105,11 @@ $(document).ready(function(){
 
   $('a#advs-link, #many-results').click(function(){
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    $("#advanced-search").slideDown();
-
-    return false;
+    windowPortWidth = $(window).width();
+    if(windowPortWidth > 450){
+      $("#advanced-search").slideDown();
+      return false;
+    }
   });
 
   // remove parameter from query string if value === '' for search-form
