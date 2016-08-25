@@ -95,7 +95,8 @@ $(document).ready(function() {
     try {
       var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
       if(data.userToID == userActiveID || data.userFromID == userActiveID){
-          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+          var timeNow = new Date().toISOSTring();
+          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profile">' + data.userFrom.username + ':</a></span><li>' + data.msg + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(timeNow) + '</div></div><br>');
       }
 
       console.log(data);
