@@ -56,10 +56,15 @@ io.on('connection', function(socket){
     user_to_arr.push(data.userToID);
     var read_by_recipient = false;
 
-    if (users[data.userToID]) {
-      if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
-        read_by_recipient = true;
-        data.read_by_recipient = true;
+    var socketsInRoom = Object.keys(io.sockets.adapter.rooms[data.roomName].sockets);
+    var senderSID = socket.id;
+
+    if (socketsInRoom.length !== 1 && socketsInRoom.indexOf(senderSID)) {
+      if (users[data.userToID]) {
+        if (users[data.userToID].socket.readyToReceiveFrom == data.userFromID ) {
+          read_by_recipient = true;
+          data.read_by_recipient = true;
+        }
       }
     }
 
