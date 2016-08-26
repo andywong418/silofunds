@@ -233,9 +233,15 @@ margin-left: -10px;
 }
 #dashboard{
   width: 50px;
+  &:focus{
+    background: transparent;
+  }
 }
 #profile{
   width: 60px;
+  &:focus{
+    background: transparent;
+  }
 }
 @media (max-width: 1065px) {
   #advanced-search, #advanced-search-2 {

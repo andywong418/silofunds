@@ -208,9 +208,13 @@ a#user-message span, a#home span {
 
 #dashboard {
   width: 50px; }
+  #dashboard:focus {
+    background: transparent; }
 
 #profile {
   width: 60px; }
+  #profile:focus {
+    background: transparent; }
 
 @media (max-width: 1065px) {
   #advanced-search, #advanced-search-2 {
