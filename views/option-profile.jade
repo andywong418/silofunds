@@ -2,7 +2,7 @@ extends layout
 
 block extraHeader
   link(href='/stylesheets/option-profile.css', rel='stylesheet')
-
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
@@ -18,6 +18,10 @@ block content
     console.log(universities);
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
     }
   include ./navbar.jade
   include ./partials/signup-modal.jade

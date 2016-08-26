@@ -3,14 +3,17 @@ extend ../layout
 block extraHeader
   link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
   link(href='/stylesheets/user-settings.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      document.write('<style type="text/css">#left_div{display: none} #right_div{display: none} #top_div{display: none} </style>')
     }
   include ../navbar.jade
+  include ../partials/navbar-loggedin.jade
   include ../advanced-search.jade
   #big_flex_div.container
     #left_div.col-md-3.col-sm-3.col-xs-4

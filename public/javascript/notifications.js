@@ -62,10 +62,19 @@ $(document).ready(function(){
   });
   //get new notifications
   var notificationArray;
-  $('#home, .fa-user').click(function(e){
-    e.preventDefault();
-    $('.notification_box').show();
-    $('#notification-count').hide();
+  var displayNotif = false;
+  $(document).on('click', '#home', function(e){
+    console.log(displayNotif);
+    if(displayNotif === false){
+      e.preventDefault();
+      $('.notification_box').show();
+      $('#notification-count').hide();
+      displayNotif = true;
+    }
+    else{
+        $('.notification_box').hide();
+        displayNotif = false;
+    }
   });
 
   $(document).click(function(e){
@@ -77,22 +86,41 @@ $(document).ready(function(){
   $.get('/notifications/favourites', function(data){
     $.get('/notifications/new', function(data){
       console.log(data);
-      var notificationCollection = new NotificationCollection(data);
-      console.log(notificationCollection);
-      var notificationList = new NotificationList({collection: notificationCollection});
-      $(".notification-wrapper").append(notificationList.render().el);
-      var unReadNotifications = [];
-      data.forEach(function(obj, index, array){
-        if(obj.read_by_user === false){
-          unReadNotifications.push(obj);
+      if(data.length > 0){
+        windowPortWidth = $(window).width();
+        var notificationCollection;
+        if(windowPortWidth < 767){
+          if(data.length > 5){
+            notificationCollection = new NotificationCollection(data.slice(0,4));
+          }
+          else{
+            notificationCollection = new NotificationCollection(data);
+          }
         }
-      });
-      console.log(unReadNotifications);
-      if(unReadNotifications.length > 0){
-        $("#notification-count").show();
+        else{
+           notificationCollection = new NotificationCollection(data);
+        }
 
-        $("#notification-count").html(unReadNotifications.length);
+        console.log(notificationCollection);
+        var notificationList = new NotificationList({collection: notificationCollection});
+        $(".notification-wrapper").append(notificationList.render().el);
+        var unReadNotifications = [];
+        data.forEach(function(obj, index, array){
+          if(obj.read_by_user === false){
+            unReadNotifications.push(obj);
+          }
+        });
+        console.log(unReadNotifications);
+        if(unReadNotifications.length > 0){
+          $("#notification-count").show();
+
+          $("#notification-count").html(unReadNotifications.length);
+        }
       }
+      else{
+        $('#no-notification').show();
+      }
+
 
     });
   });

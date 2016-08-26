@@ -2,15 +2,20 @@ extend layout
 
 block extraHeader
   link(href='/stylesheets/option-settings.css', rel='stylesheet')
-
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
     }
   include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
   include ./partials/signup-modal.jade
   #big_flex_div.container
     #left_div.col-md-3

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 //queryOptions for search
 if(typeof query != 'undefined' && query){
   for(var field in query){
