@@ -72,7 +72,7 @@
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
     margin: 4em auto;
-    margin-top: 100px; }
+    margin-top: 75px; }
     .cd-user-modal-container .cd-switcher a {
       height: 70px;
       line-height: 70px; } }
@@ -82,7 +82,8 @@
     margin-top: 120px; } }
 
 .cd-form {
-  padding: 1.4em; }
+  padding: 1.4em;
+  padding-bottom: 5px; }
   .cd-form .fieldset {
     position: relative;
     margin: 1.4em 0;
@@ -209,7 +210,8 @@
 
 @media only screen and (min-width: 600px) {
   .cd-form {
-    padding: 2em; }
+    padding: 2em;
+    padding-bottom: 0 !important; }
     .cd-form .fieldset {
       margin: 2em 0; }
       .cd-form .fieldset:first-child {
@@ -229,7 +231,8 @@
 
 @media only screen and (min-width: 600px) {
   .cd-form-message {
-    padding: 2em 2em 0; } }
+    padding: 2em 2em 0;
+    padding-bottom: 5px; } }
 
 .cd-form-bottom-message {
   position: relative;

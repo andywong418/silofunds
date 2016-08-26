@@ -1,3 +1,6 @@
+.nav-container {
+  width: 100% !important; }
+
 nav.navbar-custom.desktop {
   display: none; }
 
@@ -90,7 +93,8 @@ nav.navbar-custom.mobile {
 .toggle-mobile {
   width: 25%;
   font-size: 22px;
-  margin-top: -3px; }
+  margin-top: -3px;
+  color: white; }
 
 #navbar-center-mobile {
   margin-left: 20px;
@@ -117,6 +121,11 @@ nav.navbar-custom.mobile {
   text-transform: capitalize;
   padding-top: 5px;
   max-height: none; }
+
+.notification-icon-col {
+  width: 16.66666667% !important;
+  padding-left: 15px;
+  padding-right: 15px; }
 
 .notification-mobile:after {
   border-bottom-color: transparent; }
@@ -194,7 +203,9 @@ nav.navbar-custom.mobile {
     .search-collapse .search-mobile-row .col-xs-2 {
       margin-right: 20px; }
     .search-collapse .search-mobile-row .advanced-mobile-row {
-      margin-top: 5px; }
+      margin-top: 5px;
+      width: 16.66666667% !important;
+      padding-left: 15px; }
     .search-collapse .search-mobile-row #advanced-search-mobile {
       text-transform: capitalize;
       color: #337ab7;

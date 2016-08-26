@@ -2,6 +2,7 @@ extend layout
 
 block extraHeader
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 	meta(property='og:url', content='http://www.silofunds.com')
 	meta(property='og:type', content='website')
 	meta(property='og:title', content='Your Website Title')
@@ -40,8 +41,13 @@ block content
 		var updates = !{JSON.stringify(updates)};
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+			windowPortWidth = window.innerWidth;
+			if(windowPortWidth <767){
+				document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+			}
 		}
 	include ./navbar.jade
+	include ./partials/navbar-loggedin.jade
 	include ./advanced-search.jade
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible

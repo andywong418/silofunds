@@ -1,3 +1,6 @@
+.nav-container{
+  width: 100% !important;
+}
 nav.navbar-custom.desktop{
   display: none;
 }
@@ -131,6 +134,7 @@ nav.navbar-custom.mobile{
   width: 25%;
   font-size: 22px;
   margin-top: -3px;
+  color: white;
 }
 #navbar-center-mobile{
   margin-left: 20px;
@@ -162,6 +166,11 @@ nav.navbar-custom.mobile{
   padding-top: 5px;
   max-height: none;
 
+}
+.notification-icon-col{
+  width: 16.66666667% !important;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .notification-mobile:after{
   border-bottom-color: transparent;
@@ -239,6 +248,7 @@ nav.navbar-custom.mobile{
       color: black;
     }
   }
+
   .search-mobile-row{
     margin-top: 20px;
     padding-bottom: 10px;
@@ -247,6 +257,8 @@ nav.navbar-custom.mobile{
     }
     .advanced-mobile-row{
       margin-top: 5px;
+      width:16.66666667% !important;
+      padding-left: 15px;
     }
     #advanced-search-mobile{
       text-transform: capitalize;

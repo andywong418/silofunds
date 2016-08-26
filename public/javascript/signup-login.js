@@ -1,6 +1,7 @@
 $(document).ready(function(){
   //media queries
   var windowPortView = $(window).width();
+
   if(user){
     $('ul.navbar-nav').addClass('loggedin-nav');
     $('#brand-heading').addClass('loggedin-brand-heading');
@@ -9,6 +10,36 @@ $(document).ready(function(){
     $('#text_search').addClass('loggedin-search');
     $('#search_button').addClass('loggedin-button');
     $('.navbar-toggle').addClass('loggedin-collapse');
+    //resize
+    $(window).resize(function(){
+      var windowPortWidth = $(window).width();
+      if(windowPortWidth < 991){
+        $('#brand-heading').html("<img src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px'></img>");
+      }
+      if(windowPortWidth < 767){
+        $('nav.navbar-custom').hide();
+        $('.desktop').show();
+      }
+      if(windowPortWidth < 550){
+        $('.desktop').hide();
+        $('.mobile').show();
+      }
+      if(windowPortWidth > 991){
+        $('nav.navbar-custom').show();
+        $('.mobile').hide();
+        $('.desktop').hide();
+        $('#brand-heading').html('<img id= "brand-image" src="/images/transparent silo icon graphic.png"></img>');
+      }
+      if(windowPortWidth > 767){
+        $('nav.navbar-custom').show();
+        $('.desktop').hide();
+        $('.mobile').hide();
+      }
+      if(windowPortWidth > 550 && windowPortWidth < 767){
+        $('.desktop').show();
+        $('.mobile').hide();
+      }
+    });
     if(windowPortView < 767){
       $('nav.navbar-custom').hide();
       $('.desktop').show();
@@ -50,18 +81,58 @@ $(document).ready(function(){
       }
     });
   }
-  if(windowPortView < 767){
-    $('.cd-login, .cd-signup').click(function(){
-      $('.navbar-toggle').click();
+  else{
+    if(windowPortView < 767){
+      $('.cd-login, .cd-signup').click(function(){
+        $('.navbar-toggle').click();
+      });
+    }
+    if(windowPortView < 644){
+      if($('#search-form').attr('action') == '/results/users'){
+        $('#text_search').attr('placeholder', 'Search users');
+      }
+      else{
+        $('#text_search').attr('placeholder', 'Search funds');
+      }
+    }
+    if(windowPortView< 450){
+      $('a#advs-link').attr('href', '/');
+      $('a#advs-link').html("Advanced");
+    }
+    $(window).resize(function(){
+      var windowPortView = $(window).width();
+      if(windowPortView < 991){
+        $('#brand-heading').html("<img src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px'></img>");
+      }
+      if(windowPortView < 644){
+        if($('#search-form').attr('action') == '/results/users'){
+          $('#text_search').attr('placeholder', 'Search users');
+        }
+        else{
+          $('#text_search').attr('placeholder', 'Search funds');
+        }
+
+        //user?
+      }
+      if(windowPortView < 450){
+        $('a#advs-link').attr('href', '/');
+        $('a#advs-link').html("Advanced");
+      }
+      if(windowPortView > 664){
+        if($('#search-form').attr('action') == '/results/users'){
+          $('#text_search').attr('placeholder', 'Search for users by name or by interest');
+        }
+        else{
+          $('#text_search').attr('placeholder', 'Keywords - Subject, university, degree');
+        }
+      }
+      if(windowPortView > 450){
+        $('a#advs-link').attr('href', '#');
+        $('a#advs-link').html("Advanced search");
+      }
     });
   }
-  if(windowPortView < 644){
-    $('#text_search').attr('placeholder', 'Search funds');
-  }
-  if(windowPortView< 450){
-    $('a#advs-link').attr('href', '/');
-    $('a#advs-link').html("Advanced");
-  }
+
   var $form_modal = $('.cd-user-modal'),
    $form_login = $form_modal.find('#cd-login'),
    $form_signup = $form_modal.find('#cd-signup'),

@@ -95,7 +95,7 @@
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
     margin: 4em auto;
-    margin-top: 100px;
+    margin-top: 75px;
     .cd-switcher a {
       height: 70px;
       line-height: 70px;
@@ -111,6 +111,7 @@
 
 .cd-form {
   padding: 1.4em;
+  padding-bottom: 5px;
   .fieldset {
     position: relative;
     margin: 1.4em 0;
@@ -271,6 +272,7 @@
 @media only screen and (min-width: 600px) {
   .cd-form {
     padding: 2em;
+    padding-bottom: 0 !important;
     .fieldset {
       margin: 2em 0;
       &:first-child {
@@ -299,6 +301,7 @@
 @media only screen and (min-width: 600px) {
   .cd-form-message {
     padding: 2em 2em 0;
+    padding-bottom: 5px;
   }
 }
 

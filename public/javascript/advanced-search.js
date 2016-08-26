@@ -131,7 +131,6 @@ $(document).ready(function(){
         emptyInputFields++;
       }
     }
-
     //TODO: Resole this fucking bug anyone please. When I am on /results/users?all=true,
     //      and I trigger 'all=true' again by having empty search-form field,
     //      it returns another 'all=true' parameter giving fucking
@@ -146,16 +145,17 @@ $(document).ready(function(){
       $("form#search-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='search-form'>");
     }
     if(target == 'search-for-funding'){
-      $('#search_button').attr('form', 'advs-funding-form');
+      console.log("HIYA");
+      $('#search_button, .loggedin-button').attr('form', 'advs-funding-form');
       $('input#advanced_tags').val($('input#text_search').val());
-      $('#search_button').click();
+      $('#search_button, .loggedin-button').click();
     }
     else{
-      $('#search_button').attr('form', 'advs-user-form');
+      $('#search_button, .loggedin-button').attr('form', 'advs-user-form');
       $('input#advanced_user_tags').val($('input#text_search').val());
-      $('#search_button').click();
+      $('#search_button, .loggedin-button').click();
     }
-    // currentTarget.submit();
+
   });
 
   // remove parameter from query string if value === '' for advs-funding-form

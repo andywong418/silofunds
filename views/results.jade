@@ -9,7 +9,10 @@ block content
 			var user = !{JSON.stringify(user)};
 			if(user){
 				bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
-				document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+				windowPortWidth = window.innerWidth;
+				if(windowPortWidth <767){
+					document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+				}
 			}
 		include ./navbar.jade
 		include ./partials/navbar-loggedin.jade

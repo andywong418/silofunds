@@ -1,7 +1,7 @@
 //- includes/navbar.jade
 script(src="/javascript/signup-login.js")
 nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
-  #container.container
+  #container.container.nav-container
     .row
       .navbar-header
         a#brand-heading.navbar-brand(href='/')
@@ -60,7 +60,7 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
                 .notification-wrapper
                 script#notification-template(type='text/template')
                   .notification-row.row(id!= '<%= id %>')
-                    .col-xs-2
+                    .col-xs-2.notification-icon-col
                       i(class!= 'fa ' + '<%= category %>')
                     .col-xs-10
                       span#notification <%= notification %>

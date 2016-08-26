@@ -304,6 +304,9 @@ a#user-message span, a#home span {
     position: relative;
     z-index: 10; } }
 
+.nav-container {
+  width: 100% !important; }
+
 nav.navbar-custom.desktop {
   display: none; }
 
@@ -396,7 +399,8 @@ nav.navbar-custom.mobile {
 .toggle-mobile {
   width: 25%;
   font-size: 22px;
-  margin-top: -3px; }
+  margin-top: -3px;
+  color: white; }
 
 #navbar-center-mobile {
   margin-left: 20px;
@@ -423,6 +427,11 @@ nav.navbar-custom.mobile {
   text-transform: capitalize;
   padding-top: 5px;
   max-height: none; }
+
+.notification-icon-col {
+  width: 16.66666667% !important;
+  padding-left: 15px;
+  padding-right: 15px; }
 
 .notification-mobile:after {
   border-bottom-color: transparent; }
@@ -500,7 +509,9 @@ nav.navbar-custom.mobile {
     .search-collapse .search-mobile-row .col-xs-2 {
       margin-right: 20px; }
     .search-collapse .search-mobile-row .advanced-mobile-row {
-      margin-top: 5px; }
+      margin-top: 5px;
+      width: 16.66666667% !important;
+      padding-left: 15px; }
     .search-collapse .search-mobile-row #advanced-search-mobile {
       text-transform: capitalize;
       color: #337ab7;
@@ -744,7 +755,7 @@ div.navbar-center-container {
 @media only screen and (min-width: 600px) {
   .cd-user-modal-container {
     margin: 4em auto;
-    margin-top: 100px; }
+    margin-top: 75px; }
     .cd-user-modal-container .cd-switcher a {
       height: 70px;
       line-height: 70px; } }
@@ -754,7 +765,8 @@ div.navbar-center-container {
     margin-top: 120px; } }
 
 .cd-form {
-  padding: 1.4em; }
+  padding: 1.4em;
+  padding-bottom: 5px; }
   .cd-form .fieldset {
     position: relative;
     margin: 1.4em 0;
@@ -881,7 +893,8 @@ div.navbar-center-container {
 
 @media only screen and (min-width: 600px) {
   .cd-form {
-    padding: 2em; }
+    padding: 2em;
+    padding-bottom: 0 !important; }
     .cd-form .fieldset {
       margin: 2em 0; }
       .cd-form .fieldset:first-child {
@@ -901,7 +914,8 @@ div.navbar-center-container {
 
 @media only screen and (min-width: 600px) {
   .cd-form-message {
-    padding: 2em 2em 0; } }
+    padding: 2em 2em 0;
+    padding-bottom: 5px; } }
 
 .cd-form-bottom-message {
   position: relative;

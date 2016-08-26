@@ -3,7 +3,7 @@ script(src="../javascript/signup-login.js")
 script.
   document.write('<style type="text/css">nav.mobile{display:none}</style>');
 nav.navbar.navbar-custom.navbar-fixed-top.desktop(role='navigation')
-  #container.container
+  #container.container.nav-container
     .row
       .navbar-header
         a#brand-heading.navbar-brand.desktop-brand-heading(href='/')
@@ -47,7 +47,7 @@ nav.navbar.navbar-custom.navbar-fixed-top.desktop(role='navigation')
               .notification-wrapper
               script#notification-template(type='text/template')
                 .notification-row.row(id!= '<%= id %>')
-                  .col-xs-2
+                  .col-xs-2.notification-icon-col
                     i(class!= 'fa ' + '<%= category %>')
                   .col-xs-10
                     span#notification <%= notification %>
@@ -71,7 +71,7 @@ nav.navbar.navbar-custom.navbar-fixed-top.desktop(role='navigation')
                 a.logout
                   | Log out
 nav.navbar.navbar-custom.navbar-fixed-top.mobile(role='navigation')
-  #container.container
+  #container.container.nav-container
     .row
       .navbar-header
         button.navbar-toggle.toggle-mobile(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
@@ -95,7 +95,7 @@ nav.navbar.navbar-custom.navbar-fixed-top.mobile(role='navigation')
         .notification-wrapper
         script#notification-template(type='text/template')
           .notification-row.row(id!= '<%= id %>')
-            .col-xs-2
+            .col-xs-2.notification-icon-col
               i(class!= 'fa ' + '<%= category %>')
             .col-xs-10
               span#notification <%= notification %>

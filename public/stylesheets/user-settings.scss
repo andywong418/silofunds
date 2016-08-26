@@ -346,3 +346,19 @@ label.removeFile {
   }
 
 }
+//NAVBAR DASHBOARD MEDIA QUERIES
+@media(max-width: 991px){
+  ul.loggedin-nav{
+      margin-right: 0 !important;
+  }
+}
+@media(max-width: 895px){
+  #brand-heading{
+    padding-left: 30px;
+  }
+}
+@media(max-width: 686px){
+  #brand-heading{
+    padding-left: 10px;
+  }
+}
