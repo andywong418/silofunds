@@ -57,7 +57,8 @@ block content
 				img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
 			.desktop
 				include ./partials/user/crowdfunding/social-buttons.jade
-				include ./partials/user/crowdfunding/story-about-updates.jade
+				#story-about-updates-targeting-div-desktop
+					include ./partials/user/crowdfunding/story-about-updates.jade
 									
 		#user-progress.col-md-5.col-sm-6.col-xs-12
 			#progress-card
@@ -125,7 +126,8 @@ block content
 						#comment-div
 							textarea#comment-text(placeholder= 'Leave a note to show your support!')
 			.mobile
-				include ./partials/user/crowdfunding/story-about-updates.jade
+				#story-about-updates-targeting-div-mobile
+					include ./partials/user/crowdfunding/story-about-updates.jade
 				include ./partials/user/crowdfunding/social-buttons.jade
 				include ./partials/user/crowdfunding/applications-and-donations.jade
 			.desktop
