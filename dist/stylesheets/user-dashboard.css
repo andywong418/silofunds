@@ -2317,15 +2317,3 @@ table#header {
   #ud-favourites, #ud-applications, #ud-recently-browsed {
     margin: 0;
     padding: 0; } }
-
-@media (max-width: 991px) {
-  ul.loggedin-nav {
-    margin-right: 0 !important; } }
-
-@media (max-width: 895px) {
-  #brand-heading {
-    padding-left: 30px; } }
-
-@media (max-width: 686px) {
-  #brand-heading {
-    padding-left: 10px; } }

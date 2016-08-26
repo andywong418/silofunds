@@ -14,10 +14,12 @@ nav.navbar-custom.mobile{
 .loggedin-collapsed{
   display: none !important;
 }
+.loggedin-nav{
+  margin-right: 10px;
+
+}
 @media(max-width: 991px){
   .loggedin-nav{
-    margin-right: -55px;
-
     .fa-cog, .fa-user, .fa-comment {
       font-size: 18px;
     }
@@ -34,13 +36,13 @@ nav.navbar-custom.mobile{
   }
 
 }
+//NAVBAR DASHBOARD MEDIA QUERIES
 
 @media(max-width: 895px){
   .loggedin-search{
     width: 68% !important;
   }
   .loggedin-brand-heading{
-    margin-left: -30px !important;
     img{
       margin-left: 0 !important
     }
@@ -51,9 +53,6 @@ nav.navbar-custom.mobile{
   .loggedin-form{
     margin-left: -0px
   }
-  .loggedin-nav{
-    margin-right: -20px;
-  }
   .loggedin-button{
     margin-left: -15px;
   }
@@ -63,12 +62,20 @@ nav.navbar-custom.mobile{
     margin-left: -5px !important;
   }
 }
+@media(max-width: 795px) {
+  .navbar-center-container{
+    left: 45% !important;
+  }
+}
 @media(max-width: 778px){
   .loggedin-brand-heading{
     margin-left: 15px !important;
   }
 }
 @media(max-width: 767px){
+  .navbar-center-container{
+    left: 50% !important;
+  }
   .loggedin-advanced{
     a{
       position: absolute;

@@ -52,137 +52,35 @@ block content
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible
 	#crowdfunding-wrapper.container
-		.col-md-7
+		#pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
 			if user.profile_picture && !user.video
-				img#profile_picture(src!=user.profile_picture)
+				.no-vid-pic-border
+					img#profile_picture.pic-resize(src!=user.profile_picture)
 			if user.video
-				iframe(style='width: 100%', height='400', src=user.video, frameborder='0', allowfullscreen='')
+				.video-div.mobile
+				.video-div.desktop
 			if !user.profile_picture && !user.video
-				img#profile_picture(src='/images/fund_img_placeholder.jpg')
-			#social-media-flex-container
-				a.social.fb-share
-					i.fa.fa-facebook-official(aria-hidden="true")
-					| Share
-				a.social.twitter-tweet
-					i.fa.fa-twitter-square(aria-hidden="true")
-					| Tweet
-				a.social.email(href='mailto:' + user.email)
-					i.fa.fa-envelope-o(aria-hidden="true")
-					| Email
-					
-			#tab-table
-				#tab-menu-flex
-					a.menu-item(href='#story')
-						p.active-item Story
-					a.menu-item(href='#about')
-						p About 
-					a.menu-item(href='#updates')
-						p= 'Updates '
-							if updates
-								span.badge= updates.length
-					a.menu-item(href='#comments')
-						p= 'Comments '
-							if comments
-								span#comments.badge= comments.length
-				#tab-content
-					script#story-template(type='text/template')
-						p#story
-						if documents
-							p#header.documents Work showcase
-							hr
-							.document-row.row
-								if user.link
-									.row.link-row
-										span
-											i.fa.fa-link
-												a#personal-link(href=user.link)= user.link
-					script#document-template(type='text/template')
-						.col-md-6
-							span
-								i(class!= '<%= fileClass %>')
-									a(href!='<%= fileLink %>') <%=fileName %>
-									span#file-description <%= fileDescription %>
-					script#about-template(type='text/template')
-						if user.date_of_birth || user.country_of_residence
-							p#header.basic-header Basic Info
-							hr
-							.row
-								if user.date_of_birth
-									.col-md-3.age
-										i.fa.fa-birthday-cake(aria-hidden="true")
-										span#age 
-								if user.country_of_residence
-									each country in user.country_of_residence
-										.col-md-4(style="margin-bottom: 20px;")
-											img(src='/images/128/' + country + '.png')
-											span!= country
-								if user.religion
-										.col-md-5.religion(style="height: 30px;")
-											p#religion Religous Views:
-												span=user.religion
-						if user.previous_degree ||  user.previous_university
-							p#header.education Education
-							hr
-							.row
-								if user.subject.length > 0
-									.col-md-6
-										i.fa.fa-book 
-											span#subject= user.subject.join(' ')
-								if user.previous_degree.length >0
-									.col-md-6
-										i.fa.fa-graduation-cap(aria-hidden="true")
-											span#previous_degree= user.previous_degree.join(', ')
-								if user.previous_university.length > 0
-									.col-md-6
-										i.fa.fa-university(aria-hidden="true")
-											span#previous_university= user.previous_university.join(', ')
-								
-					script#update-template(type='text/template')
-						if updates
-							each update in updates
-								p#update-header= 'Update #' + update.count 
-									if update.diffDays === 0
-										span#update-date Today
-									if update.diffDays === 1
-										span#update-date Yesterday
-									if update.diffDays > 1
-										span#update-date= update.diffDays + ' days ago'
-								hr
-								span#update-span=update.update.message
-						.initial-image
-							p#created-at
-							img#project-launch(src='/images/project-launch.svg')
-							p#launch-text Project Launched!
-					script#comment-template(type='text/template')
-							if comments.length > 0
-								each comment in comments
-									.comment-row.row
-										.col-md-1
-											if comment.profile_picture
-												img#comment-picture(src=comment.profile_picture)
-											else
-												img#comment-picture(src='/images/profile-placeholder.jpg')
-										.col-md-11
-											p#commentator= comment.commentator_name
-												if comment.diffDays == 0
-													span#comment-diffDays Today
-												if comment.diffDays == 1
-													span#comment-diffDays Yesterday
-												if comment.diffDays > 1
-													span#comment-diffDays= diffDays + ' ago'
-									.real-comment-row.row
-										.col-md-1
-										.col-md-11
-											p#comment= comment.comment
-							else
-								p#no-comment= 'You can add a comment by donating. Otherwise you can contact ' +user.username.split(' ')[0] + ' '
-									a(href=user.email) here.
+				img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
+			.desktop
+				include ./partials/user/crowdfunding/social-buttons.jade
+				#story-about-updates-targeting-div-desktop
+					include ./partials/user/crowdfunding/story-about-updates.jade
 									
-					
-				
-		#user-progress.col-md-5
+		#user-progress.col-md-5.col-sm-6.col-xs-12
 			#progress-card
-				h3= user.username
+				if !user.video
+					h3= user.username
+				if user.video
+					if user.profile_picture
+						.flex-container
+							.flex-div.flex-div-name
+								span#sit_the_h3_down
+									h3= user.username
+							.flex-div.flex-div-middle
+							.flex-div.flex-div-image
+								img.ifVideoPhoto#profile_picture(src!=user.profile_picture)
+					if !user.profile_picture
+						h3= user.username
 				if user.funding_needed
 					if user.funding_accrued != null || user.funding_accrued > 0
 						p#raised= '£' +user.funding_accrued
@@ -201,17 +99,17 @@ block content
 					.progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
 					.progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
 				#progress-info.row
-					.col-md-4
+					.col-md-4.col-sm-4.col-xs-4
 						p#percentage 0%
 							span funded
-					.col-md-4
+					.col-md-4.col-sm-4.col-xs-4
 						if charges
 							p#no-of-supporters= charges
 								span supporters
 						else
 							p#no-of-supporters 0
 								span supporters
-					.col-md-4
+					.col-md-4.col-sm-4.col-xs-4
 						p#remaining-days 0
 							span days to go
 				span
@@ -221,75 +119,32 @@ block content
 						span.input-group-addon .00
 					a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 				#donate-amount.hidden
-					#applicationFeeMessage.col-md-12
+					#applicationFeeMessage.col-md-12.col-sm-12
 						p Do you want to pay the processing fee (~2.9%)?
-						#buttonDiv.col-md-5
+						#buttonDiv.col-md-5.col-sm-5
 							.btn-group.btn-group-justified
 								.btn-group(role='group', aria-label='...')
 									button#donorpays.btn.btn-default.active(type='button') I do!
 								.btn-group(role='group', aria-label='...')
 									button#recipientpays.btn.btn-default(type='button') Nope.
-						#helperDiv.col-md-7
+						#helperDiv.col-md-7.col-sm-7
 							span#process-fee
 						#comment-div
 							textarea#comment-text(placeholder= 'Leave a note to show your support!')
-			#funding-institutions.row
-				#fund-banner
-					p Funding applications
-						i.fa.fa-caret-down(aria-hidden="true")
-				if applications
-					each app in applications
-						if app.hide_from_profile !== true
-							.row.app-row
-								.col-md-9
-									a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
-								.col-md-3
-									if app.status == 'success'
-										p#status= '£'+ app.amount_gained
-									else
-										p#status= app.status
-							
-				else
-					p#none= user.username.split(' ')[0] + ' has not applied to any funds yet.'
-			#recent-donations.row
-				#donation-banner
-					p Recent donations
-						i.fa.fa-caret-down(aria-hidden="true")
-				if donations.length > 0
-					each donation in donations
-						.row.donation-row
-							.col-md-2 
-								if donation.profile_picture
-									img#donation-picture(src= donation.profile_picture)
-								else
-									img#donation-picture(src='/images/profile-placeholder.jpg')
-							.col-md-9.donor-info-row
-								if donation.amount < 10
-									img.emoji(src='/images/smile.svg')
-								if donation.amount >= 10 && donation.amount < 100
-									img.emoji(src='/images/bright-smile.svg')
-								if donation.amount >= 100 && donation.amount < 500
-									img.emoji(src='/images/money-wow.svg')
-								if donation.amount >= 500
-									img.emoji(src='/images/heart.svg')
-								p#donated-amount= '£' + donation.amount
-								span#donor-name= donation.sender_name
-								if donation.diffDays == 0
-									span#sent-date Today
-								if donation.diffDays == 1
-									span#sent-date Yesterday
-								if donation.diffDays > 1
-									span#sent-date= donation.diffDays +' days ago'
-								
-				else
-					p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
+			.mobile
+				#story-about-updates-targeting-div-mobile
+					include ./partials/user/crowdfunding/story-about-updates.jade
+				include ./partials/user/crowdfunding/social-buttons.jade
+				include ./partials/user/crowdfunding/applications-and-donations.jade
+			.desktop
+				include ./partials/user/crowdfunding/applications-and-donations.jade
 			
 		
 
 block scripts
 	//moment
 	script(src='/bower_components/moment/min/moment-with-locales.js')
-	script(src='/javascript/signup-login.js')
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/notifications.js')
 	script(src='/javascript/user-crowdfunding.js')
+	script(src='/javascript/signup-login.js')

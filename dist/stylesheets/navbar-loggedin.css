@@ -14,11 +14,12 @@ nav.navbar-custom.mobile {
 .loggedin-collapsed {
   display: none !important; }
 
+.loggedin-nav {
+  margin-right: 10px; }
+
 @media (max-width: 991px) {
-  .loggedin-nav {
-    margin-right: -55px; }
-    .loggedin-nav .fa-cog, .loggedin-nav .fa-user, .loggedin-nav .fa-comment {
-      font-size: 18px; }
+  .loggedin-nav .fa-cog, .loggedin-nav .fa-user, .loggedin-nav .fa-comment {
+    font-size: 18px; }
   .loggedin-brand-heading {
     margin-left: -90px !important; }
   .loggedin-advanced {
@@ -29,16 +30,12 @@ nav.navbar-custom.mobile {
 @media (max-width: 895px) {
   .loggedin-search {
     width: 68% !important; }
-  .loggedin-brand-heading {
-    margin-left: -30px !important; }
-    .loggedin-brand-heading img {
-      margin-left: 0 !important; }
+  .loggedin-brand-heading img {
+    margin-left: 0 !important; }
   .loggedin-advanced {
     margin-left: -30px !important; }
   .loggedin-form {
     margin-left: -0px; }
-  .loggedin-nav {
-    margin-right: -20px; }
   .loggedin-button {
     margin-left: -15px; } }
 
@@ -46,11 +43,17 @@ nav.navbar-custom.mobile {
   .loggedin-button {
     margin-left: -5px !important; } }
 
+@media (max-width: 795px) {
+  .navbar-center-container {
+    left: 45% !important; } }
+
 @media (max-width: 778px) {
   .loggedin-brand-heading {
     margin-left: 15px !important; } }
 
 @media (max-width: 767px) {
+  .navbar-center-container {
+    left: 50% !important; }
   .loggedin-advanced a {
     position: absolute;
     margin-left: -255px;

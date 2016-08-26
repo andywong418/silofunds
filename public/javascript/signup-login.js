@@ -111,8 +111,6 @@ $(document).ready(function(){
         else{
           $('#text_search').attr('placeholder', 'Search funds');
         }
-
-        //user?
       }
       if(windowPortView < 450){
         $('a#advs-link').attr('href', '/');
