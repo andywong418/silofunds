@@ -39,7 +39,7 @@ $(document).ready(function() {
   $('#nowspan').click(function(){
     $('.arrow_box').show();
   });
-  $("div.list-group a").click(function(e) {
+  $(document).on('click', 'div.list-group a', function(e) {
     e.preventDefault();
     //
     $(this).siblings('a.active').removeClass("active");
@@ -86,20 +86,31 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
-    if(data.userToID == userActiveID || data.userFromID == userActiveID){
-        $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-11"><span class="user_from">' + data.userFrom.username + ':</span><li>' + data.msg + '</li></div></div><br>');
+    var userFromIsNotAppended = $('#messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
+
+    if (userFromIsNotAppended && user.id === parseInt(data.userToID)) {
+      $('#messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
     }
 
-    console.log(data);
-    if(data.read_by_recipient && data.userFromID == user.id){
-      console.log("READ");
-      $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+    try {
+      var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
+      if(data.userToID == userActiveID || data.userFromID == userActiveID){
+          var timeNow = new Date().toISOString();
+          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profile">' + data.userFrom.username + ':</a></span><li>' + data.msg + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(timeNow) + '</div></div><br>');
+      }
+
+      console.log(data);
+      if(data.read_by_recipient && data.userFromID == user.id){
+        console.log("READ");
+        $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+      }
+      else{
+        $('.read_col').remove();
+      }
+      $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
+    } catch (e) {
+      console.log(e);
     }
-    else{
-      $('.read_col').remove();
-    }
-    $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
   socket.on('bulk get message', function(data) {
@@ -131,9 +142,6 @@ $(document).ready(function() {
         var messageSentLastWeek = Date.parse(dateOfMessage)  >= Date.parse(dateLastWeek) && !messageSentYesterday && !messageSentToday;
         var messageSentLastYear =  Date.parse(dateLastWeek) > Date.parse(dateOfMessage) && Date.parse(dateOfMessage) > Date.parse(dateLastYear) ;
         var messageSentLongAgo = Date.parse(dateOfMessage) < Date.parse(dateLastYear);
-        console.log(messageSentLastYear);
-        console.log(messageSentLongAgo);
-
 
         if (messageSentToday && appendTodayToFirstMessage === 0) {
           // Case when messages are sent today and requires 'Today' helper text
@@ -159,7 +167,7 @@ $(document).ready(function() {
           appendYesterdayToFirstMessage++;
         }
         else if(messageSentLastWeek && appendLastWeekFirstMessage === 0){
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage.split(' ')[0]);
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{
@@ -169,8 +177,7 @@ $(document).ready(function() {
           appendLastWeekFirstMessage++;
         }
         else if(messageSentLastYear && appendLastYearFirstMessage === 0){
-          console.log("HERE I AM");
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage.split(' ').slice(0, 3).join(' '));
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{
@@ -180,7 +187,7 @@ $(document).ready(function() {
           appendLastYearFirstMessage++;
         }
         else if(messageSentLongAgo && appendLongAgoFirstMessage ==0){
-          if(messages.user_from === user.id){
+          if(message.user_from === user.id){
             appendDateHelper(dateOfMessage);
             appendMessageFrom(data.userTo, data.userFrom, message);
           }else{

@@ -3,7 +3,6 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
-@import url(http://fonts.googleapis.com/css?family=Lato:700);
 body {
   width: 100%;
   height: 100%;
@@ -772,11 +771,13 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
+.container {
+  padding: 0; }
+
 .intro {
   display: table;
   width: 100%;
   height: 100%;
-  padding: 100px 0;
   text-align: center;
   color: #fff;
   background: url(../images/homepage.jpg) no-repeat scroll;
@@ -827,11 +828,6 @@ margin-right: -40px;
     margin-top: 8px; }
   .navbar-right {
     margin-top: -55px; } }
-
-footer {
-  padding: 50px 0; }
-  footer p {
-    margin: 0; }
 
 ::-moz-selection {
   text-shadow: none;
@@ -932,7 +928,9 @@ a.cd-signup {
   a.cd-signup {
     border: none; }
   .nav li a.cd-signup:hover {
-    background-color: rgba(255, 255, 255, 0.3); } }
+    background-color: rgba(255, 255, 255, 0.3); }
+  .navbar-collapse {
+    background: #2d4a76; } }
 
 a.cd-login {
   margin-top: 5px;
@@ -976,7 +974,9 @@ a.cd-login {
   margin-top: 83px; }
 
 #postgraduate-brief {
-  margin-top: 0; }
+  margin-top: 0;
+  display: inline-block;
+  margin-top: -9px; }
 
 #yet {
   margin-top: 50px;
@@ -1262,10 +1262,8 @@ a.cd-login {
             transform: translateX(0); } }
 
 #relevant-people {
-  background: url(../images/relevant-people.jpg);
-  text-align: center;
-  height: 578px;
-  background-size: cover; }
+  background: url(../images/relevant-people.jpg) no-repeat;
+  text-align: center; }
   #relevant-people #relevant-div {
     padding: 50px;
     height: 100%;
@@ -1307,102 +1305,6 @@ a.cd-login {
 
 /*/////////////////////////////////////////////////////////////////////////////*/
 /* Footer CSS */
-.footer-distributed {
-  background-color: #2C3E50;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
-  box-sizing: border-box;
-  width: 100%;
-  text-align: left;
-  font: normal 16px sans-serif;
-  padding: 35px 50px; }
-  .footer-distributed .footer-left, .footer-distributed .footer-center, .footer-distributed .footer-right {
-    display: inline-block;
-    vertical-align: top; }
-  .footer-distributed .footer-left {
-    width: 50%; }
-    .footer-distributed .footer-left p {
-      color: white;
-      font-size: 15px;
-      margin: 0; }
-      .footer-distributed .footer-left p a {
-        color: white;
-        cursor: pointer;
-        font-weight: lighter; }
-        .footer-distributed .footer-left p a:hover {
-          color: white;
-          text-decoration: none; }
-    .footer-distributed .footer-left #about-header, .footer-distributed .footer-left #guide-header {
-      font-weight: 600;
-      margin-left: 20px; }
-
-/* Footer left */
-.footer-distributed .footer-left a {
-  margin-top: 8px;
-  margin-left: 20px; }
-
-.footer-distributed .footer-center {
-  width: 20%; }
-
-/* Footer links */
-.footer-distributed p.footer-links {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ffffff;
-  margin: 0 0 10px;
-  padding: 0;
-  float: right; }
-  .footer-distributed p.footer-links a {
-    display: inline-block;
-    line-height: 1.8;
-    text-decoration: none;
-    color: inherit; }
-
-.footer-distributed .footer-right {
-  margin-top: -3px;
-  width: 50%; }
-  .footer-distributed .footer-right p {
-    color: white;
-    font-size: 15px;
-    margin: 0; }
-    .footer-distributed .footer-right p a {
-      color: white;
-      cursor: pointer;
-      font-weight: lighter; }
-      .footer-distributed .footer-right p a:hover {
-        color: white;
-        text-decoration: none; }
-  .footer-distributed .footer-right #contact-header {
-    font-weight: 600; }
-  .footer-distributed .footer-right .footer-social a {
-    display: inline-block;
-    width: 36px;
-    height: 36px;
-    background-color: transparent;
-    border-radius: 18px;
-    border: 0.3px solid white;
-    font-size: 20px;
-    color: #ffffff;
-    text-align: center;
-    line-height: 35px;
-    margin-left: 15px;
-    margin-top: 8px; }
-    .footer-distributed .footer-right .footer-social a:hover {
-      background-color: white; }
-    .footer-distributed .footer-right .footer-social a i:hover {
-      color: black; }
-    .footer-distributed .footer-right .footer-social a:first-child {
-      margin-left: 0; }
-  .footer-distributed .footer-right .footer-center p {
-    color: #8f9296;
-    font-size: 14px;
-    margin: 0;
-    margin-top: 15px;
-    text-align: left;
-    margin-left: 5px; }
-
-.footer-right p.footer-social {
-  float: left; }
-
 #about-scroll {
   cursor: pointer; }
 
@@ -1432,7 +1334,6 @@ a.cd-login {
   ul.banner-social-buttons {
     margin-top: 15px; }
   #text_search {
-    width: 230px;
     font-size: 13px; }
   #amount_req {
     width: 150px;
@@ -1449,34 +1350,73 @@ a.cd-login {
   #silo-here {
     display: inline-block;
     width: 70%; }
-  #funds-brief {
-    margin-left: -40px; }
-  #yet {
-    margin-left: 40px; } }
+  .hideme #amount-searched, .hideme #number-of-funds {
+    font-size: 30px; }
+  .hideme #postgraduate-brief, .hideme #funds-brief, .hideme #amount-available {
+    font-size: 18px; }
+  .hideme #postgraduate-brief {
+    margin-top: -14px; } }
 
 @media (max-width: 991px) {
+  #about {
+    width: 100%; }
   #funds-brief {
     margin-left: auto !important; }
   #yet {
     margin-top: 0;
     display: block;
     margin-left: 15px; }
-  .progress-bar {
-    margin-top: 70px; }
   #free, #crowd-funding, #network {
-    width: 20%;
     height: auto; }
-  #showcase {
-    margin-top: 40%; }
-  #profile-features {
-    margin-bottom: 0; }
+  #profile-features, #application-feature {
+    margin-bottom: 0;
+    font-size: 16px; }
+  #fund-profile, #application {
+    width: 90%;
+    margin-bottom: 20px; }
   #user-profile {
-    max-width: 130%;
-    margin-left: -15%; } }
+    max-width: 100%; }
+  .hideme .progress-bar p {
+    font-size: 30px;
+    top: -444px; }
+  .hideme #amount-searched, .hideme #number-of-funds {
+    font-size: 30px; }
+  .hideme #postgraduate-brief, .hideme #funds-brief, .hideme #amount-available {
+    font-size: 18px; }
+  #relevant-people #relevant-div #relevant-explanation, #relevant-people #relevant-div #relevant-target {
+    font-size: 16px; }
+  #team #team-div .row img {
+    width: 150px;
+    height: 150px; } }
 
-@media (max-width: 889px) {
+@media (max-width: 891px) {
   #user-features {
-    margin-top: -100px; } }
+    margin-top: -100px; }
+  .hideme .progress-bar p {
+    font-size: 25px;
+    top: -440px; }
+  .hideme #funds-brief {
+    margin-left: -15px !important; }
+  .hideme #amount-searched, .hideme #number-of-funds {
+    font-size: 25px; }
+  .hideme #postgraduate-brief, .hideme #funds-brief, .hideme #amount-available {
+    font-size: 16px; }
+  .hideme #funds-brief, .hideme #amount-available {
+    margin-top: 88px; } }
+
+@media (max-width: 810px) {
+  .hideme .progress-bar p {
+    font-size: 20px;
+    top: -440px; }
+  .hideme #funds-brief, .hideme #amount-available {
+    margin-left: 10% !important; }
+  .hideme #amount-searched, .hideme #number-of-funds {
+    font-size: 20px; }
+  .hideme #postgraduate-brief, .hideme #funds-brief, .hideme #amount-available {
+    font-size: 14px;
+    width: 80%; }
+  .hideme #funds-brief, .hideme #amount-available {
+    margin-top: 92px; } }
 
 @media (max-width: 767px) {
   .intro .intro-body .intro-text {
@@ -1484,27 +1424,55 @@ a.cd-login {
   .intro .intro-body .intro-text-2 {
     margin-top: 0px;
     font-size: 22px; }
+  #about {
+    padding-top: 50px; }
   .search_form {
     margin-bottom: -50px; }
   .cd-signup {
     border: none; }
-  #generosity {
-    margin-top: 30%; }
-  #generosity-intro {
-    margin-top: 30px; }
-  #generosity-paragraph {
-    font-size: 18px;
-    width: 94%;
-    margin-left: 3%; } }
+  .hideme {
+    margin-bottom: -30px; }
+    .hideme .progress-bar p {
+      font-size: 30px;
+      top: -444px; }
+    .hideme #amount-searched, .hideme #number-of-funds {
+      font-size: 30px; }
+    .hideme #amount-searched {
+      width: 50%; }
+    .hideme #postgraduate-brief, .hideme #funds-brief, .hideme #amount-available {
+      font-size: 18px; }
+    .hideme #postgraduate-brief {
+      margin-top: -14px;
+      width: 100%; }
+    .hideme #funds-brief, .hideme #amount-available {
+      margin-top: 40px; }
+  #silo-here {
+    margin-top: 60px; }
+  #user-profile {
+    width: 80% !important; }
+  #free, #crowd-funding, #network {
+    width: 20%; }
+  #team #team-div .row .col-sm-3 {
+    margin-bottom: 30px; }
+    #team #team-div .row .col-sm-3 img {
+      width: 220px;
+      height: 220px; } }
+
+@media (max-width: 654px) {
+  #search_button {
+    margin-top: 0; }
+  p#relevant-explanation, p#relevant-target {
+    font-size: 14px !important; }
+  #relevant-people #relevant-div #relevant-target {
+    margin-top: 0px; } }
 
 @media (max-width: 630px) {
   #search_button {
     font-size: 12px; }
   #text_search {
-    width: 190px;
     font-size: 11px; }
   #amount_req {
-    width: 65px;
+    width: 75px;
     font-size: 11px; }
   #age {
     width: 50px;
@@ -1514,39 +1482,12 @@ a.cd-login {
     width: 94%;
     margin-left: 3%; } }
 
-@media (max-width: 572px) {
-  .footer-distributed p.footer-links a {
-    font-size: 14px;
-    display: inline; }
-  .footer-distributed .footer-right {
-    margin-right: -30px; }
-    .footer-distributed .footer-right a {
-      width: 30px;
-      height: 30px;
-      border-radius: 15px;
-      margin-top: 5px;
-      margin-left: 8px; } }
-
-@media (max-width: 512px) {
-  .footer-distributed .footer-right a {
-    margin-top: 5px; }
-  .footer-distributed .footer-center {
-    margin-left: 15px; } }
-
 @media (max-width: 497px) {
   #search_button {
-    margin-top: 10px;
-    margin-left: 20px; } }
-
-@media (max-width: 462px) {
-  .footer-distributed .footer-left {
-    width: 20%;
     margin-left: 20px; }
-    .footer-distributed .footer-left a {
-      margin-left: 10px; }
-  .footer-distributed .footer-center {
-    width: 25%;
-    margin-left: 20px; }
-  .footer-distributed .footer-right {
-    padding-right: 0;
-    width: 50%; } }
+  .container {
+    padding: 0; }
+  .col-sm-6 {
+    padding-right: 0; }
+  #relevant-people #relevant-div {
+    padding: 5px; } }

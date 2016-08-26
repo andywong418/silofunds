@@ -139,7 +139,7 @@ module.exports = {
             s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
                 models.users.findById(userId).then(function(user){
                   user.update({
-                    profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
+                    profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
                   });
                 });
                 Logger.info('uploaded picture');
@@ -492,7 +492,7 @@ module.exports = {
               s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
                   models.users.findById(userId).then(function(user){
                     user.update({
-                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
+                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
                     }).then(function(user){
                       res.send("GOT HIMMMMMMMM");
                     });
@@ -505,7 +505,7 @@ module.exports = {
             Logger.info("Uploaded picture.");
                models.users.findById(userId).then(function(user){
                     user.update({
-                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + req.file.originalname
+                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
                     }).then(function(user){
                       res.send("GOT HIMMMMMMMM");
                     });

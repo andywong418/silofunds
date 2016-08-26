@@ -17,9 +17,16 @@ require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var app = express();
+var contentLength = require('express-content-length-validator');
+var express_enforces_ssl = require('express-enforces-ssl');
+var helmet = require('helmet');
 var mcapi = require('mailchimp-api');
 var mcKey = process.env.MAILCHIMP_KEY;
+var gzip = require('connect-gzip');
 mc = new mcapi.Mailchimp(mcKey);
+var compression = require('compression');
+
+var MAX_CONTENT_LENGTH_ACCEPTED = 9999;
 
 Logger = require('./logger');
 
@@ -33,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules',  express.static(__dirname + '/node_modules'));
+app.use(compression());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 if (process.argv.indexOf('--silent-http') === -1) {
@@ -60,7 +68,7 @@ else{
 
 app.use(session({
   secret: 'so secret',
-  cookie: {secure: false, maxAge: 14400000},
+  cookie: { secure: false, maxAge: 14400000 },
   store: new RedisStore({
     client: redis,
     host: redisHost,
@@ -77,6 +85,34 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
+app.use(gzip.staticGzip(__dirname + '/bower_components/jquery/dist', { matchType: /javascript/ }));
+
+// Security Shit
+if (process.env.NODE_ENV === 'production') {
+  app.enable('trust proxy');
+  app.use(express_enforces_ssl());
+}
+// app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
+app.use(helmet({ dnsPrefetchControl: false }));
+app.use(helmet.frameguard({ action: 'deny' }));
+app.use(helmet.hsts({
+  maxAge: 10886400000,     // Must be at least 18 weeks to be approved by Google
+  includeSubdomains: true, // Must be enabled to be approved by Google
+  preload: true
+}));
+// TODO: This shit is not working out someone get on this.
+// app.use(helmet.contentSecurityPolicy({
+//   // Specify directives as normal.
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", "'unsafe-inline'", "https://*.hotjar.com", "'https://oss.maxcdn.com'", "'https://s3.amazonaws.com'"],
+//     imgSrc: ["'self'", "http://33.media.tumblr.com"],
+//     styleSrc: ["'self'", "https://fonts.googleapis.com"],
+//   },
+//   disableAndroid: false,
+//   browserSniff: true
+// }));
+
 // Load routes
 routes.initialize(app);
 

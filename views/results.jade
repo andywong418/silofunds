@@ -48,31 +48,34 @@ block content
 											i.fa.fa-times
 								else
 										span#tokenKey(class = key)=key + ": " 
-											each tag in value.split(' ')
-												a(href='/results?' + key +'=' + tag)= tag
+											if key != 'age'
+												each tag in value.split(' ')
+													a(href='/results?' + key +'=' + tag)= tag
+											else
+												a(href='/results?' + key + '=' + 'age')= value 
 											i.fa.fa-times
-						span#sort Sort by:
-							.dropdown
-								button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-									if sort_by
-										if sort_by == 'deadline'
-											| Deadline
-										if sort_by == 'highest_amount'
-											| Higest amount
-										if sort_by == 'lowest_amount'
-											| Lowest amount
-									else
-										| Relevance
-									span.caret
-								ul.dropdown-menu(aria-labelledby='dropdownMenu1')
-									li
-										a#relevance-sort Relevance
-									li
-										a#deadline-sort(href='#') Deadline
-									li
-										a#highest-amount-sort(href='#') Highest amount
-									li
-										a#lowest-amount-sort Least amount
+					span#sort Sort by:
+						.dropdown
+							button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+								if sort_by
+									if sort_by == 'deadline'
+										| Deadline
+									if sort_by == 'highest_amount'
+										| Higest amount
+									if sort_by == 'lowest_amount'
+										| Lowest amount
+								else
+									| Relevance
+								span.caret
+							ul.dropdown-menu(aria-labelledby='dropdownMenu1')
+								li
+									a#relevance-sort Relevance
+								li
+									a#deadline-sort(href='#') Deadline
+								li
+									a#highest-amount-sort(href='#') Highest amount
+								li
+									a#lowest-amount-sort Least amount
 				.col-lg-8.col-lg-offset-2
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog

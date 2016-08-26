@@ -21,7 +21,12 @@ $('span#tokenKey i').click(function(){
   $(this).closest('#tokenKey').fadeOut();
   $('input#advanced_' +field).val('');
 });
-
+// var viewPortWidth = $(window).width();
+// $(window).resize(function(){
+//   // if(viewPortWidth < 476){
+//   //   $('.fund_title').css('font-size', '18px');
+//   // }
+// });
 if(relevant_terms){
   var baseUrl = '/results?';
   for( var i = 0; i < relevant_terms.length; i++){
@@ -363,7 +368,14 @@ var allShown = false;
       // css
       this.$("#" + id).children('.description_control').find('*').css('line-height', '2');
       this.$("#" + id).children('.description_control').find('*').css('font-family', 'Helvetica Neue');
-      this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
+      var viewPortWidth = $(window).width();
+      if(viewPortWidth < 480){
+        this.$("#" + id).children('.description_control').find('*').css('font-size', '14px');
+      }
+      else{
+        this.$("#" + id).children('.description_control').find('*').css('font-size', '12pt');
+      }
+
       $('#fade_div' + id).css('position', 'absolute')
       $('#fade_div' + id).css('width', '100%')
       // top + height must equal if($('#id' + id).height() >= THISNUMBER) (line 237)

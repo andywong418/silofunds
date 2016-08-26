@@ -89,7 +89,7 @@ module.exports = {
 	      Logger.info("uploaded picture successfully");
 	      models.users.findById(userId).then(function(user){
 	      	user.update({
-	      	profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + file.originalname,
+	      		profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(file.originalname),
 					}).then(function(){
 						res.send("YOU GOT THIS");
 	        });
