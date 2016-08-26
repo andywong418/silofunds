@@ -2,15 +2,20 @@ extend layout
 
 block extraHeader
 	link(href='/stylesheets/fund-settings.css', rel='stylesheet')
-
+	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
 	script.
 		var user = !{JSON.stringify(user)};
 		var bodyEl = document.getElementsByTagName('body');
 		if(user){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+			windowPortWidth = window.innerWidth;
+			if(windowPortWidth <767){
+				document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+			}
 		}
 	include ./navbar.jade
+	include ./partials/navbar-loggedin.jade
 	include ./partials/signup-modal.jade
 	section#edit.container.content-section
 		.row

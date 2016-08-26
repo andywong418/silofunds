@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("div.settings-tab-menu div.list-group a").click(function(e) {
+  $("#left_div div.settings-tab-menu div.list-group a").click(function(e) {
     e.preventDefault();
 
     $(this).siblings('a.active').removeClass("active");
@@ -40,8 +40,13 @@ $(document).ready(function() {
 
   //Change profile picture
   $("#userImage").click(function() {
-        $("input[id='my_file']").click();
-    });
+    console.log('gggggg')
+    $("input[id='my_file']").click();
+  });
+  // Change prof pic for mobile display
+  $(".userImageMobile").click(function() {
+      $("input[id='my_file']").click();
+  });
     $("input[id='my_file']").change(function(){
 
       if (this.files && this.files[0]) {
@@ -69,7 +74,7 @@ $(document).ready(function() {
       }).then(function(data){
         console.log("SUCCESS", data);
       })
-})
+    })
   // NOTE: Change label name upon file upload
 
   var inputs = document.querySelectorAll( '.realFileUpload' );
@@ -319,4 +324,43 @@ $(document).ready(function() {
       $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
     });
   }
+
+  // Mobile jquery
+  barSwitcher();
+  // activeClassAdder();
+  $(window).resize(function() {
+    barSwitcher();
+    // activeClassAdder();
+  })
+
+  $("#top_div div.settings-tab-menu div.list-group div.flex-box").click(function(e) {
+    e.preventDefault();
+
+    $(this).siblings('div.active-mobile').removeClass("active-mobile");
+    $(this).addClass("active-mobile");
+
+    var index = $(this).index();
+    $("div.settings-tab div.settings-tab-content").removeClass("active-mobile");
+    $("div.settings-tab div.settings-tab-content").eq(index).addClass("active-mobile");
+  });
+
 });
+
+
+// Functions for mobile stuff
+function barSwitcher() {
+  if($(window).width() <= 541) {
+    $('#left_div').hide();
+    $('#top_div').show();
+    $('#right_div').show();
+    $('#right_div').removeClass('col-xs-8');
+    $('#right_div').addClass('col-xs-12');
+    $('#big_flex_div').addClass('flex-direction', 'column')
+  } else {
+    $('#left_div').show();
+    $('#top_div').hide();
+    $('#right_div').show();
+    $('#right_div').addClass('col-xs-8');
+    $('#right_div').removeClass('col-xs-12');
+  }
+}

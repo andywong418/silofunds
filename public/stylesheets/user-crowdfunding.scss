@@ -11,9 +11,10 @@ $donate-button-height: 48px;
 @import 'navbar.scss';
 @import 'advanced-search.scss';
 @import 'signup.scss';
-
+@import './mobile/user/user-crowdfunding-mobile.scss';
 
 body{
+	font-family: Source Sans Pro;
 	background-color: #f0f2f4;
 	.navbar-custom{
 		position:relative;
@@ -26,15 +27,14 @@ body{
 		padding-bottom: 50px;
 		#social-media-flex-container{
 			display: flex;
+			justify-content: space-between;
 			margin-top: 15px;
-
-			.social{
+			.social {
 				font-size: 15px;
-				padding: 10px;
+				padding: 10px 0px 10px 0px;
 				padding-left: 15px;
 				border-radius: 3px;
 				cursor: pointer;
-				margin-right: 20px;
 				flex-grow: 1;
 				color: white;
 				font-family: 'Helvetica Neue';
@@ -47,11 +47,19 @@ body{
 				-moz-transition: background-color 0.2s ease-in-out;
 				-o-transition: background-color 0.2s ease-in-out;
 				transition: background-color 0.2s ease-in-out;
-				i{
+				i {
 					font-size: 20px;
 					float: left;
 				}
-
+			}
+			.social-margin-left {
+				margin-right: 20px;
+			}
+			.social-margin-right {
+				margin-left: 20px;
+			}
+			.social-margin-middle {
+				margin: 0;
 			}
 			.fb-share{
 				background-color: #306199;
@@ -332,9 +340,7 @@ body{
 
 			#progress-card{
 				background-color: white;
-				margin-top: 10px;
 				padding: 25px;
-
 				padding-top: 10px;
 				border: 1px solid #e1e8ed;
 				h3{
@@ -594,4 +600,214 @@ body{
 
 .hidden {
 	display: none;
+}
+
+// Mobile stuff
+@media (max-width: 992px) {
+ 	#crowdfunding-wrapper {
+		#user-progress #funding-institutions {
+			margin-top: 30px;
+		}
+		.no-vid-pic-border #profile_picture {
+			padding: 0;
+			margin-top: 0;
+		}
+	}
+	body #crowdfunding-wrapper #social-media-flex-container {
+		justify-content: space-between;
+		.social-margin-left, .social-margin-right {
+			margin-right: 12px;
+			margin-left: 12px;
+		}
+		.social-margin-middle {
+			margin: 0;
+		}
+	}
+}
+
+@media (min-width: 768px) {
+	.mobile {
+		display: none !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.desktop {
+		display: none !important;
+	}
+	body #crowdfunding-wrapper.container {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		.no-vid-pic-border {
+			width: 100%;
+			background-color: #f0f2f4;
+			#profile_picture {
+				width: 70%;
+				margin: 15px 0px 15px 15%;
+				height: auto;
+			}
+		}
+		.col-md-7.col-xs-12.col-sm-6.remove-margin {
+			margin: 0;
+		}
+		.col-md-7.col-sm-6.col-xs-12 {
+			margin-bottom: 40px;
+			padding: 0;
+			#profile_picture {
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+		#user-progress {
+			clear: both;
+			padding-left: 0;
+			padding-right: 0;
+			margin-top: -5px;
+			#progress-card {
+				margin-top: 0;
+			}
+		}
+	}
+	#crowdfunding-wrapper.container {
+		#user-progress {
+			#progress-card {
+				padding: 10px;
+				.flex-container {
+					display: flex;
+					justify-content: space-between;
+					height: 90px;
+					.flex-div {
+						height: inherit;
+						padding-top: 10px;
+						img.ifVideoPhoto#profile_picture {
+							float: right;
+							height: 100%;
+							width: auto;
+							padding: 0;
+							margin: 0;
+						}
+					}
+					.flex-div-name {
+						padding-top: 38px;
+						padding-left: 10px;
+						flex-grow: 3;
+						position: relative;
+						span {
+							position: relative;
+							bottom: -20px;
+							left: 5px;
+							h3 {
+								text-align: left;
+							}
+						}
+					}
+					.flex-div-image {
+						padding-right: 20px;
+						flex-grow: 1;
+					}
+				}
+			}
+			#funding-institutions, #recent-donations {
+				margin: 15px 10px 20px 10px;
+				background-color: #f0f2f4;
+				padding-bottom: 10px;
+				#some-donations, #no-donations, #applications-div {
+					font-size: 14px
+				}
+				.app-row {
+					#fund-title {
+						font-size: 14px;
+					}
+					.padding-fix {
+						padding-right: 10px;
+						padding-left: 0px;
+					}
+				}
+				#fund-banner, #donation-banner {
+					margin-bottom: 6px;
+					p {
+						margin: 0;
+						margin-bottom: 6px;
+					}
+				}
+			}
+		}
+		p#raised {
+			margin: 10px 0px 0px 0px;
+			padding: 10px 15px 0px 15px;
+			border-top: 1px solid #e1e8ed;
+		}
+		.progress {
+			height: 20px;
+			margin: 10px;
+			#initial-bar {
+				height: 100%;
+				background-color: rgb(85, 230, 165);
+			}
+		}
+		#user-progress #progress-card {
+			#amount {
+				margin: 0;
+			}
+		}
+		#tab-table {
+			margin: 10px;
+			padding: 10px;
+			padding-bottom: 20px;
+			background-color: #f0f2f4;
+			border-radius: 4px;
+			#tab-menu-flex {
+				// border-bottom: 1px solid #e1e8ed;
+					a.menu-item p {
+					padding-bottom: 3px;
+					padding-top: 7px;
+				}
+			}
+			#tab-content {
+				margin-top: -5px;
+				padding: 0px 8px 0px 8px;
+				p#header {
+					border-bottom: 1px solid#e1e8ed;
+				}
+				hr {
+					border-color: transparent;
+				}
+				#comment-handler p#no-comment {
+					padding: 10px;
+					margin: 20px 0px 15px 0px;
+				}
+			}
+		}
+	}
+	#social-media-flex-container {
+		margin-bottom: 15px;
+	}
+	body {
+		background-color: white;
+	}
+}
+
+@media (min-width: 400px) {
+	@media (max-width: 768px) {
+		#crowdfunding-wrapper.container {
+			#user-progress {
+				.progress {
+					height: 25px;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 600px) {
+	#recent-donations.row {
+		margin-right: 0;
+	}
+	@media (max-width: 1180px) {
+		#crowdfunding-wrapper.container {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 }

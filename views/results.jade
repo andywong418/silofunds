@@ -9,8 +9,13 @@ block content
 			var user = !{JSON.stringify(user)};
 			if(user){
 				bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+				windowPortWidth = window.innerWidth;
+				if(windowPortWidth <767){
+					document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+				}
 			}
 		include ./navbar.jade
+		include ./partials/navbar-loggedin.jade
 		include ./advanced-search.jade
 		section#about.container.content-section.text-center
 				include ./partials/signup-modal.jade
@@ -118,8 +123,6 @@ block content
 									</ul>
 
 block scripts
-	// signup functions
-	script(src='javascript/signup-login.js')
 	//advanced search
 	script(src='javascript/advanced-search.js')
 	//search functions
@@ -131,7 +134,8 @@ block scripts
 	script(src='/bower_components/moment/min/moment-with-locales.js')
 	script(src='/javascript/notifications.js')
 	script(src='javascript/results.js')
-	
+	// signup functions
+	script(src='javascript/signup-login.js')
 	script.
 		var fundData =!{JSON.stringify(funds)};
 		var user = !{JSON.stringify(user)};

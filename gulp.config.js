@@ -23,7 +23,7 @@ module.exports = function() {
     ],
 
     scssDist: dist + 'stylesheets/',
-    scss: public + 'stylesheets/*.scss'
+    scss: public + 'stylesheets/**/*.scss'
   };
 
   return config;

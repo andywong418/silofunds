@@ -2,14 +2,20 @@ extends layout
 
 block extraHeader
   link(href='/stylesheets/messages.css', rel="stylesheet")
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
     }
   include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
   include ./advanced-search.jade 
   #search-helper-text
     .arrow_box Use the search bar to find relevant funding opportunities and connect with other users

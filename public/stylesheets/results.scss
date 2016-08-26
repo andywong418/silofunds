@@ -1,6 +1,7 @@
 /* New search bar */
 @import 'general.scss';
 @import 'navbar.scss';
+@import 'navbar-loggedin.scss';
 @import 'advanced-search.scss';
 @import 'signup.scss';
 
@@ -260,7 +261,6 @@ i {
 }
 
 @media (max-width: 920px) {
-
   .search_form {
     width: 100%;
   }
@@ -281,13 +281,6 @@ i {
 }
 
 @media (max-width: 767px) {
-  .search_form {
-    margin-top: 15px;
-    margin-left: -5px;
-  }
-  .results {
-    margin-top: 30px;
-  }
   .database {
     width: auto;
     margin-left:0;
