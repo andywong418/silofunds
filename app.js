@@ -68,7 +68,7 @@ else{
 
 app.use(session({
   secret: 'so secret',
-  cookie: { secure: true, maxAge: 14400000, httpOnly: true },
+  cookie: { secure: false, maxAge: 14400000 },
   store: new RedisStore({
     client: redis,
     host: redisHost,
@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(express_enforces_ssl());
 }
-app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
+// app.use(contentLength.validateMax({max: MAX_CONTENT_LENGTH_ACCEPTED, status: 400, message: "stop it!"})); // max size accepted for the content-length
 app.use(helmet({ dnsPrefetchControl: false }));
 app.use(helmet.frameguard({ action: 'deny' }));
 app.use(helmet.hsts({
@@ -100,17 +100,18 @@ app.use(helmet.hsts({
   includeSubdomains: true, // Must be enabled to be approved by Google
   preload: true
 }));
-app.use(helmet.contentSecurityPolicy({
-  // Specify directives as normal.
-  directives: {
-    defaultSrc: ["'self'", 'silofunds.com'],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
-    styleSrc: ["'self'"],
-  },
-  reportOnly: false,
-  disableAndroid: false,
-  browserSniff: true
-}));
+// TODO: This shit is not working out someone get on this.
+// app.use(helmet.contentSecurityPolicy({
+//   // Specify directives as normal.
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", "'unsafe-inline'", "https://*.hotjar.com", "'https://oss.maxcdn.com'", "'https://s3.amazonaws.com'"],
+//     imgSrc: ["'self'", "http://33.media.tumblr.com"],
+//     styleSrc: ["'self'", "https://fonts.googleapis.com"],
+//   },
+//   disableAndroid: false,
+//   browserSniff: true
+// }));
 
 // Load routes
 routes.initialize(app);
