@@ -486,7 +486,7 @@ var initialHeight;
 var videoRatio;
 
 function tabContentMobileAdd() {
-  if($(window).width() <= 768) {
+  if($(window).width() <= 767) {
     $('#story-about-updates-targeting-div-desktop #tab-content').removeClass('tab-content-desktop')
     $('#story-about-updates-targeting-div-mobile #tab-content').addClass('tab-content-mobile')
   } else {
@@ -507,7 +507,7 @@ function iframeResize() {
     var newHeight = initialHeight - widthChange/videoRatio
     $('.iframe').css('width', newWidth);
     $('.iframe').css('height', newHeight);
-  } else if($(window).width() > 671 &&  $(window).width() <= 769) {
+  } else if($(window).width() > 671 &&  $(window).width() <= 767) {
     var marginLeft = ($(window).width() - $('.iframe').width())/2
     $('.iframe').css('width', '671px')
     $('.iframe').css('height', 671/videoRatio)
@@ -517,7 +517,7 @@ function iframeResize() {
     $('#user-progress').css('padding-left', (marginLeft)/8)
     $('#user-progress').css('padding-right', (marginLeft)/8)
     $('#user-progress').css('margin-top', (marginLeft)/10)
-  } else if($(window).width() > 769) {
+  } else if($(window).width() > 767) {
     $('.iframe').css('width', '100%')
     $('#user-progress').css('padding-left', '') // Reset to defaults
     $('#user-progress').css('padding-right', '')

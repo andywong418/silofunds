@@ -626,13 +626,13 @@ body{
 	}
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 	.mobile {
 		display: none !important;
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	.desktop {
 		display: none !important;
 	}
