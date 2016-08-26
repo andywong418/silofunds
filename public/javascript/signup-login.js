@@ -28,7 +28,7 @@ $(document).ready(function(){
         $('nav.navbar-custom').show();
         $('.mobile').hide();
         $('.navbar-desktop').hide();
-        $('#brand-heading').html('<img id= "brand-image" src="/images/transparent silo icon graphic.png"></img>');
+        $('#brand-heading').html('<img id= "brand-image" src="/images/homepage-transparent-logo.png"></img>');
       }
       if(windowPortWidth > 767){
         $('nav.navbar-custom').show();
@@ -49,8 +49,6 @@ $(document).ready(function(){
       $('.mobile').show();
     }
     $(document).on('click', '#mobile-search', function(){
-      console.log("WHAT");
-      console.log($('.navbar-mobile-collapse').attr('aria-expanded'));
       if($('.navbar-mobile-collapse').is(':visible')){
         $('.navbar-mobile-collapse').removeClass('in');
       }
@@ -424,14 +422,12 @@ jQuery.fn.putCursorAtEnd = function() {
 
  $("#signin-email").blur(function(){
    var parameters = {loginEmail: $(this).val()};
-   console.log(parameters);
    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
    if (!re.test($(this).val())){
       $('#login-email-error').addClass('is-visible');
       $('#login-email-error').text('Please enter a valid email address');
       $('#login-button').prop('disabled', true);
    }
-   console.log(parameters);
    $.get('/validation', parameters, function(data){
      if(data){
        $('#login-email-error').addClass('is-visible');
@@ -475,7 +471,6 @@ $("#login-form").submit(function(e){
          $('#login-email-error').text(data);
        }
        else{
-         console.log("TELL ME NOW", data);
          $('#signin-password-error').addClass('is-visible');
          $('#signin-password-error').text(data);
        }

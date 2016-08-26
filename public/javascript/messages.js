@@ -12,7 +12,6 @@ $(document).ready(function() {
   }
   var socket = io();
   socket.emit('add user', { userFrom: user });
-  console.log($(".list-group-item")[0]);
   $($(".list-group-item")[0]).addClass("active");
 
   //////////////////////////
@@ -99,9 +98,7 @@ $(document).ready(function() {
           $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profile">' + data.userFrom.username + ':</a></span><li>' + data.msg + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(timeNow) + '</div></div><br>');
       }
 
-      console.log(data);
       if(data.read_by_recipient && data.userFromID == user.id){
-        console.log("READ");
         $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
       }
       else{
@@ -114,7 +111,6 @@ $(document).ready(function() {
   });
 
   socket.on('bulk get message', function(data) {
-    console.log(data);
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
     var dateNow = new Date();
@@ -124,7 +120,6 @@ $(document).ready(function() {
     dateYesterday.setDate(dateNow.getDate() - 1);
     dateLastWeek.setDate(dateNow.getDate() - 7);
     dateLastYear.setFullYear(dateLastYear.getFullYear() - 1);
-    console.log(dateLastYear);
     var appendTodayToFirstMessage = 0;
     var appendYesterdayToFirstMessage = 0;
     var appendLastWeekFirstMessage = 0;
@@ -210,9 +205,7 @@ $(document).ready(function() {
 
       var readCounter = 0;
       var readMessage = data.bulk_messages[data.bulk_messages.length -1];
-      console.log(readMessage);
       if(readMessage.read_by_recipient && readMessage.user_from == user.id){
-        console.log("READ");
         $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
       }
       else{

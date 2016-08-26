@@ -35,12 +35,11 @@ $(document).ready(function() {
   try {
     initiateTinyMCE();
   } catch(e) {
-    console.log("tinymce not defined!");
+    // console.log("tinymce not defined!");
   }
 
   //Change profile picture
   $("#userImage").click(function() {
-    console.log('gggggg')
     $("input[id='my_file']").click();
   });
   // Change prof pic for mobile display
@@ -72,7 +71,7 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
       }).then(function(data){
-        console.log("SUCCESS", data);
+        // console.log("SUCCESS", data);
       })
     })
   // NOTE: Change label name upon file upload
@@ -88,8 +87,6 @@ $(document).ready(function() {
   			alert("You can only upload 1 file at a time.");
       } else if (this.files) {
         var inputID = this.id;
-        console.log(inputID);
-
         fileName = e.target.value.split( '\\' ).pop();
         $('label#' + inputID).removeClass('hidden');
 
@@ -295,7 +292,6 @@ $(document).ready(function() {
       toolbar1: "undo redo | styleselect | bullist numlist | link image | preview",
       toolbar2: 'bold italic | alignleft aligncenter alignright alignjustify | forecolor backcolor emoticons'
     }).then(function(editors){
-      // console.log(tinymce.activeEditor.getContent({format: 'text'}));
     });
   }
 
@@ -316,8 +312,6 @@ $(document).ready(function() {
         formData[extraOptionsKey] = extraOptions[extraOptionsKey];
       }
     }
-
-    console.log(formData);
 
     $.post('/user/settings', formData, function(data) {
       $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');

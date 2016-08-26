@@ -38,8 +38,6 @@ $(document).ready(function(){
   }
 
   $('input[name=fund_known]').click(function(){
-    console.log(this);
-    console.log($(this).attr('value'));
     // $.post('/organisation/fund_known/' + fund.id, )
     var formData = {};
     if($(this).attr('value') === 'true'){
@@ -133,12 +131,10 @@ $(document).ready(function(){
     }
     // Curiour with social science -- FIX!
     if(fundArray.indexOf('sciences') > -1 || fundArray.indexOf('science') > -1 ){
-      console.log('it gets here');
       diff = sciences.filter(function(x){
         return userArray.indexOf(x) > -1;
       });
     }
-    console.log(diff);
     if(diff && diff.length >0 ){
       return true;
     }
@@ -221,7 +217,6 @@ $(document).ready(function(){
       });
     }
     var newArray = notHandler(fundArray, userArray,'EU',  allCountries, euCountries, diff);
-    console.log(newArray);
     if(newArray.length > 0){
       diff.push(newArray);
     }
@@ -229,7 +224,6 @@ $(document).ready(function(){
     if(anotherArray.length > 0){
       diff.push(anotherArray);
     }
-    console.log(diff);
     if(diff && diff.length >0 ){
       return true;
     }
@@ -242,7 +236,6 @@ $(document).ready(function(){
     var newArray = [];
     fundArray.forEach(function(element, index, array){
       if(element.indexOf('not ' + string) > -1 || element.indexOf('non ' + string) > -1){
-        console.log("HI");
         diff = allField.filter(function(x){
           return userArray.indexOf(x) > -1 && notField.indexOf(x) < 0;
         });
@@ -256,14 +249,10 @@ $(document).ready(function(){
     var newArray = [];
     fundArray.forEach(function(element, index, array){
       if(element.indexOf('not') > -1 || element.indexOf('non') > -1){
-          console.log(element);
           var country = element.split(' ')[1].capitalize();
-          console.log(country);
-          console.log(allCountries);
           var diff = allCountries.filter(function(x){
             return userArray.indexOf(x) > -1 && x != country;
           });
-          console.log(diff);
           newArray.push(diff);
 
 
@@ -295,7 +284,6 @@ $(document).ready(function(){
         }
       }
       userArray.forEach(function(element, index, array){
-        console.log(element);
         fundArray.forEach(function(fundElement, fundIndex, fundArray){
           //checking for substrings as well
           fundElement = fundElement.toLowerCase();
@@ -466,7 +454,6 @@ $(document).ready(function(){
     }
   });
   $(document).on('click', '#notEligible', function(e){
-    console.log("WHAT", e);
     e.preventDefault();
     e.stopPropagation();
   });
@@ -484,7 +471,6 @@ $(document).ready(function(){
         fund_id: fund.id,
       };
       $.post('/user/remove-favourite/', formData, function(data){
-        console.log(data);
       });
       favourite = false;
     }
@@ -498,7 +484,6 @@ $(document).ready(function(){
           fund_id: fund.id
         };
         $.post('/user/add-favourite/', formData, function(data){
-          console.log(data);
         });
       }
     }
@@ -613,16 +598,13 @@ $(document).ready(function(){
       $('#fundBio').find('.container').removeClass('.container');
     }
     var paragraphs = $('#fundBio').find('p');
-    console.log(paragraphs);
     for (var i =0; i < paragraphs.length; i++ ){
       if(paragraphs[i].innerHTML == '&nbsp;'){
         var parent = document.getElementById('fundBio');
-        console.log(paragraphs[i]);
         try{
           parent.removeChild(paragraphs[i]);
         }
         catch(err){
-          console.log(err);
         }
 
       }
@@ -1083,13 +1065,11 @@ $(document).ready(function(){
                     targetCountry[i] = "United Sates of America"
                   }
                   checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
-                    console.log(this.country);
                     var imageModel = new ImageModel({
                       imageSource: this.src,
                       criteria: 'For study in ' + this.country,
                       section: this.country
                     });
-                    console.log($(this));
                     var view = new ImageView({ model: imageModel });
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
@@ -1125,7 +1105,6 @@ $(document).ready(function(){
                   }
 
                   checkImage('/images/128/' + requiredCountry[i] + '.png', requiredCountry[i], function(){
-                    console.log(this.src);
                     var imageModel = new ImageModel({
                       imageSource: this.src,
                       criteria: 'From ' + this.country,
@@ -1344,7 +1323,6 @@ $(document).ready(function(){
           contentType: false
         }).done(function(data){
           location.reload()
-          console.log(data);
         });
         reader.readAsDataURL(this.files[0]);
         $("#add-profile").css("display", "none");

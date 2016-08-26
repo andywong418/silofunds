@@ -87,7 +87,6 @@ $(document).ready(function(){
       $('#general').addClass('selected');
       this.$('[data-toggle="tooltip"]').tooltip();
       if(this.model.get('id')){
-        console.log(this.model.get('id'));
         var id = this.model.get('id');
         fundCreated(id);
         if(this.model.get('title')){
@@ -253,7 +252,6 @@ var EligibleDisplay = Backbone.View.extend({
     $('#eligible').addClass('selected');
     //support type switch
     if(!this.model.get('merit_or_finance')){
-      console.log('its getting through');
       switch(support_type){
         case 'scholarship':
           this.$("#merit-input").prop("checked", true);
@@ -282,9 +280,7 @@ var EligibleDisplay = Backbone.View.extend({
     $('#' + id + '-form').addClass('selected-form');
   },
   saveEligible: function(e){
-    console.log('hey dude')
     e.preventDefault();
-    console.log($('input[name=target_country]').val());
     var subject = $('input[name=subject]').val().split(',');
     var religion = $('#religion').val().split(',');
     var targetUniversity = $('input[name=target_university]').val().split(',');
@@ -358,7 +354,6 @@ var ApplicationDisplay = Backbone.View.extend({
     var applicationModel = new OptionModel();
     var view = new ApplicationView({model: applicationModel});
     this.$el.append(view.render().el);
-    console.log(applicationModel);
     $('.selected').removeClass('selected');
     $('#application').addClass('selected');
     var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps','tips'];
@@ -369,7 +364,6 @@ var ApplicationDisplay = Backbone.View.extend({
       for (var i = 0; i< arrayFields.length; i++){
         if(this.model.get(arrayFields[i])){
           var value = this.model.get(arrayFields[i]);
-          console.log(value);
           if(Date.parse(value)){
             value = value.split('T')[0]
           }
@@ -383,7 +377,6 @@ var ApplicationDisplay = Backbone.View.extend({
   },
   saveApplication: function(){
     var applicationDocuments = $('input[name=application_documents]').val().split(',');
-    console.log($('textarea#tips-area').val());
     var formData={
       'application_open_date': $('input[name=start_date]').val(),
       'deadline': $('input[name=deadline]').val(),
@@ -422,7 +415,6 @@ var Router = Backbone.Router.extend({
       generalModel = new OptionModel({id: fund.id});
       generalModel.fetch({
         success:function(){
-          console.log("GENERAL SUCCESS");
           router.loadView(new GeneralDisplay({model: generalModel}));
         }
       });
@@ -435,11 +427,9 @@ var Router = Backbone.Router.extend({
     var router = this;
     var eligibleModel = new OptionModel();
     if(fund){
-      console.log(fund.id);
       var eligibleModel = new OptionModel({id: fund.id});
       eligibleModel.fetch({
         success:function(){
-          console.log('ELIGIBLE SUCCESS');
           router.loadView(new EligibleDisplay({model: eligibleModel}));
         }
       });
@@ -453,7 +443,6 @@ var Router = Backbone.Router.extend({
     var router = this;
     var applicationModel = new OptionModel();
     if(fund){
-      console.log(fund.id);
       var applicationModel = new OptionModel({id: fund.id});
       applicationModel.fetch({
         success:function(){

@@ -64,7 +64,6 @@ $(document).ready(function(){
   var notificationArray;
   var displayNotif = false;
   $(document).on('click', '#home', function(e){
-    console.log(displayNotif);
     if(displayNotif === false){
       e.preventDefault();
       $('.notification_box').show();
@@ -85,7 +84,6 @@ $(document).ready(function(){
 
   $.get('/notifications/favourites', function(data){
     $.get('/notifications/new', function(data){
-      console.log(data);
       if(data.length > 0){
         windowPortWidth = $(window).width();
         var notificationCollection;
@@ -101,7 +99,6 @@ $(document).ready(function(){
            notificationCollection = new NotificationCollection(data);
         }
 
-        console.log(notificationCollection);
         var notificationList = new NotificationList({collection: notificationCollection});
         $(".notification-wrapper").append(notificationList.render().el);
         var unReadNotifications = [];
@@ -110,7 +107,6 @@ $(document).ready(function(){
             unReadNotifications.push(obj);
           }
         });
-        console.log(unReadNotifications);
         if(unReadNotifications.length > 0){
           $("#notification-count").show();
 

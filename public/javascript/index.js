@@ -66,13 +66,10 @@ $(document).ready(function() {
     var $form = $(this);
     var email = $form.find('input[name="subscription_email"]').val();
     var url = $form.attr("action");
-    console.log('Email is ' + email);
-    console.log('posting....');
 
     var posting = $.post(url, { email: email });
 
     posting.done(function(data) {
-      console.log('Finished post request.');
     });
   });
 
@@ -174,15 +171,7 @@ var parallax = document.querySelectorAll(".parallax"),
         el.addClass("come-in-3");
       }
     });
-//   [].slice.call(parallax).forEach(function(el,i){
-//     console.log(el);
-//     console.log(i);
-//   var windowYOffset = window.pageYOffset,
-//       elBackgrounPos = "50% " + (windowYOffset * speed) + "px";
-//
-//   el.style.backgroundPosition = elBackgrounPos;
-//
-// });
+
   });
   $.stellar();
   var viewPortWidth = $(window).width();
@@ -202,7 +191,6 @@ var parallax = document.querySelectorAll(".parallax"),
     className = classNameArray[1];
     $("i." + className).css("color", "#22313F");
   }, function(){
-    console.log("CLASS", className);
     $("i." + className).css("color", "white");
   })
 });

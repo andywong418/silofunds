@@ -3,9 +3,7 @@ $(document).ready(function(){
 	$('#charity-input-required').css('background-color', 'red')
 
 	if($('#charity-input').val() !== '') {
-		console.log('in here')
 		$('#charity-input-required').append('A charity number is required')
-		console.log($('#next'))
 	}
 
 	var FundModel = Backbone.Model.extend({
@@ -82,7 +80,6 @@ $(document).ready(function(){
 						  processData: false,
 							contentType: false
 						}).done(function(data){
-							console.log(data);
 
 						});
 	   		 		reader.readAsDataURL(this.files[0]);
@@ -98,7 +95,6 @@ $(document).ready(function(){
   			var description = $("#description-area").val();
   			var parameters = {description: description};
   			$.post('/signup/fund_signup/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
   			})
   		})
   	},
@@ -110,7 +106,6 @@ $(document).ready(function(){
 
   				parameters = {charity_number: $("#charity-input").val() };
   				$.post('/signup/fund_signup/charity_no/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
   			})
   			}
   		})
@@ -119,7 +114,6 @@ $(document).ready(function(){
   				$("#charity-input").css("border", "2px #16a085 solid");
   				parameters = {charity_number: $("#charity-input").val() };
   				$.post('/signup/fund_signup/charity_no/' + fund_setup.id, parameters, function(data){
-  				console.log(data);
   			})
 
   		})

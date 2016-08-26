@@ -10,7 +10,6 @@
 
   $pc.on('change', function(){
     var percentage = $(this).val() / 100;
-    console.log(percentage + '%');
     drawProgress(aProgress, percentage, $pCaption);
   });
 

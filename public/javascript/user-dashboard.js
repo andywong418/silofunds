@@ -5,13 +5,10 @@ $(document).ready(function(){
   })
 
   $('.update').click(function(){
-      console.log("WHAT");
       var formData = {
         "message": $('#update-text').val()
       };
-      console.log($('#update-text').val());
       $.post('/user/create-update', formData, function(data){
-        console.log(data);
         $('#save-update-notification').css('display', 'block');
         $("#save-update-notification").fadeOut(6000);
       });
@@ -19,7 +16,6 @@ $(document).ready(function(){
   });
   $('.radio input').click(function(){
     var fundId = $(this).attr('class');
-    console.log(fundId);
     if($('#app-success' + fundId).is(':checked')){
       $('.amount-update' + fundId).show();
       $('.hide-update' + fundId).hide();
@@ -36,14 +32,11 @@ $(document).ready(function(){
 }) ;
   $('.confirm-app').click(function(){
     var fundId = $(this).attr('id');
-    console.log(fundId);
     if($('input.' + fundId + ':checked').val() == 'success'){
-      console.log(fundId);
       var formData = {
         status: 'success',
         amount_gained: $('.amount-gained' + fundId).val()
       };
-      console.log(formData);
       $.post('/user/edit-application/' + fundId, formData, function(data){
         //Change status of existing application
         $('#status' + fundId).html("success");
@@ -51,8 +44,6 @@ $(document).ready(function(){
 
     }
     if($('input.' + fundId + ':checked').val() == 'unsuccessful'){
-      console.log("fundid", fundId);
-      console.log($('.hide' + fundId ).is(":checked"));
       var hide_or_not = $('.hide' + fundId ).is(":checked");
       var formData = {
         status: 'unsuccessful',
@@ -65,5 +56,5 @@ $(document).ready(function(){
     }
   });
 
-  
+
 });

@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	console.log(general);
 	if(!general){
 		$('#account a').click();
 	}
@@ -154,7 +153,6 @@ $(document).ready(function(){
 				processData: false,
 				contentType: false,
 			}).then(function(data){
-				console.log("SUCCESS", data);
 			})
 		}
 	});
@@ -181,7 +179,6 @@ $(document).ready(function(){
 			var accountModel = new SettingsModel();
 			accountModel.fetch({
 				success: function(){
-					console.log(accountModel);
 					$('.active-link').removeClass('active-link');
 					$('#account a').addClass('active-link');
 					router.loadView(new AccountSettingsView({model: accountModel}));

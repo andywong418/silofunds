@@ -14,7 +14,6 @@ if(typeof query != 'undefined' && query){
 }
 $('span#tokenKey i').click(function(){
   var field = $(this).parent('#tokenKey').attr('class');
-  console.log(field);
   if(field == 'tags'){
     $('input#text_search').val('');
   }
@@ -32,7 +31,6 @@ if(relevant_terms){
   for( var i = 0; i < relevant_terms.length; i++){
     var obj = relevant_terms[i];
     var key = Object.keys(obj)[0];
-    console.log(key);
     var value = obj[key].split(' ');
     var valueString = '';
     for(var j = 0; j< value.length; j++){
@@ -51,7 +49,6 @@ if(relevant_terms){
       baseUrl = baseUrl + key + '=' + valueString + '&';
     }
   }
-  console.log(baseUrl);
   $('a#suggester-link').attr("href", baseUrl);
 }
 function removeSort(url){
@@ -183,7 +180,6 @@ var allShown = false;
       var tags = this.model.get('tags');
       var countries = this.model.get('country_of_residence');
       var subjects = this.model.get('subject');
-      console.log(subjects);
       var minimum_amount = this.model.get('minimum_amount');
       var maximum_amount = this.model.get('maximum_amount');
       var minimum_age = this.model.get('minimum_age');
@@ -192,7 +188,6 @@ var allShown = false;
         var dateNow = moment();
         deadline = moment.utc(deadline, "DD-MM-YYYY");
         if (dateNow.isAfter(deadline) && allShown){
-          console.log('heya');
           this.$('.deadline-passed' + id).css('display', 'block');
           this.$('.deadline-passed' + id).closest('.fund_list').children().css('opacity', '0.4');
 
@@ -282,7 +277,6 @@ var allShown = false;
        if(maximum_amount && minimum_amount){
 
          this.$(".fund_min_amount"+ id).children('.control').addClass("min_amount"+ id);
-        //  console.log(this.$(".min_amount" + id));
          this.$(".min_amount" + id).addClass("label label-warning badge badge-warning");
          this.$(".min_amount"+ id).html("£" + minimum_amount);
          this.$(".fund_min_amount" + id).append("<span id='minus-sign'> - </span>");
@@ -313,7 +307,6 @@ var allShown = false;
     infoToggle: function(){
       var id = this.model.get('id');
       var description = this.model.get('description');
-      console.log(description);
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
@@ -345,9 +338,7 @@ var allShown = false;
               if(expanded){
                 $('#id' + id).css('overflow', 'visible');
                 var divLength = $('#id' + id ).children().length - 2;
-                console.log(divLength);
                 var lastParagraph = $('#id' + id ).children()[divLength];
-                console.log($(lastParagraph));
                 lastParagraph = $(lastParagraph);
                 var height = lastParagraph.height();
                 var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
@@ -535,7 +526,6 @@ var allShown = false;
   $('#show-all').on('click', function(){
   if(allShown){
     $('*[id*=deadline-passed]:visible').closest('.fund_list').css('display', 'none');
-    console.log($('*[id*=deadline-passed]:visible'));
     var dateNow = moment();
     var k = 0;
     for(var i = 0; i < fundData.length; i++) {

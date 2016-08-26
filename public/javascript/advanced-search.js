@@ -118,7 +118,6 @@ $(document).ready(function(){
     var currentTarget = event.target;
     var emptyInputFields = 0;
     var searchFormInputs = $("input[form='search-form']");
-    console.log($('li.active').attr('id'));
     var target = $('li.active').attr('id');
 
     for (var i = 0; i < searchFormInputs.length; i++) {
@@ -145,7 +144,6 @@ $(document).ready(function(){
       $("form#search-form").append("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;', form='search-form'>");
     }
     if(target == 'search-for-funding'){
-      console.log("HIYA");
       $('#search_button, .loggedin-button').attr('form', 'advs-funding-form');
       $('input#advanced_tags').val($('input#text_search').val());
       $('#search_button, .loggedin-button').click();

@@ -326,12 +326,6 @@ try {
       a.download = 'data.json';
       a.innerHTML = 'Download JSON';
       container.appendChild(a);
-
-      console.log("data");
-      console.log(data);
-      console.log("a");
-      console.log(a);
-      console.log('Finished AJAX.');
     }).fail(function() {
       alert( "error" );
     });

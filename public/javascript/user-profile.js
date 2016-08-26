@@ -23,8 +23,6 @@ $(document).ready(function(){
 		el: 'body',
 		initialize: function(){
 			var age;
-			console.log(user);
-			var age;
 			if(user.date_of_birth){
 				var myDate = user.date_of_birth.split("-");
 				var yearFix= myDate[2].split("T");
@@ -145,7 +143,6 @@ $(document).ready(function(){
 			    });
 			});
 			$(document).on('click', '#advs-link', function(){
-			  console.log("REFINE");
 			  $("#advanced-search").slideDown();
 			   advanced = false;
 			    return true;
@@ -175,7 +172,6 @@ $(document).ready(function(){
 			this.applicationDisplay();
 		},
 		workDisplay: function(){
-			console.log(documents)
 			for( var i = 0; i < documents.length; i++){
 				var document = documents[i].link;
 				var seekingExtension = document.split(".");
@@ -219,7 +215,6 @@ $(document).ready(function(){
 			var allowed = false;
 			var newTutorial = newUser;
 			$(".get-started").click(function(){
-				console.log(newTutorial);
 				if(newTutorial){
 					$("#user-modal").css("display", "inline");
 					$('html, body').animate({
@@ -287,7 +282,6 @@ $(document).ready(function(){
 				var data = new FormData();
 				data.append('file', file);
 				data.append('user', user.id);
-				console.log(file);
 				$.ajax({
 				  type: "POST",
 				  url: '/user-edit/add-work',
@@ -296,14 +290,12 @@ $(document).ready(function(){
 					contentType: false
 				}).done(function(data) {
 					if(data){
-						console.log(data);
 						var file = data.link;
 						var seekingExtension = file.split(".");
 						var extension = seekingExtension[seekingExtension.length-1];
 						var seekingFilename = file.split("/");
 						var filename = seekingFilename[seekingFilename.length-1];
 						var id = data.id;
-						console.log(extension);
 						if(extension == "pdf"){
 							$("#work-display").prepend("<span><i class = 'fa fa-file-pdf-o pdf-file " + id + "' ><a href = '" + file + "'>"+ filename + "</a></i><i class = 'fa fa-times delete' id= 'delete-work" + id + "'></i><i class = 'fa fa-plus-circle add' id = 'add-work-description" + id + "'></i></span>");
 						}
@@ -357,7 +349,6 @@ $(document).ready(function(){
 							return true;
 						}
 						else{
-							console.log($('.edit-work'));
 							var description = $("#work-description" + id).html();
 							if($('.edit-work').attr('id')){
 								var saveTextDescription = $('.edit-work').html();
@@ -377,13 +368,10 @@ $(document).ready(function(){
 					if(event.which == 13 || event.keyCode == 13){
 						var description = $(this).val();
 						var seekId1 = html.attr("id");
-						console.log(seekId1);
 						var idArray1 = seekId1.split("k");
 						var id1 = idArray1[idArray1.length-1];
-						console.log(id1);
 						var parameters = {description: description, user: id1};
 						$.post('/user-edit/add-description', parameters, function(data){
-							console.log("SUCCESS", data);
 							$("textarea").replaceWith("<p id = 'work-description" + id1 + "' class = 'work-description'>" + data + "</p> ");
 						})
 					}
@@ -403,7 +391,6 @@ $(document).ready(function(){
 						var savedText = $(".edit-work").html();
 						var idArray = $(".edit-work").attr('id').split('k');
 						var id = idArray[1];
-						console.log("ID", id);
 						$("textarea").replaceWith("<p id = 'work-description" + id + "' class = 'work-description'>" + savedText + "</p> ");
 
 					}
@@ -417,14 +404,12 @@ $(document).ready(function(){
 				var seekId = $(this).attr("id");
 				var idArray = seekId.split("k");
 				var id = idArray[idArray.length-1];
-				console.log(id);
 				$("#delete-work" + id).parent('span').remove();
 				var parameters = {id: id};
 				$.post('/user-edit/delete-work', parameters, function(data){
-					console.log(data);
-				})
+				});
 
-			})
+			});
 		},
 		changePicture: function(){
 				$("#profile-figure").hover(function(){
@@ -434,7 +419,6 @@ $(document).ready(function(){
 				});
 
 				$("#add-profile").click(function() {
-								console.log('HI');
 						    $("input[id='my_file']").click();
 						});
 						$("input[id='my_file']").change(function(){
@@ -464,12 +448,10 @@ $(document).ready(function(){
         				processData: false,
 								contentType: false,
 							}).then(function(data){
-								console.log("SUCCESS", data);
 							})
     		})
 		},
 		applicationDisplay: function(){
-			console.log(applications);
 			if(applications.length > 0){
 				$('#not-applied').css("display", "none");
 				$("#applied-funds").show();

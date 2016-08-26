@@ -1,7 +1,6 @@
 $(document).ready(function(){
 
   for (var i = 0; i < userData.length; i++) {
-    console.log("two");
     var UserModel = Backbone.Model.extend({
       defaults: {
         username: '',
@@ -11,7 +10,6 @@ $(document).ready(function(){
         user_id: 0
       }
     });
-    console.log("one");
     var UserView = Backbone.View.extend({
       tagname: 'div',
       id: 'user-handler',
@@ -71,9 +69,7 @@ $(document).ready(function(){
         var view = new UserView({ model: user });
         var religion = userData[i].religion;
         var id = userData[i].id;
-        console.log(this.$el);
         this.$el.append(view.render().el);
-        console.log(userData[i].country_of_residence);
         if(userData[i].country_of_residence === null){
           $('p.user-nationality' + id).hide();
         }
@@ -81,9 +77,6 @@ $(document).ready(function(){
         for(var j = 0; j < arrayFields.length; j++){
           if(userData[i][arrayFields[j]] === null || userData[i][arrayFields[j]] ===undefined  ){
             $('p.' + arrayFields[j] + ''+ id).hide();
-          }
-          else{
-            console.log(userData[i][arrayFields[j]]);
           }
         }
         // Do the date

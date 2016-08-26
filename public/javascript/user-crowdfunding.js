@@ -383,11 +383,6 @@ $(document).ready(function(){
       if(gender == 'female'){
         pronoun = 'She';
       }
-
-      // var url = 'www.silofunds.com/public' + user.id;
-      // $.get('/user/url-shortener', url, function(url){
-      //   console.log(url);
-      // });
       if(user.subject){
         var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=https%3a%2f%2fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
 
@@ -454,22 +449,21 @@ $(document).ready(function(){
   function displayCompletionMessage(data) {
     $('#payment-div').append('Thank you, your payment has been processed');
     $('#payment-div').removeClass('hidden');
-    $('#payment-div').animate({'left': '85%'}, 'slow')
+    $('#payment-div').animate({'left': '85%'}, 'slow');
     $('#payment-div-invisible').click(function() {
-      $('#payment-div').fadeOut('slow')
-    })
+      $('#payment-div').fadeOut('slow');
+    });
     $('#payment-div').delay(3000).fadeOut('slow');
     location.reload();
   }
 
   // Stuff for mobile
-  $('.video-div, .video-div').html(user.video)
-  $('.video-div iframe').addClass('iframe')
+  $('.video-div, .video-div').html(user.video);
+  $('.video-div iframe').addClass('iframe');
 
-  initialWidth = $('.iframe').width()
-  console.log(initialWidth)
-  initialHeight = $('.iframe').height()
-  videoRatio = initialWidth / initialHeight
+  initialWidth = $('.iframe').width();
+  initialHeight = $('.iframe').height();
+  videoRatio = initialWidth / initialHeight;
 
   tabContentMobileAdd();
   iframeResize();
@@ -477,7 +471,7 @@ $(document).ready(function(){
     tabContentMobileAdd();
     iframeResize();
     reloads();
-  })
+  });
 
 });
 

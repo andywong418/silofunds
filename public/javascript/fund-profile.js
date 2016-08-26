@@ -41,7 +41,6 @@ $("#add-profile").click(function() {
 			processData: false,
 			contentType: false,
 		}).then(function(data){
-			console.log("SUCCESS", data);
 		})
 })
 
