@@ -227,34 +227,34 @@ block content
           hr
           .eligibility-display
             #subject-handler
-              .col-md-12
+              .col-md-12.col-xs-12
                 span.glyphicon.glyphicon-book
                 p.description Subject
             #personal-handler
-              .col-md-12
+              .col-md-12.col-xs-12
                 span.glyphicon.glyphicon-user
                 p.description Personal
             #education-handler
-              .col-md-12
+              .col-md-12.col-xs-12
                 span.glyphicon.glyphicon-education
                 p.description Education
             #location-handler
-              .col-md-12
+              .col-md-12.col-xs-12
                 span.glyphicon.glyphicon-globe
                 p.description Location
             #other-handler
-              .col-md-12
+              .col-md-12.col-xs-12
                 p.description Other eligibility requirements
             .row#just-trying
               script#image-template(type='text/template')
-                .col-md-4.criteria-box
-                  .col-md-2
+                .col-md-12.criteria-box
+                  .col-md-2.col-xs-2
                     img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
-                  .col-md-10
+                  .col-md-10.col-xs-10
                     span.criteria <%=criteria %>
               script#other-eligibility-template(type='text/template')
                 .other-box
-                  .col-md-12
+                  .col-md-12.col-xs-12
                     span.criteria <%= criteria %>
 
         #eligibility_div 
