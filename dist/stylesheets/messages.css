@@ -112,7 +112,8 @@ a#user-message span, a#home span {
   padding: 0;
   text-align: left;
   max-height: 400px;
-  display: none; }
+  display: none;
+  overflow: auto; }
   .notification_box span {
     font-size: 14px;
     margin-bottom: 0; }

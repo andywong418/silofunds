@@ -115,6 +115,7 @@ a#user-message, a#home{
   text-align: left;
   max-height: 400px;
   display: none;
+  overflow: auto;
 
   span{
     font-size: 14px;

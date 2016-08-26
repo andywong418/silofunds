@@ -105,6 +105,7 @@ nav.navbar-custom.mobile{
   }
   .notification_box_desktop{
     position: absolute;
+    max-height: none;
   }
 }
 @media(max-width: 644px){
@@ -160,21 +161,21 @@ nav.navbar-custom.mobile{
   text-transform: capitalize;
   padding-top: 5px;
   max-height: none;
-  #see-all{
-    background: #f6f9fa;
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 14px;
-    border-top: 1px solid #ebe2e2;
-    border-bottom: 1px solid #ebe2e2;
-    color: #337ab7;
-    padding: 5px;
-    cursor: pointer;
-  }
 
 }
 .notification-mobile:after{
   border-bottom-color: transparent;
+}
+#see-all{
+  background: #f6f9fa;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid #ebe2e2;
+  border-bottom: 1px solid #ebe2e2;
+  color: #337ab7;
+  padding: 5px;
+  cursor: pointer;
 }
 .mobile-dashboard, .mobile-profile, .mobile-settings, .mobile-logout{
   display: block;
@@ -197,7 +198,7 @@ nav.navbar-custom.mobile{
 }
 .search-collapse{
   position: absolute;
-  margin-top: -5px;
+  margin-top: -6px;
   z-index: 30;
   width: 100%;
   height: auto;
@@ -242,7 +243,7 @@ nav.navbar-custom.mobile{
     margin-top: 20px;
     padding-bottom: 10px;
     .col-xs-2{
-      margin-right: 15px;
+      margin-right: 20px;
     }
     .advanced-mobile-row{
       margin-top: 5px;
@@ -269,6 +270,6 @@ nav.navbar-custom.mobile{
   }
   @media(max-width: 320px){
     #advanced-search-mobile{
-      margin-right: 15px;
+      margin-right: 25px;
     }
   }
