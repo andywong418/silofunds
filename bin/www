@@ -101,59 +101,19 @@ io.on('connection', function(socket){
 
       data.userTo = userTo;
 
-      models.messages.findAll({ where: {
-        room_name: data.roomName,
-        user_to: userFromID_arr
-      }}).then(function(messages) {
-        if (typeof messages !== 'undefined' && messages.length > 0) {
-          // the array is defined and has at least one element
-
-          messages[messages.length - 1].update({ read_by_recipient: true }).then(function() {
-            models.messages.findAll({ where: {
-              room_name: data.roomName
-            }}).then(function(messages) {
-              messages = messages.map(function(message) {
-                return message.get();
-              });
-
-              Logger.info('Retrieved messages:');
-              Logger.info(messages);
-
-              if (users[data.userToID]) {
-                users[data.userToID].socket.join(data.roomName);
-              }
-              users[data.userFromID].socket.join(data.roomName);
-              users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-              Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
-
-              data.bulk_messages = messages;
-
-              io.sockets.in(data.roomName).emit('bulk get message', data);
-            });
-          });
-        } else {
-          models.messages.findAll({ where: {
-            room_name: data.roomName
-          }}).then(function(messages) {
-            messages = messages.map(function(message) {
-              return message.get();
-            });
-
-            Logger.info('Retrieved messages:');
-            Logger.info(messages);
-
-            if (users[data.userToID]) {
-              users[data.userToID].socket.join(data.roomName);
+      Logger.error(data.roomName);
+      Logger.error(userFromID_arr);
+      models.messages.update({ read_by_recipient: true },
+        {
+          where: {
+            room_name: data.roomName,
+            user_to: {
+              $contains: userFromID_arr
             }
-            users[data.userFromID].socket.join(data.roomName);
-            users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
-            Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
-
-            data.bulk_messages = messages;
-
-            io.sockets.in(data.roomName).emit('bulk get message', data);
-          });
+          }
         }
+      ).spread(function(affectedCount, affectedRows) {
+        retrieveAllMessagesInRoom(data);
       });
     });
   });
@@ -234,6 +194,30 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+function retrieveAllMessagesInRoom(data) {
+  return models.messages.findAll({ where: {
+    room_name: data.roomName
+  }}).then(function(messages) {
+    messages = messages.map(function(message) {
+      return message.get();
+    });
+
+    Logger.info('Retrieved messages:');
+    Logger.info(messages);
+
+    if (users[data.userToID]) {
+      users[data.userToID].socket.join(data.roomName);
+    }
+    users[data.userFromID].socket.join(data.roomName);
+    users[data.userFromID].socket.readyToReceiveFrom = data.readyToReceiveFrom;
+    Logger.info("user " + data.userFromID + " is ready to receive from " + data.readyToReceiveFrom);
+
+    data.bulk_messages = messages;
+
+    io.sockets.in(data.roomName).emit('bulk get message', data);
+  });
+}
 
 function checkForChanges() {
   var log = 'Last updated: ' + lastUpdate;
