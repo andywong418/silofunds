@@ -1380,3 +1380,12 @@ nav {
 @media (min-width: 400px) and (max-width: 768px) {
   #crowdfunding-wrapper.container #user-progress .progress {
     height: 25px; } }
+
+@media (min-width: 600px) {
+  #recent-donations.row {
+    margin-right: 0; } }
+
+@media (min-width: 600px) and (max-width: 1180px) {
+  #crowdfunding-wrapper.container {
+    padding-left: 0;
+    padding-right: 0; } }
