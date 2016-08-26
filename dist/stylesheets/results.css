@@ -1336,8 +1336,15 @@ i {
   display: none; }
 
 @media (max-width: 920px) {
-  .results {
-    margin-top: 80px; }
+  .search_form {
+    width: 100%; }
+  #search_button {
+    margin-top: -1px; }
+  #brand-heading {
+    font-size: 25px;
+    margin-left: 0px; }
+  #text_search, #amount_req, #age {
+    border-color: rgba(45, 74, 118, 0.55); }
   .database {
     width: 90%;
     margin-left: 5%; } }
@@ -1345,15 +1352,31 @@ i {
 @media (max-width: 767px) {
   .database {
     width: auto;
-    margin-left: 0; } }
+    margin-left: 0; }
+  .navbar-collapse {
+    background: #2d4a76; } }
 
-@media (max-width: 531px) {
-  .results {
-    height: 70px; } }
+@media (max-width: 480px) {
+  .database {
+    padding-left: 10px;
+    padding-right: 10px; }
+    .database .fund_list {
+      margin-right: 0; }
+  h3.fund_title {
+    font-size: 18px; }
+  .fund_info span {
+    margin-top: 0; }
+  .fund_info p {
+    font-size: 15px; }
+  .fund_info a {
+    font-size: 14px; } }
+
+@media (max-width: 457px) {
+  #show-all {
+    white-space: normal; } }
 
 @media (max-width: 400px) {
-  .results {
-    padding: 0 10px;
+  .results p {
     padding-top: 5px; } }
 
 /* form sign in */
@@ -1413,6 +1436,96 @@ i {
     outline: 0; }
 
 /* media queries for mobile opt */
+@media (max-width: 1065px) {
+  #advanced-search, #advanced-search-2 {
+    margin-top: -40px; }
+  #brand-image {
+    margin-left: 30px; } }
+
+@media (max-width: 991px) {
+  #brand-image {
+    margin-left: -30px; }
+  .cd-signup {
+    margin-right: -50px; }
+  #advanced-age, #advanced-nationality, #religion {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  #merit, #finance, #male, #female {
+    margin-top: 1.5px; }
+  .radio-inline {
+    margin-top: 10px; }
+  .queryToken {
+    white-space: normal; }
+    .queryToken #sort {
+      float: none;
+      margin-top: 20px;
+      display: block; } }
+
+@media (max-width: 920px) {
+  #brand-image {
+    margin-left: -80px; }
+  #refine-search {
+    left: -130px; } }
+
+@media (max-width: 850px) {
+  #text_search {
+    width: 250px;
+    font-size: 12px; }
+  #brand-image {
+    margin-left: -50px; } }
+
+@media (max-width: 790px) {
+  .cd-signup {
+    margin-right: -30px;
+    font-size: 13px; }
+  .cd-login {
+    font-size: 13px; }
+  #search_button {
+    margin-right: -60px; }
+  #brand-image {
+    margin-left: -20px; } }
+
+@media (max-width: 767px) {
+  #wrapper-span {
+    display: block; }
+  #search-dropdown {
+    display: none; }
+  #brand-image {
+    margin-left: 0;
+    margin-top: -10px; }
+  #search_button {
+    margin-right: -80px; }
+  #advanced-search {
+    margin-top: -50px; }
+  .post-signin {
+    margin-top: 12px; } }
+
+@media (max-width: 676px) {
+  .results {
+    width: 100%;
+    margin-left: 0; } }
+
+@media (max-width: 719px) {
+  .search_form {
+    margin-top: -20px; }
+  #refine-search {
+    color: #2C3E50; } }
+
+@media (max-width: 470px) {
+  .alert-info {
+    margin-top: -20px;
+    width: 100%;
+    margin-left: 0; }
+    .alert-info p {
+      font-size: 12px; }
+      .alert-info p a {
+        cursor: pointer; }
+  #text_search {
+    width: 210px;
+    margin-left: 0; }
+  #search_button {
+    margin-right: -120px; } }
+
 .fa-chevron-circle-down, .fa-chevron-circle-up {
   margin-left: 5px; }
 
