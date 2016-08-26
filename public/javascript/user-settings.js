@@ -72,8 +72,8 @@ $(document).ready(function() {
         contentType: false,
       }).then(function(data){
         // console.log("SUCCESS", data);
-      })
-    })
+      });
+    });
   // NOTE: Change label name upon file upload
 
   var inputs = document.querySelectorAll( '.realFileUpload' );
@@ -220,7 +220,7 @@ $(document).ready(function() {
   $('#save-education-settings').click(function(e) {
     e.preventDefault();
 
-    saveActivePaneSettings('education', ['subject', 'previous_degree', 'previous_university', 'target_degree', 'target_university']);
+    saveActivePaneSettings('education', ['subject', 'previous_degree', 'previous_university', 'target_degree', 'target_university', 'college']);
   });
 
   $('label.removeFile').click(function(e) {
@@ -300,7 +300,13 @@ $(document).ready(function() {
 
     for (var i = 0; i < settingsFieldsArray.length; i++) {
       var formDataKey = settingsFieldsArray[i];
-      formData[formDataKey] = $('#' + formDataKey).val();
+      if(formDataKey== 'college'){
+        formData[formDataKey] = $('#' + formDataKey).val().split(',');
+      }
+      else{
+        formData[formDataKey] = $('#' + formDataKey).val();
+      }
+
     }
 
     if (extraOptions) {

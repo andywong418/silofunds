@@ -10,7 +10,7 @@ var passportFunctions = require('./passport/functions');
 var aws_keyid;
 var aws_key;
 var sequelize = require('sequelize');
-var nodemailer = require('nodemailer')
+var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var crypto = require('crypto');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
@@ -96,7 +96,7 @@ module.exports = {
 	saveUserSignup: function(req, res){
 
 		var userId = req.user.id;
-		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university']
+		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university','college'];
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		Logger.info(userId);
@@ -110,9 +110,7 @@ module.exports = {
 		})
 	},
  getSignupInfo: function(req, res){
-	 Logger.info("What's going on");
 	 var userId = req.params.id;
-	 console.log("huh");
 	 models.users.findById(userId).then(function(user){
 		 user = user.get();
 		 models.documents.findAll({where:{user_id: user.id} }).then(function(documents){

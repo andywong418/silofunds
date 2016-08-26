@@ -3,8 +3,6 @@ extends layout-signup
 block extraHeader
 	link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
 	link(href='/stylesheets/new-user-profile.css', rel='stylesheet')
-
-
 block content
 	include ../navbar.jade
 	#signup-wrapper.container-fluid
@@ -19,7 +17,7 @@ block content
 			a.btn.btn-default.process(href='#story') Story
 				span.glyphicon.glyphicon-menu-right
 			a.btn.btn-default.process(href='#account') Account
-			a.btn.btn-default.process#dashboard.desktop(href='/user/dashboard') Dashboard
+			a.btn.btn-default.process#dashboard-button.desktop(href='/user/dashboard') Dashboard
 		#signup-form.center-block
 			script#about-template(type='text/template')
 				p#about-header.description Get started by telling us more about yourself, your funding goals and the date by which you want to reach your goal.
@@ -139,6 +137,12 @@ block content
 						p.description.line-wrap-988px Previously/currently enrolled universities
 					.col-md-6.col-sm-8.col-xs-8
 						input#previous-university(name="previous_university")
+				#previous-college-row.row
+					.col-sm-0.col-md-0
+					.col-sm-4.col-xs-4
+						p.description Previously affiliated college/hall
+					.col-md-6.col-sm-8.col-xs-8
+						input#college(name='college', placholder= "Separate each college/hall by a comma")
 				.container-fluid.save
 					a#save.btn.btn-primary(href="#story") Save progress
 					a#skip(href='#story') Skip
@@ -152,7 +156,7 @@ block content
 						.input-group.center-block
 							span.input-group-btn
 								i.fa.fa-link.btn.btn-default(aria-hidden='true')
-							input#video.form-control(type='text',name="video",placeholder='E.g. https://www.youtube.com/embed/Qa5tocl0BeA')
+							input#video.form-control(type='text',name="video",placeholder='E.g. <iframe width="560" height="315" src="https://www.youtube.com/embed/dW6W4_5YczA" frameborder="0" allowfullscreen></iframe>')
 						p If you have not created one, you can make one
 							a(href='https://www.youtube.com/upload', target='_blank') here
 				.row.story-row

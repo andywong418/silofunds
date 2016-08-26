@@ -670,7 +670,7 @@ div.navbar-center-container {
 @media only screen and (min-width: 600px) {
   .cd-form {
     padding: 2em;
-    padding-bottom: 0 !important; }
+    padding-bottom: 5px !important; }
     .cd-form .fieldset {
       margin: 2em 0; }
       .cd-form .fieldset:first-child {
@@ -1003,7 +1003,7 @@ body {
         float: left; }
         #signup-wrapper #signup-form .gender-row .radio-inline input {
           margin-top: -5px; }
-    #signup-wrapper #signup-form #religion-row, #signup-wrapper #signup-form #previous-university-row {
+    #signup-wrapper #signup-form #religion-row, #signup-wrapper #signup-form #previous-college-row {
       border-bottom: none; }
     #signup-wrapper #signup-form #religion-select {
       border: 2px solid #dad7d4;
@@ -1185,7 +1185,7 @@ body {
     display: block; }
   .input-group.center-block {
     display: table; }
-  #dashboard.desktop {
+  #dashboard-button.desktop {
     display: none; }
   #signup-wrapper #signup-form {
     width: 98%; }

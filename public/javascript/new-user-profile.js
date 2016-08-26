@@ -136,7 +136,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				'funding_needed': $('input[name=funding_needed]').val(),
 				'completion_date': $('input[name=completion_date]').val(),
 				'date_of_birth': $('input[name=date_of_birth]').val(),
-				'gender': $('input[name=gender]').val(),
+				'gender': $('input[name=gender]:checked').val(),
 				'country_of_residence': countries,
 				'religion': $('select[name=religion]').val()
 			}
@@ -162,6 +162,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var educationModel = this.model;
 			this.el = this.render().el;
 			var arrayFields = ['subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university'];
+			if(this.model.get('college')){
+				this.$('input[name="college"]').val(this.model.get('college'));
+			}
 			for(var i =0; i< arrayFields.length; i++){
 				if(!this.model.get(arrayFields[i])){
 					if(arrayFields[i] == 'subject'){
@@ -208,13 +211,16 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var previousDegree = $('input[name=previous_degree]').val().split(',');
 			var targetUniversity = $('input[name=target_degree]').val().split(',');
 			var previousUniversity = $('input[name=previous_university]').val().split(',');
+			var college = $('input[name=college]').val().split(',');
+			console.log($('input[name=college]').val());
 			var formData = {
 				'subject': subject,
 				'target_degree': targetDegree,
 				'previous_degree': previousDegree,
 				'target_university': targetUniversity,
-				'previous_university': previousUniversity
-			}
+				'previous_university': previousUniversity,
+				'college': college
+			};
 			$.post('/signup/user/save', formData, function(data){
 				$('a[href="#education"]').removeClass('active');
 				$('a[href="#story"]').addClass('active');

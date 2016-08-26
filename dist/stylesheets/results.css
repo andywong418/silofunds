@@ -897,7 +897,7 @@ div.navbar-center-container {
 @media only screen and (min-width: 600px) {
   .cd-form {
     padding: 2em;
-    padding-bottom: 0 !important; }
+    padding-bottom: 5px !important; }
     .cd-form .fieldset {
       margin: 2em 0; }
       .cd-form .fieldset:first-child {

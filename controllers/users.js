@@ -739,8 +739,10 @@ module.exports = {
 
       var settingsKeys = Object.keys(settings);
       var numberOfKeys = Object.keys(settings).length;
-      var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
-
+      var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university", 'college'];
+      if(settings['college[]']){
+        settings.college = settings['college[]'];
+      }
       for (var i = 0; i < numberOfKeys; i++) {
         var settingsKey = settingsKeys[i];
         var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
