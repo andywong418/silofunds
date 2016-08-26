@@ -357,8 +357,8 @@ function barSwitcher() {
     $('#right_div').addClass('col-xs-12');
     $('#big_flex_div').addClass('flex-direction', 'column')
   } else {
-    $('#left_div').show();
     $('#top_div').hide();
+    $('#left_div').show();
     $('#right_div').show();
     $('#right_div').addClass('col-xs-8');
     $('#right_div').removeClass('col-xs-12');

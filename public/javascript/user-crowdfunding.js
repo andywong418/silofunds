@@ -476,6 +476,7 @@ $(document).ready(function(){
   $(window).resize(function() {
     tabContentMobileAdd();
     iframeResize();
+    reloads();
   })
 
 });
@@ -492,6 +493,12 @@ function tabContentMobileAdd() {
   } else {
     $('#story-about-updates-targeting-div-mobile #tab-content').removeClass('tab-content-mobile')
     $('#story-about-updates-targeting-div-desktop #tab-content').addClass('tab-content-desktop')
+  }
+}
+
+function reloads() {
+  if($(window).width() == 767 || $(window).width() == 768) {
+    location.reload()
   }
 }
 
