@@ -13,9 +13,7 @@ block content
     var degrees = !{JSON.stringify(degrees)};
     var universities = !{JSON.stringify(universities)};
     var allFields = !{JSON.stringify(allFields)};
-    console.log(subjects);
-    console.log(degrees);
-    console.log(universities);
+    var organisation = !{JSON.stringify(organisation)};
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
       windowPortWidth = window.innerWidth;
@@ -141,40 +139,7 @@ block content
                   p#user-description <%= user_description %>
                   p#user <%= user %>
             a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
-        #application_form
-          p.head Application process
-          hr
-          script#application-process(type='text/template')
-            if fund.application_open_date
-              #start_date  <%= application_open_date %>
-              p.arrow#arrow_1 
-                i.fa.fa-angle-double-down(aria-hidden="true")
-            if fund.application_documents
-              #documents_deadline <%= application_documents %>
-              p.arrow#arrow_2 
-                i.fa.fa-angle-double-down(aria-hidden="true")
-            if fund.interview_date
-              #interviews <%= interview_date %>
-              p.arrow#arrow3
-                i.fa.fa-angle-double-down(aria-hidden="true")
-            if fund.application_decision_date
-              #decision_date <%= application_decision_date %>
-            if fund.other_application_steps
-              #other-application
-                p Other application steps:  
-                  span=fund.other_application_steps
-            a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
-            span#application-notification
-      script#tips-template(type='text/template')
-        .mb-style-3
-          blockquote#tips
-            p <%= tip %>
-          .mb-attribution
-              p.mb-author <%= tip_giver %>
-              cite 
-                //- a(href='#0') Funded by Silo for life
-              .mb-thumb
-                img(src!= '<%= profile_picture %>')
+        include ./partials/option-profile/application_process.jade
     else
       #right_div
         #box_3_right

@@ -3,13 +3,14 @@
     a#fundWebsite(href=fund.link)
       if organisation
         if(organisation.profile_picture)
-          img#fundImage(src=organisation.profile_picture)
-          span#favourite ☆
+          span#favourite.mobile ☆
+          img#fundImage.oy(src=organisation.profile_picture)
+          span#favourite.desktop ☆
   else
     //- a#fundWebsite(href='/organisation/options/' + fund.id )
     if organisation
       if(organisation.profile_picture)
-        img#fundImage(src=organisation.profile_picture)
+        img#fundImage.oy(src=organisation.profile_picture)
         span#favourite ☆
 #box_2
   if ownedFund && !organisation.profile_picture

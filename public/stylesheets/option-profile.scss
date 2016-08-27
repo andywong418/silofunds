@@ -923,6 +923,12 @@ h1 {
 @media (max-width: 990px) {
   #left_div {
     width: 35%;
+    #box_1 {
+      margin-top: 15px;
+      #favourite {
+        margin-left: 0px;
+      }
+    }
     .fundBio {
       width: 100%;
     }
@@ -952,16 +958,18 @@ h1 {
   }
   #big_flex_div {
     flex-direction: column;
-    padding: 20px 5px 0px 5px;
+    padding: 20px 10px 0px 10px;
     #left_div {
       width: 100%;
       flex-direction: row;
       margin-left: 0;
+      padding-left: 0px;
+      padding-right: 0px;
       margin-bottom: 20px;
       #box_1 {
         width: 60%;
         img {
-          margin-top: 25px;
+          margin-top: 30px;
         }
       }
       #box_2 {
@@ -991,14 +999,27 @@ h1 {
     margin-top: 54px;
   }
   #left_info_div {
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 10px;
     p {
       font-size: 15px;
     }
   }
-  #bottom_div_mobile{
+  #bottom_div_mobile {
     width: 100%;
-    .application_form{
+    .application_form {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 399px) {
+  #left_info_div p.fundBio {
+    margin-bottom: 0;
+  }
+  .mb-style-3 blockquote {
+    padding: 5px 2px 5px 2px;
   }
 }

@@ -1309,6 +1309,7 @@ $(document).ready(function(){
       var tipsModel = new TipsModel();
       var view = new TipsView({model: tipsModel});
       this.$el.append(view.el);
+      $("[id=application-handler]").append(view.el);
     }
   })
 
@@ -1350,5 +1351,36 @@ $(document).ready(function(){
         $("#add-profile").css("display", "none");
       }
   });
+
+  noProfilePicDivResizer();
+  $(window).resize(function() {
+    eligibility_divPaddingChange();
+    noProfilePicDivResizer();
+  })
+})
+
+function eligibility_divPaddingChange() {
+  if($(window).width() < 526 && $('#eligibility_div').css('background-color') == 'rgb(236, 198, 44)'){
+    $('div#eligibility_div').css('padding-top', '4px');
+  }
+  else{
+    $('div#eligibility_div').css('padding-top', '');
+  }
 }
-)
+
+function noProfilePicDivResizer() {
+  console.log(user.profile_picture)
+  if(!organisation.profile_picture) {
+    console.log('heyaa')
+    $('.application_form').css('width', '100%')
+    if($(window).width() <= 767) {
+      $('#big_flex_div #left_div #box_1').css('display', 'none');
+      $('#big_flex_div #left_div #box_2').css('padding-left', '0px');
+      $('#box_2 a').css('width', '100%');
+      $('#box_2 a').css('margin-bottom', '15px');
+      $('#box_2 a').css('padding', '10px 20px 10px 30px');
+      $('#box_2 a #favourite').css('margin-top', '-9px')
+      $('#box_2 a #favourite').css('margin-left', '-26px')
+    }
+  }
+}
