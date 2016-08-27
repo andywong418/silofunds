@@ -1231,8 +1231,8 @@ section#content {
   #messages-tab-menu {
     margin: 0;
     width: 100%;
-    border-left: none;
-    border-top: none; }
+    border: none;
+    border-right: 2px solid #e1e8ed; }
   #messages-tab-content {
     margin: 0;
     width: 100%; }
@@ -1255,6 +1255,8 @@ section#content {
         color: #e1e8ed; }
       #messages-tab-content ul div.user_from img, #messages-tab-content ul div.user_to img {
         display: none; }
+    #messages-tab-content ul .read_col {
+      background-color: white !important; }
     #messages-tab-content ul li {
       margin: 0; }
     #messages-tab-content ul div.user_to {
@@ -1262,7 +1264,7 @@ section#content {
       color: black;
       width: auto;
       max-width: 70%;
-      background-color: #D8D8D8;
+      background-color: #EEE;
       margin-left: 2%; }
   #messages-list {
     height: calc(100% - 50px); }

@@ -409,8 +409,8 @@ section#content {
   #messages-tab-menu {
     margin: 0;
     width: 100%;
-    border-left: none;
-    border-top: none;
+    border: none;
+    border-right: 2px solid $border-color
   }
   #messages-tab-content {
     margin: 0;
@@ -440,6 +440,9 @@ section#content {
           display: none;
         }
       }
+      .read_col {
+        background-color: white !important;
+      }
       li {
         margin: 0;
       }
@@ -448,7 +451,7 @@ section#content {
         color: black;
         width: auto;
         max-width: 70%;
-        background-color: #D8D8D8;
+        background-color: #EEE;
         margin-left: 2%;
       }
     }
