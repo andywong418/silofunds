@@ -324,11 +324,21 @@ section#content {
     margin: 2.5%;
     width: 95%;
     #input-form form#msg .col-md-12 {
-      padding-left: 0;
+      padding-left: 0px;
       padding-right: 3px;
     }
   }
   #messageIcon {
-    margin-left: 5px;
+    margin-left: 6px;
+  }
+}
+
+@media (max-width: 500px) {
+  #messages-tab-content #input-form form#msg .col-md-12 {
+    padding-left: 9px;
+    padding-right: 3px;
+  }
+  #messageIcon {
+    margin-left: 2px;
   }
 }
