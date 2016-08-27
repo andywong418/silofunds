@@ -120,6 +120,8 @@ block content
 					a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
 				#donate-amount.hidden
 					#applicationFeeMessage.col-md-12.col-sm-12
+						if user.refund
+							p#refund-text You will be refunded if the user is does not reach his/her goal.
 						p Do you want to pay the processing fee (~2.9%)?
 						#buttonDiv.col-md-5.col-sm-5
 							.btn-group.btn-group-justified

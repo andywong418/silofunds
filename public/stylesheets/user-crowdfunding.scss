@@ -386,7 +386,12 @@ body{
 					transition: 1.5s;
 					opacity: 0;
 					height: calc(#{$donate-button-height} + 80px);
-
+					#refund-text{
+						margin-top: 10px;
+						margin-bottom: 5px;
+						font-size: 14px;
+						font-weight: bold;
+					}
 					#applicationFeeMessage {
 						button {
 							&:active, &:visited, &:focus, &:hover {
@@ -396,7 +401,6 @@ body{
 
 						p {
 							margin-bottom: 5px;
-							margin-top: 25px;
 							font-size: 14px;
 						}
 

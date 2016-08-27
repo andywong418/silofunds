@@ -1198,11 +1198,15 @@ body {
         transition: 1.5s;
         opacity: 0;
         height: calc(48px + 80px); }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #refund-text {
+          margin-top: 10px;
+          margin-bottom: 5px;
+          font-size: 14px;
+          font-weight: bold; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:active, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:visited, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:focus, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:hover {
           outline: 0; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage p {
           margin-bottom: 5px;
-          margin-top: 25px;
           font-size: 14px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #buttonDiv {
           margin-top: 7px;
