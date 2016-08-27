@@ -89,7 +89,7 @@ section#content {
   margin: 15px;
   margin-right: 0px;
   border-radius: 0;
-  border:2px solid #e1e8ed;
+  border: 2px solid #e1e8ed;
   border-right: none;
   height: calc(100% - 85px);
   position: fixed;
@@ -301,5 +301,34 @@ section#content {
         padding: 5px 25px;
       }
     }
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+  #messages-tab-menu {
+    display: none;
+    border: 2px solid #e1e8ed;
+    width: 95%;
+    margin: 2.5%;
+  }
+  #messages-tab-content {
+    margin: 2.5%;
+    width: 95%;
+    #input-form form#msg .col-md-12 {
+      padding-left: 0;
+      padding-right: 3px;
+    }
+  }
+  #messageIcon {
+    margin-left: 5px;
   }
 }

@@ -86,10 +86,10 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    var userFromIsNotAppended = $('#messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
+    var userFromIsNotAppended = $('.messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
 
     if (userFromIsNotAppended && user.id === parseInt(data.userToID)) {
-      $('#messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
+      $('.messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
     }
 
     try {
@@ -224,8 +224,31 @@ $(document).ready(function() {
   });
 
   /* -------------- */
-
+  /* Mobile */
+  messageIconMargin();
+  $(window).resize(function() {
+    messageIconMargin();
+  });
+  $('#messageIcon').click(function() {
+    $('#messages-tab-content').hide();
+    $('#messages-tab-menu').show();
+  })
+  $('.mobile-click').click(function() {
+    $('#messages-tab-menu').hide()
+    $('#messages-tab-content').show();
+  })
 });
+
+// Functions for mobile
+function messageIconMargin() {
+  if($(window).width() <= 768) {
+    var height = $('#messageIcon').height();
+    var inputFormHeight = $('#input-form').height();
+    var marginTop = (inputFormHeight - height)/2
+    $('#messageIcon').css('margin-top', marginTop)
+  }
+}
+//
 
 function appendDateHelper(helperString) {
   $('#messages').append('<div class="date-of-message col-md-12"><span class="date-of-message">' + helperString + '</span></div>');
