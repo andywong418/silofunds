@@ -45,6 +45,8 @@ p {
     text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
+  .navbar-custom ul.nav.navbar-nav {
+    margin-right: 10px; }
   .navbar-custom .navbar-brand {
     font-weight: 700; }
     .navbar-custom .navbar-brand:focus, .navbar-custom .navbar-brand:active {
@@ -82,7 +84,8 @@ p {
 
 #brand-heading {
   position: absolute;
-  z-index: 10; }
+  z-index: 10;
+  margin-left: 10px; }
 
 a#user-message span, a#home span {
   display: none;
@@ -204,9 +207,13 @@ a#user-message span, a#home span {
 
 #dashboard {
   width: 50px; }
+  #dashboard:focus {
+    background: transparent; }
 
 #profile {
   width: 60px; }
+  #profile:focus {
+    background: transparent; }
 
 @media (max-width: 1065px) {
   #advanced-search, #advanced-search-2 {
@@ -274,7 +281,9 @@ a#user-message span, a#home span {
     width: 100%;
     margin-top: -10px; }
     .navbar-collapse ul.navbar-nav {
-      margin-left: -10px; } }
+      margin-left: -10px; }
+  .navbar-toggle {
+    color: white; } }
 
 @media (max-width: 644px) {
   #navbar-form .input-group {
@@ -897,7 +906,7 @@ div.navbar-center-container {
 @media only screen and (min-width: 600px) {
   .cd-form {
     padding: 2em;
-    padding-bottom: 0 !important; }
+    padding-bottom: 5px !important; }
     .cd-form .fieldset {
       margin: 2em 0; }
       .cd-form .fieldset:first-child {

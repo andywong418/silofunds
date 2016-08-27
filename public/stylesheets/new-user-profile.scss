@@ -126,7 +126,7 @@ body{
 			}
 		}
 
-		#religion-row,#previous-university-row{
+		#religion-row,#previous-college-row{
 			border-bottom: none;
 		}
 		#religion-select{
@@ -313,6 +313,9 @@ body{
 	}
 
 	#account-handler{
+		#separator{
+			display: none;
+		}
 		.row{
 			border-bottom: none;
 		}
@@ -390,7 +393,7 @@ body{
 	.input-group.center-block {
 		display: table
 	}
-	#dashboard.desktop {
+	#dashboard-button.desktop {
 		display: none;
 	}
 	#signup-wrapper #signup-form {
@@ -470,6 +473,9 @@ body{
 @media (max-width: 466px) {
 	#signup-wrapper #signup-form p.line-wrap-466px {
 		margin-top: -7px
+	}
+	#separator.col-xs-1{
+		display: block;
 	}
 }
 @media (max-width: 817px) {

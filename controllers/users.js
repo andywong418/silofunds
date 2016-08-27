@@ -249,7 +249,6 @@ module.exports = {
       stripe.customers.retrieve(
         charge.customer,
         function(err, customer){
-          console.log(customer);
           charge.email = customer.description;
           models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
             if(comment && comment !== ''){
@@ -522,28 +521,44 @@ module.exports = {
 
   crowdFundingPage: function(req, res){
     var userId;
-    Logger.info(req.params.id);
-    if(req.params.id){
-      userId = req.params.id;
+  var loggedInUser;
+  if(req.params.id){
+    userId = req.params.id;
+    if(req.isAuthenticated()){
+      loggedInUser = req.user.id;
     }
     else{
-      userId = req.user.id;
+      loggedInUser = false;
     }
-    models.users.findById(userId).then(function(user){
-      models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+    Logger.warn(loggedInUser);
+  }
+  else{
+    userId = req.user.id;
+    loggedInUser = false;
+  }
+  models.users.findById(userId).then(function(user){
+    models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
 
-        models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-            if(applications.length > 0){
-							asyncChangeApplications(applications, {user_id: userId}, res, {user: user, documents: documents}, { user: user, documents: documents});
-            } else {
-							// No applications
-							findStripeUser({user_id: userId}, res, {user: user, documents: documents, applications: false},{ user: user, documents: documents, applications: false, charges: false, donations: false});
-            }
-        });
+      models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+          if(applications.length > 0){
+            asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});
+          } else {
+            // No applications
+            findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});
+          }
+      });
+    });
+  });
+  },
+  refundDonors: function(req, res){
+    var userId = req.user.id;
+    models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
+      var stripe_acct_id = stripe_user.stripe_user_id;
+      models.stripe_charges.findAll({where: {destination_id: stripe_acct_id}}).then(function(charge_array){
+         asyncRefund(charge_array, res);
       });
     });
   },
-
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){
       Logger.info("HI REQ", req.user);
@@ -557,7 +572,6 @@ module.exports = {
 		var fund_id = req.body.fund_id;
 		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(app, created) {
 			if(created){
-        console.log("HI");
         notifyUsers(user_id, fund_id, res, app);
 			}
 			else{
@@ -588,7 +602,6 @@ module.exports = {
 		});
 	},
 	addFavourite: function(req, res){
-      console.log(req.body);
       models.favourite_funds.create(req.body).then(function(favourite){
         models.users.findById(req.body.user_id).then(function(user){
           models.funds.findById(req.body.fund_id).then(function(fund){
@@ -739,8 +752,10 @@ module.exports = {
 
       var settingsKeys = Object.keys(settings);
       var numberOfKeys = Object.keys(settings).length;
-      var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university"];
-
+      var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university", 'college'];
+      if(settings['college[]']){
+        settings.college = settings['college[]'];
+      }
       for (var i = 0; i < numberOfKeys; i++) {
         var settingsKey = settingsKeys[i];
         var isValueAnArrayField = userSettingsArrayFields.indexOf(settingsKey) > -1;
@@ -1147,11 +1162,22 @@ module.exports = {
 }
 
 ////// Helper functions
+function asyncRefund(chargeArray, res){
+  async.each(chargeArray, function(charge, callback){
+    stripe.refunds.create({
+      charge: charge.charge_id
+    }, function(err, refund){
+      Logger.error(refund);
+      callback();
+    });
+  }, function done(){
+    res.redirect('/user/settings');
+  });
+}
 function notifyUsers(user_id, fund_id, res, app){
   models.users.findById(user_id).then(function(user){
     models.funds.findById(fund_id).then(function(fund){
       models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
-        console.log("HI", fundUser);
         if(fundUser){
           var options = {
             user_id: fundUser.id,
@@ -1160,12 +1186,10 @@ function notifyUsers(user_id, fund_id, res, app){
             read_by_user: false
           };
           models.notifications.create(options).then(function(notif){
-            console.log("Getting in here", notif);
             notifyMessagedUsers(user, res, app, fund);
           });
         }
         else{
-          console.log("two");
           notifyMessagedUsers(user, res, app, fund);
         }
       });
@@ -1177,9 +1201,7 @@ function notifyUsers(user_id, fund_id, res, app){
 function notifyMessagedUsers(user, res, app, fund){
   var userArray = [user.id];
   var allUsers = [];
-  console.log("HERE", user);
   models.messages.findAll({where: {$or: [{user_from: user.id}, {user_to: {$contains: userArray}}]}}).then(function(messages){
-    console.log("WHAT", messages);
     if(messages.length > 0){
       async.each(messages, function(msg, callback){
         var userObj = {};

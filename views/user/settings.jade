@@ -180,6 +180,14 @@ block content
                     p Remember to use an
                       a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
+              .col-xs-12
+                //- a(href='/user/refund') Refund
+                label.col-md-3.col-xs-3.padding-top-add(for='refund') Refund your donors if goal is not reached by completion date
+                .col-md-8
+                  if user.refund
+                    input#refund(type = 'checkbox', checked= '')
+                  else
+                    input#refund(type='checkbox')
               .col-md-12.col-xs-12.remove-padding
                 label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
                 .col-md-8.col-xs-12.remove-padding
@@ -303,6 +311,10 @@ block content
                 label.col-md-3.col-xs-3(for='previous_university') from these universities
                 .col-md-6.col-xs-9
                   input#previous_university.form-control(type='text', name='previous_university', form='', value=user.previous_university)
+              .col-md-12.col-xs-12
+                label.col-md-3.col-xs-3(for='college') Previous colleges/halls
+                .col-md-6.col-xs-9
+                  input#college.form-control(type='text', name='college', value = user.college, placholder ='Separate each college/hall with a comma')
             .col-md-12.col-xs-12.sub-content
               h4 Furher education
               .col-md-12.col-xs-12

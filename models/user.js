@@ -129,6 +129,14 @@ module.exports = function(sequelize, DataTypes) {
     video: {
       type: DataTypes.TEXT,
       field: 'video'
+    },
+    college: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'college'
+    },
+    refund: {
+      type: DataTypes.BOOLEAN,
+      field: 'refund'
     }
   }, {
     timestamps: true,
