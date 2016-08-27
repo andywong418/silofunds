@@ -1,6 +1,5 @@
 $(document).ready(function(){
   //media queries
-  console.log("WHAT", loggedInUser);
   var crowdfundingException = window.location.pathname;
   try{
     if(crowdfundingException.indexOf('public') > -1){
@@ -10,7 +9,7 @@ $(document).ready(function(){
       }
       else{
         console.log("IT's HERE");
-        
+
         showNonLoggedInNavbar();
       }
     }
