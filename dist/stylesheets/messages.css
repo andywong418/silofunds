@@ -1,7 +1,4 @@
-i.fa.fa-user {
-  padding-top: 6px; }
-
-i.fa.fa-comment {
+i.fa.fa-users {
   margin-right: -6px;
   padding-left: 7px;
   margin-top: 5px; }
@@ -1150,22 +1147,33 @@ section#content {
   .desktop {
     display: none; }
   #messages-tab-menu {
-    display: none;
     border: 2px solid #e1e8ed;
     width: 95%;
     margin: 2.5%; }
   #messages-tab-content {
+    display: none;
     margin: 2.5%;
     width: 95%; }
     #messages-tab-content #input-form form#msg .col-md-12 {
       padding-left: 0px;
       padding-right: 3px; }
   #messageIcon {
-    margin-left: 6px; } }
+    padding-left: 16px;
+    cursor: pointer;
+    font-size: 18px; } }
 
-@media (max-width: 500px) {
-  #messages-tab-content #input-form form#msg .col-md-12 {
-    padding-left: 9px;
-    padding-right: 3px; }
+@media (max-width: 695px) {
   #messageIcon {
-    margin-left: 2px; } }
+    padding-left: 12px;
+    padding-right: 8px; } }
+
+@media (max-width: 695px) and (max-width: 550px) {
+  #messageIcon {
+    padding-left: 8px; } }
+
+@media (max-width: 695px) and (max-width: 500px) {
+  #messageIcon {
+    padding-left: 5px; }
+  #messages-tab-content #input-form form#msg .col-md-12 {
+    padding-left: 6px;
+    padding-right: 3px; } }
