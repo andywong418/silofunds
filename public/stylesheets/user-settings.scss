@@ -348,14 +348,49 @@ label.removeFile {
 
 @media (min-width: 542px) {
   #general-settings, #personal-settings {
+    #genderRow {
+      margin-top: 3px;
+      margin-bottom: 5px;
+    }
     #gender-div {
-      padding-bottom:0;
+      padding-bottom: 0;
+    }
+    .radio-inline {
+      margin-top: 0;
     }
     .personal-padding-1 {
       margin-left: 10px;
     }
+    #genderRow {
+      p {
+        margin-bottom: 0px;
+      }
+    }
   }
   #right_div div.settings-tab .settings-tab-content .col-md-12.content .sub-content .clear {
     margin: 0;
+  }
+}
+
+
+@media (min-width: 992px) {
+  #personal-settings #genderRow {
+    .personal-padding-1 {
+      margin-left: -20px;
+    }
+    .radio-inline {
+      input[type=radio] {
+        margin-left: 10px;
+      }
+      p {
+        margin-bottom: -15px;
+      }
+    }
+    .col-sm-0 {
+      display: none;
+    }
+    .clear {
+      margin-top: 9px
+    }
   }
 }

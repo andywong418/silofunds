@@ -1290,9 +1290,28 @@ label.removeFile {
     padding-top: 0px; } }
 
 @media (min-width: 542px) {
+  #general-settings #genderRow, #personal-settings #genderRow {
+    margin-top: 3px;
+    margin-bottom: 5px; }
   #general-settings #gender-div, #personal-settings #gender-div {
     padding-bottom: 0; }
+  #general-settings .radio-inline, #personal-settings .radio-inline {
+    margin-top: 0; }
   #general-settings .personal-padding-1, #personal-settings .personal-padding-1 {
     margin-left: 10px; }
+  #general-settings #genderRow p, #personal-settings #genderRow p {
+    margin-bottom: 0px; }
   #right_div div.settings-tab .settings-tab-content .col-md-12.content .sub-content .clear {
     margin: 0; } }
+
+@media (min-width: 992px) {
+  #personal-settings #genderRow .personal-padding-1 {
+    margin-left: -20px; }
+  #personal-settings #genderRow .radio-inline input[type=radio] {
+    margin-left: 10px; }
+  #personal-settings #genderRow .radio-inline p {
+    margin-bottom: -15px; }
+  #personal-settings #genderRow .col-sm-0 {
+    display: none; }
+  #personal-settings #genderRow .clear {
+    margin-top: 9px; } }
