@@ -398,21 +398,66 @@ section#content {
     }
   }
 }
+
 @media (min-width: 431px) {
   .mobile-sm {
     display: none;
   }
 }
+
 @media (max-width: 430px) {
-  #messages-tab-menu .list-group .list-group-item {
-    padding-top: 8px;
-    padding-bottom: 8px;
+  #messages-tab-menu {
+    margin: 0;
+    width: 100%;
+    border-left: none;
+    border-top: none;
   }
   #messages-tab-content {
-    margin-top: 10px;
+    margin: 0;
+    width: 100%;
+    #messages-list {
+      background: white;
+    }
+    ul {
+      div.user_from, div.user_to {
+      background-color: #337AB7;
+      border-radius: 25px;
+      padding: 8px 8px;
+      width: auto;
+      float: right;
+      max-width: 70%;
+      margin-right: 2%;
+      color: white;
+        .col-xs-9.col-md-9 {
+          width: auto;
+        }
+        .col-md-2.timestamp {
+          line-height: 20px;
+          margin: 0;
+          color: $border-color;
+        }
+        img {
+          display: none;
+        }
+      }
+      li {
+        margin: 0;
+      }
+      div.user_to {
+        float: left;
+        color: black;
+        width: auto;
+        max-width: 70%;
+        background-color: #D8D8D8;
+        margin-left: 2%;
+      }
+    }
   }
+
   #messages-list {
     height: calc(100% - 50px)
   }
-  .userFrom
+  a {
+    display: none;
+  }
 }
