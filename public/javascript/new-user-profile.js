@@ -132,9 +132,21 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		saveAbout: function(e){
 			var countries = $('input#country_of_residence').val().split(',');
+			var completionDate;
+			var newDate = new Date();
+			var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+			if(!$('input[name=completion_date]').val()){
+				completionDate = new Date();
+				var numberOfDaysToAdd = 60;
+				completionDate.setDate(completionDate.getDate() + numberOfDaysToAdd);
+			}
+			else{
+				completionDate = $('input[name=completion_date]').val();
+			}
+			console.log(completionDate);
 			var formData = {
 				'funding_needed': $('input[name=funding_needed]').val(),
-				'completion_date': $('input[name=completion_date]').val(),
+				'completion_date': completionDate,
 				'date_of_birth': $('input[name=date_of_birth]').val(),
 				'gender': $('input[name=gender]:checked').val(),
 				'country_of_residence': countries,
@@ -345,11 +357,19 @@ var tokenArrayPopulate = function(value, emptyArray){
 			this.el = this.render().el;
 		},
 		addressPost: function(){
+			var refund;
+			if($('input#refund:checked').val() == 'true'){
+				refund = true;
+			}
+			else{
+				refund = false;
+			}
 			var addressData = {
 				"address_line1": $('input#address_line1').val(),
 				"address_zip": $('input#address_zip').val(),
 				"address_city": $('input#address_city').val(),
-				"billing_country": $('#billing_country').val()
+				"billing_country": $('#billing_country').val(),
+				"refund": refund
 			};
 			$.post('/signup/address', addressData, function(data){
 				window.location = '/user/dashboard';

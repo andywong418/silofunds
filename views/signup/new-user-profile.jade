@@ -185,7 +185,7 @@ block content
 					a#save.btn.btn-primary(href="#account") Save progress
 					a#skip(href='#account') Skip
 			script#account-template(type='text/template')
-				p#verify-header.description You&#39re almost finished! Enter your address below so it will be easier to set up a stripe account later.
+				p#verify-header.description You&#39re almost finished! Enter information below that can help you set up your stripe account.
 				.row#address-row
 					.col-sm-0.col-md-1
 					.col-sm-3.col-xs-2
@@ -442,7 +442,14 @@ block content
 									option(value='Yemen') Yemen
 									option(value='Zambia') Zambia
 									option(value='Zimbabwe') Zimbabwe
-						a#verify.btn.btn-success Finish
+				.row#refund-choice
+					.col-sm-0.col-md-1
+					.col-md-3.col-sm-5.col-xs-6
+						p.description Refund your donors if the goal is not reached by completion date (you can change this later in settings)
+					#separator.col-xs-1
+					.col-md-3.col-sm-3.col-xs-3
+						input#refund(type='checkbox', name='refund', value='true')
+				a#verify.btn.btn-success Finish
 block scripts
 	script(src='https://cdn.tinymce.com/4/tinymce.min.js')
 	script(src='/javascript/lib/modernizr-input.js')

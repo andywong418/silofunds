@@ -14,8 +14,11 @@ $donate-button-height: 48px;
 @import './mobile/user/user-crowdfunding-mobile.scss';
 
 body{
-	font-family: Source Sans Pro;
+	font-family: 'Source Sans Pro' !important;
 	background-color: #f0f2f4;
+	h3{
+		font-family: 'Source Sans Pro';
+	}
 	.navbar-custom{
 		position:relative;
 	}

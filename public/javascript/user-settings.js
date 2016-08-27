@@ -212,8 +212,14 @@ $(document).ready(function() {
       url: '/user/settings/update-description',
       data: JSON.stringify(descriptionData)
     });
-
-    saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent() });
+    var refund;
+    if($('input#refund').prop('checked') === true){
+      refund = true;
+    }
+    else{
+      refund = false;
+    }
+    saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
   });
 
 

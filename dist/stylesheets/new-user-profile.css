@@ -1137,6 +1137,8 @@ body {
               outline: 0; }
     #signup-wrapper #signup-form #email-row {
       border-bottom: none; }
+    #signup-wrapper #signup-form #account-handler #separator {
+      display: none; }
     #signup-wrapper #signup-form #account-handler .row {
       border-bottom: none; }
     #signup-wrapper #signup-form #account-handler #address-row .row {
@@ -1240,7 +1242,9 @@ body {
 
 @media (max-width: 466px) {
   #signup-wrapper #signup-form p.line-wrap-466px {
-    margin-top: -7px; } }
+    margin-top: -7px; }
+  #separator.col-xs-1 {
+    display: block; } }
 
 @media (max-width: 817px) {
   #signup-wrapper #signup-form p {

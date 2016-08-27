@@ -313,6 +313,9 @@ body{
 	}
 
 	#account-handler{
+		#separator{
+			display: none;
+		}
 		.row{
 			border-bottom: none;
 		}
@@ -470,6 +473,9 @@ body{
 @media (max-width: 466px) {
 	#signup-wrapper #signup-form p.line-wrap-466px {
 		margin-top: -7px
+	}
+	#separator.col-xs-1{
+		display: block;
 	}
 }
 @media (max-width: 817px) {

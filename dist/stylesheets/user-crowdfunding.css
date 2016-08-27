@@ -920,8 +920,10 @@ margin-right: -40px;
     margin-top: 10px; } }
 
 body {
-  font-family: Source Sans Pro;
+  font-family: 'Source Sans Pro' !important;
   background-color: #f0f2f4; }
+  body h3 {
+    font-family: 'Source Sans Pro'; }
   body .navbar-custom {
     position: relative; }
   body div.navbar-center-container {
