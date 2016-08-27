@@ -40,10 +40,36 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {success
 router.get('/facebookSplit', users.facebookSplit);
 router.get('/facebookError', users.facebookAuthError)
 
+//Footer pages
+//about-silo
+router.get('/about-silo', function(req, res){
+  console.log(req.user);
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  console.log("HEY");
+  res.render('about-silo', {user: user});
+});
+router.get('/about-partners', function(req, res){
+  console.log(req.user);
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  console.log("HEY");
+  res.render('about-partners', {user: user});
+});
 // Privacy policy
-router.get('/privacy_policy', function(req, res) {
-  res.render('privacy_policy')
-})
+router.get('/privacy-policy', function(req, res) {
+  res.render('privacy_policy');
+});
 
 
 router.get('/public/:id', users.crowdFundingPage);

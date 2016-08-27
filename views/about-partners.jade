@@ -1,0 +1,71 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/signup.css', rel='stylesheet')
+  link(href='/stylesheets/advanced-search.css', rel='stylesheet')
+  link(href='/stylesheets/navbar.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/about-us.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./advanced-search.jade
+  section#about-us.container-fluid.content-section.about-partners
+    .row
+      .col-md-1
+      .col-md-3
+        p#about-us-header 
+          a(href='/about-silo') About us
+        p#partners
+          a(href='/about-partners') Partners
+      .col-md-8
+        //IMAGES ARE FOR PLACEHOLDER PURPOSES only.
+        h4#about-silo Our partners
+        .row
+          .col-sm-4.text-center
+            img(src='http://photos.prnewswire.com/prnvar/20150327/194939LOGO')
+            p.partner-name
+              a(href="http://www.rhodeshouse.ox.ac.uk/") Rhodes Trust
+          .col-sm-8
+            p.member-description Rhodes is sick
+        .row
+          .col-sm-4.text-center
+            img(src='http://futureofghana.com/wp-content/uploads/2015/06/Logo-US-UK-Fulbright.jpg')
+            p.partner-name
+              a(href="http://www.fulbright.org.uk/") Fulbright Scholarships
+          .col-sm-8
+            p.member-description Fulbright is great.
+        .row
+          .col-sm-4.text-center
+            img(src='http://www.ox.ac.uk/sites/files/oxford/weidenfeld-hoffmann.jpg')
+            p.partner-name
+              a(href="http://whtrust.org/") Weidenfeld Hoffmann trust
+          .col-sm-8
+            p.member-description They're great.
+        .row
+          .col-sm-4.text-center
+            img(src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Oxford-University-Circlet.svg/2000px-Oxford-University-Circlet.svg.png')
+            p.partner-name
+              a(href="http://www.ox.ac.uk/") Oxford university
+          .col-sm-8
+            p.member-description They're great.
+        
+            
+        
+  include ./partials/footer.jade
+block scripts
+  //advanced search
+  script(src='javascript/advanced-search.js')
+  script(src='javascript/signup-login.js')

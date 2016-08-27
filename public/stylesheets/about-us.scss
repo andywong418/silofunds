@@ -1,0 +1,56 @@
+body{
+    background: #f1f1f1;
+}
+section#about-us{
+  margin-top: 100px;
+  margin-bottom: 300px;
+  font-family: 'Source Sans Pro';
+  #about-us-header, #partners{
+    font-size: 20px;
+    a{
+      color: #606363;
+      &:hover{
+        text-transform: none;
+      }
+    }
+    cursor: pointer;
+  }
+  #about-silo{
+    font-size: 26px;
+    font-family: 'Source Sans Pro';
+    color: #34495e;
+  }
+  #silo-paragraph{
+    margin-top: 5px;
+    font-size: 18px;
+    font-family: 'Source Sans Pro';
+    color: #34495e
+  }
+  .row{
+    margin-left: -20px;
+    .col-sm-4{
+      padding-left: 0;
+      img{
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+      }
+      .partner-name{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 17px;
+      }
+      .role{
+        font-size: 17px;
+      }
+    }
+    .member-description{
+      margin-top: 40px;
+      font-size: 17px;
+    }
+  }
+
+}
+.about-partners{
+  margin-bottom: 50px !important;
+}
