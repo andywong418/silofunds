@@ -21,7 +21,9 @@
     color: #fff;
 
   }
-
+  ul.nav.navbar-nav{
+    margin-right: 10px;
+  }
   .navbar-brand {
     font-weight: 700;
     &:focus, &:active {
@@ -337,6 +339,9 @@ margin-left: -10px;
     ul.navbar-nav{
       margin-left: -10px;
     }
+  }
+  .navbar-toggle{
+    color: white;
   }
 }
 @media(max-width: 644px){

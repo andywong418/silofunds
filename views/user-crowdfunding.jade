@@ -39,7 +39,8 @@ block content
 		var applications = !{JSON.stringify(applications)}
 		var donations = !{JSON.stringify(donations)};
 		var updates = !{JSON.stringify(updates)};
-		if(user){
+		var loggedInUser = !{JSON.stringify(loggedInUser)};
+		if(loggedInUseruser){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 			windowPortWidth = window.innerWidth;
 			if(windowPortWidth <767){

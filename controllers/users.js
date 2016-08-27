@@ -521,26 +521,34 @@ module.exports = {
 
   crowdFundingPage: function(req, res){
     var userId;
-    Logger.info(req.params.id);
-    if(req.params.id){
-      userId = req.params.id;
+  var loggedInUser;
+  if(req.params.id){
+    userId = req.params.id;
+    if(req.isAuthenticated()){
+      loggedInUser = req.user.id;
     }
     else{
-      userId = req.user.id;
+      loggedInUser = false;
     }
-    models.users.findById(userId).then(function(user){
-      models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+    Logger.warn(loggedInUser);
+  }
+  else{
+    userId = req.user.id;
+    loggedInUser = false;
+  }
+  models.users.findById(userId).then(function(user){
+    models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
 
-        models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-            if(applications.length > 0){
-							asyncChangeApplications(applications, {user_id: userId}, res, {user: user, documents: documents}, { user: user, documents: documents});
-            } else {
-							// No applications
-							findStripeUser({user_id: userId}, res, {user: user, documents: documents, applications: false},{ user: user, documents: documents, applications: false, charges: false, donations: false});
-            }
-        });
+      models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+          if(applications.length > 0){
+            asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});
+          } else {
+            // No applications
+            findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});
+          }
       });
     });
+  });
   },
   refundDonors: function(req, res){
     var userId = req.user.id;
