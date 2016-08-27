@@ -452,7 +452,7 @@ $(document).ready(function(){
         e.preventDefault();
         e.stopPropagation();
         $('#eligibility_div').hide(500);
-        $('#application_form').css('margin-top', '6%');
+        $('.application_form').css('margin-top', '6%');
         $('#notEligible').css('display', 'none');
         $("div[id*=notEligible-handler]").remove();
       });
@@ -506,7 +506,7 @@ $(document).ready(function(){
 
   if(user){
     if(!user.organisation_or_user){
-      $('#application_form').css('margin-top', '3%');
+      $('.application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
         var myDate = user.date_of_birth.split("-");
@@ -604,15 +604,15 @@ $(document).ready(function(){
     }
   }
   if(fund.description){
-    $('#fundBio').html(fund.description);
-    $('#fundBio').find('*').css('font-size', '15px');
-    $('#fundBio').find('*').css('font-family', 'PT Sans');
-    $('#fundBio').find('*').css('line-height', '1.5');
-    $('#fundBio').find('*').css('background-color', '#e9f0f4');
-    if($('#fundBio').find('.container')){
-      $('#fundBio').find('.container').removeClass('.container');
+    $('.fundBio').html(fund.description);
+    $('.fundBio').find('*').css('font-size', '15px');
+    $('.fundBio').find('*').css('font-family', 'PT Sans');
+    $('.fundBio').find('*').css('line-height', '1.5');
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    if($('.fundBio').find('.container')){
+      $('.fundBio').find('.container').removeClass('.container');
     }
-    var paragraphs = $('#fundBio').find('p');
+    var paragraphs = $('.fundBio').find('p');
     console.log(paragraphs);
     for (var i =0; i < paragraphs.length; i++ ){
       if(paragraphs[i].innerHTML == '&nbsp;'){
@@ -1220,7 +1220,7 @@ $(document).ready(function(){
     }
   });
   var ApplicationDisplay = Backbone.View.extend({
-    el: '#application_form',
+    el: '.application_form',
     events: {
       'click #apply_now_link': 'addApplication'
     },

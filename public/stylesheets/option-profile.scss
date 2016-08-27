@@ -184,7 +184,7 @@ h1 {
     margin-bottom: 10px;
     color: #2980b9;
   }
-  #fundBio {
+  .fundBio {
     width: 90%;
     font-size: 15px;
     margin-bottom: 10px;
@@ -536,7 +536,7 @@ h1 {
 
 /* Applicaton form */
 
-#application_form {
+.application_form {
   width: 93%;
   margin-top: 6%;
   font-weight: bold;
@@ -900,11 +900,30 @@ h1 {
 
 
 // Mobile
+// Css needed as a result of making things partials and putting in .desktop divs
+#right_div_desktop {
+  margin-left: 7%;
+  #eligibility_div, #notEligible, .application_form {
+    width: 100%;
+  }
+}
+#left_div_desktop {
+  width: 23%;
+  #left_div {
+    width: 100%;
+  }
+}
+
+@media (min-width: 991px) {
+  .mobile {
+    display: none;
+  }
+}
 
 @media (max-width: 990px) {
   #left_div {
     width: 35%;
-    #fundBio {
+    .fundBio {
       width: 100%;
     }
   }
@@ -924,5 +943,62 @@ h1 {
   .mb-style-3 blockquote p {
     font-size: 19px;
     line-height: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  #big_flex_div {
+    flex-direction: column;
+    padding: 20px 5px 0px 5px;
+    #left_div {
+      width: 100%;
+      flex-direction: row;
+      margin-left: 0;
+      margin-bottom: 20px;
+      #box_1 {
+        width: 60%;
+        img {
+          margin-top: 25px;
+        }
+      }
+      #box_2 {
+        padding-left: 25px;
+        #message {
+          display: none;
+        }
+      }
+    }
+    #right_div {
+      width: 100%;
+      margin-right: 0;
+      #box_3_right {
+        width: 100%;
+      }
+    }
+    #eligibility_div {
+      margin: 0px 0px 20px 0px;
+      width: 100%;
+      padding-top: 15px;
+      p#eligibility_div_p, a{
+        font-size: 14px;
+      }
+    }
+  }
+  #top_div_mobile {
+    margin-top: 54px;
+  }
+  #left_info_div {
+    p {
+      font-size: 15px;
+    }
+  }
+  #bottom_div_mobile{
+    width: 100%;
+    .application_form{
+      width: 100%;
+    }
   }
 }

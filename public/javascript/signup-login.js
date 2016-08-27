@@ -28,7 +28,7 @@ $(document).ready(function(){
         $('nav.navbar-custom').show();
         $('.mobile').hide();
         $('.navbar-desktop').hide();
-        $('#brand-heading').html('<img id= "brand-image" src="/images/transparent silo icon graphic.png"></img>');
+        $('#brand-heading').html('<img id= "brand-image" src="/images/homepage-transparent-logo.png"></img>');
       }
       if(windowPortWidth > 767){
         $('nav.navbar-custom').show();
