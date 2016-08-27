@@ -1761,6 +1761,8 @@ h1 {
         padding-left: 25px; }
         #big_flex_div #left_div #box_2 #message {
           display: none; }
+    #big_flex_div #box_3_right .eligibility-display .col-md-12 {
+      height: auto; }
     #big_flex_div #right_div {
       width: 100%;
       margin-right: 0; }
