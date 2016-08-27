@@ -115,6 +115,10 @@ $(document).ready(function() {
 
   socket.on('bulk get message', function(data) {
     console.log(data);
+    userToName = data.userTo.username;
+    userToProfilePicture = data.userTo.profile_picture
+    $('#messageInfoDiv span').text(userToName);
+    $('#messageInfoDiv img#userToProfilePicture').attr('src', userToProfilePicture);
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
     var dateNow = new Date();
@@ -225,28 +229,20 @@ $(document).ready(function() {
 
   /* -------------- */
   /* Mobile */
-  messageIconMargin();
   messageIconClick();
   $(window).resize(function() {
-    messageIconMargin();
     messageIconClick();
   });
+
 });
 
 // Functions for mobile
-function messageIconMargin() {
-  if($(window).width() <= 768) {
-    var height = $('#messageIcon').height();
-    var inputFormHeight = $('#input-form').height();
-    var marginTop = (inputFormHeight - height)/2
-    $('#messageIcon').css('margin-top', marginTop)
-  }
-}
-
+var userToName;
+console.log(userToName)
 function messageIconClick() {
   if($(window).width() <= 768) {
     $('#messageIcon').show();
-    $('#messageIcon').click(function() {
+    $('#messageIcon, #backButton').click(function() {
       $('#messages-tab-content').hide();
       $('#messages-tab-menu').show();
     })

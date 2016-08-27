@@ -318,20 +318,61 @@ section#content {
     border: 2px solid #e1e8ed;
     width: 95%;
     margin: 2.5%;
+    .list-group .list-group-item span.glyphicon {
+      line-height: 30px;
+    }
   }
   #messages-tab-content {
     display: none;
     margin: 2.5%;
     width: 95%;
+    #messages-list {
+      height: calc(100% - 100px)
+    }
     #input-form form#msg .col-md-12 {
       padding-left: 0px;
       padding-right: 3px;
     }
   }
-  #messageIcon {
-    padding-left: 16px;
+  #messageIcon.fa.fa-users {
     cursor: pointer;
     font-size: 18px;
+    line-height: 40px;
+  }
+  #messageInfoDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 50px;
+    color: white;
+    border: 2px solid #e1e8ed;
+    border-bottom: none;
+    padding-left: 10px;
+    background-color: #337ab7;
+    font-family: PT Sans;
+    .fa.fa-chevron-left {
+      font-weight: 200;
+      color: white;
+      cursor: pointer
+    }
+    .mobile-pic-div {
+      display: flex;
+      height: 100%;
+      padding: 2px;
+      justify-content: flex-end;
+      img#userToProfilePicture {
+        float: right;
+        height: 40px;
+        width: auto;
+        background: no-repeat center center;
+        border-radius: 50%;
+        box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6);
+      }
+    }
   }
 }
 
@@ -356,4 +397,22 @@ section#content {
       }
     }
   }
+}
+@media (min-width: 431px) {
+  .mobile-sm {
+    display: none;
+  }
+}
+@media (max-width: 430px) {
+  #messages-tab-menu .list-group .list-group-item {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  #messages-tab-content {
+    margin-top: 10px;
+  }
+  #messages-list {
+    height: calc(100% - 50px)
+  }
+  .userFrom
 }
