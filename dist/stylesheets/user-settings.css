@@ -1315,18 +1315,16 @@ label.removeFile {
 @media (max-width: 399px) {
   label.padding-top-edit {
     padding-top: 10px; }
-  #general-settings, #personal-settings {
-    border: 1px solid red; }
-    #general-settings p.personal-padding-1, #personal-settings p.personal-padding-1 {
-      padding: 0;
-      margin: 0; }
-    #general-settings .radio-inline, #personal-settings .radio-inline {
-      padding-top: 0;
-      padding-left: 0;
-      margin-left: 15px; }
-    #general-settings #gender-div, #personal-settings #gender-div {
-      padding: 0; }
-      #general-settings #gender-div .radio-inline, #personal-settings #gender-div .radio-inline {
-        padding-left: 25px; }
-    #general-settings #genderRow .clear, #personal-settings #genderRow .clear {
-      margin-top: 6px; } }
+  #general-settings p.personal-padding-1, #personal-settings p.personal-padding-1 {
+    padding: 0;
+    margin: 0; }
+  #general-settings .radio-inline, #personal-settings .radio-inline {
+    padding-top: 0;
+    padding-left: 0;
+    margin-left: 15px; }
+  #general-settings #gender-div, #personal-settings #gender-div {
+    padding: 0; }
+    #general-settings #gender-div .radio-inline, #personal-settings #gender-div .radio-inline {
+      padding-left: 25px; }
+  #general-settings #genderRow .clear, #personal-settings #genderRow .clear {
+    margin-top: 6px; } }
