@@ -1708,9 +1708,9 @@ h1 {
   #left_div_desktop #left_div {
     width: 100%; }
 
-@media (min-width: 991px) {
-  .mobile {
-    display: none; } }
+@media (max-width: 1076px) {
+  #favourite {
+    margin-left: -235px; } }
 
 @media (max-width: 990px) {
   #left_div {
@@ -1737,6 +1737,8 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none; }
+  #favourite.favourite.mobile {
+    margin-left: 0; }
   #big_flex_div {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -1756,11 +1758,11 @@ h1 {
       #big_flex_div #left_div #box_1 {
         width: 60%; }
         #big_flex_div #left_div #box_1 img {
+          width: 80%;
+          margin-left: 10%;
           margin-top: 30px; }
-      #big_flex_div #left_div #box_2 {
-        padding-left: 25px; }
-        #big_flex_div #left_div #box_2 #message {
-          display: none; }
+      #big_flex_div #left_div #box_2 #message {
+        display: none; }
     #big_flex_div #box_3_right .eligibility-display .col-md-12 {
       height: auto; }
     #big_flex_div #right_div {

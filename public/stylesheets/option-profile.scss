@@ -914,9 +914,9 @@ h1 {
   }
 }
 
-@media (min-width: 991px) {
-  .mobile {
-    display: none;
+@media (max-width: 1076px) {
+  #favourite {
+    margin-left: -235px
   }
 }
 
@@ -956,6 +956,9 @@ h1 {
   .desktop {
     display: none;
   }
+  #favourite.favourite.mobile {
+    margin-left: 0;
+  }
   #big_flex_div {
     flex-direction: column;
     padding: 20px 10px 0px 10px;
@@ -969,11 +972,12 @@ h1 {
       #box_1 {
         width: 60%;
         img {
+          width: 80%;
+          margin-left: 10%;
           margin-top: 30px;
         }
       }
       #box_2 {
-        padding-left: 25px;
         #message {
           display: none;
         }
@@ -1017,6 +1021,7 @@ h1 {
     }
   }
 }
+
 
 @media (max-width: 399px) {
   #left_info_div p.fundBio {

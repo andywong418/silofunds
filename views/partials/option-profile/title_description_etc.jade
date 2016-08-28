@@ -3,15 +3,15 @@
     a#fundWebsite(href=fund.link)
       if organisation
         if(organisation.profile_picture)
-          span#favourite.mobile ☆
+          span#favourite.favourite.profile_picture.mobile ☆
           img#fundImage.oy(src=organisation.profile_picture)
-          span#favourite.desktop ☆
+          span#favourite.favourite.desktop ☆
   else
     //- a#fundWebsite(href='/organisation/options/' + fund.id )
     if organisation
       if(organisation.profile_picture)
         img#fundImage.oy(src=organisation.profile_picture)
-        span#favourite ☆
+        span#favourite.favourite ☆
 #box_2
   if ownedFund && !organisation.profile_picture
     img#fund_img_placeholder(src="/images/fund_img_placeholder.jpg")
@@ -21,7 +21,7 @@
   if fund.link
     if !organisation.profile_picture
       a#external-link( href!= fund.link, target='_blank', style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
-        span#favourite(style='margin-left: -20px;margin-top: -25px') ☆
+        span#favourite.favourite(style='margin-left: -20px;margin-top: -25px') ☆
         #fund_title_div
           h4(style='font-size: 22px;')#bio=fund.title
         
@@ -30,7 +30,7 @@
         h4#bio=fund.title
   else  
     if !organisation.profile_picture
-      span#favourite(style='margin-left: 10px;margin-top: 13px') ☆
+      span#favourite.favourite(style='margin-left: 10px;margin-top: 13px') ☆
       h4#bio(style='background: white;font-size: 22px; padding: 30px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
     else
       h4#bio=fund.title
