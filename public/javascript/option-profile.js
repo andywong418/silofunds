@@ -440,7 +440,7 @@ $(document).ready(function(){
         e.preventDefault();
         e.stopPropagation();
         $('#eligibility_div').hide(500);
-        $('#application_form').css('margin-top', '6%');
+        $('.application_form').css('margin-top', '6%');
         $('#notEligible').css('display', 'none');
         $("div[id*=notEligible-handler]").remove();
       });
@@ -491,7 +491,7 @@ $(document).ready(function(){
 
   if(user){
     if(!user.organisation_or_user){
-      $('#application_form').css('margin-top', '3%');
+      $('.application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
         var myDate = user.date_of_birth.split("-");
@@ -589,13 +589,13 @@ $(document).ready(function(){
     }
   }
   if(fund.description){
-    $('#fundBio').html(fund.description);
-    $('#fundBio').find('*').css('font-size', '15px');
-    $('#fundBio').find('*').css('font-family', 'PT Sans');
-    $('#fundBio').find('*').css('line-height', '1.5');
-    $('#fundBio').find('*').css('background-color', '#e9f0f4');
-    if($('#fundBio').find('.container')){
-      $('#fundBio').find('.container').removeClass('.container');
+    $('.fundBio').html(fund.description);
+    $('.fundBio').find('*').css('font-size', '15px');
+    $('.fundBio').find('*').css('font-family', 'PT Sans');
+    $('.fundBio').find('*').css('line-height', '1.5');
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    if($('.fundBio').find('.container')){
+      $('.fundBio').find('.container').removeClass('.container');
     }
     var paragraphs = $('#fundBio').find('p');
     for (var i =0; i < paragraphs.length; i++ ){
@@ -1199,7 +1199,7 @@ $(document).ready(function(){
     }
   });
   var ApplicationDisplay = Backbone.View.extend({
-    el: '#application_form',
+    el: '.application_form',
     events: {
       'click #apply_now_link': 'addApplication'
     },
@@ -1288,6 +1288,7 @@ $(document).ready(function(){
       var tipsModel = new TipsModel();
       var view = new TipsView({model: tipsModel});
       this.$el.append(view.el);
+      $("[id=application-handler]").append(view.el);
     }
   })
 
@@ -1328,5 +1329,64 @@ $(document).ready(function(){
         $("#add-profile").css("display", "none");
       }
   });
+
+  noProfilePicDivResizer();
+  displayTopBottomDivs();
+  favouriteStarMargin();
+  $(window).resize(function() {
+    eligibility_divPaddingChange();
+    noProfilePicDivResizer();
+    displayTopBottomDivs();
+    favouriteStarMargin();
+  })
+})
+
+function eligibility_divPaddingChange() {
+  if($(window).width() < 526 && $('#eligibility_div').css('background-color') == 'rgb(236, 198, 44)'){
+    $('div#eligibility_div').css('padding-top', '4px');
+  } else {
+    $('div#eligibility_div').css('padding-top', '');
+  }
 }
-)
+
+function noProfilePicDivResizer() {
+  if(!organisation.profile_picture) {
+    $('.application_form').css('width', '100%')
+    if($(window).width() <= 767) {
+      $('#big_flex_div #left_div_desktop.desktop #box_1').css('display', 'none');
+      $('#big_flex_div #left_div #box_2').css('padding-left', '0px');
+      $('#box_2 a').css('width', '100%');
+      $('#box_2 a').css('margin-bottom', '15px');
+      $('#box_2 a').css('padding', '10px 20px 10px 30px');
+      $('#box_2 a #favourite').css('margin-top', '-9px')
+      $('#box_2 a #favourite').css('margin-left', '-26px')
+    }
+  }
+}
+
+function displayTopBottomDivs() {
+  if(549 <= $(window).width() && $(window).width() <= 767) {
+    $('#top_div_mobile').css('display', 'block')
+    $('#bottom_div_mobile').css('display', 'block')
+  } else if ($(window).width() > 767) {
+    $('#top_div_mobile').css('display', 'none')
+    $('#bottom_div_mobile').css('display', 'none')
+  }
+}
+
+function favouriteStarMargin() {
+  if(767 < $(window).width() && $(window).width() <= 1076) {
+    var starMargin = 204 - $('#left_div').width() - 235
+    $('.favourite').css('margin-left', starMargin)
+  } else if (550 <= $(window).width() && $(window).width() <= 767 ) {
+    if(organisation.profile_picture) {
+      console.log('BUT ME HERE')
+      $('.favourite.profile_picture.mobile').show();
+      $('.favourite.profile_picture.mobile').css('margin-left', 0);
+    } else {
+      $('.favourite.profile_picture.mobile').hide();
+    }
+  } else if ($(window).width() > 1076) {
+    $('.favourite').css('margin-left', '')
+  }
+}

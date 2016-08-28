@@ -184,7 +184,7 @@ h1 {
     margin-bottom: 10px;
     color: #2980b9;
   }
-  #fundBio {
+  .fundBio {
     width: 90%;
     font-size: 15px;
     margin-bottom: 10px;
@@ -536,7 +536,7 @@ h1 {
 
 /* Applicaton form */
 
-#application_form {
+.application_form {
   width: 93%;
   margin-top: 6%;
   font-weight: bold;
@@ -900,11 +900,48 @@ h1 {
 
 
 // Mobile
+// Css needed as a result of making things partials and putting in .desktop divs
+#right_div_desktop {
+  margin-left: 7%;
+  #eligibility_div, #notEligible, .application_form {
+    width: 100%;
+  }
+}
+#left_div_desktop {
+  width: 23%;
+  #left_div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1076px) {
+  #favourite {
+    margin-left: -235px
+  }
+}
+@media(min-width: 1118px) {
+  @media (max-width: 1237px) {
+    #favourite {
+      margin-left: -230px
+    }
+  }
+  @media (max-width: 1167px) {
+    #favourite {
+      margin-left: -220px
+    }
+  }
+}
 
 @media (max-width: 990px) {
   #left_div {
     width: 35%;
-    #fundBio {
+    #box_1 {
+      margin-top: 15px;
+      #favourite {
+        margin-left: 0px;
+      }
+    }
+    .fundBio {
       width: 100%;
     }
   }
@@ -924,5 +961,85 @@ h1 {
   .mb-style-3 blockquote p {
     font-size: 19px;
     line-height: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  #favourite.favourite.mobile {
+    margin-left: 0;
+  }
+  #big_flex_div {
+    flex-direction: column;
+    padding: 20px 10px 0px 10px;
+    #left_div {
+      width: 100%;
+      flex-direction: row;
+      margin-left: 0;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-bottom: 20px;
+      #box_1 {
+        width: 60%;
+        img {
+          width: 80%;
+          margin-left: 10%;
+          margin-top: 30px;
+        }
+      }
+      #box_2 {
+        #message {
+          display: none;
+        }
+      }
+    }
+    #box_3_right .eligibility-display .col-md-12 {
+      height: auto;
+    }
+    #right_div {
+      width: 100%;
+      margin-right: 0;
+      #box_3_right {
+        width: 100%;
+      }
+    }
+    #eligibility_div {
+      margin: 0px 0px 20px 0px;
+      width: 100%;
+      padding-top: 15px;
+      p#eligibility_div_p, a{
+        font-size: 14px;
+      }
+    }
+  }
+  #top_div_mobile {
+    margin-top: 54px;
+  }
+  #left_info_div {
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 10px;
+    p {
+      font-size: 15px;
+    }
+  }
+  #bottom_div_mobile {
+    width: 100%;
+    .application_form {
+      width: 100%;
+    }
+  }
+}
+
+
+@media (max-width: 399px) {
+  #left_info_div p.fundBio {
+    margin-bottom: 0;
+  }
+  .mb-style-3 blockquote {
+    padding: 5px 2px 5px 2px;
   }
 }
