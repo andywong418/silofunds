@@ -1,0 +1,119 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/advanced-search-whole.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+block content
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  section#search-for.content-section
+    .col-xs-1
+    .col-xs-11
+      ul.nav.nav-pills(role='pill-list')
+        p#search-for-header Search for:
+        li#fund-item.active(role='presentation') 
+          a(href='#fund', aria-controls='fund', role='pill', data-toggle='pill') Funds
+        li#user-item(role='presentation')
+          a(href='#user', aria-controls='#user', role='pill', data-toggle='pill') User
+  .tab-content
+    #fund.tab-pane.active
+      form(id='advs-funding-form', action='/results', method='get', name='advs_grant_form')
+        section#key-words.text-center
+          p Keywords
+          input#tags(name='tags', form='advs-funding-form')
+        section#about-you.content-section
+          .col-xs-1
+          .col-xs-11
+            .sub-header
+              p About you
+            .row
+              .col-md-4.col-xs-6
+                p#age-header Age
+                input#age(name='age', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#country-header Country of residence
+                input#country_of_residence(name='country_of_residence', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#religion-header Religion
+                input#religion(name='religion', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#required_university-header Institution graduated from
+                input#required_university(name='required_university', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#required_degree-header Completed Degree
+                input#required_degree(name='required_degree', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#require_grade-header Grade acquired
+                input#required_grade(name='required_grade', form='advs-funding-form')
+        section#about-funding.content-section
+          .col-xs-1
+          .col-xs-11
+            .sub-header
+              p About the funding
+            .row
+              .col-md-4.col-xs-6
+                p#title-header Title
+                input#title(name='title', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#amount_offered Amount Offered
+                input#amount-offered(name='amount_offered', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#subject-header Subject offered for
+                input#subject(name='subject', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#duration-header Duration
+                input#duration_of_scholarship(name='duration_of_scholarship', form='advs-funding-form')
+        section#about-study
+          .col-xs-1
+          .col-xs-11
+            .sub-header
+              p About the study
+            .row
+              .col-md-4.col-xs-6
+                p#target_country-header Country
+                input#target_country(name='target_country', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#specific_location-header Borough / State / Province
+                input#specific_location(name='specific_location', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#target_university-header Institution
+                input#target_university(name='target_university', form='advs-funding-form')
+              .col-md-4.col-xs-6
+                p#target_degree-header Degree
+                input#target_degree(name='target_degree', form='advs-funding-form')
+          section#search
+            button#advs-grant-submit.btn.btn-primary(type='submit') Search
+    #user.tab-pane
+      form(id='advs-user-form', action='/results/users', method='get', name='advs_user-form')
+        section#key-words.text-center
+          p Keywords
+          input#tags(name='tags', form='advs-user-form')
+        section#user-search
+          .col-xs-1
+          .col-xs-11
+            .sub-header
+              p About the user
+            .row
+              .col-md-3.col-xs-6
+                p#age-header Age
+                input#age(name='age', form= 'advs-user-form')
+              .col-md-3.col-xs-6
+                p#country_of_residence Country of Residence
+                input#country_of_residence(name='country_of_residence', form= 'advs-user-form')
+              .col-md-3.col-xs-6
+                p#religion-header Religion
+                input#religion(name='religion', form= 'advs-user-form')
+              .col-md-3.col-xs-6
+                p#amount-header Amount needed
+                input#funding_needed(name= 'funding_needed', form= 'advs-user-form')
+        section#search
+          button#advs-grant-submit.btn.btn-primary(type='submit') Search
+        
+
+  include ./partials/footer.jade
+block scripts
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/signup-login.js')
+  script.
+    var user = !{JSON.stringify(user)}

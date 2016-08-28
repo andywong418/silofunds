@@ -14,6 +14,8 @@
     text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
+  .navbar-custom #advs-link {
+    cursor: pointer; }
   .navbar-custom ul.nav.navbar-nav {
     margin-right: 10px; }
   .navbar-custom .navbar-brand {

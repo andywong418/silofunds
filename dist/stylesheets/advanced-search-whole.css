@@ -1,4 +1,3 @@
-/* New search bar */
 body {
   width: 100%;
   height: 100%;
@@ -913,67 +912,81 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
-/*customised code*/
-#brand-image {
-  margin-top: -15px;
-  position: relative;
-  cursor: pointer; }
-
 body {
-  background-color: #e9f0f4; }
-
-section {
-  padding-top: 100px;
-  margin: auto; }
-  section * {
-    font-family: 'Source Sans Pro'; }
-  section #info-row {
-    margin-bottom: 20px; }
-    section #info-row p#listings-header {
-      text-align: left;
-      margin-top: 15px;
-      margin-bottom: 0px;
-      font-size: 18px;
-      color: #66757f; }
-      section #info-row p#listings-header span {
-        border-bottom: 1px solid #66757f; }
-      section #info-row p#listings-header .badge {
-        margin-left: 5px;
-        background-color: rgba(45, 74, 119, 0.75); }
-  section #create-new-fund.col-md-3 {
-    text-align: right; }
-    section #create-new-fund.col-md-3 a {
-      width: 200px;
-      height: 45px;
-      padding: 10px 0px;
-      font-size: 16px; }
-  section .row#funding-card {
-    display: block;
-    background-color: white;
+  color: #34495e;
+  font-family: 'Source Sans Pro'; }
+  body .navbar-custom {
+    position: relative; }
+    body .navbar-custom div.navbar-center-container {
+      position: absolute; }
+  body #search-for {
+    margin-top: 20px;
+    height: auto; }
+    body #search-for .col-xs-11 ul {
+      display: inline-block;
+      padding-top: 20px; }
+      body #search-for .col-xs-11 ul p {
+        display: inline-block;
+        margin-right: 30px;
+        float: left;
+        font-size: 15px;
+        font-weight: bold; }
+      body #search-for .col-xs-11 ul li {
+        cursor: pointer; }
+        body #search-for .col-xs-11 ul li a {
+          cursor: pointer;
+          margin-top: -10px;
+          font-size: 15px;
+          padding: 10px; }
+  body #key-words p {
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px; }
+  body #key-words input {
+    border-width: 1px;
     border-radius: 3px;
-    margin: 15px 0px;
-    padding: 20px 0px;
-    text-align: left; }
-    section .row#funding-card #edit {
-      text-align: center; }
-    section .row#funding-card div {
-      padding: 0px 15px; }
-    section .row#funding-card div#support_type {
-      text-align: center; }
-    section .row#funding-card #scholarship {
-      background-color: #3399FF; }
-    section .row#funding-card #grant {
-      background-color: #7068FF; }
-    section .row#funding-card #bursary {
-      background-color: #00da8d; }
-    section .row#funding-card #prize {
-      background-color: #FFC300; }
+    border-style: solid;
+    border-color: #C1C1C1;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
+    padding: 3px 5px;
+    margin-bottom: 10px;
+    width: 30%; }
+  body #about-you .col-xs-11 .sub-header p, body #about-funding .col-xs-11 .sub-header p, body #about-study .col-xs-11 .sub-header p, body #user-search .col-xs-11 .sub-header p {
+    font-size: 18px;
+    margin-bottom: 5px;
+    display: inline-block;
+    border-bottom: 1px solid #d8d7d7;
+    font-weight: bold; }
+  body #about-you .col-xs-11 .row p, body #about-funding .col-xs-11 .row p, body #about-study .col-xs-11 .row p, body #user-search .col-xs-11 .row p {
+    font-size: 16px;
+    margin-top: 9px;
+    margin-bottom: 5px; }
+  body #about-you .col-xs-11 .row input, body #about-funding .col-xs-11 .row input, body #about-study .col-xs-11 .row input, body #user-search .col-xs-11 .row input {
+    border-width: 1px;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: #C1C1C1;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
+    padding: 3px 5px;
+    margin-bottom: 10px;
+    width: 90%;
+    display: block; }
+  body #advs-link, body .navbar-center-container {
+    display: hidden;
+    visibility: hidden; }
+  body #about-funding, body #about-study {
+    width: 100%; }
+    body #about-funding .sub-header, body #about-study .sub-header {
+      margin-top: 40px; }
+  body #search {
+    width: 100%;
+    text-align: center; }
+    body #search button {
+      margin-top: 50px;
+      font-size: 18px; }
 
-table#header {
-  margin-bottom: -15px; }
-  table#header th {
-    border: none;
-    padding-left: 15px;
-    padding-right: 0px;
-    color: #8E9FB1;
-    white-space: nowrap; }
+@media (max-width: 450px) {
+  #about-you .col-xs-11 .sub-header p, #about-funding .col-xs-11 .sub-header p, #about-study .col-xs-11 .sub-header p {
+    font-size: 16px !important; }
+  #about-you .col-xs-11 .row p, #about-funding .col-xs-11 .row p, #about-study .col-xs-11 .row p {
+    font-size: 14px !important; } }

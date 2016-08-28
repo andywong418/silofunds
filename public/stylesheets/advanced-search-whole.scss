@@ -1,0 +1,128 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+$font-color: #34495e;
+body{
+  color: $font-color;
+  font-family: 'Source Sans Pro';
+  .navbar-custom{
+    position: relative;
+    div.navbar-center-container{
+      position: absolute;
+    }
+  }
+  #search-for{
+    margin-top: 20px;
+    height: auto;
+    .col-xs-11{
+      ul{
+        p{
+          display: inline-block;
+          margin-right: 30px;
+          float: left;
+          font-size: 15px;
+          font-weight: bold;
+        }
+        li{
+          cursor: pointer;
+          a{
+            cursor: pointer;
+            margin-top: -10px;
+            font-size: 15px;
+            padding: 10px;
+          }
+        }
+        display: inline-block;
+        padding-top: 20px;
+      }
+    }
+  }
+  #key-words{
+    p{
+      display: inline-block;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    input{
+      border-width: 1px;
+      border-radius: 3px;
+      border-style: solid;
+      border-color: #C1C1C1;
+      box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
+      padding: 3px 5px;
+      margin-bottom: 10px;
+      width: 30%;
+    }
+  }
+  #about-you, #about-funding, #about-study, #user-search{
+
+    .col-xs-11{
+      .sub-header{
+        p{
+          font-size: 18px;
+          margin-bottom: 5px;
+          display: inline-block;
+          border-bottom: 1px solid #d8d7d7;
+          font-weight: bold;
+        }
+      }
+
+      .row{
+
+        p{
+          font-size: 16px;
+          margin-top: 9px;
+          margin-bottom: 5px;
+        }
+        input{
+          border-width: 1px;
+          border-radius: 3px;
+          border-style: solid;
+          border-color: #C1C1C1;
+          box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
+          padding: 3px 5px;
+          margin-bottom: 10px;
+          width: 90%;
+          display: block;
+        }
+      }
+    }
+
+  }
+  #advs-link, .navbar-center-container{
+    display: hidden;
+    visibility: hidden;
+  }
+  #about-funding, #about-study{
+    width: 100%;
+    .sub-header{
+      margin-top: 40px;
+    }
+  }
+  #search{
+    width: 100%;
+    text-align: center;
+    button{
+      margin-top: 50px;
+      font-size: 18px;
+    }
+  }
+}
+
+@media(max-width:450px){
+  #about-you, #about-funding, #about-study{
+    .col-xs-11{
+      .sub-header{
+        p{
+          font-size: 16px !important;
+        }
+      }
+      .row{
+        p{
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
+}

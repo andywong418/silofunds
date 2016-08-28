@@ -106,7 +106,7 @@ $(document).ready(function(){
   $('a#advs-link, #many-results').click(function(){
     $("html, body").animate({ scrollTop: 0 }, "slow");
     windowPortWidth = $(window).width();
-    if(windowPortWidth > 450){
+    if(windowPortWidth > 991){
       $("#advanced-search").slideDown();
       return false;
     }

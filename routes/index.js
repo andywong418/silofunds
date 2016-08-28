@@ -40,6 +40,18 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {success
 router.get('/facebookSplit', users.facebookSplit);
 router.get('/facebookError', users.facebookAuthError)
 
+//new pages
+router.get('/advanced-search', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('advanced-search-whole', {user: user});
+});
+
 // Privacy policy + t&c's
 router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy')
