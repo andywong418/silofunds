@@ -338,11 +338,6 @@ label.removeFile {
         padding-top: 9px;
       }
     }
-    @media (max-width: 399px) {
-      label.padding-top-edit {
-        padding-top: 0px;
-      }
-    }
   }
 }
 
@@ -391,6 +386,33 @@ label.removeFile {
     }
     .clear {
       margin-top: 9px
+    }
+  }
+}
+
+@media (max-width: 399px) {
+  label.padding-top-edit {
+    padding-top: 10px;
+  }
+  #general-settings, #personal-settings {
+    border: 1px solid red;
+    p.personal-padding-1 {
+      padding: 0;
+      margin: 0;
+    }
+    .radio-inline {
+      padding-top: 0;
+      padding-left: 0;
+      margin-left: 15px;
+    }
+    #gender-div {
+      padding: 0;
+      .radio-inline {
+        padding-left: 25px;
+      }
+    }
+    #genderRow .clear {
+      margin-top: 6px;
     }
   }
 }
