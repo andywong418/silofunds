@@ -338,7 +338,7 @@ nav.navbar-custom.mobile {
 
 @media (max-width: 991px) {
   .navbar-custom ul.nav.navbar-nav.loggedin-nav {
-    margin-right: 0; }
+    margin-right: 5px; }
     .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-cog, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-user, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-comment {
       font-size: 18px; }
   .loggedin-advanced {
