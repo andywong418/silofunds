@@ -19,12 +19,15 @@ nav.navbar-custom.mobile{
 
 }
 @media(max-width: 991px){
-  .loggedin-nav{
-    .fa-cog, .fa-user, .fa-comment {
-      font-size: 18px;
+  .navbar-custom{
+    ul.nav.navbar-nav.loggedin-nav{
+      margin-right: 0;
+      .fa-cog, .fa-user, .fa-comment {
+        font-size: 18px;
+      }
     }
-
   }
+
 
   .loggedin-advanced{
     margin-left: -150px !important;

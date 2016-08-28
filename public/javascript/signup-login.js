@@ -488,6 +488,9 @@ function showLoggedinNavbar(){
 }
 function showNonLoggedInNavbar(){
     var windowPortView = $(window).width();
+  $(document).on('click', '.pre-signin', function(){
+    $('.navbar-toggle').click();
+  });
   if(windowPortView < 767){
     $('.cd-login, .cd-signup').click(function(){
       $('.navbar-toggle').click();

@@ -223,7 +223,7 @@ a#user-message span, a#home span {
 
 @media (max-width: 991px) {
   #brand-image {
-    margin-left: -30px; }
+    margin-left: 30px; }
   .cd-signup {
     margin-right: -50px; }
   #advanced-age, #advanced-nationality, #religion {
@@ -234,9 +234,9 @@ a#user-message span, a#home span {
   .radio-inline {
     margin-top: 10px; } }
 
-@media (max-width: 992px) and (min-width: 875px) {
-  #brand-heading {
-    margin-left: -30px; } }
+@media (max-width: 992px) {
+  .navbar-custom ul.nav.navbar-nav {
+    margin-right: 80px; } }
 
 @media (max-width: 920px) {
   #brand-image {
@@ -252,8 +252,6 @@ a#user-message span, a#home span {
     border-color: rgba(45, 74, 118, 0.55); } }
 
 @media (max-width: 875px) {
-  #brand-heading img {
-    margin-left: -60px; }
   ul.navbar-nav {
     margin-left: -150px; } }
 
@@ -293,7 +291,8 @@ a#user-message span, a#home span {
   #advs-link {
     margin-right: -55px; }
   #search_button {
-    margin-left: -6px; }
+    margin-left: -6px;
+    margin-top: 0px !important; }
   .navbar-toggle {
     position: relative;
     z-index: 10;
@@ -313,7 +312,10 @@ a#user-message span, a#home span {
     margin-left: -125px; }
   div.advs-link {
     position: relative;
-    z-index: 10; } }
+    z-index: 10; }
+  #text_search {
+    width: 210px;
+    margin-left: 0; } }
 
 .nav-container {
   width: 100% !important; }
@@ -335,8 +337,10 @@ nav.navbar-custom.mobile {
   margin-right: 10px; }
 
 @media (max-width: 991px) {
-  .loggedin-nav .fa-cog, .loggedin-nav .fa-user, .loggedin-nav .fa-comment {
-    font-size: 18px; }
+  .navbar-custom ul.nav.navbar-nav.loggedin-nav {
+    margin-right: 0; }
+    .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-cog, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-user, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-comment {
+      font-size: 18px; }
   .loggedin-advanced {
     margin-left: -150px !important; }
   .loggedin-form {
@@ -1488,24 +1492,13 @@ i {
     margin-right: -30px;
     font-size: 13px; }
   .cd-login {
-    font-size: 13px; }
-  #search_button {
-    margin-right: -60px; }
-  #brand-image {
-    margin-left: -20px; } }
+    font-size: 13px; } }
 
 @media (max-width: 767px) {
   #wrapper-span {
     display: block; }
   #search-dropdown {
     display: none; }
-  #brand-image {
-    margin-left: 0;
-    margin-top: -10px; }
-  #search_button {
-    margin-right: -80px; }
-  #advanced-search {
-    margin-top: -50px; }
   .post-signin {
     margin-top: 12px; } }
 
@@ -1528,12 +1521,7 @@ i {
     .alert-info p {
       font-size: 12px; }
       .alert-info p a {
-        cursor: pointer; }
-  #text_search {
-    width: 210px;
-    margin-left: 0; }
-  #search_button {
-    margin-right: -120px; } }
+        cursor: pointer; } }
 
 .fa-chevron-circle-down, .fa-chevron-circle-up {
   margin-left: 5px; }
