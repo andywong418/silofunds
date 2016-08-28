@@ -1,7 +1,4 @@
-i.fa.fa-user {
-  padding-top: 6px; }
-
-i.fa.fa-comment {
+i.fa.fa-users {
   margin-right: -6px;
   padding-left: 7px;
   margin-top: 5px; }
@@ -1152,3 +1149,137 @@ section#content {
       font-family: 'Helvetica Neue'; }
     #messages-tab-content #input-form form#msg .col-md-12 {
       padding: 5px 25px; }
+
+@media (min-width: 769px) {
+  .mobile {
+    display: none; } }
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none; }
+  #messages-tab-menu {
+    border: 2px solid #e1e8ed;
+    width: 95%;
+    margin: 2.5%; }
+    #messages-tab-menu .list-group .list-group-item span.glyphicon {
+      line-height: 30px; }
+  #messages-tab-content {
+    display: none;
+    margin: 2.5%;
+    width: 95%; }
+    #messages-tab-content #messages-list {
+      height: calc(100% - 100px); }
+    #messages-tab-content #input-form form#msg .col-md-12 {
+      padding-left: 0px;
+      padding-right: 3px; }
+  #messageIcon.fa.fa-users {
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 40px; }
+  #messageInfoDiv {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 50px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 50px;
+    color: white;
+    border: 2px solid #e1e8ed;
+    border-bottom: none;
+    padding-left: 10px;
+    background-color: #337ab7;
+    font-family: PT Sans; }
+    #messageInfoDiv .fa.fa-chevron-left {
+      font-weight: 200;
+      color: white;
+      cursor: pointer; }
+    #messageInfoDiv .mobile-pic-div {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 100%;
+      padding: 2px;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+      #messageInfoDiv .mobile-pic-div img#userToProfilePicture {
+        float: right;
+        height: 40px;
+        width: auto;
+        background: no-repeat center center;
+        border-radius: 50%;
+        box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6); } }
+
+@media (max-width: 695px) {
+  #messageIcon {
+    padding-left: 12px;
+    padding-right: 8px; } }
+
+@media (max-width: 695px) and (max-width: 550px) {
+  #messageIcon {
+    padding-left: 8px; } }
+
+@media (max-width: 695px) and (max-width: 500px) {
+  #messageIcon {
+    padding-left: 5px; }
+  #messages-tab-content #input-form form#msg .col-md-12 {
+    padding-left: 6px;
+    padding-right: 3px; } }
+
+@media (min-width: 431px) {
+  .mobile-sm {
+    display: none; } }
+
+@media (max-width: 430px) {
+  #messages-tab-menu {
+    margin: 0;
+    width: 100%;
+    border: none;
+    border-right: 2px solid #e1e8ed; }
+  #messages-tab-content {
+    margin: 0;
+    width: 100%; }
+    #messages-tab-content #messages-list {
+      background: white; }
+    #messages-tab-content ul div.user_from, #messages-tab-content ul div.user_to {
+      background-color: #337AB7;
+      border-radius: 25px;
+      padding: 8px 8px;
+      width: auto;
+      float: right;
+      max-width: 70%;
+      margin-right: 2%;
+      color: white; }
+      #messages-tab-content ul div.user_from .col-xs-9.col-md-9, #messages-tab-content ul div.user_to .col-xs-9.col-md-9 {
+        width: auto; }
+      #messages-tab-content ul div.user_from .col-md-2.timestamp, #messages-tab-content ul div.user_to .col-md-2.timestamp {
+        line-height: 20px;
+        margin: 0;
+        color: #e1e8ed; }
+      #messages-tab-content ul div.user_from img, #messages-tab-content ul div.user_to img {
+        display: none; }
+    #messages-tab-content ul .read_col {
+      background-color: white !important; }
+    #messages-tab-content ul li {
+      margin: 0; }
+    #messages-tab-content ul div.user_to {
+      float: left;
+      color: black;
+      width: auto;
+      max-width: 70%;
+      background-color: #EEE;
+      margin-left: 2%; }
+      #messages-tab-content ul div.user_to .col-md-2.timestamp {
+        color: #7F8B84; }
+  #messages-list {
+    height: calc(100% - 50px); }
+  a {
+    display: none; } }
