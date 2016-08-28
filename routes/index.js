@@ -41,10 +41,10 @@ router.get('/facebookSplit', users.facebookSplit);
 router.get('/facebookError', users.facebookAuthError)
 
 // Privacy policy + t&c's
-router.get('/privacy_policy', function(req, res) {
+router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy')
 })
-router.get('/terms_and_conditions', function(req, res) {
+router.get('/terms-and-conditions', function(req, res) {
   res.render('terms_and_conditions')
 })
 
