@@ -1275,6 +1275,8 @@ section#content {
       max-width: 70%;
       background-color: #EEE;
       margin-left: 2%; }
+      #messages-tab-content ul div.user_to .col-md-2.timestamp {
+        color: #7F8B84; }
   #messages-list {
     height: calc(100% - 50px); }
   a {
