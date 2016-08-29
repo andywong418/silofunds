@@ -421,6 +421,7 @@ function showLoggedinNavbar(){
   $(window).resize(function(){
     var windowPortWidth = $(window).width();
     if(windowPortWidth < 991){
+      $('a#advs-link').attr('href', '/advanced-search');
       $('#brand-heading').html("<img src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px'></img>");
     }
     if(windowPortWidth < 767){
@@ -478,7 +479,7 @@ function showLoggedinNavbar(){
     $(this).addClass('active-mobile-item');
     if($(this).hasClass('mobile-users')){
       $('#text-search-mobile').attr('placeholder', 'Search users');
-      $('#advanced-search-mobile').attr('href', '/advanced-search/users');
+      $('#advanced-search-mobile').attr('href', '/advanced-search');
     }
     else{
       $('#text-search-mobile').attr('placeholder', 'Search funds');
@@ -491,6 +492,9 @@ function showNonLoggedInNavbar(){
   $(document).on('click', '.pre-signin', function(){
     $('.navbar-toggle').click();
   });
+  if(windowPortView < 991){
+    $('a#advs-link, #many-results').attr('href', '/advanced-search');
+  }
   if(windowPortView < 767){
     $('.cd-login, .cd-signup').click(function(){
       $('.navbar-toggle').click();
@@ -505,13 +509,13 @@ function showNonLoggedInNavbar(){
     }
   }
   if(windowPortView< 450){
-    $('a#advs-link').attr('href', '/');
     $('a#advs-link').html("Advanced");
   }
   $(window).resize(function(){
     var windowPortView = $(window).width();
     if(windowPortView < 991){
       $('#brand-heading').html("<img src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px'></img>");
+      $('a#advs-link').attr('href', '/advanced-search');
     }
     if(windowPortView < 644){
       if($('#search-form').attr('action') == '/results/users'){
@@ -522,7 +526,6 @@ function showNonLoggedInNavbar(){
       }
     }
     if(windowPortView < 450){
-      $('a#advs-link').attr('href', '/');
       $('a#advs-link').html("Advanced");
     }
     if(windowPortView > 664){
@@ -534,8 +537,10 @@ function showNonLoggedInNavbar(){
       }
     }
     if(windowPortView > 450){
-      $('a#advs-link').attr('href', '#');
       $('a#advs-link').html("Advanced search");
+    }
+    if(windowPortView > 991){
+      $('a#advs-link').attr('href', '#');
     }
   });
 }

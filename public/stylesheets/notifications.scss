@@ -1,0 +1,55 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+$border:  1px solid #d8d7d7;
+.navbar-custom{
+  position: relative;
+  div.navbar-center-container{
+    position: absolute;
+  }
+}
+#notif-header{
+  margin-top: 15px;
+  margin-left: 10px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+#notification-count{
+  display: none;
+}
+#notification-handler{
+  cursor: pointer;
+  &:hover{
+    background-color: #f6f9fa !important;
+  }
+  background: #e9f0f4;
+  border-top: $border;
+  padding: 10px;
+  padding-top: 15px;
+  .notification-row{
+    i.fa-money{
+      font-size: 22px;
+      padding-left: 10px;
+    }
+    .fa-money{
+      color: #2ecc71;
+    }
+    .fa-calendar{
+      color: #e74c3c;
+      font-size: 22px;
+      padding-left: 10px;
+    }
+    .fa-sticky-note{
+      color: #9b59b6;
+      font-size: 22px;
+      padding-left: 10px;
+    }
+    .fa-star{
+      color: #f1c40f;
+      font-size: 22px;
+      padding-left: 10px;
+    }
+  }
+
+}
