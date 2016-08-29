@@ -488,7 +488,7 @@ function showLoggedinNavbar(){
   });
 }
 function showNonLoggedInNavbar(){
-    var windowPortView = $(window).width();
+  var windowPortView = $(window).width();
   $(document).on('click', '.pre-signin', function(){
     $('.navbar-toggle').click();
   });
