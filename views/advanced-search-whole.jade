@@ -82,7 +82,7 @@ block content
               .col-md-4.col-xs-6
                 p#target_degree-header Degree
                 input#target_degree(name='target_degree', form='advs-funding-form')
-          section#search
+          section#search(style='margin-bottom: 50px')
             button#advs-grant-submit.btn.btn-primary(type='submit') Search
     #user.tab-pane
       form(id='advs-user-form', action='/results/users', method='get', name='advs_user-form')
@@ -107,7 +107,7 @@ block content
               .col-md-3.col-xs-6
                 p#amount-header Amount needed
                 input#funding_needed(name= 'funding_needed', form= 'advs-user-form')
-        section#search
+        section#search(style='margin-bottom: 50px')
           button#advs-grant-submit.btn.btn-primary(type='submit') Search
         
 

@@ -22,41 +22,89 @@ block content
 	include ./partials/signup-modal.jade
 	include ./advanced-search.jade
 	.col-lg-10.col-lg-offset-1
+		.queryToken
+			span#wrapper-span You searched for:
+				each value, key in query
+					if key != 'sort_by'
+						if key.indexOf('_') != -1
+								span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
+									each tag in value.split(' ')
+										a(href='/results?' + key+'=' + tag)= tag
+									i.fa.fa-times
+						else
+								span#tokenKey(class = key)=key + ": " 
+									if key != 'age'
+										each tag in value.split(' ')
+											a(href='/results?' + key +'=' + tag)= tag
+									else
+										a(href='/results?' + key + '=' + 'age')= value 
+									i.fa.fa-times
 		div.results
 			h3
 				span='Your search returned ' + users.length + ' results'
 		div.page-header
-			script#user-template(type='text/template')
-				.database
-					.user_list
-						.row
-							.col-md-4
-								img#user-picture(src!= '<%= profile_picture%>')
-							#user-info.col-md-6
-								a(href != '/public/' + '<%= user_id %>')
-									h4.username <%= username %>
-								.row
-									.col-md-12
-										p#subject(class!='subject' + '<%= user_id %>') Studying
-											span.control <%= subject %>
-									.col-md-12
-										p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
-											span.control <%= user_nationality %>
-									.col-md-12
-										p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
-											span.control <%= target_country %>
-									.col-md-12
-										p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
-											span.control <%=previous_university %>
-									.col-md-12
-										p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
-											span.control <%= target_university %>				
-									.col-md-12
-										p#user-religion(class!= 'user-religion' + '<%= user_id %>')
-							#user-action.col-md-2
-								a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
-									i.fa.fa-comments-o(aria-hidden="true")
-									|Message 
+			.row
+				each user in users
+					.col-sm-4.user_list
+						.buffer-div
+							if(user.profile_picture)
+								img#user-picture(src= user.profile_picture)
+							else
+								img#user-picture(src='/images/profile-placeholder.jpg')
+							a(href= '/public/' + user.id)
+								h4.username= user.username
+							if user.subject
+								p#subject(class!='subject' + user.id) Studying
+									span.control= user.subject.join(', ')
+							if user.country_of_residence
+								p#user-nationality(class!= 'user-nationality' + user.id) Lives in
+									span.control= user.country_of_residence
+							if user.target_country
+								p#target_country(class='target_country' + user.id) Intending to go to 
+									span.control= user.target_country
+							if user.previous_university
+								p#previous_university(class='previous_university' + user.id) Studied at
+									span.control= user.previous_university.join(', ')
+							if user.target_university
+								p#target_university(class='target_university' + user.id) Intended study at
+									span.control= user.target_university.join(', ')
+							a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+								i.fa.fa-comments-o(aria-hidden="true")
+								|Message 
+								
+								
+							
+			//- script#user-template(type='text/template')
+			//- 	.database
+			//- 		.user_list
+			//- 			.row
+			//- 				.col-md-4
+			//- 					img#user-picture(src!= '<%= profile_picture%>')
+			//- 				#user-info.col-md-6
+			//- 					a(href != '/public/' + '<%= user_id %>')
+			//- 						h4.username <%= username %>
+			//- 					.row
+			//- 						.col-md-12
+			//- 							p#subject(class!='subject' + '<%= user_id %>') Studying
+			//- 								span.control <%= subject %>
+			//- 						.col-md-12
+			//- 							p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
+			//- 								span.control <%= user_nationality %>
+			//- 						.col-md-12
+			//- 							p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
+			//- 								span.control <%= target_country %>
+			//- 						.col-md-12
+			//- 							p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
+			//- 								span.control <%=previous_university %>
+			//- 						.col-md-12
+			//- 							p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
+			//- 								span.control <%= target_university %>				
+			//- 						.col-md-12
+			//- 							p#user-religion(class!= 'user-religion' + '<%= user_id %>')
+			//- 				#user-action.col-md-2
+			//- 					a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+			//- 						i.fa.fa-comments-o(aria-hidden="true")
+			//- 						|Message 
 
 block scripts
 	script(src='/javascript/signup-login.js')

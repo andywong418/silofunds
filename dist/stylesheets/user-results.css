@@ -1,38 +1,37 @@
 body {
   background-color: #f0f2f4; }
 
+.queryToken {
+  margin-top: 100px; }
+
 .results {
-  margin-top: 100px;
+  display: inline-block;
+  width: 50%;
+  margin-left: 25%;
+  height: 50px;
+  padding: 5px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #3c547a;
   text-align: center; }
 
 .results h3 {
-  padding-top: 4px;
+  padding-top: 7px;
+  font-size: 20px;
   color: #2d4a76; }
-
-.page-header {
-  background-color: white;
-  border-radius: 3px; }
-
-.database {
-  display: block; }
-
-.database p {
-  margin-left: 13px; }
-
-.database a {
-  cursor: pointer; }
 
 #picture {
   height: 100%; }
 
 #user-picture {
-  width: 250px;
-  height: 250px; }
+  width: 170px;
+  height: 170px; }
 
 #user-nationality, #user-religion, #target_country, #previous_university, #target_university, #subject {
   color: grey; }
 
 #message {
+  margin-top: 10px;
   background-color: #5bc0de;
   color: white;
   border: none;
@@ -46,10 +45,29 @@ body {
   margin-bottom: -5px; }
 
 .user_list {
-  background-color: white;
-  border-radius: 15px;
-  margin-bottom: 60px;
-  margin-right: 35px; }
+  margin-bottom: 20px;
+  border-radius: 3px;
+  text-align: center; }
+  .user_list .buffer-div {
+    padding: 10px;
+    height: 400px;
+    border-radius: 3px;
+    background-color: white;
+    font-family: 'Source Sans Pro'; }
+    .user_list .buffer-div img {
+      margin-bottom: 20px;
+      border-radius: 3px; }
+    .user_list .buffer-div h4 {
+      margin-bottom: 8px;
+      font-family: 'Source Sans Pro'; }
+    .user_list .buffer-div p {
+      margin-top: 0px;
+      font-size: 15px;
+      margin-bottom: 0; }
+      .user_list .buffer-div p span {
+        font-size: 15px; }
+    .user_list .buffer-div #religion {
+      margin-top: 0; }
 
 #user-info {
   padding-left: 30px; }
@@ -59,3 +77,44 @@ body {
 
 .control {
   margin-left: 4px; }
+
+@media (max-width: 1200px) {
+  .col-lg-10 {
+    padding-left: 20px;
+    padding-right: 20px; } }
+
+@media (max-width: 1031px) {
+  .user_list .buffer-div {
+    height: 450px; } }
+
+@media (max-width: 767px) {
+  .user_list {
+    padding-left: 20px;
+    padding-right: 20px; }
+    .user_list .buffer-div {
+      padding-top: 20px;
+      height: auto;
+      padding-bottom: 20px; } }
+
+@media (max-width: 740px) {
+  .results {
+    width: 66%;
+    margin-left: 17%; } }
+
+@media (max-width: 560px) {
+  .results {
+    width: 90%;
+    margin-left: 5%; } }
+
+@media (max-width: 418px) {
+  .results {
+    padding-top: 0; }
+    .results h3 {
+      padding-top: 0; } }
+
+@media (max-width: 380px) {
+  .results {
+    padding-top: 0; }
+    .results h3 {
+      font-size: 18px;
+      padding-top: 4px; } }

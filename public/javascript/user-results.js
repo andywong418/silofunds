@@ -1,5 +1,24 @@
 $(document).ready(function(){
-
+  //queryOptions for search
+  if(typeof query != 'undefined' && query){
+    for(var field in query){
+      $('.' + field).attr('value', query[field]);
+      if(field == 'merit_or_finance'){
+          $('#' + query[field]).attr("checked", "true");
+      }
+      if(field == 'gender'){
+        $('#' + query[field]).attr("checked", "true");
+      }
+    }
+  }
+  $('span#tokenKey i').click(function(){
+    var field = $(this).parent('#tokenKey').attr('class');
+    if(field == 'tags'){
+      $('input#text_search').val('');
+    }
+    $(this).closest('#tokenKey').fadeOut();
+    $('input#advanced_user_' +field).val('');
+  });
   for (var i = 0; i < userData.length; i++) {
     var UserModel = Backbone.Model.extend({
       defaults: {
