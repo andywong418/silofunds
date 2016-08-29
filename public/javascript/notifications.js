@@ -103,17 +103,13 @@ $(document).ready(function(){
         windowPortWidth = $(window).width();
         var wholePage = location.href.indexOf('whole-page');
         var notificationCollection;
-        if(windowPortWidth < 767){
           if(data.length > 5 & wholePage === -1){
             notificationCollection = new NotificationCollection(data.slice(0,4));
           }
           else{
             notificationCollection = new NotificationCollection(data);
           }
-        }
-        else{
-           notificationCollection = new NotificationCollection(data);
-        }
+
 
         var notificationList = new NotificationList({collection: notificationCollection});
         $(".notification-wrapper").append(notificationList.render().el);
@@ -147,7 +143,9 @@ $(document).ready(function(){
   $('#user-message').click(function(){
     $('span#new-message').hide();
   });
-
+  $('p#see-all').click(function(){
+    location.href = '/notifications/whole-page';
+  });
 });
 function updateDiffDays(date){
 	var oneDay = 24*60*60*1000;
