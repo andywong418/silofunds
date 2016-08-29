@@ -140,9 +140,10 @@ nav.navbar-custom.mobile {
   font-size: 14px;
   border-top: 1px solid #ebe2e2;
   border-bottom: 1px solid #ebe2e2;
-  color: #337ab7;
   padding: 5px;
   cursor: pointer; }
+  #see-all a {
+    color: #337ab7; }
 
 .mobile-dashboard, .mobile-profile, .mobile-settings, .mobile-logout {
   display: block;

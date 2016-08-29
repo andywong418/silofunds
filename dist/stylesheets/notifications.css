@@ -918,85 +918,42 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
-body {
-  color: #34495e;
-  font-family: 'Source Sans Pro'; }
-  body .navbar-custom {
-    position: relative; }
-    body .navbar-custom div.navbar-center-container {
-      position: absolute; }
-  body #search-for {
-    margin-top: 20px;
-    height: auto; }
-    body #search-for .col-xs-11 ul {
-      display: inline-block;
-      padding-top: 20px; }
-      body #search-for .col-xs-11 ul p {
-        display: inline-block;
-        margin-right: 30px;
-        float: left;
-        font-size: 15px;
-        font-weight: bold; }
-      body #search-for .col-xs-11 ul li {
-        cursor: pointer; }
-        body #search-for .col-xs-11 ul li a {
-          cursor: pointer;
-          margin-top: -10px;
-          font-size: 15px;
-          padding: 10px; }
-  body #key-words p {
-    display: inline-block;
-    font-size: 16px;
-    margin-right: 10px; }
-  body #key-words input {
-    border-width: 1px;
-    border-radius: 3px;
-    border-style: solid;
-    border-color: #C1C1C1;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
-    padding: 3px 5px;
-    margin-bottom: 10px;
-    width: 30%; }
-  body #about-you .col-xs-11 .sub-header p, body #about-funding .col-xs-11 .sub-header p, body #about-study .col-xs-11 .sub-header p, body #user-search .col-xs-11 .sub-header p {
-    font-size: 18px;
-    margin-bottom: 5px;
-    display: inline-block;
-    border-bottom: 1px solid #d8d7d7;
-    font-weight: bold; }
-  body #about-you .col-xs-11 .row p, body #about-funding .col-xs-11 .row p, body #about-study .col-xs-11 .row p, body #user-search .col-xs-11 .row p {
-    font-size: 16px;
-    margin-top: 9px;
-    margin-bottom: 5px; }
-  body #about-you .col-xs-11 .row input, body #about-funding .col-xs-11 .row input, body #about-study .col-xs-11 .row input, body #user-search .col-xs-11 .row input {
-    border-width: 1px;
-    border-radius: 3px;
-    border-style: solid;
-    border-color: #C1C1C1;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2) inset;
-    padding: 3px 5px;
-    margin-bottom: 10px;
-    width: 90%;
-    display: block; }
-  body #advs-link, body .navbar-center-container {
-    display: hidden;
-    visibility: hidden; }
-  body #about-funding, body #about-study {
-    width: 100%; }
-    body #about-funding .sub-header, body #about-study .sub-header {
-      margin-top: 40px; }
-  body #search {
-    width: 100%;
-    text-align: center; }
-    body #search button {
-      margin-top: 50px;
-      font-size: 18px; }
+.navbar-custom {
+  position: relative; }
+  .navbar-custom div.navbar-center-container {
+    position: absolute; }
 
-@media (max-width: 991px) {
-  .completed-degree-row {
-    clear: both; } }
+#notif-header {
+  margin-top: 15px;
+  margin-left: 10px;
+  font-size: 16px;
+  margin-bottom: 15px; }
 
-@media (max-width: 450px) {
-  #about-you .col-xs-11 .sub-header p, #about-funding .col-xs-11 .sub-header p, #about-study .col-xs-11 .sub-header p {
-    font-size: 16px !important; }
-  #about-you .col-xs-11 .row p, #about-funding .col-xs-11 .row p, #about-study .col-xs-11 .row p {
-    font-size: 14px !important; } }
+#notification-count {
+  display: none; }
+
+#notification-handler {
+  cursor: pointer;
+  background: #e9f0f4;
+  border-top: 1px solid #d8d7d7;
+  padding: 10px;
+  padding-top: 15px; }
+  #notification-handler:hover {
+    background-color: #f6f9fa !important; }
+  #notification-handler .notification-row i.fa-money {
+    font-size: 22px;
+    padding-left: 10px; }
+  #notification-handler .notification-row .fa-money {
+    color: #2ecc71; }
+  #notification-handler .notification-row .fa-calendar {
+    color: #e74c3c;
+    font-size: 22px;
+    padding-left: 10px; }
+  #notification-handler .notification-row .fa-sticky-note {
+    color: #9b59b6;
+    font-size: 22px;
+    padding-left: 10px; }
+  #notification-handler .notification-row .fa-star {
+    color: #f1c40f;
+    font-size: 22px;
+    padding-left: 10px; }

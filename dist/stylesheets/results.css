@@ -198,6 +198,12 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#notification-time {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 0;
+  margin-top: 5px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -457,9 +463,10 @@ nav.navbar-custom.mobile {
   font-size: 14px;
   border-top: 1px solid #ebe2e2;
   border-bottom: 1px solid #ebe2e2;
-  color: #337ab7;
   padding: 5px;
   cursor: pointer; }
+  #see-all a {
+    color: #337ab7; }
 
 .mobile-dashboard, .mobile-profile, .mobile-settings, .mobile-logout {
   display: block;

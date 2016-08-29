@@ -515,7 +515,7 @@ function showNonLoggedInNavbar(){
     var windowPortView = $(window).width();
     if(windowPortView < 991){
       $('#brand-heading').html("<img src='/images/silo-transparent-square.png' style='width: 50px; margin-top: -16px'></img>");
-      $('a#advs-link').attr('href', '/');
+      $('a#advs-link').attr('href', '/advanced-search');
     }
     if(windowPortView < 644){
       if($('#search-form').attr('action') == '/results/users'){
@@ -526,7 +526,6 @@ function showNonLoggedInNavbar(){
       }
     }
     if(windowPortView < 450){
-      $('a#advs-link').attr('href', '/');
       $('a#advs-link').html("Advanced");
     }
     if(windowPortView > 664){
@@ -538,8 +537,10 @@ function showNonLoggedInNavbar(){
       }
     }
     if(windowPortView > 450){
-      $('a#advs-link').attr('href', '#');
       $('a#advs-link').html("Advanced search");
+    }
+    if(windowPortView > 991){
+      $('a#advs-link').attr('href', '#');
     }
   });
 }

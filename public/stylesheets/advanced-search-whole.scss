@@ -109,7 +109,11 @@ body{
     }
   }
 }
-
+@media(max-width: 991px){
+  .completed-degree-row{
+    clear:both;
+  }
+}
 @media(max-width:450px){
   #about-you, #about-funding, #about-study{
     .col-xs-11{

@@ -54,6 +54,18 @@ $(document).ready(function(){
         if(notification.attributes.category == 'favourite'){
           notification.attributes.category = 'fa-star';
         }
+
+        var diffDays = updateDiffDays(notification.attributes.created_at);
+        if(diffDays === 0){
+          notification.set('created_at', 'Today');
+        }
+        if(diffDays === 1){
+          notification.set('created_at', 'Yesterday');
+        }
+        if(diffDays > 1){
+          notification.set('created_at', diffDays + ' days ago');
+        }
+        console.log(notification);
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
       }, this);
@@ -63,8 +75,11 @@ $(document).ready(function(){
   //get new notifications
   var notificationArray;
   var displayNotif = false;
+
   $(document).on('click', '#home', function(e){
-    if(displayNotif === false){
+    var wholePage = location.href.indexOf('whole-page');
+    console.log(wholePage);
+    if(displayNotif === false && wholePage == -1){
       e.preventDefault();
       $('.notification_box').show();
       $('#notification-count').hide();
@@ -86,9 +101,10 @@ $(document).ready(function(){
     $.get('/notifications/new', function(data){
       if(data.length > 0){
         windowPortWidth = $(window).width();
+        var wholePage = location.href.indexOf('whole-page');
         var notificationCollection;
         if(windowPortWidth < 767){
-          if(data.length > 5){
+          if(data.length > 5 & wholePage === -1){
             notificationCollection = new NotificationCollection(data.slice(0,4));
           }
           else{
@@ -133,3 +149,12 @@ $(document).ready(function(){
   });
 
 });
+function updateDiffDays(date){
+	var oneDay = 24*60*60*1000;
+	var completionDate = new Date(date);
+	var nowDate = Date.now();
+
+	var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+	return diffDays;
+
+}
