@@ -1,6 +1,7 @@
 extends layout-signup
 
 block extraHeader
+	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 	link(href='/stylesheets/fund-dashboard.css', rel='stylesheet')
 block content
 		script.
@@ -64,6 +65,32 @@ block content
 						span= fund.updated_at
 					.col-md-1#edit
 						a(href='/organisation/options/' + fund.id + '/edit') Edit
+			if applications
+				#info-row.row
+					.col-md-9
+						p#listings-header 
+							span Your list of applications
+							span.badge= applications.length
+				.row
+					.col-md-12
+						table.table.table-responsive#header
+							thead
+								tr
+									th.col-md-3 Appliciant
+									th.col-md-3 Fund applied
+									th.col-md-4(style='float: left') Date Applied
+									th.col-md-1(style='float: left') Status
+				each app in applications
+					.row#funding-card
+						.col-md-3
+							a(style='font-size:14px', href='/public/' + app.user_id)= app.applicant
+						.col-md-3
+							a(href='/organisation/options/' + app.fund_id)
+								span= app.fund_title
+						.col-md-2
+							span= app.created_at
+						.col-md-1#edit
+							a#edit-application(style='float: left')= app.status
 block scripts
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/signup-login.js')

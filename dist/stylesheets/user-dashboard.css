@@ -2207,7 +2207,7 @@ table#header {
     margin-top: 5px;
     font-size: 16px; }
   #recommended textarea {
-    width: 80%;
+    width: 60%;
     height: 100px;
     border-radius: 3px;
     font-size: 15px;
@@ -2226,10 +2226,11 @@ table#header {
       border-radius: 50%; }
     #updates .update-row textarea {
       width: 80%;
-      height: 300px;
+      height: 100px;
       border-radius: 3px;
-      font-size: 18px;
-      padding: 8px; }
+      font-size: 15px;
+      padding: 8px;
+      resize: none; }
     #updates .update-row #social-media-flex-container {
       width: 80%;
       display: inline-block;
