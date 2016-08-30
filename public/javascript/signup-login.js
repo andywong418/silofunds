@@ -388,7 +388,8 @@ $("#login-form").submit(function(e){
            }
            else{
              if(user.organisation_or_user){
-              //  $("#home").attr("href", '/organisation/dashboard');
+               $("#dashboard").attr("href", '/organisation/dashboard');
+               $('#profile').hide();
                $(".settings").attr("href", '/organisation/settings');
                $(".logout").attr("href", '/organisation/logout');
              }

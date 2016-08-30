@@ -534,7 +534,12 @@ module.exports = {
   }
   else{
     userId = req.user.id;
-    loggedInUser = false;
+    if(req.isAuthenticated()){
+      loggedInUser = req.user.id;
+    }
+    else{
+      loggedInUser = false;
+    }
   }
   models.users.findById(userId).then(function(user){
     models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
