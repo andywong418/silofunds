@@ -1385,6 +1385,7 @@ function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 			newObj['status'] = element.status;
 			newObj['amount_gained'] = element.amount_gained;
 			newObj['hide_from_profile'] = element.hide_from_profile;
+      newObj['fund_approved'] = element.fund_approved;
 			models.funds.findById(element.fund_id).then(function(fund){
 				newObj['title'] = fund.title;
 				newObj['id'] = fund.id;

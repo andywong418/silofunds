@@ -80,26 +80,51 @@ block content
 									th.col-md-3 Fund applied
 									th.col-md-4(style='float: left') Date Applied
 									th.col-md-1(style='float: left') Status
+									.col-md-1
 				each app in applications
 					.row#funding-card
 						.col-md-3
-							a(style='font-size:14px', href='/public/' + app.user_id)= app.applicant
+							a#applicant(style='font-size:13px', href='/public/' + app.user_id)= app.applicant
 						.col-md-3
 							a(href='/organisation/options/' + app.fund_id)
 								span= app.fund_title
 						.col-md-2
 							span= app.created_at
 						.col-md-1#edit
-							a#edit-application(style='float: left')= app.status
+							a(data-toggle="modal",data-target=".application-status" + app.id)= app.status
+						#application-status.modal.fade(role='dialog', class='application-status' + app.id)
+							.modal-dialog
+								// Modal content
+								.modal-content
+									.modal-header
+										button.close(type='button', data-dismiss='modal') ×
+										h4.modal-title Manage your application
+									.modal-body
+										p Please confirm the outcome of this application.
+										.radio
+											label
+												input(id = 'app-success' + app.id, type='radio', name='optradio', value='success', class=app.id)
+												| The applicant is successful.
+												label#amount-update(class='amount-update' + app.id) How much funding will be given?
+													input#amount-gained(placeholder= '£', class='amount-gained' + app.id)
+										.radio
+											label
+												input(id='app-fail' + app.id, type='radio', name='optradio', value='unsuccessful', class= app.id)
+												| Unfortunately this applicant is unsuccessful.
+
+									.modal-footer
+										button.confirm-app.btn.btn-primary(id=app.id, type='button', data-dismiss='modal') Confirm
+										button.btn.btn-default(type='button', data-dismiss='modal') Close
 block scripts
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/signup-login.js')
 	script(src='/javascript/notifications.js')
-	// Google Analytics
-	script.
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		ga('create', 'UA-74497958-1', 'auto');
-		ga('send', 'pageview');
+	script(src='/javascript/fund-dashboard.js')
+// Google Analytics
+script.
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-74497958-1', 'auto');
+	ga('send', 'pageview');

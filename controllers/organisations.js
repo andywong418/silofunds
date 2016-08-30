@@ -262,7 +262,38 @@ dashboard: function(req, res) {
     });
 
   },
+  editApplication: function(req, res){
+    var app_id = req.params.app_id;
+    models.applications.findById(app_id).then(function(app){
+      app.update(req.body).then(function(app){
+        models.funds.findById(app.fund_id).then(function(fund){
+          if(app.status === 'success'){
+            var options= {
+              user_id: app.user_id,
+              notification: 'Congratulations! ' + fund.title + ' has approved your application success! <a href="/organisation/options/' + fund.id + '"></a>',
+              category: 'app-success',
+              read_by_user: false
+            };
+            models.notifications.create(options).then(function(notif){
+              res.send(app);
+            });
+          }
+          if(app.status ==='unsuccessful'){
+            var options = {
+              user_id: app.user_id,
+              notification: 'Unfortunately ' + fund.title + ' has marked your application as unsuccessful. <a href="/organisation/options/' + fund.id + '"></a>',
+              category: 'app-failure',
+              read_by_user: false
+            };
+            models.notifications.create(options).then(function(notif){
+              res.send(app);
+            });
+          }
+        });
 
+      });
+    });
+  },
   newOptionProfile: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
