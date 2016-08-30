@@ -967,19 +967,28 @@ module.exports = {
   search: function(req, res){
     var query = req.query;
     var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
-
     // Parse integer fields
     if (query.age) {
       query.age = parseIfInt(query.age);
+      var todayDate = new Date();
+      var userBirthday = new Date();
+      console.log("TODAY", todayDate);
+      var lowerBoundBirthDate = todayDate.getFullYear() - query.age - 5;
+      var upperBoundBirthdate = todayDate.getFullYear() -query.age +5
+      var lowerBirthdaySeconds = userBirthday.setFullYear(lowerBoundBirthDate);
+      var upperBirthdaySeconds = userBirthday.setFullYear(upperBoundBirthdate);
+      var lowerDate = new Date(lowerBirthdaySeconds);
+      var upperDate = new Date(upperBirthdaySeconds);
+      query['lower_date'] = lowerDate.toISOString().split('T')[0];
+      query['upper_date'] = upperDate.toISOString().split('T')[0];
+      console.log("birthday", query);
     }
     if (query.funding_needed) {
       query.funding_needed = parseIfInt(query.funding_needed);
     }
-
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
-
     var queryOptions = {
       "filtered": {
         "filter": {
@@ -995,43 +1004,41 @@ module.exports = {
         var queryOptionsShouldArr = [
           {
             "range": {
-              "minimum_amount": {
-                "lte": query.funding_needed
+              "funding_needed": {
+                "gte": query.funding_needed - 100
               }
             }
           },
           {
             "range": {
-              "maximum_amount": {
-                "gte": query.funding_needed
+              "funding_needed": {
+                "gte": query.funding_needed + 100
               }
             }
           },
           {
             "range": {
-              "minimum_age": {
-                "lte": query.age
+              "date_of_birth": {
+                "gte": query.lower_date
               }
             }
           },
           {
             "range": {
-              "maximum_amount": {
-                "gte": query.age
+              "date_of_birth": {
+                "lte": query.upper_date
               }
             }
           }
-        ];
 
+        ];
         queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
       }
-
       queryOptions.filtered.query = {
         "bool": {
           "should": []
         }
       };
-
       if (query.tags) {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
@@ -1048,8 +1055,10 @@ module.exports = {
         var notTags = key !== "tags";
         var notAge = key !== "age";
         var notFundingNeeded = key !== "funding_needed";
+        var noLowerDate = key !=='lower_date';
+        var noUpperDate = key !== 'upper_date';
 
-        if (notTags && notAge && notFundingNeeded) {
+        if (notTags && notAge && notFundingNeeded && noLowerDate && noUpperDate) {
           var matchObj = {
             "match": {}
           };
@@ -1064,6 +1073,7 @@ module.exports = {
           }
         }
       }
+      Logger.warn(queryOptions.filtered.filter.bool);
     }
     es.search({
       index: "users",
@@ -1073,6 +1083,12 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
+      if(query['upper_date']){
+        delete query['upper_date'];
+      }
+      if(query['lower_date']){
+        delete query['lower_date'];
+      }
       var users = resp.hits.hits.map(function(hit) {
         var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
@@ -1515,4 +1531,13 @@ function reformatDate(date) {
 
   var reformattedDate = yyyy + "-" + mm + "-" + dd;
   return reformattedDate;
+};
+
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+  else{
+    return 0;
+  }
 };
