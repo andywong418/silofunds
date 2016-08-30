@@ -51,7 +51,15 @@ router.get('/advanced-search', function(req, res){
   }
   res.render('advanced-search-whole', {user: user});
 });
-
+//check user
+router.get('/check-user/:id',  function(req, res){
+  console.log("PARAMS", req.params);
+  var userId = req.params.id;
+  console.log(userId);
+  models.users.findById(userId).then(function(user){
+    res.send(user);
+  });
+});
 // Privacy policy + t&c's
 router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy')

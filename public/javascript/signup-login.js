@@ -387,18 +387,39 @@ $("#login-form").submit(function(e){
 
            }
            else{
-             if(user.organisation_or_user){
-               $("#dashboard").attr("href", '/organisation/dashboard');
-               $('#profile').hide();
-               $(".settings").attr("href", '/organisation/settings');
-               $(".logout").attr("href", '/organisation/logout');
+             var crowdFundingPage = location.href.indexOf('public');
+             if(crowdFundingPage > -1){
+               //public page
+               $.get('/check-user/' + loggedInUser, function(user){
+                 console.log(user);
+                 if(user.organisation_or_user){
+                   $("#dashboard").attr("href", '/organisation/dashboard');
+                   $('#profile').hide();
+                   $(".settings").attr("href", '/organisation/settings');
+                   $(".logout").attr("href", '/organisation/logout');
+                 }
+                 else{
+                  //  $("#home").attr("href", '/user/dashboard');
+                   $(".settings").attr("href", '/user/settings' );
+                   $(".logout").attr("href", '/user/logout');
+                 }
+               });
              }
              else{
+               if(user.organisation_or_user){
+                 $("#dashboard").attr("href", '/organisation/dashboard');
+                 $('#profile').hide();
+                 $(".settings").attr("href", '/organisation/settings');
+                 $(".logout").attr("href", '/organisation/logout');
+               }
+               else{
 
-              //  $("#home").attr("href", '/user/dashboard');
-               $(".settings").attr("href", '/user/settings' );
-               $(".logout").attr("href", '/user/logout');
+                //  $("#home").attr("href", '/user/dashboard');
+                 $(".settings").attr("href", '/user/settings' );
+                 $(".logout").attr("href", '/user/logout');
+               }
              }
+
 
           }
 

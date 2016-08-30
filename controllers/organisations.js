@@ -618,7 +618,6 @@ dashboard: function(req, res) {
       })
     });
   },
-
   logout: function(req, res) {
     res.clearCookie('remember_me');
     req.logout();

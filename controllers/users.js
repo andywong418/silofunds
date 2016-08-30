@@ -533,6 +533,7 @@ module.exports = {
     Logger.warn(loggedInUser);
   }
   else{
+    // user profile
     userId = req.user.id;
     if(req.isAuthenticated()){
       loggedInUser = req.user.id;
@@ -1141,7 +1142,6 @@ module.exports = {
       next();
     }
   },
-
   userBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
