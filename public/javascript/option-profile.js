@@ -490,8 +490,8 @@ $(document).ready(function(){
   });
 
   if(user){
+    $('.application_form').css('margin-top', '3%');
     if(!user.organisation_or_user){
-      $('.application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
         var myDate = user.date_of_birth.split("-");
