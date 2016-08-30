@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes){
 		amount_gained: {
 			type: DataTypes.INTEGER,
 			field: 'amount_gained'
+		},
+		fund_approved: {
+			type: DataTypes.BOOLEAN,
+			field: 'fund_approved'
 		}
   }, {
 		timestamps: true,

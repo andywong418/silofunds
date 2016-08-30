@@ -54,6 +54,12 @@ $(document).ready(function(){
         if(notification.attributes.category == 'favourite'){
           notification.attributes.category = 'fa-star';
         }
+        if(notification.attributes.category =='app-success'){
+          notification.attributes.category = 'fa-beer';
+        }
+        if(notification.attributes.category == 'app-failure'){
+          notification.attributes.category = 'fa-frown-o';
+        }
 
         var diffDays = updateDiffDays(notification.attributes.created_at);
         if(diffDays === 0){

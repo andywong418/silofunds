@@ -18,6 +18,7 @@ router.post('/funding_creation/:option/save_eligible/', funds.createNewFund);
 router.post('/funding_creation/:option/save_eligible/:fund_id', funds.updateEligibility);
 router.post('/funding_creation/:option/save_application', funds.createNewFund);
 router.post('/funding_creation/:option/save_application/:fund_id', funds.updateApplication);
+router.post('/edit-application/:app_id', funds.editApplication);
 router.get('/funding_creation/:option/:fund_id/completed', funds.newOptionProfile);
 router.get('/options/:id', funds.getOptionProfile);
 router.get('/options/:id/edit', funds.editOptionProfile);
@@ -32,6 +33,7 @@ router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);
 router.post('/signupComplete', signup.uploadInfo);
+
 
 
 module.exports = router

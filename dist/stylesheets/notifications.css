@@ -957,3 +957,11 @@ margin-right: -40px;
     color: #f1c40f;
     font-size: 22px;
     padding-left: 10px; }
+  #notification-handler .notification-row .fa-beer {
+    color: #f1c40f;
+    font-size: 22px;
+    padding-left: 10px; }
+  #notification-handler .notification-row .fa-frown-o {
+    color: #95a5a6;
+    font-size: 22px;
+    padding-left: 10px; }

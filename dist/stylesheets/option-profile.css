@@ -1714,7 +1714,8 @@ h1 {
   cursor: pointer; }
 
 #right_div_desktop {
-  margin-left: 7%; }
+  margin-left: 7%;
+  width: 93%; }
   #right_div_desktop #eligibility_div, #right_div_desktop #notEligible, #right_div_desktop .application_form {
     width: 100%; }
 

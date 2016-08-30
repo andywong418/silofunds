@@ -8,6 +8,9 @@
         .row.app-row#applications-div
           .col-md-9.col-sm-9.col-xs-9
             a#fund-title(href='/organisation/options/' + app.id, target='_blank')= app.title 
+            if app.fund_approved
+              span#fund_approved
+                i(style='color: #5890ff; font-size: 15px; margin-left: 10px', data-toggle="tooltip", title='Approved by the fund itself!', data-placement="right").fa.fa-check-circle
           .col-md-3.col-sm-3.col-xs-3.padding-fix
             if app.status == 'success'
               p#status= '£'+ app.amount_gained

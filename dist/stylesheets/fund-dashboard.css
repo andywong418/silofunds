@@ -960,6 +960,11 @@ section {
     margin: 15px 0px;
     padding: 20px 0px;
     text-align: left; }
+    section .row#funding-card #applicant {
+      color: white;
+      background: #3399FF;
+      border-radius: 3px;
+      padding: 5px; }
     section .row#funding-card #edit {
       text-align: center; }
     section .row#funding-card div {
@@ -974,6 +979,34 @@ section {
       background-color: #00da8d; }
     section .row#funding-card #prize {
       background-color: #FFC300; }
+    section .row#funding-card #application-status .modal-dialog .modal-content {
+      padding: 20px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-header {
+        padding-bottom: 5px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-body {
+        margin-top: 6px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body p {
+          margin-bottom: 15px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body .radio {
+          margin-bottom: 15px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #amount-update {
+          margin-top: 3px;
+          display: none;
+          -webkit-transition: 1.5s;
+          transition: 1.5s; }
+          section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #amount-update #amount-gained {
+            margin-left: 7px;
+            border-radius: 3px;
+            border: 1px solid #cccccc; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #hide-update {
+          margin-top: 3px;
+          display: none;
+          -webkit-transition: 1.5s;
+          transition: 1.5s; }
+          section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #hide-update #hide {
+            margin-right: 6px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-footer button {
+        margin-top: 10px; }
 
 table#header {
   margin-bottom: -15px; }

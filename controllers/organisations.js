@@ -41,9 +41,9 @@ dashboard: function(req, res) {
         json.updated_at = json.updated_at ? reformatDate(json.updated_at) : null;
         return json;
       });
-      res.render('signup/fund-dashboard', {user: user, funds: funds})
-    })
-  })
+      asyncAddApplications(funds, user, res);
+    });
+  });
 },
 
 // Main fund creation page
@@ -262,7 +262,38 @@ dashboard: function(req, res) {
     });
 
   },
+  editApplication: function(req, res){
+    var app_id = req.params.app_id;
+    models.applications.findById(app_id).then(function(app){
+      app.update(req.body).then(function(app){
+        models.funds.findById(app.fund_id).then(function(fund){
+          if(app.status === 'success'){
+            var options= {
+              user_id: app.user_id,
+              notification: 'Congratulations! ' + fund.title + ' has approved your application success! <a href="/organisation/options/' + fund.id + '"></a>',
+              category: 'app-success',
+              read_by_user: false
+            };
+            models.notifications.create(options).then(function(notif){
+              res.send(app);
+            });
+          }
+          if(app.status ==='unsuccessful'){
+            var options = {
+              user_id: app.user_id,
+              notification: 'Unfortunately ' + fund.title + ' has marked your application as unsuccessful. <a href="/organisation/options/' + fund.id + '"></a>',
+              category: 'app-failure',
+              read_by_user: false
+            };
+            models.notifications.create(options).then(function(notif){
+              res.send(app);
+            });
+          }
+        });
 
+      });
+    });
+  },
   newOptionProfile: function(req, res){
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
@@ -628,6 +659,31 @@ function findOrCreateTips(tips, option, fund, res){
 
 
 // Functions
+function asyncAddApplications(funds, user, res){
+  var appArray = [];
+  async.each(funds, function(fund, callback){
+    models.applications.findAll({where: {fund_id: fund.id}}).then(function(apps){
+      asyncAddApps(apps, appArray, res, callback, fund);
+    })
+  }, function done(){
+    res.render('signup/fund-dashboard', {user: user, funds: funds, applications: appArray});
+  });
+};
+function asyncAddApps(apps, appArray, res, callback, fund){
+  async.each(apps, function(app, appCallback){
+    app = app.get();
+    app.created_at = app.created_at ? reformatDate(app.created_at) : null;
+    app.updated_at = app.updated_at ? reformatDate(app.updated_at) : null;
+    app.fund_title = fund.title;
+    models.users.findById(app.user_id).then(function(user){
+      app.applicant = user.username;
+      appArray.push(app);
+      appCallback();
+    })
+  }, function done(){
+    callback();
+  })
+}
 function handleOrganisationUser(organisation, dataObject, res){
   Logger.info(organisation);
   if(organisation){
