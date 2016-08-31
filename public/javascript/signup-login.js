@@ -163,7 +163,14 @@ $(document).ready(function(){
  }
 
  $('#fund-signup').change(function() {
- $('#signup-username').attr('placeholder', $(this).is(':checked') ? 'Name of Institution' : 'Full Name');
+   $('#signup-username').attr('placeholder', $(this).is(':checked') ? 'Name of Institution' : 'Full Name');
+   if($(this).is(':checked')){
+     $('#fb-social').hide();
+   }
+   if(!$(this).is(':checked')){
+     $('#fb-social').show();
+   }
+
 });
 
  function forgot_password_selected(){

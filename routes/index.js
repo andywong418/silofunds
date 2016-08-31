@@ -67,7 +67,17 @@ router.get('/privacy-policy', function(req, res) {
 router.get('/terms-and-conditions', function(req, res) {
   res.render('terms_and_conditions')
 })
-
+//guide pages
+router.get('/fund-profile-guide', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('fund-profile-guide', {user: user});
+});
 
 router.get('/public/:id', users.crowdFundingPage);
 
