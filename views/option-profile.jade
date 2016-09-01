@@ -72,8 +72,9 @@ block content
     #top_div_mobile.mobile
       #left_div.container
         include ./partials/option-profile/title_description_etc.jade
-      #left_info_div.mobile
-        p.fundBio
+      if fund.description
+        #left_info_div.mobile
+          p.fundBio
       a#message.center-block.btn.btn-default(href="mailto:" + organisation.email)
         i.fa.fa-comments-o(aria-hidden="true")
         |Message us

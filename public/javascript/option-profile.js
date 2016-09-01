@@ -1384,7 +1384,6 @@ function favouriteStarMargin() {
     $('.favourite').css('margin-left', starMargin)
   } else if (550 <= $(window).width() && $(window).width() <= 767 ) {
     if(organisation.profile_picture) {
-      console.log('BUT ME HERE')
       $('.favourite.profile_picture.mobile').show();
       $('.favourite.profile_picture.mobile').css('margin-left', 0);
     } else {
