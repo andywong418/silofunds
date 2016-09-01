@@ -1812,3 +1812,6 @@ h1 {
     margin-bottom: 0; }
   .mb-style-3 blockquote {
     padding: 5px 2px 5px 2px; } }
+
+#favourite.favourite.no-profile_picture {
+  margin-left: -20px !important; }
