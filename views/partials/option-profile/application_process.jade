@@ -22,12 +22,13 @@
     a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
     span#application-notification
   script#tips-template(type='text/template')
-    .mb-style-3
-      blockquote#tips
-        p <%= tip %>
-      .mb-attribution
-          p.mb-author <%= tip_giver %>
-          cite 
-            //- a(href='#0') Funded by Silo for life
-          .mb-thumb
-            img(src!= '<%= profile_picture %>')
+      .mb-style-3
+        blockquote#tips
+          p <%= tip %>
+        if organisation.profile_picture  
+          .mb-attribution
+              p.mb-author <%= tip_giver %>
+              cite 
+                //- a(href='#0') Funded by Silo for life
+                .mb-thumb
+                  img(src!= '<%= profile_picture %>')
