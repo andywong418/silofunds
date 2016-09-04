@@ -524,11 +524,12 @@ function showNonLoggedInNavbar(){
   if(windowPortView < 991){
     $('a#advs-link, #many-results').attr('href', '/advanced-search');
   }
-  if(windowPortView < 767){
-    $('.cd-login, .cd-signup').click(function(){
+  $('.cd-login, .cd-signup').click(function(){
+    if(windowPortView < 767){
       $('.navbar-toggle').click();
-    });
-  }
+    }
+  });
+
   if(windowPortView < 644){
     if($('#search-form').attr('action') == '/results/users'){
       $('#text_search').attr('placeholder', 'Search users');

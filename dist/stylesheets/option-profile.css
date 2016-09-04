@@ -1242,8 +1242,7 @@ h1 {
   #box_3_right .eligibility-display #education-handler #criteria-handler:nth-child(3n+2) .criteria-box {
     clear: both; }
   #box_3_right .eligibility-display .col-md-12 {
-    margin-top: 15px;
-    height: 40px; }
+    margin-top: 15px; }
   #box_3_right .eligibility-display #other-criteria-handler .other-box {
     padding-top: 5px;
     padding-bottom: 10px; }
