@@ -680,12 +680,10 @@ div.navbar-center-container {
   .cd-form {
     padding: 2em;
     padding-bottom: 5px !important; }
-    .cd-form .fieldset {
-      margin: 2em 0; }
-      .cd-form .fieldset:first-child {
-        margin-top: 0; }
-      .cd-form .fieldset:last-child {
-        margin-bottom: 0; }
+    .cd-form .fieldset:first-child {
+      margin-top: 0; }
+    .cd-form .fieldset:last-child {
+      margin-bottom: 0; }
     .cd-form input.has-padding {
       padding: 16px 20px 16px 50px; }
     .cd-form button[type=submit] {
@@ -789,7 +787,6 @@ div.navbar-center-container {
 #remember {
   position: relative;
   float: left;
-  margin-top: 0;
   z-index: 7;
   display: none; }
   #remember label {
@@ -911,6 +908,10 @@ margin-right: -40px;
 
 #borderme {
   border: 3px solid pink; }
+
+#fund-option, #remember {
+  margin-top: -20px;
+  margin-bottom: 20px; }
 
 /* New search bar */
 body {
@@ -1595,12 +1596,10 @@ div.navbar-center-container {
   .cd-form {
     padding: 2em;
     padding-bottom: 5px !important; }
-    .cd-form .fieldset {
-      margin: 2em 0; }
-      .cd-form .fieldset:first-child {
-        margin-top: 0; }
-      .cd-form .fieldset:last-child {
-        margin-bottom: 0; }
+    .cd-form .fieldset:first-child {
+      margin-top: 0; }
+    .cd-form .fieldset:last-child {
+      margin-bottom: 0; }
     .cd-form input.has-padding {
       padding: 16px 20px 16px 50px; }
     .cd-form button[type=submit] {
@@ -1704,7 +1703,6 @@ div.navbar-center-container {
 #remember {
   position: relative;
   float: left;
-  margin-top: 0;
   z-index: 7;
   display: none; }
   #remember label {
@@ -1826,6 +1824,10 @@ margin-right: -40px;
 
 #borderme {
   border: 3px solid pink; }
+
+#fund-option, #remember {
+  margin-top: -20px;
+  margin-bottom: 20px; }
 
 /*customised code*/
 #brand-image {
