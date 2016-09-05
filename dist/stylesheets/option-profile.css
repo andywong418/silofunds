@@ -686,12 +686,10 @@ div.navbar-center-container {
   .cd-form {
     padding: 2em;
     padding-bottom: 5px !important; }
-    .cd-form .fieldset {
-      margin: 2em 0; }
-      .cd-form .fieldset:first-child {
-        margin-top: 0; }
-      .cd-form .fieldset:last-child {
-        margin-bottom: 0; }
+    .cd-form .fieldset:first-child {
+      margin-top: 0; }
+    .cd-form .fieldset:last-child {
+      margin-bottom: 0; }
     .cd-form input.has-padding {
       padding: 16px 20px 16px 50px; }
     .cd-form button[type=submit] {
@@ -795,7 +793,6 @@ div.navbar-center-container {
 #remember {
   position: relative;
   float: left;
-  margin-top: 0;
   z-index: 7;
   display: none; }
   #remember label {
@@ -917,6 +914,10 @@ margin-right: -40px;
 
 #borderme {
   border: 3px solid pink; }
+
+#fund-option, #remember {
+  margin-top: -20px;
+  margin-bottom: 20px; }
 
 body {
   font-size: 14px;
@@ -1168,7 +1169,6 @@ h1 {
   text-align: left; }
 
 #eligibility_div {
-  display: none;
   margin-top: 50px;
   width: 93%;
   height: 50px;
@@ -1227,6 +1227,8 @@ h1 {
         color: #717f8d; }
         #box_3_right .eligibility-display .criteria-box .criteria #to, #box_3_right .eligibility-display .criteria-box .criteria #required, #box_3_right .eligibility-display .criteria-box .criteria #for {
           color: #2980b9; }
+      #box_3_right .eligibility-display .criteria-box .col-xs-10, #box_3_right .eligibility-display .criteria-box .col-md-10 {
+        padding-right: 0; }
   #box_3_right .eligibility-display .glyphicon {
     font-size: 25px;
     margin-right: 10px; }
@@ -1818,3 +1820,9 @@ h1 {
     margin-bottom: 0; }
   .mb-style-3 blockquote {
     padding: 5px 2px 5px 2px; } }
+
+#favourite.favourite.no-profile_picture {
+  margin-left: -20px !important; }
+
+#top_div_mobile, #left_div {
+  display: none; }
