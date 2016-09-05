@@ -333,8 +333,7 @@ $(document).ready(function() {
 
   // Mobile jquery
   barSwitcher();
-  cameraFaviconMover();
-
+  setTimeout(cameraFaviconMover(), 100) // Timeout required else image has not loaded and height is given to be 0
   $(window).resize(function() {
     barSwitcher();
     cameraFaviconMover();
@@ -363,7 +362,7 @@ function barSwitcher() {
     $('#right_div').show();
     $('#right_div').removeClass('col-xs-8');
     $('#right_div').addClass('col-xs-12');
-    $('#big_flex_div').addClass('flex-direction', 'column')
+    $('#big_flex_div').addClass('flex-direction', 'column');
   } else {
     $('#left_div').show()
     $('#mobile-remove-div').show();
@@ -384,5 +383,6 @@ function cameraFaviconMover() {
     $('#box-profile .fa.fa-camera').css('left', left + 1) // Not sure why not exact, but +1 improves the centering
     var top = $('#box-profile').height() - $('#box-profile .fa.fa-camera').height();
     $('#box-profile .fa.fa-camera').css('top', top - 9);
+    console.log($('#box-profile').height())
   }
 }

@@ -1096,7 +1096,8 @@ p {
     #left_div #box-profile .fa-camera {
       position: absolute;
       color: white;
-      font-size: 45px; }
+      font-size: 45px;
+      display: none; }
     #left_div #box-profile:hover .fa-camera {
       cursor: pointer;
       display: block; }
