@@ -1,0 +1,35 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/notifications.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)}
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  section#notifications.content-section
+    p#notif-header Notifications
+    .notification-wrapper
+    script#notification-template(type='text/template')
+      .notification-row.row(id!= '<%= id %>')
+        .col-xs-2.notification-icon-col
+          i(class!= 'fa ' + '<%= category %>')
+        .col-xs-10
+          span#notification <%= notification %>
+          p#notification-time <%= created_at %>
+  include ./partials/footer.jade
+
+block scripts
+  script(src='/javascript/signup-login.js')
+  script(src='/javascript/notifications.js')

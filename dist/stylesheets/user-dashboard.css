@@ -44,6 +44,8 @@ p {
     text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
+  .navbar-custom #advs-link {
+    cursor: pointer; }
   .navbar-custom ul.nav.navbar-nav {
     margin-right: 10px; }
   .navbar-custom .navbar-brand {
@@ -195,6 +197,12 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#notification-time {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 0;
+  margin-top: 5px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -222,7 +230,7 @@ a#user-message span, a#home span {
 
 @media (max-width: 991px) {
   #brand-image {
-    margin-left: -30px; }
+    margin-left: 30px; }
   .cd-signup {
     margin-right: -50px; }
   #advanced-age, #advanced-nationality, #religion {
@@ -233,9 +241,9 @@ a#user-message span, a#home span {
   .radio-inline {
     margin-top: 10px; } }
 
-@media (max-width: 992px) and (min-width: 875px) {
-  #brand-heading {
-    margin-left: -30px; } }
+@media (max-width: 992px) {
+  .navbar-custom ul.nav.navbar-nav {
+    margin-right: 80px; } }
 
 @media (max-width: 920px) {
   #brand-image {
@@ -249,12 +257,6 @@ a#user-message span, a#home span {
     margin-left: 0px; }
   #text_search, #amount_req, #age {
     border-color: rgba(45, 74, 118, 0.55); } }
-
-@media (max-width: 875px) {
-  #brand-heading img {
-    margin-left: -60px; }
-  ul.navbar-nav {
-    margin-left: -150px; } }
 
 @media (max-width: 849px) {
   #navbar-form {
@@ -292,7 +294,8 @@ a#user-message span, a#home span {
   #advs-link {
     margin-right: -55px; }
   #search_button {
-    margin-left: -6px; }
+    margin-left: -6px;
+    margin-top: 0px !important; }
   .navbar-toggle {
     position: relative;
     z-index: 10;
@@ -312,7 +315,10 @@ a#user-message span, a#home span {
     margin-left: -125px; }
   div.advs-link {
     position: relative;
-    z-index: 10; } }
+    z-index: 10; }
+  #text_search {
+    width: 210px;
+    margin-left: 0; } }
 
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
@@ -959,6 +965,8 @@ p {
     text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
+  .navbar-custom #advs-link {
+    cursor: pointer; }
   .navbar-custom ul.nav.navbar-nav {
     margin-right: 10px; }
   .navbar-custom .navbar-brand {
@@ -1110,6 +1118,12 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#notification-time {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 0;
+  margin-top: 5px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -1137,7 +1151,7 @@ a#user-message span, a#home span {
 
 @media (max-width: 991px) {
   #brand-image {
-    margin-left: -30px; }
+    margin-left: 30px; }
   .cd-signup {
     margin-right: -50px; }
   #advanced-age, #advanced-nationality, #religion {
@@ -1148,9 +1162,9 @@ a#user-message span, a#home span {
   .radio-inline {
     margin-top: 10px; } }
 
-@media (max-width: 992px) and (min-width: 875px) {
-  #brand-heading {
-    margin-left: -30px; } }
+@media (max-width: 992px) {
+  .navbar-custom ul.nav.navbar-nav {
+    margin-right: 80px; } }
 
 @media (max-width: 920px) {
   #brand-image {
@@ -1164,12 +1178,6 @@ a#user-message span, a#home span {
     margin-left: 0px; }
   #text_search, #amount_req, #age {
     border-color: rgba(45, 74, 118, 0.55); } }
-
-@media (max-width: 875px) {
-  #brand-heading img {
-    margin-left: -60px; }
-  ul.navbar-nav {
-    margin-left: -150px; } }
 
 @media (max-width: 849px) {
   #navbar-form {
@@ -1207,7 +1215,8 @@ a#user-message span, a#home span {
   #advs-link {
     margin-right: -55px; }
   #search_button {
-    margin-left: -6px; }
+    margin-left: -6px;
+    margin-top: 0px !important; }
   .navbar-toggle {
     position: relative;
     z-index: 10;
@@ -1227,7 +1236,10 @@ a#user-message span, a#home span {
     margin-left: -125px; }
   div.advs-link {
     position: relative;
-    z-index: 10; } }
+    z-index: 10; }
+  #text_search {
+    width: 210px;
+    margin-left: 0; } }
 
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
@@ -1868,6 +1880,11 @@ section {
     margin: 15px 0px;
     padding: 20px 0px;
     text-align: left; }
+    section .row#funding-card #applicant {
+      color: white;
+      background: #3399FF;
+      border-radius: 3px;
+      padding: 5px; }
     section .row#funding-card #edit {
       text-align: center; }
     section .row#funding-card div {
@@ -1882,6 +1899,34 @@ section {
       background-color: #00da8d; }
     section .row#funding-card #prize {
       background-color: #FFC300; }
+    section .row#funding-card #application-status .modal-dialog .modal-content {
+      padding: 20px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-header {
+        padding-bottom: 5px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-body {
+        margin-top: 6px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body p {
+          margin-bottom: 15px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body .radio {
+          margin-bottom: 15px; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #amount-update {
+          margin-top: 3px;
+          display: none;
+          -webkit-transition: 1.5s;
+          transition: 1.5s; }
+          section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #amount-update #amount-gained {
+            margin-left: 7px;
+            border-radius: 3px;
+            border: 1px solid #cccccc; }
+        section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #hide-update {
+          margin-top: 3px;
+          display: none;
+          -webkit-transition: 1.5s;
+          transition: 1.5s; }
+          section .row#funding-card #application-status .modal-dialog .modal-content .modal-body #hide-update #hide {
+            margin-right: 6px; }
+      section .row#funding-card #application-status .modal-dialog .modal-content .modal-footer button {
+        margin-top: 10px; }
 
 table#header {
   margin-bottom: -15px; }
@@ -2195,7 +2240,7 @@ table#header {
     margin-top: 5px;
     font-size: 16px; }
   #recommended textarea {
-    width: 80%;
+    width: 60%;
     height: 100px;
     border-radius: 3px;
     font-size: 15px;
@@ -2214,10 +2259,11 @@ table#header {
       border-radius: 50%; }
     #updates .update-row textarea {
       width: 80%;
-      height: 300px;
+      height: 100px;
       border-radius: 3px;
-      font-size: 18px;
-      padding: 8px; }
+      font-size: 15px;
+      padding: 8px;
+      resize: none; }
     #updates .update-row #social-media-flex-container {
       width: 80%;
       display: inline-block;
