@@ -1169,6 +1169,7 @@ h1 {
   text-align: left; }
 
 #eligibility_div {
+  display: none;
   margin-top: 50px;
   width: 93%;
   height: 50px;

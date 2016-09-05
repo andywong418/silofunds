@@ -593,7 +593,7 @@ $(document).ready(function(){
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
-    $('.fundBio').find('*').css('background-color', 'white'); // changed this from #e9f0f4, not sure if its wanted to be #e9f0f4 for some reason though
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
     if($('.fundBio').find('.container')){
       $('.fundBio').find('.container').removeClass('.container');
     }
@@ -1336,12 +1336,21 @@ $(document).ready(function(){
   noProfilePicDivResizer();
   displayTopBottomDivs();
   favouriteStarMargin();
+  fundBioBackgroundColor();
   $(window).resize(function() {
     eligibility_divPaddingChange();
     noProfilePicDivResizer();
     displayTopBottomDivs();
     favouriteStarMargin();
+    fundBioBackgroundColor()
   })
+
+  if(user.organisation_or_user == null) {
+    $('#big_flex_div #right_div #eligibility_div').show()
+  } else {
+    $('#big_flex_div #right_div #eligibility_div').hide()
+  }
+
 })
 
 function eligibility_divPaddingChange() {
@@ -1349,6 +1358,14 @@ function eligibility_divPaddingChange() {
     $('div#eligibility_div').css('padding-top', '4px');
   } else {
     $('div#eligibility_div').css('padding-top', '');
+  }
+}
+
+function fundBioBackgroundColor() {
+  if($(window).width() > 767) {
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+  } else {
+    $('.fundBio').find('*').css('background-color', 'white');
   }
 }
 
