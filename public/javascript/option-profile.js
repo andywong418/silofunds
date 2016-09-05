@@ -593,7 +593,7 @@ $(document).ready(function(){
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', 'white'); // changed this from #e9f0f4, not sure if its wanted to be #e9f0f4 for some reason though
     if($('.fundBio').find('.container')){
       $('.fundBio').find('.container').removeClass('.container');
     }
