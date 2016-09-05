@@ -593,7 +593,7 @@ $(document).ready(function(){
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', 'white'); // changed this from #e9f0f4, not sure if its wanted to be #e9f0f4 for some reason though
     if($('.fundBio').find('.container')){
       $('.fundBio').find('.container').removeClass('.container');
     }
@@ -1355,6 +1355,8 @@ function eligibility_divPaddingChange() {
 function noProfilePicDivResizer() {
   if(!organisation.profile_picture) {
     if($(window).width() <= 767) {
+      $('#top_div_mobile #left_div').show();
+      $('#top_div_mobile').show();
       $('.application_form').css('width', '100%')
       $('#big_flex_div #left_div_desktop.desktop #box_1').css('display', 'none');
       $('#big_flex_div #left_div #box_2').css('padding-left', '0px');
@@ -1365,6 +1367,8 @@ function noProfilePicDivResizer() {
       $('#box_2 a #favourite').css('margin-top', '-9px')
       $('#box_2 a #favourite').css('margin-left', '-26px')
     } else {
+      $('#top_div_mobile').hide();
+      $('#left_div').show();
       $('#box_1').css('width', '');
       $('.application_form').css('width', '93%')
     }
@@ -1375,9 +1379,12 @@ function displayTopBottomDivs() {
   if(549 <= $(window).width() && $(window).width() <= 767) {
     $('#top_div_mobile').css('display', 'block')
     $('#bottom_div_mobile').css('display', 'block')
-  } else if ($(window).width() > 767) {
-    $('#top_div_mobile').css('display', 'none')
-    $('#bottom_div_mobile').css('display', 'none')
+  } else {
+    $('#left_div').show()
+    if ($(window).width() > 767) {
+      $('#top_div_mobile').css('display', 'none')
+      $('#bottom_div_mobile').css('display', 'none')
+    }
   }
 }
 
