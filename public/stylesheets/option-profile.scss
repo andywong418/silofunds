@@ -287,7 +287,7 @@ h1 {
 }
 
 #eligibility_div {
-  display: none;
+  // display: none;
   margin-top:50px;
   width: 93%;
   height: 50px;
@@ -336,9 +336,9 @@ h1 {
       padding-left: 15px;
       padding-top: 15px;
       overflow: auto;
-      .criteria-box{
+      .criteria-box {
           margin: 10px 0;
-          img{
+          img {
             width: 30px;
             height: auto;
             margin-left: 10px;
@@ -355,7 +355,9 @@ h1 {
               color: #2980b9;
             }
           }
-
+          .col-xs-10, .col-md-10 {
+            padding-right: 0;
+          }
       }
 
   }
@@ -1047,4 +1049,9 @@ h1 {
 
 #favourite.favourite.no-profile_picture {
   margin-left: -20px !important;
+}
+
+// Initial hides to prevent flickering
+#top_div_mobile, #left_div {
+  display: none;
 }

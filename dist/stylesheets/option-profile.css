@@ -1169,7 +1169,6 @@ h1 {
   text-align: left; }
 
 #eligibility_div {
-  display: none;
   margin-top: 50px;
   width: 93%;
   height: 50px;
@@ -1228,6 +1227,8 @@ h1 {
         color: #717f8d; }
         #box_3_right .eligibility-display .criteria-box .criteria #to, #box_3_right .eligibility-display .criteria-box .criteria #required, #box_3_right .eligibility-display .criteria-box .criteria #for {
           color: #2980b9; }
+      #box_3_right .eligibility-display .criteria-box .col-xs-10, #box_3_right .eligibility-display .criteria-box .col-md-10 {
+        padding-right: 0; }
   #box_3_right .eligibility-display .glyphicon {
     font-size: 25px;
     margin-right: 10px; }
@@ -1822,3 +1823,6 @@ h1 {
 
 #favourite.favourite.no-profile_picture {
   margin-left: -20px !important; }
+
+#top_div_mobile, #left_div {
+  display: none; }
