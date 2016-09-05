@@ -637,10 +637,14 @@ $(document).ready(function(){
   var EligibilityDisplay = Backbone.View.extend({
     el: '.eligibility-display',
     initialize: function(){
-        var fields = ['subject','religion','minimum_age','maximum_age','gender','merit_or_finance', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
-        var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
-        var science = ['physics', 'chemistry', 'biology','earth science','materials science','oceanography','astronomy','atmospheric science','engineering'];
-        var humanities = ['anthropology', 'communication studies','education','geography',	'history','linguistics','political science','psychology','sociology', 'english'];
+        var fields = ['subject','religion','merit_or_finance','minimum_age','maximum_age','gender', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
+        // var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
+        var science = subjects.sciences;
+        console.log(science);
+        var humanities = subjects.humanities;
+        var socialSciences = subjects.socialSciences;
+        console.log(socialSciences);
+        var arts = subjects.arts;
         var foreignLanguages = ['Dari Persian', 'Pashtu', 'Albanian', 'Greek',
 'Arabic', 'French', 'Berber dialects','Catalán',  'Castilian', 'Portuguese','Bantu','Spanish', 'Italian',
 'German','Armenian', 'Yezidi', 'Russian','German', 'Slovene', 'Croatian', 'Hungarian','Turkic','Creole', 'Arabic','Farsi',
@@ -675,19 +679,26 @@ $(document).ready(function(){
 'Ganda', 'Welsh', 'Scots Gaelic',
 'Bislama','Latin','Vietnamese',	'Hassaniya Arabic', 'Moroccan Arabic','Bemba', 'Kaonda', 'Lozi', 'Lunda','Luvale',
 'Nyanja', 'Tonga', 'Shona', 'Ndebele'];
+var locationCounter = 0;
+var educationCounter = 0;
+var subjectCounter = 0;
         for (var j =0 ; j < fields.length; j++){
           switch(fields[j]){
             case 'subject':
               var scienceCounter = 0;
               var humanitiesCounter = 0;
               var foreignLanguagesCounter = 0;
+              var socialSciencesCounter = 0;
               var mathsCounter = 0;
               var computingCounter = 0;
               var artCounter = 0;
               var otherCounter = 0;
               if(fund[fields[j]]){
                 for(var i =0; i < subject.length; i++){
-                  if(science.indexOf(subject[i]) > -1){
+                  if(subject[i] === 'all'){
+                    break;
+                  }
+                  if(science.indexOf(subject[i].capitalize()) > -1 || subject[i].toLowerCase().indexOf('science') > -1 ){
                     if(scienceCounter == 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_science.png',
@@ -698,6 +709,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       scienceCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       scienceCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -714,6 +726,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       humanitiesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       humanitiesCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -731,6 +744,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       foreignLanguagesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       foreignLanguagesCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -747,6 +761,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       mathsCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       mathsCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -761,6 +776,7 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
                   else if(subject[i].toLowerCase() == 'music'){
                     var imageModel = new ImageModel({
@@ -771,16 +787,23 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
-                  else if (subject[i].toLowerCase() == 'economics'){
-                    var imageModel = new ImageModel({
-                      imageSource: '/images/subject_economics.png',
-                      criteria: subject[i],
-                      section: "Economics"
-                    })
-                    var view = new ImageView({model: imageModel});
-                    this.$('#subject-handler').append(view.render().el);
-                    this.$('[data-toggle="tooltip"]').tooltip();
+                  else if(socialSciences.indexOf(subject[i].capitalize()) > -1){
+                    console.log(subject[i]);
+                    if(socialSciencesCounter === 0){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/subject_economics.png',
+                        criteria: subject[i],
+                        section: "Social Sciences"
+                      })
+                      var view = new ImageView({model: imageModel});
+                      this.$('#subject-handler').append(view.render().el);
+                      socialSciencesCounter = view;
+                      this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
+                    }
+
                   }
                   else if(subject[i].toLowerCase() == 'law'){
                     var imageModel = new ImageModel({
@@ -791,6 +814,7 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
                   else if(subject[i].toLowerCase().indexOf('compute') > -1){
                     if(computingCounter == 0){
@@ -803,6 +827,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       computingCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       computingCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -820,6 +845,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       artCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
 
                     }
                     else{
@@ -837,6 +863,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       otherCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       otherCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -954,44 +981,50 @@ $(document).ready(function(){
               var targetUniversity = fund['target_university'];
               var requiredUniversity = fund['required_university'];
               if(targetUniversity){
-                var targetUniversityString = returnStringfromArray(targetUniversity);
-                if(requiredUniversity){
-                  requiredUniversityString = returnStringfromArray(requiredUniversity)
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: requiredUniversityString.capitalize() + " <br><span id= 'to'>to: </span>  " +targetUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
-                }
-                else{
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: 'For intended study at: ' + targetUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                if(targetUniversity.indexOf('all') === -1){
+                  var targetUniversityString = returnStringfromArray(targetUniversity);
+                  educationCounter++;
+                  if(requiredUniversity){
+                    requiredUniversityString = returnStringfromArray(requiredUniversity);
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: requiredUniversityString.capitalize() + " <br><span id= 'to'>to: </span>  " +targetUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
+                  else{
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: 'For intended study at: ' + targetUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
               }
               break;
             case 'required_university':
               var requiredUniversity = fund['required_university'];
               var targetUniversity = fund['target_university'];
-              if(requiredUniversity){
-                requiredUniversityString = returnStringfromArray(requiredUniversity);
-                if(!targetUniversity){
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: 'From ' + requiredUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+              if(requiredUniversity ){
+                if(requiredUniversity.indexOf('all') === -1){
+                  requiredUniversityString = returnStringfromArray(requiredUniversity);
+                  educationCounter++;
+                  if(!targetUniversity){
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: 'From ' + requiredUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
               }
               break;
@@ -999,55 +1032,65 @@ $(document).ready(function(){
               var requiredDegree = fund['required_degree'];
               var targetDegree = fund['target_degree'];
               if(targetDegree){
-                var targetDegreeString = returnStringfromArray(targetDegree);
-                if(requiredDegree){
-                  var requiredDegreeString = returnStringfromArray(requiredDegree);
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/education.png',
-                    criteria: '<span id = "required"> Required degrees: </span>' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
-                    section: 'Degree specification'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                if(targetDegree.indexOf('all') == -1){
+                  var targetDegreeString = returnStringfromArray(targetDegree);
+                  educationCounter++;
+                  if(requiredDegree){
+                    var requiredDegreeString = returnStringfromArray(requiredDegree);
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/education.png',
+                      criteria: '<span id = "required"> Required degrees: </span>' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
+                      section: 'Degree specification'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
+                  else{
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/education.png',
+                      criteria: 'For: ' + targetDegreeString,
+                      section: 'Degree specification'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
-                else{
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/education.png',
-                    criteria: 'For: ' + targetDegreeString,
-                    section: 'Degree specification'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
-                }
+
               }
               break;
             case 'required_degree':
               var requiredDegree = fund['required_degree'];
               if(requiredDegree){
-                var requiredDegreeString = returnStringfromArray(requiredDegree);
-                var imageModel = new ImageModel({
-                  imageSource: '/images/education.png',
-                  criteria: 'Required degrees: ' + requiredDegreeString,
-                  section: 'Degree specification'
-                })
-                var view = new ImageView({model: imageModel});
-                this.$('#education-handler').append(view.render().el);
-                this.$('[data-toggle="tooltip"]').tooltip();
+                if(requiredDegree.indexOf('all') == -1){
+                  var requiredDegreeString = returnStringfromArray(requiredDegree);
+                  educationCounter++;
+                  var imageModel = new ImageModel({
+                    imageSource: '/images/education.png',
+                    criteria: 'Required degrees: ' + requiredDegreeString,
+                    section: 'Degree specification'
+                  })
+                  var view = new ImageView({model: imageModel});
+                  this.$('#education-handler').append(view.render().el);
+                  this.$('[data-toggle="tooltip"]').tooltip();
+                }
               }
               break;
             case 'required_grade':
               var requiredGrade = fund['required_grade'];
               if(requiredGrade){
-                var imageModel = new ImageModel({
-                  imageSource: '',
-                  criteria: 'Required Grade: ' + requiredGrade,
-                  section:'required grade'
-                })
-                var view = new ImageView({model: imageModel});
-                this.$('#education-handler').append(view.render().el);
-                noIcon();
+                if(requiredGrade.indexOf('all') == -1){
+                  educationCounter++;
+                  var imageModel = new ImageModel({
+                    imageSource: '',
+                    criteria: 'Required Grade: ' + requiredGrade,
+                    section:'required grade'
+                  })
+                  var view = new ImageView({model: imageModel});
+                  this.$('#education-handler').append(view.render().el);
+                  noIcon();
+                }
               }
 
               break;
@@ -1055,14 +1098,17 @@ $(document).ready(function(){
               var targetCountry = fund.target_country;
               if(targetCountry){
                 for(var i =0; i < targetCountry.length; i++){
+                  if(targetCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(targetCountry[i].toLowerCase() == 'uk'){
-                    targetCountry[i] = "United Kingdom"
+                    targetCountry[i] = "United Kingdom";
                   }
                   if(targetCountry[i].toLowerCase() == 'eu'){
-                    targetCountry[i] = "European Union"
+                    targetCountry[i] = "European Union";
                   }
                   if(targetCountry[i].toLowerCase() == 'us'){
-                    targetCountry[i] = "United Sates of America"
+                    targetCountry[i] = "United Sates of America";
                   }
                   checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
                     var imageModel = new ImageModel({
@@ -1084,6 +1130,7 @@ $(document).ready(function(){
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
                     $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    locationCounter++;
                   })
                 }
               }
@@ -1094,6 +1141,9 @@ $(document).ready(function(){
               if(requiredCountry){
 
                 for(var i =0; i < requiredCountry.length; i++){
+                  if(requiredCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(requiredCountry[i].toLowerCase() == 'uk'){
                     requiredCountry[i] = "United Kingdom"
                   }
@@ -1125,6 +1175,7 @@ $(document).ready(function(){
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
                     $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    locationCounter++;
                   })
 
                 }
@@ -1142,6 +1193,7 @@ $(document).ready(function(){
                   var view = new ImageView({ model: imageModel });
                   this.$('#location-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
+                  locationCounter++;
                 }
               }
               break;
@@ -1164,16 +1216,16 @@ $(document).ready(function(){
               break;
           }
         }
-        if(!fund.subject){
+        if(!fund.subject || subjectCounter === 0){
           this.$('#subject-handler').css('display', 'none');
         }
         if(!fund.religion && !fund.minimum_age && !fund.maximum_age && !fund.gender && !fund.merit_or_finance){
           this.$('#personal-handler').css('display', 'none');
         }
-        if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required){
+        if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required_degree || educationCounter === 0){
           this.$('#education-handler').css('display','none');
         }
-        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location){
+        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location || locationCounter == 0){
           this.$('#location-handler').css('display','none');
         }
         if(!fund.other_eligibility){
