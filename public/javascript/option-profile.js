@@ -637,10 +637,14 @@ $(document).ready(function(){
   var EligibilityDisplay = Backbone.View.extend({
     el: '.eligibility-display',
     initialize: function(){
-        var fields = ['subject','religion','minimum_age','maximum_age','gender','merit_or_finance', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
-        var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
-        var science = ['physics', 'chemistry', 'biology','earth science','materials science','oceanography','astronomy','atmospheric science','engineering'];
-        var humanities = ['anthropology', 'communication studies','education','geography',	'history','linguistics','political science','psychology','sociology', 'english'];
+        var fields = ['subject','religion','merit_or_finance','minimum_age','maximum_age','gender', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
+        // var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
+        var science = subjects.sciences;
+        console.log(science);
+        var humanities = subjects.humanities;
+        var socialSciences = subjects.socialSciences;
+        console.log(socialSciences);
+        var arts = subjects.arts;
         var foreignLanguages = ['Dari Persian', 'Pashtu', 'Albanian', 'Greek',
 'Arabic', 'French', 'Berber dialects','Catalán',  'Castilian', 'Portuguese','Bantu','Spanish', 'Italian',
 'German','Armenian', 'Yezidi', 'Russian','German', 'Slovene', 'Croatian', 'Hungarian','Turkic','Creole', 'Arabic','Farsi',
@@ -675,19 +679,24 @@ $(document).ready(function(){
 'Ganda', 'Welsh', 'Scots Gaelic',
 'Bislama','Latin','Vietnamese',	'Hassaniya Arabic', 'Moroccan Arabic','Bemba', 'Kaonda', 'Lozi', 'Lunda','Luvale',
 'Nyanja', 'Tonga', 'Shona', 'Ndebele'];
+var locationCounter = 0;
         for (var j =0 ; j < fields.length; j++){
           switch(fields[j]){
             case 'subject':
               var scienceCounter = 0;
               var humanitiesCounter = 0;
               var foreignLanguagesCounter = 0;
+              var socialSciencesCounter = 0;
               var mathsCounter = 0;
               var computingCounter = 0;
               var artCounter = 0;
               var otherCounter = 0;
               if(fund[fields[j]]){
                 for(var i =0; i < subject.length; i++){
-                  if(science.indexOf(subject[i]) > -1){
+                  if(subject[i] === 'all'){
+                    break;
+                  }
+                  if(science.indexOf(subject[i].capitalize()) > -1 || subject[i].toLowerCase().indexOf('science') > -1 ){
                     if(scienceCounter == 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_science.png',
@@ -772,15 +781,20 @@ $(document).ready(function(){
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
                   }
-                  else if (subject[i].toLowerCase() == 'economics'){
-                    var imageModel = new ImageModel({
-                      imageSource: '/images/subject_economics.png',
-                      criteria: subject[i],
-                      section: "Economics"
-                    })
-                    var view = new ImageView({model: imageModel});
-                    this.$('#subject-handler').append(view.render().el);
-                    this.$('[data-toggle="tooltip"]').tooltip();
+                  else if(socialSciences.indexOf(subject[i].capitalize()) > -1){
+                    console.log(subject[i]);
+                    if(socialSciencesCounter === 0){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/subject_economics.png',
+                        criteria: subject[i],
+                        section: "Social Sciences"
+                      })
+                      var view = new ImageView({model: imageModel});
+                      this.$('#subject-handler').append(view.render().el);
+                      socialSciencesCounter = view;
+                      this.$('[data-toggle="tooltip"]').tooltip();
+                    }
+
                   }
                   else if(subject[i].toLowerCase() == 'law'){
                     var imageModel = new ImageModel({
@@ -1055,14 +1069,17 @@ $(document).ready(function(){
               var targetCountry = fund.target_country;
               if(targetCountry){
                 for(var i =0; i < targetCountry.length; i++){
+                  if(targetCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(targetCountry[i].toLowerCase() == 'uk'){
-                    targetCountry[i] = "United Kingdom"
+                    targetCountry[i] = "United Kingdom";
                   }
                   if(targetCountry[i].toLowerCase() == 'eu'){
-                    targetCountry[i] = "European Union"
+                    targetCountry[i] = "European Union";
                   }
                   if(targetCountry[i].toLowerCase() == 'us'){
-                    targetCountry[i] = "United Sates of America"
+                    targetCountry[i] = "United Sates of America";
                   }
                   checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
                     var imageModel = new ImageModel({
@@ -1084,6 +1101,7 @@ $(document).ready(function(){
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
                     $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    locationCounter++;
                   })
                 }
               }
@@ -1094,6 +1112,9 @@ $(document).ready(function(){
               if(requiredCountry){
 
                 for(var i =0; i < requiredCountry.length; i++){
+                  if(requiredCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(requiredCountry[i].toLowerCase() == 'uk'){
                     requiredCountry[i] = "United Kingdom"
                   }
@@ -1125,6 +1146,7 @@ $(document).ready(function(){
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
                     $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    locationCounter++;
                   })
 
                 }
@@ -1142,6 +1164,7 @@ $(document).ready(function(){
                   var view = new ImageView({ model: imageModel });
                   this.$('#location-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
+                  locationCounter++;
                 }
               }
               break;
@@ -1173,7 +1196,7 @@ $(document).ready(function(){
         if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required){
           this.$('#education-handler').css('display','none');
         }
-        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location){
+        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location || locationCounter == 0){
           this.$('#location-handler').css('display','none');
         }
         if(!fund.other_eligibility){

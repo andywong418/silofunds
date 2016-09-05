@@ -89,17 +89,17 @@ $(document).ready(function() {
     var country_of_residence = $('input[name=country_of_residence]').val().split(',');
     var specific_location = $('input[name=specific_location]').val().split(',');
     var merit_or_finance = '';
-    if($('#merit-input').is(":checked")){
+    if($('input#merit').is(":checked")){
       merit_or_finance = 'merit';
     }
-    if($('#finance-input').is(":checked")){
+    if($('input#finance').is(":checked")){
       merit_or_finance = 'finance';
     };
     var gender = '';
-    if($('#male-input').is(":checked")){
+    if($('input#male').is(":checked")){
       gender = 'male';
     }
-    if($('#female-input').is(":checked")){
+    if($('input#female').is(":checked")){
       gender= 'female';
     }
     var formData = {
