@@ -27,6 +27,13 @@ module.exports = {
           asyncChangeFavourites(userId, nonAppliedFunds, res);
         });
     });
+  },
+  getWholePage: function(req, res){
+    var userId = req.user.id;
+    models.notifications.findAll({where: {user_id: userId}, order: 'created_at DESC'}).then(function(notifications){
+      console.log("NOTIFC", userId);
+      res.render('notifications', { user: userId, notifications: notifications});
+    });
   }
 };
 

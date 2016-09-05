@@ -13,6 +13,7 @@ router.get('/', home.index);
 router.post('/subscribe', home.subscribe);
 
 // Login
+// router.get('/login', users.loginGET)
 router.get('/login', users.loginGET)
 router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}), users.rememberMe)
 router.get('/loginSplit', users.loginSplit)
@@ -40,14 +41,44 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {success
 router.get('/facebookSplit', users.facebookSplit);
 router.get('/facebookError', users.facebookAuthError)
 
+//new pages
+router.get('/advanced-search', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('advanced-search-whole', {user: user});
+});
+//check user
+router.get('/check-user/:id',  function(req, res){
+  console.log("PARAMS", req.params);
+  var userId = req.params.id;
+  console.log(userId);
+  models.users.findById(userId).then(function(user){
+    res.send(user);
+  });
+});
 // Privacy policy + t&c's
-router.get('/privacy_policy', function(req, res) {
+router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy')
 })
-router.get('/terms_and_conditions', function(req, res) {
+router.get('/terms-and-conditions', function(req, res) {
   res.render('terms_and_conditions')
 })
-
+//guide pages
+router.get('/fund-profile-guide', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('fund-profile-guide', {user: user});
+});
 
 router.get('/public/:id', users.crowdFundingPage);
 

@@ -1,0 +1,81 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+$header-color: #33485c;
+body{
+  background: #f4f6f8;
+  font-family: 'Source Sans Pro';
+  .navbar-custom{
+    position: relative;
+
+    div.navbar-center-container{
+      position: absolute;
+    }
+  }
+  h1,h2,h3,h4{
+    font-family: 'Helvetica Neue';
+
+  }
+  section{
+    i.fa.fa-institution{
+      font-size: 28px;
+      display: inline;
+      margin-right: 10px;
+    }
+    .row{
+      padding-top: 35px;
+      background-color: #516395;
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 2px;
+    }
+    h3, i{
+      font-weight: 550;
+      font-family: 'Source Sans Pro';
+      color: white;
+      display: inline-block;
+      font-size: 25px;
+
+    }
+  }
+  #writing{
+    font-family: 'Helvetica Neue';
+    padding: 20px 30px 20px 30px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+    width: 83.3%;
+    margin-left: 9.16%;
+    background-color: white;
+    box-shadow: 0px 8px 15px #888888;
+    border-radius: 30px;
+    h3{
+      font-size: 20px;
+    }
+    .intro-div{
+      border-bottom: 2px solid grey;
+      .intro{
+        font-style: italic;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+    }
+    .steps{
+      border-bottom: 2px solid grey;
+      margin-top: 15px;
+      margin-bottom: 25px;
+      .step-img{
+        width: 70%;
+        margin-left: 15%;
+        margin-bottom: 30px;
+        border-radius: 3px;
+      }
+      div{
+        p.intro{
+          margin-bottom: 10px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

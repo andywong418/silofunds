@@ -402,7 +402,7 @@ h1 {
     }
     .col-md-12 {
       margin-top: 15px;
-      height: 40px;
+
     }
 
     #other-criteria-handler {
@@ -903,6 +903,7 @@ h1 {
 // Css needed as a result of making things partials and putting in .desktop divs
 #right_div_desktop {
   margin-left: 7%;
+  width: 93%;
   #eligibility_div, #notEligible, .application_form {
     width: 100%;
   }

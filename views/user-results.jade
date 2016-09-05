@@ -2,6 +2,7 @@ extends layout
 
 block extraHeader
 	link(href='/stylesheets/results.css', rel='stylesheet')
+	link(href='/stylesheets/footer.css', rel='stylesheet')
 	link(href='/stylesheets/user-results.css', rel='stylesheet')
 	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 
@@ -21,45 +22,98 @@ block content
 	include ./partials/navbar-loggedin.jade
 	include ./partials/signup-modal.jade
 	include ./advanced-search.jade
-	.col-lg-10.col-lg-offset-1
+	.queryToken
+		span#wrapper-span You searched for:
+			each value, key in query
+				if key != 'sort_by'
+					if key.indexOf('_') != -1
+							span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
+								if key != 'funding_needed'
+									each tag in value.split(' ')
+										a(href='/results/users?' + key+'=' + tag)= tag
+								if key == 'funding_needed'
+									a(href='/results/users?funding_needed='+ value)= value
+								i.fa.fa-times
+					else
+							span#tokenKey(class = key)=key + ": " 
+								if key != 'age'
+									each tag in value.split(' ')
+										a(href='/results/users?' + key +'=' + tag)= tag
+								else
+									a(href='/results/users?' + key + '=' + value)= value 
+								i.fa.fa-times
+	
+	.col-lg-8.col-lg-offset-2.col-sm-10.col-sm-offset-1
 		div.results
 			h3
 				span='Your search returned ' + users.length + ' results'
-		div.page-header
-			script#user-template(type='text/template')
-				.database
-					.user_list
-						.row
-							.col-md-4
-								img#user-picture(src!= '<%= profile_picture%>')
-							#user-info.col-md-6
-								a(href != '/public/' + '<%= user_id %>')
-									h4.username <%= username %>
-								.row
-									.col-md-12
-										p#subject(class!='subject' + '<%= user_id %>') Studying
-											span.control <%= subject %>
-									.col-md-12
-										p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
-											span.control <%= user_nationality %>
-									.col-md-12
-										p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
-											span.control <%= target_country %>
-									.col-md-12
-										p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
-											span.control <%=previous_university %>
-									.col-md-12
-										p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
-											span.control <%= target_university %>				
-									.col-md-12
-										p#user-religion(class!= 'user-religion' + '<%= user_id %>')
-							#user-action.col-md-2
-								a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
-									i.fa.fa-comments-o(aria-hidden="true")
-									|Message 
-
+		if users.length > 0
+			div.page-header.desktop
+				script#user-template(type='text/template')
+					.database
+						.user_list
+							.row
+								.col-xs-2
+									img#user-picture(src!= '<%= profile_picture%>')
+								#user-info.col-xs-6
+									a(href != '/public/' + '<%= user_id %>')
+										h4.username <%= username %>
+									.row
+										.col-xs-12
+											p#subject(class!='subject' + '<%= user_id %>') Studying
+												span.control <%= subject %>
+										.col-xs-12
+											p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
+												span.control <%= user_nationality %>
+										.col-xs-12
+											p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
+												span.control <%= target_country %>
+										.col-xs-12
+											p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
+												span.control <%=previous_university %>
+										.col-xs-12
+											p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
+												span.control <%= target_university %>				
+										.col-xs-12
+											p#user-religion(class!= 'user-religion' + '<%= user_id %>')
+								.col-xs-1
+								#user-action.col-xs-2
+									a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+										i.fa.fa-comments-o(aria-hidden="true")
+										|Message 
+			div.page-header.mobile
+				each user in users
+					.row.main-mobile-row
+						.col-xs-2
+							if user.profile_picture
+								img#user-picture(src= user.profile_picture)
+							else
+								img#user-picture(src='/images/profile-placeholder.jpg')
+						#user-info.col-xs-8
+							a(href != '/public/' + user.id)
+								h4.username= user.username
+							.row
+								.col-xs-12.mobile-row
+									if user.subject && user.country_of_residence
+										p#subject(class!='subject' + user.id)
+											span.control= user.subject + ', '
+										p#user-nationality(class!= 'user-nationality' + user.id)
+											span.control!= user.country_of_residence + '...'
+									else
+										if user.subject
+											p#subject(class!='subject' + user.id)
+												span.control= user.subject + '...'
+										if user.country_of_residence
+											p#user-nationality(class!= 'user-nationality' + user.id)
+												span.control!= user.country_of_residence + '...'
+						#user-action.col-xs-2
+							a(href!='/messages/' + user.id)
+								i.fa.fa-comments-o(aria-hidden="true", style='font-size: 20px; color: grey')
+		else
+			p#no-results(style= 'text-align: center; margin-top: 10px;') Your search returned no results. Try changing the 
+				a(href='/advanced-search') search queries here.
+	include ./partials/footer.jade
 block scripts
-	script(src='/javascript/signup-login.js')
 	script(src='/javascript/advanced-search.js')
 	script(src='/javascript/lib/modernizr-custom.js')
 	script(src='/javascript/notifications.js')

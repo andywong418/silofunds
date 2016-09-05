@@ -21,6 +21,9 @@
     color: #fff;
 
   }
+  #advs-link{
+    cursor: pointer;
+  }
   ul.nav.navbar-nav{
     margin-right: 10px;
   }
@@ -121,6 +124,7 @@ a#user-message, a#home{
     padding-bottom: 5px;
     display: none;
   }
+
   a {
     color: black;
     &:hover{
@@ -176,8 +180,9 @@ a#user-message, a#home{
       }
       span#notification{
 
-    display: inline-block;
+        display: inline-block;
       }
+
     }
     #notification-handler:last-child{
       hr{
@@ -223,7 +228,12 @@ margin-left: -10px;
   }
 
 }
-
+#notification-time{
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -257,7 +267,7 @@ margin-left: -10px;
 
 @media (max-width: 991px) {
   #brand-image {
-    margin-left: -30px;
+    margin-left: 30px;
   }
   .cd-signup {
     margin-right: -50px;
@@ -275,8 +285,11 @@ margin-left: -10px;
 }
 @media (max-width: 992px) {
   @media (min-width: 875px) {
-    #brand-heading {
-      margin-left: -30px;
+
+  }
+  .navbar-custom{
+    ul.nav.navbar-nav{
+      margin-right: 80px;
     }
   }
 }
@@ -300,14 +313,7 @@ margin-left: -10px;
   }
 }
 
-@media (max-width: 875px) {
-  #brand-heading img {
-    margin-left: -60px;
-  }
-  ul.navbar-nav{
-    margin-left: -150px;
-  }
-}
+
 @media(max-width: 849px){
   #navbar-form{
     margin-left: 50px;
@@ -360,6 +366,7 @@ margin-left: -10px;
   }
   #search_button{
     margin-left: -6px;
+    margin-top: 0px !important;
   }
   .navbar-toggle{
     position: relative;
@@ -387,5 +394,9 @@ margin-left: -10px;
   div.advs-link{
     position: relative;
     z-index: 10;
+  }
+  #text_search {
+    width: 210px;
+    margin-left: 0;
   }
 }
