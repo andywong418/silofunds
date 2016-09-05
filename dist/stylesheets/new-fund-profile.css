@@ -95,8 +95,7 @@ body {
   height: 250px;
   border: 5px solid #e9eaed;
   display: inline;
-  -o-object-fit: cover;
-     object-fit: cover; }
+  object-fit: cover; }
 
 #description {
   margin-top: 50px;
