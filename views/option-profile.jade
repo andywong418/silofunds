@@ -72,8 +72,9 @@ block content
     #top_div_mobile.mobile
       #left_div.container
         include ./partials/option-profile/title_description_etc.jade
-      #left_info_div.mobile
-        p.fundBio
+      if fund.description
+        #left_info_div.mobile
+          p.fundBio
       a#message.center-block.btn.btn-default(href="mailto:" + organisation.email)
         i.fa.fa-comments-o(aria-hidden="true")
         |Message us
@@ -111,7 +112,7 @@ block content
                 p.description Other eligibility requirements
             .row#just-trying
               script#image-template(type='text/template')
-                .col-md-12.col-xs-12.criteria-box
+                .col-md-4.col-xs-12.criteria-box
                   .col-md-2.col-xs-2
                     img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
                   .col-md-10.col-xs-10
@@ -185,16 +186,18 @@ block content
 
           
       script#tips-template(type='text/template')
-        .mb-style-3
-          blockquote#tips
-            p <%= tip %>
-          .mb-attribution
-              p.mb-author <%= tip_giver %>
-              cite 
-                //- a(href='#0') Funded by Silo for life
-              .mb-thumb
-                img(src!= '<%= profile_picture %>')
-                
+        if organisation.profile_picture  
+          .mb-style-3
+            blockquote#tips
+              p <%= tip %>
+            if organisation.profile_picture
+              .mb-attribution
+                  p.mb-author <%= tip_giver %>
+                  cite 
+                    //- a(href='#0') Funded by Silo for life
+                  .mb-thumb
+                    img(src!= '<%= profile_picture %>')
+                  
                 
                 
                 

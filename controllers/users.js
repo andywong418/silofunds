@@ -566,7 +566,7 @@ module.exports = {
     });
   },
   initialCreation: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    passportFunctions.ensureAuthenticated(req, res, function() {
       Logger.info("HI REQ", req.user);
       var emailSuccess = req.flash('emailSuccess');
       res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]});
@@ -1175,8 +1175,6 @@ module.exports = {
       })
     } else {
       Logger.info("here then?")
-      Logger.info(req.user)
-      Logger.info('this is req.user ^^^^^^^^^^^^^')
       res.redirect('/user/dashboard')
     }
   }

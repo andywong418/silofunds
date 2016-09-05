@@ -7,6 +7,7 @@ var configAuth = require('../../config/auth')
 var FacebookStrategy = require('passport-facebook').Strategy;
 var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 var passportFunctions = require('./functions')
+var signup = require('../signup')
 
 
 
@@ -213,7 +214,27 @@ passport.use('registrationStrategy', new LocalStrategy({
               facebook_registering: 'TRUE',
               token: accessToken
             }).then(function(newUser) {
-              return done(null, newUser);
+              var user = newUser.dataValues
+              var email = user.email
+              var firstName = user.username.split(' ')[0]
+              var length = user.username.split(' ').length
+              var lastName = user.username.split(' ')[length - 1]
+              mc.lists.subscribe({ id: '075e6f33c2', email: {email: email}, merge_vars: {
+                  EMAIL: email,
+                  FNAME: firstName,
+                  LNAME: lastName
+                  }}, function(data) {
+                return done(null, newUser);
+              }, function(error) {
+                if (error.error) {
+                  Logger.info(error.code + error.error);
+                } else {
+                  Logger.info('some other error');
+                }
+                Logger.info('ending AJAX post request...');
+                res.status(400);
+                res.redirect('/');
+              });
             });
           }
         });

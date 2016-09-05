@@ -490,8 +490,8 @@ $(document).ready(function(){
   });
 
   if(user){
+    $('.application_form').css('margin-top', '3%');
     if(!user.organisation_or_user){
-      $('.application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
         var myDate = user.date_of_birth.split("-");
@@ -1354,15 +1354,19 @@ function eligibility_divPaddingChange() {
 
 function noProfilePicDivResizer() {
   if(!organisation.profile_picture) {
-    $('.application_form').css('width', '100%')
     if($(window).width() <= 767) {
+      $('.application_form').css('width', '100%')
       $('#big_flex_div #left_div_desktop.desktop #box_1').css('display', 'none');
       $('#big_flex_div #left_div #box_2').css('padding-left', '0px');
+      $('#big_flex_div #left_div #box_1').css('width', '0');
       $('#box_2 a').css('width', '100%');
       $('#box_2 a').css('margin-bottom', '15px');
       $('#box_2 a').css('padding', '10px 20px 10px 30px');
       $('#box_2 a #favourite').css('margin-top', '-9px')
       $('#box_2 a #favourite').css('margin-left', '-26px')
+    } else {
+      $('#box_1').css('width', '');
+      $('.application_form').css('width', '93%')
     }
   }
 }
@@ -1383,7 +1387,6 @@ function favouriteStarMargin() {
     $('.favourite').css('margin-left', starMargin)
   } else if (550 <= $(window).width() && $(window).width() <= 767 ) {
     if(organisation.profile_picture) {
-      console.log('BUT ME HERE')
       $('.favourite.profile_picture.mobile').show();
       $('.favourite.profile_picture.mobile').css('margin-left', 0);
     } else {

@@ -5,7 +5,7 @@ var fs = require('fs');
 var async = require('async');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-require('./passport/strategies')(passport);
+// require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var aws_keyid;
 var aws_key;
@@ -44,7 +44,7 @@ function moderateObject(objectFields){
   return objectFields;
 }
 module.exports = {
-  subscribe: function(req, res, next){
+  subscribe: function(req, res, next) {
     var username = "";
 		if(req.body.fundName !== "") {
 			username = req.body.fundName
