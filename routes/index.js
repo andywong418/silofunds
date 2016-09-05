@@ -13,6 +13,7 @@ router.get('/', home.index);
 router.post('/subscribe', home.subscribe);
 
 // Login
+// router.get('/login', users.loginGET)
 router.get('/login', users.loginGET)
 router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '/login', failureFlash: 'Invalid username or password'}), users.rememberMe)
 router.get('/loginSplit', users.loginSplit)
