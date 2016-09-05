@@ -1,6 +1,7 @@
 extends layout
 
 block extraHeader
+  link(href='/stylesheets/footer.css', rel='stylesheet')
   link(href='/stylesheets/option-profile.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 block content
@@ -198,7 +199,7 @@ block content
                   .mb-thumb
                     img(src!= '<%= profile_picture %>')
                   
-                
+  include ./partials/footer.jade
                 
                 
                 
