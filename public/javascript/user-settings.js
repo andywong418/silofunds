@@ -356,14 +356,16 @@ $(document).ready(function() {
 // Functions for mobile stuff
 function barSwitcher() {
   if($(window).width() <= 541) {
-    $('#left_div').hide();
+    $('#left_div').show()
+    $('#mobile-remove-div').hide();
     $('#top_div').show();
     $('#right_div').show();
     $('#right_div').removeClass('col-xs-8');
     $('#right_div').addClass('col-xs-12');
     $('#big_flex_div').addClass('flex-direction', 'column')
   } else {
-    $('#left_div').show();
+    $('#left_div').show()
+    $('#mobile-remove-div').show();
     $('#top_div').hide();
     $('#right_div').show();
     $('#right_div').addClass('col-xs-8');

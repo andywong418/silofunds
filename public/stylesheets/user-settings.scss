@@ -415,3 +415,15 @@ label.removeFile {
     }
   }
 }
+
+@media (max-width: 541px) {
+  #left_div {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    #box-profile #userImage {
+      width: 25%;
+      height: auto;
+    }
+  }
+}

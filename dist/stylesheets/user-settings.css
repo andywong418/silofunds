@@ -1344,3 +1344,12 @@ label.removeFile {
       padding-left: 25px; }
   #general-settings #genderRow .clear, #personal-settings #genderRow .clear {
     margin-top: 6px; } }
+
+@media (max-width: 541px) {
+  #left_div {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px; }
+    #left_div #box-profile #userImage {
+      width: 25%;
+      height: auto; } }
