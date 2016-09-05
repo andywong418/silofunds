@@ -57,7 +57,9 @@ block content
             a#save-progress(href="#eligible") Save progress
           a#skip(href='#eligible') Skip
       script#eligible-template(type='text/template')
-        span#helpBlock.help-block.center-block= "Add 'all' to a specific field if you have no special requirements for that criteria. E.g. if you do not specify a subject please put 'all' in the input box." 
+        span#helpBlock.help-block.center-block Add 'all' to 
+          strong subject, target university, target degree, required university, required degree, country of residence and target country 
+          | if you have no special requirements for that criteria. E.g. if you do not specify a subject please put 'all' in the input box.
         .criteria-container.container.center-block
           #subject.criteria-item.item-selected
             span.glyphicon.glyphicon-book
