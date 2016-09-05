@@ -22,11 +22,11 @@ block content
           if user.profile_picture
             input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#userImage(src=user.profile_picture)
-            i.fa.fa-camera
+            i.fa.fa-camera.desktop
           else
             input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#userImage(src='/images/profile-placeholder.jpg')
-            i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
+            i.fa.fa-camera.desktop(style='color: grey; left: 45%;top: 125px')
       #mobile-remove-div
         .settings-tab-menu
           .list-group

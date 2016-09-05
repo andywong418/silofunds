@@ -47,9 +47,6 @@ p {
       position: absolute;
       color: white;
       font-size: 45px;
-      left: 47%;
-      top: 130px;
-      display: none;
     }
     &:hover{
       .fa-camera{
@@ -417,6 +414,9 @@ label.removeFile {
 }
 
 @media (max-width: 541px) {
+  .desktop {
+    display: none;
+  }
   #left_div {
     width: 100%;
     padding-left: 10px;

@@ -333,10 +333,11 @@ $(document).ready(function() {
 
   // Mobile jquery
   barSwitcher();
-  // activeClassAdder();
+  cameraFaviconMover();
+
   $(window).resize(function() {
     barSwitcher();
-    // activeClassAdder();
+    cameraFaviconMover();
   })
 
   $("#top_div div.settings-tab-menu div.list-group div.flex-box").click(function(e) {
@@ -370,5 +371,18 @@ function barSwitcher() {
     $('#right_div').show();
     $('#right_div').addClass('col-xs-8');
     $('#right_div').removeClass('col-xs-12');
+  }
+}
+
+function cameraFaviconMover() {
+  if($(window).width() > 541) {
+    // We then user absolute position relative to left div
+    var imageWidth = $('#box-profile').width()
+    var cameraWidth = $('#box-profile .fa.fa-camera').width();
+    var left = (imageWidth - cameraWidth)/2
+    $('#box-profile .fa.fa-camera').css('margin-left', $('#left_div').css('padding-left'))
+    $('#box-profile .fa.fa-camera').css('left', left + 1) // Not sure why not exact, but +1 improves the centering
+    var top = $('#box-profile').height() - $('#box-profile .fa.fa-camera').height();
+    $('#box-profile .fa.fa-camera').css('top', top - 9);
   }
 }
