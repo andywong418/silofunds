@@ -1351,4 +1351,14 @@ label.removeFile {
     padding-right: 10px; }
     #left_div #box-profile #userImage {
       width: 25%;
-      height: auto; } }
+      height: auto; }
+  #campaign-settings p.embedded-link {
+    font-size: 10px; }
+  #campaign-settings .col-xs-12.refund-choice {
+    padding: 0;
+    margin-top: -10px;
+    margin-bottom: 10px; }
+    #campaign-settings .col-xs-12.refund-choice label {
+      padding: 0; }
+    #campaign-settings .col-xs-12.refund-choice input {
+      margin: 0; } }
