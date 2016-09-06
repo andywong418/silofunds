@@ -5,13 +5,13 @@
         if(organisation.profile_picture)
           span#favourite.favourite.profile_picture.mobile ☆
           img#fundImage(src=organisation.profile_picture)
-          span#favourite.favourite.desktop ☆
+          span#favourite.favourite.profile_picture.desktop ☆
   else
     //- a#fundWebsite(href='/organisation/options/' + fund.id )
     if organisation
       if(organisation.profile_picture)
         img#fundImage(src=organisation.profile_picture)
-        span#favourite.favourite ☆
+        span#favourite.favourite.profile_picture ☆
 #box_2
   if ownedFund && !organisation.profile_picture
     img#fund_img_placeholder(src="/images/fund_img_placeholder.jpg")
