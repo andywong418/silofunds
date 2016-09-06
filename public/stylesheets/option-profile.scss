@@ -1047,8 +1047,11 @@ h1 {
   }
 }
 
-#favourite.favourite.no-profile_picture {
-  margin-left: -20px !important;
+@media(min-width: 768px) {
+  #favourite.favourite.no-profile_picture {
+    margin-left: calc(-15px + 5px) !important; // The second digit is the actual margin from the left
+    margin-top: calc(-18px + 5px) !important; // The second digit is the actual margin from the top
+  }
 }
 
 // Initial hides to prevent flickering

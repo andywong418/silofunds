@@ -1394,7 +1394,7 @@ var subjectCounter = 0;
     noProfilePicDivResizer();
     displayTopBottomDivs();
     favouriteStarMargin();
-    fundBioBackgroundColor()
+    fundBioBackgroundColor();
   })
 
   if(user.organisation_or_user == null) {
@@ -1445,9 +1445,12 @@ function noProfilePicDivResizer() {
 }
 
 function displayTopBottomDivs() {
-  if(549 <= $(window).width() && $(window).width() <= 767) {
-    $('#top_div_mobile').css('display', 'block')
-    $('#bottom_div_mobile').css('display', 'block')
+  if($(window).width() <= 767) {
+    $('#top_div_mobile #left_div').css('display', 'flex')
+    if(549 <= $(window).width()) {
+      $('#top_div_mobile').css('display', 'block')
+      $('#bottom_div_mobile').css('display', 'block')
+    }
   } else {
     $('#left_div').show()
     if ($(window).width() > 767) {
@@ -1458,17 +1461,26 @@ function displayTopBottomDivs() {
 }
 
 function favouriteStarMargin() {
-  if(767 < $(window).width() && $(window).width() <= 1076) {
-    var starMargin = 204 - $('#left_div').width() - 235
-    $('.favourite').css('margin-left', starMargin)
-  } else if (550 <= $(window).width() && $(window).width() <= 767 ) {
-    if(organisation.profile_picture) {
-      $('.favourite.profile_picture.mobile').show();
-      $('.favourite.profile_picture.mobile').css('margin-left', 0);
-    } else {
-      $('.favourite.profile_picture.mobile').hide();
-    }
-  } else if ($(window).width() > 1076) {
-    $('.favourite').css('margin-left', '')
+  // With profile picture
+  var $star = $('#favourite.favourite.profile_picture')
+  var $img = $('#fundImage')
+  var $box_1 = $('#box_1')
+  var margin = 5; // set this to be the desired top/left margin
+  var marginLeft = - $img.width() + margin;
+  var marginTop = -3 + margin
+  $star.css('margin-left', marginLeft)
+  $star.css('margin-top', marginTop)
+  if($(window).width() <= 767) {
+    $('.favourite.profile_picture.mobile').show();
+    $('.favourite.profile_picture.mobile').css('margin-left', 0);
+  }
+
+  // Without profile picture
+  var $star2 = $('#favourite.favourite.no-profile_picture')
+  if($(window).width() > 767) {
+    $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+  } else {
+    $star2.css('margin-top', '-14 + 5')
+    $star2.css('margin-left', '-30 + 5')
   }
 }
