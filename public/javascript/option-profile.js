@@ -1401,6 +1401,7 @@ var subjectCounter = 0;
     $('#big_flex_div #right_div #eligibility_div').show()
   } else {
     $('#big_flex_div #right_div #eligibility_div').hide()
+    $('#box_3_right').css('margin-bottom', 0)
   }
 
 })
