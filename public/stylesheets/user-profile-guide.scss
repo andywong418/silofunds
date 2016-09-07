@@ -1,0 +1,59 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+$header-color: #33485c;
+body{
+  background: #ffffff;
+  font-family: 'Source Sans Pro';
+  h3{
+      font-family: 'Source Sans Pro';
+  }
+  .navbar-custom{
+    position: relative;
+
+    div.navbar-center-container{
+      position: absolute;
+    }
+  }
+  #guide-header{
+    margin-top: 30px;
+    #guide-header-div{
+      width: 70%;
+      margin-left: 23%;
+      h3{
+        font-family: 'Source Sans Pro';
+        color: $header-color;
+        font-weight: bolder;
+        font-size: 28px;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+      #header-paragraph{
+        text-align: left;
+        font-size: 19px;
+        color: grey;
+        width: 80%;
+      }
+    }
+
+    #guide-header-image{
+      width: 50%;
+      margin-left: 23%;
+
+    }
+  }
+  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion{
+    margin-left: 23%;
+    margin-top: 30px;
+    color: $header-color;
+    p{
+      width: 80%;
+      color: black;
+      font-size: 18px;
+    }
+  }
+  #conclusion{
+    margin-bottom: 50px;
+  }
+}
