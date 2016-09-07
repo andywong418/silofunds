@@ -1397,13 +1397,12 @@ var subjectCounter = 0;
     fundBioBackgroundColor();
   })
 
-  if(user.organisation_or_user == null) {
+  if(user && user.organisation_or_user == null) {
     $('#big_flex_div #right_div #eligibility_div').show()
   } else {
     $('#big_flex_div #right_div #eligibility_div').hide()
     $('#box_3_right').css('margin-bottom', 0)
   }
-
 })
 
 function eligibility_divPaddingChange() {
