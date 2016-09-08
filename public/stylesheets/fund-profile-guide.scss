@@ -15,6 +15,7 @@ body{
   }
   h1,h2,h3,h4{
     font-family: 'Helvetica Neue';
+    color: $header-color;
 
   }
   section{
@@ -33,7 +34,6 @@ body{
     h3, i{
       font-weight: 550;
       font-family: 'Source Sans Pro';
-      color: white;
       display: inline-block;
       font-size: 25px;
 

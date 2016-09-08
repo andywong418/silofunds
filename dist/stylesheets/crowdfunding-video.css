@@ -686,10 +686,12 @@ div.navbar-center-container {
   .cd-form {
     padding: 2em;
     padding-bottom: 5px !important; }
-    .cd-form .fieldset:first-child {
-      margin-top: 0; }
-    .cd-form .fieldset:last-child {
-      margin-bottom: 0; }
+    .cd-form .fieldset {
+      margin: 2em 0; }
+      .cd-form .fieldset:first-child {
+        margin-top: 0; }
+      .cd-form .fieldset:last-child {
+        margin-bottom: 0; }
     .cd-form input.has-padding {
       padding: 16px 20px 16px 50px; }
     .cd-form button[type=submit] {
@@ -793,6 +795,7 @@ div.navbar-center-container {
 #remember {
   position: relative;
   float: left;
+  margin-top: 0;
   z-index: 7;
   display: none; }
   #remember label {
@@ -915,62 +918,42 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
-#fund-option, #remember {
-  margin-top: -20px;
-  margin-bottom: 20px; }
-
 body {
-  background: #f4f6f8;
+  background: #ffffff;
   font-family: 'Source Sans Pro'; }
+  body h3 {
+    font-family: 'Source Sans Pro'; }
   body .navbar-custom {
     position: relative; }
     body .navbar-custom div.navbar-center-container {
       position: absolute; }
-  body h1, body h2, body h3, body h4 {
-    font-family: 'Helvetica Neue';
+  body #guide-header {
+    margin-top: 30px; }
+    body #guide-header #guide-header-div {
+      width: 70%;
+      margin-left: 23%; }
+      body #guide-header #guide-header-div h3 {
+        font-family: 'Source Sans Pro';
+        color: #33485c;
+        font-weight: bolder;
+        font-size: 28px;
+        text-align: left;
+        margin-bottom: 20px; }
+      body #guide-header #guide-header-div #header-paragraph {
+        text-align: left;
+        font-size: 19px;
+        color: grey;
+        width: 80%; }
+    body #guide-header #guide-header-image {
+      width: 50%;
+      margin-left: 23%; }
+  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
+    margin-left: 23%;
+    margin-top: 30px;
     color: #33485c; }
-  body section i.fa.fa-institution {
-    font-size: 28px;
-    display: inline;
-    margin-right: 10px; }
-  body section .row {
-    padding-top: 35px;
-    background-color: #516395;
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 2px; }
-  body section h3, body section i {
-    font-weight: 550;
-    font-family: 'Source Sans Pro';
-    display: inline-block;
-    font-size: 25px; }
-  body #writing {
-    font-family: 'Helvetica Neue';
-    padding: 20px 30px 20px 30px;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    width: 83.3%;
-    margin-left: 9.16%;
-    background-color: white;
-    box-shadow: 0px 8px 15px #888888;
-    border-radius: 30px; }
-    body #writing h3 {
-      font-size: 20px; }
-    body #writing .intro-div {
-      border-bottom: 2px solid grey; }
-      body #writing .intro-div .intro {
-        font-style: italic;
-        margin-bottom: 10px;
-        font-size: 16px; }
-    body #writing .steps {
-      border-bottom: 2px solid grey;
-      margin-top: 15px;
-      margin-bottom: 25px; }
-      body #writing .steps .step-img {
-        width: 70%;
-        margin-left: 15%;
-        margin-bottom: 30px;
-        border-radius: 3px; }
-      body #writing .steps div p.intro {
-        margin-bottom: 10px;
-        font-size: 16px; }
+    body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
+      width: 80%;
+      color: black;
+      font-size: 18px; }
+  body #conclusion {
+    margin-bottom: 50px; }
