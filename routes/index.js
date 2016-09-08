@@ -89,6 +89,16 @@ router.get('/user-profile-guide', function(req, res){
   }
   res.render('user-profile-guide', {user: user});
 });
+router.get('/crowdfunding-video', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('crowdfunding-video', {user: user});
+});
 
 router.get('/public/:id', users.crowdFundingPage);
 

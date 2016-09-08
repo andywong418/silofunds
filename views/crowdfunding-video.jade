@@ -1,0 +1,56 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/crowdfunding-video.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade
+  section#guide-header.content-section
+    #guide-header-div
+      h3 Creating an effective video for your profile page
+      p#header-paragraph As discussed in the 
+        a(href='/user-profile-guide') article on crowdfunding campaigns, 
+        | having a video on your profile increases the likelihood of success by 20%. This guide will provide tips our team have gathered from successful crowdfunders to improve your profile page.
+    img#guide-header-image(src='/images/crowdfunding-video-header.svg')
+  section#step-one.content-section
+    h3 Tip #1: Keep it short
+    p With the rise of apps such as Snapchat and Vines, the attention span of online users is rapidly decreasing. Most successful campaigns have a video with a maximum of about 3 minutes. This gives enough time for you to connect with a potential donor whilst keeping the content interesting.
+  section#step-two.content-section
+    h3 Tip #2: Explain your journey
+    p It's important to create a connection with potential donors in the video. Explain why you love your subject, why you want to go to your target university and why you need funding. Telling potential backers how you will allocate your donations will make your profile more trustworthy.
+  section#step-three.content-section
+    h3 Tip #3: Emphasising your purpose
+    p Explain to people you vision for your career path after you successfully complete your education. Relaying your dreams can inspire potential donors to believe in your cause. Bonus points if your vision will generate social value in the future - e.g. Using your Postgraduate Certificate in Education(PGCE) to teach in developing countries.
+  section#step-three
+    h3 Tip #4: Social proof
+    p Social proof is a psychological phenomenon where people's behaviour is driven by the actions of surrounding people in ambiguous situations. Getting support from friends, family and tutors in the video will show others that you have a worthy cause.
+  section#step-four.content-section
+    h3 Tip #5: Create a sense of community 
+    p Invite people to be a part of your movement. Let people know how they can help you (donating or sharing the profile) and let them know how they can stay in touch with you (either via social media or through our platform).
+  section#step-five.content-section
+    h3 Tip #6: Show enjoyment
+    p Education crowdfunding is a particularly serious subject. By showing a lighthearted or comedic side (e.g. showing bloopers of your video) will make the video more enthralling to viewers.
+  section#conclusion
+    h3 Conclusion
+    p Your video will likely be the first impression you make on potential backers. As a results, you should allocate significant amounts of time and effort creating and editing the video. Below are some sample videos you can take a draw inspiration from.
+    iframe(width='560', height='315', src='https://www.youtube.com/embed/2CI6XyzmX1k', frameborder='0', allowfullscreen='')
+    iframe(width='560', height='315', src='https://www.youtube.com/embed/rWio4ina39I', frameborder='0', allowfullscreen='', style='margin-top: 30px')
+    p.intro(style='color: #f39c12; margin-top: 5px') With love from the Silo team
+      i.fa.fa-heart(style='color: red; margin-right: 5px; float: left; margin-top: 5px;')
+
+  include ./partials/footer.jade
