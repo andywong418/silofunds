@@ -194,7 +194,34 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+//TODO: change interval to 1 day
+var fundUnreadMessagesScheduler = new CronJob('*/5 * * * * *', checkForFundUnreadMessages, null, true);
 
+function checkForFundUnreadMessages() {
+  return models.sequelize.query('SELECT user_to, COUNT(*) FROM messages WHERE read_by_recipient = false GROUP BY user_to HAVING COUNT(*) > 1').spread(function(results, metadata) {
+    Logger.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    Logger.error(results);
+    var userIDList = [];
+    var emailStats = {};
+    results.forEach(function(result) {
+      userIDList.push(result.user_to[0]);
+      // Restructure data to be used for sending emails
+      emailStats[result.user_to[0]] = {};
+      emailStats[result.user_to[0]].unreadCount = result.count;
+    });
+    return models.users.findAll({
+      where: { id: userIDList },
+      attributes: ['id', 'email']
+    }).then(function(users) {
+      users.forEach(function(user) {
+        emailStats[user.id].email = user.email;
+        //send emails here
+      });
+      // or here.
+      Logger.warn(emailStats);
+    });
+  });
+}
 function retrieveAllMessagesInRoom(data) {
   return models.messages.findAll({ where: {
     room_name: data.roomName
