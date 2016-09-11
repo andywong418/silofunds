@@ -27,12 +27,11 @@ if(!organisation.profile_picture)
             p.description Other eligibility requirements
         .row#just-trying
           script#image-template(type='text/template')
-            .counter
-              .col-md-12.col-xs-12.criteria-box
-                .col-md-2.col-xs-2
-                  img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
-                .col-md-10.col-xs-10
-                  span.criteria <%=criteria %>
+            .col-md-12.col-xs-12.criteria-box
+              .col-md-2.col-xs-2
+                img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+              .col-md-10.col-xs-10
+                span.criteria <%=criteria %>
           script#other-eligibility-template(type='text/template')
             .other-box
               .col-md-12.col-xs-12

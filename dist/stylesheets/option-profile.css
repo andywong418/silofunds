@@ -1832,3 +1832,9 @@ h1 {
 
 #big_flex_div #right_div #eligibility_div {
   display: none; }
+
+#flexem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid red; }

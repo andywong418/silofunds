@@ -1448,7 +1448,6 @@ var subjectCounter = 0;
   favouriteStarMargin();
   fundBioBackgroundColor();
   pictureColumnNoChanger();
-  locationHandlerWorkaround();
   $(window).resize(function() {
     eligibility_divPaddingChange();
     noProfilePicDivResizer();
@@ -1548,23 +1547,25 @@ function favouriteStarMargin() {
 }
 
 function pictureColumnNoChanger() {
-  if($('#subject-handler').children(0).length - 1 >= 3) {
-    $('#subject-handler .criteria-box').addClass('col-md-4')
-    $('#subject-handler .criteria-box').addClass('col-xs-6')
-    $('#subject-handler .criteria-box').removeClass('col-md-12')
-    $('#subject-handler .criteria-box').css('clear', 'none')
-    $('#subject-handler .criteria-box img').css('margin-left', '0px')
-  }
-}
-
-function locationHandlerWorkaround() {
-  $('#location-handler').show();
-  $('.eligibility-display').css('height', 'auto')
-  setTimeout(function() {
-    if($('#location-handler').children(0).length - 1 >= 3) {
-      $('#location-handler .criteria-box').addClass('col-md-4')
-      $('#location-handler .criteria-box').removeClass('col-md-12')
-      $('#location-handler .criteria-box img').css('margin-left', '0px')
+  if($(window).width() > 767) {
+    if($('#subject-handler').children(0).length - 1 >= 3) {
+      $('#subject-handler .criteria-box').addClass('col-md-4')
+      $('#subject-handler .criteria-box').addClass('col-xs-4')
+      $('#subject-handler .criteria-box').removeClass('col-md-12')
+      // $('#subject-handler .criteria-box').css('clear', 'none')
+      $('#subject-handler .criteria-box img').css('margin-left', '0px')
     }
-  }, 800)
+    setTimeout(function() {
+      if($('#location-handler').children(0).length - 1 >= 3) {
+        $('#location-handler .criteria-box').addClass('col-md-4')
+        $('#location-handler .criteria-box').removeClass('col-md-12')
+        $('#location-handler .criteria-box img').css('margin-left', '0px')
+      }
+    }, 500)
+    if($(window).width() < 937) {
+      $('#box_3_right .eligibility-display').css('padding', '0');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
+  }
 }
