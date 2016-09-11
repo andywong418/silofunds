@@ -1204,7 +1204,7 @@ var subjectCounter = 0;
                           imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/united-states">From ' + this.country + '</a>')
                       }
                       if(this.country.indexOf('west africa') > -1){
-                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/western-africa">From ' + this.country + '</a>')
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/west-africa">From ' + this.country + '</a>')
                       }
 
                       var view = new ImageView({ model: imageModel });
