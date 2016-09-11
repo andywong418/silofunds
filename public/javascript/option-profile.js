@@ -1566,6 +1566,12 @@ function pictureColumnNoChanger() {
     setTimeout(function() {
       locationColumnFix()
     }, 1700)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 2000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 3000)
     if($(window).width() < 1100) {
       $('#box_3_right .eligibility-display').css('padding', '0');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
