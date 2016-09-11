@@ -1557,9 +1557,15 @@ function pictureColumnNoChanger() {
       $('#subject-handler .criteria-box').removeClass('col-xs-12')
       $('#subject-handler .criteria-box img').css('margin-left', '0px')
     }
-    setTimeout(locationColumnFix(), 500)
-    setTimeout(locationColumnFix(), 1000)
-    setTimeout(locationColumnFix(), 1700)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 500)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1700)
     if($(window).width() < 1100) {
       $('#box_3_right .eligibility-display').css('padding', '0');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
