@@ -490,7 +490,7 @@ $(document).ready(function(){
   });
 
   if(user){
-    $('.application_form').css('margin-top', '3%');
+    // $('.application_form').css('margin-top', '3%');
     if(!user.organisation_or_user){
       var age;
       if(user.date_of_birth){
