@@ -121,7 +121,7 @@ h1 {
 #left_div {
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   flex-direction: column;
   height: auto;
   p{
@@ -185,7 +185,6 @@ h1 {
     color: #2980b9;
   }
   .fundBio {
-    width: 90%;
     font-size: 15px;
     margin-bottom: 10px;
   }
@@ -316,7 +315,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -905,15 +904,30 @@ h1 {
 // Css needed as a result of making things partials and putting in .desktop divs
 #right_div_desktop {
   margin-left: 7%;
-  width: 93%;
+  width: 100%;
   #eligibility_div, #notEligible, .application_form {
     width: 100%;
   }
 }
+#right_div {
+  margin-right: 31px;
+}
 #left_div_desktop {
-  width: 23%;
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px;
   #left_div {
     width: 100%;
+    padding-right: 0;
+    #box_1 {
+      margin-top: 0;
+    }
+    #box_2 {
+      margin-top: 0;
+      a {
+        padding: 0;
+      }
+    }
   }
 }
 
@@ -1063,7 +1077,7 @@ h1 {
   display: none;
 }
 
-#flexem {
-  display: flex;
-  border: 1px solid red;
+// Extraas
+.container {
+  padding-left: 15px;
 }

@@ -1540,7 +1540,7 @@ function favouriteStarMargin() {
   // Without profile picture
   var $star2 = $('#favourite.favourite.no-profile_picture')
   if($(window).width() > 767) {
-    $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+    // $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
   } else {
     $star2.css('margin-top', '-14 + 5')
     $star2.css('margin-left', '-30 + 5')
@@ -1569,7 +1569,7 @@ function pictureColumnNoChanger() {
         }
       }
     }, 500)
-    if($(window).width() < 937) {
+    if($(window).width() < 1100) {
       $('#box_3_right .eligibility-display').css('padding', '0');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');

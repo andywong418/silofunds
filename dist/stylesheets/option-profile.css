@@ -1021,7 +1021,7 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1085,7 +1085,6 @@ h1 {
     margin-bottom: 10px;
     color: #2980b9; }
   #box_2 .fundBio {
-    width: 90%;
     font-size: 15px;
     margin-bottom: 10px; }
   #box_2 .info-row {
@@ -1194,7 +1193,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -1717,14 +1716,26 @@ h1 {
 
 #right_div_desktop {
   margin-left: 7%;
-  width: 93%; }
+  width: 100%; }
   #right_div_desktop #eligibility_div, #right_div_desktop #notEligible, #right_div_desktop .application_form {
     width: 100%; }
 
+#right_div {
+  margin-right: 31px; }
+
 #left_div_desktop {
-  width: 23%; }
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px; }
   #left_div_desktop #left_div {
-    width: 100%; }
+    width: 100%;
+    padding-right: 0; }
+    #left_div_desktop #left_div #box_1 {
+      margin-top: 0; }
+    #left_div_desktop #left_div #box_2 {
+      margin-top: 0; }
+      #left_div_desktop #left_div #box_2 a {
+        padding: 0; }
 
 @media (max-width: 1076px) {
   #favourite {
@@ -1833,8 +1844,5 @@ h1 {
 #big_flex_div #right_div #eligibility_div {
   display: none; }
 
-#flexem {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  border: 1px solid red; }
+.container {
+  padding-left: 15px; }
