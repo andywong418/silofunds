@@ -1552,7 +1552,6 @@ function pictureColumnNoChanger() {
       $('#subject-handler .criteria-box').addClass('col-md-4')
       $('#subject-handler .criteria-box').addClass('col-xs-4')
       $('#subject-handler .criteria-box').removeClass('col-md-12')
-      // $('#subject-handler .criteria-box').css('clear', 'none')
       $('#subject-handler .criteria-box img').css('margin-left', '0px')
     }
     setTimeout(function() {
