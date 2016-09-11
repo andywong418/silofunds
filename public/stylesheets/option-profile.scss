@@ -611,7 +611,7 @@ h1 {
 }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -1025,7 +1025,6 @@ h1 {
     #eligibility_div {
       margin: 0px 0px 20px 0px;
       width: 100%;
-      // padding-top: 15px;
       p#eligibility_div_p, a{
         font-size: 18px;
       }
@@ -1062,6 +1061,16 @@ h1 {
 }
 
 @media(min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px;
+  }
+  #box_3_right .eligibility-display .other-box {
+    .col-md-12.col-xs-12 {
+      margin-top: 5px;
+      padding: 0px 25px;
+    }
+  }
   #favourite.favourite.no-profile_picture {
     margin-left: calc(-15px + 5px) !important; // The second digit is the actual margin from the left
     margin-top: calc(-18px + 5px) !important; // The second digit is the actual margin from the top

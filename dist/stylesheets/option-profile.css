@@ -1410,7 +1410,7 @@ h1 {
       font-weight: normal; }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -1833,6 +1833,12 @@ h1 {
     padding: 5px 2px 5px 2px; } }
 
 @media (min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px; }
+  #box_3_right .eligibility-display .other-box .col-md-12.col-xs-12 {
+    margin-top: 5px;
+    padding: 0px 25px; }
   #favourite.favourite.no-profile_picture {
     margin-left: calc(-15px + 5px) !important;
     margin-top: calc(-18px + 5px) !important; } }
