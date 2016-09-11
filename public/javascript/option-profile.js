@@ -693,7 +693,7 @@ var subjectCounter = 0;
               var otherCounter = 0;
               if(fund[fields[j]]){
                 for(var i =0; i < subject.length; i++){
-                  if(subject[i] === 'all'){
+                  if(subject[i].toLowerCase() === 'all'){
                     break;
                   }
                   if(science.indexOf(subject[i].capitalize()) > -1 || subject[i].toLowerCase().indexOf('science') > -1 ){
@@ -1059,8 +1059,9 @@ var subjectCounter = 0;
               break;
             case 'required_degree':
               var requiredDegree = fund['required_degree'];
-              if(requiredDegree){
-                if(requiredDegree.indexOf('all') == -1){
+              var targetDegree = fund['target_degree'];
+              if(requiredDegree && !targetDegree){
+                if(requiredDegree.indexOf('all') == -1 || requiredDegree.indexOf('All') == -1){
                   var requiredDegreeString = returnStringfromArray(requiredDegree);
                   educationCounter++;
                   var imageModel = new ImageModel({
@@ -1107,7 +1108,8 @@ var subjectCounter = 0;
                   if(targetCountry[i].toLowerCase() == 'us'){
                     targetCountry[i] = "United Sates of America";
                   }
-                  checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
+                  locationCounter++;
+                  checkImage('/images/128/' + targetCountry[i].trim() + '.png', targetCountry[i], function(){
                     var imageModel = new ImageModel({
                       imageSource: this.src,
                       criteria: 'For study in ' + this.country,
@@ -1116,6 +1118,7 @@ var subjectCounter = 0;
                     var view = new ImageView({ model: imageModel });
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
+                    locationCounter++;
                   }, function(){
                     var imageModel = new ImageModel({
                       imageSource: '/images/128/flag_placeholder.svg',
@@ -1135,8 +1138,10 @@ var subjectCounter = 0;
               break;
             case 'country_of_residence':
               var requiredCountry = fund.country_of_residence;
+              var url = window.location.pathname;
+              console.log(url);
               if(requiredCountry){
-
+                locationCounter++;
                 for(var i =0; i < requiredCountry.length; i++){
                   if(requiredCountry[i].toLowerCase() == 'all'){
                     break;
@@ -1150,30 +1155,87 @@ var subjectCounter = 0;
                   if(requiredCountry[i].toLowerCase() == 'us'){
                     requiredCountry[i] = "United Sates of America"
                   }
+                  if(url == '/organisation/options/1898'){
+                    checkImage('/images/128/' + requiredCountry[i].trim() + '.png', requiredCountry[i], function(){
+                      var imageModel = new ImageModel({
+                        imageSource: this.src,
+                        criteria: '<a href="http://www.rhodesscholarshiptrust.com/' + this.country.trim().split(' ').join('-') + '">From ' + this.country.trim() + '</a>',
+                        section: this.country
+                      });
+                      this.country = this.country.trim().toLowerCase();
+                      if(this.country.indexOf('south africa') > -1 || this.country.indexOf('botswana') > -1 || this.country.indexOf('besotho') > -1 || this.country.indexOf('malawi') > -1 || this.country.indexOf('namibia') > -1 || this.country.trim().indexOf('swaziland') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/southern-africa">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('syria') > -1 || this.country.indexOf('jordan') > -1 || this.country.indexOf('lebanon') > -1 || this.country.indexOf('palestine') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/syria-jordan-lebanon-and-palestine">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('jamaica') > -1 || this.country.indexOf('commonwealth caribbean') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/jamaica-and-commonwealth-caribbean">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('united states') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/united-states">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('west africa') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/western-africa">From ' + this.country + '</a>')
+                      }
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                    }, function(){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/128/flag_placeholder.svg',
+                        criteria: '<a href="http://www.rhodesscholarshiptrust.com/' + this.country.trim().split(' ').join('-') + '">From ' + this.country.trim() + '</a>',
+                        section: this.country
+                      });
+                      this.country = this.country.trim().toLowerCase();
+                      if(this.country.indexOf('south africa') > -1 || this.country.indexOf('botswana') > -1 || this.country.indexOf('besotho') > -1 || this.country.indexOf('malawi') > -1 || this.country.indexOf('namibia') > -1 || this.country.trim().indexOf('swaziland') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/southern-africa">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('syria') > -1 || this.country.indexOf('jordan') > -1 || this.country.indexOf('lebanon') > -1 || this.country.indexOf('palestine') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/syria-jordan-lebanon-and-palestine">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('jamaica') > -1 || this.country.indexOf('commonwealth caribbean') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/jamaica-and-commonwealth-caribbean">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('united states') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/united-states">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('west africa') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/west-africa">From ' + this.country + '</a>')
+                      }
 
-                  checkImage('/images/128/' + requiredCountry[i] + '.png', requiredCountry[i], function(){
-                    var imageModel = new ImageModel({
-                      imageSource: this.src,
-                      criteria: 'From ' + this.country,
-                      section: this.country
-                    });
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                      $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
 
-                    var view = new ImageView({ model: imageModel });
-                    $('#location-handler').append(view.render().el);
-                    $('[data-toggle="tooltip"]').tooltip();
-                  }, function(){
-                    var imageModel = new ImageModel({
-                      imageSource: '/images/128/flag_placeholder.svg',
-                      criteria: 'From ' + this.country,
-                      section: this.country
-                    });
+                    })
+                  }
+                  else{
+                    checkImage('/images/128/' + requiredCountry[i].trim() + '.png', requiredCountry[i], function(){
+                      var imageModel = new ImageModel({
+                        imageSource: this.src,
+                        criteria: 'From ' + this.country,
+                        section: this.country
+                      });
 
-                    var view = new ImageView({ model: imageModel });
-                    $('#location-handler').append(view.render().el);
-                    $('[data-toggle="tooltip"]').tooltip();
-                    $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
-                    locationCounter++;
-                  })
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                    }, function(){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/128/flag_placeholder.svg',
+                        criteria: 'From ' + this.country,
+                        section: this.country
+                      });
+
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                      $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+
+                    })
+                  }
 
                 }
               }
@@ -1223,6 +1285,7 @@ var subjectCounter = 0;
           this.$('#education-handler').css('display','none');
         }
         if(!fund.target_country && !fund.country_of_residence && !fund.specific_location || locationCounter == 0){
+          console.log(locationCounter);
           this.$('#location-handler').css('display','none');
         }
         if(!fund.other_eligibility){
