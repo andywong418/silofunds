@@ -490,7 +490,7 @@ $(document).ready(function(){
   });
 
   if(user){
-    // $('.application_form').css('margin-top', '3%');
+    $('.application_form').css('margin-top', '25px');
     if(!user.organisation_or_user){
       var age;
       if(user.date_of_birth){
@@ -1548,6 +1548,7 @@ function favouriteStarMargin() {
 }
 
 function pictureColumnNoChanger() {
+  $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
   if($(window).width() > 600) {
     if($('#subject-handler').children(0).length - 1 >= 3) {
       $('#subject-handler .criteria-box').addClass('col-md-4')
