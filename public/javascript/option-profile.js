@@ -1557,19 +1557,9 @@ function pictureColumnNoChanger() {
       $('#subject-handler .criteria-box').removeClass('col-xs-12')
       $('#subject-handler .criteria-box img').css('margin-left', '0px')
     }
-    setTimeout(function() {
-      if($('#location-handler').children(0).length - 1 >= 3) {
-        $('#location-handler .criteria-box').addClass('col-md-4')
-        $('#location-handler .criteria-box').addClass('col-xs-4')
-        $('#location-handler .criteria-box').removeClass('col-md-12')
-        $('#location-handler .criteria-box').removeClass('col-xs-12')
-        $('#location-handler .criteria-box img').css('margin-left', '0px')
-        if($(window).width() < 937) {
-          $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
-          $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
-        }
-      }
-    }, 500)
+    setTimeout(locationColumnFix(), 500)
+    setTimeout(locationColumnFix(), 1000)
+    setTimeout(locationColumnFix(), 1700)
     if($(window).width() < 1100) {
       $('#box_3_right .eligibility-display').css('padding', '0');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
@@ -1580,5 +1570,19 @@ function pictureColumnNoChanger() {
     $('#subject-handler .criteria-box').removeClass('col-xs-4')
     $('#location-handler .criteria-box').addClass('col-xs-12')
     $('#location-handler .criteria-box').removeClass('col-xs-4')
+  }
+}
+
+function locationColumnFix() {
+  if($('#location-handler').children(0).length - 1 >= 3) {
+    $('#location-handler .criteria-box').addClass('col-md-4')
+    $('#location-handler .criteria-box').addClass('col-xs-4')
+    $('#location-handler .criteria-box').removeClass('col-md-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-12')
+    $('#location-handler .criteria-box img').css('margin-left', '0px')
+    if($(window).width() < 937) {
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
   }
 }
