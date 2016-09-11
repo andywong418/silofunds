@@ -1548,7 +1548,7 @@ function favouriteStarMargin() {
 }
 
 function pictureColumnNoChanger() {
-  if($(window).width() > 767) {
+  if($(window).width() > 600) {
     if($('#subject-handler').children(0).length - 1 >= 3) {
       $('#subject-handler .criteria-box').addClass('col-md-4')
       $('#subject-handler .criteria-box').addClass('col-xs-4')
@@ -1573,7 +1573,11 @@ function pictureColumnNoChanger() {
       $('#box_3_right .eligibility-display').css('padding', '0');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
       $('.criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
-
     }
+  } else {
+    $('#subject-handler .criteria-box').addClass('col-xs-12')
+    $('#subject-handler .criteria-box').removeClass('col-xs-4')
+    $('#location-handler .criteria-box').addClass('col-xs-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-4')
   }
 }
