@@ -640,10 +640,8 @@ $(document).ready(function(){
         var fields = ['subject','religion','merit_or_finance','minimum_age','maximum_age','gender', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
         // var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
         var science = subjects.sciences;
-        console.log(science);
         var humanities = subjects.humanities;
         var socialSciences = subjects.socialSciences;
-        console.log(socialSciences);
         var arts = subjects.arts;
         var foreignLanguages = ['Dari Persian', 'Pashtu', 'Albanian', 'Greek',
 'Arabic', 'French', 'Berber dialects','Catalán',  'Castilian', 'Portuguese','Bantu','Spanish', 'Italian',
@@ -790,7 +788,6 @@ var subjectCounter = 0;
                     subjectCounter++;
                   }
                   else if(socialSciences.indexOf(subject[i].capitalize()) > -1){
-                    console.log(subject[i]);
                     if(socialSciencesCounter === 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_economics.png',
@@ -1329,8 +1326,6 @@ var subjectCounter = 0;
       })
     },
     render: function() {
-      console.log("REDNEr", this.template(this.model.toJSON()))
-      console.log(this.$el);
       this.$el.html(this.template(this.model.toJSON()));
       $("[id=tips-handler]").html(this.template(this.model.toJSON()));
       return this;
@@ -1389,6 +1384,8 @@ var subjectCounter = 0;
   displayTopBottomDivs();
   favouriteStarMargin();
   fundBioBackgroundColor();
+  pictureColumnNoChanger();
+  locationHandlerWorkaround();
   $(window).resize(function() {
     eligibility_divPaddingChange();
     noProfilePicDivResizer();
@@ -1396,6 +1393,8 @@ var subjectCounter = 0;
     favouriteStarMargin();
     fundBioBackgroundColor();
   })
+
+  // $('#box_3_right').css('display', 'block')
 
   if(user && user.organisation_or_user == null) {
     $('#big_flex_div #right_div #eligibility_div').show()
@@ -1483,4 +1482,26 @@ function favouriteStarMargin() {
     $star2.css('margin-top', '-14 + 5')
     $star2.css('margin-left', '-30 + 5')
   }
+}
+
+function pictureColumnNoChanger() {
+  if($('#subject-handler').children(0).length - 1 >= 3) {
+    $('#subject-handler .criteria-box').addClass('col-md-4')
+    $('#subject-handler .criteria-box').addClass('col-xs-6')
+    $('#subject-handler .criteria-box').removeClass('col-md-12')
+    $('#subject-handler .criteria-box').css('clear', 'none')
+    $('#subject-handler .criteria-box img').css('margin-left', '0px')
+  }
+}
+
+function locationHandlerWorkaround() {
+  $('#location-handler').show();
+  $('.eligibility-display').css('height', 'auto')
+  setTimeout(function() {
+    if($('#location-handler').children(0).length - 1 >= 3) {
+      $('#location-handler .criteria-box').addClass('col-md-4')
+      $('#location-handler .criteria-box').removeClass('col-md-12')
+      $('#location-handler .criteria-box img').css('margin-left', '0px')
+    }
+  }, 800)
 }

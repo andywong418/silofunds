@@ -1748,7 +1748,7 @@ h1 {
     #left_div .fundBio {
       width: 100%; }
   #right_div {
-    width: 60%; }
+    width: 100%; }
     #right_div #start_date, #right_div #documents_deadline, #right_div #interviews, #right_div #decision_date {
       width: 80%; }
     #right_div #other-application p {
@@ -1828,4 +1828,7 @@ h1 {
     margin-top: calc(-18px + 5px) !important; } }
 
 #top_div_mobile, #left_div {
+  display: none; }
+
+#big_flex_div #right_div #eligibility_div {
   display: none; }

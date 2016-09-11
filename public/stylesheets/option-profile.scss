@@ -949,7 +949,7 @@ h1 {
     }
   }
   #right_div {
-    width: 60%;
+    width: 100%;
     #start_date, #documents_deadline, #interviews, #decision_date {
       width: 80%;
     }
@@ -1056,5 +1056,9 @@ h1 {
 
 // Initial hides to prevent flickering
 #top_div_mobile, #left_div {
+  display: none;
+}
+
+#big_flex_div #right_div #eligibility_div {
   display: none;
 }
