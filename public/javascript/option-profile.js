@@ -490,7 +490,7 @@ $(document).ready(function(){
   });
 
   if(user){
-    $('.application_form').css('margin-top', '3%');
+    $('.application_form').css('margin-top', '25px');
     if(!user.organisation_or_user){
       var age;
       if(user.date_of_birth){
@@ -640,10 +640,8 @@ $(document).ready(function(){
         var fields = ['subject','religion','merit_or_finance','minimum_age','maximum_age','gender', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
         // var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
         var science = subjects.sciences;
-        console.log(science);
         var humanities = subjects.humanities;
         var socialSciences = subjects.socialSciences;
-        console.log(socialSciences);
         var arts = subjects.arts;
         var foreignLanguages = ['Dari Persian', 'Pashtu', 'Albanian', 'Greek',
 'Arabic', 'French', 'Berber dialects','Catalán',  'Castilian', 'Portuguese','Bantu','Spanish', 'Italian',
@@ -790,7 +788,6 @@ var subjectCounter = 0;
                     subjectCounter++;
                   }
                   else if(socialSciences.indexOf(subject[i].capitalize()) > -1){
-                    console.log(subject[i]);
                     if(socialSciencesCounter === 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_economics.png',
@@ -1392,8 +1389,6 @@ var subjectCounter = 0;
       })
     },
     render: function() {
-      console.log("REDNEr", this.template(this.model.toJSON()))
-      console.log(this.$el);
       this.$el.html(this.template(this.model.toJSON()));
       $("[id=tips-handler]").html(this.template(this.model.toJSON()));
       return this;
@@ -1452,13 +1447,17 @@ var subjectCounter = 0;
   displayTopBottomDivs();
   favouriteStarMargin();
   fundBioBackgroundColor();
+  pictureColumnNoChanger();
   $(window).resize(function() {
     eligibility_divPaddingChange();
     noProfilePicDivResizer();
     displayTopBottomDivs();
     favouriteStarMargin();
     fundBioBackgroundColor();
+    pictureColumnNoChanger();
   })
+
+  // $('#box_3_right').css('display', 'block')
 
   if(user && user.organisation_or_user == null) {
     $('#big_flex_div #right_div #eligibility_div').show()
@@ -1541,9 +1540,61 @@ function favouriteStarMargin() {
   // Without profile picture
   var $star2 = $('#favourite.favourite.no-profile_picture')
   if($(window).width() > 767) {
-    $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+    // $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
   } else {
     $star2.css('margin-top', '-14 + 5')
     $star2.css('margin-left', '-30 + 5')
+  }
+}
+
+function pictureColumnNoChanger() {
+  $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
+  if($(window).width() > 600) {
+    if($('#subject-handler').children(0).length - 1 >= 3) {
+      $('#subject-handler .criteria-box').addClass('col-md-4')
+      $('#subject-handler .criteria-box').addClass('col-xs-4')
+      $('#subject-handler .criteria-box').removeClass('col-md-12')
+      $('#subject-handler .criteria-box').removeClass('col-xs-12')
+      $('#subject-handler .criteria-box img').css('margin-left', '0px')
+    }
+    setTimeout(function() {
+      locationColumnFix()
+    }, 500)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1700)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 2000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 3000)
+    if($(window).width() < 1100) {
+      $('#box_3_right .eligibility-display').css('padding', '0');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
+  } else {
+    $('#subject-handler .criteria-box').addClass('col-xs-12')
+    $('#subject-handler .criteria-box').removeClass('col-xs-4')
+    $('#location-handler .criteria-box').addClass('col-xs-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-4')
+  }
+}
+
+function locationColumnFix() {
+  if($('#location-handler').children(0).length - 1 >= 3) {
+    $('#location-handler .criteria-box').addClass('col-md-4')
+    $('#location-handler .criteria-box').addClass('col-xs-4')
+    $('#location-handler .criteria-box').removeClass('col-md-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-12')
+    $('#location-handler .criteria-box img').css('margin-left', '0px')
+    if($(window).width() < 937) {
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
   }
 }
