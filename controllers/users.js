@@ -1177,6 +1177,17 @@ module.exports = {
       Logger.info("here then?")
       res.redirect('/user/dashboard')
     }
+  },
+
+  contact_us: function(req, res) {
+    console.log(req.user)
+    if(req.user) {
+      models.users.findById(req.user.id).then(function(user) {
+        res.render('contact_us', {user: user})
+      })
+    } else {
+      res.render('contact_us')
+    }
   }
 }
 
