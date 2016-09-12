@@ -1,0 +1,174 @@
+$border: 1px solid #e1e8ed;
+$background-color: #f0f2f4;
+
+/* New search bar */
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+@import './mobile/user/user-crowdfunding-mobile.scss';
+
+
+html, body {
+  height: 100%;
+  background-color: $background-color;
+  font-family: Source Sans Pro;
+}
+
+footer {
+  margin-top: 100px;
+}
+
+// If not logged in **START**
+.header, .message-others {
+  padding: 80px 20px 0px 20px;
+  text-align: center;
+  margin-bottom: 35px;
+  h1, h2 {
+    font-size: 38px;
+    font-family: Source Sans Pro;
+    font-weight: 200;
+    border-bottom: 1px solid grey; //#e1e8ed
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+  p {
+    font-family: Source Sans Pro;
+    font-size: 22px;
+  }
+}
+
+#flex-div {
+  display: flex;
+  height: 35%;
+  flex-direction: column;
+  #user_box {
+    background-color: #17B2E8;
+    margin-bottom: 10%;
+  }
+  #organisation_box {
+    background-color: #54494B;
+    margin-bottom: 0;
+  }
+  .type {
+    color: #FFFAFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    width: 80%;
+    margin-left: 10%;
+    padding: 20px 10px;
+    cursor: pointer;
+    .name {
+      text-align: center;
+      width: 100%;
+      font-size: 30px;
+      font-family: Source Sans Pro;
+      font-weight: 200;
+    }
+  }
+}
+
+#user_contact {
+  display: none
+}
+
+#organisation_contact {
+  display: none
+}
+// **END**
+
+
+#big_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 54px;
+  background-image: linear-gradient(#eee, $background-color);
+  .jumbotron {
+    text-align: center;
+    padding: 30px 15px 0px 15px;
+    margin-bottom: 0;
+    h2 {
+      font-family: 'Source Sans Pro';
+      font-size: 30px;
+      font-weight: 200;
+      .lead {
+        border-top: 1px solid grey;
+        margin-top: 3px;
+        padding-top: 8px;
+      }
+    }
+  }
+  .contact_form {
+    background: white;
+    font-family: Source Sans Pro;
+    font-size: 18px;
+    padding: 10px;
+    border: $border;
+    border-radius: 4px;
+    margin: 0px 15px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    #message_form {
+      width: 100%;
+      .form-name {
+        padding-right: 6px;
+      }
+      .input-name, .input-email {
+        margin-left: 20px;
+        width: 70%;
+        border: none;
+        margin-top: 15px;
+        border-bottom: 1px solid #e1e8ed;
+      }
+    }
+    .textarea[contenteditable]  {
+      border-bottom: 1px solid black;
+      overflow: auto;
+      margin-bottom: 25px;
+    }
+    .textarea:focus {
+      outline: none;
+    }
+    button {
+      clear: both;
+      background: #17B2E8;
+      border: none;
+      cursor: pointer;
+      padding: 5px 80px;
+      border-radius: 6px;
+      margin-top: 25px;
+    }
+    .contact-info {
+      .col-xs-8 {
+        padding: 0;
+      }
+      select.form-control.col-xs-4 {
+        width: auto;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.message-others {
+  padding-top: 40px;
+  h2 {
+    font-size: 25px;
+    border: none;
+    margin-bottom: 0;
+  }
+  button {
+    color: white;
+    background: #54494B;
+    border: none;
+    cursor: pointer;
+    padding: 10px 40px;
+    border-radius: 6px;
+  }
+}
