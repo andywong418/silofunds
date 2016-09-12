@@ -1078,12 +1078,17 @@ footer {
       padding: 0; }
 
 .message-others {
-  padding-top: 40px; }
+  border: 1px solid white;
+  margin: 15px;
+  background-color: #e1e8ed;
+  border-radius: 6px;
+  padding: 30px 10px; }
   .message-others h2 {
     font-size: 25px;
     border: none;
     margin-bottom: 0; }
   .message-others button {
+    font-size: 18px;
     color: white;
     background: #54494B;
     border: none;
