@@ -1188,6 +1188,34 @@ module.exports = {
     } else {
       res.render('contact_us')
     }
+  },
+
+  contact_us_email_user: function(req, res) {
+    var message = req.body.message
+    var name = req.body.name
+    var email = req.body.email
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: email,
+       subject: 'Question from ' + name + ' (user)',
+       text: 'Dear Silo, \n\n' +
+           message + '\n\n' +
+           'with love from ' + name + ' xxx'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
   }
 }
 
