@@ -7,7 +7,7 @@
     .contact_form
       form(action='/contact_us/user', method='post', id="message_form")
         span Dear Silo, 
-        .textarea(contenteditable='')
+        .textarea(contenteditable=true, data-placeholder='Enter your message here')
         input#message(type='hidden', name='message')
         if user
           span.form-name From:

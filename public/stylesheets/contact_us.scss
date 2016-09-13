@@ -147,6 +147,17 @@ footer {
       overflow: auto;
       margin-bottom: 25px;
     }
+    .textarea:empty::before {
+      color: black;
+      opacity: 0.3;
+      font-style: italic;
+    }
+    .textarea[data-placeholder]:not([data-placeholder=""]):empty::before {
+      content: attr(data-placeholder);
+    }
+    .textarea:empty::before {
+      content: 'fallback placeholder';
+    }
     .textarea:focus {
       outline: none;
     }

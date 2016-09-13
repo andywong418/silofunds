@@ -1073,6 +1073,14 @@ footer {
       border-bottom: 1px solid black;
       overflow: auto;
       margin-bottom: 25px; }
+    #big_wrapper .contact_form .textarea:empty::before {
+      color: black;
+      opacity: 0.3;
+      font-style: italic; }
+    #big_wrapper .contact_form .textarea[data-placeholder]:not([data-placeholder=""]):empty::before {
+      content: attr(data-placeholder); }
+    #big_wrapper .contact_form .textarea:empty::before {
+      content: 'fallback placeholder'; }
     #big_wrapper .contact_form .textarea:focus {
       outline: none; }
     #big_wrapper .contact_form #message {
