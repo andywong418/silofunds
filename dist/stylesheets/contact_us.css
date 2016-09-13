@@ -1120,3 +1120,31 @@ footer {
     font-size: 14px; }
   #big_wrapper .contact_form {
     font-size: 16px; } }
+
+@media (min-width: 700px) {
+  .header {
+    padding: 100px 100px 0px 100px; }
+  #flex-div {
+    padding: 30px 50px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 100px; }
+    #flex-div #user_box {
+      margin: 0px 0px 0px 10%;
+      width: 35%; }
+    #flex-div #or_box {
+      text-align: center;
+      width: 10%; }
+    #flex-div #organisation_box {
+      margin: 0px 10% 0px 0px;
+      width: 35%; } }
+
+@media (min-width: 1000px) {
+  .header {
+    padding: 100px 150px 0px 150px; }
+  #flex-div {
+    padding: 30px 100px; } }
