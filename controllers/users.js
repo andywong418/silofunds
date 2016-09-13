@@ -1179,18 +1179,17 @@ module.exports = {
   },
 
   contact_us: function(req, res) {
-    res.render('contact_us', {success: "Thank you for your query, we'll get back to you as soon as possible"})
-    // var user = req.user
-    // var success = req.flash('success')[0]
-    // if(success) {
-    //   res.render('contact_us', {success: success})
-    // } else if(!success) {
-    //   if(user) {
-    //     res.render('contact_us', {user: user})
-    //   } else {
-    //     res.render('contact_us')
-    //   }
-    // }
+    var user = req.user
+    var success = req.flash('success')[0]
+    if(success) {
+      res.render('contact_us', {success: success})
+    } else if(!success) {
+      if(user) {
+        res.render('contact_us', {user: user})
+      } else {
+        res.render('contact_us')
+      }
+    }
   },
 
   contact_us_email_user: function(req, res) {
