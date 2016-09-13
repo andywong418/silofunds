@@ -162,7 +162,7 @@ footer {
       border: none;
       cursor: pointer;
       border-radius: 6px;
-      padding: 4px 0px;
+      padding: 8px 0px;
       width: 50%;
       margin-left: 25%;
     }
@@ -196,7 +196,7 @@ footer {
     background: #54494B;
     border: none;
     cursor: pointer;
-    padding: 10px 40px;
+    padding: 8px 40px;
     border-radius: 6px;
   }
   .height-finder {
@@ -236,6 +236,11 @@ footer {
         .send {
           margin-left: 25%;
           padding: 10px 0px;
+        }
+      }
+      .message-others {
+        button {
+          padding: 10px 40px;
         }
       }
     }
@@ -287,8 +292,8 @@ footer {
         margin-right: 40px;
         justify-content: flex-end;
         .send {
-          width: 40%;
-          margin-left: 30%;
+          width: 44%;
+          margin-left: 28%;
           padding: 10px 0px;
         }
       }
@@ -321,6 +326,21 @@ footer {
   .jumbotron {
     h2 {
       margin: 0px 100px;
+    }
+  }
+}
+
+@media (max-width: 1050px) {
+  @media(min-width: 850px) {
+    #big_wrapper {
+      .contact_form {
+        .textarea[contenteditable] {
+          margin-bottom: 30px;
+        }
+        .send {
+          margin-top: 40px;
+        }
+      }
     }
   }
 }
