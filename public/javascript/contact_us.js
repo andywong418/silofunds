@@ -30,21 +30,13 @@ $(document).ready(function() {
 
 // Functions used above
 function makeButtonsInline() {
-  // Send button
-  var contactFormHeight = $('.contact_form').height()
-  var messageFormHeight = $('#message_form').height()
-  if(contactFormHeight !== messageFormHeight) {
-    var buttonMargin = (contactFormHeight - messageFormHeight)
-    $('.send').css('margin-top', buttonMargin)
-  }
-
-  // // Search button
-  var wrappingHeight = $('.message-others').height()
-  var finderHeight = $('.message-others .height-finder').height()
-  var margin = wrappingHeight - finderHeight
-  if(margin > 0) {
-    $('.message-others button').css('margin-top', margin)
-  }
+  // // Send button
+  // var contactFormHeight = $('.contact_form').height()
+  // var messageFormHeight = $('#message_form').height()
+  // if(contactFormHeight !== messageFormHeight) {
+  //   var buttonMargin = (contactFormHeight - messageFormHeight)
+  //   $('.send').css('margin-top', buttonMargin)
+  // }
 }
 
 function howToContactSizeChanger() {
