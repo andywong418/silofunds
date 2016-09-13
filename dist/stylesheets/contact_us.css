@@ -1121,7 +1121,7 @@ footer {
   #big_wrapper .contact_form {
     font-size: 16px; } }
 
-@media (min-width: 700px) {
+@media (min-width: 850px) {
   .header {
     padding: 100px 100px 0px 100px; }
   #flex-div {
@@ -1141,10 +1141,45 @@ footer {
       width: 10%; }
     #flex-div #organisation_box {
       margin: 0px 10% 0px 0px;
-      width: 35%; } }
+      width: 35%; }
+  .jumbotron h2 {
+    margin: 0px 150px; }
+  #big_wrapper #flex-for-desktop {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin-top: 20px;
+    padding: 0px 40px; }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 30px 40px;
+      width: 63%;
+      margin: 0;
+      margin-right: 40px;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        width: 40%;
+        margin-left: 30%;
+        padding: 10px 0px; }
+    #big_wrapper #flex-for-desktop .message-others {
+      width: 37%;
+      margin: 0;
+      padding: 30px 15px; }
+      #big_wrapper #flex-for-desktop .message-others h2 {
+        margin-bottom: 10px; }
+      #big_wrapper #flex-for-desktop .message-others .lead {
+        margin: 12px 0px 15px 0px;
+        font-size: 17px; } }
 
 @media (min-width: 1000px) {
   .header {
     padding: 100px 150px 0px 150px; }
   #flex-div {
-    padding: 30px 100px; } }
+    padding: 30px 100px; }
+  .jumbotron h2 {
+    margin: 0px 100px; } }

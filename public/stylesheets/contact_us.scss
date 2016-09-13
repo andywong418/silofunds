@@ -215,7 +215,8 @@ footer {
 }
 
 // Optimising for desktop
-@media (min-width: 700px) {
+@media (min-width: 850px) {
+  // Choose user/organisation page opt
   .header {
     padding: 100px 100px 0px 100px
   }
@@ -238,13 +239,60 @@ footer {
       width: 35%;
     }
   }
+
+  // Actual contact page optimisation
+  .jumbotron {
+    h2 {
+      margin: 0px 150px;
+    }
+  }
+  #big_wrapper {
+    #flex-for-desktop {
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+      padding: 0px 40px;
+      .contact_form {
+        padding: 30px 40px;;
+        width: 63%;
+        margin: 0;
+        margin-right: 40px;
+        justify-content: flex-start;
+        .send {
+          width: 40%;
+          margin-left: 30%;
+          padding: 10px 0px;
+        }
+      }
+      .message-others {
+        width: 37%;
+        margin: 0;
+        padding: 30px 15px;
+        h2 {
+          margin-bottom: 10px;
+        }
+        .lead {
+          margin: 12px 0px 15px 0px;
+          font-size: 17px;
+        }
+      }
+    }
+  }
 }
 
 @media (min-width: 1000px) {
+  // Choose user/organisation page opt.
   .header {
     padding: 100px 150px 0px 150px
   }
   #flex-div {
     padding: 30px 100px;
+  }
+
+  // Actual contact page optimisation
+  .jumbotron {
+    h2 {
+      margin: 0px 100px;
+    }
   }
 }
