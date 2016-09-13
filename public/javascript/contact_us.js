@@ -18,17 +18,43 @@ $(document).ready(function() {
   })
 
   makeButtonsInline();
+  howToContactSizeChanger();
   $(window).resize(function() {
     makeButtonsInline();
+    howToContactSizeChanger();
   })
 })
 
 
+
+
+// Functions used above
 function makeButtonsInline() {
-  var contactFormHeight = $('.contact_form').height() // Minus padding top/bottom
+  // Send button
+  var contactFormHeight = $('.contact_form').height()
   var messageFormHeight = $('#message_form').height()
   if(contactFormHeight !== messageFormHeight) {
     var buttonMargin = (contactFormHeight - messageFormHeight)
     $('.send').css('margin-top', buttonMargin)
+  }
+
+  // // Search button
+  var wrappingHeight = $('.message-others').height()
+  var finderHeight = $('.message-others .height-finder').height()
+  var margin = wrappingHeight - finderHeight
+  if(margin > 0) {
+    $('.message-others button').css('margin-top', margin)
+  }
+}
+
+function howToContactSizeChanger() {
+  var $contact = $('.contact-info span.class-change')
+  $contact.css('padding', 0)
+  if($(window).width() < 737) {
+    $contact.addClass('col-xs-8');
+    $contact.removeClass('col-xs-5');
+  } else if(737 < $(window).width() < 850) {
+    $contact.removeClass('col-xs-8');
+    $contact.addClass('col-xs-7');
   }
 }

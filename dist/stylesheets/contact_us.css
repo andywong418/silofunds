@@ -1077,6 +1077,10 @@ footer {
       outline: none; }
     #big_wrapper .contact_form #message {
       display: none; }
+    #big_wrapper .contact_form .flex-center {
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
     #big_wrapper .contact_form button {
       clear: both;
       background: #17B2E8;

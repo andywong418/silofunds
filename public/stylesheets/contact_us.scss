@@ -153,6 +153,9 @@ footer {
     #message {
       display: none;
     }
+    .flex-center {
+      justify-content: flex-end;
+    }
     button {
       clear: both;
       background: #17B2E8;
