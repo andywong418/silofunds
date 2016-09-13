@@ -1226,9 +1226,6 @@ module.exports = {
     var message = req.body.message
     var name = req.body.fund_name
     var email = req.body.email
-    console.log(message, 'message')
-    console.log(name, 'name')
-    console.log(email, 'email')
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'james.morrill.6@gmail.com',
