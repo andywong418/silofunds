@@ -1021,7 +1021,8 @@ footer {
     #big_wrapper .jumbotron h2 {
       font-family: 'Source Sans Pro';
       font-size: 30px;
-      font-weight: 200; }
+      font-weight: 200;
+      margin-bottom: 0; }
       #big_wrapper .jumbotron h2 .lead {
         border-top: 1px solid grey;
         margin-top: 3px;
@@ -1063,19 +1064,24 @@ footer {
       margin-bottom: 25px; }
     #big_wrapper .contact_form .textarea:focus {
       outline: none; }
+    #big_wrapper .contact_form #message {
+      display: none; }
     #big_wrapper .contact_form button {
       clear: both;
       background: #17B2E8;
       border: none;
       cursor: pointer;
-      padding: 5px 80px;
       border-radius: 6px;
-      margin-top: 25px; }
-    #big_wrapper .contact_form .contact-info .col-xs-8 {
-      padding: 0; }
-    #big_wrapper .contact_form .contact-info select.form-control.col-xs-4 {
-      width: auto;
-      padding: 0; }
+      padding: 4px 0px;
+      width: 50%;
+      margin-left: 25%; }
+    #big_wrapper .contact_form .contact-info {
+      margin-bottom: 60px; }
+      #big_wrapper .contact_form .contact-info .col-xs-8 {
+        padding: 0; }
+      #big_wrapper .contact_form .contact-info select.form-control.col-xs-4 {
+        width: auto;
+        padding: 0; }
 
 .message-others {
   border: 1px solid white;

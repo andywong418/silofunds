@@ -95,6 +95,7 @@ footer {
       font-family: 'Source Sans Pro';
       font-size: 30px;
       font-weight: 200;
+      margin-bottom: 0;
       .lead {
         border-top: 1px solid grey;
         margin-top: 3px;
@@ -135,16 +136,21 @@ footer {
     .textarea:focus {
       outline: none;
     }
+    #message {
+      display: none;
+    }
     button {
       clear: both;
       background: #17B2E8;
       border: none;
       cursor: pointer;
-      padding: 5px 80px;
       border-radius: 6px;
-      margin-top: 25px;
+      padding: 4px 0px;
+      width: 50%;
+      margin-left: 25%;
     }
     .contact-info {
+      margin-bottom: 60px;
       .col-xs-8 {
         padding: 0;
       }

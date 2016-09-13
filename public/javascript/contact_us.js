@@ -9,4 +9,8 @@ $(document).ready(function() {
   })
 
   $('.textarea').focus()
+  $('.textarea').keyup(function() {
+    var message = $('.textarea').text()
+    $('#message').val(message)
+  })
 })

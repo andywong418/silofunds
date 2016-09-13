@@ -4,9 +4,10 @@
       .fa.fa-smile-o
       .lead If you'd like to talk to us about anything to do with the website, funding, or just general enquiries, please do leave a message below and we'll get back to you
   .contact_form
-    form(action='', id="message_form")
+    form(action='/contact_us', method='post', id="message_form")
       span Dear Silo, 
       .textarea(contenteditable='')
+      input#message(type='hidden', name='message')
       if user
         span.form-name From:
         input.input-name(type='text', name='name', value=user.username)
@@ -16,7 +17,6 @@
       if !user
         span.form-name From: 
           input.input-name(type='text', name='name', placeholder='Your Name')
-        br
         br
         span.form-email Email:
           input.input-email(type='text', name='email', placeholder='Please enter your email address')
@@ -30,8 +30,8 @@
             option(value='crowdfunding') Email
             if user
               option(value='results') Silo messaging
-    .flex-center
-      button(type='button') Send
+      .flex-center
+        button.send(type='submit') Send
       
   .message-others
     if user
@@ -43,4 +43,5 @@
       h2 Alternatively...
         .lead 
           span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, create an account to be matched with those who have been in a similar situation to you!
-      button(type="button") Register now!
+      a(href='/register')
+        button(type="button") Register now!
