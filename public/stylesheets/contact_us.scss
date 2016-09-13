@@ -134,6 +134,13 @@ footer {
         margin-top: 15px;
         border-bottom: 1px solid #e1e8ed;
       }
+      .unpad-me {
+        margin-left: 3px;
+        width: 60%;
+      }
+      .input-email.unpad-me {
+        margin-left: 48px;
+      }
     }
     .textarea[contenteditable]  {
       border-bottom: 1px solid black;
@@ -188,5 +195,21 @@ footer {
     cursor: pointer;
     padding: 10px 40px;
     border-radius: 6px;
+  }
+}
+
+@media (max-width: 370px) {
+  #big_wrapper {
+    .jumbotron {
+      h2 {
+        font-size: 27px;
+      }
+      .lead {
+        font-size: 14px;
+      }
+    }
+    .contact_form {
+      font-size: 16px;
+    }
   }
 }

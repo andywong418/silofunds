@@ -1064,6 +1064,11 @@ footer {
         border: none;
         margin-top: 15px;
         border-bottom: 1px solid #e1e8ed; }
+      #big_wrapper .contact_form #message_form .unpad-me {
+        margin-left: 3px;
+        width: 60%; }
+      #big_wrapper .contact_form #message_form .input-email.unpad-me {
+        margin-left: 48px; }
     #big_wrapper .contact_form .textarea[contenteditable] {
       border-bottom: 1px solid black;
       overflow: auto;
@@ -1107,3 +1112,11 @@ footer {
     cursor: pointer;
     padding: 10px 40px;
     border-radius: 6px; }
+
+@media (max-width: 370px) {
+  #big_wrapper .jumbotron h2 {
+    font-size: 27px; }
+  #big_wrapper .jumbotron .lead {
+    font-size: 14px; }
+  #big_wrapper .contact_form {
+    font-size: 16px; } }

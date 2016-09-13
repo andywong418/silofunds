@@ -70,7 +70,7 @@ router.get('/terms-and-conditions', function(req, res) {
 })
 router.get('/contact_us', users.contact_us)
 router.post('/contact_us/user', users.contact_us_email_user)
-// router.post('/contact_us/organisation', users.contact_us_email_organisation)
+router.post('/contact_us/organisation', users.contact_us_email_organisation)
 //guide pages
 router.get('/fund-profile-guide', function(req, res){
   var user;
