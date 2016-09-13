@@ -964,8 +964,11 @@ footer {
       -ms-flex-direction: column;
           flex-direction: column; }
   #flex-div #user_box {
-    background-color: #17B2E8;
-    margin-bottom: 10%; }
+    background-color: #17B2E8; }
+  #flex-div #or_box {
+    padding: 4% 0;
+    text-align: center;
+    font-size: 20px; }
   #flex-div #organisation_box {
     background-color: #54494B;
     margin-bottom: 0; }
@@ -1001,6 +1004,10 @@ footer {
 
 #organisation_contact {
   display: none; }
+
+.back-arrow {
+  margin: 5px 0px 0px 5px;
+  height: 10px; }
 
 #big_wrapper {
   display: -webkit-box;
