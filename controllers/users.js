@@ -1203,7 +1203,7 @@ module.exports = {
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: 'james.morrill.6@gmail.com',
+       to: 'support@silofunds.com',
        subject: 'Question from ' + name + ' (user)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +

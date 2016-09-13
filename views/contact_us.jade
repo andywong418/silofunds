@@ -26,7 +26,7 @@ block content
     #organisation_contact
       include ./partials/contact_us/organisation.jade
     
-  if user
+  if user && !success
     if !user.organisation_or_user
       include ./partials/contact_us/user.jade    
     if user.organisation_or_user
