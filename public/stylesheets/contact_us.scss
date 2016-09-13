@@ -310,6 +310,20 @@ footer {
         }
       }
     }
+    #flex-for-desktop.organisation {
+      .contact_form {
+        width: 60%;
+        margin-left: 20%;
+      }
+      #message_form {
+        .unpad-me {
+          margin-left: 11px;
+        }
+        .input-email.unpad-me {
+          margin-left: 55px;
+        }
+      }
+    }
   }
 }
 

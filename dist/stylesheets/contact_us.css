@@ -1203,7 +1203,14 @@ footer {
         margin-bottom: 10px; }
       #big_wrapper #flex-for-desktop .message-others .lead {
         margin: 12px 0px 15px 0px;
-        font-size: 17px; } }
+        font-size: 17px; }
+  #big_wrapper #flex-for-desktop.organisation .contact_form {
+    width: 60%;
+    margin-left: 20%; }
+  #big_wrapper #flex-for-desktop.organisation #message_form .unpad-me {
+    margin-left: 11px; }
+  #big_wrapper #flex-for-desktop.organisation #message_form .input-email.unpad-me {
+    margin-left: 55px; } }
 
 @media (min-width: 1000px) {
   .header {

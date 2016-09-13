@@ -1222,9 +1222,13 @@ module.exports = {
   },
 
   contact_us_email_organisation: function(req, res) {
+    console.log(req.body)
     var message = req.body.message
     var name = req.body.fund_name
     var email = req.body.email
+    console.log(message, 'message')
+    console.log(name, 'name')
+    console.log(email, 'email')
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'james.morrill.6@gmail.com',
@@ -1232,8 +1236,8 @@ module.exports = {
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: email,
-       subject: 'Question from ' + fund_name + ' (organisation)',
+       to: 'support@silofunds.com',
+       subject: 'Question from ' + name + ' (organisation)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +
            'with love from ' + name + ' xxx' + '\n\n\n'
