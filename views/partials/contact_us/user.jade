@@ -37,13 +37,16 @@
     .message-others
       .height-finder
         if user
-          h2 Alternatively...
-            .lead 
-              span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, for advice on the funding process and information about their experiences?
-          button(type='button') Search now!
+            h2 Alternatively...
+              .lead 
+                span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, for advice on the funding process and information about their experiences?
+          .flex-down
+            a(href='/results/users')
+              button(type='button') Search now!
         if !user
-          h2 Alternatively...
-            .lead 
-              span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, create an account to be matched with those who have been in a similar situation to you!
-      a(href='/register')
-        button(type="button") Register now!
+            h2 Alternatively...
+              .lead 
+                span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, create an account to be matched with those who have been in a similar situation to you!
+            .flex-down
+              a(href='/register')
+                button(type="button") Register now!

@@ -199,6 +199,12 @@ footer {
     padding: 10px 40px;
     border-radius: 6px;
   }
+  .height-finder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 
 @media (max-width: 370px) {
