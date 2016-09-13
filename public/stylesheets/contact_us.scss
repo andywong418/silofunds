@@ -1,0 +1,336 @@
+$border: 1px solid #e1e8ed;
+$background-color: #f0f2f4;
+
+/* New search bar */
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+@import './mobile/user/user-crowdfunding-mobile.scss';
+
+
+html, body {
+  background-color: $background-color;
+  font-family: Source Sans Pro;
+}
+
+footer {
+  margin-top: 50px;
+}
+
+// If not logged in **START**
+.header, .message-others {
+  padding: 80px 20px 0px 20px;
+  text-align: center;
+  margin-bottom: 35px;
+  h1, h2 {
+    font-size: 38px;
+    font-family: Source Sans Pro;
+    font-weight: 200;
+    border-bottom: 1px solid grey; //#e1e8ed
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+  p {
+    font-family: Source Sans Pro;
+    font-size: 22px;
+  }
+}
+
+#flex-div {
+  display: flex;
+  height: 35%;
+  flex-direction: column;
+  #user_box {
+    background-color: #17B2E8;
+  }
+  #or_box {
+    padding: 4% 0;
+    text-align: center;
+    font-size: 20px;
+  }
+  #organisation_box {
+    background-color: #54494B;
+    margin-bottom: 0;
+  }
+  .type {
+    color: #FFFAFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    width: 80%;
+    margin-left: 10%;
+    padding: 20px 10px;
+    cursor: pointer;
+    .name {
+      text-align: center;
+      width: 100%;
+      font-size: 30px;
+      font-family: Source Sans Pro;
+      font-weight: 200;
+    }
+  }
+}
+
+#user_contact {
+  display: none
+}
+
+#organisation_contact {
+  display: none
+}
+// **END**
+
+.back-arrow {
+  text-align: left;
+  height: 10px;
+}
+
+#big_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 54px;
+  background-image: linear-gradient(#eee, $background-color);
+  .jumbotron {
+    text-align: center;
+    padding: 30px 15px 0px 15px;
+    margin-bottom: 0;
+    h2 {
+      font-family: 'Source Sans Pro';
+      font-size: 30px;
+      font-weight: 200;
+      margin-bottom: 0;
+      .lead {
+        border-top: 1px solid grey;
+        margin-top: 3px;
+        padding-top: 8px;
+      }
+    }
+  }
+  .contact_form {
+    background: white;
+    font-family: Source Sans Pro;
+    font-size: 18px;
+    padding: 10px;
+    border: $border;
+    border-radius: 4px;
+    margin: 0px 15px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    #message_form {
+      width: 100%;
+      .form-name {
+        padding-right: 6px;
+      }
+      .input-name, .input-email {
+        margin-left: 20px;
+        width: 70%;
+        border: none;
+        margin-top: 15px;
+        border-bottom: 1px solid #e1e8ed;
+      }
+      .unpad-me {
+        margin-left: 3px;
+        width: 60%;
+      }
+      .input-email.unpad-me {
+        margin-left: 48px;
+      }
+    }
+    .textarea[contenteditable]  {
+      border-bottom: 1px solid black;
+      overflow: auto;
+      margin-bottom: 25px;
+    }
+    .textarea:focus {
+      outline: none;
+    }
+    #message {
+      display: none;
+    }
+    .flex-center {
+      justify-content: flex-end;
+    }
+    button {
+      clear: both;
+      background: #17B2E8;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 4px 0px;
+      width: 50%;
+      margin-left: 25%;
+    }
+    .contact-info {
+      margin-bottom: 60px;
+      .col-xs-8 {
+        padding: 0;
+      }
+      select.form-control.col-xs-4 {
+        width: auto;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.message-others {
+  border: 1px solid white;
+  margin: 30px 15px 10px 15px;
+  background-color: #e1e8ed;
+  border-radius: 6px;
+  padding: 30px 10px;
+  h2 {
+    font-size: 25px;
+    border: none;
+    margin-bottom: 0;
+  }
+  button {
+    font-size: 18px;
+    color: white;
+    background: #54494B;
+    border: none;
+    cursor: pointer;
+    padding: 10px 40px;
+    border-radius: 6px;
+  }
+  .height-finder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 420px) {
+  #big_wrapper {
+    .jumbotron {
+      h2 {
+        font-size: 27px;
+      }
+      .lead {
+        font-size: 14px;
+      }
+    }
+    .contact_form {
+      font-size: 16px;
+    }
+  }
+}
+
+// Optimising for desktop
+@media (min-width: 500px) {
+  #big_wrapper {
+    .jumbotron {
+      padding: 30px 45px 10px 45px;
+    }
+    #flex-for-desktop {
+      padding: 0px 50px 15px 50px;
+      .contact_form {
+        padding: 20px 30px;
+        .send {
+          margin-left: 25%;
+          padding: 10px 0px;
+        }
+      }
+    }
+  }
+}
+
+
+@media (min-width: 850px) {
+  // Choose user/organisation page opt
+  .header {
+    padding: 100px 100px 0px 100px
+  }
+  #flex-div {
+    padding: 30px 50px;
+    flex-direction: row;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 100px;
+    #user_box {
+      margin: 0px 0px 0px 10%;
+      width: 35%;
+    }
+    #or_box {
+      text-align: center;
+      width: 10%;
+    }
+    #organisation_box {
+      margin: 0px 10% 0px 0px;
+      width: 35%;
+    }
+  }
+
+  // Actual contact page optimisation
+  .jumbotron {
+    h2 {
+      margin: 0px 150px;
+    }
+  }
+  #big_wrapper {
+    #flex-for-desktop {
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+      padding: 0px 40px;
+      .contact_form {
+        padding: 30px 40px;;
+        width: 63%;
+        margin: 0;
+        margin-right: 40px;
+        justify-content: flex-end;
+        .send {
+          width: 40%;
+          margin-left: 30%;
+          padding: 10px 0px;
+        }
+      }
+      .message-others {
+        width: 37%;
+        margin: 0;
+        padding: 30px 15px;
+        h2 {
+          margin-bottom: 10px;
+        }
+        .lead {
+          margin: 12px 0px 15px 0px;
+          font-size: 17px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  // Choose user/organisation page opt.
+  .header {
+    padding: 100px 150px 0px 150px
+  }
+  #flex-div {
+    padding: 30px 100px;
+  }
+
+  // Actual contact page optimisation
+  .jumbotron {
+    h2 {
+      margin: 0px 100px;
+    }
+  }
+}
+
+// Query sent css
+#success {
+  h2 {
+    margin-top: 20px;
+    font-family: Source Sans Pro;
+    font-size: 23px;
+    margin-bottom: 24%;
+  }
+}

@@ -1,3 +1,4 @@
+/* New search bar */
 body {
   width: 100%;
   height: 100%;
@@ -919,95 +920,299 @@ margin-right: -40px;
   margin-top: -20px;
   margin-bottom: 20px; }
 
-body {
-  background: #ffffff;
-  font-family: 'Source Sans Pro'; }
-  body h3 {
-    font-family: 'Source Sans Pro'; }
-  body .navbar-custom {
-    position: relative; }
-    body .navbar-custom div.navbar-center-container {
-      position: absolute; }
-  body #guide-header {
-    margin-top: 30px; }
-    body #guide-header #guide-header-div {
-      width: 70%;
-      margin-left: 23%; }
-      body #guide-header #guide-header-div h3 {
-        font-family: 'Source Sans Pro';
-        color: #33485c;
-        font-weight: bolder;
-        font-size: 28px;
-        text-align: left;
-        margin-bottom: 20px; }
-      body #guide-header #guide-header-div #header-paragraph {
-        text-align: left;
-        font-size: 19px;
-        color: grey;
-        width: 80%; }
-    body #guide-header #guide-header-image {
-      width: 50%;
-      margin-left: 23%; }
-  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
-    margin-left: 23%;
-    margin-top: 30px;
-    color: #33485c; }
-    body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
-      width: 80%;
-      color: black;
-      font-size: 18px; }
-  body #conclusion {
-    margin-bottom: 50px; }
+@media (max-width: 992px) {
+  #crowdfunding-wrapper.container {
+    width: 95%;
+    margin-left: 2.5%; }
+  #progress-card {
+    margin-top: 0; }
+  #profile_picture {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px; } }
 
-@media (max-width: 1000px) {
-  body #guide-header #guide-header-div {
+html, body {
+  background-color: #f0f2f4;
+  font-family: Source Sans Pro; }
+
+footer {
+  margin-top: 50px; }
+
+.header, .message-others {
+  padding: 80px 20px 0px 20px;
+  text-align: center;
+  margin-bottom: 35px; }
+  .header h1, .header h2, .message-others h1, .message-others h2 {
+    font-size: 38px;
+    font-family: Source Sans Pro;
+    font-weight: 200;
+    border-bottom: 1px solid grey;
+    padding-bottom: 5px;
+    margin-bottom: 20px; }
+  .header p, .message-others p {
+    font-family: Source Sans Pro;
+    font-size: 22px; }
+
+#flex-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 35%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+  #flex-div #user_box {
+    background-color: #17B2E8; }
+  #flex-div #or_box {
+    padding: 4% 0;
+    text-align: center;
+    font-size: 20px; }
+  #flex-div #organisation_box {
+    background-color: #54494B;
+    margin-bottom: 0; }
+  #flex-div .type {
+    color: #FFFAFF;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    border-radius: 6px;
     width: 80%;
-    margin-left: 12%; }
-    body #guide-header #guide-header-div p#header-paragraph {
-      width: 100%; }
-  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
-    width: 80%;
-    margin-left: 12%; }
-    body section#step-one h3, body section#step-two h3, body section#step-three h3, body section#step-four h3, body section#step-five h3, body section#conclusion h3 {
-      margin-bottom: 20px; }
-    body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
+    margin-left: 10%;
+    padding: 20px 10px;
+    cursor: pointer; }
+    #flex-div .type .name {
+      text-align: center;
       width: 100%;
-      margin-bottom: 40px; } }
+      font-size: 30px;
+      font-family: Source Sans Pro;
+      font-weight: 200; }
 
-@media (max-width: 800px) {
-  body #guide-header #guide-header-div h3 {
+#user_contact {
+  display: none; }
+
+#organisation_contact {
+  display: none; }
+
+.back-arrow {
+  text-align: left;
+  height: 10px; }
+
+#big_wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  margin-top: 54px;
+  background-image: -webkit-linear-gradient(#eee, #f0f2f4);
+  background-image: linear-gradient(#eee, #f0f2f4); }
+  #big_wrapper .jumbotron {
+    text-align: center;
+    padding: 30px 15px 0px 15px;
+    margin-bottom: 0; }
+    #big_wrapper .jumbotron h2 {
+      font-family: 'Source Sans Pro';
+      font-size: 30px;
+      font-weight: 200;
+      margin-bottom: 0; }
+      #big_wrapper .jumbotron h2 .lead {
+        border-top: 1px solid grey;
+        margin-top: 3px;
+        padding-top: 8px; }
+  #big_wrapper .contact_form {
+    background: white;
+    font-family: Source Sans Pro;
+    font-size: 18px;
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    margin: 0px 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    #big_wrapper .contact_form #message_form {
+      width: 100%; }
+      #big_wrapper .contact_form #message_form .form-name {
+        padding-right: 6px; }
+      #big_wrapper .contact_form #message_form .input-name, #big_wrapper .contact_form #message_form .input-email {
+        margin-left: 20px;
+        width: 70%;
+        border: none;
+        margin-top: 15px;
+        border-bottom: 1px solid #e1e8ed; }
+      #big_wrapper .contact_form #message_form .unpad-me {
+        margin-left: 3px;
+        width: 60%; }
+      #big_wrapper .contact_form #message_form .input-email.unpad-me {
+        margin-left: 48px; }
+    #big_wrapper .contact_form .textarea[contenteditable] {
+      border-bottom: 1px solid black;
+      overflow: auto;
+      margin-bottom: 25px; }
+    #big_wrapper .contact_form .textarea:focus {
+      outline: none; }
+    #big_wrapper .contact_form #message {
+      display: none; }
+    #big_wrapper .contact_form .flex-center {
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+    #big_wrapper .contact_form button {
+      clear: both;
+      background: #17B2E8;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 4px 0px;
+      width: 50%;
+      margin-left: 25%; }
+    #big_wrapper .contact_form .contact-info {
+      margin-bottom: 60px; }
+      #big_wrapper .contact_form .contact-info .col-xs-8 {
+        padding: 0; }
+      #big_wrapper .contact_form .contact-info select.form-control.col-xs-4 {
+        width: auto;
+        padding: 0; }
+
+.message-others {
+  border: 1px solid white;
+  margin: 30px 15px 10px 15px;
+  background-color: #e1e8ed;
+  border-radius: 6px;
+  padding: 30px 10px; }
+  .message-others h2 {
     font-size: 25px;
-    margin-bottom: 15px; }
-  body #guide-header #guide-header-div p#header-paragraph {
-    font-size: 17px;
-    margin-bottom: 30px; }
-  body section#step-one h3, body section#step-two h3, body section#step-three h3, body section#step-four h3, body section#step-five h3, body section#conclusion h3 {
-    font-size: 22px;
-    margin-bottom: 15px; }
-  body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
-    font-size: 16px;
-    margin-bottom: 30px; } }
+    border: none;
+    margin-bottom: 0; }
+  .message-others button {
+    font-size: 18px;
+    color: white;
+    background: #54494B;
+    border: none;
+    cursor: pointer;
+    padding: 10px 40px;
+    border-radius: 6px; }
+  .message-others .height-finder {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
 
-@media (max-width: 600px) {
-  body #guide-header #guide-header-div {
-    width: 94%;
-    margin-left: 3%; }
-    body #guide-header #guide-header-div h3 {
-      font-size: 23px;
-      margin-bottom: 10px; }
-    body #guide-header #guide-header-div p#header-paragraph {
-      font-size: 15px;
-      margin-bottom: 20px; }
-  body #guide-header-image {
-    width: 60%;
-    margin-left: 20%;
-    height: auto; }
-  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
-    width: 94%;
-    margin-left: 3%; }
-    body section#step-one h3, body section#step-two h3, body section#step-three h3, body section#step-four h3, body section#step-five h3, body section#conclusion h3 {
-      font-size: 21px;
-      margin-bottom: 10px; }
-    body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
-      font-size: 14px;
-      margin-bottom: 20px; } }
+@media (max-width: 420px) {
+  #big_wrapper .jumbotron h2 {
+    font-size: 27px; }
+  #big_wrapper .jumbotron .lead {
+    font-size: 14px; }
+  #big_wrapper .contact_form {
+    font-size: 16px; } }
+
+@media (min-width: 500px) {
+  #big_wrapper .jumbotron {
+    padding: 30px 45px 10px 45px; }
+  #big_wrapper #flex-for-desktop {
+    padding: 0px 50px 15px 50px; }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 20px 30px; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        margin-left: 25%;
+        padding: 10px 0px; } }
+
+@media (min-width: 850px) {
+  .header {
+    padding: 100px 100px 0px 100px; }
+  #flex-div {
+    padding: 30px 50px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 100px; }
+    #flex-div #user_box {
+      margin: 0px 0px 0px 10%;
+      width: 35%; }
+    #flex-div #or_box {
+      text-align: center;
+      width: 10%; }
+    #flex-div #organisation_box {
+      margin: 0px 10% 0px 0px;
+      width: 35%; }
+  .jumbotron h2 {
+    margin: 0px 150px; }
+  #big_wrapper #flex-for-desktop {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin-top: 20px;
+    padding: 0px 40px; }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 30px 40px;
+      width: 63%;
+      margin: 0;
+      margin-right: 40px;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        width: 40%;
+        margin-left: 30%;
+        padding: 10px 0px; }
+    #big_wrapper #flex-for-desktop .message-others {
+      width: 37%;
+      margin: 0;
+      padding: 30px 15px; }
+      #big_wrapper #flex-for-desktop .message-others h2 {
+        margin-bottom: 10px; }
+      #big_wrapper #flex-for-desktop .message-others .lead {
+        margin: 12px 0px 15px 0px;
+        font-size: 17px; } }
+
+@media (min-width: 1000px) {
+  .header {
+    padding: 100px 150px 0px 150px; }
+  #flex-div {
+    padding: 30px 100px; }
+  .jumbotron h2 {
+    margin: 0px 100px; } }
+
+#success h2 {
+  margin-top: 20px;
+  font-family: Source Sans Pro;
+  font-size: 23px;
+  margin-bottom: 24%; }

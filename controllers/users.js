@@ -1174,9 +1174,80 @@ module.exports = {
         })
       })
     } else {
-      Logger.info("here then?")
       res.redirect('/user/dashboard')
     }
+  },
+
+  contact_us: function(req, res) {
+    var user = req.user
+    var success = req.flash('success')[0]
+    if(success) {
+      res.render('contact_us', {success: success})
+    } else if(!success) {
+      if(user) {
+        res.render('contact_us', {user: user})
+      } else {
+        res.render('contact_us')
+      }
+    }
+  },
+
+  contact_us_email_user: function(req, res) {
+    var message = req.body.message
+    var name = req.body.name
+    var email = req.body.email
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: 'james.morrill.6@gmail.com',
+       subject: 'Question from ' + name + ' (user)',
+       text: 'Dear Silo, \n\n' +
+           message + '\n\n' +
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
+  },
+
+  contact_us_email_organisation: function(req, res) {
+    var message = req.body.message
+    var name = req.body.fund_name
+    var email = req.body.email
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: email,
+       subject: 'Question from ' + fund_name + ' (organisation)',
+       text: 'Dear Silo, \n\n' +
+           message + '\n\n' +
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
   }
 }
 
@@ -1197,7 +1268,7 @@ function notifyUsers(user_id, fund_id, res, app){
   models.users.findById(user_id).then(function(user){
     models.funds.findById(fund_id).then(function(fund){
       models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
-        if(fundUser){
+        if(fundUser) {
           var options = {
             user_id: fundUser.id,
             notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile. </a>',
@@ -1208,7 +1279,7 @@ function notifyUsers(user_id, fund_id, res, app){
             notifyMessagedUsers(user, res, app, fund);
           });
         }
-        else{
+        else {
           notifyMessagedUsers(user, res, app, fund);
         }
       });
