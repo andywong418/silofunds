@@ -1210,3 +1210,9 @@ footer {
     padding: 30px 100px; }
   .jumbotron h2 {
     margin: 0px 100px; } }
+
+#success h2 {
+  margin-top: 20px;
+  font-family: Source Sans Pro;
+  font-size: 23px;
+  margin-bottom: 24%; }
