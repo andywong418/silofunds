@@ -1087,7 +1087,7 @@ footer {
       border: none;
       cursor: pointer;
       border-radius: 6px;
-      padding: 4px 0px;
+      padding: 8px 0px;
       width: 50%;
       margin-left: 25%; }
     #big_wrapper .contact_form .contact-info {
@@ -1114,7 +1114,7 @@ footer {
     background: #54494B;
     border: none;
     cursor: pointer;
-    padding: 10px 40px;
+    padding: 8px 40px;
     border-radius: 6px; }
   .message-others .height-finder {
     height: 100%;
@@ -1146,7 +1146,9 @@ footer {
       padding: 20px 30px; }
       #big_wrapper #flex-for-desktop .contact_form .send {
         margin-left: 25%;
-        padding: 10px 0px; } }
+        padding: 10px 0px; }
+    #big_wrapper #flex-for-desktop .message-others button {
+      padding: 10px 40px; } }
 
 @media (min-width: 850px) {
   .header {
@@ -1190,8 +1192,8 @@ footer {
           -ms-flex-pack: end;
               justify-content: flex-end; }
       #big_wrapper #flex-for-desktop .contact_form .send {
-        width: 40%;
-        margin-left: 30%;
+        width: 44%;
+        margin-left: 28%;
         padding: 10px 0px; }
     #big_wrapper #flex-for-desktop .message-others {
       width: 37%;
@@ -1210,6 +1212,12 @@ footer {
     padding: 30px 100px; }
   .jumbotron h2 {
     margin: 0px 100px; } }
+
+@media (max-width: 1050px) and (min-width: 850px) {
+  #big_wrapper .contact_form .textarea[contenteditable] {
+    margin-bottom: 30px; }
+  #big_wrapper .contact_form .send {
+    margin-top: 40px; } }
 
 #success h2 {
   margin-top: 20px;
