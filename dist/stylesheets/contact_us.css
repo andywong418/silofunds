@@ -1121,6 +1121,16 @@ footer {
   #big_wrapper .contact_form {
     font-size: 16px; } }
 
+@media (min-width: 500px) {
+  #big_wrapper .jumbotron {
+    padding: 30px 45px 10px 45px; }
+  #big_wrapper #flex-for-desktop {
+    padding: 0px 50px 15px 50px; }
+    #big_wrapper #flex-for-desktop .contact_form .send {
+      width: 50%;
+      margin-left: 25%;
+      padding: 10px 0px; } }
+
 @media (min-width: 850px) {
   .header {
     padding: 100px 100px 0px 100px; }

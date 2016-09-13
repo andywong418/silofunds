@@ -215,6 +215,25 @@ footer {
 }
 
 // Optimising for desktop
+@media (min-width: 500px) {
+  #big_wrapper {
+    .jumbotron {
+      padding: 30px 45px 10px 45px;
+    }
+    #flex-for-desktop {
+      padding: 0px 50px 15px 50px;
+      .contact_form {
+        .send {
+          width: 50%;
+          margin-left: 25%;
+          padding: 10px 0px;
+        }
+      }
+    }
+  }
+}
+
+
 @media (min-width: 850px) {
   // Choose user/organisation page opt
   .header {
