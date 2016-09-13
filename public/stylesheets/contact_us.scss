@@ -119,7 +119,7 @@ footer {
     border-radius: 4px;
     margin: 0px 15px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     flex-direction: column;
     align-items: center;
     #message_form {
@@ -207,7 +207,7 @@ footer {
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 420px) {
   #big_wrapper {
     .jumbotron {
       h2 {
@@ -232,8 +232,8 @@ footer {
     #flex-for-desktop {
       padding: 0px 50px 15px 50px;
       .contact_form {
+        padding: 20px 30px;
         .send {
-          width: 50%;
           margin-left: 25%;
           padding: 10px 0px;
         }
@@ -322,5 +322,15 @@ footer {
     h2 {
       margin: 0px 100px;
     }
+  }
+}
+
+// Query sent css
+#success {
+  h2 {
+    margin-top: 20px;
+    font-family: Source Sans Pro;
+    font-size: 23px;
+    margin-bottom: 24%;
   }
 }

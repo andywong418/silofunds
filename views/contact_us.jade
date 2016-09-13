@@ -10,7 +10,7 @@ block content
   include ./partials/navbar-loggedin.jade
   include ./advanced-search.jade
   
-  if !user
+  if !user && !success
     .header.non-user
       h1 Contact Silo
       p.lead Do you need help as a...
@@ -31,6 +31,10 @@ block content
       include ./partials/contact_us/user.jade    
     if user.organisation_or_user
       include ./partials/contact_us/organisation.jade
+      
+  if success
+    #success.header
+      h2=success
     
   include ./partials/footer.jade
 

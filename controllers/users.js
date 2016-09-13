@@ -1174,19 +1174,21 @@ module.exports = {
         })
       })
     } else {
-      Logger.info("here then?")
       res.redirect('/user/dashboard')
     }
   },
 
   contact_us: function(req, res) {
-    console.log(req.user)
-    if(req.user) {
-      models.users.findById(req.user.id).then(function(user) {
+    var user = req.user
+    var success = req.flash('success')[0]
+    if(success) {
+      res.render('contact_us', {success: success})
+    } else if(!success) {
+      if(user) {
         res.render('contact_us', {user: user})
-      })
-    } else {
-      res.render('contact_us')
+      } else {
+        res.render('contact_us')
+      }
     }
   },
 
@@ -1201,11 +1203,12 @@ module.exports = {
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: email,
+       to: 'james.morrill.6@gmail.com',
        subject: 'Question from ' + name + ' (user)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +
-           'with love from ' + name + ' xxx'
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
@@ -1233,7 +1236,8 @@ module.exports = {
        subject: 'Question from ' + fund_name + ' (organisation)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +
-           'with love from ' + name + ' xxx'
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {

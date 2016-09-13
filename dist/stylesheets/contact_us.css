@@ -1044,9 +1044,9 @@ footer {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -1129,7 +1129,7 @@ footer {
         -ms-flex-pack: justify;
             justify-content: space-between; }
 
-@media (max-width: 370px) {
+@media (max-width: 420px) {
   #big_wrapper .jumbotron h2 {
     font-size: 27px; }
   #big_wrapper .jumbotron .lead {
@@ -1142,10 +1142,11 @@ footer {
     padding: 30px 45px 10px 45px; }
   #big_wrapper #flex-for-desktop {
     padding: 0px 50px 15px 50px; }
-    #big_wrapper #flex-for-desktop .contact_form .send {
-      width: 50%;
-      margin-left: 25%;
-      padding: 10px 0px; } }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 20px 30px; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        margin-left: 25%;
+        padding: 10px 0px; } }
 
 @media (min-width: 850px) {
   .header {
@@ -1209,3 +1210,9 @@ footer {
     padding: 30px 100px; }
   .jumbotron h2 {
     margin: 0px 100px; } }
+
+#success h2 {
+  margin-top: 20px;
+  font-family: Source Sans Pro;
+  font-size: 23px;
+  margin-bottom: 24%; }
