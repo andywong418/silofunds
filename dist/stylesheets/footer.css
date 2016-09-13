@@ -1,0 +1,146 @@
+footer {
+  padding: 50px 0; }
+  footer p {
+    margin: 0; }
+
+.footer-distributed {
+  display: inline-block;
+  background-color: #2C3E50;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: normal 16px sans-serif;
+  padding: 35px 50px; }
+  .footer-distributed .footer-left, .footer-distributed .footer-center, .footer-distributed .footer-right {
+    display: inline-block;
+    vertical-align: top; }
+  .footer-distributed .footer-left {
+    width: 50%; }
+    .footer-distributed .footer-left p {
+      color: white;
+      font-size: 15px;
+      margin: 0; }
+      .footer-distributed .footer-left p a {
+        color: white;
+        cursor: pointer;
+        font-weight: lighter; }
+        .footer-distributed .footer-left p a:hover {
+          color: white;
+          text-decoration: none; }
+    .footer-distributed .footer-left #about-header, .footer-distributed .footer-left #guide-header {
+      font-weight: 600;
+      margin-left: 20px;
+      margin-bottom: 5px;
+      margin-top: 10px; }
+
+/* Footer left */
+.footer-distributed .footer-left a {
+  margin-top: 8px;
+  margin-left: 20px; }
+
+.footer-distributed .footer-center {
+  width: 20%; }
+
+/* Footer links */
+.footer-distributed p.footer-links {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 10px;
+  padding: 0;
+  float: right; }
+  .footer-distributed p.footer-links a {
+    display: inline-block;
+    line-height: 1.8;
+    text-decoration: none;
+    color: inherit; }
+
+.footer-distributed .footer-right {
+  margin-top: 10px;
+  width: 50%; }
+  .footer-distributed .footer-right p {
+    color: white;
+    font-size: 15px;
+    margin: 0; }
+    .footer-distributed .footer-right p a {
+      color: white;
+      cursor: pointer;
+      font-weight: lighter; }
+      .footer-distributed .footer-right p a:hover {
+        color: white;
+        text-decoration: none; }
+  .footer-distributed .footer-right #contact-header {
+    font-weight: 600; }
+  .footer-distributed .footer-right .footer-social a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border-radius: 18px;
+    border: 0.3px solid white;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 15px;
+    margin-top: 8px; }
+    .footer-distributed .footer-right .footer-social a:hover {
+      background-color: white; }
+    .footer-distributed .footer-right .footer-social a i:hover {
+      color: black; }
+    .footer-distributed .footer-right .footer-social a:first-child {
+      margin-left: 0; }
+  .footer-distributed .footer-right .footer-center p {
+    color: #8f9296;
+    font-size: 14px;
+    margin: 0;
+    margin-top: 15px;
+    text-align: left;
+    margin-left: 10px;
+    clear: both; }
+
+.footer-right p.footer-social {
+  float: left; }
+
+@media (max-width: 874px) {
+  .footer-left p#terms-and-conditions a, .footer-left p#crowdfunding-advice a {
+    display: inline-block;
+    margin-top: 0; } }
+
+@media (max-width: 855px) {
+  .footer-distributed .footer-center {
+    width: 100%;
+    float: right; } }
+
+@media (max-width: 840px) {
+  .footer-left p#student-video a {
+    display: inline-block;
+    margin-top: 0; } }
+
+@media (max-width: 802px) {
+  .footer-left p#fund-setup a {
+    display: inline-block;
+    margin-top: 0; } }
+
+@media (max-width: 767px) {
+  .footer-right p.footer-social {
+    clear: both;
+    margin-left: 10px; }
+  .footer-distributed .footer-right .footer-center p {
+    margin-left: 15px; } }
+
+@media (max-width: 497px) {
+  .footer-distributed .footer-right .footer-social a {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    margin-top: 5px;
+    margin-left: 8px;
+    font-size: 18px; }
+    .footer-distributed .footer-right .footer-social a i {
+      position: absolute;
+      margin-top: 7px;
+      margin-left: -5px; }
+    .footer-distributed .footer-right .footer-social a .fa-twitter, .footer-distributed .footer-right .footer-social a .fa-instagram {
+      margin-left: -7px; } }
