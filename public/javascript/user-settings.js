@@ -350,6 +350,9 @@ $(document).ready(function() {
     $("div.settings-tab div.settings-tab-content").eq(index).addClass("active-mobile");
   });
 
+  $('#delete').click(function() {
+    $('.modal-delete.modal.fade').modal('toggle')
+  })
 });
 
 

@@ -104,6 +104,26 @@ block content
           .col-md-12.col-xs-12.footer
             button#save-general-settings.btn.btn-primary(type='submit') Save changes
             #save-general-settings-notification Your changes have been saved
+          #delete-account.col-md-12.col-xs-12.content
+            .col-md-12.col-xs-12.sub-content
+              h4 Delete account
+              .col-md-12.col-xs-12
+                button#delete.btn-danger.col-xs-2.col-xs-offset-5 Delete account
+            // Delete account modal
+            .modal.fade.modal-delete
+              .modal-dialog(role='document')
+                .modal-content
+                  .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                      span(aria-hidden='true') ×
+                    h4.modal-title Delete Account
+                  .modal-body
+                    p Are you sure you want to delete your account? All your data will be lost.
+                  .modal-footer
+                    form(action='/user/delete', method='post')
+                      input(type='hidden', name='deleteId', value='#{user.id}')
+                      button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+                      button#delete-actual.btn.btn-danger(type='submit') Delete
         #personal-settings.settings-tab-content
           .col-md-12.col-xs-12.header
             h3 Personal Settings

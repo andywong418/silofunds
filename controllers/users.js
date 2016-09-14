@@ -362,11 +362,12 @@ module.exports = {
     });
   },
   loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
+    var goodbye = req.flash('goodbye')
+    if (logoutMsg) {
       res.render('user/login', {logoutMsg: logoutMsg})
+    } else if (goodbye) {
+      res.render('user/login', {goodbye: goodbye})
     } else {
       res.render('user/login')
     }
@@ -1249,6 +1250,20 @@ module.exports = {
           res.redirect('/contact_us')
         }
     });
+  },
+
+  delete: function(req, res) {
+    if(req.user.id = req.body.deleteId) {
+      models.users.findById(req.user.id).then(function(user) {
+        return user.destroy();
+      }).then(function() {
+        req.flash('goodbye', "Your account has been successfully deleted. We're sorry to see you go!")
+        res.redirect('/login')
+      })
+    } else {
+      req.flash('error', "There has been an error in deleting your account, please try again or contact us if the problem persists")
+      res.redirect('/user/settings')
+    }
   }
 }
 
