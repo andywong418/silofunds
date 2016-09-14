@@ -1374,8 +1374,7 @@ label.removeFile {
 
 #delete-account button {
   font-size: 14px;
-  width: auto;
-  padding: 7px 12px; }
+  width: auto; }
 
 #right_div div.settings-tab .settings-tab-content #delete-account.col-md-12.content {
   border-top: 1px solid #e1e8ed;
@@ -1384,7 +1383,7 @@ label.removeFile {
     border-radius: 4px;
     border: none;
     box-shadow: none;
-    padding: 6px 12px; }
+    padding: 7px 12px; }
 
 .modal.fade.modal-delete .modal-body p {
   padding-bottom: 10px; }
