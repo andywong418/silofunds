@@ -361,12 +361,22 @@ module.exports = {
       }
     });
   },
+  // loginGET: function(req, res) {
+  //   // Flash message if we have come via logging out to say 'successfully logged out'
+  //   var logoutMsg = req.flash('logoutMsg');
+  //   // Message prints as empty array, showing if length non zero
+  //   if(logoutMsg.length !== 0) {
+  //     res.render('user/login', {logoutMsg: logoutMsg})
+  //   } else {
+  //     res.render('user/login')
+  //   }
+  // },
   loginGET: function(req, res) {
     var logoutMsg = req.flash('logoutMsg');
     var goodbye = req.flash('goodbye')
-    if (logoutMsg) {
+    if (logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})
-    } else if (goodbye) {
+    } else if (goodbye.length !== 0) {
       res.render('user/login', {goodbye: goodbye})
     } else {
       res.render('user/login')
@@ -442,17 +452,6 @@ module.exports = {
         res.redirect('/user/dashboard');
       }
     });
-  },
-
-  loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
-    var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
-      res.render('user/login', {logoutMsg: logoutMsg})
-    } else {
-      res.render('user/login')
-    }
   },
 
   loginSplit: function(req, res) {
