@@ -7,7 +7,7 @@ var models = require('../models');
 var sleep = require('sleep');
 var es = require('../elasticsearch');
 var elasticsearchModels = require('../elasticsearch/model');
-
+var async = require('async');
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
     var json = fund.toJSON();
@@ -195,10 +195,11 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //TODO: change interval to 1 day
-var fundUnreadMessagesScheduler = new CronJob('*/5 * * * * *', checkForFundUnreadMessages, null, true);
+// var fundUnreadMessagesScheduler = new CronJob('*/5 * * * * *', checkForFundUnreadMessages, null, true);
+var checkRefund = new CronJob('00 00 00 * * *', checkForRefund, null, true);
 
 function checkForFundUnreadMessages() {
-  return models.sequelize.query('SELECT user_to, COUNT(*) FROM messages WHERE read_by_recipient = false GROUP BY user_to HAVING COUNT(*) > 1').spread(function(results, metadata) {
+  return models.sequelize.query('SELECT user_to, COUNT(*) FROM messages WHERE read_by_recipient = false GROUP BY user_to HAVING COUNT(*) > 0').spread(function(results, metadata) {
     Logger.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     Logger.error(results);
     var userIDList = [];
@@ -216,9 +217,33 @@ function checkForFundUnreadMessages() {
       users.forEach(function(user) {
         emailStats[user.id].email = user.email;
         //send emails here
+        Logger.warn('email stuff')
+        Logger.warn(emailStats)
       });
-      // or here.
-      Logger.warn(emailStats);
+    });
+  });
+}
+function checkForRefund(){
+
+  return models.users.findAll({where: {organisation_or_user: null}}).then(function(users){
+    async.each(users, function(user, callback){
+      //check each user - if funding_accrued < funding_needed && completiont date is over AND they refund, then refund.
+      var date = new Date();
+      var userId = user.id;
+      if(user.completion_date && user.funding_accrued < user.funding_needed && date > user.completion_date && user.refund){
+        console.log("Got in")
+        models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
+          var stripe_acct_id = stripe_user.stripe_user_id;
+          models.stripe_charges.findAll({where: {destination_id: stripe_acct_id}}).then(function(charge_array){
+             asyncRefund(charge_array, callback);
+          });
+        });
+      }
+      else{
+        callback();
+      }
+    }, function done(){
+      return true;
     });
   });
 }
@@ -471,7 +496,18 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
+ function asyncRefund(chargeArray, mainCallback){
+   async.each(chargeArray, function(charge, callback){
+     stripe.refunds.create({
+       charge: charge.charge_id
+     }, function(err, refund){
+       Logger.error(refund);
+       callback();
+     });
+   }, function done(){
+     mainCallback();
+   });
+ }
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
