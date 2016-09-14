@@ -213,11 +213,13 @@ $(document).ready(function() {
       data: JSON.stringify(descriptionData)
     });
     var refund;
-    if($('input#refund').prop('checked') === true){
-      refund = true;
-    }
-    else{
-      refund = false;
+    if(user.funding_accrued == null) {
+      if($('input#refund').prop('checked') === true){
+        refund = true;
+      }
+      else{
+        refund = false;
+      }
     }
     saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
   });
@@ -353,6 +355,10 @@ $(document).ready(function() {
   $('#delete').click(function() {
     $('.modal-delete.modal.fade').modal('toggle')
   })
+
+  if(user.funding_accrued !== null) {
+    $('.refund-choice').remove()
+  }
 });
 
 
