@@ -1252,7 +1252,8 @@ module.exports = {
   },
 
   delete: function(req, res) {
-    if(req.user.id = req.body.deleteId) {
+    var deleteId = parseInt(req.body.deleteId)
+    if(req.user.id == deleteId) {
       models.users.findById(req.user.id).then(function(user) {
         return user.destroy();
       }).then(function() {

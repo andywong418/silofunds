@@ -554,20 +554,22 @@ dashboard: function(req, res) {
     });
   },
   settings: function(req, res){
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    passportFunctions.ensureAuthenticated(req, res, function() {
       var session = req.params.session;
       var id = req.user.id;
       var general_settings = true;
+      var deleteError = req.flash('error')
         models.users.findById(id).then(function(user){
         var fundUser = user;
-
         user = user.get();
-        Logger.info(user.organisation_or_user);
         models.organisations.findById(user.organisation_or_user).then(function(organisation){
-          Logger.info(organisation);
           user.charity_id = organisation.charity_id;
-          Logger.info("USER", user);
-          res.render('fund-settings', {user: user, general: general_settings});
+          if(deleteError.length !== 0) {
+            var error = deleteError[0]
+            res.render('fund-settings', {user: user, general: general_settings, error: error});
+          } else {
+            res.render('fund-settings', {user: user, general: general_settings});
+          }
         })
       })
     });
@@ -623,6 +625,21 @@ dashboard: function(req, res) {
     req.logout();
     req.flash('logoutMsg', 'Successfully logged out');
     res.redirect('/login')
+  },
+
+  delete: function(req, res) {
+    var deleteId = parseInt(req.body.deleteId)
+    if(req.user.id !== deleteId) {
+      models.users.findById(req.user.id).then(function(user) {
+        return user.destroy();
+      }).then(function() {
+        req.flash('goodbye', "Your account has been successfully deleted. We're sorry to see you go!")
+        res.redirect('/login')
+      })
+    } else {
+      req.flash('error', "There has been an error deleting your account, please try again or contact us if the problem persists")
+      res.redirect('/organisation/settings')
+    }
   }
 }
 

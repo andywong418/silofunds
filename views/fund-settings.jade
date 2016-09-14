@@ -17,6 +17,9 @@ block content
 	include ./navbar.jade
 	include ./partials/navbar-loggedin.jade
 	include ./partials/signup-modal.jade
+	if error
+		.alert.alert-danger
+			h1= error
 	section#edit.container.content-section
 		.row
 			.col-md-2.col-xs-4#categories

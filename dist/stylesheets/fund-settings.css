@@ -1156,3 +1156,14 @@ ul {
     width: auto; }
   #delete-account.col-md-12.content .modal.fade.modal-delete .modal-footer button {
     margin-left: 5px; }
+
+.alert.alert-danger {
+  margin-top: 80px;
+  margin-bottom: 0;
+  text-align: center;
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: -50px; }
+  .alert.alert-danger h4 {
+    font-family: Source Sans Pro;
+    margin-bottom: 15px; }
