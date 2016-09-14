@@ -8,6 +8,10 @@ var sleep = require('sleep');
 var es = require('../elasticsearch');
 var elasticsearchModels = require('../elasticsearch/model');
 var async = require('async');
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
     var json = fund.toJSON();
@@ -195,7 +199,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //TODO: change interval to 1 day
-// var fundUnreadMessagesScheduler = new CronJob('*/5 * * * * *', checkForFundUnreadMessages, null, true);
+var fundUnreadMessagesScheduler = new CronJob('*/10 * * * * *', checkForFundUnreadMessages, null, true);
 var checkRefund = new CronJob('00 00 00 * * *', checkForRefund, null, true);
 
 function checkForFundUnreadMessages() {
@@ -209,16 +213,35 @@ function checkForFundUnreadMessages() {
       // Restructure data to be used for sending emails
       emailStats[result.user_to[0]] = {};
       emailStats[result.user_to[0]].unreadCount = result.count;
+      emailStats.user_from = result.user_from;
     });
     return models.users.findAll({
       where: { id: userIDList },
-      attributes: ['id', 'email']
+      attributes: ['id', 'email', 'username']
     }).then(function(users) {
       users.forEach(function(user) {
         emailStats[user.id].email = user.email;
+        var username = user.username.split(' ')[0];
         //send emails here
-        Logger.warn('email stuff')
-        Logger.warn(emailStats)
+        var transporter = nodemailer.createTransport(smtpTransport({
+         service: 'Gmail',
+         auth: {user: 'james.morrill.6@gmail.com',
+               pass: 'exogene5i5'}
+        }));
+        var mailOptions = {
+           from: 'Silofunds <james.morrill.6@gmail.com>',
+           to: user.email,
+           subject: 'You have new unread messages!',
+           html: '<h3>Dear ' + username + '</h3> <p> You are receiving this because you have recieved new messages on our platform. Please click on the following <a href="https://silofunds.com/user/messages">link </a> to read them.</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
+        };
+        transporter.sendMail(mailOptions, function(error, response) {
+            if (error) {
+                console.log("Email send failed");
+            }
+            else {
+              console.log("SUCCESS");
+            }
+        });
       });
     });
   });
