@@ -14,7 +14,13 @@
         .modal-body
           p Are you sure you want to delete your account? All your data will be lost.
         .modal-footer
-          form(action='/user/delete', method='post')
-            input(type='hidden', name='deleteId', value='#{user.id}')
-            button.btn.btn-default(type='button', data-dismiss='modal') Cancel
-            button#delete-actual.btn.btn-danger(type='submit') Delete
+          if !user.organisation_or_user
+            form(action='/user/delete', method='post')
+              input(type='hidden', name='deleteId', value='#{user.id}')
+              button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+              button#delete-actual.btn.btn-danger(type='submit') Delete
+          if user.organisation_or_user
+            form(action='/organisation/delete', method='post')
+              input(type='hidden', name='deleteId', value='#{user.id}')
+              button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+              button#delete-actual.btn.btn-danger(type='submit') Delete

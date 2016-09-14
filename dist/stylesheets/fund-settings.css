@@ -1148,5 +1148,11 @@ ul {
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse; }
 
-#delete-account {
+#delete-account.col-md-12.content {
   display: none; }
+  #delete-account.col-md-12.content .modal-title {
+    margin-top: 0; }
+  #delete-account.col-md-12.content .modal-header button {
+    width: auto; }
+  #delete-account.col-md-12.content .modal.fade.modal-delete .modal-footer button {
+    margin-left: 5px; }

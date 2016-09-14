@@ -270,6 +270,21 @@ margin-top: 10px;
   flex-direction: column-reverse;
 }
 
-#delete-account {
+#delete-account.col-md-12.content {
   display: none;
+  .modal-title {
+    margin-top: 0;
+  }
+  .modal-header {
+    button {
+      width: auto;
+    }
+  }
+  .modal.fade.modal-delete {
+    .modal-footer {
+      button {
+        margin-left: 5px;
+      }
+    }
+  }
 }

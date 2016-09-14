@@ -224,6 +224,8 @@ $(document).ready(function(){
 	$(window).bind('hashchange', hashchange);
 });
 
+
+// Functions
 function hashchange() {
 	if(window.location.hash == '#account') {
 		$('#delete-account').show()
