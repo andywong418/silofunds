@@ -1364,6 +1364,19 @@ label.removeFile {
     #campaign-settings .col-xs-12.refund-choice input {
       margin: 0; } }
 
+#delete-account .flex-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+#delete-account button {
+  font-size: 14px;
+  width: auto;
+  padding: 7px 12px; }
+
 #right_div div.settings-tab .settings-tab-content #delete-account.col-md-12.content {
   border-top: 1px solid #e1e8ed;
   margin-top: 50px; }

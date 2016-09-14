@@ -447,6 +447,18 @@ label.removeFile {
 }
 
 // Delete account
+#delete-account {
+  .flex-center {
+    display: flex;
+    justify-content: center;
+  }
+  button {
+    font-size: 14px;
+    width: auto;
+    padding: 7px 12px;
+  }
+}
+
 #right_div div.settings-tab .settings-tab-content #delete-account.col-md-12.content {
   border-top: 1px solid #e1e8ed;
   margin-top: 50px;
