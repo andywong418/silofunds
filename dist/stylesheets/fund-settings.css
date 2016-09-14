@@ -1119,3 +1119,34 @@ ul {
   padding: 10px;
   height: 100px;
   width: 100%; }
+
+#delete-account.col-md-12.content {
+  border-top: 1px solid #e1e8ed;
+  margin-top: 80px; }
+  #delete-account.col-md-12.content h4 {
+    font-family: Source Sans Pro;
+    margin-top: 20px; }
+  #delete-account.col-md-12.content button {
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    width: 28%;
+    margin-left: 36%;
+    padding: 7px 0px;
+    white-space: nowrap; }
+
+.modal.fade.modal-delete .modal-body p {
+  padding-bottom: 10px; }
+
+.flex_this {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse; }
+
+#delete-account {
+  display: none; }
