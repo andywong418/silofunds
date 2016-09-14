@@ -199,7 +199,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //TODO: change interval to 1 day
-var fundUnreadMessagesScheduler = new CronJob('*/10 * * * * *', checkForFundUnreadMessages, null, true);
+var fundUnreadMessagesScheduler = new CronJob('00 00 12 * * *', checkForFundUnreadMessages, null, true);
 var checkRefund = new CronJob('00 00 00 * * *', checkForRefund, null, true);
 
 function checkForFundUnreadMessages() {
@@ -321,6 +321,31 @@ function checkForChanges() {
         lastUpdate = lastUpdateFromTable;
       });
     }
+  }).then(function(){
+    models.users.findAll({
+      where: {
+        created_at: {
+          $gte: lastUpdate
+        },
+        organisation_or_user: null
+      },
+      order: 'created_at ASC'
+    }).then(function(users){
+      if(users.length === 0){
+        Logger.info('nothing to update');
+      }else{
+        var wrapper = {};
+        var body = prepareBulkUploadUsers(users);
+        wrapper.fieldName = 'users';
+        wrapper.body = body;
+        bulkUpload(wrapper).then(function(){
+          // Timestamp from table rounds down. Here is the correction to avoid duplication.
+          var lastUpdateFromTable = funds[funds.length - 1].created_at;
+          lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+          lastUpdate = lastUpdateFromTable;
+        });
+      }
+    });
   });
 }
 
