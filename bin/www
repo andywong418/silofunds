@@ -200,7 +200,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 //TODO: change interval to 1 day
 var fundUnreadMessagesScheduler = new CronJob('00 00 12 * * *', checkForFundUnreadMessages, null, true);
-var checkRefund = new CronJob('00 00 00 * * *', checkForRefund, null, true);
+var checkRefund = new CronJob('*/5 * * * * *', checkForRefund, null, true);
 
 function checkForFundUnreadMessages() {
   return models.sequelize.query('SELECT user_to, COUNT(*) FROM messages WHERE read_by_recipient = false GROUP BY user_to HAVING COUNT(*) > 0').spread(function(results, metadata) {
@@ -254,11 +254,13 @@ function checkForRefund(){
       var date = new Date();
       var userId = user.id;
       if(user.completion_date && user.funding_accrued < user.funding_needed && date > user.completion_date && user.refund){
-        console.log("Got in")
-        models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
-          var stripe_acct_id = stripe_user.stripe_user_id;
-          models.stripe_charges.findAll({where: {destination_id: stripe_acct_id}}).then(function(charge_array){
-             asyncRefund(charge_array, callback);
+        console.log("Got in");
+        user.update({refund: false}).then(function(){
+          models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
+            var stripe_acct_id = stripe_user.stripe_user_id;
+            models.stripe_charges.findAll({where: {destination_id: stripe_acct_id}}).then(function(charge_array){
+               asyncRefund(charge_array, callback, user.email, user.username);
+            });
           });
         });
       }
@@ -266,6 +268,7 @@ function checkForRefund(){
         callback();
       }
     }, function done(){
+
       return true;
     });
   });
@@ -544,7 +547,7 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
- function asyncRefund(chargeArray, mainCallback){
+ function asyncRefund(chargeArray, mainCallback, userEmail, username){
    async.each(chargeArray, function(charge, callback){
      stripe.refunds.create({
        charge: charge.charge_id
@@ -553,7 +556,28 @@ function onError(error) {
        callback();
      });
    }, function done(){
-     mainCallback();
+     var transporter = nodemailer.createTransport(smtpTransport({
+      service: 'Gmail',
+      auth: {user: 'james.morrill.6@gmail.com',
+            pass: 'exogene5i5'}
+     }));
+     var mailOptions = {
+        from: 'Silofunds <james.morrill.6@gmail.com>',
+        to: userEmail,
+        subject: 'Silo refund',
+        html: '<h3>Dear ' + username + '</h3> <p> You have now refunded all your donors, but fear not there are still funds available for you! Check out <a href="http://silofunds.com"> for more.</a> </p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
+     };
+     transporter.sendMail(mailOptions, function(error, response) {
+         if (error) {
+             console.log("Email send failed");
+              mainCallback();
+         }
+         else {
+           console.log("SUCCESS");
+            mainCallback();
+         }
+     });
+
    });
  }
 function onListening() {
