@@ -198,10 +198,109 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-//TODO: change interval to 1 day
-var fundUnreadMessagesScheduler = new CronJob('00 00 12 * * *', checkForFundUnreadMessages, null, true);
-var checkRefund = new CronJob('*/5 * * * * *', checkForRefund, null, true);
+//
+var checkFundIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
+var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
+var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 
+function checkIndices(){
+  es.checkConnection().then(function(resp) {
+    if (resp) {
+      Logger.info("Connected to elasticsearch.");
+      console.log("HI");
+      var countries = require('../resources/countries');
+      var religions = require('../resources/religions');
+      var degrees = require('../resources/degrees');
+      var universities = require('../resources/universities');
+      var subjects = require('../resources/subjects');
+      console.log("HEY");
+      es.indices.exists({
+       index: 'funds'
+     }).catch(function(err) {
+       Logger.error("Error checking existence of fund index:");
+       Logger.error(err);
+     }).then(function(resp) {
+       Logger.info("Does the funds index exist?:");
+       Logger.error(resp);
+       if(resp){
+         es.indices.exists({
+          index: 'users'
+        }).catch(function(err) {
+          Logger.error("Error checking existence of user index:");
+          Logger.error(err);
+        }).then(function(resp){
+          Logger.warn("user");
+          Logger.warn(resp);
+          if(resp){
+            return true;
+          }
+          else{
+            es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+          }
+        });
+       }
+       else{
+         es.deleteIndex('funds')
+         .then(es.createIndex('funds'))
+         .then(bulkUploadFunds)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
+         .then(bulkUpload);
+
+         es.indices.exists({
+          index: 'users'
+        }).catch(function(err) {
+          Logger.error("Error checking existence of user index:");
+          Logger.error(err);
+        }).then(function(resp){
+          Logger.warn("user");
+          Logger.warn(resp);
+          if(resp){
+            return true;
+          }
+          else{
+            es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+          }
+        });
+       }
+     });
+
+
+
+    }
+  });
+}
 function checkForFundUnreadMessages() {
   return models.sequelize.query('SELECT user_to, COUNT(*) FROM messages WHERE read_by_recipient = false GROUP BY user_to HAVING COUNT(*) > 0').spread(function(results, metadata) {
     Logger.error("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
@@ -499,7 +598,20 @@ function bulkUpload(data) {
 /**
  * Normalize a port into a number, string, or false.
  */
-
+function checkIndexExists(indexName){
+  return es.indices.exists({
+    index: indexName
+  }).catch(function(err) {
+    Logger.error("Error checking existence of " + indexName + " index:");
+    Logger.error(err);
+  }).then(function(resp) {
+    Logger.info("Does the " + indexName + " index exist?:");
+    Logger.info(resp);
+    if(resp === true){
+      return true;
+    }
+  });
+}
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
