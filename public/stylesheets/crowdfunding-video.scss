@@ -58,3 +58,49 @@ body{
     margin-bottom: 50px;
   }
 }
+
+@media (max-width: 900px) {
+  body {
+    #guide-header {
+      #guide-header-div {
+        width: 88%;
+        margin-left: 7%;
+        margin-right: 5%;
+        p#header-paragraph {
+          width: 100%;
+        }
+      }
+      #guide-header-image {
+        width: 80%;
+        margin-left: 10%;
+      }
+    }
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 72%;
+      margin-left: 15%;
+      margin-right: 13%;
+      p {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+    width: 78%;
+    margin-left: 12%;
+    margin-right: 10%;
+    // iframe {
+    //   width: 100%;
+    //   height: auto;
+    // }
+  }
+}
+
+#conclusion {
+  border: 1px solid red;
+  iframe {
+    border: 1px solid green;
+  }
+}

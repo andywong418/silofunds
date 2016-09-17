@@ -958,3 +958,31 @@ body {
       font-size: 18px; }
   body #conclusion {
     margin-bottom: 50px; }
+
+@media (max-width: 900px) {
+  body #guide-header #guide-header-div {
+    width: 88%;
+    margin-left: 7%;
+    margin-right: 5%; }
+    body #guide-header #guide-header-div p#header-paragraph {
+      width: 100%; }
+  body #guide-header #guide-header-image {
+    width: 80%;
+    margin-left: 10%; }
+  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
+    width: 72%;
+    margin-left: 15%;
+    margin-right: 13%; }
+    body section#step-one p, body section#step-two p, body section#step-three p, body section#step-four p, body section#step-five p, body section#conclusion p {
+      width: 100%; } }
+
+@media (max-width: 750px) {
+  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+    width: 78%;
+    margin-left: 12%;
+    margin-right: 10%; } }
+
+#conclusion {
+  border: 1px solid red; }
+  #conclusion iframe {
+    border: 1px solid green; }
