@@ -407,7 +407,6 @@ $(document).ready(function(){
       this.$el.html(this.template(this.model.toJSON()));
       return this; // enable chained calls
     }
-
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
     var $eligibility_div = $('#big_flex_div #right_div #eligibility_div')
@@ -1453,7 +1452,9 @@ var subjectCounter = 0;
   favouriteStarMargin();
   fundBioBackgroundColor();
   pictureColumnNoChanger();
+  eligibilityMarginFix();
   $(window).resize(function() {
+    eligibilityMarginFix();
     eligibility_divPaddingChange();
     noProfilePicDivResizer();
     displayTopBottomDivs();
@@ -1602,4 +1603,14 @@ function locationColumnFix() {
       $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
     }
   }
+}
+
+function eligibilityMarginFix() {
+  var divHeight = $('#eligibility_div').height()
+  var pHeight = $('#eligibility_div_p').height()
+  console.log(divHeight)
+  console.log(pHeight)
+  var twoPaddingTop = divHeight - pHeight
+  var paddingTop = twoPaddingTop/2
+  $('#big_flex_div #eligibility_div p#eligibility_div_p').css('padding-top', paddingTop)
 }

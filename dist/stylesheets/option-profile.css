@@ -1176,7 +1176,6 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   border-radius: 5px;
-  padding-top: 10px;
   color: white; }
   #eligibility_div #ignore {
     color: white;
@@ -1714,11 +1713,12 @@ h1 {
   height: auto;
   cursor: pointer; }
 
+#eligibility_div, #notEligible, .application_form {
+  width: 100%; }
+
 #right_div_desktop {
   margin-left: 7%;
   width: 100%; }
-  #right_div_desktop #eligibility_div, #right_div_desktop #notEligible, #right_div_desktop .application_form {
-    width: 100%; }
 
 #right_div {
   margin-right: 31px; }
@@ -1774,6 +1774,14 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none; }
+  .flex-flip {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse; }
   #favourite.favourite.mobile {
     margin-left: 0; }
   #big_flex_div {
@@ -1852,14 +1860,35 @@ h1 {
 .container {
   padding-left: 15px; }
 
+.centre-me {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: centre;
+      -ms-flex-align: centre;
+          align-items: centre; }
+
 @media (max-width: 1190px) {
-  #eligibility_div #eligibility_div_p {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
     font-size: 18px; } }
 
 @media (max-width: 1090px) {
-  #eligibility_div #eligibility_div_p, #eligibility_div a#ignore {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
     font-size: 16px; } }
 
 @media (max-width: 900px) {
-  #eligibility_div #eligibility_div_p, #eligibility_div a#ignore {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
     font-size: 14px; } }
+
+@media (max-width: 767px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 17px; } }
+
+@media (max-width: 640px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 15px; } }
+
+@media (max-width: 575px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 13px;
+    text-align: center; } }
