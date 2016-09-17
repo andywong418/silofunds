@@ -349,7 +349,7 @@ dashboard: function(req, res) {
       Logger.info("HI");
       models.funds.findById(fundId).then(function(fund){
         models.organisations.findById(fund.organisation_id).then(function(organisation){
-          handleOrganisationUser(organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+          handleOrganisationUser(fund, organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
 
         });
       });
@@ -592,6 +592,15 @@ function findOrCreateTips(tips, option, fund, res){
 
 
 // Functions
+function createPageViewRow(user, fund, object, res){
+  var createOptions = {fund_id: fund.id};
+  if(user){
+    createOptions['user_id'] = user.id;
+  }
+  models.page_views.create(createOptions).then(function(){
+    res.render('option-profile', object);
+  })
+}
 function checkOrganisationUser(user, fund, organisation, object, res){
   var fundId = fund.id;
   if(user.organisation_or_user == null){
@@ -604,14 +613,14 @@ function checkOrganisationUser(user, fund, organisation, object, res){
       if(created){
         //first time browsed
         object.newVisit = true;
-        res.render('option-profile', object);
+        createPageViewRow(user, fund, object, res);
       }else{
         var dateNow = new Date(Date.now());
         dateNow = dateNow.toISOString();
         recent.update({updated_at: dateNow,user_id: user.id,
         fund_id: fundId}).then(function(recent){
           object.newVisit = false;
-          checkFavourite(user.id, fundId, res, object);
+          checkFavourite(user, fund, res, object);
         });
       }
     });
@@ -646,7 +655,7 @@ function asyncAddApps(apps, appArray, res, callback, fund){
     callback();
   })
 }
-function handleOrganisationUser(organisation, dataObject, res){
+function handleOrganisationUser(fund, organisation, dataObject, res){
   Logger.info(organisation);
   if(organisation){
     models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
@@ -655,21 +664,23 @@ function handleOrganisationUser(organisation, dataObject, res){
         Logger.info("again", organisation);
         organisation.profile_picture = user.profile_picture;
         dataObject.organisation = organisation;
-        res.render('option-profile', dataObject);
+        createPageViewRow(false, fund, dataObject, res);
       }
       else{
         dataObject.organisation = organisation;
-        res.render('option-profile', dataObject);
+        createPageViewRow(false, fund, dataObject, res);
       }
 
     })
   }
   else{
     dataObject.organisation = false;
-    res.render('option-profile', dataObject);
+    createPageViewRow(false, fund, dataObject, res);
   }
 }
-function checkFavourite(userId, fundId, res, dataObject){
+function checkFavourite(user, fund, res, dataObject){
+  var userId = user.id;
+  var fundId = fund.id;
   models.favourite_funds.find({where: {user_id: userId, fund_id: fundId} }).then(function(favourite){
     if(favourite){
       dataObject.favourite = true
@@ -677,7 +688,7 @@ function checkFavourite(userId, fundId, res, dataObject){
     else{
       dataObject.favourite = false;
     }
-    res.render('option-profile', dataObject);
+    createPageViewRow(user, fund, dataObject, res);
   })
 }
 function moderateObject(objectFields){
