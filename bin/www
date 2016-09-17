@@ -199,7 +199,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //
-var checkFundIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
+var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 
@@ -598,20 +598,7 @@ function bulkUpload(data) {
 /**
  * Normalize a port into a number, string, or false.
  */
-function checkIndexExists(indexName){
-  return es.indices.exists({
-    index: indexName
-  }).catch(function(err) {
-    Logger.error("Error checking existence of " + indexName + " index:");
-    Logger.error(err);
-  }).then(function(resp) {
-    Logger.info("Does the " + indexName + " index exist?:");
-    Logger.info(resp);
-    if(resp === true){
-      return true;
-    }
-  });
-}
+
 function normalizePort(val) {
   var port = parseInt(val, 10);
 

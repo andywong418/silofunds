@@ -323,58 +323,14 @@ dashboard: function(req, res) {
               //if user is logged in
               if(organisation){
                 //organisation in user table
-                if(user.organisation_or_user == null){
-                  //if user is not fund user
-                  Logger.info("organisation", organisation);
-                  models.recently_browsed_funds.findOrCreate({where: {
-                    user_id: user.id,
-                    fund_id: fundId
-                  }}).spread(function(recent, created){
-                    if(created){
-                      //first time browsed
+                checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
 
-                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
-                    }else{
-                      var dateNow = new Date(Date.now());
-                      dateNow = dateNow.toISOString();
-                      recent.update({updated_at: dateNow,user_id: user.id,
-                      fund_id: fundId}).then(function(recent){
-                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, newVisit: false});
-                      });
-                    }
-                  });
-                }
-                else{
-                  //if user is fund user
-                  res.render('option-profile', {user: user, organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, favourite: false});
-                }
               } else{
                 //organisation not in user table
+
                 models.organisations.findById(fund.organisation_id).then(function(organisation){
                   Logger.info("NOT IN TUSER", organisation);
-                  if(user.organisation_or_user == null){
-                    //if user is not fund user
-                    models.recently_browsed_funds.findOrCreate({where: {
-                      user_id: user.id,
-                      fund_id: fundId
-                    }}).spread(function(recent, created){
-                      if(created){
-
-                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
-                      }else{
-                        var dateNow = new Date(Date.now());
-                        dateNow = dateNow.toISOString();
-                        recent.update({updated_at: dateNow,user_id: user.id,
-                        fund_id: fundId}).then(function(recent){
-                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  newVisit: false});
-                        });
-                      }
-                    });
-                  }
-                  else{
-                    //if user is fund user
-                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries, subjects: subjects, universities: universities, degrees: degrees, favourite: false});
-                  }
+                  checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
                 });
               }
 
@@ -382,36 +338,14 @@ dashboard: function(req, res) {
         }
         else{
           //if fund has no organisation or fund user
-            if(user.organisation_or_user == null){
-              //if user is not a fund user
-              models.recently_browsed_funds.findOrCreate({where: {
-                user_id: user.id,
-                fund_id: fundId
-              }}).spread(function(recent, created){
-                if(created){
-                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
-                }else{
-                  var dateNow = new Date(Date.now());
-                  dateNow = dateNow.toISOString();
-                  recent.update({updated_at: dateNow,user_id: user.id,
-                  fund_id: fundId}).then(function(recent){
-
-                    checkFavourite(user.id, fundId, res, {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees});
-                  });
-                }
-              });
-            }
-            else{
-              //if user is fund user
-              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
-            }
-
+          checkOrganisationUser(user, fund, false, {user: user,organisation: false, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
         }
 
       });
     }
     else{
       //show limited profile
+
       Logger.info("HI");
       models.funds.findById(fundId).then(function(fund){
         models.organisations.findById(fund.organisation_id).then(function(organisation){
@@ -658,6 +592,35 @@ function findOrCreateTips(tips, option, fund, res){
 
 
 // Functions
+function checkOrganisationUser(user, fund, organisation, object, res){
+  var fundId = fund.id;
+  if(user.organisation_or_user == null){
+    //if user is not fund user
+    Logger.info("organisation", organisation);
+    models.recently_browsed_funds.findOrCreate({where: {
+      user_id: user.id,
+      fund_id: fundId
+    }}).spread(function(recent, created){
+      if(created){
+        //first time browsed
+        object.newVisit = true;
+        res.render('option-profile', object);
+      }else{
+        var dateNow = new Date(Date.now());
+        dateNow = dateNow.toISOString();
+        recent.update({updated_at: dateNow,user_id: user.id,
+        fund_id: fundId}).then(function(recent){
+          object.newVisit = false;
+          checkFavourite(user.id, fundId, res, object);
+        });
+      }
+    });
+  }
+  else{
+    //if user is fund user
+    res.render('option-profile', object);
+  }
+}
 function asyncAddApplications(funds, user, res){
   var appArray = [];
   async.each(funds, function(fund, callback){
