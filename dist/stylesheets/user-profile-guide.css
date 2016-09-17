@@ -998,9 +998,9 @@ body {
     body #guide-header #guide-header-div p#header-paragraph {
       font-size: 15px;
       margin-bottom: 20px; }
-  body #guide-header-image {
-    width: 60%;
-    margin-left: 20%;
+  body #guide-header #guide-header-image {
+    width: 80%;
+    margin-left: 10%;
     height: auto; }
   body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
     width: 94%;
