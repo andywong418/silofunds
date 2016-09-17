@@ -1,5 +1,14 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(document).ready(function() {
+  // start: Mixpanel
+
+  mixpanel.track(
+    "Played song",
+    {"genre": "hip-hop"}
+  );
+
+  // end: Mixpanel
+
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
     events: {
