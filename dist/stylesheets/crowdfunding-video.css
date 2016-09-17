@@ -977,12 +977,24 @@ body {
       width: 100%; } }
 
 @media (max-width: 750px) {
-  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
     width: 78%;
     margin-left: 12%;
-    margin-right: 10%; } }
+    margin-right: 10%; }
+    body section#step-one h3, body section#step-two h3, body section#step-three h3, body section#step-four h3, body section#step-five h3, body section#conclusion h3 {
+      margin-bottom: 15px; } }
 
-#conclusion {
-  border: 1px solid red; }
-  #conclusion iframe {
-    border: 1px solid green; }
+@media (max-width: 600px) {
+  body #guide-header #guide-header-div {
+    width: 94%;
+    margin-left: 3%; }
+    body #guide-header #guide-header-div p#header-paragraph {
+      width: 100%; }
+  body #guide-header #guide-header-image {
+    width: 90%;
+    margin-left: 5%; }
+  body section#step-one, body section#step-two, body section#step-three, body section#step-four, body section#step-five, body section#conclusion {
+    width: 94%;
+    margin-left: 3%; }
+    body section#step-one h3, body section#step-two h3, body section#step-three h3, body section#step-four h3, body section#step-five h3, body section#conclusion h3 {
+      margin-bottom: 10px; } }

@@ -87,20 +87,39 @@ body{
 }
 
 @media (max-width: 750px) {
-  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
-    width: 78%;
-    margin-left: 12%;
-    margin-right: 10%;
-    // iframe {
-    //   width: 100%;
-    //   height: auto;
-    // }
+  body {
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 78%;
+      margin-left: 12%;
+      margin-right: 10%;
+      h3 {
+        margin-bottom: 15px;
+      }
+    }
   }
 }
 
-#conclusion {
-  border: 1px solid red;
-  iframe {
-    border: 1px solid green;
+@media (max-width: 600px) {
+  body {
+    #guide-header {
+      #guide-header-div {
+        width: 94%;
+        margin-left: 3%;
+        p#header-paragraph {
+          width: 100%;
+        }
+      }
+      #guide-header-image {
+        width: 90%;
+        margin-left: 5%;
+      }
+    }
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 94%;
+      margin-left: 3%;
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
   }
 }

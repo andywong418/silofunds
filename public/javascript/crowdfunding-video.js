@@ -17,11 +17,11 @@ function iframeResize() {
     var conclusionWidth = $('#conclusion').css('width')
     var newWidth = parseInt(conclusionWidth.split('p')[0])
     var widthChange = initialWidth - newWidth
-    console.log(widthChange)
-    // console.log(newWidth, 'NEW WIDTH')
     var newHeight = initialHeight - widthChange/videoRatio
-    console.log(newHeight, 'NEW HEIGHT')
     $('.iframe').css('width', conclusionWidth);
     $('.iframe').css('height', newHeight);
+  } else {
+    $('.iframe').css('width', '');
+    $('.iframe').css('height', '');
   }
 }
