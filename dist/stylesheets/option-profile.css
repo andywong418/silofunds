@@ -1851,3 +1851,15 @@ h1 {
 
 .container {
   padding-left: 15px; }
+
+@media (max-width: 1190px) {
+  #eligibility_div #eligibility_div_p {
+    font-size: 18px; } }
+
+@media (max-width: 1090px) {
+  #eligibility_div #eligibility_div_p, #eligibility_div a#ignore {
+    font-size: 16px; } }
+
+@media (max-width: 900px) {
+  #eligibility_div #eligibility_div_p, #eligibility_div a#ignore {
+    font-size: 14px; } }
