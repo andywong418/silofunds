@@ -980,6 +980,10 @@ body {
     margin-top: 30px;
     margin-left: 5%;
     width: 90%; }
+    body #writing .steps .step-img {
+      width: 86%;
+      margin-left: 7%;
+      height: auto; }
   .content-section .row {
     margin-top: -6px;
     padding-top: 20px; }
@@ -999,6 +1003,10 @@ body {
     padding: 20px 15px 15px 15px; }
     body #writing .intro-div p.intro, body #writing .steps div p.intro {
       font-size: 15px; }
+    body #writing .steps .step-img {
+      width: 98%;
+      margin-left: 1%;
+      height: auto; }
     body #writing h3 {
       font-size: 19px;
       margin: 0;
