@@ -1,6 +1,11 @@
 $(document).ready(function(){
-
-
+  $('body').click(function(evt) {
+    if($('#right_div_desktop #notEligible').css('display') !== 'none') {
+      if(evt.target.class !== "modal-container") {
+        $('#right_div_desktop #notEligible').css('display', 'none')
+      }
+    }
+  })
   if(!user){
     showLimitedProfile();
   }
