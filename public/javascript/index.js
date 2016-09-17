@@ -1,14 +1,5 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(document).ready(function() {
-  // start: Mixpanel
-
-  mixpanel.track(
-    "Played song",
-    {"genre": "hip-hop"}
-  );
-
-  // end: Mixpanel
-
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
     events: {
@@ -40,6 +31,11 @@ $(document).ready(function() {
       }
     },
     scrollToFeatures: function(){
+      mixpanel.track(
+        "Played song",
+        {"genre": "OKAY"}
+      );
+
       $('html, body').animate({
         scrollTop: $("#showcase").offset().top -20
       }, 1500, "easeOutQuart");
