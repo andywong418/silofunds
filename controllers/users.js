@@ -542,15 +542,18 @@ module.exports = {
       loggedInUser = false;
     }
   }
+
   models.users.findById(userId).then(function(user){
     models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-
       models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+        var pageViewCreate = {user_id: user.id};
           if(applications.length > 0){
-            asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});
+            createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
+
           } else {
             // No applications
-            findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});
+            createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
+
           }
       });
     });
@@ -1181,6 +1184,34 @@ module.exports = {
 }
 
 ////// Helper functions
+function createPageView(pageViewCreate, loggedInUser, user, callback){
+  console.log("HELLO", user);
+  console.log("YA KNOW", loggedInUser);
+  if(loggedInUser){
+    models.users.findById(loggedInUser).then(function(other_user){
+      if(loggedInUser != user.id){
+        if(other_user.organisation_or_user){
+          pageViewCreate['fund_id'] = other_user;
+        }
+        else{
+          pageViewCreate['other_user'] = other_user;
+        }
+        models.page_views.create(pageViewCreate).then(function(){
+          callback();
+        });
+      }
+      else{
+        callback();
+      }
+
+    });
+  }
+  else{
+    models.page_views.create(pageViewCreate).then(function(){
+      callback();
+    });
+  }
+}
 function asyncRefund(chargeArray, res){
   async.each(chargeArray, function(charge, callback){
     stripe.refunds.create({

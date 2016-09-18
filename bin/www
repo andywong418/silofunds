@@ -202,7 +202,155 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
+// var weeklyFundNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyFundNewsLetter, null, true );
+var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStudentNewsLetter, null, true);
 
+// function weeklyFundNewsLetter(){
+//   models.users.findAll({where: {organisation_or_user: {$ne: null}}}).then(function(users){
+//     async.each(users, function(user, callback){
+//       models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(funds){
+//         //check favourites, check page views, check
+//       });
+//     });
+//   });
+// }
+function weeklyStudentNewsLetter(){
+models.users.findAll({where: {organisation_or_user: null}}).then(function(users){
+    //student users - check for campaign views, how many applications you made, donations, deadline reminders, recommended funds.
+    async.each(users, function(user, callback){
+      var recommendedFunds = recommendUserFunds(user, function(funds){
+        //check for campaign views, check for apps, check for donations, check for deadlines
+
+      });
+    });
+
+  });
+}
+function recommendUserFunds(user, callback){
+  var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+  var age;
+
+  if(user.date_of_birth){
+    var birthDate = new Date(user.date_of_birth).getTime();
+    var nowDate = new Date().getTime();
+    age = Math.floor((nowDate - birthDate) / 31536000000);
+  }
+  var minimum_amount;
+  if(user.funding_needed){
+    minimum_amount = user.funding_needed * 0.6;
+  }
+  var queryOptions = {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "should": { "match_all": {} }
+        }
+      }
+    }
+  };
+  if(age || user.funding_needed){
+    var queryOptionsShouldArr = [
+      {
+        "range": {
+          "minimum_amount": {
+            "lte": minimum_amount
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": user.funding_needed
+          }
+        }
+      },
+      {
+        "range": {
+          "minimum_age": {
+            "lte": age
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": age
+          }
+        }
+      },
+      {
+        "match":{
+          "gender": user.gender
+        }
+      }
+    ];
+    queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+  }
+
+  queryOptions.filtered.query = {
+    "bool": {
+      "should": []
+    },
+  };
+
+  user = user.get();
+
+  for (var i = 0; i< searchFields.length; i++) {
+    var key = searchFields[i];
+    var notAge = key !== "age";
+    var notAmount = key !== "funding_needed";
+    var notReligion = key !== "religion";
+
+    if (notReligion) {
+      if (user[key]) {
+        user[key] = user[key].join(", ");
+      }
+    }
+
+    if (notAge && notAmount) {
+      var matchObj = {
+        "match": {}
+      };
+
+      if (user[key] !== null) {
+        if (key === 'previous_degree') {
+          matchObj.match.required_degree = user[key];
+        } else if (key === 'previous_university') {
+          matchObj.match.required_university = user[key];
+        } else {
+          matchObj.match[key] = user[key];
+        }
+
+        queryOptions.filtered.query.bool.should.push(matchObj);
+      }
+    }
+  }
+  return es.search({
+    index: "funds",
+    type: "fund",
+    body: {
+      "size": 4,
+      "query": queryOptions
+    }
+  }).then(function(resp){
+    var fund_id_list = [];
+    var funds = resp.hits.hits.map(function(hit) {
+      var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+      var hash = {};
+
+      for (var i = 0; i < fields.length ; i++) {
+        hash[fields[i]] = hit._source[fields[i]];
+      }
+      // Sync id separately, because it is hit._id, NOT hit._source.id
+      hash.id = hit._id;
+      fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+      return hash;
+
+    });
+    //Add filter for funds which have been clicked by email.
+    callback(funds);
+  });
+}
 function checkIndices(){
   es.checkConnection().then(function(resp) {
     if (resp) {
