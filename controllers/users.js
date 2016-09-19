@@ -1193,9 +1193,16 @@ module.exports = {
   },
 
   contact_us_email_user: function(req, res) {
-    var message = req.body.message
-    var name = req.body.name
-    var email = req.body.email
+    var message = req.body.message;
+    var name = req.body.name;
+    var email = req.body.email;
+    var contact_method = req.body.contact_method;
+    var id;
+    if(req.user) {
+      id = 'ID: ' + req.user.id
+    } else {
+      id = 'non registered user'
+    }
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'james.morrill.6@gmail.com',
@@ -1203,12 +1210,13 @@ module.exports = {
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: 'support@silofunds.com',
-       subject: 'Question from ' + name + ' (user)',
-       text: 'Dear Silo, \n\n' +
+       to: 'james.morrill.6@gmail.com',
+       subject: 'User query from ' + name + ', ' + id,
+       text: 'Dear Silo, \n' +
            message + '\n\n' +
-           'with love from ' + name + ' xxx' + '\n\n\n'
-           + 'btw their email is ' + email
+           'From: ' + name + '\n'
+           + 'Email ' + email + ' \n'
+           + 'Contact via: ' + contact_method + '\n'
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {

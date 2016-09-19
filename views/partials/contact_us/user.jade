@@ -28,9 +28,8 @@
             span.class-change.col-xs-8.col-md-7 How should we contact you?
             select.form-control.col-xs-4.col-md-4(name='contact_method')
               option(disabled='', selected='', value='')
-              option(value='crowdfunding') Email
-              if user
-                option(value='results') Silo messaging
+              option(value='email') Email
+              option(value='Silo messaging') Silo messaging
         .flex-center
           button.send(type='submit') Send
         
