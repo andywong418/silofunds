@@ -1177,7 +1177,6 @@ module.exports = {
         })
       })
     } else {
-      Logger.info("here then?")
       res.redirect('/user/dashboard')
     }
   },
@@ -1196,13 +1195,15 @@ function createPageView(pageViewCreate, loggedInUser, user, callback){
   console.log("HELLO", user);
   console.log("YA KNOW", loggedInUser);
   if(loggedInUser){
+    console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
+
       if(loggedInUser != user.id){
         if(other_user.organisation_or_user){
-          pageViewCreate['fund_id'] = other_user;
+          pageViewCreate['fund_id'] = other_user.id;
         }
         else{
-          pageViewCreate['other_user'] = other_user;
+          pageViewCreate['other_user'] = other_user.id;
         }
         models.page_views.create(pageViewCreate).then(function(){
           callback();
@@ -1347,6 +1348,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
     }).then(function(object){
       Logger.error(charge.email);
       var options;
+      var emailOptions;
       if(user_from){
         options = {
           user_id: user.id,
@@ -1354,6 +1356,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
           category: "donation",
           read_by_user: false
         }
+        messageUser = true;
       }
       else{
         options = {
@@ -1362,10 +1365,18 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
           category: "donation",
           read_by_user: false
         };
+        messageUser = false;
       }
 
       models.notifications.create(options).then(function(notification){
-        res.send(notification);
+        if(messageUser){
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this link </a>", notification,
+          'You have a new donation!', res);
+        }
+        else{
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this link </a>", notification,
+          'You have a new donation!', res);
+        }
       });
     });
   });
@@ -1392,6 +1403,32 @@ function updateAppFailure(app, res, req){
 	app.update(req.body).then(function(app){
 		res.send(app);
 	})
+}
+function sendUserEmail(userId, notification, app, subject, res ){
+  models.users.findById(userId).then(function(user){
+    var username = user.username.split(' ')[0];
+    //send emails here
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: user.email,
+       subject: subject,
+       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            console.log("Email send failed");
+        }
+        else {
+          console.log("SUCCESS");
+          res.send(app);
+        }
+    });
+  });
 }
 function findFavourites(options, res, dataObject){
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
