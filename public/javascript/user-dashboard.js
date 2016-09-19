@@ -40,6 +40,7 @@ $(document).ready(function(){
       $.post('/user/edit-application/' + fundId, formData, function(data){
         //Change status of existing application
         $('#status' + fundId).html("success");
+        $('.modal-backdrop').hide();
       });
 
     }
@@ -52,6 +53,7 @@ $(document).ready(function(){
       $.post('/user/edit-application/' + fundId, formData, function(data){
         //Change status of existing application
         $('#status' + fundId).html("unsuccessful");
+        $('.modal-backdrop').hide();
       });
     }
   });

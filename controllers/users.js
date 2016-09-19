@@ -623,7 +623,7 @@ module.exports = {
               };
               models.notifications.create(options).then(function(notification){
                 res.send(favourite);
-              })
+              });
 
             });
           });
@@ -1370,11 +1370,11 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
 
       models.notifications.create(options).then(function(notification){
         if(messageUser){
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this link </a>", notification,
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this link. </a>", notification,
           'You have a new donation!', res);
         }
         else{
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this link </a>", notification,
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this link. </a>", notification,
           'You have a new donation!', res);
         }
       });
@@ -1387,13 +1387,13 @@ function updateAppSuccess(app, res, userId, amount_gained){
 		models.users.findById(userId).then(function(user){
 			if(user.funding_accrued === null){
 				user.update({funding_accrued: amount_gained}).then(function(user){
-					res.send(user);
+          createAppNotif(app.fund_id, user, "successful", res);
 				});
 			}
 			else{
 				var funding_accrued = user.funding_accrued + amount_gained;
 				user.update({funding_accrued: funding_accrued}).then(function(user){
-					res.send(user);
+					createAppNotif(app.fund_id, user, "successful", res);
 				});
 			}
 		});
@@ -1401,8 +1401,32 @@ function updateAppSuccess(app, res, userId, amount_gained){
 };
 function updateAppFailure(app, res, req){
 	app.update(req.body).then(function(app){
-		res.send(app);
+    models.users.findById(app.user_id).then(function(user){
+      createAppNotif(app.fund_id, user, "unsuccessful", res);
+    })
+
 	})
+}
+function createAppNotif(fundId, user, status, res){
+  models.funds.findById(fundId).then(function(fund){
+    models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+      if(fundUser){
+        options = {
+          user_id: fundUser.id,
+          notification: user.username+ " changed their application status to " + status + ". Click <a href='/public/" + user.id +"'> here</a> to confirm and verify this update.",
+          category: "application",
+          read_by_user: false
+        };
+        models.notifications.create(options).then(function(notification){
+          sendUserEmail(fundUser.id, options.notification, user, 'An applicant has changed their application status', res );
+        })
+      }
+      else{
+          res.send(user);
+      }
+
+    })
+  })
 }
 function sendUserEmail(userId, notification, app, subject, res ){
   models.users.findById(userId).then(function(user){
