@@ -11,6 +11,7 @@ var async = require('async');
 var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var path = require('path');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var fund_array_to_json = function(array) {
   var funds = array.map(function(fund) {
@@ -203,7 +204,7 @@ var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 // var weeklyFundNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyFundNewsLetter, null, true );
-var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStudentNewsLetter, null, true);
+// var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStudentNewsLetter, null, true);
 
 // function weeklyFundNewsLetter(){
 //   models.users.findAll({where: {organisation_or_user: {$ne: null}}}).then(function(users){
@@ -214,20 +215,104 @@ var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStude
 //     });
 //   });
 // }
+var EmailTemplate = require('email-templates').EmailTemplate;
 function weeklyStudentNewsLetter(){
 models.users.findAll({where: {organisation_or_user: null}}).then(function(users){
-    //student users - check for campaign views, how many applications you made, donations, deadline reminders, recommended funds.
+    //student users - check for campaign views, how many applications you made, donations, recommended funds.
     async.each(users, function(user, callback){
-      var recommendedFunds = recommendUserFunds(user, function(funds){
-        //check for campaign views, check for apps, check for donations, check for deadlines
+      if(user.email_updates){
+        checkDonations(user, function(donation_array){
+          checkCampaignViews(user, function(page_view_array){
+            recommendUserFunds(user, function(funds){
+              checkApplications(user, function(apps){
+                //node mailer
+                console.log(funds);
+                var transporter = nodemailer.createTransport(smtpTransport({
+                 service: 'Gmail',
+                 auth: {user: 'james.morrill.6@gmail.com',
+                       pass: 'exogene5i5'}
+                }));
 
-      });
+                // var sendMail = function(toAddress, subject, content, next){
+                //   var mailOptions = {
+                //      from: 'Silofunds <james.morrill.6@gmail.com>',
+                //      to: userEmail,
+                //      subject: 'Silo Weekly Newsletter',
+                //      html: content
+                //   };
+                //
+                // };
+                var locals = {
+                  application_number: apps.length,
+                  fund_description_1: funds[0].title ,
+                  fund_link_1: "http://localhost:3001/organisation/options/" + funds[0].id + '/email_clicked' + user.id,
+                  fund_description_2: funds[1].title ,
+                  fund_link_2: "http://www.silofunds.com/organisation/options/" + funds[1].id + '/email_clicked' + user.id,
+                  fund_description_3:  funds[2].title ,
+                  fund_link_3: "http://www.silofunds.com/organisation/options/" + funds[2].id + '/email_clicked/' + user.id,
+                  fund_description_4:  funds[3].title,
+                  fund_link_4: "http://www.silofunds.com/organisation/options/" + funds[3].id + '/email_clicked/' + user.id ,
+                  page_views:  page_view_array.length ,
+                  donations:  donation_array.length,
+                  unsubscribe_link: "http://localhost:3001/user/email-unsubscribe/" + user.id
+                };
+                var templatePath = path.join(process.cwd(), 'email-templates');
+                var template = new EmailTemplate(templatePath);
+                template.render(locals, function(err, results){
+                  if (err) {
+                     return console.error(err);
+                  }
+                  transporter.sendMail({
+                    from: 'Silofunds <james.morrill.6@gmail.com>',
+                    to: user.email,
+                    subject: 'Silo Weekly Newsletter',
+                    html: results.html
+                  }, function(err, responseStatus){
+                    if (err) {
+                      return console.error(err);
+                    }
+                    console.log("SUCCESS");
+                    console.log(responseStatus.message);
+                  });
+                });
+              });
+            });
+          });
+        });
+      }
     });
 
   });
 }
+
+function checkApplications(user, callback){
+  var oneDay = 24*60*60*1000;
+  var nowDate = Date.now();
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  models.applications.findAll({where: {user_id: user.id, created_at: {$gt: oneWeekAgo }}}).then(function(apps){
+    callback(apps);
+  });
+}
+function checkDonations(user, callback){
+  var oneDay = 24*60*60*1000;
+  var nowDate = Date.now();
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  models.stripe_users.find({where: {user_id: user.id}}).then(function(stripe_user){
+    if(stripe_user){
+      models.stripe_charges.findAll({where: {destination_id: stripe_user.stripe_user_id, created_at:{$gt: oneWeekAgo}}}).then(function(donation_array){
+        callback(donation_array);
+      });
+    }
+    else{
+      callback(false);
+    }
+
+  });
+}
 function recommendUserFunds(user, callback){
-  var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
+  var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university','gender'];
   var age;
 
   if(user.date_of_birth){
@@ -248,7 +333,7 @@ function recommendUserFunds(user, callback){
       }
     }
   };
-  if(age || user.funding_needed){
+  if(age || user.funding_needed || user.gender){
     var queryOptionsShouldArr = [
       {
         "range": {
@@ -277,11 +362,6 @@ function recommendUserFunds(user, callback){
             "gte": age
           }
         }
-      },
-      {
-        "match":{
-          "gender": user.gender
-        }
       }
     ];
     queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
@@ -293,15 +373,15 @@ function recommendUserFunds(user, callback){
     },
   };
 
-  user = user.get();
-
+  userChange = user.get();
   for (var i = 0; i< searchFields.length; i++) {
     var key = searchFields[i];
     var notAge = key !== "age";
     var notAmount = key !== "funding_needed";
     var notReligion = key !== "religion";
+    var notGender = key !== 'gender';
 
-    if (notReligion) {
+    if (notReligion && notGender) {
       if (user[key]) {
         user[key] = user[key].join(", ");
       }
@@ -325,7 +405,7 @@ function recommendUserFunds(user, callback){
       }
     }
   }
-  return es.search({
+  es.search({
     index: "funds",
     type: "fund",
     body: {
@@ -351,6 +431,16 @@ function recommendUserFunds(user, callback){
     callback(funds);
   });
 }
+function checkCampaignViews(user, callback){
+  var oneDay = 24*60*60*1000;
+  var nowDate = Date.now();
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  models.page_views.findAll({where:{user_id: user.id, created_at: {$gt: oneWeekAgo}}}).then(function(page_view_array){
+    callback(page_view_array);
+  });
+}
+
 function checkIndices(){
   es.checkConnection().then(function(resp) {
     if (resp) {

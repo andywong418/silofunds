@@ -1,7 +1,7 @@
 "use strict"
 
 module.exports = function(sequelize, DataTypes){
-  var PageView = sequelize.define('page_views', {
+  var EmailClick = sequelize.define('email_clicks', {
     id:{
       type: DataTypes.INTEGER,
       field: 'id',
@@ -29,10 +29,6 @@ module.exports = function(sequelize, DataTypes){
       onUpdate: 'cascade',
       onDelete: 'cascade'
     },
-    other_user: {
-      type: DataTypes.INTEGER,
-      field: 'other_user'
-    },
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',
@@ -52,5 +48,5 @@ module.exports = function(sequelize, DataTypes){
     underscored: true,
     paranoid: true,
   });
-  return PageView;
+  return EmailClick;
 };

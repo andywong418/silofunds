@@ -1180,6 +1180,14 @@ module.exports = {
       Logger.info("here then?")
       res.redirect('/user/dashboard')
     }
+  },
+  emailUnsubscribe: function(req, res){
+    var userId = req.params.id;
+    models.users.findById(userId).then(function(user){
+      user.update({email_updates: false}).then(function(user){
+        res.redirect('/');
+      })
+    })
   }
 }
 

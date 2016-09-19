@@ -313,47 +313,63 @@ dashboard: function(req, res) {
 
   getOptionProfile: function(req, res){
     var fundId = req.params.id;
-    if(req.isAuthenticated()){
-      var user = req.user;
-      models.funds.findById(fundId).then(function(fund){
-        if(fund.organisation_id){
-          // If fund has an organisation/ fund user
-          models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
-            //TODO Abstract
-              //if user is logged in
-              if(organisation){
-                //organisation in user table
-                checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
-
-              } else{
-                //organisation not in user table
-
-                models.organisations.findById(fund.organisation_id).then(function(organisation){
-                  Logger.info("NOT IN TUSER", organisation);
-                  checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
-                });
-              }
-
-          });
-        }
-        else{
-          //if fund has no organisation or fund user
-          checkOrganisationUser(user, fund, false, {user: user,organisation: false, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
-        }
-
+    console.log(req.params);
+    if(req.params.user_id){
+      var userId = req.params.user_id;
+      console.log(userId);
+      //Email clicked
+      var createOptions = {
+        fund_id: fundId,
+        user_id: userId
+      };
+      models.email_clicks.create(createOptions).then(function(email_clicks){
+        res.redirect('/organisation/options/' +  fundId);
       });
     }
     else{
-      //show limited profile
+      if(req.isAuthenticated()){
+        var user = req.user;
+        models.funds.findById(fundId).then(function(fund){
+          if(fund.organisation_id){
+            // If fund has an organisation/ fund user
+            models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+              //TODO Abstract
+                //if user is logged in
+                if(organisation){
+                  //organisation in user table
+                  checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
 
-      Logger.info("HI");
-      models.funds.findById(fundId).then(function(fund){
-        models.organisations.findById(fund.organisation_id).then(function(organisation){
-          handleOrganisationUser(fund, organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+                } else{
+                  //organisation not in user table
+
+                  models.organisations.findById(fund.organisation_id).then(function(organisation){
+                    Logger.info("NOT IN TUSER", organisation);
+                    checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+                  });
+                }
+
+            });
+          }
+          else{
+            //if fund has no organisation or fund user
+            checkOrganisationUser(user, fund, false, {user: user,organisation: false, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+          }
 
         });
-      });
+      }
+      else{
+        //show limited profile
+
+        Logger.info("HI");
+        models.funds.findById(fundId).then(function(fund){
+          models.organisations.findById(fund.organisation_id).then(function(organisation){
+            handleOrganisationUser(fund, organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+
+          });
+        });
+      }
     }
+
 
   },
 

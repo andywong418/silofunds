@@ -21,6 +21,7 @@ router.post('/funding_creation/:option/save_application/:fund_id', funds.updateA
 router.post('/edit-application/:app_id', funds.editApplication);
 router.get('/funding_creation/:option/:fund_id/completed', funds.newOptionProfile);
 router.get('/options/:id', funds.getOptionProfile);
+router.get('/options/:id/email_clicked/:user_id', funds.getOptionProfile);
 router.get('/options/:id/edit', funds.editOptionProfile);
 router.get('/option_creation/:id', funds.getOptionInfo);
 router.post('/options/:id/edit', funds.saveOptionEdit);
