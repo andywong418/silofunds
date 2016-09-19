@@ -204,7 +204,7 @@ var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 // var weeklyFundNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyFundNewsLetter, null, true );
-// var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStudentNewsLetter, null, true);
+var weeklyStudentNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyStudentNewsLetter, null, true);
 
 // function weeklyFundNewsLetter(){
 //   models.users.findAll({where: {organisation_or_user: {$ne: null}}}).then(function(users){
@@ -226,7 +226,6 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
             recommendUserFunds(user, function(funds){
               checkApplications(user, function(apps){
                 //node mailer
-                console.log(funds);
                 var transporter = nodemailer.createTransport(smtpTransport({
                  service: 'Gmail',
                  auth: {user: 'james.morrill.6@gmail.com',
@@ -245,9 +244,9 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                 var locals = {
                   application_number: apps.length,
                   fund_description_1: funds[0].title ,
-                  fund_link_1: "http://localhost:3001/organisation/options/" + funds[0].id + '/email_clicked' + user.id,
+                  fund_link_1: "http://localhost:3001/organisation/options/" + funds[0].id + '/email_clicked/' + user.id,
                   fund_description_2: funds[1].title ,
-                  fund_link_2: "http://www.silofunds.com/organisation/options/" + funds[1].id + '/email_clicked' + user.id,
+                  fund_link_2: "http://www.silofunds.com/organisation/options/" + funds[1].id + '/email_clicked/' + user.id,
                   fund_description_3:  funds[2].title ,
                   fund_link_3: "http://www.silofunds.com/organisation/options/" + funds[2].id + '/email_clicked/' + user.id,
                   fund_description_4:  funds[3].title,
@@ -409,7 +408,7 @@ function recommendUserFunds(user, callback){
     index: "funds",
     type: "fund",
     body: {
-      "size": 4,
+      "size": 1000,
       "query": queryOptions
     }
   }).then(function(resp){
@@ -428,7 +427,25 @@ function recommendUserFunds(user, callback){
 
     });
     //Add filter for funds which have been clicked by email.
-    callback(funds);
+
+    checkEmailClicked(user, funds, function(funds){
+
+      callback(funds);
+    });
+
+  });
+}
+function checkEmailClicked(user, recommendedFunds, emailCheckCallback){
+  models.email_clicks.findAll({where: {user_id: user.id}}).then(function(email_clicked_funds){
+    for (var i =0; i < recommendedFunds.length; i++){
+      for(var j = 0; j < email_clicked_funds.length; j++){
+        if(parseInt(recommendedFunds[i]['id']) === email_clicked_funds[j]['fund_id']){
+          recommendedFunds.splice(i, 1);
+        }
+      }
+    }
+    funds = recommendedFunds.slice(0,4);
+    emailCheckCallback(funds);
   });
 }
 function checkCampaignViews(user, callback){
