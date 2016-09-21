@@ -203,16 +203,209 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
-// var weeklyFundNewsLetterScheduler = new CronJob('*/10 * * * * *', weeklyFundNewsLetter, null, true );
+var weeklyFundNewsLetterScheduler = new CronJob('*/20 * * * * *', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 7', weeklyStudentNewsLetter, null, true);
 
-// function weeklyFundNewsLetter(){
-//   models.users.findAll({where: {organisation_or_user: {$ne: null}}}).then(function(users){
-//     async.each(users, function(user, callback){
-//       models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(funds){
-//         //check favourites, check page views, check
-//       });
-//     });
+function weeklyFundNewsLetter(){
+  var oneDay = 24*60*60*1000;
+  var nowDate = Date.now();
+  var oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  models.users.findAll({where: {organisation_or_user: {$ne: null}}}).then(function(users){
+    async.each(users, function(user, firstCallback){
+      models.funds.findAll({where: {organisation_id: user.organisation_or_user}}).then(function(funds){
+        //check favourites, check page views, check apps
+        var emailArray = [];
+        async.each(funds, function(fund, fundCallback){
+          var emailObj = {};
+          emailObj['fund_title'] = fund.title;
+          checkFavourite(fund, oneWeekAgo, function(favouriteFunds){
+            emailObj['favourites'] = favouriteFunds.length;
+            checkPageViews(fund, oneWeekAgo, function(pageViews){
+              emailObj['pageViews'] = pageViews.length;
+              checkFundApplications(fund, oneWeekAgo, function(apps){
+                emailObj['apps'] = apps.length;
+                recommendUsers(fund, function(userArray){
+                  console.log("TITLG", fund.title);
+                  console.log("array", userArray);
+                  //Change later when recommended users is better. For now it's dud
+                  emailObj['recommendUsers'] = [];
+                  emailArray.push(emailObj);
+                  fundCallback();
+                });
+              });
+            });
+          });
+        }, function done(){
+            //collected all funds info in an array of objects.
+            //node mailer
+            var transporter = nodemailer.createTransport(smtpTransport({
+             service: 'Gmail',
+             auth: {user: 'notifications@silofunds.com',
+                   pass: 'ThisIsNotificationsAccount'}
+            }));
+
+            // var sendMail = function(toAddress, subject, content, next){
+            //   var mailOptions = {
+            //      from: 'Silofunds <james.morrill.6@gmail.com>',
+            //      to: userEmail,
+            //      subject: 'Silo Weekly Newsletter',
+            //      html: content
+            //   };
+            //
+            // };
+            console.log("FINAL/ countdown", emailArray);
+            var locals = {
+               email_array: emailArray,
+               unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
+            };
+            var templatePath = path.join(process.cwd(), 'fund-email-templates');
+            var template = new EmailTemplate(templatePath);
+            template.render(locals, function(err, results){
+              if (err) {
+                 firstCallback();
+                 return console.error(err);
+              }
+              transporter.sendMail({
+                from: 'Silofunds',
+                to: user.email,
+                subject: 'Silo Weekly Newsletter',
+                html: results.html
+              }, function(err, responseStatus){
+                if (err) {
+                 console.error(err);
+                 firstCallback();
+                }
+                else{
+                  console.log("SUCCESS");
+                  console.log(responseStatus.message);
+                  firstCallback();
+                }
+
+              });
+            });
+        });
+      });
+    });
+  });
+}
+function recommendUsers(fund, callback){
+  var queryOptions = {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "should": { "match_all": {} }
+        }
+      }
+    }
+  };
+  if (fund.minimum_age || fund.maximum_age) {
+    var todayDate = new Date();
+    var userBirthday = new Date();
+    var lowerBoundBirthDate = todayDate.getFullYear() - fund.minimum_age;
+    var upperBoundBirthdate = todayDate.getFullYear() - fund.maximum_age;
+    var lowerBirthdaySeconds = userBirthday.setFullYear(lowerBoundBirthDate);
+    var upperBirthdaySeconds = userBirthday.setFullYear(upperBoundBirthdate);
+    var lowerDate = new Date(lowerBirthdaySeconds);
+    var upperDate = new Date(upperBirthdaySeconds);
+    var queryOptionsShouldArr = [
+      {
+        "range": {
+          "date_of_birth": {
+            "gte": lowerDate
+          }
+        }
+      },
+      {
+        "range": {
+          "date_of_birth": {
+            "lte": upperDate
+          }
+        }
+      }
+    ];
+    queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+  }
+  queryOptions.filtered.query = {
+    "bool": {
+      "should": []
+    }
+  };
+    var searchFields = ['country_of_residence','religion','subject','target_degree','required_degree','required_university','target_university','gender'];
+    for (var i = 0; i< searchFields.length; i++) {
+      var key = searchFields[i];
+      var notAge = key !== "date_of_birth";
+      var notReligion = key !== "religion";
+      var notGender = key !== 'gender';
+
+
+      if (notAge) {
+        var matchObj = {
+          "match": {}
+        };
+
+        if (fund[key]){
+          if(Array.isArray(fund[key])){
+            if(fund[key].indexOf('all') < 0 && fund[key].indexOf('All') < 0){
+              if (key === 'required_degree') {
+                matchObj.match.previous_degree = fund[key].join(', ');
+              } else if (key === 'required_university') {
+                matchObj.match.previous_university = fund[key].join(', ');
+              } else {
+                matchObj.match[key] = fund[key].join(', ');
+              }
+
+              queryOptions.filtered.query.bool.should.push(matchObj);
+            }
+          }
+          if(typeof fund[key] === 'string'){
+            if(fund[key].toLowerCase() === 'all'){
+              matchObj.match[key] = fund[key];
+              queryOptions.filtered.query.bool.should.push(matchObj);
+            }
+          }
+        }
+      }
+    }
+    es.search({
+      index: "users",
+      type: "user",
+      body: {
+        "size": 2,
+        "query": queryOptions
+      }
+    }).then(function(resp){
+      var userArray = resp.hits.hits.map(function(hit) {
+        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
+        var hash = {};
+        for (var i = 0; i < fields.length ; i++) {
+          hash[fields[i]] = hit._source[fields[i]];
+        }
+        // Sync id separately, because it is hit._id, NOT hit._source.id
+        hash.id = hit._id;
+        return hash;
+      });
+      callback(userArray);
+    });
+}
+function checkFundApplications(fund, oneWeekAgo, callback){
+  models.applications.findAll({where:{fund_id: fund.id, created_at: {$gt: oneWeekAgo}}}).then(function(apps){
+    callback(apps);
+  });
+}
+function checkPageViews(fund, oneWeekAgo, callback){
+  models.page_views.findAll({where:{fund_id: fund.id, created_at: {$gt: oneWeekAgo}}}).then(function(pageViews){
+    callback(pageViews);
+  });
+}
+function checkFavourite(fund, oneWeekAgo, callback){
+  models.favourite_funds.findAll({where: {fund_id: fund.id, created_at: {$gt: oneWeekAgo }}}).then(function(favouriteFunds){
+    callback(favouriteFunds);
+  });
+}
+// function findOneWeekAgo(fund, model, object, callback){
+//   models[model].findAll({where: {fund_id: fund.id, created_at: {$gt: oneWeekAgo}}}).then(function(object){
+//     callback(object);
 //   });
 // }
 var EmailTemplate = require('email-templates').EmailTemplate;
@@ -244,7 +437,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                 var locals = {
                   application_number: apps.length,
                   fund_description_1: funds[0].title ,
-                  fund_link_1: "http://localhost:3001/organisation/options/" + funds[0].id + '/email_clicked/' + user.id,
+                  fund_link_1: "http://www.silofunds.com/organisation/options/" + funds[0].id + '/email_clicked/' + user.id,
                   fund_description_2: funds[1].title ,
                   fund_link_2: "http://www.silofunds.com/organisation/options/" + funds[1].id + '/email_clicked/' + user.id,
                   fund_description_3:  funds[2].title ,
@@ -253,7 +446,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                   fund_link_4: "http://www.silofunds.com/organisation/options/" + funds[3].id + '/email_clicked/' + user.id ,
                   page_views:  page_view_array.length ,
                   donations:  donation_array.length,
-                  unsubscribe_link: "http://localhost:3001/user/email-unsubscribe/" + user.id
+                  unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
                 };
                 var templatePath = path.join(process.cwd(), 'email-templates');
                 var template = new EmailTemplate(templatePath);
@@ -271,7 +464,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                       return console.error(err);
                     }
                     console.log("SUCCESS");
-                    console.log(responseStatus.message);
+                    console.log(responseStatus);
                   });
                 });
               });
