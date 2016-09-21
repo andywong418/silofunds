@@ -178,7 +178,11 @@ var parallax = document.querySelectorAll(".parallax"),
     });
 
   });
-  $.stellar();
+  $.stellar({
+    horizontalScrolling: false,
+     verticalOffset: -200,
+     horizontalOffset: 0
+});
   var viewPortWidth = $(window).width();
   if(viewPortWidth < 994){
     $('#relevant-div').css('background-repeat', 'none');
