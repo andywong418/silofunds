@@ -121,7 +121,7 @@ h1 {
 #left_div {
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   flex-direction: column;
   height: auto;
   p{
@@ -185,7 +185,6 @@ h1 {
     color: #2980b9;
   }
   .fundBio {
-    width: 90%;
     font-size: 15px;
     margin-bottom: 10px;
   }
@@ -288,14 +287,13 @@ h1 {
 
 #eligibility_div {
   display: none;
-  margin-top:50px;
+  margin-top:45px;
   width: 93%;
   height: 50px;
   background-color: #2F9F59;
   border-radius: 5px;
   cursor: pointer;
   border-radius: 5px;
-  padding-top: 10px;
   color: white;
   #ignore{
     color: white;
@@ -316,7 +314,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -612,7 +610,7 @@ h1 {
 }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -903,17 +901,32 @@ h1 {
 
 // Mobile
 // Css needed as a result of making things partials and putting in .desktop divs
+#eligibility_div, #notEligible, .application_form {
+  width: 100%;
+}
 #right_div_desktop {
   margin-left: 7%;
-  width: 93%;
-  #eligibility_div, #notEligible, .application_form {
-    width: 100%;
-  }
+  width: 100%;
+}
+#right_div {
+  margin-right: 31px;
 }
 #left_div_desktop {
-  width: 23%;
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px;
   #left_div {
     width: 100%;
+    padding-right: 0;
+    #box_1 {
+      margin-top: 0;
+    }
+    #box_2 {
+      margin-top: 0;
+      a {
+        padding: 0;
+      }
+    }
   }
 }
 
@@ -949,7 +962,7 @@ h1 {
     }
   }
   #right_div {
-    width: 60%;
+    width: 100%;
     #start_date, #documents_deadline, #interviews, #decision_date {
       width: 80%;
     }
@@ -970,6 +983,10 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none;
+  }
+  .flex-flip {
+    display: flex;
+    flex-direction: column-reverse;
   }
   #favourite.favourite.mobile {
     margin-left: 0;
@@ -1011,14 +1028,13 @@ h1 {
     #eligibility_div {
       margin: 0px 0px 20px 0px;
       width: 100%;
-      padding-top: 15px;
       p#eligibility_div_p, a{
-        font-size: 14px;
+        font-size: 18px;
       }
     }
   }
   #top_div_mobile {
-    margin-top: 54px;
+    margin-top: 45px;
   }
   #left_info_div {
     background-color: white;
@@ -1048,6 +1064,16 @@ h1 {
 }
 
 @media(min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px;
+  }
+  #box_3_right .eligibility-display .other-box {
+    .col-md-12.col-xs-12 {
+      margin-top: 5px;
+      padding: 0px 25px;
+    }
+  }
   #favourite.favourite.no-profile_picture {
     margin-left: calc(-15px + 5px) !important; // The second digit is the actual margin from the left
     margin-top: calc(-18px + 5px) !important; // The second digit is the actual margin from the top
@@ -1057,4 +1083,55 @@ h1 {
 // Initial hides to prevent flickering
 #top_div_mobile, #left_div {
   display: none;
+}
+
+#big_flex_div #right_div #eligibility_div {
+  display: none;
+}
+
+// Extraas
+.container {
+  padding-left: 15px;
+}
+
+.centre-me {
+  display: flex;
+  align-items: centre;
+}
+
+@media (max-width: 1190px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1090px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 640px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 575px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 13px;
+    text-align: center;
+  }
 }

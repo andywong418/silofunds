@@ -1,0 +1,28 @@
+#big_wrapper
+  .jumbotron
+    h2 Get in touch with us! 
+      .fa.fa-smile-o
+      .lead If you'd like to talk to us about anything to do with the website, funding, or just general enquiries, please do leave a message below and we'll get back to you
+  #flex-for-desktop.organisation
+    .contact_form
+      form(action='/contact_us/organisation', method='post', id="message_form")
+        span Dear Silo, 
+        .textarea(contenteditable='')
+        input#message(type='hidden', name='message')
+        if user
+          span.form-name Fund name:
+          input.input-name.unpad-me(type='text', name='fund_name', value=user.username)
+          br
+          span.form-email Email: 
+            input.input-email.unpad-me(type='text', name='email', value=user.email)
+        if !user
+          span.form-name Fund name: 
+            input.input-name.unpad-me(type='text', name='fund_name', placeholder='Your Name')
+          br
+          span.form-email Email:
+            input.input-email.unpad-me(type='text', name='email', placeholder='Please enter your email')
+        br
+        br
+        .flex-center
+          button.send(type='submit') Send
+      

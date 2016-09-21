@@ -69,3 +69,16 @@ img {
   margin-left: 1%;
   text-align: right;
 }
+
+.alert.alert-success.flash-deleted {
+  padding: 12px 15px 0px 15px;
+}
+
+.alert.alert-success.flash-deleted h4 {
+  margin-bottom: 3px;
+}
+
+.alert.alert-success.flash-deleted .lead {
+  font-size: 15px;
+  margin-bottom: 10px;
+}

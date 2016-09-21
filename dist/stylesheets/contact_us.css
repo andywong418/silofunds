@@ -1,3 +1,4 @@
+/* New search bar */
 body {
   width: 100%;
   height: 100%;
@@ -919,251 +920,322 @@ margin-right: -40px;
   margin-top: -20px;
   margin-bottom: 20px; }
 
-body {
-  font-family: 'Source Sans Pro';
-  background-color: #e9f0f4; }
+@media (max-width: 992px) {
+  #crowdfunding-wrapper.container {
+    width: 95%;
+    margin-left: 2.5%; }
+  #progress-card {
+    margin-top: 0; }
+  #profile_picture {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px; } }
 
-#categories {
-  top: 80px;
-  position: relative;
-  background-color: white;
-  border-radius: 10px;
-  height: 400px;
-  padding-top: 30px; }
+html, body {
+  background-color: #f0f2f4;
+  font-family: Source Sans Pro; }
 
-p {
-  font-size: 100%; }
+footer {
+  margin-top: 50px; }
 
-ul {
-  list-style: none; }
-
-#categories ul {
-  margin-left: -30px; }
-
-#categories i {
-  margin-left: -10px;
-  margin-right: 10px;
-  color: black; }
-
-#general-settings, #account {
-  margin-left: 10px;
-  padding: 0; }
-  #general-settings a, #account a {
-    color: grey; }
-
-.active-link {
-  color: black !important; }
-
-#general-settings:hover, #account:hover {
-  cursor: pointer; }
-
-#general-settings {
-  width: 80%; }
-
-#account {
-  margin-top: 13px;
-  color: grey; }
-
-#account i {
-  margin-right: 15px; }
-
-#logout a, #logo3t a:hover {
-  color: grey; }
-
-#profile-settings {
-  top: 80px;
-  position: relative;
-  background-color: white;
-  border-radius: 10px;
-  padding-top: 30px;
-  padding-left: 30px;
-  bottom: 50px; }
-
-#email-row, #username-row {
-  padding-top: 15px; }
-  #email-row p, #username-row p {
-    margin-bottom: 20px;
-    padding-top: 5px; }
-  #email-row #username, #username-row #username {
-    font-size: inherit; }
-
-#previous-password-row, #charity_number-row {
-  padding-top: 15px; }
-  #previous-password-row p, #charity_number-row p {
-    padding-top: 5px; }
-
-#charity_number-row p {
-  margin-bottom: 20px; }
-
-.grey {
-  padding: 5px;
-  width: 100%;
-  border-radius: 3px;
-  border: 1px solid #ccc; }
-
-#save-div .save {
-  background: #457fca;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #457fca, #5691c8);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(right, #457fca, #5691c8);
-  background: linear-gradient(to left, #457fca, #5691c8);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  border: 1px #446CB3 solid;
-  color: white;
-  padding: 7px 10px;
+.header, .message-others {
+  padding: 80px 20px 0px 20px;
   text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 13px;
-  cursor: pointer;
-  border-radius: 5px;
-  position: relative;
-  margin: 0 auto;
-  margin-top: 20px; }
-
-#save-div .save:focus {
-  background-color: #446CB3; }
-
-#save-div .save:active {
-  background-color: #446CB3; }
-
-#save-div #save-general-settings-notification {
-  display: none;
-  margin-top: 5px; }
-
-#save-password {
-  margin-bottom: 30px; }
-
-#inputdescription {
-  height: 80px;
-  width: 100%; }
-
-.ui-autocomplete {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  float: left;
-  display: none;
-  min-width: 160px;
-  _width: 160px;
-  padding: 13px 5px 5px 5px;
-  margin: 2px 0 0 0;
-  list-style: none;
-  background-color: #ffffff;
-  border-color: #ccc;
-  border-color: rgba(0, 0, 0, 0.2);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 5px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background-clip: padding-box;
-  *border-right-width: 2px;
-  *border-bottom-width: 2px; }
-  .ui-autocomplete .ui-menu-item > a.ui-corner-all {
-    display: block;
-    padding: 3px 15px;
-    clear: both;
-    font-weight: normal;
-    line-height: 18px;
-    color: #555555;
-    white-space: nowrap; }
-    .ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-hover, .ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-active {
-      color: #ffffff;
-      text-decoration: none;
-      background-color: #0088cc;
-      border-radius: 0px;
-      -webkit-border-radius: 0px;
-      -moz-border-radius: 0px;
-      background-image: none; }
-
-#finance-column, #finance, #clear-radio {
-  margin-top: 10px; }
-
-#clear1 {
-  margin-left: 30px;
-  cursor: pointer;
-  color: #337ab7; }
-
-#clear1:hover {
-  text-decoration: underline; }
-
-#profile-settings {
-  padding-bottom: 30px;
-  margin-bottom: 30px; }
-
-.profile-edit #box-profile {
-  -webkit-transition: 2.5s;
-  transition: 2.5s;
-  margin-bottom: 30px; }
-  .profile-edit #box-profile .fa-camera {
-    position: absolute;
-    color: white;
-    font-size: 45px;
-    left: 47%;
-    top: 30%;
-    display: none; }
-  .profile-edit #box-profile:hover .fa-camera {
-    cursor: pointer;
-    display: block; }
-  .profile-edit #box-profile #userImage {
-    width: 50%;
-    margin-left: 25%;
-    max-height: 500px;
-    border-radius: 5px;
-    border: 1px solid #e1e8ed;
-    cursor: pointer; }
-
-.profile-edit textarea {
-  padding: 10px;
-  height: 100px;
-  width: 100%; }
-
-#delete-account.col-md-12.content {
-  border-top: 1px solid #e1e8ed;
-  margin-top: 80px; }
-  #delete-account.col-md-12.content h4 {
+  margin-bottom: 35px; }
+  .header h1, .header h2, .message-others h1, .message-others h2 {
+    font-size: 38px;
     font-family: Source Sans Pro;
-    margin-top: 20px; }
-  #delete-account.col-md-12.content button {
-    border-radius: 4px;
-    border: none;
-    box-shadow: none;
+    font-weight: 200;
+    border-bottom: 1px solid grey;
+    padding-bottom: 5px;
+    margin-bottom: 20px; }
+  .header p, .message-others p {
+    font-family: Source Sans Pro;
+    font-size: 22px; }
+
+#flex-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 35%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+  #flex-div #user_box {
+    background-color: #17B2E8; }
+  #flex-div #or_box {
+    padding: 4% 0;
     text-align: center;
-    width: 28%;
-    margin-left: 36%;
-    padding: 7px 0px;
-    white-space: nowrap; }
+    font-size: 20px; }
+  #flex-div #organisation_box {
+    background-color: #54494B;
+    margin-bottom: 0; }
+  #flex-div .type {
+    color: #FFFAFF;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    border-radius: 6px;
+    width: 80%;
+    margin-left: 10%;
+    padding: 20px 10px;
+    cursor: pointer; }
+    #flex-div .type .name {
+      text-align: center;
+      width: 100%;
+      font-size: 30px;
+      font-family: Source Sans Pro;
+      font-weight: 200; }
 
-.modal.fade.modal-delete .modal-body p {
-  padding-bottom: 10px; }
+#user_contact {
+  display: none; }
 
-.flex_this {
+#organisation_contact {
+  display: none; }
+
+.back-arrow {
+  text-align: left;
+  height: 10px; }
+
+#big_wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: column-reverse;
-          flex-direction: column-reverse; }
-
-#delete-account.col-md-12.content {
-  display: none; }
-  #delete-account.col-md-12.content .modal-title {
-    margin-top: 0; }
-  #delete-account.col-md-12.content .modal-header button {
-    width: auto; }
-  #delete-account.col-md-12.content .modal.fade.modal-delete .modal-footer button {
-    margin-left: 5px; }
-
-.alert.alert-danger {
-  margin-top: 80px;
-  margin-bottom: 0;
-  text-align: center;
-  width: 70%;
-  margin-left: 15%;
-  margin-bottom: -50px; }
-  .alert.alert-danger h4 {
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  margin-top: 54px;
+  background-image: -webkit-linear-gradient(#eee, #f0f2f4);
+  background-image: linear-gradient(#eee, #f0f2f4); }
+  #big_wrapper .jumbotron {
+    text-align: center;
+    padding: 30px 15px 0px 15px;
+    margin-bottom: 0; }
+    #big_wrapper .jumbotron h2 {
+      font-family: 'Source Sans Pro';
+      font-size: 30px;
+      font-weight: 200;
+      margin-bottom: 0; }
+      #big_wrapper .jumbotron h2 .lead {
+        border-top: 1px solid grey;
+        margin-top: 3px;
+        padding-top: 8px; }
+  #big_wrapper .contact_form {
+    background: white;
     font-family: Source Sans Pro;
-    margin-bottom: 15px; }
+    font-size: 18px;
+    padding: 10px;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    margin: 0px 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    #big_wrapper .contact_form #message_form {
+      width: 100%; }
+      #big_wrapper .contact_form #message_form .form-name {
+        padding-right: 6px; }
+      #big_wrapper .contact_form #message_form .input-name, #big_wrapper .contact_form #message_form .input-email {
+        margin-left: 20px;
+        width: 70%;
+        border: none;
+        margin-top: 15px;
+        border-bottom: 1px solid #e1e8ed; }
+      #big_wrapper .contact_form #message_form .unpad-me {
+        margin-left: 3px;
+        width: 60%; }
+      #big_wrapper .contact_form #message_form .input-email.unpad-me {
+        margin-left: 48px; }
+    #big_wrapper .contact_form .textarea[contenteditable] {
+      border-bottom: 1px solid black;
+      overflow: auto;
+      margin-bottom: 25px; }
+    #big_wrapper .contact_form .textarea:empty::before {
+      color: black;
+      opacity: 0.3;
+      font-style: italic; }
+    #big_wrapper .contact_form .textarea[data-placeholder]:not([data-placeholder=""]):empty::before {
+      content: attr(data-placeholder); }
+    #big_wrapper .contact_form .textarea:empty::before {
+      content: 'Enter your message here'; }
+    #big_wrapper .contact_form .textarea:focus {
+      outline: none; }
+    #big_wrapper .contact_form #message {
+      display: none; }
+    #big_wrapper .contact_form .flex-center {
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+    #big_wrapper .contact_form button {
+      clear: both;
+      background: #17B2E8;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 8px 0px;
+      width: 50%;
+      margin-left: 25%; }
+    #big_wrapper .contact_form .contact-info {
+      margin-bottom: 60px; }
+      #big_wrapper .contact_form .contact-info .col-xs-8 {
+        padding: 0; }
+      #big_wrapper .contact_form .contact-info select.form-control.col-xs-4 {
+        width: auto;
+        padding: 0; }
+
+.message-others {
+  border: 1px solid white;
+  margin: 30px 15px 10px 15px;
+  background-color: #e1e8ed;
+  border-radius: 6px;
+  padding: 30px 10px; }
+  .message-others h2 {
+    font-size: 25px;
+    border: none;
+    margin-bottom: 0; }
+  .message-others button {
+    font-size: 18px;
+    color: white;
+    background: #54494B;
+    border: none;
+    cursor: pointer;
+    padding: 8px 40px;
+    border-radius: 6px; }
+  .message-others .height-finder {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+
+@media (max-width: 420px) {
+  #big_wrapper .jumbotron h2 {
+    font-size: 27px; }
+  #big_wrapper .jumbotron .lead {
+    font-size: 14px; }
+  #big_wrapper .contact_form {
+    font-size: 16px; } }
+
+@media (min-width: 500px) {
+  #big_wrapper .jumbotron {
+    padding: 30px 45px 10px 45px; }
+  #big_wrapper #flex-for-desktop {
+    padding: 0px 50px 15px 50px; }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 20px 30px; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        margin-left: 25%;
+        padding: 10px 0px; }
+    #big_wrapper #flex-for-desktop .message-others button {
+      padding: 10px 40px; } }
+
+@media (min-width: 850px) {
+  .header {
+    padding: 100px 100px 0px 100px; }
+  #flex-div {
+    padding: 30px 50px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 100px; }
+    #flex-div #user_box {
+      margin: 0px 0px 0px 10%;
+      width: 35%; }
+    #flex-div #or_box {
+      text-align: center;
+      width: 10%; }
+    #flex-div #organisation_box {
+      margin: 0px 10% 0px 0px;
+      width: 35%; }
+  .jumbotron h2 {
+    margin: 0px 150px; }
+  #big_wrapper #flex-for-desktop {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin-top: 20px;
+    padding: 0px 40px; }
+    #big_wrapper #flex-for-desktop .contact_form {
+      padding: 30px 40px;
+      width: 63%;
+      margin: 0;
+      margin-right: 40px;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: flex-end; }
+      #big_wrapper #flex-for-desktop .contact_form .send {
+        width: 44%;
+        margin-left: 28%;
+        padding: 10px 0px; }
+    #big_wrapper #flex-for-desktop .message-others {
+      width: 37%;
+      margin: 0;
+      padding: 30px 15px; }
+      #big_wrapper #flex-for-desktop .message-others h2 {
+        margin-bottom: 10px; }
+      #big_wrapper #flex-for-desktop .message-others .lead {
+        margin: 12px 0px 15px 0px;
+        font-size: 17px; }
+  #big_wrapper #flex-for-desktop.organisation .contact_form {
+    width: 60%;
+    margin-left: 20%; }
+  #big_wrapper #flex-for-desktop.organisation #message_form .unpad-me {
+    margin-left: 11px; }
+  #big_wrapper #flex-for-desktop.organisation #message_form .input-email.unpad-me {
+    margin-left: 55px; } }
+
+@media (min-width: 1000px) {
+  .header {
+    padding: 100px 150px 0px 150px; }
+  #flex-div {
+    padding: 30px 100px; }
+  .jumbotron h2 {
+    margin: 0px 100px; } }
+
+@media (max-width: 1050px) and (min-width: 850px) {
+  #big_wrapper .contact_form .textarea[contenteditable] {
+    margin-bottom: 30px; }
+  #big_wrapper .contact_form .send {
+    margin-top: 40px; } }
+
+#success h2 {
+  margin-top: 20px;
+  font-family: Source Sans Pro;
+  font-size: 23px;
+  margin-bottom: 24%; }

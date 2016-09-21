@@ -1,11 +1,12 @@
 var express = require('express');
 var models = require('../models');
-var funds = require('../controllers/organisations');
+var organisations = require('../controllers/organisations');
 var signup = require('../controllers/signup');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var router = express.Router();
 require('../controllers/passport/strategies')(passport);
+
 
 router.get('/dashboard', funds.dashboard);
 router.get('/create', funds.initialCreation);
@@ -34,6 +35,7 @@ router.get('/settings', funds.settings);
 router.post('/settings/', funds.changeSettings);
 router.get('/logout', funds.logout);
 router.post('/signupComplete', signup.uploadInfo);
+router.post('/delete', organisations.delete)
 
 
 

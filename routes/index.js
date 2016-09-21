@@ -61,13 +61,16 @@ router.get('/check-user/:id',  function(req, res){
     res.send(user);
   });
 });
-// Privacy policy + t&c's
+// Privacy policy, t&c's, contact-us
 router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy')
 })
 router.get('/terms-and-conditions', function(req, res) {
   res.render('terms_and_conditions')
 })
+router.get('/contact_us', users.contact_us)
+router.post('/contact_us/user', users.contact_us_email_user)
+router.post('/contact_us/organisation', users.contact_us_email_organisation)
 //guide pages
 router.get('/fund-profile-guide', function(req, res){
   var user;

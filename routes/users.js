@@ -28,6 +28,7 @@ router.get('/authorize', users.authorizeStripe);
 router.post('/charge', users.chargeStripe);
 router.get('/oauth/callback', users.authorizeStripeCallback);
 router.get('/email-unsubscribe/:id', users.emailUnsubscribe);
+router.post('/delete', users.delete);
 // router.get('url-shortener', users.urlShortener);
 
 module.exports = router;

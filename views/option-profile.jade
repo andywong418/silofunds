@@ -80,8 +80,8 @@ block content
         i.fa.fa-comments-o(aria-hidden="true")
         |Message us
 
-      .eligibility_banner
-        include ./partials/option-profile/eligibility_banner.jade
+      //- .eligibility_banner
+      //-   include ./partials/option-profile/eligibility_banner.jade
         
     // Eligibility div and tips
     if(!organisation.profile_picture)
@@ -143,44 +143,61 @@ block content
         include ./partials/option-profile/application_process.jade
     else
       #right_div
-        #box_3_right
-          p#eligibility_para_right Eligibility
-          hr
-          .eligibility-display
-            #subject-handler
-              .col-md-12.col-xs-12
-                span.glyphicon.glyphicon-book
-                p.description Subject
-            #personal-handler
-              .col-md-12.col-xs-12
-                span.glyphicon.glyphicon-user
-                p.description Personal
-            #education-handler
-              .col-md-12.col-xs-12
-                span.glyphicon.glyphicon-education
-                p.description Education
-            #location-handler
-              .col-md-12.col-xs-12
-                span.glyphicon.glyphicon-globe
-                p.description Location
-            #other-handler
-              .col-md-12.col-xs-12
-                p.description Other eligibility requirements
-            .row#just-trying
-              script#image-template(type='text/template')
-                .col-md-12.criteria-box
-                  .col-md-2.col-xs-2
-                    img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
-                  .col-md-10.col-xs-10
-                    span.criteria <%=criteria %>
-              script#other-eligibility-template(type='text/template')
-                .other-box
-                  .col-md-12.col-xs-12
-                    span.criteria <%= criteria %>
-              // Eligibility div and tips end      
-                    
-        #right_div_desktop.desktop
-          include ./partials/option-profile/eligibility_banner.jade
+        .flex-flip
+          #box_3_right
+            p#eligibility_para_right Eligibility
+            hr
+            .eligibility-display
+              #subject-handler
+                .col-md-12.col-xs-12
+                  span.glyphicon.glyphicon-book
+                  p.description Subject
+              #personal-handler
+                .col-md-12.col-xs-12
+                  span.glyphicon.glyphicon-user
+                  p.description Personal
+              #education-handler
+                .col-md-12.col-xs-12
+                  span.glyphicon.glyphicon-education
+                  p.description Education
+              #location-handler
+                .col-md-12.col-xs-12
+                  span.glyphicon.glyphicon-globe
+                  p.description Location
+              #other-handler
+                .col-md-12.col-xs-12
+                  p.description Other eligibility requirements
+              .row#just-trying
+                script#image-template(type='text/template')
+                  .col-md-12.col-xs-12.criteria-box
+                    .col-md-2.col-xs-2
+                      img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+                    .col-md-10.col-xs-10
+                      span.criteria <%=criteria %>
+                script#other-eligibility-template(type='text/template')
+                  .other-box
+                    .col-md-12.col-xs-12
+                      span.criteria <%= criteria %>
+                      
+                      
+          #eligibility_div
+            p#eligibility_div_p 
+          #notEligible.modal-box
+            .modal-container 
+              .modal-bar
+                p Eligibility explanation
+              script#notEligible-template(type='text/template')
+                .row
+                  #wrong-cross.col-md-2
+                    i.fa.fa-times-circle(aria-hidden="true")
+                  #fund-requirements.col-md-5
+                    p#requirement-description <%= requirement_description %>
+                    p#requirement <%= requirement %>
+                  #user-info.col-md-5
+                    p#user-description <%= user_description %>
+                    p#user <%= user %>
+              a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.  
+        #right_div_desktop.desktop   
           include ./partials/option-profile/application_process.jade
         #bottom_div_mobile.mobile
           include ./partials/option-profile/application_process.jade

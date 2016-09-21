@@ -48,9 +48,12 @@ block content
   section#conclusion
     h3 Conclusion
     p Your video will likely be the first impression you make on potential backers. As a results, you should allocate significant amounts of time and effort creating and editing the video. Below are some sample videos you can take a draw inspiration from.
-    iframe(width='560', height='315', src='https://www.youtube.com/embed/2CI6XyzmX1k', frameborder='0', allowfullscreen='')
-    iframe(width='560', height='315', src='https://www.youtube.com/embed/rWio4ina39I', frameborder='0', allowfullscreen='', style='margin-top: 30px')
+    iframe.iframe(width='560', height='315', src='https://www.youtube.com/embed/2CI6XyzmX1k', frameborder='0', allowfullscreen='')
+    iframe.iframe(width='560', height='315', src='https://www.youtube.com/embed/rWio4ina39I', frameborder='0', allowfullscreen='', style='margin-top: 30px')
     p.intro(style='color: #f39c12; margin-top: 5px') With love from the Silo team
       i.fa.fa-heart(style='color: red; margin-right: 5px; float: left; margin-top: 5px;')
 
   include ./partials/footer.jade
+  
+block scripts
+  script(src='javascript/crowdfunding-video.js')

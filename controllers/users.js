@@ -361,12 +361,23 @@ module.exports = {
       }
     });
   },
+  // loginGET: function(req, res) {
+  //   // Flash message if we have come via logging out to say 'successfully logged out'
+  //   var logoutMsg = req.flash('logoutMsg');
+  //   // Message prints as empty array, showing if length non zero
+  //   if(logoutMsg.length !== 0) {
+  //     res.render('user/login', {logoutMsg: logoutMsg})
+  //   } else {
+  //     res.render('user/login')
+  //   }
+  // },
   loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
+    var goodbye = req.flash('goodbye')
+    if (logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})
+    } else if (goodbye.length !== 0) {
+      res.render('user/login', {goodbye: goodbye})
     } else {
       res.render('user/login')
     }
@@ -441,17 +452,6 @@ module.exports = {
         res.redirect('/user/dashboard');
       }
     });
-  },
-
-  loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
-    var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
-      res.render('user/login', {logoutMsg: logoutMsg})
-    } else {
-      res.render('user/login')
-    }
   },
 
   loginSplit: function(req, res) {
@@ -1187,6 +1187,101 @@ module.exports = {
         res.redirect('/');
       })
     })
+  },
+  contact_us: function(req, res) {
+    var user = req.user
+    var success = req.flash('success')[0]
+    if(success) {
+      res.render('contact_us', {success: success})
+    } else if(!success) {
+      if(user) {
+        res.render('contact_us', {user: user})
+      } else {
+        res.render('contact_us')
+      }
+    }
+  },
+
+  contact_us_email_user: function(req, res) {
+    var message = req.body.message;
+    var name = req.body.name;
+    var email = req.body.email;
+    var contact_method = req.body.contact_method;
+    var id;
+    if(req.user) {
+      id = 'ID: ' + req.user.id
+    } else {
+      id = 'non registered user'
+    }
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: 'james.morrill.6@gmail.com',
+       subject: 'User query from ' + name + ', ' + id,
+       text: 'Dear Silo, \n' +
+           message + '\n\n' +
+           'From: ' + name + '\n'
+           + 'Email ' + email + ' \n'
+           + 'Contact via: ' + contact_method + '\n'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
+  },
+
+  contact_us_email_organisation: function(req, res) {
+    console.log(req.body)
+    var message = req.body.message
+    var name = req.body.fund_name
+    var email = req.body.email
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: 'support@silofunds.com',
+       subject: 'Question from ' + name + ' (organisation)',
+       text: 'Dear Silo, \n\n' +
+           message + '\n\n' +
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
+  },
+
+  delete: function(req, res) {
+    var deleteId = parseInt(req.body.deleteId)
+    if(req.user.id == deleteId) {
+      models.users.findById(req.user.id).then(function(user) {
+        return user.destroy();
+      }).then(function() {
+        req.flash('goodbye', "Your account has been successfully deleted. We're sorry to see you go!")
+        res.redirect('/login')
+      })
+    } else {
+      req.flash('error', "There has been an error in deleting your account, please try again or contact us if the problem persists")
+      res.redirect('/user/settings')
+    }
   }
 }
 
@@ -1237,7 +1332,7 @@ function notifyUsers(user_id, fund_id, res, app){
   models.users.findById(user_id).then(function(user){
     models.funds.findById(fund_id).then(function(fund){
       models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
-        if(fundUser){
+        if(fundUser) {
           var options = {
             user_id: fundUser.id,
             notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile. </a>',
@@ -1248,7 +1343,7 @@ function notifyUsers(user_id, fund_id, res, app){
             notifyMessagedUsers(user, res, app, fund);
           });
         }
-        else{
+        else {
           notifyMessagedUsers(user, res, app, fund);
         }
       });

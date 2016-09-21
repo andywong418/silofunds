@@ -1021,7 +1021,7 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1085,7 +1085,6 @@ h1 {
     margin-bottom: 10px;
     color: #2980b9; }
   #box_2 .fundBio {
-    width: 90%;
     font-size: 15px;
     margin-bottom: 10px; }
   #box_2 .info-row {
@@ -1170,14 +1169,13 @@ h1 {
 
 #eligibility_div {
   display: none;
-  margin-top: 50px;
+  margin-top: 45px;
   width: 93%;
   height: 50px;
   background-color: #2F9F59;
   border-radius: 5px;
   cursor: pointer;
   border-radius: 5px;
-  padding-top: 10px;
   color: white; }
   #eligibility_div #ignore {
     color: white;
@@ -1194,7 +1192,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -1411,7 +1409,7 @@ h1 {
       font-weight: normal; }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -1715,16 +1713,29 @@ h1 {
   height: auto;
   cursor: pointer; }
 
+#eligibility_div, #notEligible, .application_form {
+  width: 100%; }
+
 #right_div_desktop {
   margin-left: 7%;
-  width: 93%; }
-  #right_div_desktop #eligibility_div, #right_div_desktop #notEligible, #right_div_desktop .application_form {
-    width: 100%; }
+  width: 100%; }
+
+#right_div {
+  margin-right: 31px; }
 
 #left_div_desktop {
-  width: 23%; }
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px; }
   #left_div_desktop #left_div {
-    width: 100%; }
+    width: 100%;
+    padding-right: 0; }
+    #left_div_desktop #left_div #box_1 {
+      margin-top: 0; }
+    #left_div_desktop #left_div #box_2 {
+      margin-top: 0; }
+      #left_div_desktop #left_div #box_2 a {
+        padding: 0; }
 
 @media (max-width: 1076px) {
   #favourite {
@@ -1748,7 +1759,7 @@ h1 {
     #left_div .fundBio {
       width: 100%; }
   #right_div {
-    width: 60%; }
+    width: 100%; }
     #right_div #start_date, #right_div #documents_deadline, #right_div #interviews, #right_div #decision_date {
       width: 80%; }
     #right_div #other-application p {
@@ -1763,6 +1774,14 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none; }
+  .flex-flip {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse; }
   #favourite.favourite.mobile {
     margin-left: 0; }
   #big_flex_div {
@@ -1798,12 +1817,11 @@ h1 {
         width: 100%; }
     #big_flex_div #eligibility_div {
       margin: 0px 0px 20px 0px;
-      width: 100%;
-      padding-top: 15px; }
+      width: 100%; }
       #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
-        font-size: 14px; }
+        font-size: 18px; }
   #top_div_mobile {
-    margin-top: 54px; }
+    margin-top: 45px; }
   #left_info_div {
     background-color: white;
     border: 1px solid #e1e8ed;
@@ -1823,9 +1841,54 @@ h1 {
     padding: 5px 2px 5px 2px; } }
 
 @media (min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px; }
+  #box_3_right .eligibility-display .other-box .col-md-12.col-xs-12 {
+    margin-top: 5px;
+    padding: 0px 25px; }
   #favourite.favourite.no-profile_picture {
     margin-left: calc(-15px + 5px) !important;
     margin-top: calc(-18px + 5px) !important; } }
 
 #top_div_mobile, #left_div {
   display: none; }
+
+#big_flex_div #right_div #eligibility_div {
+  display: none; }
+
+.container {
+  padding-left: 15px; }
+
+.centre-me {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: centre;
+      -ms-flex-align: centre;
+          align-items: centre; }
+
+@media (max-width: 1190px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 18px; } }
+
+@media (max-width: 1090px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 16px; } }
+
+@media (max-width: 900px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 14px; } }
+
+@media (max-width: 767px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 17px; } }
+
+@media (max-width: 640px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 15px; } }
+
+@media (max-width: 575px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 13px;
+    text-align: center; } }

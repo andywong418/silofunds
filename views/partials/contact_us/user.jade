@@ -1,0 +1,51 @@
+#big_wrapper
+  .jumbotron
+    h2 Get in touch with us! 
+      .fa.fa-smile-o
+      .lead If you'd like to talk to us about anything to do with the website, funding, or just general enquiries, please do leave a message below and we'll get back to you
+  #flex-for-desktop
+    .contact_form
+      form(action='/contact_us/user', method='post', id="message_form")
+        span Dear Silo, 
+        .textarea(contenteditable=true, data-placeholder='Enter your message here')
+        input#message(type='hidden', name='message')
+        if user
+          span.form-name From:
+          input.input-name(type='text', name='name', value=user.username)
+          br
+          span.form-email Email: 
+            input.input-email(type='text', name='email', value=user.email)
+        if !user
+          span.form-name From: 
+            input.input-name(type='text', name='name', placeholder='Your Name')
+          br
+          span.form-email Email:
+            input.input-email(type='text', name='email', placeholder='Please enter your email address')
+        br
+        br
+        if user
+          .contact-info
+            span.class-change.col-xs-8.col-md-7 How should we contact you?
+            select.form-control.col-xs-4.col-md-4(name='contact_method')
+              option(disabled='', selected='', value='')
+              option(value='email') Email
+              option(value='Silo messaging') Silo messaging
+        .flex-center
+          button.send(type='submit') Send
+        
+    .message-others
+      .height-finder
+        if user
+          h2 Alternatively...
+            .lead 
+              span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, for advice on the funding process and information about their experiences?
+          .flex-down
+            a(href='/results/users')
+              button(type='button') Search now!
+        if !user
+            h2 Alternatively...
+              .lead 
+                span If your query is about the crowdfunding and grant application process, have you tried searching for other users similar to you, create an account to be matched with those who have been in a similar situation to you!
+            .flex-down
+              a(href='/register')
+                button(type="button") Register now!

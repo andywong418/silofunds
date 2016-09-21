@@ -3,6 +3,7 @@
 @import 'advanced-search.scss';
 @import 'signup.scss';
 
+
 body{
   font-family: 'Source Sans Pro';
   background-color: #e9f0f4;
@@ -235,5 +236,68 @@ margin-top: 10px;
     padding: 10px;
     height: 100px;
     width: 100%;
+  }
+}
+
+// Delete account
+#delete-account.col-md-12.content {
+  border-top: 1px solid #e1e8ed;
+  margin-top: 80px;
+  h4 {
+    font-family: Source Sans Pro;
+    margin-top: 20px;
+  };
+  button {
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    width: 28%;
+    margin-left: 36%;
+    padding: 7px 0px;
+    white-space: nowrap;
+  }
+}
+
+.modal.fade.modal-delete {
+  .modal-body p {
+    padding-bottom: 10px;
+  }
+}
+
+.flex_this {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#delete-account.col-md-12.content {
+  display: none;
+  .modal-title {
+    margin-top: 0;
+  }
+  .modal-header {
+    button {
+      width: auto;
+    }
+  }
+  .modal.fade.modal-delete {
+    .modal-footer {
+      button {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+.alert.alert-danger {
+  margin-top: 80px;
+  margin-bottom: 0;
+  text-align: center;
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: -50px;
+  h4 {
+    font-family: Source Sans Pro;
+    margin-bottom: 15px;
   }
 }
