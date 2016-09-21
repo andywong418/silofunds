@@ -203,8 +203,8 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
-var weeklyFundNewsLetterScheduler = new CronJob('*/20 * * * * *', weeklyFundNewsLetter, null, true );
-var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 7', weeklyStudentNewsLetter, null, true);
+var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
+var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 
 function weeklyFundNewsLetter(){
   var oneDay = 24*60*60*1000;
