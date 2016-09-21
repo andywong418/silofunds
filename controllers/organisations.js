@@ -9,6 +9,10 @@ var subjects = require('../resources/subjects');
 var universities = require('../resources/universities');
 var degrees = require('../resources/degrees');
 var allFields = require('../resources/allFields');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var path = require('path');
+var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var parseIfInt = function(string) {
   if (string !== '') {
     return parseInt(string);
@@ -270,12 +274,12 @@ dashboard: function(req, res) {
           if(app.status === 'success'){
             var options= {
               user_id: app.user_id,
-              notification: 'Congratulations! ' + fund.title + ' has approved your application success! <a href="/organisation/options/' + fund.id + '"></a>',
+              notification: 'Congratulations! ' + fund.title + ' has approved your application success. <a href="/organisation/options/' + fund.id + '"></a>',
               category: 'app-success',
               read_by_user: false
             };
             models.notifications.create(options).then(function(notif){
-              res.send(app);
+              sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click <a href="http://silofunds.com/user/dashboard"> here </a> to tell your users!', app, 'Your application to ' + fund.title, res);
             });
           }
           if(app.status ==='unsuccessful'){
@@ -286,7 +290,7 @@ dashboard: function(req, res) {
               read_by_user: false
             };
             models.notifications.create(options).then(function(notif){
-              res.send(app);
+              sendUserEmail(app.user_id,'Unfortunately ' + fund.title + ' has marked your application as unsuccessful. You can message them <a href="http://silofunds.com/organisation/options/' + fund.id + '"> here </a> to ask why.', app, 'Your application to ' + fund.title, res);
             });
           }
         });
@@ -313,113 +317,63 @@ dashboard: function(req, res) {
 
   getOptionProfile: function(req, res){
     var fundId = req.params.id;
-    if(req.isAuthenticated()){
-      var user = req.user;
-      models.funds.findById(fundId).then(function(fund){
-        if(fund.organisation_id){
-          // If fund has an organisation/ fund user
-          models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
-            //TODO Abstract
-              //if user is logged in
-              if(organisation){
-                //organisation in user table
-                if(user.organisation_or_user == null){
-                  //if user is not fund user
-                  Logger.info("organisation", organisation);
-                  models.recently_browsed_funds.findOrCreate({where: {
-                    user_id: user.id,
-                    fund_id: fundId
-                  }}).spread(function(recent, created){
-                    if(created){
-                      //first time browsed
-
-                      res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
-                    }else{
-                      var dateNow = new Date(Date.now());
-                      dateNow = dateNow.toISOString();
-                      recent.update({updated_at: dateNow,user_id: user.id,
-                      fund_id: fundId}).then(function(recent){
-                        checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, newVisit: false});
-                      });
-                    }
-                  });
-                }
-                else{
-                  //if user is fund user
-                  res.render('option-profile', {user: user, organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees, favourite: false});
-                }
-              } else{
-                //organisation not in user table
-                models.organisations.findById(fund.organisation_id).then(function(organisation){
-                  Logger.info("NOT IN TUSER", organisation);
-                  if(user.organisation_or_user == null){
-                    //if user is not fund user
-                    models.recently_browsed_funds.findOrCreate({where: {
-                      user_id: user.id,
-                      fund_id: fundId
-                    }}).spread(function(recent, created){
-                      if(created){
-
-                        res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false, newVisit: true});
-                      }else{
-                        var dateNow = new Date(Date.now());
-                        dateNow = dateNow.toISOString();
-                        recent.update({updated_at: dateNow,user_id: user.id,
-                        fund_id: fundId}).then(function(recent){
-                          checkFavourite(user.id, fundId, res,{user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  newVisit: false});
-                        });
-                      }
-                    });
-                  }
-                  else{
-                    //if user is fund user
-                    res.render('option-profile', {user: user,organisation: organisation, fund: fund, newUser: false, allFields: allFields, countries: countries, subjects: subjects, universities: universities, degrees: degrees, favourite: false});
-                  }
-                });
-              }
-
-          });
-        }
-        else{
-          //if fund has no organisation or fund user
-            if(user.organisation_or_user == null){
-              //if user is not a fund user
-              models.recently_browsed_funds.findOrCreate({where: {
-                user_id: user.id,
-                fund_id: fundId
-              }}).spread(function(recent, created){
-                if(created){
-                  res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
-                }else{
-                  var dateNow = new Date(Date.now());
-                  dateNow = dateNow.toISOString();
-                  recent.update({updated_at: dateNow,user_id: user.id,
-                  fund_id: fundId}).then(function(recent){
-
-                    checkFavourite(user.id, fundId, res, {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees});
-                  });
-                }
-              });
-            }
-            else{
-              //if user is fund user
-              res.render('option-profile', {user: user,organisation: false, fund: fund, newUser: false, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false});
-            }
-
-        }
-
+    console.log(req.params);
+    if(req.params.user_id){
+      var userId = req.params.user_id;
+      console.log(userId);
+      //Email clicked
+      var createOptions = {
+        fund_id: fundId,
+        user_id: userId
+      };
+      models.email_clicks.create(createOptions).then(function(email_clicks){
+        res.redirect('/organisation/options/' +  fundId);
       });
     }
     else{
-      //show limited profile
-      Logger.info("HI");
-      models.funds.findById(fundId).then(function(fund){
-        models.organisations.findById(fund.organisation_id).then(function(organisation){
-          handleOrganisationUser(organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+      if(req.isAuthenticated()){
+        var user = req.user;
+        models.funds.findById(fundId).then(function(fund){
+          if(fund.organisation_id){
+            // If fund has an organisation/ fund user
+            models.users.find({where : {organisation_or_user: fund.organisation_id}}).then(function(organisation){
+              //TODO Abstract
+                //if user is logged in
+                if(organisation){
+                  //organisation in user table
+                  checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+
+                } else{
+                  //organisation not in user table
+
+                  models.organisations.findById(fund.organisation_id).then(function(organisation){
+                    Logger.info("NOT IN TUSER", organisation);
+                    checkOrganisationUser(user, fund, organisation, {user: user,organisation: organisation, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+                  });
+                }
+
+            });
+          }
+          else{
+            //if fund has no organisation or fund user
+            checkOrganisationUser(user, fund, false, {user: user,organisation: false, fund: fund, allFields: allFields, newUser: false, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+          }
 
         });
-      });
+      }
+      else{
+        //show limited profile
+
+        Logger.info("HI");
+        models.funds.findById(fundId).then(function(fund){
+          models.organisations.findById(fund.organisation_id).then(function(organisation){
+            handleOrganisationUser(fund, organisation, {user: false, fund: fund, allFields: allFields, countries: countries,subjects: subjects, universities: universities, degrees: degrees,  favourite: false}, res);
+
+          });
+        });
+      }
     }
+
 
   },
 
@@ -675,6 +629,195 @@ function findOrCreateTips(tips, option, fund, res){
 
 
 // Functions
+function recommendUserFunds(user, callback){
+  var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university','gender'];
+  var age;
+
+  if(user.date_of_birth){
+    var birthDate = new Date(user.date_of_birth).getTime();
+    var nowDate = new Date().getTime();
+    age = Math.floor((nowDate - birthDate) / 31536000000);
+  }
+  var minimum_amount;
+  if(user.funding_needed){
+    minimum_amount = user.funding_needed * 0.6;
+  }
+  var queryOptions = {
+    "filtered": {
+      "filter": {
+        "bool": {
+          "should": { "match_all": {} }
+        }
+      }
+    }
+  };
+  if(age || user.funding_needed || user.gender){
+    var queryOptionsShouldArr = [
+      {
+        "range": {
+          "minimum_amount": {
+            "lte": minimum_amount
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": user.funding_needed
+          }
+        }
+      },
+      {
+        "range": {
+          "minimum_age": {
+            "lte": age
+          }
+        }
+      },
+      {
+        "range": {
+          "maximum_amount": {
+            "gte": age
+          }
+        }
+      }
+    ];
+    queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+  }
+
+  queryOptions.filtered.query = {
+    "bool": {
+      "should": []
+    },
+  };
+
+  userChange = user.get();
+  for (var i = 0; i< searchFields.length; i++) {
+    var key = searchFields[i];
+    var notAge = key !== "age";
+    var notAmount = key !== "funding_needed";
+    var notReligion = key !== "religion";
+    var notGender = key !== 'gender';
+
+    if (notReligion && notGender) {
+      if (user[key]) {
+        user[key] = user[key].join(", ");
+      }
+    }
+
+    if (notAge && notAmount) {
+      var matchObj = {
+        "match": {}
+      };
+
+      if (user[key] !== null) {
+        if (key === 'previous_degree') {
+          matchObj.match.required_degree = user[key];
+        } else if (key === 'previous_university') {
+          matchObj.match.required_university = user[key];
+        } else {
+          matchObj.match[key] = user[key];
+        }
+
+        queryOptions.filtered.query.bool.should.push(matchObj);
+      }
+    }
+  }
+  es.search({
+    index: "funds",
+    type: "fund",
+    body: {
+      "size": 1000,
+      "query": queryOptions
+    }
+  }).then(function(resp){
+    var fund_id_list = [];
+    var funds = resp.hits.hits.map(function(hit) {
+      var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+      var hash = {};
+
+      for (var i = 0; i < fields.length ; i++) {
+        hash[fields[i]] = hit._source[fields[i]];
+      }
+      // Sync id separately, because it is hit._id, NOT hit._source.id
+      hash.id = hit._id;
+      fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+      return hash;
+
+    });
+    //Add filter for funds which have been clicked by email.
+
+    checkEmailClicked(user, funds, function(funds){
+
+      callback(funds);
+    });
+
+  });
+}
+function sendUserEmail(userId, notification, app, subject, res ){
+  models.users.findById(userId).then(function(user){
+    var username = user.username.split(' ')[0];
+    //send emails here
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: user.email,
+       subject: subject,
+       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            console.log("Email send failed");
+        }
+        else {
+          console.log("SUCCESS");
+          res.send(app);
+        }
+    });
+  });
+}
+function createPageViewRow(user, fund, object, res){
+  var createOptions = {fund_id: fund.id};
+  if(user){
+    createOptions['user_id'] = user.id;
+  }
+  models.page_views.create(createOptions).then(function(){
+    res.render('option-profile', object);
+  })
+}
+function checkOrganisationUser(user, fund, organisation, object, res){
+  var fundId = fund.id;
+  if(user.organisation_or_user == null){
+    //if user is not fund user
+    Logger.info("organisation", organisation);
+    models.recently_browsed_funds.findOrCreate({where: {
+      user_id: user.id,
+      fund_id: fundId
+    }}).spread(function(recent, created){
+      if(created){
+        //first time browsed
+        object.newVisit = true;
+        createPageViewRow(user, fund, object, res);
+      }else{
+        var dateNow = new Date(Date.now());
+        dateNow = dateNow.toISOString();
+        recent.update({updated_at: dateNow,user_id: user.id,
+        fund_id: fundId}).then(function(recent){
+          object.newVisit = false;
+          checkFavourite(user, fund, res, object);
+        });
+      }
+    });
+  }
+  else{
+    //if user is fund user
+    res.render('option-profile', object);
+  }
+}
 function asyncAddApplications(funds, user, res){
   var appArray = [];
   async.each(funds, function(fund, callback){
@@ -700,7 +843,7 @@ function asyncAddApps(apps, appArray, res, callback, fund){
     callback();
   })
 }
-function handleOrganisationUser(organisation, dataObject, res){
+function handleOrganisationUser(fund, organisation, dataObject, res){
   Logger.info(organisation);
   if(organisation){
     models.users.find({where: {organisation_or_user: organisation.id}}).then(function(user){
@@ -709,21 +852,23 @@ function handleOrganisationUser(organisation, dataObject, res){
         Logger.info("again", organisation);
         organisation.profile_picture = user.profile_picture;
         dataObject.organisation = organisation;
-        res.render('option-profile', dataObject);
+        createPageViewRow(false, fund, dataObject, res);
       }
       else{
         dataObject.organisation = organisation;
-        res.render('option-profile', dataObject);
+        createPageViewRow(false, fund, dataObject, res);
       }
 
     })
   }
   else{
     dataObject.organisation = false;
-    res.render('option-profile', dataObject);
+    createPageViewRow(false, fund, dataObject, res);
   }
 }
-function checkFavourite(userId, fundId, res, dataObject){
+function checkFavourite(user, fund, res, dataObject){
+  var userId = user.id;
+  var fundId = fund.id;
   models.favourite_funds.find({where: {user_id: userId, fund_id: fundId} }).then(function(favourite){
     if(favourite){
       dataObject.favourite = true
@@ -731,7 +876,7 @@ function checkFavourite(userId, fundId, res, dataObject){
     else{
       dataObject.favourite = false;
     }
-    res.render('option-profile', dataObject);
+    createPageViewRow(user, fund, dataObject, res);
   })
 }
 function moderateObject(objectFields){

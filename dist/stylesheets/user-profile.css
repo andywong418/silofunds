@@ -341,7 +341,8 @@ img#profile-picture {
   border: 5px solid white;
   margin-bottom: 15px;
   cursor: pointer;
-  object-fit: cover; }
+  -o-object-fit: cover;
+     object-fit: cover; }
 
 #add-profile {
   position: absolute;

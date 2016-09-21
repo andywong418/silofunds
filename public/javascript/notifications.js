@@ -103,7 +103,7 @@ $(document).ready(function(){
     }
   });
 
-  $.get('/notifications/favourites', function(data){
+try{$.get('/notifications/favourites', function(data){
     $.get('/notifications/new', function(data){
       if(data.length > 0){
         windowPortWidth = $(window).width();
@@ -137,15 +137,23 @@ $(document).ready(function(){
 
 
     });
-  });
+  });}  catch(err){
+    console.log(err);
+  }
   //get new messages
-  $.get('/messages/new/new-messages', function(data){
-    if(data.new_messages){
-      $('span#new-message').html(data.new_messages);
-      $('span#new-message').show();
-    }
+  try{
+    $.get('/messages/new/new-messages', function(data){
+      if(data.new_messages){
+        $('span#new-message').html(data.new_messages);
+        $('span#new-message').show();
+      }
 
-  });
+    });
+  }
+  catch(err){
+    console.log(err);
+  }
+
   $('#user-message').click(function(){
     $('span#new-message').hide();
   });

@@ -29,6 +29,7 @@
     "debug": "~2.2.0",
     "dotenv": "^2.0.0",
     "elasticsearch": ">=1.1.0",
+    "email-templates": "^2.4.1",
     "express": "~4.13.1",
     "express-content-length-validator": "^1.0.0",
     "express-enforces-ssl": "^1.1.0",

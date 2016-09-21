@@ -162,7 +162,7 @@ module.exports = function(sequelize, DataTypes) {
     other_application_steps: {
       type: DataTypes.TEXT,
       field: 'other_application_steps'
-    }
+    },
   }, {
     timestamps: true,
     underscored: true,
