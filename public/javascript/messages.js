@@ -132,7 +132,7 @@ $(document).ready(function() {
     var appendLongAgoFirstMessage = 0;
     var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
     if(data.userToID == userActiveID || data.userFromID == userActiveID){
-      for (var i=0; i < arr_of_messages.length; i++) {
+      for (var i=arr_of_messages.length -1; i >=0; i--) {
         message = arr_of_messages[i];
         var userToUsername = $('.list-group-item.active h5').html();
 

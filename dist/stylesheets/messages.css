@@ -1,8 +1,3 @@
-i.fa.fa-users {
-  margin-right: -6px;
-  padding-left: 7px;
-  margin-top: 5px; }
-
 body {
   width: 100%;
   height: 100%;
@@ -923,6 +918,17 @@ margin-right: -40px;
 #fund-option, #remember {
   margin-top: -20px;
   margin-bottom: 20px; }
+
+#home .fa-user {
+  margin: 5px; }
+
+#home #notification-count {
+  margin-left: -5px; }
+
+.fa-comment {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-right: -8px; }
 
 #brand-image {
   margin-top: -15px;
