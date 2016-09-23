@@ -28,10 +28,16 @@ block content
         //-   input.form-control(type='text', placeholder='Search')
         if allUsers
           each user in allUsers
-            a.list-group-item.mobile-click(id="user-" + user.id)
-              img(src=user.profile_picture)
-              h5= user.username
-              span.glyphicon.glyphicon-menu-right
+            if user.unread
+              a.list-group-item.mobile-click(id="user-" + user.id, style='background: #f5f5f5')
+                img(src=user.profile_picture)
+                h5= user.username
+                span.glyphicon.glyphicon-menu-right
+            else
+              a.list-group-item.mobile-click(id="user-" + user.id)
+                img(src=user.profile_picture)
+                h5= user.username
+                span.glyphicon.glyphicon-menu-right
         else
           p#no-messages You don't seem to have any messages. Start a conversation with a fund or another user
             span#nowspan now

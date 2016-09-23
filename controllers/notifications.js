@@ -45,7 +45,6 @@ function asyncChangeFavourites(userId, favourites, res){
     models.funds.findById(favourite.fund_id).then(function(fund){
 
       if(fund.deadline){
-        console.log("NONIE LOVES COCK", fund.title);
         var diffDays = updateDiffDays(fund.deadline);
         console.log("DIFFDAYS", diffDays);
         if(diffDays === 7 || diffDays <= 3){

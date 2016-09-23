@@ -19,6 +19,10 @@ module.exports = {
                 if(user.profile_picture){
                   userObj['profile_picture'] = user.profile_picture;
                 }
+                if(!message.read_by_recipient){
+                  console.log("DSE", message.read_by_recipient);
+                  userObj['unread'] = true;
+                }
                 userObj['username'] = user.username;
                 userObj['id'] = user.id;
                 var alreadyIn = allUsers.some(function(o){return o["id"] === user.id;});

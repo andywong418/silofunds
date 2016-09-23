@@ -43,7 +43,9 @@ $(document).ready(function() {
     //
     $(this).siblings('a.active').removeClass("active");
     $(this).addClass("active");
-
+    if($(this).parent().hasClass('wrapper')){
+      $(this).parent().remove();
+    }
     var userToID = $(this).attr("id").split("-")[1];
     var userFromID = user.id;
     var readyToReceiveFrom = userToID;
@@ -209,9 +211,10 @@ $(document).ready(function() {
 
 
       var readCounter = 0;
-      var readMessage = data.bulk_messages[data.bulk_messages.length -1];
+      console.log(data.bulk_messages);
+      var readMessage = data.bulk_messages[0];
       if(readMessage.read_by_recipient && readMessage.user_from == user.id){
-        $('#messages').append('<div class="read_col user_to col-md-12 col-md-1 col-xs-12"><div class="col-md-9 col-xs-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+        $('#messages').append('<div class="read_col user_to col-md-12 col-md-1 col-xs-12"><div class="col-md-9 col-xs-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>');
       }
       else{
         $('.read_col').remove();

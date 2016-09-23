@@ -1071,7 +1071,7 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - 50px);
-    background: #e9f0f4; }
+    background: white; }
   #messages-tab-content ul li {
     list-style: none; }
   #messages-tab-content ul div:first-child {
@@ -1093,7 +1093,7 @@ section#content {
       top: 15px;
       font-size: 15px;
       padding: 10px 10px;
-      background-color: #e9f0f4; }
+      background-color: white; }
   #messages-tab-content ul div.user_from, #messages-tab-content ul div.user_to {
     float: left;
     clear: both;

@@ -102,6 +102,7 @@ section#content {
   position: fixed;
   overflow: auto;
 
+
   .list-group {
     margin: 0;
     #search-group{
@@ -184,7 +185,7 @@ section#content {
     width: 100%;
     overflow: auto;
     height: calc(100% - #{$input-form-height});
-    background: #e9f0f4;
+    background: white;
   }
   ul {
     li{
@@ -213,7 +214,7 @@ section#content {
         top: 15px;
         font-size: 15px;
         padding: 10px 10px;
-        background-color: #e9f0f4;
+        background-color: white;
       }
     }
 

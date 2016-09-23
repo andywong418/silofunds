@@ -823,7 +823,7 @@ function checkForRefund(){
 function retrieveAllMessagesInRoom(data) {
   return models.messages.findAll({ where: {
     room_name: data.roomName
-  }}).then(function(messages) {
+  }, order: '"created_at" DESC'}).then(function(messages) {
     messages = messages.map(function(message) {
       return message.get();
     });
