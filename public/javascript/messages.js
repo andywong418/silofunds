@@ -43,9 +43,8 @@ $(document).ready(function() {
     //
     $(this).siblings('a.active').removeClass("active");
     $(this).addClass("active");
-    if($(this).parent().hasClass('wrapper')){
-      $(this).parent().remove();
-    }
+    $(this).css('background-color', "#337ab7");
+    $(this).siblings('a').css('background-color', 'white');
     var userToID = $(this).attr("id").split("-")[1];
     var userFromID = user.id;
     var readyToReceiveFrom = userToID;
@@ -62,6 +61,14 @@ $(document).ready(function() {
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
+  var unreadUsers = $(document).find('.unread-user');
+  for(var i = 0; i < unreadUsers.length; i++){
+    console.log(unreadUsers[i]);
+    if(!$(unreadUsers[i]).hasClass('active')){
+      console.log(unreadUsers[i]);
+      $(unreadUsers[i]).css('background-color', '#f5f5f5');
+    }
+  }
   /* Socket IO Client */
 
   $('form').submit(function(e) {

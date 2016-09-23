@@ -29,7 +29,7 @@ block content
         if allUsers
           each user in allUsers
             if user.unread
-              a.list-group-item.mobile-click(id="user-" + user.id, style='background: #f5f5f5')
+              a.list-group-item.mobile-click.unread-user(id="user-" + user.id)
                 img(src=user.profile_picture)
                 h5= user.username
                 span.glyphicon.glyphicon-menu-right
