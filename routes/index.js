@@ -54,7 +54,7 @@ router.get('/about-silo', function(req, res){
   console.log("HEY");
   res.render('about-silo', {user: user});
 });
-router.get('/about-partners', function(req, res){
+router.get('/about-team', function(req, res){
   console.log(req.user);
   var user;
   if(req.user){
@@ -64,7 +64,7 @@ router.get('/about-partners', function(req, res){
     user = false;
   }
   console.log("HEY");
-  res.render('about-partners', {user: user});
+  res.render('about-team', {user: user});
 });
 // Privacy policy
 router.get('/privacy-policy', function(req, res) {
