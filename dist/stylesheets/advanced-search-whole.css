@@ -978,6 +978,8 @@ body {
     margin-bottom: 10px;
     width: 90%;
     display: block; }
+  body .footer-distributed {
+    margin-top: 70px; }
   body #advs-link, body .navbar-center-container {
     display: hidden;
     visibility: hidden; }
