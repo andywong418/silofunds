@@ -1,0 +1,45 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/signup.css', rel='stylesheet')
+  link(href='/stylesheets/advanced-search.css', rel='stylesheet')
+  link(href='/stylesheets/navbar.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/about-us.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./advanced-search.jade
+  section#about-us.container-fluid.content-section
+    .row
+      .col-md-1
+      .col-md-2
+        p#about-us-header 
+          a(href='/about-silo') About us
+        p#team
+          a(href='/about-team') Our team
+      .col-md-8
+        h4#about-silo About Silo
+        p#silo-paragraph Founded in 2016 and operating at Oxford University, Silo is a student focused funding community. Through us, students can crowdfund, connect and communicate with funding institutions and alumni.
+
+        p#silo-paragraph Silo is the only service centralises the fundraising process. We have the largest, most up to date database of funding opportunities and we’re still growing! We provide a match-making service for students and alumni, this expands a student’s network of financial contributors but also provides alumni with a more personal and rewarding form of charitable giving. Funding institutions can now more efficiently communicate with students and approve crowdfunding campaigns further helping students reach their fundraising targets.
+
+        p#silo-paragraph We’ve redesigned a students’ fundraising process, our tri-focal approach; crowdfunding, institutions and alumni, significantly increases a student’s chances of reaching their goal. So whether you’re a student, tired of the current platforms available, an institution, interested in helping the student community, or an alumni interested in a more rewarding and direct form of giving, sign up today and join the Silo community.
+        
+  include ./partials/footer.jade
+block scripts
+  //advanced search
+  script(src='javascript/advanced-search.js')
+  script(src='javascript/signup-login.js')

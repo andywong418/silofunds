@@ -1,0 +1,49 @@
+body {
+  background: #f1f1f1; }
+
+section#about-us {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  font-family: 'Source Sans Pro'; }
+  section#about-us #about-us-header, section#about-us #team {
+    font-size: 20px;
+    cursor: pointer; }
+    section#about-us #about-us-header a, section#about-us #team a {
+      color: #606363; }
+      section#about-us #about-us-header a:hover, section#about-us #team a:hover {
+        text-transform: none; }
+  section#about-us #about-silo {
+    font-size: 26px;
+    font-family: 'Source Sans Pro';
+    color: #34495e; }
+  section#about-us #silo-paragraph {
+    margin-top: 5px;
+    font-size: 18px;
+    font-family: 'Source Sans Pro';
+    color: #34495e; }
+  section#about-us .row {
+    margin-left: -20px; }
+    section#about-us .row .col-sm-4 {
+      padding-left: 0; }
+      section#about-us .row .col-sm-4 img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%; }
+      section#about-us .row .col-sm-4 .partner-name {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 17px; }
+      section#about-us .row .col-sm-4 .role {
+        font-size: 17px; }
+    section#about-us .row .member-description {
+      margin-top: 40px;
+      font-size: 17px; }
+
+.about-team {
+  margin-bottom: 50px !important; }
+  .about-team .col-sm-8 {
+    margin-top: 15px; }
+    .about-team .col-sm-8 .member-role {
+      color: grey; }
+    .about-team .col-sm-8 .member-description {
+      margin-top: 20px !important; }

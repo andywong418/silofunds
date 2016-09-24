@@ -1,0 +1,79 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/signup.css', rel='stylesheet')
+  link(href='/stylesheets/advanced-search.css', rel='stylesheet')
+  link(href='/stylesheets/navbar.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/about-us.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./advanced-search.jade
+  section#about-us.container-fluid.content-section.about-team
+    .row
+      .col-md-1
+      .col-md-2
+        p#about-us-header 
+          a(href='/about-silo') About us
+        p#team
+          a(href='/about-team') Our team
+      .col-md-8
+        //IMAGES ARE FOR PLACEHOLDER PURPOSES only.
+        h4#about-silo Our team
+        .row
+          .col-sm-4.text-center
+            img(src='/images/homepage-andros.jpg')
+            //- p.partner-name
+            //-   a(href="http://www.rhodeshouse.ox.ac.uk/") Rhodes Trust
+          .col-sm-8
+            h3.member-name Andros Wong
+            h4.member-role Co-founder and CEO
+            p.member-description A Canadian who lives in Hong Kong, Andros now studies engineering, economics and management at Oxford. Bringing a keen eye for design, a shot of technical skills, and an unparalled work ethic, Andros is the heartbeat of the team.
+        .row
+          .col-sm-4.text-center
+            img(src='/images/homepage-duaine.jpg')
+            //- p.partner-name
+            //-   a(href="http://www.fulbright.org.uk/") Fulbright Scholarships
+          .col-sm-8
+            h3.member-name Du'aine Davis
+            h4.member-role Co-founder and COO
+            p.member-description Having just graduated with a degree in Economics and Management, Du'aine is at the core of growth and business development at Silo. A creative with a sharp business mind and hands on experience in grass roots marketing, Du'aine provides the strategic direction.
+        .row
+          .col-sm-4.text-center
+            img(src='/images/homepage-howard.jpg')
+            //- p.partner-name
+            //-   a(href="http://whtrust.org/") Weidenfeld Hoffmann trust
+          .col-sm-8
+            h3.member-name Howard team
+            h4.member-role Co-founder and CTO
+            p.member-description Howard is currently an engineer at Oxford. With a good taste in music that never ceases to motivate our coders, Howard is the technical maverick of the team. He transforms our ambitious goals for Silo into real, cohesive code. The success of our lean development is evidence of his commitment ot he cause.
+        .row
+          .col-sm-4.text-center
+            img(src='/images/homepage-james.jpg')
+            //- p.partner-name
+            //-   a(href="http://www.ox.ac.uk/") Oxford university
+          .col-sm-8
+            h3.member-name James Morrill
+            h4.member-role Product manager
+            p.member-description James is currently studying mathematics at Oxford. Despite being the latest addition to the team, he has added great value to our product. A quick and disciplined learner, he makes it possible to push new features efficiently and improve our existing codebase.
+        
+            
+        
+  include ./partials/footer.jade
+block scripts
+  //advanced search
+  script(src='javascript/advanced-search.js')
+  script(src='javascript/signup-login.js')

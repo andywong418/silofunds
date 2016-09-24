@@ -41,6 +41,10 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {success
 router.get('/facebookSplit', users.facebookSplit);
 router.get('/facebookError', users.facebookAuthError)
 
+
+//Footer pages
+//about-silo
+
 //new pages
 router.get('/advanced-search', function(req, res){
   var user;
@@ -50,7 +54,29 @@ router.get('/advanced-search', function(req, res){
   else{
     user = false;
   }
+  console.log("HEY");
   res.render('advanced-search-whole', {user: user});
+});
+
+router.get('/about-silo', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('about-silo', {user: user});
+});
+router.get('/about-team', function(req, res){
+  var user;
+  if(req.user){
+    user = req.user;
+  }
+  else{
+    user = false;
+  }
+  res.render('about-team', {user: user});
 });
 //check user
 router.get('/check-user/:id',  function(req, res){
@@ -63,14 +89,14 @@ router.get('/check-user/:id',  function(req, res){
 });
 // Privacy policy, t&c's, contact-us
 router.get('/privacy-policy', function(req, res) {
-  res.render('privacy_policy')
-})
+  res.render('privacy_policy');
+});
 router.get('/terms-and-conditions', function(req, res) {
-  res.render('terms_and_conditions')
-})
-router.get('/contact_us', users.contact_us)
-router.post('/contact_us/user', users.contact_us_email_user)
-router.post('/contact_us/organisation', users.contact_us_email_organisation)
+  res.render('terms_and_conditions');
+});
+router.get('/contact_us', users.contact_us);
+router.post('/contact_us/user', users.contact_us_email_user);
+router.post('/contact_us/organisation', users.contact_us_email_organisation);
 //guide pages
 router.get('/fund-profile-guide', function(req, res){
   var user;
@@ -80,7 +106,12 @@ router.get('/fund-profile-guide', function(req, res){
   else{
     user = false;
   }
+  console.log("HEY");
   res.render('fund-profile-guide', {user: user});
+});
+// Privacy policy
+router.get('/privacy-policy', function(req, res) {
+  res.render('privacy_policy');
 });
 
 router.get('/user-profile-guide', function(req, res){
