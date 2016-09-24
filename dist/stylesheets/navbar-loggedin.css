@@ -18,8 +18,10 @@ nav.navbar-custom.mobile {
   margin-right: 10px; }
 
 @media (max-width: 991px) {
-  .loggedin-nav .fa-cog, .loggedin-nav .fa-user, .loggedin-nav .fa-comment {
-    font-size: 18px; }
+  .navbar-custom ul.nav.navbar-nav.loggedin-nav {
+    margin-right: 5px; }
+    .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-cog, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-user, .navbar-custom ul.nav.navbar-nav.loggedin-nav .fa-comment {
+      font-size: 18px; }
   .loggedin-advanced {
     margin-left: -150px !important; }
   .loggedin-form {
@@ -138,9 +140,10 @@ nav.navbar-custom.mobile {
   font-size: 14px;
   border-top: 1px solid #ebe2e2;
   border-bottom: 1px solid #ebe2e2;
-  color: #337ab7;
   padding: 5px;
   cursor: pointer; }
+  #see-all a {
+    color: #337ab7; }
 
 .mobile-dashboard, .mobile-profile, .mobile-settings, .mobile-logout {
   display: block;

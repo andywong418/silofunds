@@ -213,11 +213,13 @@ $(document).ready(function() {
       data: JSON.stringify(descriptionData)
     });
     var refund;
-    if($('input#refund').prop('checked') === true){
-      refund = true;
-    }
-    else{
-      refund = false;
+    if(user.funding_accrued == null) {
+      if($('input#refund').prop('checked') === true){
+        refund = true;
+      }
+      else{
+        refund = false;
+      }
     }
     saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
   });
@@ -333,10 +335,10 @@ $(document).ready(function() {
 
   // Mobile jquery
   barSwitcher();
-  // activeClassAdder();
+  setTimeout(cameraFaviconMover(), 100) // Timeout required else image has not loaded and height is given to be 0
   $(window).resize(function() {
     barSwitcher();
-    // activeClassAdder();
+    cameraFaviconMover();
   })
 
   $("#top_div div.settings-tab-menu div.list-group div.flex-box").click(function(e) {
@@ -350,23 +352,46 @@ $(document).ready(function() {
     $("div.settings-tab div.settings-tab-content").eq(index).addClass("active-mobile");
   });
 
+  $('#delete').click(function() {
+    $('.modal-delete.modal.fade').modal('toggle')
+  })
+
+  if(user.funding_accrued !== null) {
+    $('.refund-choice').remove()
+  }
 });
 
 
 // Functions for mobile stuff
 function barSwitcher() {
   if($(window).width() <= 541) {
-    $('#left_div').hide();
+    $('#left_div').show()
+    $('#mobile-remove-div').hide();
     $('#top_div').show();
     $('#right_div').show();
     $('#right_div').removeClass('col-xs-8');
     $('#right_div').addClass('col-xs-12');
-    $('#big_flex_div').addClass('flex-direction', 'column')
+    $('#big_flex_div').addClass('flex-direction', 'column');
   } else {
-    $('#left_div').show();
+    $('#left_div').show()
+    $('#mobile-remove-div').show();
     $('#top_div').hide();
     $('#right_div').show();
     $('#right_div').addClass('col-xs-8');
     $('#right_div').removeClass('col-xs-12');
+  }
+}
+
+function cameraFaviconMover() {
+  if($(window).width() > 541) {
+    // We then user absolute position relative to left div
+    var imageWidth = $('#box-profile').width()
+    var cameraWidth = $('#box-profile .fa.fa-camera').width();
+    var left = (imageWidth - cameraWidth)/2
+    $('#box-profile .fa.fa-camera').css('margin-left', $('#left_div').css('padding-left'))
+    $('#box-profile .fa.fa-camera').css('left', left + 1) // Not sure why not exact, but +1 improves the centering
+    var top = $('#box-profile').height() - $('#box-profile .fa.fa-camera').height();
+    $('#box-profile .fa.fa-camera').css('top', top - 9);
+    console.log($('#box-profile').height())
   }
 }

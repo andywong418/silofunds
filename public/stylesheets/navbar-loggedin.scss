@@ -19,12 +19,15 @@ nav.navbar-custom.mobile{
 
 }
 @media(max-width: 991px){
-  .loggedin-nav{
-    .fa-cog, .fa-user, .fa-comment {
-      font-size: 18px;
+  .navbar-custom{
+    ul.nav.navbar-nav.loggedin-nav{
+      margin-right: 5px;
+      .fa-cog, .fa-user, .fa-comment {
+        font-size: 18px;
+      }
     }
-
   }
+
 
   .loggedin-advanced{
     margin-left: -150px !important;
@@ -187,9 +190,11 @@ nav.navbar-custom.mobile{
   font-size: 14px;
   border-top: 1px solid #ebe2e2;
   border-bottom: 1px solid #ebe2e2;
-  color: #337ab7;
   padding: 5px;
   cursor: pointer;
+  a{
+    color: #337ab7;
+  }
 }
 .mobile-dashboard, .mobile-profile, .mobile-settings, .mobile-logout{
   display: block;

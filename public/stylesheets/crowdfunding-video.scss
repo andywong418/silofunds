@@ -1,0 +1,125 @@
+@import 'general.scss';
+@import 'navbar.scss';
+@import 'advanced-search.scss';
+@import 'signup.scss';
+$header-color: #33485c;
+
+body{
+  background: #ffffff;
+  font-family: 'Source Sans Pro';
+  h3{
+      font-family: 'Source Sans Pro';
+  }
+  .navbar-custom{
+    position: relative;
+
+    div.navbar-center-container{
+      position: absolute;
+    }
+  }
+  #guide-header{
+    margin-top: 30px;
+    #guide-header-div{
+      width: 70%;
+      margin-left: 23%;
+      h3{
+        font-family: 'Source Sans Pro';
+        color: $header-color;
+        font-weight: bolder;
+        font-size: 28px;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+      #header-paragraph{
+        text-align: left;
+        font-size: 19px;
+        color: grey;
+        width: 80%;
+      }
+    }
+
+    #guide-header-image{
+      width: 50%;
+      margin-left: 23%;
+
+    }
+  }
+  section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion{
+    margin-left: 23%;
+    margin-top: 30px;
+    color: $header-color;
+    p{
+      width: 80%;
+      color: black;
+      font-size: 18px;
+    }
+  }
+  #conclusion{
+    margin-bottom: 50px;
+  } 
+}
+
+@media (max-width: 900px) {
+  body {
+    #guide-header {
+      #guide-header-div {
+        width: 88%;
+        margin-left: 7%;
+        margin-right: 5%;
+        p#header-paragraph {
+          width: 100%;
+        }
+      }
+      #guide-header-image {
+        width: 80%;
+        margin-left: 10%;
+      }
+    }
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 72%;
+      margin-left: 15%;
+      margin-right: 13%;
+      p {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  body {
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 78%;
+      margin-left: 12%;
+      margin-right: 10%;
+      h3 {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    #guide-header {
+      #guide-header-div {
+        width: 94%;
+        margin-left: 3%;
+        p#header-paragraph {
+          width: 100%;
+        }
+      }
+      #guide-header-image {
+        width: 90%;
+        margin-left: 5%;
+      }
+    }
+    section#step-one, section#step-two, section#step-three, section#step-four, section#step-five, section#conclusion {
+      width: 94%;
+      margin-left: 3%;
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

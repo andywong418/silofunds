@@ -31,6 +31,11 @@ $(document).ready(function() {
       }
     },
     scrollToFeatures: function(){
+      mixpanel.track(
+        "Played song",
+        {"genre": "OKAY"}
+      );
+
       $('html, body').animate({
         scrollTop: $("#showcase").offset().top -20
       }, 1500, "easeOutQuart");
@@ -173,7 +178,11 @@ var parallax = document.querySelectorAll(".parallax"),
     });
 
   });
-  $.stellar();
+  $.stellar({
+    horizontalScrolling: false,
+     verticalOffset: -200,
+     horizontalOffset: 0
+});
   var viewPortWidth = $(window).width();
   if(viewPortWidth < 994){
     $('#relevant-div').css('background-repeat', 'none');

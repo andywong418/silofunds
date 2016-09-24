@@ -20,7 +20,7 @@ block content
   #search-helper-text
     .arrow_box Use the search bar to find relevant funding opportunities and connect with other users
   section#content
-    #messages-tab-menu.col-md-3.container-fluid
+    #messages-tab-menu.col-md-3.col-sm-3.col-xs-0.container-fluid
       .list-group
         //- #search-group.input-group
         //-   span#basic-addon1.input-group-addon 
@@ -28,19 +28,32 @@ block content
         //-   input.form-control(type='text', placeholder='Search')
         if allUsers
           each user in allUsers
-            a.list-group-item(id="user-" + user.id)
-              img(src=user.profile_picture)
-              h5= user.username
-              span.glyphicon.glyphicon-menu-right
+            if user.unread
+              a.list-group-item.mobile-click.unread-user(id="user-" + user.id)
+                img(src=user.profile_picture)
+                h5= user.username
+                span.glyphicon.glyphicon-menu-right
+            else
+              a.list-group-item.mobile-click(id="user-" + user.id)
+                img(src=user.profile_picture)
+                h5= user.username
+                span.glyphicon.glyphicon-menu-right
         else
           p#no-messages You don't seem to have any messages. Start a conversation with a fund or another user
             span#nowspan now
-    #messages-tab-content.col-md-9.container-fluid
+    #messages-tab-content.col-md-9.col-sm-9.col-xs-9.container-fluid
+      #messageInfoDiv.col-xs-12.mobile
+        a#backButton.fa.fa-chevron-left
+        .float-right
+          span#userToName
+        .mobile-pic-div
+          img#userToProfilePicture
       #messages-list
         ul#messages
       #input-form
         form#msg(action='')
-          .col-md-12
+          i#messageIcon.fa.fa-users.col-xs-1
+          .col-md-12.col-sm-12.col-xs-11
             input#m(autocomplete='off')
             button Send  
 block scripts

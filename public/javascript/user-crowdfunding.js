@@ -3,7 +3,7 @@ $(document).ready(function(){
     $('.active-item').removeClass('active-item');
     $(this).find('p').addClass('active-item');
   });
-
+  $('.fa-check-circle').tooltip();
   if(user.funding_accrued){
     var amount = user.funding_accrued;
     var goal = user.funding_needed;

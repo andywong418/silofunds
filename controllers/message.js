@@ -7,7 +7,7 @@ module.exports = {
       var userId = req.user.id;
       var allUsers = [];
       var userArray = [userId];
-      models.messages.findAll({where: {$or: [{user_from: userId}, {user_to: {$contains: userArray}}]}}).then(function(messages){
+      models.messages.findAll({where: {$or: [{user_from: userId}, {user_to: {$contains: userArray}}]}, order: '"created_at"   DESC'}).then(function(messages){
         console.log("messages", messages);
         if(messages.length > 0){
           async.each(messages, function(message, callback){
@@ -18,6 +18,10 @@ module.exports = {
               models.users.findById(message.user_from).then(function(user){
                 if(user.profile_picture){
                   userObj['profile_picture'] = user.profile_picture;
+                }
+                if(!message.read_by_recipient){
+                  console.log("DSE", message.read_by_recipient);
+                  userObj['unread'] = true;
                 }
                 userObj['username'] = user.username;
                 userObj['id'] = user.id;
@@ -72,7 +76,7 @@ module.exports = {
           async.each(messages, function(message, callback){
             var userObj = {};
             console.log("message to", message.user_to[0]);
-            //Only handle one to one user first. Use indexOf for multiple users. 
+            //Only handle one to one user first. Use indexOf for multiple users.
             if(message.user_to[0] == userFrom){
               //message was sent to logged in user
               models.users.findById(message.user_from).then(function(user){

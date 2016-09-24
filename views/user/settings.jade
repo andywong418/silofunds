@@ -22,47 +22,31 @@ block content
           if user.profile_picture
             input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#userImage(src=user.profile_picture)
-            i.fa.fa-camera
+            i.fa.fa-camera.desktop
           else
             input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#userImage(src='/images/profile-placeholder.jpg')
-            i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
-      .settings-tab-menu
-        .list-group
-          a.list-group-item.active(href="#")
-            h5 General settings
-              span.glyphicon.glyphicon-menu-right.remove-sm
-          a.list-group-item(href="#")
-            h5 Personal settings
-              span.glyphicon.glyphicon-menu-right.remove-sm
-          a.list-group-item(href="#")
-            h5 Campaign settings
-              span.glyphicon.glyphicon-menu-right.remove-sm
-          a.list-group-item(href="#")
-            h5 Education settings
-              span.glyphicon.glyphicon-menu-right.remove-sm
-      .logout-tab
-        .list-group
-          a.list-group-item(href="/user/logout")
-            h5 Logout
-    #top_div.col-xs-12 
-      #profile-mob-flex
-        .profile
-          #box-profile 
-            if user.profile_picture
-              input#my_file(type='file', style='display: none;', name = 'profile_picture')
-              img.userImageMobile#userImage(src=user.profile_picture)
-              i.fa.fa-camera
-            else
-              input#my_file(type='file', style='display: none;', name = 'profile_picture')
-              img#userImage(src='/images/profile-placeholder.jpg')
-              i.fa.fa-camera(style='color: grey; left: 45%;top: 125px')
-        #profile-logout-space
+            i.fa.fa-camera.desktop(style='color: grey; left: 45%;top: 125px')
+      #mobile-remove-div
+        .settings-tab-menu
+          .list-group
+            a.list-group-item.active(href="#")
+              h5 General settings
+                span.glyphicon.glyphicon-menu-right.remove-sm
+            a.list-group-item(href="#")
+              h5 Personal settings
+                span.glyphicon.glyphicon-menu-right.remove-sm
+            a.list-group-item(href="#")
+              h5 Campaign settings
+                span.glyphicon.glyphicon-menu-right.remove-sm
+            a.list-group-item(href="#")
+              h5 Education settings
+                span.glyphicon.glyphicon-menu-right.remove-sm
         .logout-tab
           .list-group
-            #extra_div
-              a.list-group-item(href="/user/logout")
-                h5 Logout
+            a.list-group-item(href="/user/logout")
+              h5 Logout
+    #top_div.col-xs-12 
       .settings-tab-menu.flex-box
         .list-group
           .flex-box.active-mobile
@@ -120,6 +104,7 @@ block content
           .col-md-12.col-xs-12.footer
             button#save-general-settings.btn.btn-primary(type='submit') Save changes
             #save-general-settings-notification Your changes have been saved
+          include ../partials/delete-account.jade
         #personal-settings.settings-tab-content
           .col-md-12.col-xs-12.header
             h3 Personal Settings
@@ -135,7 +120,7 @@ block content
                 label.col-md-3.col-xs-3.padding-top-add(for='date_of_birth') Date of Birth
                 .col-md-6.col-xs-9
                   input#date_of_birth.form-control(type='date', name='date_of_birth', value=user.date_of_birth)
-              .col-md-12.col-xs-12
+              .col-md-12.col-xs-12#genderRow
                 label.col-md-3.col-xs-3(for='gender') Gender
                 .col-md-2.col-xs-2#gender-div
                   label.radio-inline
@@ -172,18 +157,18 @@ block content
                 .col-md-8.col-xs-9
                   if user.video
                     input#video( value = user.video, name="video")
-                    p Remember to use an 
+                    p.embedded-link Remember to use an 
                       a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
                   else
                     input#video(placholder = 'https://www.youtube.com/embed/Qa5tocl0BeA', name='video')
-                    p Remember to use an
+                    p.embedded-link Remember to use an
                       a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
                       | by copying and pasting the url from the iframe html
-              .col-xs-12
+              .col-xs-12.refund-choice
                 //- a(href='/user/refund') Refund
-                label.col-md-3.col-xs-3.padding-top-add(for='refund') Refund your donors if goal is not reached by completion date
-                .col-md-8
+                label.col-md-3.col-xs-10.padding-top-add(for='refund') Refund your donors if goal is not reached by completion date
+                .col-md-8.col-xs-2
                   if user.refund
                     input#refund(type = 'checkbox', checked= '')
                   else

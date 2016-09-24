@@ -1,4 +1,24 @@
 $(document).ready(function(){
+  //queryOptions for search
+  if(typeof query != 'undefined' && query){
+    for(var field in query){
+      $('.' + field).attr('value', query[field]);
+      if(field == 'merit_or_finance'){
+          $('#' + query[field]).attr("checked", "true");
+      }
+      if(field == 'gender'){
+        $('#' + query[field]).attr("checked", "true");
+      }
+    }
+  }
+  $('span#tokenKey i').click(function(){
+    var field = $(this).parent('#tokenKey').attr('class');
+    if(field == 'tags'){
+      $('input#text_search').val('');
+    }
+    $(this).closest('#tokenKey').fadeOut();
+    $('input#advanced_user_' +field).val('');
+  });
 
   for (var i = 0; i < userData.length; i++) {
     var UserModel = Backbone.Model.extend({
@@ -92,4 +112,28 @@ $(document).ready(function(){
 
     var userList = new UserList();
   }
+  var windowPortWidth =$(window).width();
+  if(windowPortWidth < 545){
+    $('.page-header.desktop').hide();
+    $('.page-header.mobile').show();
+    $('div[id="user-handler"]').hide();
+    var lastElementIndex = $('.main-mobile-row').length -1;
+    console.log($('.main-mobile-row')[lastElementIndex]);
+    $($('.main-mobile-row')[lastElementIndex]).css('border-bottom', 'none');
+  }
+  $(window).resize(function(){
+    var windowPortWidth =$(window).width();
+    if(windowPortWidth < 545){
+      $('.page-header.desktop').hide();
+      $('.page-header.mobile').show();
+      $('div[id="user-handler"]').hide();
+      var lastElementIndex = $('.main-mobile-row').length -1;
+      $($('.main-mobile-row')[lastElementIndex]).css('border-bottom', 'none');
+    }
+    if(windowPortWidth > 545){
+      $('.page-header.desktop').show();
+      $('.page-header.mobile').hide();
+      $('div[id="user-handler"]').show();
+    }
+  });
 });

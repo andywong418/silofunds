@@ -8,7 +8,7 @@ var router = express.Router();
 
 // User profile pages, these all use passport authentication
 router.get('/create', users.initialCreation);
-router.get('/dashboard', users.dashboard)
+router.get('/dashboard', users.dashboard);
 router.get('/profile', users.crowdFundingPage);
 router.get('/refund', users.refundDonors);
 router.get('/settings', users.settingsGET);
@@ -18,7 +18,7 @@ router.post('/settings/remove-file', users.settingsRemoveFile);
 router.post('/settings/update-description', users.settingsUpdateDocumentDescription);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application', users.addApplication);
-router.post('/edit-application/:id', users.editApplication)
+router.post('/edit-application/:id', users.editApplication);
 router.post('/add-favourite', users.addFavourite);
 router.post('/remove-favourite', users.removeFavourite);
 router.post('/create-update', users.createUpdate);
@@ -27,6 +27,8 @@ router.get('/home', users.dashboard);
 router.get('/authorize', users.authorizeStripe);
 router.post('/charge', users.chargeStripe);
 router.get('/oauth/callback', users.authorizeStripeCallback);
+router.get('/email-unsubscribe/:id', users.emailUnsubscribe);
+router.post('/delete', users.delete);
 // router.get('url-shortener', users.urlShortener);
 
 module.exports = router;

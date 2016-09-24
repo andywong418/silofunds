@@ -1,0 +1,129 @@
+if(!organisation.profile_picture)
+  #right_div(style='margin-top: 10px;')
+    //- #eligibility_div 
+    //-   p#eligibility_div_p This box will display any users eligibility for your fund
+    #box_3_right
+      p#eligibility_para_right Eligibility
+      hr
+      .eligibility-display
+        #subject-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-book
+            p.description Subject
+        #personal-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-user
+            p.description Personal
+        #education-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-education
+            p.description Education
+        #location-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-globe
+            p.description Location
+        #other-handler
+          .col-md-12.col-xs-12
+            p.description Other eligibility requirements
+        .row#just-trying
+          script#image-template(type='text/template')
+            .col-md-12.col-xs-12.criteria-box
+              .col-md-2.col-xs-2
+                img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+              .col-md-10.col-xs-10
+                span.criteria <%=criteria %>
+          script#other-eligibility-template(type='text/template')
+            .other-box
+              .col-md-12.col-xs-12
+                span.criteria <%= criteria %>
+
+    #eligibility_div 
+      p#eligibility_div_p 
+    #notEligible.modal-box
+      .modal-container 
+        .modal-bar
+          p Eligibility explanation
+        script#notEligible-template(type='text/template')
+          .row
+            #wrong-cross.col-md-2
+              i.fa.fa-times-circle(aria-hidden="true")
+            #fund-requirements.col-md-5
+              p#requirement-description <%= requirement_description %>
+              p#requirement <%= requirement %>
+            #user-info.col-md-5
+              p#user-description <%= user_description %>
+              p#user <%= user %>
+        a.disagree-email(href="mailto:howard@silofunds.com") Disagree? Email us and explain why you think you should be eligible for this fund.
+    #application_form
+      p.head Application process
+      hr
+      script#application-process(type='text/template')
+        if fund.application_open_date
+          #start_date  <%= application_open_date %>
+          p.arrow#arrow_1 
+            i.fa.fa-angle-double-down(aria-hidden="true")
+        if fund.application_documents
+          #documents_deadline <%= application_documents %>
+          p.arrow#arrow_2 
+            i.fa.fa-angle-double-down(aria-hidden="true")
+        if fund.interview_date
+          #interviews <%= interview_date %>
+          p.arrow#arrow3
+            i.fa.fa-angle-double-down(aria-hidden="true")
+        if fund.application_decision_date
+          #decision_date <%= application_decision_date %>
+        if fund.other_application_steps
+          #other-application
+            p Other application steps:  
+              span=fund.other_application_steps
+        a#apply_now_link.btn.btn-default(href!= '<%= application_link %>') Apply now
+        span#application-notification
+  script#tips-template(type='text/template')
+      .mb-style-3
+        blockquote#tips
+          p <%= tip %>
+        if organisation.profile_picture  
+          .mb-attribution
+              p.mb-author <%= tip_giver %>
+              cite 
+                //- a(href='#0') Funded by Silo for life
+                .mb-thumb
+                  img(src!= '<%= profile_picture %>')
+else
+  #right_div
+    #box_3_right
+      p#eligibility_para_right Eligibility
+      hr
+      .eligibility-display
+        #subject-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-book
+            p.description Subject
+        #personal-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-user
+            p.description Personal
+        #education-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-education
+            p.description Education
+        #location-handler
+          .col-md-12.col-xs-12
+            span.glyphicon.glyphicon-globe
+            p.description Location
+        #other-handler
+          .col-md-12.col-xs-12
+            p.description Other eligibility requirements
+        .row#just-trying
+          script#image-template(type='text/template')
+            .col-md-12.col-xs-12.criteria-box
+              .col-md-2.col-xs-2
+                img#icon-image(src!= '<%= imageSource %>', data-toggle = 'tooltip', title!= '<%= section%>')
+              .col-md-10.col-xs-10
+                span.criteria <%=criteria %>
+          script#other-eligibility-template(type='text/template')
+            .other-box
+              .col-md-12.col-xs-12
+                span.criteria <%= criteria %>
+                
+                

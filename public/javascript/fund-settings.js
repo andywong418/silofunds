@@ -215,4 +215,21 @@ $(document).ready(function(){
 			 return true;
 		 }
 	}
+
+	$('#delete').click(function() {
+		$('.modal-delete.modal.fade').modal('toggle')
+	})
+
+	hashchange();
+	$(window).bind('hashchange', hashchange);
 });
+
+
+// Functions
+function hashchange() {
+	if(window.location.hash == '#account') {
+		$('#delete-account').show()
+	} else {
+		$('#delete-account').hide()
+	}
+}

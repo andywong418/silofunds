@@ -1,0 +1,52 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/user-profile-guide.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade
+  section#guide-header.content-section
+    #guide-header-div
+      h3 Optimising your crowdfunding campaign
+      p#header-paragraph Asking for donations from friends and family can be a daunting task. Silo connects you with other organisations and networks to ease this process, but certain steps are still required for a successful page. In this guide we will provide you with tried and tested methods, used by successful crowdfunders, to enable your campaign to run as smoothly as possible. 
+    img#guide-header-image(src='/images/user-profile-guide-header-2.svg')
+  section#step-one.content-section
+    h3 Step 1: A compelling story
+    p Be as specific as you can. Your story is an opportunity to tell potential donors why you are crowdfunding; your love for your subject, your desire to go to your target university and your personal motivation are all unique to you. As difficult as it may seem to disclose your financial situation, this will ultimately encourage those who were in similar circumstances to donate and even give you advice!
+  section#step-two.content-section
+    h3 Step 2: Make a video
+    p Any serious crowdfunder will tell you that a video is essential to their cause. Based on statistics from Kickstarter a campaign with a video is 20% more likely to succeed than one without. The video is the first item on a crowdfunding page and you will be able to create a better connection with a potential donor on first impressions. This is so crucial that we have a guide just to 
+      a(href='/crowdfunding-video', style='cursor: pointer') create the perfect crowdfunding video.
+  section#step-three.content-section
+    h3 Step 3: Social media
+    p Using social media correctly can give you the exposure necessary to achieve your goals. Asking friends and family to share your crowdfunding page on Facebook can help garner more attention to your page. Creating a unique campaign hashtag is particularly useful for raising awareness. Targeted sharing in Facebook groups of your subject/research area and university pages will increase your outreach to donors with common interests. 
+  section#step-four.content-section
+    h3 Step 4: Time management
+    p When crowdfunding you will likely be busy with work and other commitments. This is exactly why it is important to manage your time and set a schedule for managing your campaign before launch. Starting a campaign as early as possible gives you a margin of error and more time available to spend tweaking your profile. A structured timeline will provide reassurance and routinely dedicating effort to your crowdfunding campaign will create a more polished profile than a rushed, last minute edit.
+  section#step-five.content-section
+    h3 Step 5: Past work
+    p Our team created the past work section specifically to help you show your passion in concrete form. By displaying work related to your future research, potential donors have a better understanding of your story. You can also use it to upload recommendation letters from tutors, or certificates awarded to you, as proof to potential donors of your academic credentials and future promise.
+  section#conclusion.content-section
+    h3 Conclusion
+    p(style='margin-bottom: 10px') We have created an outline of what our users should do, but what matters most is your persistence and determination. Our team will be with you all the way so do not hesistate to 
+      a(href='support@silofunds.com') contact us
+      | , either to connect with successful crowdfunders and potential donors or to let us know of any improvements we can make to enrich your user experience.
+    p.intro(style='color: #f39c12') With love from the Silo team
+      i.fa.fa-heart(style='color: red; margin-right: 5px; float: left; margin-top: 5px;')
+  
+  include ./partials/footer.jade  

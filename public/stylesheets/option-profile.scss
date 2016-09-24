@@ -121,7 +121,7 @@ h1 {
 #left_div {
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   flex-direction: column;
   height: auto;
   p{
@@ -184,8 +184,7 @@ h1 {
     margin-bottom: 10px;
     color: #2980b9;
   }
-  #fundBio {
-    width: 90%;
+  .fundBio {
     font-size: 15px;
     margin-bottom: 10px;
   }
@@ -288,14 +287,13 @@ h1 {
 
 #eligibility_div {
   display: none;
-  margin-top:50px;
+  margin-top:45px;
   width: 93%;
   height: 50px;
   background-color: #2F9F59;
   border-radius: 5px;
   cursor: pointer;
   border-radius: 5px;
-  padding-top: 10px;
   color: white;
   #ignore{
     color: white;
@@ -316,7 +314,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -336,9 +334,9 @@ h1 {
       padding-left: 15px;
       padding-top: 15px;
       overflow: auto;
-      .criteria-box{
+      .criteria-box {
           margin: 10px 0;
-          img{
+          img {
             width: 30px;
             height: auto;
             margin-left: 10px;
@@ -355,7 +353,9 @@ h1 {
               color: #2980b9;
             }
           }
-
+          .col-xs-10, .col-md-10 {
+            padding-right: 0;
+          }
       }
 
   }
@@ -402,7 +402,7 @@ h1 {
     }
     .col-md-12 {
       margin-top: 15px;
-      height: 40px;
+
     }
 
     #other-criteria-handler {
@@ -536,7 +536,7 @@ h1 {
 
 /* Applicaton form */
 
-#application_form {
+.application_form {
   width: 93%;
   margin-top: 6%;
   font-weight: bold;
@@ -610,7 +610,7 @@ h1 {
 }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -671,7 +671,7 @@ h1 {
 }
 .mb-style-3 blockquote p {
     font-family: 'Alegreya', serif;
-    font-size: 24px;
+    font-size: 18px;
     color: #6C809F;
     font-weight: 400;
     line-height: 40px;
@@ -684,7 +684,7 @@ h1 {
     font-style: normal;
     font-weight: 700;
     position: absolute;
-    font-size: 175px;
+    font-size: 100px;
     top: 0px;
     left: -105px;
     color:#8599b2;
@@ -900,16 +900,69 @@ h1 {
 
 
 // Mobile
+// Css needed as a result of making things partials and putting in .desktop divs
+#eligibility_div, #notEligible, .application_form {
+  width: 100%;
+}
+#right_div_desktop {
+  margin-left: 7%;
+  width: 100%;
+}
+#right_div {
+  margin-right: 31px;
+}
+#left_div_desktop {
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px;
+  #left_div {
+    width: 100%;
+    padding-right: 0;
+    #box_1 {
+      margin-top: 0;
+    }
+    #box_2 {
+      margin-top: 0;
+      a {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1076px) {
+  #favourite {
+    margin-left: -235px
+  }
+}
+@media(min-width: 1118px) {
+  @media (max-width: 1237px) {
+    #favourite {
+      margin-left: -230px
+    }
+  }
+  @media (max-width: 1167px) {
+    #favourite {
+      margin-left: -220px
+    }
+  }
+}
 
 @media (max-width: 990px) {
   #left_div {
     width: 35%;
-    #fundBio {
+    #box_1 {
+      margin-top: 15px;
+      #favourite {
+        margin-left: 0px;
+      }
+    }
+    .fundBio {
       width: 100%;
     }
   }
   #right_div {
-    width: 60%;
+    width: 100%;
     #start_date, #documents_deadline, #interviews, #decision_date {
       width: 80%;
     }
@@ -924,5 +977,161 @@ h1 {
   .mb-style-3 blockquote p {
     font-size: 19px;
     line-height: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .flex-flip {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  #favourite.favourite.mobile {
+    margin-left: 0;
+  }
+  #big_flex_div {
+    flex-direction: column;
+    padding: 20px 10px 0px 10px;
+    #left_div {
+      width: 100%;
+      flex-direction: row;
+      margin-left: 0;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-bottom: 20px;
+      #box_1 {
+        width: 60%;
+        img {
+          width: 80%;
+          margin-left: 10%;
+          margin-top: 30px;
+        }
+      }
+      #box_2 {
+        #message {
+          display: none;
+        }
+      }
+    }
+    #box_3_right .eligibility-display .col-md-12 {
+      height: auto;
+    }
+    #right_div {
+      width: 100%;
+      margin-right: 0;
+      #box_3_right {
+        width: 100%;
+      }
+    }
+    #eligibility_div {
+      margin: 0px 0px 20px 0px;
+      width: 100%;
+      p#eligibility_div_p, a{
+        font-size: 18px;
+      }
+    }
+  }
+  #top_div_mobile {
+    margin-top: 45px;
+  }
+  #left_info_div {
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 10px;
+    p {
+      font-size: 15px;
+    }
+  }
+  #bottom_div_mobile {
+    width: 100%;
+    .application_form {
+      width: 100%;
+    }
+  }
+}
+
+
+@media (max-width: 399px) {
+  #left_info_div p.fundBio {
+    margin-bottom: 0;
+  }
+  .mb-style-3 blockquote {
+    padding: 5px 2px 5px 2px;
+  }
+}
+
+@media(min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px;
+  }
+  #box_3_right .eligibility-display .other-box {
+    .col-md-12.col-xs-12 {
+      margin-top: 5px;
+      padding: 0px 25px;
+    }
+  }
+  #favourite.favourite.no-profile_picture {
+    margin-left: calc(-15px + 5px) !important; // The second digit is the actual margin from the left
+    margin-top: calc(-18px + 5px) !important; // The second digit is the actual margin from the top
+  }
+}
+
+// Initial hides to prevent flickering
+#top_div_mobile, #left_div {
+  display: none;
+}
+
+#big_flex_div #right_div #eligibility_div {
+  display: none;
+}
+
+// Extraas
+.container {
+  padding-left: 15px;
+}
+
+.centre-me {
+  display: flex;
+  align-items: centre;
+}
+
+@media (max-width: 1190px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1090px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 640px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 575px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 13px;
+    text-align: center;
   }
 }

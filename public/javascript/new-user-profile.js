@@ -467,4 +467,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 	 });
 	var router = new Router();
 	Backbone.history.start();
-});
+
+	window.location.hash = 'about'
+})

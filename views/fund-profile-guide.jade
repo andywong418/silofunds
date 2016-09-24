@@ -1,0 +1,133 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/fund-profile-guide.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade
+  section.content-section
+    .row
+      .col-xs-1
+      .col-xs-11
+        h3(style='color: white') User guide for funding institutions
+  section#writing.content-section
+    .intro-div
+      p.intro This article will guide you through the process of setting up an account on our website as a funding institution.
+      p.intro Creating an account opens up a whole suite of tools for you to easily manage all of your funding opportunities and essential features to maximise your outreach to students.
+      p.intro If you are a student, click 
+        a(href='/user-profile-setup') here 
+        | instead.
+    .step-one.steps
+      h3.step-header Part 1/5: Create an account
+      .step-one-div
+        img.step-img(src='/images/homepage-signup.gif')
+        p.intro Create an account first by going to our
+          a(href='/')= ' homepage. ' 
+          | Click the button on the top right corner of the page and a box should pop-up in the center of the screen. Fill in your details and make sure to check the box for 
+          span(style='font-weight: 700') "Sign up as a fund institution" 
+          span before clicking 
+          span(style='font-weight: 700') "Create Account".
+        p.intro (Please note that the email address entered here will be the email address visible to students for all of
+          your awards)
+        p.intro Alternatively, you can go to 
+          a(href='/register') the register page 
+          | and complete the signup form there. Again be sure to check the box for "Sign up as a fund institution".
+    .step-two.steps
+      h3.step-header Part 2/5: Enter your organisation
+      .step-two-div
+        img.step-img.step-img-2(src='/images/organisation-create.gif')
+        p.intro You will now have landed on a page with a section for uploading a profile picture and 2 questions detailing brief information about your institution.
+        p.intro Simply click into the box containing the placeholder image to upload an image locally stored on your computer.
+        p.intro It is important to upload a profile picture as this picture will be shown on all your awards (scholarships, bursaries, etc). 
+          strong A profile picture will increase your exposure and improve the aesthetic of your page.
+    .step-three.steps
+      h3.step-header Part 3/5 Choose An award type
+      .steps-three-div
+        img.step-img(src='/images/options.png')
+        p.intro The page above gives you an option to choose the type of award your institution provides.
+        ul
+          li
+            strong= 'Scholarship - '
+            | These are given on the basis of academic merit or other achievements and will normally be competitive.
+          li
+            strong= 'Bursary - '
+            | Bursaries are given based on financial need and are usually non-competitive.
+          li
+            strong='Grant - '
+            | Grants can be given based on either merit or financial needs, but can also be awarded for research projects and other miscellaneous reasons.
+          li 
+            strong='Prize - '
+            | Prizes are usually awarded based on specific topics determined by funding institutions and requires submitted work from applicants. This work will then determine the allocation of prizes.
+        p.intro By hovering on the different options you can then create an award.
+    .step-four.steps
+      h3.step-header Part 4/5 Creating an award
+      .step-four-div
+        p.intro When you create an award you are inputting information that will then become visible to a potential applicant. As a result, it is important for there to be as much relevant information as possible.
+        p.intro 
+          strong(style='font-size: 18px') General information
+        img.step-img(src='/images/award-create.gif')
+        p.intro The description in this section should be 
+          strong short and concise 
+          | - detailing the main aims of the award and any key facts.
+        p.intro The amount offered is important as it allows the potential applicant to plan ahead and pursue other funding opportunities if necessary. Moreover the amount stated should be a total amount 
+          strong - i.e. duration of award multiplied by the per time unit amount offered.
+        p.intro Tags are bits of 
+          strong miscellaneous 
+          | information that you consider to be of utmost importance in describing the award. For example if the award's main purpose is to assist students working toward a thesis, the tag 'thesis' should be included.
+        p.intro
+          strong(style='font-size: 18px') Eligibility requirements
+        img.step-img(src='/images/award-create-2.gif')
+        p.intro This section is crucial in regards to the search engine. The information will be used to help us match you with eligible students. As a result we ask you kindly 
+            strong to add 'all' to a specific field if you have no special requirements for that criteria. E.g. if you do not specify a subject please put 'all' in the input box.
+        p.intro We have split the eligiblity requirements into categories, which you can then click through. Pressing the 'save progress' button will save all the eligibility criteria in the section, so do make sure you enter all the necessary criteria before you press the button (you can always press the back button in your browser to step back a page).
+        p.intro 
+          strong Only put information in the 'other eligibility' section if it is necessary and if it is not listed in the previous categories 
+          | - there should be no duplication with previous data you have entered in the section. 
+        p.intro
+          strong(style='font-size: 18px') Application processes
+        img.step-img(src='/images/award-create-3.gif')
+        p.intro The information used here will be helpful to students and will likely reduce the number of queries received via email.
+        p.intro The link to the application form allows students to be redirected to your own application system - we do not handle any applications.
+        p.intro 
+          strong The 'Other application processes field' should only be populated if it is necessary and if it is not listed in the other application steps above. 
+          | There should be no duplication with previous data you have entered in the section. 
+        p.intro Providing some tips and guides for applicants will make it easier for applicants to submit an application and also increase the quality of said applications. 
+          strong Thus it will become easier for you to select suitable candidates for an award. 
+    .step-five.steps
+      h3.step-header Part 5/5 Managing your awards
+      .step-five-div
+        img.step-img(src='/images/fund-profile-guide.png')
+        p.intro You should now see a page similar to the one above. At the top of the page you can then edit the award profile by clicking the top bar.
+        img.step-img(src='/images/fund-dashboard-guide.png')
+        p.intro On your dashboard you can add more funding opportunities and manage your applications. 
+          strong By approving a student's application you can add validity to their crowdfunding page - increasing the likelihood of him/her taking the award eventually.
+    .finally-done.steps(style='border-bottom: none')
+      .finally-done-div
+        p.intro That's all from us! If you have any issues please do not hesitate to 
+          a(href='mailto:support@silofunds.com') contact us 
+          | and we will personally reach out to help you solve any issues.
+        p.intro(style='color: #f39c12') With love from the Silo team
+          i.fa.fa-heart(style='color: red; margin-right: 5px; float: left; margin-top: 3px;')
+        
+  include ./partials/footer.jade  
+block scripts
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/notifications.js')
+  script(src='/javascript/signup-login.js')
+          
+    

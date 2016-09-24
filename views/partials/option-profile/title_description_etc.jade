@@ -1,0 +1,94 @@
+#box_1
+  if fund.link
+    a#fundWebsite(href=fund.link)
+      if organisation
+        if(organisation.profile_picture)
+          span#favourite.favourite.profile_picture.mobile ☆
+          img#fundImage(src=organisation.profile_picture)
+          span#favourite.favourite.profile_picture.desktop ☆
+  else
+    //- a#fundWebsite(href='/organisation/options/' + fund.id )
+    if organisation
+      if(organisation.profile_picture)
+        span#favourite.favourite.profile_picture.mobile ☆
+        img#fundImage(src=organisation.profile_picture)
+        span#favourite.favourite.profile_picture.desktop ☆
+#box_2
+  if ownedFund && !organisation.profile_picture
+    img#fund_img_placeholder(src="/images/fund_img_placeholder.jpg")
+    #arrow_box_div
+      .arrow_box
+        | You still need to add an image (or logo) for your fund
+  if fund.link
+    if !organisation.profile_picture
+      a#external-link( href!= fund.link, target='_blank', style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
+        span#favourite.favourite.no-profile_picture(style='margin-left: -20px;margin-top: -25px') ☆
+        #fund_title_div
+          h4(style='font-size: 22px;')#bio=fund.title
+        
+    else
+      a#external-link(href!=fund.link)
+        h4#bio=fund.title
+  else  
+    if !organisation.profile_picture
+      span#favourite.favourite(style='margin-left: 10px;margin-top: 13px') ☆
+      h4#bio(style='background: white;font-size: 22px; padding: 30px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
+    else
+      h4#bio=fund.title
+  #left_info_div
+    p.fundBio.desktop
+    if fund.number_of_places
+      .info-row
+        i.fa.fa-archive(aria-hidden="true")
+        p#number_of_places= fund.number_of_places + ' '
+        span places available
+    if fund.minimum_amount && !fund.maximum_amount
+      .info-row
+        i.fa.fa-gbp(aria-hidden="true")
+        p#amount=fund.minimum_amount + '+'
+    if !fund.minimum_amount && fund.maximum_amount
+      .info-row
+        i.fa.fa-gbp(aria-hidden="true")
+        p#amount='<' + fund.maximum_amount
+    if fund.minimum_amount && fund.maximum_amount
+      .info-row
+        i.fa.fa-gbp(aria-hidden="true")
+        p#amount=fund.minimum_amount + ' - ' + fund.maximum_amount
+    if fund.duration_of_scholarship
+      .info-row
+        i.fa.fa-calendar-check-o(aria-hidden="true")
+        p#duration= 'This ' + fund.support_type + ' will last for ' 
+          span= fund.duration_of_scholarship
+  a#message.center-block.btn.btn-default(href="mailto:" + organisation.email)
+    i.fa.fa-comments-o(aria-hidden="true")
+    |Message us
+//- #box_3
+//-   p#general General Info
+//-   hr
+//- #left_info_div.mobile
+//-   p.fundBio
+//-   if fund.number_of_places
+//-     .info-row
+//-       i.fa.fa-archive(aria-hidden="true")
+//-       p#number_of_places= fund.number_of_places + ' '
+//-       span places available
+//-   if fund.minimum_amount && !fund.maximum_amount
+//-     .info-row
+//-       i.fa.fa-gbp(aria-hidden="true")
+//-       p#amount=fund.minimum_amount + '+'
+//-   if !fund.minimum_amount && fund.maximum_amount
+//-     .info-row
+//-       i.fa.fa-gbp(aria-hidden="true")
+//-       p#amount='<' + fund.maximum_amount
+//-   if fund.minimum_amount && fund.maximum_amount
+//-     .info-row
+//-       i.fa.fa-gbp(aria-hidden="true")
+//-       p#amount=fund.minimum_amount + ' - ' + fund.maximum_amount
+//-   if fund.duration_of_scholarship
+//-     .info-row
+//-       i.fa.fa-calendar-check-o(aria-hidden="true")
+//-       p#duration= 'This ' + fund.support_type + ' will last for ' 
+//-         span= fund.duration_of_scholarship
+//- a#message.center-block.btn.btn-default(href="mailto:" + organisation.email)
+//-   i.fa.fa-comments-o(aria-hidden="true")
+//-   |Message us

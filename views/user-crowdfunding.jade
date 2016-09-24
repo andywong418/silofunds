@@ -40,7 +40,8 @@ block content
 		var donations = !{JSON.stringify(donations)};
 		var updates = !{JSON.stringify(updates)};
 		var loggedInUser = !{JSON.stringify(loggedInUser)};
-		if(loggedInUseruser){
+		console.log(loggedInUser)
+		if(loggedInUser){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 			windowPortWidth = window.innerWidth;
 			if(windowPortWidth <767){
@@ -50,6 +51,7 @@ block content
 	include ./navbar.jade
 	include ./partials/navbar-loggedin.jade
 	include ./advanced-search.jade
+	include ./partials/signup-modal.jade
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible
 	#crowdfunding-wrapper.container

@@ -82,22 +82,25 @@ $(function() {
   try {
     try {
       if (fund.target_degree) {
+        console.log(fund.target_degree);
         var targetDegreeArray = [];
 
         for (var j = 0; j < fund.target_degree.length; j++) {
-          var targetDegreesWrapper = {};
-          targetDegreesWrapper .id = fund.target_degree[j].capitalize();
-          targetDegreesWrapper.name = fund.target_degree[j].capitalize();
+          var targetDegreeWrapper = {};
+          targetDegreeWrapper .id = fund.target_degree[j].capitalize();
+          targetDegreeWrapper.name = fund.target_degree[j].capitalize();
 
-          targetDegreesArray.push(targetDegreesWrapper);
+          targetDegreeArray.push(targetDegreeWrapper);
         }
 
         $('input#target_degree').tokenInput('/autocomplete/degrees', {
           "theme": "facebook",
-          "prePopulate": targetDegreesArray,
+          "prePopulate": targetDegreeArray,
           "allowFreeTagging": true
         });
       } else {
+        console.log(fund.target_degree);
+
         $('input#target_degree').tokenInput('/autocomplete/degrees', { "theme": "facebook", "allowFreeTagging": true });
       }
     } catch (e) {
@@ -151,7 +154,7 @@ $(function() {
 
         $('input#target_university').tokenInput('/autocomplete/universities', {
           "theme": "facebook",
-          "prePopulate": requiredDegreesArray,
+          "prePopulate": targetUniversityArray,
           "allowFreeTagging": true
         });
       } else {

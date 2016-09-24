@@ -44,6 +44,8 @@ p {
     text-transform: capitalize; }
   .navbar-custom a {
     color: #fff; }
+  .navbar-custom #advs-link {
+    cursor: pointer; }
   .navbar-custom ul.nav.navbar-nav {
     margin-right: 10px; }
   .navbar-custom .navbar-brand {
@@ -195,6 +197,12 @@ a#user-message span, a#home span {
     outline: none;
     background-color: rgba(255, 255, 255, 0.3); }
 
+#notification-time {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 0;
+  margin-top: 5px; }
+
 #brand-image {
   margin-top: -15px;
   position: relative;
@@ -222,7 +230,7 @@ a#user-message span, a#home span {
 
 @media (max-width: 991px) {
   #brand-image {
-    margin-left: -30px; }
+    margin-left: 30px; }
   .cd-signup {
     margin-right: -50px; }
   #advanced-age, #advanced-nationality, #religion {
@@ -233,9 +241,9 @@ a#user-message span, a#home span {
   .radio-inline {
     margin-top: 10px; } }
 
-@media (max-width: 992px) and (min-width: 875px) {
-  #brand-heading {
-    margin-left: -30px; } }
+@media (max-width: 992px) {
+  .navbar-custom ul.nav.navbar-nav {
+    margin-right: 80px; } }
 
 @media (max-width: 920px) {
   #brand-image {
@@ -249,12 +257,6 @@ a#user-message span, a#home span {
     margin-left: 0px; }
   #text_search, #amount_req, #age {
     border-color: rgba(45, 74, 118, 0.55); } }
-
-@media (max-width: 875px) {
-  #brand-heading img {
-    margin-left: -60px; }
-  ul.navbar-nav {
-    margin-left: -150px; } }
 
 @media (max-width: 849px) {
   #navbar-form {
@@ -292,7 +294,8 @@ a#user-message span, a#home span {
   #advs-link {
     margin-right: -55px; }
   #search_button {
-    margin-left: -6px; }
+    margin-left: -6px;
+    margin-top: 0px !important; }
   .navbar-toggle {
     position: relative;
     z-index: 10;
@@ -312,7 +315,10 @@ a#user-message span, a#home span {
     margin-left: -125px; }
   div.advs-link {
     position: relative;
-    z-index: 10; } }
+    z-index: 10; }
+  #text_search {
+    width: 210px;
+    margin-left: 0; } }
 
 div.navbar-center-container {
   -webkit-transform: translate(-50%, 0);
@@ -680,12 +686,10 @@ div.navbar-center-container {
   .cd-form {
     padding: 2em;
     padding-bottom: 5px !important; }
-    .cd-form .fieldset {
-      margin: 2em 0; }
-      .cd-form .fieldset:first-child {
-        margin-top: 0; }
-      .cd-form .fieldset:last-child {
-        margin-bottom: 0; }
+    .cd-form .fieldset:first-child {
+      margin-top: 0; }
+    .cd-form .fieldset:last-child {
+      margin-bottom: 0; }
     .cd-form input.has-padding {
       padding: 16px 20px 16px 50px; }
     .cd-form button[type=submit] {
@@ -789,7 +793,6 @@ div.navbar-center-container {
 #remember {
   position: relative;
   float: left;
-  margin-top: 0;
   z-index: 7;
   display: none; }
   #remember label {
@@ -912,6 +915,10 @@ margin-right: -40px;
 #borderme {
   border: 3px solid pink; }
 
+#fund-option, #remember {
+  margin-top: -20px;
+  margin-bottom: 20px; }
+
 body {
   font-size: 14px;
   font-family: "PT Sans" !important;
@@ -1014,7 +1021,7 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   width: 23%;
-  margin-left: 3%;
+  padding: 0;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1077,8 +1084,7 @@ h1 {
     margin-top: 10px;
     margin-bottom: 10px;
     color: #2980b9; }
-  #box_2 #fundBio {
-    width: 90%;
+  #box_2 .fundBio {
     font-size: 15px;
     margin-bottom: 10px; }
   #box_2 .info-row {
@@ -1163,14 +1169,13 @@ h1 {
 
 #eligibility_div {
   display: none;
-  margin-top: 50px;
+  margin-top: 45px;
   width: 93%;
   height: 50px;
   background-color: #2F9F59;
   border-radius: 5px;
   cursor: pointer;
   border-radius: 5px;
-  padding-top: 10px;
   color: white; }
   #eligibility_div #ignore {
     color: white;
@@ -1187,7 +1192,7 @@ h1 {
 #box_3_right {
   border: 1px solid black;
   border-radius: 5px;
-  width: 93%;
+  width: 100%;
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
@@ -1221,6 +1226,8 @@ h1 {
         color: #717f8d; }
         #box_3_right .eligibility-display .criteria-box .criteria #to, #box_3_right .eligibility-display .criteria-box .criteria #required, #box_3_right .eligibility-display .criteria-box .criteria #for {
           color: #2980b9; }
+      #box_3_right .eligibility-display .criteria-box .col-xs-10, #box_3_right .eligibility-display .criteria-box .col-md-10 {
+        padding-right: 0; }
   #box_3_right .eligibility-display .glyphicon {
     font-size: 25px;
     margin-right: 10px; }
@@ -1236,8 +1243,7 @@ h1 {
   #box_3_right .eligibility-display #education-handler #criteria-handler:nth-child(3n+2) .criteria-box {
     clear: both; }
   #box_3_right .eligibility-display .col-md-12 {
-    margin-top: 15px;
-    height: 40px; }
+    margin-top: 15px; }
   #box_3_right .eligibility-display #other-criteria-handler .other-box {
     padding-top: 5px;
     padding-bottom: 10px; }
@@ -1334,7 +1340,7 @@ h1 {
       cursor: pointer; }
 
 /* Applicaton form */
-#application_form {
+.application_form {
   width: 93%;
   margin-top: 6%;
   font-weight: bold;
@@ -1344,10 +1350,10 @@ h1 {
   background-color: white;
   padding-top: 1%;
   padding-bottom: 30px; }
-  #application_form hr {
+  .application_form hr {
     width: 100%;
     margin-top: 5px; }
-  #application_form #application-handler {
+  .application_form #application-handler {
     margin-top: 15px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1363,7 +1369,7 @@ h1 {
         -ms-flex-align: center;
             align-items: center;
     padding-top: 15px; }
-  #application_form .head {
+  .application_form .head {
     font-size: 20px;
     text-align: left;
     padding-left: 2%;
@@ -1403,7 +1409,7 @@ h1 {
       font-weight: normal; }
 
 #apply_now_link {
-  margin-top: 30px;
+  margin-top: 20px;
   text-decoration: none;
   background-color: rgba(0, 153, 153, 0.8);
   border-radius: 4px;
@@ -1460,7 +1466,7 @@ h1 {
 
 .mb-style-3 blockquote p {
   font-family: 'Alegreya', serif;
-  font-size: 24px;
+  font-size: 18px;
   color: #6C809F;
   font-weight: 400;
   line-height: 40px;
@@ -1473,7 +1479,7 @@ h1 {
   font-style: normal;
   font-weight: 700;
   position: absolute;
-  font-size: 175px;
+  font-size: 100px;
   top: 0px;
   left: -105px;
   color: #8599b2;
@@ -1707,13 +1713,53 @@ h1 {
   height: auto;
   cursor: pointer; }
 
+#eligibility_div, #notEligible, .application_form {
+  width: 100%; }
+
+#right_div_desktop {
+  margin-left: 7%;
+  width: 100%; }
+
+#right_div {
+  margin-right: 31px; }
+
+#left_div_desktop {
+  width: 30%;
+  margin-right: 46px;
+  margin-left: 31px; }
+  #left_div_desktop #left_div {
+    width: 100%;
+    padding-right: 0; }
+    #left_div_desktop #left_div #box_1 {
+      margin-top: 0; }
+    #left_div_desktop #left_div #box_2 {
+      margin-top: 0; }
+      #left_div_desktop #left_div #box_2 a {
+        padding: 0; }
+
+@media (max-width: 1076px) {
+  #favourite {
+    margin-left: -235px; } }
+
+@media (min-width: 1118px) and (max-width: 1237px) {
+  #favourite {
+    margin-left: -230px; } }
+
+@media (min-width: 1118px) and (max-width: 1167px) {
+  #favourite {
+    margin-left: -220px; } }
+
 @media (max-width: 990px) {
   #left_div {
     width: 35%; }
-    #left_div #fundBio {
+    #left_div #box_1 {
+      margin-top: 15px; }
+      #left_div #box_1 #favourite {
+        margin-left: 0px; }
+    #left_div .fundBio {
       width: 100%; }
   #right_div {
-    width: 60%; }
+    width: 100%; }
     #right_div #start_date, #right_div #documents_deadline, #right_div #interviews, #right_div #decision_date {
       width: 80%; }
     #right_div #other-application p {
@@ -1724,3 +1770,125 @@ h1 {
   .mb-style-3 blockquote p {
     font-size: 19px;
     line-height: 20px; } }
+
+@media (max-width: 767px) {
+  .desktop {
+    display: none; }
+  .flex-flip {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse; }
+  #favourite.favourite.mobile {
+    margin-left: 0; }
+  #big_flex_div {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 20px 10px 0px 10px; }
+    #big_flex_div #left_div {
+      width: 100%;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      margin-left: 0;
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-bottom: 20px; }
+      #big_flex_div #left_div #box_1 {
+        width: 60%; }
+        #big_flex_div #left_div #box_1 img {
+          width: 80%;
+          margin-left: 10%;
+          margin-top: 30px; }
+      #big_flex_div #left_div #box_2 #message {
+        display: none; }
+    #big_flex_div #box_3_right .eligibility-display .col-md-12 {
+      height: auto; }
+    #big_flex_div #right_div {
+      width: 100%;
+      margin-right: 0; }
+      #big_flex_div #right_div #box_3_right {
+        width: 100%; }
+    #big_flex_div #eligibility_div {
+      margin: 0px 0px 20px 0px;
+      width: 100%; }
+      #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+        font-size: 18px; }
+  #top_div_mobile {
+    margin-top: 45px; }
+  #left_info_div {
+    background-color: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    padding: 10px; }
+    #left_info_div p {
+      font-size: 15px; }
+  #bottom_div_mobile {
+    width: 100%; }
+    #bottom_div_mobile .application_form {
+      width: 100%; } }
+
+@media (max-width: 399px) {
+  #left_info_div p.fundBio {
+    margin-bottom: 0; }
+  .mb-style-3 blockquote {
+    padding: 5px 2px 5px 2px; } }
+
+@media (min-width: 768px) {
+  #other-application {
+    padding: 30px 40px 0px 40px;
+    margin-top: 10px; }
+  #box_3_right .eligibility-display .other-box .col-md-12.col-xs-12 {
+    margin-top: 5px;
+    padding: 0px 25px; }
+  #favourite.favourite.no-profile_picture {
+    margin-left: calc(-15px + 5px) !important;
+    margin-top: calc(-18px + 5px) !important; } }
+
+#top_div_mobile, #left_div {
+  display: none; }
+
+#big_flex_div #right_div #eligibility_div {
+  display: none; }
+
+.container {
+  padding-left: 15px; }
+
+.centre-me {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: centre;
+      -ms-flex-align: centre;
+          align-items: centre; }
+
+@media (max-width: 1190px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 18px; } }
+
+@media (max-width: 1090px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 16px; } }
+
+@media (max-width: 900px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 14px; } }
+
+@media (max-width: 767px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 17px; } }
+
+@media (max-width: 640px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 15px; } }
+
+@media (max-width: 575px) {
+  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
+    font-size: 13px;
+    text-align: center; } }

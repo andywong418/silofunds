@@ -43,7 +43,8 @@ $(document).ready(function() {
     //
     $(this).siblings('a.active').removeClass("active");
     $(this).addClass("active");
-
+    $(this).css('background-color', "#337ab7");
+    $(this).siblings('a').css('background-color', 'white');
     var userToID = $(this).attr("id").split("-")[1];
     var userFromID = user.id;
     var readyToReceiveFrom = userToID;
@@ -60,6 +61,14 @@ $(document).ready(function() {
     $('#messages-list').scrollTop($("#messages-list")[0].scrollHeight);
   });
 
+  var unreadUsers = $(document).find('.unread-user');
+  for(var i = 0; i < unreadUsers.length; i++){
+    console.log(unreadUsers[i]);
+    if(!$(unreadUsers[i]).hasClass('active')){
+      console.log(unreadUsers[i]);
+      $(unreadUsers[i]).css('background-color', '#f5f5f5');
+    }
+  }
   /* Socket IO Client */
 
   $('form').submit(function(e) {
@@ -85,21 +94,22 @@ $(document).ready(function() {
   });
 
   socket.on('private message', function(data){
-    var userFromIsNotAppended = $('#messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
+    var userFromIsNotAppended = $('.messages-tab-menu .list-group .list-group-item#user-' + data.userFromID).length === 0;
 
     if (userFromIsNotAppended && user.id === parseInt(data.userToID)) {
-      $('#messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
+      $('.messages-tab-menu .list-group').prepend('<a id="user-' + data.userFromID + '" class="list-group-item"><img src="' + data.userFrom.profile_picture + '"/><h5>' + data.userFrom.username + '</h5><span class="glyphicon glyphicon-menu-right"></span></a>');
     }
 
     try {
       var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
       if(data.userToID == userActiveID || data.userFromID == userActiveID){
           var timeNow = new Date().toISOString();
-          $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profile">' + data.userFrom.username + ':</a></span><li>' + data.msg + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(timeNow) + '</div></div><br>');
+          $('#messages').append('<div class="user_from col-md-12 col-md-1 col-xs-12"><img class="col-md-1 col-xs-1" src=' + data.userFrom.profile_picture + ' /><div class="col-md-9 col-md-9 col-xs-9"><span class="user_from">' + '<a href="/user/profile">' + data.userFrom.username + ':</a></span><li>' + data.msg + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(timeNow) + '</div></div><br>');
       }
 
       if(data.read_by_recipient && data.userFromID == user.id){
-        $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+        console.log("READ");
+        $('#messages').append('<div class="read_col user_to col-md-12 col-md-1 col-xs-12"><div class="col-md-9 col-xs-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
       }
       else{
         $('.read_col').remove();
@@ -111,6 +121,10 @@ $(document).ready(function() {
   });
 
   socket.on('bulk get message', function(data) {
+    userToName = data.userTo.username;
+    userToProfilePicture = data.userTo.profile_picture
+    $('#messageInfoDiv span').text(userToName);
+    $('#messageInfoDiv img#userToProfilePicture').attr('src', userToProfilePicture);
     var arr_of_messages = data.bulk_messages;
     $('#messages').empty();
     var dateNow = new Date();
@@ -127,7 +141,7 @@ $(document).ready(function() {
     var appendLongAgoFirstMessage = 0;
     var userActiveID = $('.list-group-item.active').attr("id").split("-")[1];
     if(data.userToID == userActiveID || data.userFromID == userActiveID){
-      for (var i=0; i < arr_of_messages.length; i++) {
+      for (var i=arr_of_messages.length -1; i >=0; i--) {
         message = arr_of_messages[i];
         var userToUsername = $('.list-group-item.active h5').html();
 
@@ -204,9 +218,10 @@ $(document).ready(function() {
 
 
       var readCounter = 0;
-      var readMessage = data.bulk_messages[data.bulk_messages.length -1];
+      console.log(data.bulk_messages);
+      var readMessage = data.bulk_messages[0];
       if(readMessage.read_by_recipient && readMessage.user_from == user.id){
-        $('#messages').append('<div class="read_col user_to col-md-12"><div class="col-md-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>')
+        $('#messages').append('<div class="read_col user_to col-md-12 col-md-1 col-xs-12"><div class="col-md-9 col-xs-9"><p class="read"><i class="fa fa-check" aria-hidden="true"></i> Read </p> </div></div>');
       }
       else{
         $('.read_col').remove();
@@ -217,20 +232,52 @@ $(document).ready(function() {
   });
 
   /* -------------- */
+  /* Mobile */
+  messageIconClick();
+  $(window).resize(function() {
+    messageIconClick();
+  });
 
 });
 
+// Functions for mobile
+var userToName;
+console.log(userToName)
+function messageIconClick() {
+  if($(window).width() <= 768) {
+    $('#messageIcon').show();
+    $('#messageIcon, #backButton').click(function() {
+      $('#messages-tab-content').hide();
+      $('#messages-tab-menu').show();
+    })
+  } else {
+    $('#messageIcon').hide();
+    $('#messages-tab-menu').show();
+    $('#messages-tab-content').show();
+  }
+  $('.mobile-click').click(function() {
+    if($(window).width() <= 768) {
+      $('#messages-tab-menu').hide()
+      $('#messages-tab-content').show();
+    } else {
+      $('#messages-tab-menu').show()
+      $('#messages-tab-content').show();
+    }
+  })
+}
+//
+
 function appendDateHelper(helperString) {
-  $('#messages').append('<div class="date-of-message col-md-12"><span class="date-of-message">' + helperString + '</span></div>');
+  $('#messages').append('<div class="date-of-message col-md-12 col-md-1 col-xs-12"><span class="date-of-message">' + helperString + '</span></div>');
 }
 
 function appendMessageTo(userTo, userFrom, message) {
   if(userTo.id == user.id){
     //Fixing reverse get message bug
-    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + '<a href="/user/profile">' + userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_to col-md-12 col-md-1 col-xs-12"><img class="col-md-1 col-xs-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9 col-xs-9"><span class="user_to">' + '<a href="/user/profile">' + userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
   else{
-    $('#messages').append('<div class="user_to col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_to">' + '<a href="/user/profile">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_to col-md-12 col-md-1 col-xs-12"><img class="col-md-1 col-xs-1" src=' + userTo.profile_picture + ' /><div class="col-md-9 col-xs-9"><span class="user_to">' + '<a href="/user/profile">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
 
 }
@@ -238,10 +285,10 @@ function appendMessageTo(userTo, userFrom, message) {
 function appendMessageFrom(userTo, userFrom, message) {
   if(userFrom.id != user.id){
     // Fixing the reverse get message bug
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userTo.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profile">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_from col-md-12 col-md-1 col-xs-12"><img class="col-md-1 col-xs-1" src=' + userTo.profile_picture + ' /><div class="col-md-9 col-xs-9"><span class="user_from">' + '<a href="/user/profile">' + userTo.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
   else{
-    $('#messages').append('<div class="user_from col-md-12"><img class="col-md-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9"><span class="user_from">' + '<a href="/user/profilr">' +  userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
+    $('#messages').append('<div class="user_from col-md-12 col-md-1 col-xs-12"><img class="col-md-1 col-xs-1" src=' + userFrom.profile_picture + ' /><div class="col-md-9 col-xs-9"><span class="user_from">' + '<a href="/user/profilr">' +  userFrom.username + ':</a></span><li>' + message.message + '</li></div><div class="col-md-2 timestamp">' + retrieveTime(message.created_at) + '</div></div><br>');
   }
 
 }

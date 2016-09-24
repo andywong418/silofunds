@@ -1,5 +1,5 @@
 //- includes/navbar.jade
-script(src="../javascript/signup-login.js")
+script(src="/javascript/signup-login.js")
 script.
   document.write('<style type="text/css">nav.mobile{display:none}</style>');
 nav.navbar.navbar-custom.navbar-fixed-top.navbar-desktop(role='navigation')
@@ -11,7 +11,7 @@ nav.navbar.navbar-custom.navbar-fixed-top.navbar-desktop(role='navigation')
         .navbar-center-container.navbar-loggedin-center
           form#search-form.search_form(action='/results', method='get', name='search_form')
             .advs-link.desktop-loggedin-advs
-              a#advs-link(href='#') Advanced
+              a#advs-link Advanced
             .form-group.desktop-form#navbar-form
               .input-group.desktop-input-group
                 .input-group-btn
@@ -100,7 +100,8 @@ nav.navbar.navbar-custom.navbar-fixed-top.mobile(role='navigation')
             .col-xs-10
               span#notification <%= notification %>
         .see-all-mobile
-          p#see-all See all
+          p#see-all
+            a(href='/notifications/whole-page') See all
       .search-collapse.collapse
         .row.header-row
           p#search-text Search for:

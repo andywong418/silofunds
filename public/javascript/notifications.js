@@ -54,6 +54,24 @@ $(document).ready(function(){
         if(notification.attributes.category == 'favourite'){
           notification.attributes.category = 'fa-star';
         }
+        if(notification.attributes.category =='app-success'){
+          notification.attributes.category = 'fa-beer';
+        }
+        if(notification.attributes.category == 'app-failure'){
+          notification.attributes.category = 'fa-frown-o';
+        }
+
+        var diffDays = updateDiffDays(notification.attributes.created_at);
+        if(diffDays === 0){
+          notification.set('created_at', 'Today');
+        }
+        if(diffDays === 1){
+          notification.set('created_at', 'Yesterday');
+        }
+        if(diffDays > 1){
+          notification.set('created_at', diffDays + ' days ago');
+        }
+        console.log(notification);
         var notificationView = new NotificationView({model: notification});
         this.$el.append(notificationView.el);
       }, this);
@@ -63,8 +81,11 @@ $(document).ready(function(){
   //get new notifications
   var notificationArray;
   var displayNotif = false;
+
   $(document).on('click', '#home', function(e){
-    if(displayNotif === false){
+    var wholePage = location.href.indexOf('whole-page');
+    console.log(wholePage);
+    if(displayNotif === false && wholePage == -1){
       e.preventDefault();
       $('.notification_box').show();
       $('#notification-count').hide();
@@ -82,22 +103,19 @@ $(document).ready(function(){
     }
   });
 
-  $.get('/notifications/favourites', function(data){
+try{$.get('/notifications/favourites', function(data){
     $.get('/notifications/new', function(data){
       if(data.length > 0){
         windowPortWidth = $(window).width();
+        var wholePage = location.href.indexOf('whole-page');
         var notificationCollection;
-        if(windowPortWidth < 767){
-          if(data.length > 5){
+          if(data.length > 5 & wholePage === -1){
             notificationCollection = new NotificationCollection(data.slice(0,4));
           }
           else{
             notificationCollection = new NotificationCollection(data);
           }
-        }
-        else{
-           notificationCollection = new NotificationCollection(data);
-        }
+
 
         var notificationList = new NotificationList({collection: notificationCollection});
         $(".notification-wrapper").append(notificationList.render().el);
@@ -119,17 +137,36 @@ $(document).ready(function(){
 
 
     });
-  });
+  });}  catch(err){
+    console.log(err);
+  }
   //get new messages
-  $.get('/messages/new/new-messages', function(data){
-    if(data.new_messages){
-      $('span#new-message').html(data.new_messages);
-      $('span#new-message').show();
-    }
+  try{
+    $.get('/messages/new/new-messages', function(data){
+      if(data.new_messages){
+        $('span#new-message').html(data.new_messages);
+        $('span#new-message').show();
+      }
 
-  });
+    });
+  }
+  catch(err){
+    console.log(err);
+  }
+
   $('#user-message').click(function(){
     $('span#new-message').hide();
   });
-
+  $('p#see-all').click(function(){
+    location.href = '/notifications/whole-page';
+  });
 });
+function updateDiffDays(date){
+	var oneDay = 24*60*60*1000;
+	var completionDate = new Date(date);
+	var nowDate = Date.now();
+
+	var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+	return diffDays;
+
+}

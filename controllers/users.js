@@ -361,12 +361,23 @@ module.exports = {
       }
     });
   },
+  // loginGET: function(req, res) {
+  //   // Flash message if we have come via logging out to say 'successfully logged out'
+  //   var logoutMsg = req.flash('logoutMsg');
+  //   // Message prints as empty array, showing if length non zero
+  //   if(logoutMsg.length !== 0) {
+  //     res.render('user/login', {logoutMsg: logoutMsg})
+  //   } else {
+  //     res.render('user/login')
+  //   }
+  // },
   loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
     var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
+    var goodbye = req.flash('goodbye')
+    if (logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})
+    } else if (goodbye.length !== 0) {
+      res.render('user/login', {goodbye: goodbye})
     } else {
       res.render('user/login')
     }
@@ -441,17 +452,6 @@ module.exports = {
         res.redirect('/user/dashboard');
       }
     });
-  },
-
-  loginGET: function(req, res) {
-    // Flash message if we have come via logging out to say 'successfully logged out'
-    var logoutMsg = req.flash('logoutMsg');
-    // Message prints as empty array, showing if length non zero
-    if(logoutMsg.length !== 0) {
-      res.render('user/login', {logoutMsg: logoutMsg})
-    } else {
-      res.render('user/login')
-    }
   },
 
   loginSplit: function(req, res) {
@@ -533,18 +533,27 @@ module.exports = {
     Logger.warn(loggedInUser);
   }
   else{
+    // user profile
     userId = req.user.id;
-    loggedInUser = false;
+    if(req.isAuthenticated()){
+      loggedInUser = req.user.id;
+    }
+    else{
+      loggedInUser = false;
+    }
   }
+
   models.users.findById(userId).then(function(user){
     models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-
       models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+        var pageViewCreate = {user_id: user.id};
           if(applications.length > 0){
-            asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});
+            createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
+
           } else {
             // No applications
-            findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});
+            createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
+
           }
       });
     });
@@ -560,7 +569,7 @@ module.exports = {
     });
   },
   initialCreation: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    passportFunctions.ensureAuthenticated(req, res, function() {
       Logger.info("HI REQ", req.user);
       var emailSuccess = req.flash('emailSuccess');
       res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]});
@@ -614,7 +623,7 @@ module.exports = {
               };
               models.notifications.create(options).then(function(notification){
                 res.send(favourite);
-              })
+              });
 
             });
           });
@@ -967,19 +976,28 @@ module.exports = {
   search: function(req, res){
     var query = req.query;
     var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
-
     // Parse integer fields
     if (query.age) {
       query.age = parseIfInt(query.age);
+      var todayDate = new Date();
+      var userBirthday = new Date();
+      console.log("TODAY", todayDate);
+      var lowerBoundBirthDate = todayDate.getFullYear() - query.age - 5;
+      var upperBoundBirthdate = todayDate.getFullYear() -query.age +5
+      var lowerBirthdaySeconds = userBirthday.setFullYear(lowerBoundBirthDate);
+      var upperBirthdaySeconds = userBirthday.setFullYear(upperBoundBirthdate);
+      var lowerDate = new Date(lowerBirthdaySeconds);
+      var upperDate = new Date(upperBirthdaySeconds);
+      query['lower_date'] = lowerDate.toISOString().split('T')[0];
+      query['upper_date'] = upperDate.toISOString().split('T')[0];
+      console.log("birthday", query);
     }
     if (query.funding_needed) {
       query.funding_needed = parseIfInt(query.funding_needed);
     }
-
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
-
     var queryOptions = {
       "filtered": {
         "filter": {
@@ -995,43 +1013,41 @@ module.exports = {
         var queryOptionsShouldArr = [
           {
             "range": {
-              "minimum_amount": {
-                "lte": query.funding_needed
+              "funding_needed": {
+                "gte": query.funding_needed - 100
               }
             }
           },
           {
             "range": {
-              "maximum_amount": {
-                "gte": query.funding_needed
+              "funding_needed": {
+                "gte": query.funding_needed + 100
               }
             }
           },
           {
             "range": {
-              "minimum_age": {
-                "lte": query.age
+              "date_of_birth": {
+                "gte": query.lower_date
               }
             }
           },
           {
             "range": {
-              "maximum_amount": {
-                "gte": query.age
+              "date_of_birth": {
+                "lte": query.upper_date
               }
             }
           }
-        ];
 
+        ];
         queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
       }
-
       queryOptions.filtered.query = {
         "bool": {
           "should": []
         }
       };
-
       if (query.tags) {
         queryOptions.filtered.query.bool.should.push({
           "multi_match" : {
@@ -1048,8 +1064,10 @@ module.exports = {
         var notTags = key !== "tags";
         var notAge = key !== "age";
         var notFundingNeeded = key !== "funding_needed";
+        var noLowerDate = key !=='lower_date';
+        var noUpperDate = key !== 'upper_date';
 
-        if (notTags && notAge && notFundingNeeded) {
+        if (notTags && notAge && notFundingNeeded && noLowerDate && noUpperDate) {
           var matchObj = {
             "match": {}
           };
@@ -1064,6 +1082,7 @@ module.exports = {
           }
         }
       }
+      Logger.warn(queryOptions.filtered.filter.bool);
     }
     es.search({
       index: "users",
@@ -1073,6 +1092,12 @@ module.exports = {
         "query": queryOptions
       }
     }).then(function(resp) {
+      if(query['upper_date']){
+        delete query['upper_date'];
+      }
+      if(query['lower_date']){
+        delete query['lower_date'];
+      }
       var users = resp.hits.hits.map(function(hit) {
         var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
@@ -1120,7 +1145,6 @@ module.exports = {
       next();
     }
   },
-
   userBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
@@ -1153,15 +1177,145 @@ module.exports = {
         })
       })
     } else {
-      Logger.info("here then?")
-      Logger.info(req.user)
-      Logger.info('this is req.user ^^^^^^^^^^^^^')
       res.redirect('/user/dashboard')
+    }
+  },
+  emailUnsubscribe: function(req, res){
+    var userId = req.params.id;
+    models.users.findById(userId).then(function(user){
+      user.update({email_updates: false}).then(function(user){
+        res.redirect('/');
+      })
+    })
+  },
+  contact_us: function(req, res) {
+    var user = req.user
+    var success = req.flash('success')[0]
+    if(success) {
+      res.render('contact_us', {success: success})
+    } else if(!success) {
+      if(user) {
+        res.render('contact_us', {user: user})
+      } else {
+        res.render('contact_us')
+      }
+    }
+  },
+
+  contact_us_email_user: function(req, res) {
+    var message = req.body.message;
+    var name = req.body.name;
+    var email = req.body.email;
+    var contact_method = req.body.contact_method;
+    var id;
+    if(req.user) {
+      id = 'ID: ' + req.user.id
+    } else {
+      id = 'non registered user'
+    }
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: 'james.morrill.6@gmail.com',
+       subject: 'User query from ' + name + ', ' + id,
+       text: 'Dear Silo, \n' +
+           message + '\n\n' +
+           'From: ' + name + '\n'
+           + 'Email ' + email + ' \n'
+           + 'Contact via: ' + contact_method + '\n'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
+  },
+
+  contact_us_email_organisation: function(req, res) {
+    console.log(req.body)
+    var message = req.body.message
+    var name = req.body.fund_name
+    var email = req.body.email
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: 'support@silofunds.com',
+       subject: 'Question from ' + name + ' (organisation)',
+       text: 'Dear Silo, \n\n' +
+           message + '\n\n' +
+           'with love from ' + name + ' xxx' + '\n\n\n'
+           + 'btw their email is ' + email
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            res.end("Email send failed");
+        }
+        else {
+          req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
+          res.redirect('/contact_us')
+        }
+    });
+  },
+
+  delete: function(req, res) {
+    var deleteId = parseInt(req.body.deleteId)
+    if(req.user.id == deleteId) {
+      models.users.findById(req.user.id).then(function(user) {
+        return user.destroy();
+      }).then(function() {
+        req.flash('goodbye', "Your account has been successfully deleted. We're sorry to see you go!")
+        res.redirect('/login')
+      })
+    } else {
+      req.flash('error', "There has been an error in deleting your account, please try again or contact us if the problem persists")
+      res.redirect('/user/settings')
     }
   }
 }
 
 ////// Helper functions
+function createPageView(pageViewCreate, loggedInUser, user, callback){
+  console.log("HELLO", user);
+  console.log("YA KNOW", loggedInUser);
+  if(loggedInUser){
+    console.log("HEY");
+    models.users.findById(loggedInUser).then(function(other_user){
+
+      if(loggedInUser != user.id){
+        if(other_user.organisation_or_user){
+          pageViewCreate['fund_id'] = other_user.id;
+        }
+        else{
+          pageViewCreate['other_user'] = other_user.id;
+        }
+        models.page_views.create(pageViewCreate).then(function(){
+          callback();
+        });
+      }
+      else{
+        callback();
+      }
+
+    });
+  }
+  else{
+    models.page_views.create(pageViewCreate).then(function(){
+      callback();
+    });
+  }
+}
 function asyncRefund(chargeArray, res){
   async.each(chargeArray, function(charge, callback){
     stripe.refunds.create({
@@ -1178,7 +1332,7 @@ function notifyUsers(user_id, fund_id, res, app){
   models.users.findById(user_id).then(function(user){
     models.funds.findById(fund_id).then(function(fund){
       models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
-        if(fundUser){
+        if(fundUser) {
           var options = {
             user_id: fundUser.id,
             notification: user.username + ' applied to your fund! Click to see their <a href="/public/' + user.id + '"> profile. </a>',
@@ -1189,7 +1343,7 @@ function notifyUsers(user_id, fund_id, res, app){
             notifyMessagedUsers(user, res, app, fund);
           });
         }
-        else{
+        else {
           notifyMessagedUsers(user, res, app, fund);
         }
       });
@@ -1289,6 +1443,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
     }).then(function(object){
       Logger.error(charge.email);
       var options;
+      var emailOptions;
       if(user_from){
         options = {
           user_id: user.id,
@@ -1296,6 +1451,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
           category: "donation",
           read_by_user: false
         }
+        messageUser = true;
       }
       else{
         options = {
@@ -1304,10 +1460,18 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
           category: "donation",
           read_by_user: false
         };
+        messageUser = false;
       }
 
       models.notifications.create(options).then(function(notification){
-        res.send(notification);
+        if(messageUser){
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this link. </a>", notification,
+          'You have a new donation!', res);
+        }
+        else{
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this link. </a>", notification,
+          'You have a new donation!', res);
+        }
       });
     });
   });
@@ -1318,13 +1482,13 @@ function updateAppSuccess(app, res, userId, amount_gained){
 		models.users.findById(userId).then(function(user){
 			if(user.funding_accrued === null){
 				user.update({funding_accrued: amount_gained}).then(function(user){
-					res.send(user);
+          createAppNotif(app.fund_id, user, "successful", res);
 				});
 			}
 			else{
 				var funding_accrued = user.funding_accrued + amount_gained;
 				user.update({funding_accrued: funding_accrued}).then(function(user){
-					res.send(user);
+					createAppNotif(app.fund_id, user, "successful", res);
 				});
 			}
 		});
@@ -1332,8 +1496,58 @@ function updateAppSuccess(app, res, userId, amount_gained){
 };
 function updateAppFailure(app, res, req){
 	app.update(req.body).then(function(app){
-		res.send(app);
+    models.users.findById(app.user_id).then(function(user){
+      createAppNotif(app.fund_id, user, "unsuccessful", res);
+    })
+
 	})
+}
+function createAppNotif(fundId, user, status, res){
+  models.funds.findById(fundId).then(function(fund){
+    models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(fundUser){
+      if(fundUser){
+        options = {
+          user_id: fundUser.id,
+          notification: user.username+ " changed their application status to " + status + ". Click <a href='/public/" + user.id +"'> here</a> to confirm and verify this update.",
+          category: "application",
+          read_by_user: false
+        };
+        models.notifications.create(options).then(function(notification){
+          sendUserEmail(fundUser.id, options.notification, user, 'An applicant has changed their application status', res );
+        })
+      }
+      else{
+          res.send(user);
+      }
+
+    })
+  })
+}
+function sendUserEmail(userId, notification, app, subject, res ){
+  models.users.findById(userId).then(function(user){
+    var username = user.username.split(' ')[0];
+    //send emails here
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'james.morrill.6@gmail.com',
+           pass: 'exogene5i5'}
+    }));
+    var mailOptions = {
+       from: 'Silofunds <james.morrill.6@gmail.com>',
+       to: user.email,
+       subject: subject,
+       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
+    };
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            console.log("Email send failed");
+        }
+        else {
+          console.log("SUCCESS");
+          res.send(app);
+        }
+    });
+  });
 }
 function findFavourites(options, res, dataObject){
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
@@ -1369,6 +1583,7 @@ function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 			newObj['status'] = element.status;
 			newObj['amount_gained'] = element.amount_gained;
 			newObj['hide_from_profile'] = element.hide_from_profile;
+      newObj['fund_approved'] = element.fund_approved;
 			models.funds.findById(element.fund_id).then(function(fund){
 				newObj['title'] = fund.title;
 				newObj['id'] = fund.id;
@@ -1515,4 +1730,13 @@ function reformatDate(date) {
 
   var reformattedDate = yyyy + "-" + mm + "-" + dd;
   return reformattedDate;
+};
+
+var parseIfInt = function(string) {
+  if (string !== '') {
+    return parseInt(string);
+  }
+  else{
+    return 0;
+  }
 };

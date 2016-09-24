@@ -1,6 +1,11 @@
 $(document).ready(function(){
-
-
+  $('body').click(function(evt) {
+    if($('#right_div_desktop #notEligible').css('display') !== 'none') {
+      if(evt.target.class !== "modal-container") {
+        $('#right_div_desktop #notEligible').css('display', 'none')
+      }
+    }
+  })
   if(!user){
     showLimitedProfile();
   }
@@ -402,15 +407,14 @@ $(document).ready(function(){
       this.$el.html(this.template(this.model.toJSON()));
       return this; // enable chained calls
     }
-
   })
   function notEligible(criteriaDescription, userInfoDescription, criteria, userCriteria){
-
-    $('#eligibility_div').css('display', 'block');
-    $('#eligibility_div').css('background-color', 'rgb(236, 198, 44)');
+    var $eligibility_div = $('#big_flex_div #right_div #eligibility_div')
+    $eligibility_div.css('display', 'block');
+    $eligibility_div.css('background-color', 'rgb(236, 198, 44)');
     $('p#eligibility_div_p ').html('You may not be eligible for this fund - click this bar to learn why. <a id="ignore"> Ignore for now </a>');
-    $(document).on('click', '#eligibility_div', function(e){
-      $('#notEligible').css('display', 'block');
+    $(document).on('click', '#big_flex_div #right_div #eligibility_div', function(e){
+      $('#right_div_desktop #notEligible').css('display', 'block');
       //add criteria to explanation modal
       var NotEligibleDisplay = Backbone.View.extend({
         el: '.modal-container',
@@ -440,7 +444,7 @@ $(document).ready(function(){
         e.preventDefault();
         e.stopPropagation();
         $('#eligibility_div').hide(500);
-        $('#application_form').css('margin-top', '6%');
+        $('.application_form').css('margin-top', '6%');
         $('#notEligible').css('display', 'none');
         $("div[id*=notEligible-handler]").remove();
       });
@@ -490,8 +494,8 @@ $(document).ready(function(){
   });
 
   if(user){
+    $('.application_form').css('margin-top', '25px');
     if(!user.organisation_or_user){
-      $('#application_form').css('margin-top', '3%');
       var age;
       if(user.date_of_birth){
         var myDate = user.date_of_birth.split("-");
@@ -589,13 +593,13 @@ $(document).ready(function(){
     }
   }
   if(fund.description){
-    $('#fundBio').html(fund.description);
-    $('#fundBio').find('*').css('font-size', '15px');
-    $('#fundBio').find('*').css('font-family', 'PT Sans');
-    $('#fundBio').find('*').css('line-height', '1.5');
-    $('#fundBio').find('*').css('background-color', '#e9f0f4');
-    if($('#fundBio').find('.container')){
-      $('#fundBio').find('.container').removeClass('.container');
+    $('.fundBio').html(fund.description);
+    $('.fundBio').find('*').css('font-size', '15px');
+    $('.fundBio').find('*').css('font-family', 'PT Sans');
+    $('.fundBio').find('*').css('line-height', '1.5');
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    if($('.fundBio').find('.container')){
+      $('.fundBio').find('.container').removeClass('.container');
     }
     var paragraphs = $('#fundBio').find('p');
     for (var i =0; i < paragraphs.length; i++ ){
@@ -637,10 +641,12 @@ $(document).ready(function(){
   var EligibilityDisplay = Backbone.View.extend({
     el: '.eligibility-display',
     initialize: function(){
-        var fields = ['subject','religion','minimum_age','maximum_age','gender','merit_or_finance', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
-        var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
-        var science = ['physics', 'chemistry', 'biology','earth science','materials science','oceanography','astronomy','atmospheric science','engineering'];
-        var humanities = ['anthropology', 'communication studies','education','geography',	'history','linguistics','political science','psychology','sociology', 'english'];
+        var fields = ['subject','religion','merit_or_finance','minimum_age','maximum_age','gender', 'target_university', 'target_degree', 'required_degree', 'required_university', 'required_grade','target_country', 'country_of_residence', 'specific_location','other_eligibility'];
+        // var subjects = ['math', 'science', 'law', 'sports', 'music', 'humanity', 'foreign languages', 'economics', 'arts', 'computing'];
+        var science = subjects.sciences;
+        var humanities = subjects.humanities;
+        var socialSciences = subjects.socialSciences;
+        var arts = subjects.arts;
         var foreignLanguages = ['Dari Persian', 'Pashtu', 'Albanian', 'Greek',
 'Arabic', 'French', 'Berber dialects','Catalán',  'Castilian', 'Portuguese','Bantu','Spanish', 'Italian',
 'German','Armenian', 'Yezidi', 'Russian','German', 'Slovene', 'Croatian', 'Hungarian','Turkic','Creole', 'Arabic','Farsi',
@@ -675,19 +681,26 @@ $(document).ready(function(){
 'Ganda', 'Welsh', 'Scots Gaelic',
 'Bislama','Latin','Vietnamese',	'Hassaniya Arabic', 'Moroccan Arabic','Bemba', 'Kaonda', 'Lozi', 'Lunda','Luvale',
 'Nyanja', 'Tonga', 'Shona', 'Ndebele'];
+var locationCounter = 0;
+var educationCounter = 0;
+var subjectCounter = 0;
         for (var j =0 ; j < fields.length; j++){
           switch(fields[j]){
             case 'subject':
               var scienceCounter = 0;
               var humanitiesCounter = 0;
               var foreignLanguagesCounter = 0;
+              var socialSciencesCounter = 0;
               var mathsCounter = 0;
               var computingCounter = 0;
               var artCounter = 0;
               var otherCounter = 0;
               if(fund[fields[j]]){
                 for(var i =0; i < subject.length; i++){
-                  if(science.indexOf(subject[i]) > -1){
+                  if(subject[i].toLowerCase() === 'all'){
+                    break;
+                  }
+                  if(science.indexOf(subject[i].capitalize()) > -1 || subject[i].toLowerCase().indexOf('science') > -1 ){
                     if(scienceCounter == 0){
                       var imageModel = new ImageModel({
                         imageSource: '/images/subject_science.png',
@@ -698,6 +711,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       scienceCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       scienceCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -714,6 +728,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       humanitiesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       humanitiesCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -731,6 +746,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       foreignLanguagesCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       foreignLanguagesCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -747,6 +763,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       mathsCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       mathsCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -761,6 +778,7 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
                   else if(subject[i].toLowerCase() == 'music'){
                     var imageModel = new ImageModel({
@@ -771,16 +789,22 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
-                  else if (subject[i].toLowerCase() == 'economics'){
-                    var imageModel = new ImageModel({
-                      imageSource: '/images/subject_economics.png',
-                      criteria: subject[i],
-                      section: "Economics"
-                    })
-                    var view = new ImageView({model: imageModel});
-                    this.$('#subject-handler').append(view.render().el);
-                    this.$('[data-toggle="tooltip"]').tooltip();
+                  else if(socialSciences.indexOf(subject[i].capitalize()) > -1){
+                    if(socialSciencesCounter === 0){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/subject_economics.png',
+                        criteria: subject[i],
+                        section: "Social Sciences"
+                      })
+                      var view = new ImageView({model: imageModel});
+                      this.$('#subject-handler').append(view.render().el);
+                      socialSciencesCounter = view;
+                      this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
+                    }
+
                   }
                   else if(subject[i].toLowerCase() == 'law'){
                     var imageModel = new ImageModel({
@@ -791,6 +815,7 @@ $(document).ready(function(){
                     var view = new ImageView({model: imageModel});
                     this.$('#subject-handler').append(view.render().el);
                     this.$('[data-toggle="tooltip"]').tooltip();
+                    subjectCounter++;
                   }
                   else if(subject[i].toLowerCase().indexOf('compute') > -1){
                     if(computingCounter == 0){
@@ -803,6 +828,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       computingCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       computingCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -820,6 +846,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       artCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
 
                     }
                     else{
@@ -837,6 +864,7 @@ $(document).ready(function(){
                       this.$('#subject-handler').append(view.render().el);
                       otherCounter = view;
                       this.$('[data-toggle="tooltip"]').tooltip();
+                      subjectCounter++;
                     }
                     else{
                       otherCounter.$el.find('.criteria').append(", " + subject[i].capitalize());
@@ -954,44 +982,50 @@ $(document).ready(function(){
               var targetUniversity = fund['target_university'];
               var requiredUniversity = fund['required_university'];
               if(targetUniversity){
-                var targetUniversityString = returnStringfromArray(targetUniversity);
-                if(requiredUniversity){
-                  requiredUniversityString = returnStringfromArray(requiredUniversity)
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: requiredUniversityString.capitalize() + " <br><span id= 'to'>to: </span>  " +targetUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
-                }
-                else{
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: 'For intended study at: ' + targetUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                if(targetUniversity.indexOf('all') === -1){
+                  var targetUniversityString = returnStringfromArray(targetUniversity);
+                  educationCounter++;
+                  if(requiredUniversity){
+                    requiredUniversityString = returnStringfromArray(requiredUniversity);
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: requiredUniversityString.capitalize() + " <br><span id= 'to'>to: </span>  " +targetUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
+                  else{
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: 'For intended study at: ' + targetUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
               }
               break;
             case 'required_university':
               var requiredUniversity = fund['required_university'];
               var targetUniversity = fund['target_university'];
-              if(requiredUniversity){
-                requiredUniversityString = returnStringfromArray(requiredUniversity);
-                if(!targetUniversity){
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/university.png',
-                    criteria: 'From ' + requiredUniversityString.capitalize(),
-                    section: 'University'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+              if(requiredUniversity ){
+                if(requiredUniversity.indexOf('all') === -1){
+                  requiredUniversityString = returnStringfromArray(requiredUniversity);
+                  educationCounter++;
+                  if(!targetUniversity){
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/university.png',
+                      criteria: 'From ' + requiredUniversityString.capitalize(),
+                      section: 'University'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
               }
               break;
@@ -999,55 +1033,66 @@ $(document).ready(function(){
               var requiredDegree = fund['required_degree'];
               var targetDegree = fund['target_degree'];
               if(targetDegree){
-                var targetDegreeString = returnStringfromArray(targetDegree);
-                if(requiredDegree){
-                  var requiredDegreeString = returnStringfromArray(requiredDegree);
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/education.png',
-                    criteria: '<span id = "required"> Required degrees: </span>' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
-                    section: 'Degree specification'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
+                if(targetDegree.indexOf('all') == -1){
+                  var targetDegreeString = returnStringfromArray(targetDegree);
+                  educationCounter++;
+                  if(requiredDegree){
+                    var requiredDegreeString = returnStringfromArray(requiredDegree);
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/education.png',
+                      criteria: '<span id = "required"> Required degrees: </span>' + requiredDegreeString + ' <br> ' + "<span id = 'for'>For: </span> " + targetDegreeString,
+                      section: 'Degree specification'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
+                  else{
+                    var imageModel = new ImageModel({
+                      imageSource: '/images/education.png',
+                      criteria: 'For: ' + targetDegreeString,
+                      section: 'Degree specification'
+                    })
+                    var view = new ImageView({model: imageModel});
+                    this.$('#education-handler').append(view.render().el);
+                    this.$('[data-toggle="tooltip"]').tooltip();
+                  }
                 }
-                else{
-                  var imageModel = new ImageModel({
-                    imageSource: '/images/education.png',
-                    criteria: 'For: ' + targetDegreeString,
-                    section: 'Degree specification'
-                  })
-                  var view = new ImageView({model: imageModel});
-                  this.$('#education-handler').append(view.render().el);
-                  this.$('[data-toggle="tooltip"]').tooltip();
-                }
+
               }
               break;
             case 'required_degree':
               var requiredDegree = fund['required_degree'];
-              if(requiredDegree){
-                var requiredDegreeString = returnStringfromArray(requiredDegree);
-                var imageModel = new ImageModel({
-                  imageSource: '/images/education.png',
-                  criteria: 'Required degrees: ' + requiredDegreeString,
-                  section: 'Degree specification'
-                })
-                var view = new ImageView({model: imageModel});
-                this.$('#education-handler').append(view.render().el);
-                this.$('[data-toggle="tooltip"]').tooltip();
+              var targetDegree = fund['target_degree'];
+              if(requiredDegree && !targetDegree){
+                if(requiredDegree.indexOf('all') == -1 || requiredDegree.indexOf('All') == -1){
+                  var requiredDegreeString = returnStringfromArray(requiredDegree);
+                  educationCounter++;
+                  var imageModel = new ImageModel({
+                    imageSource: '/images/education.png',
+                    criteria: 'Required degrees: ' + requiredDegreeString,
+                    section: 'Degree specification'
+                  })
+                  var view = new ImageView({model: imageModel});
+                  this.$('#education-handler').append(view.render().el);
+                  this.$('[data-toggle="tooltip"]').tooltip();
+                }
               }
               break;
             case 'required_grade':
               var requiredGrade = fund['required_grade'];
               if(requiredGrade){
-                var imageModel = new ImageModel({
-                  imageSource: '',
-                  criteria: 'Required Grade: ' + requiredGrade,
-                  section:'required grade'
-                })
-                var view = new ImageView({model: imageModel});
-                this.$('#education-handler').append(view.render().el);
-                noIcon();
+                if(requiredGrade.indexOf('all') == -1){
+                  educationCounter++;
+                  var imageModel = new ImageModel({
+                    imageSource: '',
+                    criteria: 'Required Grade: ' + requiredGrade,
+                    section:'required grade'
+                  })
+                  var view = new ImageView({model: imageModel});
+                  this.$('#education-handler').append(view.render().el);
+                  noIcon();
+                }
               }
 
               break;
@@ -1055,16 +1100,20 @@ $(document).ready(function(){
               var targetCountry = fund.target_country;
               if(targetCountry){
                 for(var i =0; i < targetCountry.length; i++){
+                  if(targetCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(targetCountry[i].toLowerCase() == 'uk'){
-                    targetCountry[i] = "United Kingdom"
+                    targetCountry[i] = "United Kingdom";
                   }
                   if(targetCountry[i].toLowerCase() == 'eu'){
-                    targetCountry[i] = "European Union"
+                    targetCountry[i] = "European Union";
                   }
                   if(targetCountry[i].toLowerCase() == 'us'){
-                    targetCountry[i] = "United Sates of America"
+                    targetCountry[i] = "United Sates of America";
                   }
-                  checkImage('/images/128/' + targetCountry[i] + '.png', targetCountry[i], function(){
+                  locationCounter++;
+                  checkImage('/images/128/' + targetCountry[i].trim() + '.png', targetCountry[i], function(){
                     var imageModel = new ImageModel({
                       imageSource: this.src,
                       criteria: 'For study in ' + this.country,
@@ -1073,6 +1122,7 @@ $(document).ready(function(){
                     var view = new ImageView({ model: imageModel });
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
+                    locationCounter++;
                   }, function(){
                     var imageModel = new ImageModel({
                       imageSource: '/images/128/flag_placeholder.svg',
@@ -1084,6 +1134,7 @@ $(document).ready(function(){
                     $('#location-handler').append(view.render().el);
                     $('[data-toggle="tooltip"]').tooltip();
                     $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+                    locationCounter++;
                   })
                 }
               }
@@ -1091,9 +1142,14 @@ $(document).ready(function(){
               break;
             case 'country_of_residence':
               var requiredCountry = fund.country_of_residence;
+              var url = window.location.pathname;
+              console.log(url);
               if(requiredCountry){
-
+                locationCounter++;
                 for(var i =0; i < requiredCountry.length; i++){
+                  if(requiredCountry[i].toLowerCase() == 'all'){
+                    break;
+                  }
                   if(requiredCountry[i].toLowerCase() == 'uk'){
                     requiredCountry[i] = "United Kingdom"
                   }
@@ -1103,29 +1159,87 @@ $(document).ready(function(){
                   if(requiredCountry[i].toLowerCase() == 'us'){
                     requiredCountry[i] = "United Sates of America"
                   }
+                  if(url == '/organisation/options/1898'){
+                    checkImage('/images/128/' + requiredCountry[i].trim() + '.png', requiredCountry[i], function(){
+                      var imageModel = new ImageModel({
+                        imageSource: this.src,
+                        criteria: '<a href="http://www.rhodesscholarshiptrust.com/' + this.country.trim().split(' ').join('-') + '">From ' + this.country.trim() + '</a>',
+                        section: this.country
+                      });
+                      this.country = this.country.trim().toLowerCase();
+                      if(this.country.indexOf('south africa') > -1 || this.country.indexOf('botswana') > -1 || this.country.indexOf('besotho') > -1 || this.country.indexOf('malawi') > -1 || this.country.indexOf('namibia') > -1 || this.country.trim().indexOf('swaziland') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/southern-africa">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('syria') > -1 || this.country.indexOf('jordan') > -1 || this.country.indexOf('lebanon') > -1 || this.country.indexOf('palestine') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/syria-jordan-lebanon-and-palestine">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('jamaica') > -1 || this.country.indexOf('commonwealth caribbean') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/jamaica-and-commonwealth-caribbean">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('united states') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/united-states">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('west africa') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/western-africa">From ' + this.country + '</a>')
+                      }
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                    }, function(){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/128/flag_placeholder.svg',
+                        criteria: '<a href="http://www.rhodesscholarshiptrust.com/' + this.country.trim().split(' ').join('-') + '">From ' + this.country.trim() + '</a>',
+                        section: this.country
+                      });
+                      this.country = this.country.trim().toLowerCase();
+                      if(this.country.indexOf('south africa') > -1 || this.country.indexOf('botswana') > -1 || this.country.indexOf('besotho') > -1 || this.country.indexOf('malawi') > -1 || this.country.indexOf('namibia') > -1 || this.country.trim().indexOf('swaziland') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/southern-africa">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('syria') > -1 || this.country.indexOf('jordan') > -1 || this.country.indexOf('lebanon') > -1 || this.country.indexOf('palestine') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/syria-jordan-lebanon-and-palestine">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('jamaica') > -1 || this.country.indexOf('commonwealth caribbean') > -1){
+                        imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/jamaica-and-commonwealth-caribbean">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('united states') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/united-states">From ' + this.country + '</a>')
+                      }
+                      if(this.country.indexOf('west africa') > -1){
+                          imageModel.set('criteria', '<a href="http://www.rhodesscholarshiptrust.com/west-africa">From ' + this.country + '</a>')
+                      }
 
-                  checkImage('/images/128/' + requiredCountry[i] + '.png', requiredCountry[i], function(){
-                    var imageModel = new ImageModel({
-                      imageSource: this.src,
-                      criteria: 'From ' + this.country,
-                      section: this.country
-                    });
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                      $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
 
-                    var view = new ImageView({ model: imageModel });
-                    $('#location-handler').append(view.render().el);
-                    $('[data-toggle="tooltip"]').tooltip();
-                  }, function(){
-                    var imageModel = new ImageModel({
-                      imageSource: '/images/128/flag_placeholder.svg',
-                      criteria: 'From ' + this.country,
-                      section: this.country
-                    });
+                    })
+                  }
+                  else{
+                    checkImage('/images/128/' + requiredCountry[i].trim() + '.png', requiredCountry[i], function(){
+                      var imageModel = new ImageModel({
+                        imageSource: this.src,
+                        criteria: 'From ' + this.country,
+                        section: this.country
+                      });
 
-                    var view = new ImageView({ model: imageModel });
-                    $('#location-handler').append(view.render().el);
-                    $('[data-toggle="tooltip"]').tooltip();
-                    $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
-                  })
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                    }, function(){
+                      var imageModel = new ImageModel({
+                        imageSource: '/images/128/flag_placeholder.svg',
+                        criteria: 'From ' + this.country,
+                        section: this.country
+                      });
+
+                      var view = new ImageView({ model: imageModel });
+                      $('#location-handler').append(view.render().el);
+                      $('[data-toggle="tooltip"]').tooltip();
+                      $('img[src*="/images/128/flag_placeholder.svg"]').css('margin-top', '5px');
+
+                    })
+                  }
 
                 }
               }
@@ -1142,6 +1256,7 @@ $(document).ready(function(){
                   var view = new ImageView({ model: imageModel });
                   this.$('#location-handler').append(view.render().el);
                   this.$('[data-toggle="tooltip"]').tooltip();
+                  locationCounter++;
                 }
               }
               break;
@@ -1164,16 +1279,17 @@ $(document).ready(function(){
               break;
           }
         }
-        if(!fund.subject){
+        if(!fund.subject || subjectCounter === 0){
           this.$('#subject-handler').css('display', 'none');
         }
         if(!fund.religion && !fund.minimum_age && !fund.maximum_age && !fund.gender && !fund.merit_or_finance){
           this.$('#personal-handler').css('display', 'none');
         }
-        if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required){
+        if(!fund.target_university && !fund.required_university && !fund.target_degree && !fund.required_grade && !fund.required_degree || educationCounter === 0){
           this.$('#education-handler').css('display','none');
         }
-        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location){
+        if(!fund.target_country && !fund.country_of_residence && !fund.specific_location || locationCounter == 0){
+          console.log(locationCounter);
           this.$('#location-handler').css('display','none');
         }
         if(!fund.other_eligibility){
@@ -1199,7 +1315,7 @@ $(document).ready(function(){
     }
   });
   var ApplicationDisplay = Backbone.View.extend({
-    el: '#application_form',
+    el: '.application_form',
     events: {
       'click #apply_now_link': 'addApplication'
     },
@@ -1278,6 +1394,7 @@ $(document).ready(function(){
     },
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      $("[id=tips-handler]").html(this.template(this.model.toJSON()));
       return this;
     }
 
@@ -1288,6 +1405,7 @@ $(document).ready(function(){
       var tipsModel = new TipsModel();
       var view = new TipsView({model: tipsModel});
       this.$el.append(view.el);
+      $("[id=application-handler]").append(view.el);
     }
   })
 
@@ -1328,5 +1446,171 @@ $(document).ready(function(){
         $("#add-profile").css("display", "none");
       }
   });
+
+  noProfilePicDivResizer();
+  displayTopBottomDivs();
+  favouriteStarMargin();
+  fundBioBackgroundColor();
+  pictureColumnNoChanger();
+  eligibilityMarginFix();
+  $(window).resize(function() {
+    eligibilityMarginFix();
+    eligibility_divPaddingChange();
+    noProfilePicDivResizer();
+    displayTopBottomDivs();
+    favouriteStarMargin();
+    fundBioBackgroundColor();
+    pictureColumnNoChanger();
+  })
+
+  // $('#box_3_right').css('display', 'block')
+
+  if(user && user.organisation_or_user == null) {
+    $('#big_flex_div #right_div #eligibility_div').show()
+  } else {
+    $('#big_flex_div #right_div #eligibility_div').hide()
+    $('#box_3_right').css('margin-bottom', 0)
+  }
+})
+
+function eligibility_divPaddingChange() {
+  if($(window).width() < 526 && $('#eligibility_div').css('background-color') == 'rgb(236, 198, 44)'){
+    $('div#eligibility_div').css('padding-top', '4px');
+  } else {
+    $('div#eligibility_div').css('padding-top', '');
+  }
 }
-)
+
+function fundBioBackgroundColor() {
+  if($(window).width() > 767) {
+    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+  } else {
+    $('.fundBio').find('*').css('background-color', 'white');
+  }
+}
+
+function noProfilePicDivResizer() {
+  if(!organisation.profile_picture) {
+    if($(window).width() <= 767) {
+      $('#top_div_mobile #left_div').show();
+      $('#top_div_mobile').show();
+      $('.application_form').css('width', '100%')
+      $('#big_flex_div #left_div_desktop.desktop #box_1').css('display', 'none');
+      $('#big_flex_div #left_div #box_2').css('padding-left', '0px');
+      $('#big_flex_div #left_div #box_1').css('width', '0');
+      $('#box_2 a').css('width', '100%');
+      $('#box_2 a').css('margin-bottom', '15px');
+      $('#box_2 a').css('padding', '10px 20px 10px 30px');
+      $('#box_2 a #favourite').css('margin-top', '-9px')
+      $('#box_2 a #favourite').css('margin-left', '-26px')
+    } else {
+      $('#top_div_mobile').hide();
+      $('#left_div').show();
+      $('#box_1').css('width', '');
+      $('.application_form').css('width', '93%')
+    }
+  }
+}
+
+function displayTopBottomDivs() {
+  if($(window).width() <= 767) {
+    $('#top_div_mobile #left_div').css('display', 'flex')
+    if(549 <= $(window).width()) {
+      $('#top_div_mobile').css('display', 'block')
+      $('#bottom_div_mobile').css('display', 'block')
+    }
+  } else {
+    $('#left_div').show()
+    if ($(window).width() > 767) {
+      $('#top_div_mobile').css('display', 'none')
+      $('#bottom_div_mobile').css('display', 'none')
+    }
+  }
+}
+
+function favouriteStarMargin() {
+  // With profile picture
+  var $star = $('#favourite.favourite.profile_picture')
+  var $img = $('#fundImage')
+  var $box_1 = $('#box_1')
+  var margin = 5; // set this to be the desired top/left margin
+  var marginLeft = - $img.width() + margin;
+  var marginTop = -3 + margin
+  $star.css('margin-left', marginLeft)
+  $star.css('margin-top', marginTop)
+  if($(window).width() <= 767) {
+    $('.favourite.profile_picture.mobile').show();
+    $('.favourite.profile_picture.mobile').css('margin-left', 0);
+  }
+
+  // Without profile picture
+  var $star2 = $('#favourite.favourite.no-profile_picture')
+  if($(window).width() > 767) {
+    // $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+  } else {
+    $star2.css('margin-top', '-14 + 5')
+    $star2.css('margin-left', '-30 + 5')
+  }
+}
+
+function pictureColumnNoChanger() {
+  $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
+  if($(window).width() > 600) {
+    if($('#subject-handler').children(0).length - 1 >= 3) {
+      $('#subject-handler .criteria-box').addClass('col-md-4')
+      $('#subject-handler .criteria-box').addClass('col-xs-4')
+      $('#subject-handler .criteria-box').removeClass('col-md-12')
+      $('#subject-handler .criteria-box').removeClass('col-xs-12')
+      $('#subject-handler .criteria-box img').css('margin-left', '0px')
+    }
+    setTimeout(function() {
+      locationColumnFix()
+    }, 500)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 1700)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 2000)
+    setTimeout(function() {
+      locationColumnFix()
+    }, 3000)
+    if($(window).width() < 1100) {
+      $('#box_3_right .eligibility-display').css('padding', '0');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('.criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
+  } else {
+    $('#subject-handler .criteria-box').addClass('col-xs-12')
+    $('#subject-handler .criteria-box').removeClass('col-xs-4')
+    $('#location-handler .criteria-box').addClass('col-xs-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-4')
+  }
+}
+
+function locationColumnFix() {
+  if($('#location-handler').children(0).length - 1 >= 3) {
+    $('#location-handler .criteria-box').addClass('col-md-4')
+    $('#location-handler .criteria-box').addClass('col-xs-4')
+    $('#location-handler .criteria-box').removeClass('col-md-12')
+    $('#location-handler .criteria-box').removeClass('col-xs-12')
+    $('#location-handler .criteria-box img').css('margin-left', '0px')
+    if($(window).width() < 937) {
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-right', '10px');
+      $('#location-handler .criteria-box .col-md-2.col-xs-2').css('padding-left', '5px');
+    }
+  }
+}
+
+function eligibilityMarginFix() {
+  var divHeight = $('#eligibility_div').height()
+  var pHeight = $('#eligibility_div_p').height()
+  console.log(divHeight)
+  console.log(pHeight)
+  var twoPaddingTop = divHeight - pHeight
+  var paddingTop = twoPaddingTop/2
+  $('#big_flex_div #eligibility_div p#eligibility_div_p').css('padding-top', paddingTop)
+}
