@@ -671,25 +671,72 @@ function checkIndices(){
        Logger.info("Does the funds index exist?:");
        Logger.error(resp);
        if(resp){
-         es.indices.exists({
-          index: 'users'
-        }).catch(function(err) {
-          Logger.error("Error checking existence of user index:");
-          Logger.error(err);
-        }).then(function(resp){
-          Logger.warn("user");
-          Logger.warn(resp);
-          if(resp){
-            return true;
-          }
-          else{
-            es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
-          }
-        });
+         es.indices.stats('funds').then(function(resp){
+           if(resp._all.total.docs.count < 2000){
+             es.deleteIndex('funds')
+             .then(es.createIndex('funds'))
+             .then(bulkUploadFunds)
+             .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+             .then(bulkUpload)
+             .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
+             .then(bulkUpload);
+
+           es.indexExists('users')
+             .then(es.deleteIndex('users'))
+             .then(es.createIndex('users'))
+             .then(bulkUploadUsers);
+           }
+           else{
+             es.indices.exists({
+              index: 'users'
+            }).catch(function(err) {
+              Logger.error("Error checking existence of user index:");
+              Logger.error(err);
+            }).then(function(resp){
+              Logger.warn("user");
+              Logger.warn(resp);
+              if(resp){
+                return true;
+              }
+              else{
+                es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+              }
+            });
+           }
+         });
        }
        else{
-         es.deleteIndex('funds')
-         .then(es.createIndex('funds'))
+        es.createIndex('funds')
          .then(bulkUploadFunds)
          .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
          .then(bulkUpload)
@@ -732,8 +779,6 @@ function checkIndices(){
           Logger.error("Error checking existence of user index:");
           Logger.error(err);
         }).then(function(resp){
-          Logger.warn("user");
-          Logger.warn(resp);
           if(resp){
             return true;
           }
