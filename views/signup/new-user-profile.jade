@@ -186,7 +186,10 @@ block content
 					a#skip(href='#account') Skip
 			script#account-template(type='text/template')
 				p#verify-header.description You&#39re almost finished! Enter information below that can help you set up your stripe account.
-				.row#address-row
+				.row#address-row(style='margin-top: -25px')
+					p(style='width: 60%; margin-left: 20%') For more information on our crowdfunding system, please read
+						a(href='/terms-and-conditions', style='background-color: transparent')= ' our terms and conditions. '
+						| Please do note that if you successfully reach your target, Silo will take a 3% fee.
 					.col-sm-0.col-md-1
 					.col-sm-3.col-xs-2
 						p.description Address
@@ -445,7 +448,7 @@ block content
 				.row#refund-choice
 					.col-sm-0.col-md-1
 					.col-md-3.col-sm-5.col-xs-6
-						p.description Refund your donors if the goal is not reached by completion date. Once there has been a donation, this setting cannot be changed.
+						p.description(style='text-align: left') Refund your donors if the goal is not reached by completion date. Once there has been a donation, this setting cannot be changed.
 					#separator.col-xs-1
 					.col-md-3.col-sm-3.col-xs-3
 						input#refund(type='checkbox', name='refund', value='true')

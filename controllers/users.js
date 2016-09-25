@@ -210,11 +210,18 @@ module.exports = {
   chargeStripe: function(req, res) {
     var stripeToken = req.body.tokenID;
     var chargeAmount = req.body.amount;
+    console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
-    var email = req.body.email;
     var donorIsPaying = req.body.donorIsPaying;
+    var platformCharge;
+    if(donorIsPaying){
+      platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
+    }
+    if(!donorIsPaying){
+      platformCharge = Math.ceil(parseInt(chargeAmount) * 0.03);
+    }
+    var email = req.body.email;
 		var comment = req.body.comment;
-		Logger.info("COMMENT", comment);
     var user_from;
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
@@ -230,22 +237,25 @@ module.exports = {
         var chargeOptions = {
           currency: "gbp",
           customer: customer.id,
-          destination: stripe_user.stripe_user_id
+          destination: stripe_user.stripe_user_id,
+          application_fee: parseInt(applicationFee) + platformCharge,
+          amount: chargeAmount
         };
 
-        if (!donorIsPaying) {
-          chargeOptions.application_fee = applicationFee;
-          chargeOptions.amount = chargeAmount;
-        } else {
-          chargeOptions.amount = chargeAmount - applicationFee;
-        }
-
+        // if (!donorIsPaying) {
+        //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+        //   chargeOptions.amount = chargeAmount;
+        // } else {
+        //   //donor is paying.
+        //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+        //   chargeOptions.amount = chargeAmount;
+        // }
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
-      var application_fee = charge.application_fee ? parseFloat(charge.application_fee) : null;
+      var application_fee = applicationFee ? parseFloat(applicationFee) : null;
       stripe.customers.retrieve(
         charge.customer,
         function(err, customer){
@@ -1418,6 +1428,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
   else{
     amount = (user.funding_accrued + chargeAmountPounds);
   }
+  console.log("AOO FEE", application_fee);
   user.update({funding_accrued: amount}).then(function(user){
     return models.stripe_charges.create({
       charge_id: charge.id,

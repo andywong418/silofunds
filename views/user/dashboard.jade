@@ -54,11 +54,16 @@ block content
       .desktop
         p#header Post an update
       .col-xs-2.mobile
-        img#profile_picture(src= user.profile_picture)
-        p#header Post an update
+        if user.profile_picture
+          img#profile_picture(src= user.profile_picture)
+        else
+          img#profile_picture(src='/images/profile-placeholder.jpg')
       .row.update-row
         .col-md-1.desktop
-          img#profile_picture(src= user.profile_picture)
+          if user.profile_picture
+            img#profile_picture(src= user.profile_picture)
+          else
+            img#profile_picture(src='/images/profile-placeholder.jpg')
         .col-md-10
           textarea#update-text(placeholder="Update your supporters on your progress and attract new donors!")
           #social-media-flex-container
