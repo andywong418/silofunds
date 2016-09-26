@@ -84,7 +84,7 @@ function createIndex(indexName) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
       if (process.env.NODE_ENV == "production") {
-        sleep.sleep(5);
+        sleep.sleep(10);
       }
     }
   });
