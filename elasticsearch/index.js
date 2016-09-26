@@ -83,6 +83,9 @@ function createIndex(indexName) {
   }).then(function(resp) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
+      if (process.env.NODE_ENV == "production") {
+        sleep.sleep(5);
+      }
     }
   });
 }
