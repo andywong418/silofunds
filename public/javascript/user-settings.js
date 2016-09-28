@@ -224,6 +224,26 @@ $(document).ready(function() {
     saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
   });
 
+  $('.launch_status a.offline').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: '/user/take_offline',
+      data: user.id
+    }).then(function() {
+      location.reload(true)
+    })
+  })
+
+  $('.launch_status a.launch').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: '/user/launch',
+      data: user.id
+    }).then(function() {
+      location.reload(true)
+    })
+  })
+
 
   $('#save-education-settings').click(function(e) {
     e.preventDefault();
@@ -331,6 +351,7 @@ $(document).ready(function() {
       $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
       $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
     });
+
   }
 
   // Mobile jquery

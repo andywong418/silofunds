@@ -1,0 +1,49 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/crowdfunding-not-launched.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade  
+  
+  .content.col-sm-8.col-sm-offset-2.col-xs-12
+    if own_profile
+      .header
+        .top.header_flex
+          span You have not yet launched your campaign.
+        .bottom.header_flex
+          form(method='post', action='/user/launch')
+            button.btn.btn-primary(type='submit') Launch campaign
+      
+    if !own_profile 
+      .header
+        .top.header_flex
+          span This users campaign has not yet been launched, but you can message them here
+        .bottom.header_flex
+          a(href='/messages/' + user.id)
+            button.btn.btn-info Message
+    
+  include ./partials/footer.jade
+
+
+
+block scripts
+  script(src='javascript/contact_us.js')
+  script(src='javascript/signup-login.js')
+  script(src="/javascript/advanced-search.js")
+  script(src="/javascript/notifications.js")

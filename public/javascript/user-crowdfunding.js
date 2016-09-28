@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
   $('.menu-item').click(function(){
     $('.active-item').removeClass('active-item');
     $(this).find('p').addClass('active-item');
@@ -472,7 +472,6 @@ $(document).ready(function(){
     iframeResize();
     reloads();
   });
-
 });
 
 // Functions

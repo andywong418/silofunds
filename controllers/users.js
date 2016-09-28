@@ -529,45 +529,82 @@ module.exports = {
     });
   },
 
-  crowdFundingPage: function(req, res){
+  crowdFundingPage: function(req, res) {
     var userId;
-  var loggedInUser;
-  if(req.params.id){
-    userId = req.params.id;
-    if(req.isAuthenticated()){
-      loggedInUser = req.user.id;
+    var loggedInUser;
+    var displayProfile;
+    if(req.params.id) {
+      userId = req.params.id;
+      // Set display profile to be true if user has chosen to launch
+      models.users.find({where: {id: req.params.id}}).then(function(user) {
+        if(user.user_launch == true) {
+          displayProfile = true
+        } else {
+          displayProfile = false
+        }
+      })
+      if(req.isAuthenticated()) {
+        loggedInUser = req.user.id;
+      } else {
+        loggedInUser = false;
+      }
+      Logger.warn(loggedInUser);
+    } else {
+      // user profile
+      userId = req.user.id;
+      if(req.isAuthenticated()) {
+        loggedInUser = req.user.id;
+      } else {
+        loggedInUser = false;
+      }
     }
-    else{
-      loggedInUser = false;
-    }
-    Logger.warn(loggedInUser);
-  }
-  else{
-    // user profile
-    userId = req.user.id;
-    if(req.isAuthenticated()){
-      loggedInUser = req.user.id;
-    }
-    else{
-      loggedInUser = false;
-    }
-  }
-
-  models.users.findById(userId).then(function(user){
-    models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-      models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-        var pageViewCreate = {user_id: user.id};
-          if(applications.length > 0){
-            createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
-
-          } else {
-            // No applications
-            createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
-
-          }
+    if(displayProfile == true || !req.params.id) {
+      models.users.findById(userId).then(function(user){
+        models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+          models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+            var pageViewCreate = {user_id: user.id};
+            if(applications.length > 0){
+              createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
+            } else {
+              // No applications
+              createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
+            }
+          });
+        });
       });
-    });
-  });
+    } else {
+      models.users.findById(req.params.id).then(function(user_viewed) {
+        if(req.user) {
+          if(req.user.id == user_viewed.id) {
+            res.render('crowdfunding-not-launched', {user: req.user, own_profile: true})
+          } else {
+            res.render('crowdfunding-not-launched', {user: user_viewed})
+          }
+        } else {
+          res.render('crowdfunding-not-launched', {user: user_viewed})
+        }
+      })
+    }
+  },
+  launch: function(req, res) {
+    models.users.findById(req.user.id).then(function(user) {
+      user.update({
+        user_launch: true
+      }).then(function(data) {
+        req.flash('launched', 'launched')
+        res.redirect('/user/profile')
+      })
+    })
+  },
+  take_offline: function(req, res) {
+    models.users.findById(req.user.id).then(function(user) {
+      user.update({
+        user_launch: false
+      }).then(function(data) {
+        req.flash('offline', 'offline')
+        res.redirect('/user/profile')
+      })
+    })
   },
   refundDonors: function(req, res){
     var userId = req.user.id;
@@ -681,7 +718,7 @@ module.exports = {
         if (user.completion_date) {
           user.completion_date = reformatDate(user.completion_date);
         }
-
+        
         res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
       });
     });

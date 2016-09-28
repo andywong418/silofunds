@@ -10,6 +10,8 @@ var router = express.Router();
 router.get('/create', users.initialCreation);
 router.get('/dashboard', users.dashboard);
 router.get('/profile', users.crowdFundingPage);
+router.post('/launch', users.launch);
+router.post('/take_offline', users.take_offline)
 router.get('/refund', users.refundDonors);
 router.get('/settings', users.settingsGET);
 router.post('/settings', users.settingsPOST);

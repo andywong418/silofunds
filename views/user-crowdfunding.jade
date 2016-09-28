@@ -55,6 +55,12 @@ block content
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible
 	#crowdfunding-wrapper.container
+		if user && user.user_launch !== true
+			#launch_box
+				form(method='post', action='/user/launch')
+					.alert.alert-info.col-xs-10.col-xs-offset-1
+						span You have not yet launched your campaign, when it is ready click so others can see and donate to you!
+						button(type='submit').launch_campaign.btn.btn-primary Launch
 		#pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
 			if user.profile_picture && !user.video
 				.no-vid-pic-border
