@@ -137,6 +137,10 @@ module.exports = function(sequelize, DataTypes) {
     refund: {
       type: DataTypes.BOOLEAN,
       field: 'refund'
+    },
+    user_launch: {
+      type: DataTypes.BOOLEAN,
+      field: 'user_launch'
     }
   }, {
     timestamps: true,
