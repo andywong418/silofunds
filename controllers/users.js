@@ -591,7 +591,17 @@ module.exports = {
       user.update({
         user_launch: true
       }).then(function(data) {
-        req.flash('launched', 'Your campaign has been launched and is ready to be viewed online')
+        req.flash('launched', 'launched')
+        res.redirect('/user/profile')
+      })
+    })
+  },
+  take_offline: function(req, res) {
+    models.users.findById(req.user.id).then(function(user) {
+      user.update({
+        user_launch: false
+      }).then(function(data) {
+        req.flash('offline', 'offline')
         res.redirect('/user/profile')
       })
     })
@@ -708,7 +718,7 @@ module.exports = {
         if (user.completion_date) {
           user.completion_date = reformatDate(user.completion_date);
         }
-
+        
         res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
       });
     });

@@ -1387,3 +1387,17 @@ label.removeFile {
 
 .modal.fade.modal-delete .modal-body p {
   padding-bottom: 10px; }
+
+.launch_status {
+  font-family: Source Sans Pro;
+  font-size: 15px; }
+  .launch_status span.status {
+    margin-right: 20px; }
+  .launch_status a {
+    cursor: pointer; }
+
+@media (max-width: 600px) {
+  #campaign-settings .campaign_title.col-md-7.col-xs-8 {
+    padding-left: 0px; }
+  .launch_status span.status {
+    display: none; } }

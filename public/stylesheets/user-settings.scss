@@ -474,3 +474,27 @@ label.removeFile {
     padding-bottom: 10px;
   }
 }
+
+.launch_status {
+  font-family: Source Sans Pro;
+  font-size: 15px;
+  span.status {
+    margin-right: 20px;
+  }
+  a {
+    cursor: pointer
+  }
+}
+
+@media (max-width: 600px) {
+  #campaign-settings {
+    .campaign_title.col-md-7.col-xs-8 {
+      padding-left: 0px;
+    }
+  }
+  .launch_status {
+    span.status {
+      display: none;
+    }
+  }
+}

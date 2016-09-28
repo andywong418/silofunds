@@ -16,6 +16,11 @@ block content
   include ../partials/navbar-loggedin.jade
   include ../advanced-search.jade
   #big_flex_div.container
+    if status
+      if status == 'offline'
+        h1 you are offline
+      if status == 'launched'
+        h1 nice launch
     #left_div.col-md-3.col-sm-3.col-xs-4
       .profile
         #box-profile 
@@ -147,8 +152,28 @@ block content
             #save-personal-settings-notification Your changes have been saved
         #campaign-settings.settings-tab-content
           .col-md-12.col-xs-12.header
-            h3 Campaign Settings
-            p.help-block Change your campaigning details.
+            .campaign_title.col-md-7.col-xs-8
+              h3 Campaign Settings
+              p.help-block Change your campaigning details.
+            .launch_status.col-md-5.col-xs-4
+              if user.user_launch == true
+                span.status Status: 
+                .btn-group.show-on-hover
+                  button.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown')
+                    | Launched 
+                    span.caret
+                  ul.dropdown-menu(role='menu')
+                    li
+                      a.offline Take offline
+              if user.user_launch !== true
+                span.status Status: 
+                .btn-group.show-on-hover
+                  button.btn.btn-warning.dropdown-toggle(type='button', data-toggle='dropdown')
+                    | Offline 
+                    span.caret
+                  ul.dropdown-menu(role='menu')
+                    li
+                      a.launch Launch
           .col-md-12.col-xs-12.content
             .col-md-12.col-xs-12.sub-content
               h4 About your campaign
