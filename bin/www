@@ -140,7 +140,11 @@ es.checkConnection().then(function(resp) {
     var subjects = require('../resources/subjects');
 
     es.indexExists('funds')
-      .then(es.deleteIndex('funds'))
+      .then(function(resp){
+        if(resp){
+          es.deleteIndex('funds');
+        }
+      })
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
       .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
@@ -176,9 +180,8 @@ es.checkConnection().then(function(resp) {
       .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
       .then(bulkUpload)
       .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
-      .then(bulkUpload);
-
-    es.indexExists('users')
+      .then(bulkUpload)
+      .then(es.indexExists('users'))
       .then(es.deleteIndex('users'))
       .then(es.createIndex('users'))
       .then(bulkUploadUsers);
@@ -671,8 +674,7 @@ function checkIndices(){
        if(resp){
          es.indices.stats('funds').then(function(resp){
            if(resp._all.total.docs.count < 2000){
-             es.deleteIndex('funds').then(createFundIndex);
-             checkUserIndex();
+             es.deleteIndex('funds').then(createFundIndex()).then(checkUserIndex());
            }
            else{
              checkUserIndex();
@@ -680,8 +682,7 @@ function checkIndices(){
          });
        }
        else{
-         createFundIndex();
-         checkUserIndex();
+         createFundIndex().then(checkUserIndex());
        }
      });
     }
@@ -783,7 +784,7 @@ function retrieveAllMessagesInRoom(data) {
 }
 
 function createFundIndex(){
-  es.createIndex('funds')
+  return es.createIndex('funds')
    .then(bulkUploadFunds)
    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
    .then(bulkUpload)
@@ -821,7 +822,7 @@ function createFundIndex(){
    .then(bulkUpload);
 }
 function checkUserIndex(){
-  es.indices.exists({
+  return es.indices.exists({
    index: 'users'
  }).catch(function(err) {
    Logger.error("Error checking existence of user index:");
