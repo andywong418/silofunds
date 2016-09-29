@@ -140,11 +140,7 @@ es.checkConnection().then(function(resp) {
     var subjects = require('../resources/subjects');
 
     es.indexExists('funds')
-      .then(function(resp){
-        if(resp){
-          es.deleteIndex('funds');
-        }
-      })
+      .then(es.deleteIndex('funds'))
       .then(es.createIndex('funds'))
       .then(bulkUploadFunds)
       .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
@@ -674,7 +670,9 @@ function checkIndices(){
        if(resp){
          es.indices.stats('funds').then(function(resp){
            if(resp._all.total.docs.count < 2000){
-             es.deleteIndex('funds').then(createFundIndex()).then(checkUserIndex());
+             es.deleteIndex('funds').then(createFundIndex(function(){
+               checkUserIndex();
+             }));
            }
            else{
              checkUserIndex();
@@ -682,7 +680,10 @@ function checkIndices(){
          });
        }
        else{
-         createFundIndex().then(checkUserIndex());
+         createFundIndex(function(){
+           checkUserIndex();
+         });
+
        }
      });
     }
@@ -783,8 +784,8 @@ function retrieveAllMessagesInRoom(data) {
   });
 }
 
-function createFundIndex(){
-  return es.createIndex('funds')
+function createFundIndex(callback){
+  es.createIndex('funds')
    .then(bulkUploadFunds)
    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
    .then(bulkUpload)
@@ -819,7 +820,8 @@ function createFundIndex(){
    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
    .then(bulkUpload)
    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
-   .then(bulkUpload);
+   .then(bulkUpload)
+   .then(callback());
 }
 function checkUserIndex(){
   return es.indices.exists({

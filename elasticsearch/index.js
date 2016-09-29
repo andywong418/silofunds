@@ -77,14 +77,14 @@ function createIndex(indexName) {
     createOptions.body = elasticsearchModel.userSettings;
   }
 
-  return es.indices.create(createOptions).catch(function(err) {
+   return es.indices.create(createOptions).catch(function(err) {
     Logger.error("Couldn't create " + indexName + " index:");
     Logger.error(err);
   }).then(function(resp) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
       if (process.env.NODE_ENV == "production") {
-        sleep.sleep(10);
+        sleep.sleep(5);
       }
     }
   });
