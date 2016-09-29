@@ -758,6 +758,7 @@ function checkCampaignViews(user, callback){
 }
 
 function checkIndices(){
+  console.log("CHECKING");
   es.checkConnection().then(function(resp) {
     if (resp) {
       Logger.info("Connected to elasticsearch.");
@@ -777,16 +778,127 @@ function checkIndices(){
        if(resp){
          es.indices.stats('funds').then(function(resp){
            if(resp._all.total.docs.count < 2000){
-             es.deleteIndex('funds').then(createFundIndex()).then(checkUserIndex());
+             es.deleteIndex('funds').then(es.createIndex('funds'))
+               .then(bulkUploadFunds)
+               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+               .then(bulkUpload)
+               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
+               .then(bulkUpload)
+               .then(es.indexExists('users', function(resp){
+                 if(resp){
+                   es.indices.stats('users').then(function(resp){
+                     if(resp._all.total.docs.count ===0){
+                       es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+                     }
+                     else{
+                       return true;
+                     }
+                   });
+                 }
+                 else{
+                   es.createIndex('users')
+                   .then(bulkUploadUsers);
+                 }
+               }));
            }
            else{
-             checkUserIndex();
+             es.indexExists('users', function(resp){
+               if(resp){
+                 es.indices.stats('users').then(function(resp){
+                   if(resp._all.total.docs.count ===0){
+                     es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+                   }
+                   else{
+                     return true;
+                   }
+                 });
+               }
+               else{
+                 es.createIndex('users')
+                 .then(bulkUploadUsers);
+               }
+             });
            }
          });
        }
        else{
-         createFundIndex();
-         checkUserIndex();
+         es.createIndex('funds')
+         .then(bulkUploadFunds)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
+         .then(bulkUpload)
+         .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
+         .then(bulkUpload)
+         .then(es.indexExists('users', function(resp){
+           if(resp){
+             es.deleteIndex('users')
+             .then(es.createIndex('users'))
+             .then(bulkUploadUsers);
+           }
+           else{
+             es.createIndex('users')
+             .then(bulkUploadUsers);
+           }
+         }));
        }
      });
     }
@@ -1143,8 +1255,9 @@ function bulkUpload(data) {
             if (resp) {
               Logger.info("Bulk sync for " + data.fieldName + " complete");
               if (process.env.NODE_ENV == "production") {
-                sleep.sleep(10);
+                sleep.sleep(5);
               }
+              // sleep.sleep(5);
             }
           });
 }

@@ -64,6 +64,7 @@ function deleteIndex(indexName) {
     if (process.env.NODE_ENV == "production") {
       sleep.sleep(10);
     }
+    sleep.sleep(10);
   });
 }
 
@@ -87,6 +88,7 @@ function createIndex(indexName) {
       if (process.env.NODE_ENV == "production") {
         sleep.sleep(5);
       }
+      // sleep.sleep(5);
     }
   });
 }
