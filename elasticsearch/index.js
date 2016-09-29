@@ -36,7 +36,7 @@ function checkConnection() {
   });
 }
 
-function indexExists(indexName) {
+function indexExists(indexName, callback) {
   return es.indices.exists({
     index: indexName
   }).catch(function(err) {
@@ -45,6 +45,7 @@ function indexExists(indexName) {
   }).then(function(resp) {
     Logger.info("Does the " + indexName + " index exist?:");
     Logger.info(resp);
+    callback(resp);
   });
 }
 
