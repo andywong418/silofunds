@@ -36,7 +36,7 @@ function checkConnection() {
   });
 }
 
-function indexExists(indexName) {
+function indexExists(indexName, callback) {
   return es.indices.exists({
     index: indexName
   }).catch(function(err) {
@@ -45,6 +45,7 @@ function indexExists(indexName) {
   }).then(function(resp) {
     Logger.info("Does the " + indexName + " index exist?:");
     Logger.info(resp);
+    callback(resp);
   });
 }
 
@@ -63,6 +64,7 @@ function deleteIndex(indexName) {
     if (process.env.NODE_ENV == "production") {
       sleep.sleep(10);
     }
+    sleep.sleep(10);
   });
 }
 
@@ -77,15 +79,16 @@ function createIndex(indexName) {
     createOptions.body = elasticsearchModel.userSettings;
   }
 
-  return es.indices.create(createOptions).catch(function(err) {
+   return es.indices.create(createOptions).catch(function(err) {
     Logger.error("Couldn't create " + indexName + " index:");
     Logger.error(err);
   }).then(function(resp) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
       if (process.env.NODE_ENV == "production") {
-        sleep.sleep(10);
+        sleep.sleep(5);
       }
+      // sleep.sleep(5);
     }
   });
 }

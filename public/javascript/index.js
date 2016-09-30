@@ -180,7 +180,7 @@ var parallax = document.querySelectorAll(".parallax"),
   });
   $.stellar({
     horizontalScrolling: false,
-     verticalOffset: -350,
+     verticalOffset: -380,
      horizontalOffset: 0
 });
   var viewPortWidth = $(window).width();

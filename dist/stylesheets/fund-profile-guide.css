@@ -920,60 +920,57 @@ margin-right: -40px;
   margin-bottom: 20px; }
 
 body {
-  background: #f4f6f8;
   font-family: 'Source Sans Pro'; }
   body .navbar-custom {
     position: relative; }
     body .navbar-custom div.navbar-center-container {
       position: absolute; }
   body h1, body h2, body h3, body h4 {
-    font-family: 'Helvetica Neue';
-    color: #33485c; }
-  body section i.fa.fa-institution {
-    font-size: 28px;
-    display: inline;
-    margin-right: 10px; }
-  body section .row {
-    padding-top: 35px;
-    background-color: #516395;
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 2px; }
-  body section h3, body section i {
-    font-weight: 550;
     font-family: 'Source Sans Pro';
-    display: inline-block;
-    font-size: 25px; }
+    color: #1abc9c; }
+  body section {
+    width: 70%;
+    margin-left: 23%; }
+    body section i.fa.fa-institution {
+      font-size: 28px;
+      display: inline;
+      margin-right: 10px; }
+    body section .row {
+      padding-top: 35px;
+      margin-left: 0;
+      margin-right: 0;
+      border-radius: 2px; }
+    body section h3, body section i {
+      font-weight: 550;
+      font-family: 'Source Sans Pro';
+      display: inline-block;
+      font-size: 25px; }
   body #writing {
-    font-family: 'Helvetica Neue';
-    padding: 20px 30px 20px 30px;
-    margin-top: 40px;
+    font-family: 'Source Sans Pro';
+    padding: 0px 30px 20px 30px;
+    margin-top: 30px;
     margin-bottom: 60px;
-    width: 83.3%;
-    margin-left: 9.16%;
-    background-color: white;
-    box-shadow: 0px 8px 15px #888888;
-    border-radius: 30px; }
-    body #writing h3 {
-      font-size: 20px; }
-    body #writing .intro-div {
-      border-bottom: 2px solid grey; }
-      body #writing .intro-div .intro {
-        font-style: italic;
-        margin-bottom: 10px;
-        font-size: 16px; }
+    width: 70%;
+    margin-left: 23%;
+    background-color: white; }
+    body #writing h2 {
+      font-size: 28px; }
+    body #writing .intro-div .intro {
+      font-style: italic;
+      margin-bottom: 10px;
+      font-size: 16px; }
     body #writing .steps {
-      border-bottom: 2px solid grey;
       margin-top: 15px;
       margin-bottom: 25px; }
+      body #writing .steps ul {
+        font-size: 16px; }
       body #writing .steps .step-img {
         width: 70%;
-        margin-left: 15%;
         margin-bottom: 30px;
         border-radius: 3px; }
       body #writing .steps div p.intro {
         margin-bottom: 10px;
-        font-size: 16px; }
+        font-size: 18px; }
 
 @media (max-width: 760px) {
   body #writing {
