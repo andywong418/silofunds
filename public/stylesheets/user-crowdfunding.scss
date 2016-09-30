@@ -786,6 +786,23 @@ body{
 				}
 			}
 		}
+		#launch_box {
+			margin-top: 5px;
+			padding: 5px;
+			.alert {
+				padding: 5px;
+				text-align: center;
+				font-size: 14px;
+			}
+			.col-xs-12 {
+				padding: 3px 3px;
+			}
+			button {
+				padding: 3px 6px;
+				margin-top: 6px;
+				font-size: 14px;
+			}
+		}
 	}
 	#social-media-flex-container {
 		margin-bottom: 15px;
@@ -816,5 +833,17 @@ body{
 			padding-left: 0;
 			padding-right: 0;
 		}
+	}
+}
+
+#launch_box {
+	margin-top: -30px;
+	.alert {
+		font-size: 16px;
+		text-align: center;
+	}
+	button {
+		font-size: 16px;
+		margin-top: 8px;
 	}
 }
