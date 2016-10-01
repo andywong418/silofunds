@@ -37,7 +37,7 @@ $(document).ready(function() {
       );
 
       $('html, body').animate({
-        scrollTop: $("#showcase").offset().top -20
+        scrollTop: $("#about-us").offset().top -20
       }, 1500, "easeOutQuart");
 
       return false;

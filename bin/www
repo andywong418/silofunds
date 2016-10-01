@@ -479,8 +479,8 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                 //node mailer
                 var transporter = nodemailer.createTransport(smtpTransport({
                  service: 'Gmail',
-                 auth: {user: 'james.morrill.6@gmail.com',
-                       pass: 'exogene5i5'}
+                 auth: {user: 'notifications@silofunds.com',
+                       pass: 'ThisIsNotificationsAccount'}
                 }));
 
                 // var sendMail = function(toAddress, subject, content, next){
@@ -513,7 +513,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                      return console.error(err);
                   }
                   transporter.sendMail({
-                    from: 'Silofunds <james.morrill.6@gmail.com>',
+                    from: 'Silofunds <notifications@silofunds.com>',
                     to: user.email,
                     subject: 'Silo Weekly Newsletter',
                     html: results.html
@@ -879,11 +879,11 @@ function checkForFundUnreadMessages() {
         //send emails here
         var transporter = nodemailer.createTransport(smtpTransport({
          service: 'Gmail',
-         auth: {user: 'james.morrill.6@gmail.com',
-               pass: 'exogene5i5'}
+         auth: {user: 'notifications@silofunds.com',
+               pass: 'ThisIsNotificationsAccount'}
         }));
         var mailOptions = {
-           from: 'Silofunds <james.morrill.6@gmail.com>',
+           from: 'Silofunds <notifications@silofunds.com>',
            to: user.email,
            subject: 'You have new unread messages!',
            html: '<h3>Dear ' + username + '</h3> <p> You are receiving this because you have recieved new messages on our platform. Please click on the following <a href="https://silofunds.com/user/messages">link </a> to read them.</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
@@ -1276,11 +1276,11 @@ function onError(error) {
    }, function done(){
      var transporter = nodemailer.createTransport(smtpTransport({
       service: 'Gmail',
-      auth: {user: 'james.morrill.6@gmail.com',
-            pass: 'exogene5i5'}
+      auth: {user: 'notifications@silofunds.com',
+      pass: 'ThisIsNotificationsAccount'}
      }));
      var mailOptions = {
-        from: 'Silofunds <james.morrill.6@gmail.com>',
+        from: 'Silofunds <notifications@silofunds.com>',
         to: userEmail,
         subject: 'Silo refund',
         html: '<h3>Dear ' + username + '</h3> <p> You have now refunded all your donors, but fear not there are still funds available for you! Check out <a href="http://silofunds.com"> for more.</a> </p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
