@@ -718,7 +718,7 @@ module.exports = {
         if (user.completion_date) {
           user.completion_date = reformatDate(user.completion_date);
         }
-        
+
         res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
       });
     });

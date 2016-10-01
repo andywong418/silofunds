@@ -44,7 +44,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		events: {
 			'click #profile-picture': 'addProfilePicture',
 			'change input[id="my_file"]': 'changePicture',
-			'click #save': 'saveAbout'
+			'click #save': 'saveAbout',
+			'click #skip': 'switchTabs'
 		},
 		initialize: function(){
 			var aboutModel = this.model;
@@ -157,6 +158,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 				$('a[href="#education"]').addClass('active');
 				$('html, body').animate({scrollTop:0}, 'slow')
 			})
+		},
+		switchTabs: function(e){
+			$('a[href="#about"]').removeClass('active');
+			$('a[href="#education"]').addClass('active');
 		}
 	})
 	var EducationDisplay = Backbone.View.extend({
@@ -164,7 +169,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		id: 'education-handler',
 		template: _.template($('#education-template').html()),
 		events: {
-			'click #save': 'saveEducation'
+			'click #save': 'saveEducation',
+			'click #skip': 'switchTabs'
 		},
 		render: function() {
 				this.$el.html(this.template(this.model.toJSON()));
@@ -215,7 +221,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 				}
 			}
-
 		},
 		saveEducation: function(){
 			var subject = $('input[name=subject]').val().split(',');
@@ -238,6 +243,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 				$('a[href="#story"]').addClass('active');
 				$('html, body').animate({scrollTop:0}, 'slow')
 			})
+		},
+		switchTabs: function(){
+			$('a[href="#education"]').removeClass('active');
+			$('a[href="#story"]').addClass('active');
 		}
 
 	})
@@ -247,7 +256,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		template:_.template($('#story-template').html()),
 		events: {
 			'click #save': 'saveStory',
-			'change input[id="work"]': 'saveFiles'
+			'change input[id="work"]': 'saveFiles',
+			'click #skip': 'switchTabs'
 		},
 		render:function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -338,8 +348,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 			else{
 				$('#file-error').show();
 			}
-
-
+		},
+		switchTabs: function(){
+			$('a[href="#story"]').removeClass('active');
+			$('a[href="#account"]').addClass('active');
 		}
 	});
 	var AccountDisplay = Backbone.View.extend({
@@ -347,7 +359,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		id: 'account-handler',
 		template: _.template($('#account-template').html()),
 		events:{
-			'click #verify': 'addressPost'
+			'click #verify': 'addressPost',
 		},
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
