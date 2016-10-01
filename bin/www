@@ -129,55 +129,7 @@ io.on('connection', function(socket){
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-function deleteCreateIndices(){
-  es.deleteIndex('funds').then(es.createIndex('funds'))
-    .then(bulkUploadFunds)
-    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
-    .then(bulkUpload)
-    .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
-    .then(bulkUpload)
-    .then(es.indexExists('users', function(resp){
-      if(resp){
-        es.deleteIndex('users')
-        .then(es.createIndex('users'))
-        .then(bulkUploadUsers);
-      }
-      else{
-        es.createIndex('users')
-        .then(bulkUploadUsers);
-      }
-    }));
-}
+
 es.checkConnection().then(function(resp) {
   if (resp) {
     Logger.info("Connected to elasticsearch.");
@@ -527,8 +479,8 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                 //node mailer
                 var transporter = nodemailer.createTransport(smtpTransport({
                  service: 'Gmail',
-                 auth: {user: 'james.morrill.6@gmail.com',
-                       pass: 'exogene5i5'}
+                 auth: {user: 'notifications@silofunds.com',
+                       pass: 'ThisIsNotificationsAccount'}
                 }));
 
                 // var sendMail = function(toAddress, subject, content, next){
@@ -561,7 +513,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                      return console.error(err);
                   }
                   transporter.sendMail({
-                    from: 'Silofunds <james.morrill.6@gmail.com>',
+                    from: 'Silofunds <notifications@silofunds.com>',
                     to: user.email,
                     subject: 'Silo Weekly Newsletter',
                     html: results.html
@@ -927,11 +879,11 @@ function checkForFundUnreadMessages() {
         //send emails here
         var transporter = nodemailer.createTransport(smtpTransport({
          service: 'Gmail',
-         auth: {user: 'james.morrill.6@gmail.com',
-               pass: 'exogene5i5'}
+         auth: {user: 'notifications@silofunds.com',
+               pass: 'ThisIsNotificationsAccount'}
         }));
         var mailOptions = {
-           from: 'Silofunds <james.morrill.6@gmail.com>',
+           from: 'Silofunds <notifications@silofunds.com>',
            to: user.email,
            subject: 'You have new unread messages!',
            html: '<h3>Dear ' + username + '</h3> <p> You are receiving this because you have recieved new messages on our platform. Please click on the following <a href="https://silofunds.com/user/messages">link </a> to read them.</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
@@ -1324,11 +1276,11 @@ function onError(error) {
    }, function done(){
      var transporter = nodemailer.createTransport(smtpTransport({
       service: 'Gmail',
-      auth: {user: 'james.morrill.6@gmail.com',
-            pass: 'exogene5i5'}
+      auth: {user: 'notifications@silofunds.com',
+      pass: 'ThisIsNotificationsAccount'}
      }));
      var mailOptions = {
-        from: 'Silofunds <james.morrill.6@gmail.com>',
+        from: 'Silofunds <notifications@silofunds.com>',
         to: userEmail,
         subject: 'Silo refund',
         html: '<h3>Dear ' + username + '</h3> <p> You have now refunded all your donors, but fear not there are still funds available for you! Check out <a href="http://silofunds.com"> for more.</a> </p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'

@@ -496,12 +496,24 @@ var allShown = false;
     $(document.body).append(fundList.render().el);
     var scroll_pos_test = 200;
     var counter = 0;
+    var lastTrack = false;
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
-        if(y_scroll_pos % 200 === 0){
+        if(y_scroll_pos % 200 === 0 && y_scroll_pos < 15000){
           var numberOfResults = $('.fund_list').length;
-          
+          mixpanel.track(
+            "Results scrolled",
+            {"number": numberOfResults}
+          );
+        }
+        if(y_scroll_pos > 15000 && lastTrack === false){
+          lastTrack = true;
+          var numberOfResults = $('.fund_list').length;
+          mixpanel.track(
+            "Results scrolled",
+            {"number": numberOfResults}
+          );
         }
         if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5 && anotherCounter === 0) {
             //do stuff
