@@ -499,6 +499,10 @@ var allShown = false;
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
+        if(y_scroll_pos % 200 === 0){
+          var numberOfResults = $('.fund_list').length;
+          
+        }
         if(y_scroll_pos > scroll_pos_test && nonDeadlineArray.length > 5 && anotherCounter === 0) {
             //do stuff
             startPoint = startPoint +5;
