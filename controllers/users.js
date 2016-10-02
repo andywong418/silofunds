@@ -533,58 +533,60 @@ module.exports = {
     var userId;
     var loggedInUser;
     var displayProfile;
-    if(req.params.id) {
-      userId = req.params.id;
+    models.users.find({where: {id: req.params.id}}).then(function(user) {
       // Set display profile to be true if user has chosen to launch
-      models.users.find({where: {id: req.params.id}}).then(function(user) {
-        if(user.user_launch == true) {
-          displayProfile = true
+      if(user.user_launch == true) {
+        displayProfile = true
+      } else {
+        displayProfile = false
+      }
+      if(req.params.id) {
+        userId = req.params.id;
+        if(req.isAuthenticated()) {
+          loggedInUser = req.user.id;
         } else {
-          displayProfile = false
+          loggedInUser = false;
         }
-      })
-      if(req.isAuthenticated()) {
-        loggedInUser = req.user.id;
+        Logger.warn(loggedInUser);
       } else {
-        loggedInUser = false;
+        // user profile
+        userId = req.user.id;
+        if(req.isAuthenticated()) {
+          loggedInUser = req.user.id;
+        } else {
+          loggedInUser = false;
+        }
       }
-      Logger.warn(loggedInUser);
-    } else {
-      // user profile
-      userId = req.user.id;
-      if(req.isAuthenticated()) {
-        loggedInUser = req.user.id;
-      } else {
-        loggedInUser = false;
-      }
-    }
-    if(displayProfile == true || !req.params.id) {
-      models.users.findById(userId).then(function(user){
-        models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-          models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-            var pageViewCreate = {user_id: user.id};
-            if(applications.length > 0){
-              createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
-            } else {
-              // No applications
-              createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
-            }
+      if(displayProfile == true || !req.params.id) {
+        models.users.findById(userId).then(function(user){
+          models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+            models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+              var pageViewCreate = {user_id: user.id};
+              if(applications.length > 0){
+                createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
+              } else {
+                // No applications
+                createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
+              }
+            });
           });
         });
-      });
-    } else {
-      models.users.findById(req.params.id).then(function(user_viewed) {
-        if(req.user) {
-          if(req.user.id == user_viewed.id) {
-            res.render('crowdfunding-not-launched', {user: req.user, own_profile: true})
+      } else {
+        models.users.findById(req.params.id).then(function(user_viewed) {
+          if(req.user) {
+            console.log('PLACE 1')
+            if(req.user.id == user_viewed.id) {
+              res.render('crowdfunding-not-launched', {user: req.user, own_profile: true})
+            } else {
+              res.render('crowdfunding-not-launched', {user: user_viewed})
+            }
           } else {
+            console.log('PLACE 2')
             res.render('crowdfunding-not-launched', {user: user_viewed})
           }
-        } else {
-          res.render('crowdfunding-not-launched', {user: user_viewed})
-        }
-      })
-    }
+        })
+      }
+    })
   },
   launch: function(req, res) {
     models.users.findById(req.user.id).then(function(user) {
