@@ -115,6 +115,22 @@ $(document).ready(function(){
 
     var userList = new UserList();
   }
+  //mixpanel checking actions prior to signin
+  var mixpanelClickCheck = [];
+  $(document).click(function(e){
+    console.log(e);
+    console.log(e.target);
+    mixpanelClickCheck.push(e.target.outerHTML);
+    if($(e.target).attr('id') == 'signup-button'){
+      //track array and page
+      console.log(mixpanelClickCheck);
+      mixpanel.track(
+        "Pre Signup Action",
+        {"page": "user results", "actions": mixpanelClickCheck}
+      );
+    }
+    // if(e.target !=)
+  });
   var windowPortWidth =$(window).width();
   if(windowPortWidth < 545){
     $('.page-header.desktop').hide();

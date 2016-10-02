@@ -576,14 +576,15 @@ module.exports = {
       models.users.findById(req.params.id).then(function(user_viewed) {
         if(req.user) {
           if(req.user.id == user_viewed.id) {
-            res.render('crowdfunding-not-launched', {user: req.user, own_profile: true})
+            res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser});
           } else {
-            res.render('crowdfunding-not-launched', {user: user_viewed})
+            res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser});
           }
         } else {
-          res.render('crowdfunding-not-launched', {user: user_viewed})
+          console.log("REQ USER", loggedInUser);
+          res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser});
         }
-      })
+      });
     }
   },
   launch: function(req, res) {

@@ -363,7 +363,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
-			return this
+			return this;
 		},
 		initialize: function(){
 			this.el = this.render().el;
@@ -387,7 +387,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				window.location = '/user/dashboard';
 			});
 		}
-	})
+	});
 	var Router = Backbone.Router.extend({
 		routes:{
 			"": "about",
