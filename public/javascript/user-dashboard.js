@@ -58,5 +58,9 @@ $(document).ready(function(){
     }
   });
 
+  $('.fund-no-pic:first').css('background-color', '#27ae60')
+  $('.fund-no-pic').eq(1).css('background-color', '#e67e22')
+  $('.fund-no-pic').eq(2).css('background-color', '#e74c3c')
+  $('.fund-no-pic').eq(3).css('background-color', '#2980b9')
 
 });

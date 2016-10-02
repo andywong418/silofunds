@@ -1939,6 +1939,10 @@ table#header {
     color: #8E9FB1;
     white-space: nowrap; }
 
+@media (max-width: 993px) {
+  #updates .col-xs-2.mobile.force-block {
+    display: block !important; } }
+
 @media (max-width: 993px) and (max-width: 600px) {
   h2 {
     font-size: 22px; }

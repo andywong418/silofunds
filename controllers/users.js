@@ -161,6 +161,9 @@ module.exports = {
                 for (var i=0; i < funds.length; i++) {
                   if (funds[i].organisation_id == user.organisation_or_user) {
                     funds[i].fund_user = true;
+                    if(user.profile_picture){
+                      funds[i].organisation_picture = user.profile_picture;
+                    }
                   }
                 }
               }
@@ -178,7 +181,6 @@ module.exports = {
                     models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
                       var recently_browsed_funds = [];
                       async.each(recent_funds.slice(0, 5), function(fund, callback){
-                        fund = fund.get();
                         models.funds.findById(fund.fund_id).then(function(fund){
                           recently_browsed_funds.push(fund);
                           callback();
@@ -187,12 +189,18 @@ module.exports = {
                         // Flash message logic here
                         var success = req.flash('emailSuccess')[0];
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
+                          var counter = 0;
+                          for(var i = 0; i < funds.length; i++) {
+                            if(funds[i].organisation_picture) {
+                              counter = counter + 1
+                            }
+                          }
                           if(!stripe_user) {
-                            var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
+                            var dataObject = {user: req.user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                           if (stripe_user) {
-                            var dataObject = {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
+                            var dataObject = {user: user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                         });
