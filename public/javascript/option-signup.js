@@ -84,7 +84,7 @@ $(document).ready(function(){
       var view = new GeneralView({model: generalModel});
       this.$el.append(view.render().el);
       $('.selected').removeClass('selected');
-      $('#general').addClass('selected');
+      $('#general_link').addClass('selected');
       this.$('[data-toggle="tooltip"]').tooltip();
       if(this.model.get('id')){
         var id = this.model.get('id');
@@ -249,7 +249,7 @@ var EligibleDisplay = Backbone.View.extend({
       }
     }
     $('.selected').removeClass('selected');
-    $('#eligible').addClass('selected');
+    $('#eligible_link').addClass('selected');
     //support type switch
     if(!this.model.get('merit_or_finance')){
       switch(support_type){
@@ -355,7 +355,7 @@ var ApplicationDisplay = Backbone.View.extend({
     var view = new ApplicationView({model: applicationModel});
     this.$el.append(view.render().el);
     $('.selected').removeClass('selected');
-    $('#application').addClass('selected');
+    $('#application_link').addClass('selected');
     var arrayFields = ['application_open_date', 'deadline','interview_date','application_decision_date','application_link','application_documents','other_application_steps','tips'];
 
     if(this.model.get('id')){
@@ -456,9 +456,7 @@ var Router = Backbone.Router.extend({
 
   },
   loadView : function(viewing) {
-    console.log("REMOVE !");
 	  if(this.view){
-      console.log("REMOVE")
       this.view.stopListening();
       this.view.off();
       this.view.remove();
@@ -474,23 +472,20 @@ function split(val) {
   return val.split(" ");
 }
 
-  $('#eligible').click(function() {
-    window.location.hash = '#eligible';
-    $('#general').removeClass('selected');
-    $('#application').removeClass('selected');
-    $('#eligible').addClass('selected');
-  })
-  $('#application').click(function() {
-    window.location.hash = '#application';
-    $('#general').removeClass('selected');
-    $('#eligible').removeClass('selected');
-    $('#application').addClass('selected');
-  })
-  $('#general').click(function() {
-    window.location.hash = '#general';
-    $('#application').removeClass('selected');
-    $('#eligible').removeClass('selected');
-    $('#general').addClass('selected');
-  })
+  // $('#eligible_link').click(function() {
+  //   $('#general').removeClass('selected');
+  //   $('#application').removeClass('selected');
+  //   $('#eligible').addClass('selected');
+  // })
+  // $('#application_link').click(function() {
+  //   $('#general').removeClass('selected');
+  //   $('#eligible').removeClass('selected');
+  //   $('#application').addClass('selected');
+  // })
+  // $('#general_link').click(function() {
+  //   $('#application').removeClass('selected');
+  //   $('#eligible').removeClass('selected');
+  //   $('#general').addClass('selected');
+  // })
 
 });
