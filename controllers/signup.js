@@ -122,51 +122,46 @@ module.exports = {
   uploadPicture: function(req,res){
     var userId = req.params.id;
     var idString = req.params.id.toString();
-    var bucketString = "silo-user-profile-";
-    var bucketName = bucketString.concat(idString);
+    var folderString = "silo-user-profile-" + userId + '/';
+    var bucketName = "silo-user-profiles";
     AWS.config.update({
     accessKeyId: aws_keyid,
     secretAccessKey: aws_key
     });
-    var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.file.originalname, ACL: 'public-read'}});
-    s3.headBucket(bucketName, function(err, data) {
-      if (err) {
-        s3.createBucket(function(err){
-          if (err) { Logger.info("Error:", err); }
-          else{
-            s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-                models.users.findById(userId).then(function(user){
-                  user.update({
-                    profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
-                  });
-                });
-                Logger.info('uploaded picture');
-                res.end();
-            });
-          }
-        });
-      } else { // an error occurred so bucket doesn't exist
-        s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-          Logger.info("Uploaded picture.");
-          res.end();
-        });
-      }          // successful response- bucket exists
-    });
+    var s3 = new AWS.S3();
+		var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(req.file.originalname), ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
+			s3.putObject(params, function(err, data){
+					if(err){
+						console.log("ERR", err);
+					}
+					else{
+						console.log("DATA", data);
+					}
+					models.users.findById(userId).then(function(user){
+						user.update({
+							profile_picture: "https://s3-us-west-2.amazonaws.com/" + bucketName + "/" + folderString+ encodeURIComponent(req.file.originalname)
+						});
+					});
+					Logger.info('uploaded picture');
+					res.end();
+			});
   },
 
   uploadWork: function(req, res){
     var userId = req.params.id;
-    var bucketName = "silo-user-profile-" + userId;
+    var bucketName = "silo-user-profiles";
+		var folderString = "silo-user-profile-" + userId + '/';
 
     AWS.config.update({
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
     async.eachSeries(req.files, function iterator(item, callback){
-        var s3 = new AWS.S3({params: {Bucket:bucketName, Key: item.originalname, ACL: 'public-read'}});
-        s3.upload({Body: item.buffer, ContentType: item.mimetype}, function(){
+        var s3 = new AWS.S3();
+				var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(item.originalname), ACL: 'public-read', Body: item.buffer, ContentType: item.mimetype};
+        s3.putObject(params, function(){
           models.documents.upsert({
-            link: "https://s3.amazonaws.com/" + bucketName + "/" + item.originalname,
+            link: "https://s3-us-west-2.amazonaws.com/" + bucketName + "/" + folderString +  encodeURIComponent(item.originalname),
             user_id: userId,
 						title: item.originalname
           }).then(function(document){
@@ -494,43 +489,53 @@ module.exports = {
 	},
   fundAccount: function(req, res){
     var userId = req.params.id;
-    var bucketName = "silo-fund-profile-" + userId;
-    Logger.info(req.file);
+    var bucketName = "silo-fund-profiles";
+		var folderString = "silo-fund-profile-" + userId + '/';
     if (req.file){
       AWS.config.update({
         accessKeyId: aws_keyid,
         secretAccessKey: aws_key
       });
-      var s3 = new AWS.S3({params: {Bucket: bucketName, Key: req.file.originalname, ACL: 'public-read'}});
-      s3.headBucket(bucketName, function(err, data) {
-        if (err) {
-          s3.createBucket(function(err){
-            if (err) { Logger.info("Error:", err); }
-            else{
-              s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-                  models.users.findById(userId).then(function(user){
-                    user.update({
-                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
-                    }).then(function(user){
-                      res.send("GOT HIMMMMMMMM");
-                    });
-                  });
-              });
-            }
-          });
-        } else { // an error occurred so bucket doesn't exist
-          s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
-            Logger.info("Uploaded picture.");
-               models.users.findById(userId).then(function(user){
-                    user.update({
-                      profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
-                    }).then(function(user){
-                      res.send("GOT HIMMMMMMMM");
-                    });
-              });
-          });
-        }          // successful response- bucket exists
-      });
+      var s3 = new AWS.S3();
+			var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(req.file.originalname), ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
+			s3.putObject(params, function(){
+					models.users.findById(userId).then(function(user){
+						user.update({
+							profile_picture: "https://s3-us-west-2.amazonaws.com/" + bucketName + "/" + folderString + encodeURIComponent(req.file.originalname)
+						}).then(function(user){
+							res.send("GOT HIMMMMMMMM");
+						});
+					});
+			});
+      // s3.headBucket(bucketName, function(err, data) {
+      //   if (err) {
+      //     s3.createBucket(function(err){
+      //       if (err) { Logger.info("Error:", err); }
+      //       else{
+      //         s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
+      //             models.users.findById(userId).then(function(user){
+      //               user.update({
+      //                 profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
+      //               }).then(function(user){
+      //                 res.send("GOT HIMMMMMMMM");
+      //               });
+      //             });
+      //         });
+      //       }
+      //     });
+      //   } else { // an error occurred so bucket doesn't exist
+      //     s3.upload({Body: req.file.buffer, ContentType: req.file.mimetype}, function(){
+      //       Logger.info("Uploaded picture.");
+      //          models.users.findById(userId).then(function(user){
+      //               user.update({
+      //                 profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(req.file.originalname)
+      //               }).then(function(user){
+      //                 res.send("GOT HIMMMMMMMM");
+      //               });
+      //         });
+      //     });
+      //   }          // successful response- bucket exists
+      // });
     }
     else{
 			//description

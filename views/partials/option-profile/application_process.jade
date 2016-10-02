@@ -6,9 +6,10 @@
       #start_date  <%= application_open_date %>
       p.arrow#arrow_1 
         i.fa.fa-angle-double-down(aria-hidden="true")
-    #documents_deadline <%= application_documents %>
-    p.arrow#arrow_2 
-      i.fa.fa-angle-double-down(aria-hidden="true")
+    if fund.deadline
+      #documents_deadline <%= application_documents %>
+      p.arrow#arrow_2 
+        i.fa.fa-angle-double-down(aria-hidden="true")
     if fund.interview_date
       #interviews <%= interview_date %>
       p.arrow#arrow3

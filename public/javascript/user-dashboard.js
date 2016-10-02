@@ -1,4 +1,20 @@
 $(document).ready(function(){
+  console.log(document.referrer.indexOf('create'));
+  if(document.referrer.indexOf('create') > -1){
+    var mixpanelClickCheck = [];
+    $(document).click(function(e){
+      console.log(e.target.outerHTML);
+      mixpanelClickCheck.push(e.target.outerHTML);
+    });
+    $(window).on('beforeunload', function(){
+        console.log("HEY");
+        mixpanel.track(
+          "Post Signup Action",
+          {"actions": mixpanelClickCheck}
+        );
+    });
+  }
+
   $('#explore, #start-browsing').click(function(){
     $('html, body').animate({scrollTop:0}, 'slow');
     $('#text_search').focus();

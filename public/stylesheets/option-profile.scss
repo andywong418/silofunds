@@ -271,6 +271,9 @@ h1 {
   margin-right: 3%;
   flex-direction: column;
   align-items: flex-end;
+  .flex-flip{
+    width: 100%;
+  }
 }
 
 #fundName_div {
@@ -987,6 +990,7 @@ h1 {
   .flex-flip {
     display: flex;
     flex-direction: column-reverse;
+    width: 100%;
   }
   #favourite.favourite.mobile {
     margin-left: 0;
