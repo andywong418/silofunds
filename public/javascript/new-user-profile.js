@@ -394,8 +394,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			if($('#heard_from').val() == 'other') {
 				$('#heard_other').show()
 				$('.hear-about-us').css('align-items', 'flex-start')
-				$('.hear-about-us span').css('margin-top', '10px')
+				$('.text-left').css('margin-top', '8px')
 			} else {
+				$('.text-left').css('margin-top', '')
 				$('#heard_other').hide()
 				$('.hear-about-us').css('align-items', 'center')
 			}
