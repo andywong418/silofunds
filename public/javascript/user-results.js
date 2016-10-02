@@ -123,7 +123,6 @@ $(document).ready(function(){
     mixpanelClickCheck.push(e.target.outerHTML);
     if($(e.target).attr('id') == 'signup-button'){
       //track array and page
-      console.log(mixpanelClickCheck);
       mixpanel.track(
         "Pre Signup Action",
         {"page": "user results", "actions": mixpanelClickCheck}
