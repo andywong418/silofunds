@@ -465,10 +465,30 @@ module.exports = {
 	},
 	verifyAddress: function(req, res){
 		var userId = req.user.id;
-		console.log("hi req body", req.body);
+		var heard_from = req.body.heard_from;
 		models.users.findById(userId).then(function(user){
 			user.update(req.body).then(function(user){
-				res.send(user);
+				models.heard_froms.find({where: {main_row: true}}).then(function(main_row) {
+					if(!main_row) {
+						models.heard_froms.create({
+							main_row: true
+						}).then(function(main_row) {
+							if(heard_from !== 'other' && heard_from !== '') {
+								var addition = main_row[heard_from] + 1;
+								main_row.update({[heard_from]: addition}).then(function() {
+									res.send(user)
+								})
+							}
+						})
+					} else {
+						if(heard_from !== 'other' && heard_from !== '') {
+							var addition = main_row[heard_from] + 1;
+							main_row.update({[heard_from]: addition}).then(function() {
+								res.send(user)
+							})
+						}
+					}
+				})
 			})
 		})
 	},

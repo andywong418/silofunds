@@ -1207,6 +1207,8 @@ body {
     display: table; }
   #dashboard-button.desktop {
     display: none; }
+  .glyph-remove {
+    display: none; }
   #signup-wrapper #signup-form {
     width: 98%; }
   #greeting {
@@ -1285,3 +1287,38 @@ body {
   #signup-wrapper #signup-form #profile-picture img {
     width: 200px !important;
     height: auto !important; } }
+
+.hear-about-us {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #34495e;
+  font-weight: bold;
+  font-size: 14px; }
+  .hear-about-us select {
+    margin: 0;
+    padding: 0; }
+  .hear-about-us .col-md-2.col-sm-0.col-xs-0.padding-edit, .hear-about-us .col-md-1.col-xs-0.padding-edit {
+    padding: 0;
+    padding-left: 3px; }
+
+#signup-wrapper #signup-form .col-sm-4.text-left {
+  text-align: center;
+  padding: 0; }
+
+#heard_other {
+  display: none;
+  clear: both;
+  margin-top: 10px; }

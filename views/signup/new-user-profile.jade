@@ -17,7 +17,7 @@ block content
 			a.btn.btn-default.process(href='#story') Story
 				span.glyphicon.glyphicon-menu-right
 			a.btn.btn-default.process(href='#account') Account
-				span.glyphicon.glyphicon-menu-right
+				span.glyphicon.glyphicon-menu-right.glyph-remove
 			a.btn.btn-default.process#dashboard-button.desktop(href='/user/dashboard') Dashboard
 		#signup-form.center-block
 			script#about-template(type='text/template')
@@ -447,13 +447,28 @@ block content
 									option(value='Zambia') Zambia
 									option(value='Zimbabwe') Zimbabwe
 				.row#refund-choice
-					.col-xs-0.col-sm-1.col-md-1
+					.col-xs-1.col-sm-1.col-md-3
+					.col-md-1.col-xs-1
+						input#refund(type='checkbox', name='refund', value='true')
 					.col-md-8.col-xs-9.col-sm-offset-0
 						p.description(style='text-align: left') Refund your donors if the goal is not reached by completion date. Once there has been a donation, this setting cannot be changed.
-					#separator.col-xs-2.col-md-1
-					.col-xs-1.col-sm-0
-					.col-md-2.col-xs-1
-						input#refund(type='checkbox', name='refund', value='true')
+				.hear-about-us
+					.col-md-1.col-xs-0.padding-edit
+					.col-md-3.col-sm-4.col-xs-5.text-left
+						span.class-change How did you hear about us?
+					.col-md-6.col-sm-7.col-xs-7
+						select#heard_from.form-control(name='heard_from')
+							option(disabled='', selected='', value='DJAS')
+							option(value='search_engine') Web search engine
+							option(value='tutor') Subject tutor
+							option(value='department') Department
+							option(value='facebook_group') Facebook group
+							option(value='facebook_advert') Facebook group
+							option(value='friends') Friends & family 
+							option(value='word_of_mouth') Word of Mouth
+							option(value='other') Other
+						input#heard_other(type='textbox', placeholder='Please tell us where you head about us')
+					.col-md-2.col-sm-0.col-xs-0.padding-edit
 				a#verify.btn.btn-success Finish
 block scripts
 	script(src='https://cdn.tinymce.com/4/tinymce.min.js')

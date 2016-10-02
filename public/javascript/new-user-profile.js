@@ -360,6 +360,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		template: _.template($('#account-template').html()),
 		events:{
 			'click #verify': 'addressPost',
+			'change #heard_from': 'heardOther'
 		},
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -375,17 +376,29 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 			else{
 				refund = false;
-			}
+			}	
 			var addressData = {
 				"address_line1": $('input#address_line1').val(),
 				"address_zip": $('input#address_zip').val(),
 				"address_city": $('input#address_city').val(),
 				"billing_country": $('#billing_country').val(),
-				"refund": refund
+				"refund": refund,
+				"heard_from": $('#heard_from').val(),
+				"heard_other": $('input#heard_other').val()
 			};
 			$.post('/signup/address', addressData, function(data){
 				window.location = '/user/dashboard';
 			});
+		},
+		heardOther: function(e){
+			if($('#heard_from').val() == 'other') {
+				$('#heard_other').show()
+				$('.hear-about-us').css('align-items', 'flex-start')
+				$('.hear-about-us span').css('margin-top', '3px')
+			} else {
+				$('#heard_other').hide()
+				$('.hear-about-us').css('align-items', 'center')
+			}
 		}
 	});
 	var Router = Backbone.Router.extend({
