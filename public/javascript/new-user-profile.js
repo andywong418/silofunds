@@ -376,7 +376,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 			else{
 				refund = false;
-			}	
+			}
 			var addressData = {
 				"address_line1": $('input#address_line1').val(),
 				"address_zip": $('input#address_zip').val(),
@@ -394,7 +394,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			if($('#heard_from').val() == 'other') {
 				$('#heard_other').show()
 				$('.hear-about-us').css('align-items', 'flex-start')
-				$('.hear-about-us span').css('margin-top', '3px')
+				$('.hear-about-us span').css('margin-top', '10px')
 			} else {
 				$('#heard_other').hide()
 				$('.hear-about-us').css('align-items', 'center')
