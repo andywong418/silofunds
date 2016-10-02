@@ -456,7 +456,9 @@ var Router = Backbone.Router.extend({
 
   },
   loadView : function(viewing) {
+    console.log("REMOVE !");
 	  if(this.view){
+      console.log("REMOVE")
       this.view.stopListening();
       this.view.off();
       this.view.remove();
@@ -471,5 +473,24 @@ Backbone.history.start();
 function split(val) {
   return val.split(" ");
 }
+
+  $('#eligible').click(function() {
+    window.location.hash = '#eligible';
+    $('#general').removeClass('selected');
+    $('#application').removeClass('selected');
+    $('#eligible').addClass('selected');
+  })
+  $('#application').click(function() {
+    window.location.hash = '#application';
+    $('#general').removeClass('selected');
+    $('#eligible').removeClass('selected');
+    $('#application').addClass('selected');
+  })
+  $('#general').click(function() {
+    window.location.hash = '#general';
+    $('#application').removeClass('selected');
+    $('#eligible').removeClass('selected');
+    $('#general').addClass('selected');
+  })
 
 });
