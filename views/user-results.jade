@@ -74,8 +74,8 @@ block content
 										.col-xs-12
 											p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
 												span.control <%= target_university %>				
-										.col-xs-12
-											p#user-religion(class!= 'user-religion' + '<%= user_id %>')
+										//- .col-xs-12
+										//- 	p#user-religion(class!= 'user-religion' + '<%= user_id %>')
 								.col-xs-1
 								#user-action.col-xs-2
 									a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')

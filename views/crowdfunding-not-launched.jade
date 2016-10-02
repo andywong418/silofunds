@@ -9,7 +9,8 @@ block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
-    if(user){
+    var loggedInUser = !{JSON.stringify(loggedInUser)};
+    if(loggedInUser){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
       windowPortWidth = window.innerWidth;
       if(windowPortWidth <767){

@@ -93,6 +93,9 @@ $(document).ready(function(){
         if(userData[i].country_of_residence === null){
           $('p.user-nationality' + id).hide();
         }
+        if(userData[i].religion === null){
+          $('p.user-religion' + id).hide();
+        }
         var arrayFields= ['subject', 'target_country', 'previous_university', 'target_university'];
         for(var j = 0; j < arrayFields.length; j++){
           if(userData[i][arrayFields[j]] === null || userData[i][arrayFields[j]] ===undefined  ){
@@ -112,6 +115,22 @@ $(document).ready(function(){
 
     var userList = new UserList();
   }
+  //mixpanel checking actions prior to signin
+  var mixpanelClickCheck = [];
+  $(document).click(function(e){
+    console.log(e);
+    console.log(e.target);
+    mixpanelClickCheck.push(e.target.outerHTML);
+    if($(e.target).attr('id') == 'signup-button'){
+      //track array and page
+      console.log(mixpanelClickCheck);
+      mixpanel.track(
+        "Pre Signup Action",
+        {"page": "user results", "actions": mixpanelClickCheck}
+      );
+    }
+    // if(e.target !=)
+  });
   var windowPortWidth =$(window).width();
   if(windowPortWidth < 545){
     $('.page-header.desktop').hide();

@@ -576,13 +576,13 @@ module.exports = {
           if(req.user) {
             console.log('PLACE 1')
             if(req.user.id == user_viewed.id) {
-              res.render('crowdfunding-not-launched', {user: req.user, own_profile: true})
+              res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser})
             } else {
-              res.render('crowdfunding-not-launched', {user: user_viewed})
+              res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
             }
           } else {
             console.log('PLACE 2')
-            res.render('crowdfunding-not-launched', {user: user_viewed})
+            res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
           }
         })
       }
@@ -1050,9 +1050,7 @@ module.exports = {
     var queryOptions = {
       "filtered": {
         "filter": {
-          "bool": {
-            "should": { "match_all": {} }
-          }
+          "missing": {"field": "organisation_or_user"}
         }
       }
     };

@@ -40,7 +40,6 @@ block content
 		var donations = !{JSON.stringify(donations)};
 		var updates = !{JSON.stringify(updates)};
 		var loggedInUser = !{JSON.stringify(loggedInUser)};
-		console.log(loggedInUser)
 		if(loggedInUser){
 			bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
 			windowPortWidth = window.innerWidth;

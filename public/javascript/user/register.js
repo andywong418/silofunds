@@ -17,6 +17,15 @@ $(document).ready(function(){
 
 // Validation
 $(document).ready(function(){
+  $(document).click(function(e){
+    if($(e.target).hasClass('btn-success')){
+      //track array and page
+      mixpanel.track(
+        "Pre Signup Action",
+        {"page": "register"}
+      );
+    }
+  });
   $('#email').blur(function() {
     var email = $(this).val()
     var parameters = {email: email, loginEmail: email}

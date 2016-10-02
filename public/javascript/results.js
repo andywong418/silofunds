@@ -585,7 +585,21 @@ var allShown = false;
       window.scroll(0, 1);
  }
  window.onload = Scrolldown;
-
+ //mixpanel checking actions prior to signin
+ var mixpanelClickCheck = [];
+ $(document).click(function(e){
+   console.log(e);
+   console.log(e.target);
+   mixpanelClickCheck.push(e.target.outerHTML);
+   if($(e.target).attr('id') == "signup-button"){
+     //track array and page
+     mixpanel.track(
+       "Pre Signup Action",
+       {"page": "results", "actions": mixpanelClickCheck}
+     );
+   }
+   // if(e.target !=)
+ });
 
 
 //Use modernizr to move search bar when screen is mobile
