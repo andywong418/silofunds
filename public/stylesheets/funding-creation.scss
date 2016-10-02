@@ -133,3 +133,13 @@ body{
 .fa-long-arrow-right{
   margin-left: 7px;
 }
+
+// Browser opt
+#bursaries, #scholarships, #grant, #prizes {
+	display: flex;
+	flex-direction: column;
+	a {
+		width: 70%;
+		margin-left: 15%;
+	}
+}
