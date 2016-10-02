@@ -1108,7 +1108,7 @@ ul {
     cursor: pointer;
     display: block; }
   .profile-edit #box-profile #userImage {
-    width: 50%;
+    max-width: 250px;
     margin-left: 25%;
     max-height: 500px;
     border-radius: 5px;

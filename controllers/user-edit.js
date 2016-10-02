@@ -65,34 +65,32 @@ module.exports = {
 		var file = req.file;
 		var userId;
 		var bucketName;
+		var folderString;
 		Logger.info("CHECKING USER OR FUNd", req.body);
 		if(!req.user.organisation_or_user){
 			 userId = req.user.id;
-			 bucketName = "silo-user-profile-" + userId
+			 bucketName = "silo-user-profiles";
+			 folderString = "silo-user-profile-" + userId + '/';
 		}
 		else{
 			console.log("hey");
 			userId = req.user.id;
-			bucketName = "silo-fund-profile-" + userId
+			bucketName = "silo-fund-profiles";
+			folderString = "silo-fund-profile-" + userId + '/';
 		}
-
-
-
-
 		AWS.config.update({
 	    accessKeyId: aws_keyid,
 	    secretAccessKey: aws_key
 	  });
-
-		var s3 = new AWS.S3({params: {Bucket: bucketName, Key: file.originalname, ACL: 'public-read'}});
-		s3.upload({Body: file.buffer, ContentType: file.mimetype}, function(){
-	      Logger.info("uploaded picture successfully");
-	      models.users.findById(userId).then(function(user){
-	      	user.update({
-	      		profile_picture: "https://s3.amazonaws.com/" + bucketName + "/" + encodeURIComponent(file.originalname),
-					}).then(function(){
-						res.send("YOU GOT THIS");
-	        });
+		var s3 = new AWS.S3();
+		var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(req.file.originalname), ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
+		s3.putObject(params, function(){
+				models.users.findById(userId).then(function(user){
+					user.update({
+						profile_picture: "https://s3-us-west-2.amazonaws.com/" + bucketName + "/" + folderString + encodeURIComponent(req.file.originalname)
+					}).then(function(user){
+						res.send("GOT HIM");
+					});
 				});
 		});
 	}

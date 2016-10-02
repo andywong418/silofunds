@@ -91,7 +91,10 @@ block content
 						.profile-edit
 							#box-profile 
 								input#my_file(type='file', style='display: none;', name = 'profile_picture')
-								img#userImage(src=user.profile_picture)
+								if user.profile_picture
+									img#userImage(src=user.profile_picture)
+								else
+									img#userImage(src='/images/fund_img_placeholder.jpg')
 								i.fa.fa-camera
 							.row#description-row
 								.col-md-3
