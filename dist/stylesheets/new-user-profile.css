@@ -962,6 +962,8 @@ body {
       #signup-wrapper #process-flex-container .process span {
         top: 2px;
         font-size: 13px; }
+    #signup-wrapper #process-flex-container #dashboard-button {
+      margin-left: 15px; }
     #signup-wrapper #process-flex-container .preview {
       margin-left: 2%; }
     #signup-wrapper #process-flex-container .active {
