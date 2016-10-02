@@ -93,6 +93,9 @@ $(document).ready(function(){
         if(userData[i].country_of_residence === null){
           $('p.user-nationality' + id).hide();
         }
+        if(userData[i].religion === null){
+          $('p.user-religion' + id).hide();
+        }
         var arrayFields= ['subject', 'target_country', 'previous_university', 'target_university'];
         for(var j = 0; j < arrayFields.length; j++){
           if(userData[i][arrayFields[j]] === null || userData[i][arrayFields[j]] ===undefined  ){

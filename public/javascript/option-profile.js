@@ -1,5 +1,12 @@
 $(document).ready(function(){
   $('body').click(function(evt) {
+    if($(evt.target).attr('id') === 'signup'){
+      console.log("HI");
+      mixpanel.track(
+        "Pre Signup Action",
+        {"page": "fund profile"}
+      );
+    }
     if($('#right_div_desktop #notEligible').css('display') !== 'none') {
       if(evt.target.class !== "modal-container") {
         $('#right_div_desktop #notEligible').css('display', 'none')
@@ -14,6 +21,8 @@ $(document).ready(function(){
   }
   function showLimitedProfile(){
     // Hide favourite
+    $('a.cd-login').hide();
+    $('a.cd-signup').hide();
     $('#favourite').hide();
     $('#left_div').children().not('#box_1').css('opacity', '0.5');
     $('#right_div, #separator_1, #review_div').children().css('opacity', '0.5');
@@ -1608,8 +1617,6 @@ function locationColumnFix() {
 function eligibilityMarginFix() {
   var divHeight = $('#eligibility_div').height()
   var pHeight = $('#eligibility_div_p').height()
-  console.log(divHeight)
-  console.log(pHeight)
   var twoPaddingTop = divHeight - pHeight
   var paddingTop = twoPaddingTop/2
   $('#big_flex_div #eligibility_div p#eligibility_div_p').css('padding-top', paddingTop)

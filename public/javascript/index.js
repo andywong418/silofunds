@@ -201,5 +201,21 @@ var parallax = document.querySelectorAll(".parallax"),
     $("i." + className).css("color", "#22313F");
   }, function(){
     $("i." + className).css("color", "white");
-  })
+  });
+  //mixpanel checking actions prior to signin
+  var mixpanelClickCheck = [];
+  $(document).click(function(e){
+    console.log(e);
+    console.log(e.target);
+    mixpanelClickCheck.push(e.target.outerHTML);
+    if($(e.target).attr('id') == 'signup-button'){
+      //track array and page
+      console.log(mixpanelClickCheck);
+      mixpanel.track(
+        "Pre Signup Action",
+        {"page": "homepage", "actions": mixpanelClickCheck}
+      );
+    }
+    // if(e.target !=)
+  });
 });
