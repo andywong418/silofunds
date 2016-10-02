@@ -9,44 +9,37 @@ module.exports = function(sequelize, DataTypes) {
       unique: true,
       autoIncrement: true,
     },
-    main_row: {
-      type: DataTypes.BOOLEAN,
-      field: 'main_row'
+    user_id: {
+      type: DataTypes.INTEGER,
+      field: 'user_id'
     },
     search_engine: {
-      type: DataTypes.INTEGER,
-      field: 'search_engine',
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      field: 'search_engine'
     },
     tutor: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'tutor',
-      defaultValue: 0
     },
     facebook_group: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'facebook_group',
-      defaultValue: 0
     },
     facebook_advert: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'facebook_advert',
-      defaultValue: 0
     },
     friends: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'friends',
-      defaultValue: 0
     },
     department: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'department',
-      defaultValue: 0
     },
     word_of_mouth: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       field: 'word_of_mouth',
-      defaultValue: 0
     },
     other: {
       type: DataTypes.STRING,

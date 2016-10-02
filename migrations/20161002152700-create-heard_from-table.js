@@ -12,36 +12,36 @@ module.exports = {
           unique: true,
           autoIncrement: true
         },
-        main_row: {
-          type: Sequelize.BOOLEAN,
-          field: 'main_row'
+        user_id: {
+          type: Sequelize.INTEGER,
+          field: 'user_id'
         },
         search_engine: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'search_engine'
         },
         tutor: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'tutor'
         },
         facebook_group: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'facebook_group'
         },
         facebook_advert: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'facebook_advert'
         },
         friends: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'friends'
         },
         department: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'department'
         },
         word_of_mouth: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.BOOLEAN,
           field: 'word_of_mouth'
         },
         other: {

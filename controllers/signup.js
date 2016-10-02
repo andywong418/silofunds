@@ -468,25 +468,25 @@ module.exports = {
 		var heard_from = req.body.heard_from;
 		models.users.findById(userId).then(function(user){
 			user.update(req.body).then(function(user){
-				models.heard_froms.find({where: {main_row: true}}).then(function(main_row) {
-					if(!main_row) {
+				models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
+					if(row) {
+						res.send(row)
+					} else {
 						models.heard_froms.create({
-							main_row: true
-						}).then(function(main_row) {
+							user_id: userId
+						}).then(function(row) {
 							if(heard_from !== 'other' && heard_from !== '') {
-								var addition = main_row[heard_from] + 1;
-								main_row.update({[heard_from]: addition}).then(function() {
+								row.update({[heard_from]: true}).then(function() {
 									res.send(user)
 								})
+							} else if (heard_from == 'other') {
+								row.update({[heard_from]: req.body.heard_other}).then(function() {
+									res.send(user)
+								})
+							} else {
+								res.send(user)
 							}
 						})
-					} else {
-						if(heard_from !== 'other' && heard_from !== '') {
-							var addition = main_row[heard_from] + 1;
-							main_row.update({[heard_from]: addition}).then(function() {
-								res.send(user)
-							})
-						}
 					}
 				})
 			})
