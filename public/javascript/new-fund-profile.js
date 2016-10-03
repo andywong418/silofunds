@@ -125,7 +125,8 @@ $(document).ready(function(){
 				$('#charity-input-required').css('color', '#B60000')
 				$('#charity-input-required').css('font-size', '10px')
 			} else {
-				$('#next').attr("href", '/organisation/funding_creation')
+				mixpanel.track("[/organisation/create] Done filling in basic details");
+				$('#next').attr("href", '/organisation/funding_creation');
 			}
 		}
   });

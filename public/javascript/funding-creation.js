@@ -20,4 +20,7 @@ $(document).ready(function(){
     $('#' + id).css('color', 'white')
   })
 
-})
+  $("a.btn-secondary.create").click(function(e) {
+    mixpanel.track("[/organisation/funding_creation] Create funding option");
+  });
+});

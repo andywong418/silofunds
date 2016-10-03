@@ -135,6 +135,10 @@ $(document).ready(function(){
  });
 
  function login_selected(){
+   mixpanel.track(
+     "[/] Trigger homepage login modal tab"
+   );
+
    $form_login.addClass('is-selected');
    $form_signup.removeClass('is-selected');
    $form_forgot_password.removeClass('is-selected');
@@ -149,6 +153,10 @@ $(document).ready(function(){
  }
 
  function signup_selected(){
+   mixpanel.track(
+     "[/] Trigger homepage signup modal tab"
+   );
+
    $form_login.removeClass('is-selected');
    $form_signup.addClass('is-selected');
    $form_forgot_password.removeClass('is-selected');
@@ -321,9 +329,32 @@ jQuery.fn.putCursorAtEnd = function() {
    //   error++;
    //  } ADD AFTER WE HAVE LEGAL Terms
    if(error === 0){
+     // start: mixpanel
+     // check which signup flow
+     var isFundSignupFlow = $('#fund-signup').is(':checked');
+
+     if (isFundSignupFlow) {
+       mixpanel.track(
+         "[/] Create account as fund"
+       );
+     } else {
+       mixpanel.track(
+         "[/] Create account as student"
+       );
+     }
+     // end: mixpanel
+
     this.submit();
    }
  });
+
+ // start: mixpanel
+ $("a.btn-facebook").click(function(e) {
+   mixpanel.track(
+     "[/] Create account as student using facebook login"
+   );
+ });
+ // end: mixpanel
 
  $("#signin-email").blur(function(){
    var parameters = {loginEmail: $(this).val()};

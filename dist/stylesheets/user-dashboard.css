@@ -1939,6 +1939,10 @@ table#header {
     color: #8E9FB1;
     white-space: nowrap; }
 
+@media (max-width: 993px) {
+  #updates .col-xs-2.mobile.force-block {
+    display: block !important; } }
+
 @media (max-width: 993px) and (max-width: 600px) {
   h2 {
     font-size: 22px; }
@@ -2238,6 +2242,8 @@ table#header {
     border-bottom: 2px solid #010138;
     color: #010138;
     font-size: 17px; }
+  #recommended .recommended-row .flex-it .col-md-12 {
+    padding-left: 0; }
   #recommended .recommended-row p {
     margin-top: 5px;
     font-size: 16px; }
@@ -2387,3 +2393,59 @@ table#header {
   #ud-favourites, #ud-applications, #ud-recently-browsed {
     margin: 0;
     padding: 0; } }
+
+@media (max-width: 993px) {
+  .col-xs-2.mobile {
+    margin-top: -20px;
+    margin-bottom: 10px; } }
+
+@media (max-width: 993px) and (max-width: 700px) {
+  .col-xs-2.mobile {
+    margin-top: -10px; } }
+
+@media (min-width: 993px) {
+  .row.recommended-row {
+    margin-bottom: 15px; } }
+
+.row.recommended-row .flex-it.flex-it-no-pics {
+  height: 100px;
+  line-height: 1.2em;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: -20px; }
+  @media (max-width: 1000px) {
+    .row.recommended-row .flex-it.flex-it-no-pics {
+      margin-bottom: 90px; } }
+  @media (max-width: 1000px) and (max-width: 600px) {
+    .row.recommended-row .flex-it.flex-it-no-pics {
+      margin-top: -10px;
+      margin-bottom: 80px; } }
+  .row.recommended-row .flex-it.flex-it-no-pics .flex-me {
+    padding: 10px; }
+    @media (max-width: 600px) {
+      .row.recommended-row .flex-it.flex-it-no-pics .flex-me {
+        padding: 6px; } }
+    .row.recommended-row .flex-it.flex-it-no-pics .flex-me .fund-no-pic {
+      border-radius: 3px;
+      margin: 5px;
+      height: 70px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      overflow: hidden; }
+      @media (max-width: 1000px) {
+        .row.recommended-row .flex-it.flex-it-no-pics .flex-me .fund-no-pic {
+          margin: 0px; } }
+  @media (max-width: 1000px) and (max-width: 600px) {
+    .row.recommended-row .flex-it.flex-it-no-pics .flex-me .fund-no-pic {
+      margin: 0px; } }
+      .row.recommended-row .flex-it.flex-it-no-pics .flex-me .fund-no-pic a {
+        font-size: 16px;
+        color: white;
+        cursor: pointer; }
+        @media (max-width: 600px) {
+          .row.recommended-row .flex-it.flex-it-no-pics .flex-me .fund-no-pic a {
+            font-size: 14px; } }

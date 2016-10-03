@@ -64,7 +64,7 @@ body {
 .selected {
   border: 1px solid #194c7f;
   background: #236bb2;
-  color: white; }
+  color: white !important; }
   .selected a {
     color: white; }
     .selected a:hover {

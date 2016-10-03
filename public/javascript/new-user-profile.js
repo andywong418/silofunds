@@ -132,6 +132,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveAbout: function(e){
+			mixpanel.track(
+				"[/user/create#about] Save About You"
+			);
+
 			var countries = $('input#country_of_residence').val().split(',');
 			var completionDate;
 			var newDate = new Date();
@@ -223,6 +227,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 		},
 		saveEducation: function(){
+			mixpanel.track(
+				"[/user/create#education] Save Education"
+			);
 			var subject = $('input[name=subject]').val().split(',');
 			var targetDegree = $('input[name=target_degree]').val().split(',');
 			var previousDegree = $('input[name=previous_degree]').val().split(',');
@@ -294,6 +301,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 		},
 		saveStory: function(){
+			mixpanel.track(
+				"[/user/create#story] Save Story"
+			);
 			var story = tinymce.activeEditor.getContent();
 			var formData = {
 				'description': story,
@@ -360,6 +370,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		template: _.template($('#account-template').html()),
 		events:{
 			'click #verify': 'addressPost',
+			'change #heard_from': 'heardOther'
 		},
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -369,6 +380,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 			this.el = this.render().el;
 		},
 		addressPost: function(){
+			mixpanel.track(
+				"[/user/create#about] Save Account"
+			);
+
 			var refund;
 			if($('input#refund:checked').val() == 'true'){
 				refund = true;
@@ -381,11 +396,24 @@ var tokenArrayPopulate = function(value, emptyArray){
 				"address_zip": $('input#address_zip').val(),
 				"address_city": $('input#address_city').val(),
 				"billing_country": $('#billing_country').val(),
-				"refund": refund
+				"refund": refund,
+				"heard_from": $('#heard_from').val(),
+				"heard_other": $('input#heard_other').val()
 			};
 			$.post('/signup/address', addressData, function(data){
 				window.location = '/user/dashboard';
 			});
+		},
+		heardOther: function(e){
+			if($('#heard_from').val() == 'other') {
+				$('#heard_other').show()
+				$('.hear-about-us').css('align-items', 'flex-start')
+				$('.text-left').css('margin-top', '8px')
+			} else {
+				$('.text-left').css('margin-top', '')
+				$('#heard_other').hide()
+				$('.hear-about-us').css('align-items', 'center')
+			}
 		}
 	});
 	var Router = Backbone.Router.extend({

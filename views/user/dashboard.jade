@@ -45,15 +45,30 @@ block content
       p#header Recommended for you
       .row.recommended-row
         .flex-it
-          each fund in funds
-            .col-md-3.col-xs-6.fund-imgs
-              img.col-md-12(src='/images/fund_img_placeholder.jpg')
-              p
-                a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+          if picture_counter !== 0
+            each fund in funds
+              if fund.organisation_picture
+                .col-md-3.col-xs-6.fund-imgs
+                  img.col-md-12(src=fund.organisation_picture)
+                  p
+                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+              if !fund.organisation_picture
+                .col-md-3.col-xs-6.fund-imgs
+                  img.col-md-12(src='/images/fund_img_placeholder.jpg')
+                  p
+                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+        .flex-it-no-pics.flex-it
+          if picture_counter == 0
+            each fund in funds
+              .col-md-6.col-xs-6.flex-me
+                .col-md-1.col-xs-0
+                .col-md-10.col-xs-12.fund-no-pic
+                  .align-central
+                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+                .col-md-1.col-xs-0
     section#updates
-      .desktop
-        p#header Post an update
-      .col-xs-2.mobile
+      p#header Post an update
+      .col-xs-2.mobile.force-block
         if user.profile_picture
           img#profile_picture(src= user.profile_picture)
         else

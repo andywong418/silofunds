@@ -161,6 +161,9 @@ module.exports = {
                 for (var i=0; i < funds.length; i++) {
                   if (funds[i].organisation_id == user.organisation_or_user) {
                     funds[i].fund_user = true;
+                    if(user.profile_picture){
+                      funds[i].organisation_picture = user.profile_picture;
+                    }
                   }
                 }
               }
@@ -178,7 +181,6 @@ module.exports = {
                     models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
                       var recently_browsed_funds = [];
                       async.each(recent_funds.slice(0, 5), function(fund, callback){
-                        fund = fund.get();
                         models.funds.findById(fund.fund_id).then(function(fund){
                           recently_browsed_funds.push(fund);
                           callback();
@@ -187,12 +189,18 @@ module.exports = {
                         // Flash message logic here
                         var success = req.flash('emailSuccess')[0];
                         models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
+                          var counter = 0;
+                          for(var i = 0; i < funds.length; i++) {
+                            if(funds[i].organisation_picture) {
+                              counter = counter + 1
+                            }
+                          }
                           if(!stripe_user) {
-                            var dataObject = {user: req.user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
+                            var dataObject = {user: req.user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                           if (stripe_user) {
-                            var dataObject = {user: user, funds: funds, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
+                            var dataObject = {user: user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
                             findFavourites({user_id: user.id}, res, dataObject);
                           }
                         });
@@ -533,59 +541,60 @@ module.exports = {
     var userId;
     var loggedInUser;
     var displayProfile;
-    if(req.params.id) {
-      userId = req.params.id;
+    models.users.find({where: {id: req.params.id}}).then(function(user) {
       // Set display profile to be true if user has chosen to launch
-      models.users.find({where: {id: req.params.id}}).then(function(user) {
-        if(user.user_launch == true) {
-          displayProfile = true
+      if(user.user_launch == true) {
+        displayProfile = true
+      } else {
+        displayProfile = false
+      }
+      if(req.params.id) {
+        userId = req.params.id;
+        if(req.isAuthenticated()) {
+          loggedInUser = req.user.id;
         } else {
-          displayProfile = false
+          loggedInUser = false;
         }
-      })
-      if(req.isAuthenticated()) {
-        loggedInUser = req.user.id;
+        Logger.warn(loggedInUser);
       } else {
-        loggedInUser = false;
+        // user profile
+        userId = req.user.id;
+        if(req.isAuthenticated()) {
+          loggedInUser = req.user.id;
+        } else {
+          loggedInUser = false;
+        }
       }
-      Logger.warn(loggedInUser);
-    } else {
-      // user profile
-      userId = req.user.id;
-      if(req.isAuthenticated()) {
-        loggedInUser = req.user.id;
-      } else {
-        loggedInUser = false;
-      }
-    }
-    if(displayProfile == true || !req.params.id) {
-      models.users.findById(userId).then(function(user){
-        models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
-          models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-            var pageViewCreate = {user_id: user.id};
-            if(applications.length > 0){
-              createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
-            } else {
-              // No applications
-              createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
-            }
+      if(displayProfile == true || !req.params.id) {
+        models.users.findById(userId).then(function(user){
+          models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
+            models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+              var pageViewCreate = {user_id: user.id};
+              if(applications.length > 0){
+                createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
+              } else {
+                // No applications
+                createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
+              }
+            });
           });
         });
-      });
-    } else {
-      models.users.findById(req.params.id).then(function(user_viewed) {
-        if(req.user) {
-          if(req.user.id == user_viewed.id) {
-            res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser});
+      } else {
+        models.users.findById(req.params.id).then(function(user_viewed) {
+          if(req.user) {
+            console.log('PLACE 1')
+            if(req.user.id == user_viewed.id) {
+              res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser})
+            } else {
+              res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
+            }
           } else {
-            res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser});
+            console.log('PLACE 2')
+            res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
           }
-        } else {
-          console.log("REQ USER", loggedInUser);
-          res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser});
-        }
-      });
-    }
+        })
+      }
+    })
   },
   launch: function(req, res) {
     models.users.findById(req.user.id).then(function(user) {

@@ -10,16 +10,12 @@ block content
   section#signup-wrapper.content-section.container.center-block
     .container.progress-buttons
       h4=support_type.charAt(0).toUpperCase() + support_type.slice(1) + ' Creation'
-      button#general.progress-track.btn.btn-default
-        a#general_link.activeHoverColor General information
-          span.glyphicon.glyphicon-menu-right
-      button#eligible.progress-track.btn.btn-default
-        //- a(href='#eligible') Eligibility requirements
-        a#eligible_link Eligiblity requirements
-          span.glyphicon.glyphicon-menu-right
-      button#application.progress-track.btn.btn-default
-        a#application_link Application Process
-          span.glyphicon.glyphicon-menu-right
+      a#general_link.btn.btn-default.process.selected.activeHoverColor.progress-track(href='#general') General information
+        span.glyphicon.glyphicon-menu-right
+      a#eligible_link.btn.btn-default.process.progress-track(href='#eligible') Eligibility requirements
+        span.glyphicon.glyphicon-menu-right
+      a#application_link.btn.btn-default.process.progress-track(href='#application') Application Process
+        span.glyphicon.glyphicon-menu-right
       hr
     div.template-container
       script#general-template(type='text/template')
