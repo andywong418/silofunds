@@ -471,12 +471,10 @@ module.exports = {
 							user_id: userId
 						}).then(function(row) {
 							if(heard_from !== 'other' && heard_from !== '') {
-								console.log('fuck andy')
 								row.update({[heard_from]: true}).then(function() {
 									res.send(user)
 								})
 							} else if (heard_from == 'other') {
-								console.log('fuck andy')
 								row.update({[heard_from]: req.body.heard_other}).then(function() {
 									res.send(user)
 								})
