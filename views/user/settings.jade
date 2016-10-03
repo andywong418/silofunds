@@ -178,6 +178,11 @@ block content
             .col-md-12.col-xs-12.sub-content
               h4 About your campaign
               .col-md-12.col-xs-12
+                p#recommend-text(style='font-weight: bold; font-size: 15px') Read our 
+                  a(href='/user-profile-guide', target='_blank')= 'user profile guide '
+                  span= 'and '
+                  a(href='/crowdfunding-video', target='_blank')= 'video guide '
+                  span for some inspiration!
                 label.col-md-3.col-xs-3.padding-top-add(for='video') Your project video
                 .col-md-8.col-xs-9
                   if user.video
