@@ -730,58 +730,30 @@ function checkIndices(){
        if(resp){
          es.indices.stats('funds').then(function(resp){
            if(resp._all.total.docs.count < 2000){
-             es.deleteIndex('funds').then(es.createIndex('funds'))
-               .then(bulkUploadFunds)
-               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "eu" }, countries.euCountries); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "middle east" }, countries.meCountries); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "asia" }, countries.asianCountries); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('religions', null, religions.religions); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "undergraduate" }, degrees.undergradDegrees); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('degrees', { "degree_category": "postgraduate masters" }, degrees.gradDegrees); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "uk" }, universities.ukUniversities); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('universities', { "university_category": "us" }, universities.usUniversities); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "misc" }, subjects.miscSubjects); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "modern languages" }, subjects.modernLanguages); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "humanities" }, subjects.humanities); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "education" }, subjects.education); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "arts" }, subjects.arts); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "social sciences" }, subjects.socialSciences); })
-               .then(bulkUpload)
-               .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
-               .then(bulkUpload)
-               .then(es.indexExists('users', function(resp){
-                 if(resp){
-                   es.indices.stats('users').then(function(resp){
-                     if(resp._all.total.docs.count ===0){
-                       es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
-                     }
-                     else{
-                       return true;
-                     }
-                   });
+             models.funds.findAll().then(function(funds) {
+               var body = [];
+               funds = fund_array_to_json(funds);
+
+               // Prepare body for _bulk processing. Each element in body array HAS to be an object.
+               funds.forEach(function(fund) {
+                 body.push({'index': {'_index': 'funds', '_type': 'fund', '_id': fund.id}});
+                 var wrapper = {};
+
+                 for (var i = 0; i < fields.length ; i++) {
+                   wrapper[fields[i]] = fund[fields[i]];
                  }
-                 else{
-                   es.createIndex('users')
-                   .then(bulkUploadUsers);
-                 }
-               }));
+                 wrapper["suggest"] = { "input": fund.tags };
+                 body.push(wrapper);
+               });
+
+               es.bulk({
+                 body: body
+               }, function (err, resp) {
+                 Logger.info(resp);
+               });
+             }).then(function() {
+               Logger.info('...Finished sync');
+             });
            }
            else{
              es.indexExists('users', function(resp){

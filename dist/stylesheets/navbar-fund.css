@@ -39,9 +39,6 @@
   background-color: transparent;
   color: #D2D7D3; }
 
-.fa-comment-o {
-  display: none; }
-
 .fa-cog {
   font-size: 20px; }
 
@@ -57,7 +54,9 @@
 margin-right: -40px;
 }*/
 #home {
-  color: white; }
+  color: white;
+  font-size: 13px;
+  font-family: 'Montserrat'; }
 
 .instruction-pointer {
   position: fixed;
