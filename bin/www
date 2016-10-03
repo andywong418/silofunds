@@ -284,8 +284,6 @@ function weeklyFundNewsLetter(){
               checkFundApplications(fund, oneWeekAgo, function(apps){
                 emailObj['apps'] = apps.length;
                 recommendUsers(fund, function(userArray){
-                  console.log("TITLG", fund.title);
-                  console.log("array", userArray);
                   //Change later when recommended users is better. For now it's dud
                   emailObj['recommendUsers'] = [];
                   emailArray.push(emailObj);
@@ -312,7 +310,6 @@ function weeklyFundNewsLetter(){
             //   };
             //
             // };
-            console.log("FINAL/ countdown", emailArray);
             var locals = {
                email_array: emailArray,
                unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
