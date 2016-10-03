@@ -197,7 +197,6 @@ module.exports = {
     var id = req.params.id;
 
     var fund = req.body;
-    console.log("REQ BODY", req.body);
     var application_decision_date = fund.application_decision_date ? fund.application_decision_date : null;
     var application_documents = fund.application_documents[0] ? lowercaseArray(fund.application_documents.split(",")) : null;
     var application_open_date = fund.application_open_date ? fund.application_open_date : null;
@@ -222,7 +221,6 @@ module.exports = {
     var target_university = fund.target_university[0] ? lowercaseArray(fund.target_university.split(",")) : null;
     var required_degree = fund.required_degree[0] ? lowercaseArray(fund.required_degree.split(",")) : null;
     var required_university = fund.required_university[0] ? lowercaseArray(fund.required_university.split(",")) : null;
-    console.log("REQUORED UNIVERSITY", required_university);
     var required_grade = fund.required_grade ? fund.required_grade : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
