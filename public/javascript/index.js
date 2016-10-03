@@ -82,7 +82,7 @@ $(document).ready(function() {
     var currentTarget = event.target;
     var emptyInputFields = 0;
     var searchFormInputs = $("form#search-form input");
-
+    console.log(searchFormInputs);
     for (var i = 0; i < searchFormInputs.length; i++) {
       var id = searchFormInputs[i].id;
 

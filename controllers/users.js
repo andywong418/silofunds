@@ -541,30 +541,31 @@ module.exports = {
     var userId;
     var loggedInUser;
     var displayProfile;
-    models.users.find({where: {id: req.params.id}}).then(function(user) {
+    if(req.params.id) {
+      userId = req.params.id;
+      if(req.isAuthenticated()) {
+        loggedInUser = req.user.id;
+      } else {
+        loggedInUser = false;
+      }
+      Logger.warn(loggedInUser);
+    } else {
+      // user profile
+      userId = req.user.id;
+      if(req.isAuthenticated()) {
+        loggedInUser = req.user.id;
+      } else {
+        loggedInUser = false;
+      }
+    }
+    models.users.find({where: {id: userId}}).then(function(user) {
       // Set display profile to be true if user has chosen to launch
       if(user.user_launch == true) {
         displayProfile = true
       } else {
         displayProfile = false
       }
-      if(req.params.id) {
-        userId = req.params.id;
-        if(req.isAuthenticated()) {
-          loggedInUser = req.user.id;
-        } else {
-          loggedInUser = false;
-        }
-        Logger.warn(loggedInUser);
-      } else {
-        // user profile
-        userId = req.user.id;
-        if(req.isAuthenticated()) {
-          loggedInUser = req.user.id;
-        } else {
-          loggedInUser = false;
-        }
-      }
+
       if(displayProfile == true || !req.params.id) {
         models.users.findById(userId).then(function(user){
           models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
