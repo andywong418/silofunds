@@ -606,7 +606,7 @@ $(document).ready(function(){
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', '#f0f2f4');
     if($('.fundBio').find('.container')){
       $('.fundBio').find('.container').removeClass('.container');
     }
@@ -1492,7 +1492,7 @@ function eligibility_divPaddingChange() {
 
 function fundBioBackgroundColor() {
   if($(window).width() > 767) {
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', '#f0f2f4');
   } else {
     $('.fundBio').find('*').css('background-color', 'white');
   }
@@ -1513,10 +1513,10 @@ function noProfilePicDivResizer() {
       $('#box_2 a #favourite').css('margin-top', '-9px')
       $('#box_2 a #favourite').css('margin-left', '-26px')
     } else {
+      $('#box_2 a').css('padding', '');
       $('#top_div_mobile').hide();
       $('#left_div').show();
       $('#box_1').css('width', '');
-      $('.application_form').css('width', '93%')
     }
   }
 }
@@ -1555,7 +1555,8 @@ function favouriteStarMargin() {
   // Without profile picture
   var $star2 = $('#favourite.favourite.no-profile_picture')
   if($(window).width() > 767) {
-    // $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+    // console.log('padding though')
+    // $('#box_2 #external-link').css('padding', '20px 22px 20px 22px')
   } else {
     $star2.css('margin-top', '-14 + 5')
     $star2.css('margin-left', '-30 + 5')
@@ -1563,7 +1564,7 @@ function favouriteStarMargin() {
 }
 
 function pictureColumnNoChanger() {
-  $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
+  // $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
   if($(window).width() > 600) {
     if($('#subject-handler').children(0).length - 1 >= 3) {
       $('#subject-handler .criteria-box').addClass('col-md-4')

@@ -1245,15 +1245,21 @@ module.exports = {
     })
   },
   contact_us: function(req, res) {
-    var user = req.user
+    var user;
+    if(req.user){
+      user = req.user;
+    }
+    else{
+      user = false
+    }
     var success = req.flash('success')[0]
     if(success) {
-      res.render('contact_us', {success: success})
+      res.render('contact_us', {success: success, user: user})
     } else if(!success) {
       if(user) {
         res.render('contact_us', {user: user})
       } else {
-        res.render('contact_us')
+        res.render('contact_us', {user: user});
       }
     }
   },

@@ -924,7 +924,7 @@ body {
   font-family: "PT Sans" !important;
   margin: 0px;
   padding: 0px;
-  background-color: #e9f0f4; }
+  background-color: #f0f2f4; }
 
 a {
   color: #00B7FF; }
@@ -1343,7 +1343,7 @@ h1 {
 
 /* Applicaton form */
 .application_form {
-  width: 93%;
+  width: 100%;
   margin-top: 6%;
   font-weight: bold;
   margin-bottom: 6%;
@@ -1737,7 +1737,7 @@ h1 {
     #left_div_desktop #left_div #box_2 {
       margin-top: 0; }
       #left_div_desktop #left_div #box_2 a {
-        padding: 0; }
+        padding: 15px 15px; }
 
 @media (max-width: 1076px) {
   #favourite {
@@ -1776,6 +1776,8 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none; }
+  #big_flex_div {
+    margin-top: 0px; }
   .flex-flip {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1895,3 +1897,26 @@ h1 {
   #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
     font-size: 13px;
     text-align: center; } }
+
+@media (max-width: 992px) {
+  .alert-known.alert-success {
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 80px;
+    margin-bottom: -80px !important; } }
+  @media (max-width: 992px) and (max-width: 450px) {
+    .alert-known.alert-success {
+      margin-left: 3%;
+      width: 94%; } }
+  @media (max-width: 992px) and (max-width: 360px) {
+    .alert-known.alert-success {
+      margin-left: 1%;
+      width: 98%;
+      font-size: 12px; } }
+
+@media (max-width: 992px) {
+    .alert-known.alert-success span {
+      margin-right: 10px; }
+    .alert-known.alert-success .radio-inline {
+      margin: 0;
+      margin-left: 10px; } }

@@ -962,15 +962,26 @@ footer {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column; }
+  #flex-div .name {
+    color: rgba(0, 0, 0, 0.85);
+    font-family: Helvetica; }
   #flex-div #user_box {
-    background-color: #17B2E8; }
+    border: none;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.4); }
+    #flex-div #user_box span {
+      margin-left: 15px; }
+    #flex-div #user_box .fa.fa-user {
+      font-size: 28px; }
   #flex-div #or_box {
     padding: 4% 0;
     text-align: center;
     font-size: 20px; }
   #flex-div #organisation_box {
-    background-color: #54494B;
+    border: none;
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.4);
     margin-bottom: 0; }
+    #flex-div #organisation_box span {
+      margin-left: 15px; }
   #flex-div .type {
     color: #FFFAFF;
     display: -webkit-box;
@@ -1038,7 +1049,7 @@ footer {
     font-family: Source Sans Pro;
     font-size: 18px;
     padding: 10px;
-    border: 1px solid #e1e8ed;
+    box-shadow: 1px 2px 8px;
     border-radius: 4px;
     margin: 0px 15px;
     display: -webkit-box;
@@ -1097,7 +1108,8 @@ footer {
       border-radius: 6px;
       padding: 8px 0px;
       width: 50%;
-      margin-left: 25%; }
+      margin-left: 25%;
+      color: white; }
     #big_wrapper .contact_form .contact-info {
       margin-bottom: 60px; }
       #big_wrapper .contact_form .contact-info .col-xs-8 {
@@ -1107,9 +1119,7 @@ footer {
         padding: 0; }
 
 .message-others {
-  border: 1px solid white;
   margin: 30px 15px 10px 15px;
-  background-color: #e1e8ed;
   border-radius: 6px;
   padding: 30px 10px; }
   .message-others h2 {
@@ -1171,14 +1181,14 @@ footer {
     margin-top: 40px;
     margin-bottom: 100px; }
     #flex-div #user_box {
-      margin: 0px 0px 0px 10%;
-      width: 35%; }
+      margin: 0px 0px 0px 20%;
+      width: 25%; }
     #flex-div #or_box {
       text-align: center;
       width: 10%; }
     #flex-div #organisation_box {
-      margin: 0px 10% 0px 0px;
-      width: 35%; }
+      margin: 0px 20% 0px 0px;
+      width: 25%; }
   .jumbotron h2 {
     margin: 0px 150px; }
   #big_wrapper #flex-for-desktop {

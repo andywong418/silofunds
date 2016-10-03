@@ -74,22 +74,28 @@ $(document).ready(function() {
   $('form').submit(function(e) {
     e.preventDefault();
     var msg = $('#m').val();
-    var userToID = $('.list-group-item.active').attr("id").split("-")[1];
-    var userFromID = user.id;
-    var roomName;
-    // NOTE: The room names are always sorted from smaller number to higher number
-    // NOTE: Room names are the same even if reversed
-    if (userFromID < userToID) {
-      roomName = 'user' + userFromID + '-'+ 'user' + userToID;
-    } else {
-      roomName = 'user' + userToID + '-'+ 'user' + userFromID;
+    try{
+      var userToID = $('.list-group-item.active').attr("id").split("-")[1];
+      var userFromID = user.id;
+      var roomName;
+      // NOTE: The room names are always sorted from smaller number to higher number
+      // NOTE: Room names are the same even if reversed
+      if (userFromID < userToID) {
+        roomName = 'user' + userFromID + '-'+ 'user' + userToID;
+      } else {
+        roomName = 'user' + userToID + '-'+ 'user' + userFromID;
+      }
+      if(msg !== ''){
+        socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg, roomName: roomName });
+        $('#m').val('');
+        $('.read_col').remove();
+        return false;
+      }
     }
-    if(msg !== ''){
-      socket.emit('private message', { userFrom: user, userFromID: user.id, userToID: userToID, msg: msg, roomName: roomName });
-      $('#m').val('');
-      $('.read_col').remove();
-      return false;
+    catch(e){
+      console.log(e);
     }
+
 
   });
 

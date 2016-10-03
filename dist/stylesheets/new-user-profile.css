@@ -1322,3 +1322,7 @@ body {
   display: none;
   clear: both;
   margin-top: 10px; }
+
+.hear-about-us {
+  border-top: 1px solid #e1e8ed;
+  padding-top: 30px; }
