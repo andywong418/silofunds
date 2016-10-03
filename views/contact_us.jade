@@ -18,19 +18,22 @@ block content
 		}
 	include ./navbar.jade
 	include ./partials/navbar-loggedin.jade
-	include ./partials/signup-modal.jade
-	include ./advanced-search.jade  
+	include ./advanced-search.jade
 	
 	if !user && !success
 		.header.non-user
 			h1 Contact Silo
 			p.lead Do you need help as a...
 		#flex-div.non-user
-			#user_box.type.col-md-4.col-xs-6
-				.name User
+			#user_box.type.btn.btn-default
+				.name
+					.fa.fa-user
+					span User
 			#or_box or
-			#organisation_box.type.col-md-4.col-xs-6
-				.name Organisation	
+			#organisation_box.type.btn.btn-default
+				.name 
+					.fa.fa-building
+					span Organisation	
 				
 		#user_contact
 			include ./partials/contact_us/user.jade
@@ -52,7 +55,7 @@ block content
 
 
 block scripts
-	script(src='javascript/contact_us.js')
-	script(src='javascript/signup-login.js')
+	script(src='/javascript/contact_us.js')
+	script(src='/javascript/signup-login.js')
 	script(src="/javascript/advanced-search.js")
 	script(src="/javascript/notifications.js")
