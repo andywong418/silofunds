@@ -132,6 +132,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 		},
 		saveAbout: function(e){
+			mixpanel.track(
+				"[/user/create#about] Save About You"
+			);
+
 			var countries = $('input#country_of_residence').val().split(',');
 			var completionDate;
 			var newDate = new Date();
@@ -223,6 +227,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 		},
 		saveEducation: function(){
+			mixpanel.track(
+				"[/user/create#education] Save Education"
+			);
 			var subject = $('input[name=subject]').val().split(',');
 			var targetDegree = $('input[name=target_degree]').val().split(',');
 			var previousDegree = $('input[name=previous_degree]').val().split(',');
@@ -294,6 +301,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			}
 		},
 		saveStory: function(){
+			mixpanel.track(
+				"[/user/create#story] Save Story"
+			);
 			var story = tinymce.activeEditor.getContent();
 			var formData = {
 				'description': story,
@@ -370,6 +380,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 			this.el = this.render().el;
 		},
 		addressPost: function(){
+			mixpanel.track(
+				"[/user/create#about] Save Account"
+			);
+
 			var refund;
 			if($('input#refund:checked').val() == 'true'){
 				refund = true;
