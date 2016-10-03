@@ -31,11 +31,6 @@ $(document).ready(function() {
       }
     },
     scrollToFeatures: function(){
-      mixpanel.track(
-        "Played song",
-        {"genre": "OKAY"}
-      );
-
       $('html, body').animate({
         scrollTop: $("#about-us").offset().top -20
       }, 1500, "easeOutQuart");
@@ -87,7 +82,7 @@ $(document).ready(function() {
     var currentTarget = event.target;
     var emptyInputFields = 0;
     var searchFormInputs = $("form#search-form input");
-
+    console.log(searchFormInputs);
     for (var i = 0; i < searchFormInputs.length; i++) {
       var id = searchFormInputs[i].id;
 
@@ -100,9 +95,13 @@ $(document).ready(function() {
 
     if (emptyInputFields === searchFormInputs.length) {
       $("button#search_button").prepend("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;'>");
+      $('.error-text').show();
+    }
+    else{
+      currentTarget.submit();
     }
 
-    currentTarget.submit();
+
   });
 
   $(function() {

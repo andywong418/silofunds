@@ -8,6 +8,9 @@
 @import "navbar-homepage.scss";
 @import "signup.scss";
 
+body{
+    overflow-x: hidden;
+}
 //Intro space linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)
 .container{
   padding: 0;
@@ -140,6 +143,14 @@
 #search-form{
   input{
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 1.0) inset;
+  }
+  .error-text{
+    width: 50%;
+    margin-left: 25%;
+    font-size: 15px;
+    margin-top: 5px;
+    padding: 5px 0px;
+    display: none;
   }
 }
 #text_search {

@@ -1,20 +1,8 @@
 $(document).ready(function(){
-  console.log(document.referrer.indexOf('create'));
-  if(document.referrer.indexOf('create') > -1){
-    var mixpanelClickCheck = [];
-    $(document).click(function(e){
-      console.log(e.target.outerHTML);
-      mixpanelClickCheck.push(e.target.outerHTML);
-    });
-    $(window).on('beforeunload', function(){
-        console.log("HEY");
-        mixpanel.track(
-          "Post Signup Action",
-          {"actions": mixpanelClickCheck}
-        );
-    });
-  }
 
+
+
+  checkMixpanel();
   $('#explore, #start-browsing').click(function(){
     $('html, body').animate({scrollTop:0}, 'slow');
     $('#text_search').focus();
@@ -74,9 +62,32 @@ $(document).ready(function(){
     }
   });
 
-  $('.fund-no-pic:first').css('background-color', '#27ae60')
-  $('.fund-no-pic').eq(1).css('background-color', '#e67e22')
-  $('.fund-no-pic').eq(2).css('background-color', '#e74c3c')
-  $('.fund-no-pic').eq(3).css('background-color', '#2980b9')
+  $('.fund-no-pic:first').css('background-color', '#27ae60');
+  $('.fund-no-pic').eq(1).css('background-color', '#e67e22');
+  $('.fund-no-pic').eq(2).css('background-color', '#e74c3c');
+  $('.fund-no-pic').eq(3).css('background-color', '#2980b9');
+
+  function checkMixpanel(){
+    var mixpanelClickCheck = [];
+    $(document).click(function(e){
+      console.log(e.target.outerHTML);
+      mixpanelClickCheck.push(e.target.outerHTML);
+    });
+
+    $(window).on('beforeunload', function(){
+        if(document.referrer.indexOf('create') > -1){
+          mixpanel.track(
+            "Post Signup Action",
+            {"actions": mixpanelClickCheck}
+          );
+        }
+        else{
+          mixpanel.track(
+            "Post login dashboard action",
+            {"actions": mixpanelClickCheck}
+          );
+        }
+    });
+  }
 
 });

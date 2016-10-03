@@ -124,6 +124,8 @@ $(document).ready(function(){
       }
     },
     saveGeneral: function(e){
+      mixpanel.track("[/organisation/funding_creation/<option>] Save General");
+
       e.preventDefault();
       var tags = $('#tags').val().split(',');
       var formData = {
@@ -280,6 +282,7 @@ var EligibleDisplay = Backbone.View.extend({
     $('#' + id + '-form').addClass('selected-form');
   },
   saveEligible: function(e){
+    mixpanel.track("[/organisation/funding_creation/<option>/#eligible] Save Eligible");
     e.preventDefault();
     var subject = $('input[name=subject]').val().split(',');
     var religion = $('#religion').val().split(',');
@@ -376,6 +379,7 @@ var ApplicationDisplay = Backbone.View.extend({
     }
   },
   saveApplication: function(){
+    mixpanel.track("[/organisation/funding_creation/<option>/#application] Save Application");
     var applicationDocuments = $('input[name=application_documents]').val().split(',');
     var formData={
       'application_open_date': $('input[name=start_date]').val(),
