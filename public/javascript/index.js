@@ -100,9 +100,13 @@ $(document).ready(function() {
 
     if (emptyInputFields === searchFormInputs.length) {
       $("button#search_button").prepend("<input id='all', type='hidden', name='all', value='true', style='opacity:0; position:absolute; left:9999px;'>");
+      $('.error-text').show();
+    }
+    else{
+      currentTarget.submit();
     }
 
-    currentTarget.submit();
+
   });
 
   $(function() {

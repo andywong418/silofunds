@@ -906,6 +906,14 @@ margin-right: -40px;
 #search-form input {
   box-shadow: 0px 0px 3px 0px black inset; }
 
+#search-form .error-text {
+  width: 50%;
+  margin-left: 25%;
+  font-size: 15px;
+  margin-top: 5px;
+  padding: 5px 0px;
+  display: none; }
+
 #text_search {
   height: 40px;
   width: 340px;

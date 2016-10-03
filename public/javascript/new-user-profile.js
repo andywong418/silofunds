@@ -465,7 +465,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			'insertdatetime media nonbreaking save table contextmenu directionality',
 			'emoticons template paste textcolor colorpicker textpattern imagetools'
 		],
-		toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link forecolor backcolor emoticons preview',
+		toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image forecolor backcolor emoticons preview',
 		image_advtab: true,
 		templates: [
 			{ title: 'Test template 1', content: 'Test 1' },
