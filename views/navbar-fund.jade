@@ -28,24 +28,22 @@ nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
       .instruction-pointer-2
         p Use advanced search to look at specific fields for funds or other users.
     #collapse.collapse.navbar-collapse.navbar-right.navbar-main-collapse
-        ul.nav.navbar-nav
-          li.signin-icon
-            button
-              a#home(href='/organisation/dashboard')
-                i.fa.fa-user
-          //
-            li.signin-icon
-              button
-               i.fa.fa-comment-o
-          li.signin-icon
-            .dropdown
-              button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
-                i.fa.fa-cog
-              ul#settings-menu.dropdown-menu
-                li#settings
-                  a(href="/organisation/settings")
-                    | Settings
-                li.divider(role='separator')
-                li#logout
-                  a#logout(href='/organisation/logout/')
-                    | Log out
+        //- ul.nav.navbar-nav
+        //-   li.signin-icon
+        //-     button
+        //-       a#home(href='/organisation/dashboard') Home
+        //-   li.signin-icon
+        //-     a(href='/messages')
+        //-      i.fa.fa-comment
+        //-   li.signin-icon
+        //-     .dropdown
+        //-       button#settings-button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+        //-         i.fa.fa-cog
+        //-       ul#settings-menu.dropdown-menu
+        //-         li#settings
+        //-           a(href="/organisation/settings")
+        //-             | Settings
+        //-         li.divider(role='separator')
+        //-         li#logout
+        //-           a#logout(href='/organisation/logout/')
+        //-             | Log out

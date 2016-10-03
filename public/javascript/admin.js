@@ -179,10 +179,10 @@ $(function() {
 
           requiredUniversityArray.push(requiredUniversityWrapper);
         }
-
+        console.log(requiredUniversityArray);
         $('input#required_university').tokenInput('/autocomplete/universities', {
           "theme": "facebook",
-          "prePopulate": requiredDegreesArray,
+          "prePopulate": requiredUniversityArray,
           "allowFreeTagging": true
         });
       } else {
