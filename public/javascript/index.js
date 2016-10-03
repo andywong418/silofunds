@@ -31,11 +31,6 @@ $(document).ready(function() {
       }
     },
     scrollToFeatures: function(){
-      mixpanel.track(
-        "Played song",
-        {"genre": "OKAY"}
-      );
-
       $('html, body').animate({
         scrollTop: $("#about-us").offset().top -20
       }, 1500, "easeOutQuart");
