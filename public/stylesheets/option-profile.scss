@@ -927,7 +927,7 @@ h1 {
     #box_2 {
       margin-top: 0;
       a {
-        padding: 0;
+        padding: 15px 15px;
       }
     }
   }
@@ -986,6 +986,9 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none;
+  }
+  #big_flex_div {
+    margin-top: 0px;
   }
   .flex-flip {
     display: flex;
@@ -1145,7 +1148,7 @@ h1 {
     margin-left: 10%;
     width: 80%;
     margin-top: 80px;
-    margin-bottom: -130px !important;
+    margin-bottom: -80px !important;
     @media (max-width: 450px) {
       margin-left: 3%;
       width: 94%;

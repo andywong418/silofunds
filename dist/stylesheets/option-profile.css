@@ -1737,7 +1737,7 @@ h1 {
     #left_div_desktop #left_div #box_2 {
       margin-top: 0; }
       #left_div_desktop #left_div #box_2 a {
-        padding: 0; }
+        padding: 15px 15px; }
 
 @media (max-width: 1076px) {
   #favourite {
@@ -1776,6 +1776,8 @@ h1 {
 @media (max-width: 767px) {
   .desktop {
     display: none; }
+  #big_flex_div {
+    margin-top: 0px; }
   .flex-flip {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1901,7 +1903,7 @@ h1 {
     margin-left: 10%;
     width: 80%;
     margin-top: 80px;
-    margin-bottom: -130px !important; } }
+    margin-bottom: -80px !important; } }
   @media (max-width: 992px) and (max-width: 450px) {
     .alert-known.alert-success {
       margin-left: 3%;

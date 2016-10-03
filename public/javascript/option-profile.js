@@ -1513,6 +1513,7 @@ function noProfilePicDivResizer() {
       $('#box_2 a #favourite').css('margin-top', '-9px')
       $('#box_2 a #favourite').css('margin-left', '-26px')
     } else {
+      $('#box_2 a').css('padding', '');
       $('#top_div_mobile').hide();
       $('#left_div').show();
       $('#box_1').css('width', '');
@@ -1554,7 +1555,8 @@ function favouriteStarMargin() {
   // Without profile picture
   var $star2 = $('#favourite.favourite.no-profile_picture')
   if($(window).width() > 767) {
-    // $('#box_2 #external-link').css('padding', '15px 15px 5px 15px')
+    // console.log('padding though')
+    // $('#box_2 #external-link').css('padding', '20px 22px 20px 22px')
   } else {
     $star2.css('margin-top', '-14 + 5')
     $star2.css('margin-left', '-30 + 5')
@@ -1562,7 +1564,7 @@ function favouriteStarMargin() {
 }
 
 function pictureColumnNoChanger() {
-  $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
+  // $('#left_div_desktop #left_div #box_2 a').css('padding', '6px 12px 6px 12px')
   if($(window).width() > 600) {
     if($('#subject-handler').children(0).length - 1 >= 3) {
       $('#subject-handler .criteria-box').addClass('col-md-4')
