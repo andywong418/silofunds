@@ -808,6 +808,9 @@ margin-right: -40px;
   margin-top: -20px;
   margin-bottom: 20px; }
 
+body {
+  overflow-x: hidden; }
+
 .container {
   padding: 0; }
 
