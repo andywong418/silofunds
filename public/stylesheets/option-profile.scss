@@ -9,7 +9,7 @@ body {
   font-family: 'PT Sans'!important;
   margin: 0px;
   padding: 0px;
-  background-color: #e9f0f4;
+  background-color: #f0f2f4;
 }
 
 a {
@@ -540,7 +540,7 @@ h1 {
 /* Applicaton form */
 
 .application_form {
-  width: 93%;
+  width: 100%;
   margin-top: 6%;
   font-weight: bold;
   margin-bottom: 6%;
@@ -1137,5 +1137,30 @@ h1 {
   #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
     font-size: 13px;
     text-align: center;
+  }
+}
+
+@media (max-width: 992px) {
+  .alert-known.alert-success {
+    margin-left: 10%;
+    width: 80%;
+    margin-top: 80px;
+    margin-bottom: -130px !important;
+    @media (max-width: 450px) {
+      margin-left: 3%;
+      width: 94%;
+    }
+    @media (max-width: 360px) {
+      margin-left: 1%;
+      width: 98%;
+      font-size: 12px;
+    }
+    span {
+      margin-right: 10px;
+    }
+    .radio-inline {
+      margin: 0;
+      margin-left: 10px;
+    }
   }
 }

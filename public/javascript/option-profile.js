@@ -606,7 +606,7 @@ $(document).ready(function(){
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', '#f0f2f4');
     if($('.fundBio').find('.container')){
       $('.fundBio').find('.container').removeClass('.container');
     }
@@ -1492,7 +1492,7 @@ function eligibility_divPaddingChange() {
 
 function fundBioBackgroundColor() {
   if($(window).width() > 767) {
-    $('.fundBio').find('*').css('background-color', '#e9f0f4');
+    $('.fundBio').find('*').css('background-color', '#f0f2f4');
   } else {
     $('.fundBio').find('*').css('background-color', 'white');
   }
@@ -1516,7 +1516,6 @@ function noProfilePicDivResizer() {
       $('#top_div_mobile').hide();
       $('#left_div').show();
       $('#box_1').css('width', '');
-      $('.application_form').css('width', '93%')
     }
   }
 }
