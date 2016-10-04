@@ -139,7 +139,7 @@ block content
                         th.col-md-1 Deadline
                         th.col-md-1 Status
               each fund in applied_funds
-                .row#funding-card
+                .row#funding-card(class = "funding-card-" + fund.id)
                   .col-md-1#support_type
                     span.label(id='#{fund.support_type}')= fund.support_type
                   .col-md-3
@@ -184,6 +184,10 @@ block content
                               label#hide-update(class='hide-update' + fund.id)
                                 input#hide(type='checkbox', value='show-unsuccessful', checked= 'checked', class= 'hide' + fund.id)
                                 | Hide this from your profile
+                          .radio
+                            label
+                              input(id='remove-app' + fund.id, type='radio', name = 'optradio', value = 'remove', class = fund.id)
+                              | Remove my application
                         .modal-footer
                           button.confirm-app.btn.btn-primary(id=fund.id, type='button', data-dismiss='modal') Confirm
                           button.btn.btn-default(type='button', data-dismiss='modal') Close

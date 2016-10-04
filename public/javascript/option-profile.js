@@ -1378,12 +1378,12 @@ var subjectCounter = 0;
         }
     },
     addApplication: function(e){
-      e.preventDefault();
+      // e.preventDefault();
       var formData = {
         fund_id: fund.id
       }
       $.post('/user/add-application', formData, function(data){
-        $('#application-notification').html(data);
+        $('#application-notification').html("Check the new opened tab!");
         $('#application-notification').delay(3000).fadeOut('slow');
       })
     }
