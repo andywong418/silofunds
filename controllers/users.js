@@ -1461,7 +1461,6 @@ function notifyMessagedUsers(user, res, app, fund){
     else{
       // No messaged users; No need for notifications sent elsewhere
       app.update({status: 'pending'}).then(function(data){
-        res.send("Your application has been sent!");
       });
     }
   });
@@ -1479,7 +1478,6 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
     });
   }, function done(){
     app.update({status: 'pending'}).then(function(data){
-      res.send("Your application has been sent!");
     });
   });
 }
