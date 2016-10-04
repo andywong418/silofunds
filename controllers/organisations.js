@@ -18,6 +18,7 @@ var parseIfInt = function(string) {
     return parseInt(string);
   }
 };
+var EmailTemplate = require('email-templates').EmailTemplate;
 
 
 module.exports = {
@@ -279,7 +280,7 @@ dashboard: function(req, res) {
               read_by_user: false
             };
             models.notifications.create(options).then(function(notif){
-              sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click <a href="http://silofunds.com/user/dashboard"> here </a> to tell your users!', app, 'Your application to ' + fund.title, res);
+              sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click', "http://silofunds.com/user/dashboard", ' here to tell your users!', app, 'Your application to ' + fund.title, res);
             });
           }
           if(app.status ==='unsuccessful'){
@@ -290,7 +291,7 @@ dashboard: function(req, res) {
               read_by_user: false
             };
             models.notifications.create(options).then(function(notif){
-              sendUserEmail(app.user_id,'Unfortunately ' + fund.title + ' has marked your application as unsuccessful. You can message them <a href="http://silofunds.com/organisation/options/' + fund.id + '"> here </a> to ask why.', app, 'Your application to ' + fund.title, res);
+              sendUserEmail(app.user_id,'Unfortunately ' + fund.title + ' has marked your application as unsuccessful. You can message them ', "http://silofunds.com/organisation/options/" + fund.id, " here to ask why.", app, 'Your application to ' + fund.title, res);
             });
           }
         });
@@ -754,32 +755,50 @@ function recommendUserFunds(user, callback){
 
   });
 }
-function sendUserEmail(userId, notification, app, subject, res ){
+
+function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
+    var locals = {
+      header: 'Dear ' + username + ',',
+      notif_link: link,
+      notiftext: notiftext,
+      notification: notification
+    };
+    var templatePath = path.join(process.cwd(), 'email-notification-templates');
+    var template = new EmailTemplate(templatePath);
+
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'james.morrill.6@gmail.com',
-           pass: 'exogene5i5'}
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
     }));
-    var mailOptions = {
-       from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: user.email,
-       subject: subject,
-       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
-    };
-    transporter.sendMail(mailOptions, function(error, response) {
-        if (error) {
-            console.log("Email send failed");
+
+    template.render(locals, function(err, results){
+      if (err) {
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: user.email,
+        subject: subject,
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
         }
-        else {
+        else{
           console.log("SUCCESS");
+          console.log(responseStatus.message);
           res.send(app);
         }
+
+      });
     });
   });
 }
+
 function createPageViewRow(user, fund, object, res){
   var createOptions = {fund_id: fund.id};
   if(user){

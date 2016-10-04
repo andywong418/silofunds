@@ -263,6 +263,7 @@ var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnrea
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
+var EmailTemplate = require('email-templates').EmailTemplate;
 
 function weeklyFundNewsLetter(){
   var oneDay = 24*60*60*1000;
@@ -463,7 +464,6 @@ function checkFavourite(fund, oneWeekAgo, callback){
 //     callback(object);
 //   });
 // }
-var EmailTemplate = require('email-templates').EmailTemplate;
 function weeklyStudentNewsLetter(){
 models.users.findAll({where: {organisation_or_user: null}}).then(function(users){
     //student users - check for campaign views, how many applications you made, donations, recommended funds.

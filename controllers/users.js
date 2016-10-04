@@ -16,6 +16,9 @@ var async = require('async');
 var bcrypt = require('bcrypt');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 var es = require('../elasticsearch');
+var path = require('path');
+var EmailTemplate = require('email-templates').EmailTemplate;
+
 
 // Add route exceptions to be blocked here
 var userExceptionRoutesArray = ['profile'];
@@ -1536,11 +1539,11 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
 
       models.notifications.create(options).then(function(notification){
         if(messageUser){
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this link. </a>", notification,
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
           'You have a new donation!', res);
         }
         else{
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this link. </a>", notification,
+          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
           'You have a new donation!', res);
         }
       });
@@ -1584,7 +1587,7 @@ function createAppNotif(fundId, user, status, res){
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, options.notification, user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
         })
       }
       else{
@@ -1594,29 +1597,46 @@ function createAppNotif(fundId, user, status, res){
     })
   })
 }
-function sendUserEmail(userId, notification, app, subject, res ){
+function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
+    var locals = {
+      header: 'Dear ' + username + ',',
+      notif_link: link,
+      notiftext: notiftext,
+      notification: notification
+    };
+    var templatePath = path.join(process.cwd(), 'email-notification-templates');
+    var template = new EmailTemplate(templatePath);
+
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'james.morrill.6@gmail.com',
-           pass: 'exogene5i5'}
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
     }));
-    var mailOptions = {
-       from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: user.email,
-       subject: subject,
-       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
-    };
-    transporter.sendMail(mailOptions, function(error, response) {
-        if (error) {
-            console.log("Email send failed");
+
+    template.render(locals, function(err, results){
+      if (err) {
+         firstCallback();
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: user.email,
+        subject: subject,
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
         }
-        else {
+        else{
           console.log("SUCCESS");
+          console.log(responseStatus.message);
           res.send(app);
         }
+
+      });
     });
   });
 }

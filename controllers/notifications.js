@@ -3,6 +3,8 @@ var async = require('async');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
+var path = require('path');
+
 module.exports = {
   newNotifications: function(req, res){
     var userId = req.user.id;
@@ -77,10 +79,10 @@ function asyncChangeFavourites(userId, favourites, res){
               models.notifications.create(options).then(function(notif){
                 notifArray.push(notif);
                 if(checkWeek){
-                  sendUserEmail(userId, fund.title + ' has a deadline in 1 week! <a href="http://silofunds/organisation/options/' + fund.id +'"> Apply now. </a>', callback, 'Fund deadline approaching!');
+                  sendUserEmail(userId, "http://silofunds/organisation/options/" + fund.id, fund.title + ' has a deadline in 1 week! ', 'Apply now.', callback, 'Fund deadline approaching!');
                 }
                 else{
-                  sendUserEmail(userId, fund.title + ' has a deadline in ' + diffDays + ' days! <a href="http://silofunds/organisation/options/' + fund.id +'"> Apply now. </a>', callback, 'Fund deadline approaching!');
+                  sendUserEmail(userId,"http://silofunds/organisation/options/" + fund.id, fund.title + ' has a deadline in ' + diffDays + ' days! ', 'Apply now.', callback, 'Fund deadline approaching!');
                 }
 
               });
@@ -103,30 +105,49 @@ function asyncChangeFavourites(userId, favourites, res){
     res.send(notifArray);
   });
 }
-function sendUserEmail(userId, notification, callback, subject){
+var EmailTemplate = require('email-templates').EmailTemplate;
+
+function sendUserEmail(userId, link, notiftext, notification, callback, subject){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
+    var locals = {
+      header: 'Dear ' + username + ',',
+      notif_link: link,
+      notiftext: notiftext,
+      notification: notification
+    };
+    var templatePath = path.join(process.cwd(), 'email-notification-templates');
+    var template = new EmailTemplate(templatePath);
+
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'james.morrill.6@gmail.com',
-           pass: 'exogene5i5'}
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
     }));
-    var mailOptions = {
-       from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: user.email,
-       subject: subject,
-       html: '<h3>Dear ' + username + ',</h3> <p>' + notification + '</p><img src="https://www.silofunds.com/images/silo-logo-coloured.png" style="width: 250px; height: 137px"> </img>'
-    };
-    transporter.sendMail(mailOptions, function(error, response) {
-        if (error) {
-            console.log("Email send failed");
-            callback();
+
+    template.render(locals, function(err, results){
+      if (err) {
+         callback();
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: user.email,
+        subject: subject,
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
+         callback();
         }
-        else {
+        else{
           console.log("SUCCESS");
+          console.log(responseStatus.message);
           callback();
         }
+
+      });
     });
   });
 }
