@@ -263,13 +263,22 @@ $(document).ready(function(){
     var newArray = [];
     fundArray.forEach(function(element, index, array){
       if(element.indexOf('not') > -1 || element.indexOf('non') > -1){
-          var country = element.split(' ')[1].capitalize();
+        try{
+          var country;
+          if(element.indexOf('-') > -1){
+            country = element.split('-')[1].capitalize();
+          }
+          else{
+            country = element.split(' ')[1].capitalize();
+          }
           var diff = allCountries.filter(function(x){
             return userArray.indexOf(x) > -1 && x != country;
           });
           newArray.push(diff);
-
-
+        }
+        catch(e){
+          console.log(e);
+        }
       }
     });
     return newArray;
