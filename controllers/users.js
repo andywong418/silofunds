@@ -1539,7 +1539,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
 };
 
 function updateAppSuccess(app, res, userId, amount_gained){
-	app.update({status: 'success', amount_gained: amount_gained}).then(function(app){
+	app.update({status: 'success', amount_gained: amount_gained, hide_from_profile: false}).then(function(app){
 		models.users.findById(userId).then(function(user){
 			if(user.funding_accrued === null){
 				user.update({funding_accrued: amount_gained}).then(function(user){
