@@ -23,12 +23,6 @@ p {
   font-size: 18px;
   line-height: 1.5; }
 
-@media (min-width: 768px) {
-  p {
-    margin: 0 0 35px;
-    font-size: 22px;
-    line-height: 1.6; } }
-
 .navbar-custom {
   position: fixed;
   margin-bottom: 0;
@@ -1242,8 +1236,9 @@ body {
           padding: 0;
           margin-top: 0px; }
       body #crowdfunding-wrapper #user-progress #progress-card #raised {
+        margin-top: 5px;
         text-align: left;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         font-weight: bold;
         font-size: 23px; }
         body #crowdfunding-wrapper #user-progress #progress-card #raised span {
@@ -1334,6 +1329,9 @@ body {
       height: auto;
       max-height: 500px;
       border-radius: 3px; }
+
+#recent-donations p {
+  margin-top: 15px; }
 
 .hidden {
   display: none; }

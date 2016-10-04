@@ -7,11 +7,41 @@ $donate-button-height: 48px;
 
 // results
 /* New search bar */
-@import 'general.scss';
+
+// @import 'general.scss'; This is fucking me so just include as follows
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Source Sans Pro';
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333333;
+  background-color: white;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 35px;
+  font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+p {
+  margin: 0 0 25px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+//
 @import 'navbar.scss';
 @import 'advanced-search.scss';
 @import 'signup.scss';
 @import './mobile/user/user-crowdfunding-mobile.scss';
+
 
 body{
 	font-family: 'Source Sans Pro' !important;
@@ -440,8 +470,9 @@ body{
 				}
 
 				#raised{
+					margin-top: 5px;
 					text-align: left;
-					margin-bottom: 5px;
+					margin-bottom: 10px;
 					font-weight: bold;
 					font-size: 23px;
 					span{
@@ -578,6 +609,10 @@ body{
 	}
 }
 
+#recent-donations p {
+	margin-top: 15px;
+}
+
 .hidden {
 	display: none;
 }
@@ -611,7 +646,7 @@ body{
 
 // Mobile stuff
 @media (max-width: 992px) {
- 	#crowdfunding-wrapper {
+	 #crowdfunding-wrapper {
 		#user-progress #funding-institutions {
 			margin-top: 30px;
 		}
