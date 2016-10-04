@@ -24,7 +24,7 @@ $(document).ready(function(){
       $('.amount-update' + fundId).show();
       $('.hide-update' + fundId).hide();
     }
-    else{
+    if($('#app-fail' + fundId).is(':checked')){
       $('.amount-update' + fundId).hide();
       $('.hide-update' + fundId).show();
     }
@@ -33,6 +33,7 @@ $(document).ready(function(){
   $('.modal').on('hidden.bs.modal', function(e)
 {
     $(this).removeData();
+    $('.modal-backdrop').hide();
 }) ;
   $('.confirm-app').click(function(){
     var fundId = $(this).attr('id');
@@ -57,6 +58,15 @@ $(document).ready(function(){
       $.post('/user/edit-application/' + fundId, formData, function(data){
         //Change status of existing application
         $('#status' + fundId).html("unsuccessful");
+        $('.modal-backdrop').hide();
+      });
+    }
+    if($('input.' + fundId + ':checked').val() == 'remove'){
+      var formData = {
+        remove: true
+      };
+      $.post('/user/edit-application/' + fundId, formData, function(data){
+        $('.funding-card-' + fundId).hide();
         $('.modal-backdrop').hide();
       });
     }

@@ -651,12 +651,20 @@ module.exports = {
 		var fundId = req.params.id;
 		var amount_gained = parseInt(req.body.amount_gained);
 		models.applications.find({where: {user_id: userId, fund_id: fundId}}).then(function(app){
-			if(req.body.status == 'success'){
-				updateAppSuccess(app, res, userId, amount_gained);
-			}
-			else{
-				updateAppFailure(app,res,req);
-			}
+      if(req.body.remove){
+        app.destroy().then(function(){
+          res.send('Removed');
+        });
+      }
+      else{
+        if(req.body.status == 'success'){
+          updateAppSuccess(app, res, userId, amount_gained);
+        }
+        else{
+          updateAppFailure(app,res,req);
+        }
+      }
+
 		});
 	},
 	createUpdate: function(req, res){
