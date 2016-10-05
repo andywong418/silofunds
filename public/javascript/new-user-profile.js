@@ -26,7 +26,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		$('.active').removeClass('active');
 		$(this).addClass('active');
 
-		var sectionName = $(this).href.split('#').reverse()[0];
+		console.log($(this).attr('href'));
+		var sectionName = $(this).attr('href').split('#').reverse()[0];
 
 		// Enable mixpanel to track clicks on all section tabs apart from 'About You' tab
 		// This tracker ASSUMES: only the immediate next tab section is clicked on, ie. no education -> account
