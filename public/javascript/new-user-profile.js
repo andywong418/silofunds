@@ -25,7 +25,39 @@ var tokenArrayPopulate = function(value, emptyArray){
 	$('.process').click(function(){
 		$('.active').removeClass('active');
 		$(this).addClass('active');
-	})
+
+		var sectionName = $(this).href.split('#').reverse()[0];
+
+		// Enable mixpanel to track clicks on all section tabs apart from 'About You' tab
+		// This tracker ASSUMES: only the immediate next tab section is clicked on, ie. no education -> account
+		if (sectionName !== 'about') {
+			switch (sectionName) {
+				case 'education':
+					mixpanel.track(
+						"[/user/create#about] About You -> Education",
+						{ "method": "tab" }
+					);
+					break;
+				case 'story':
+					mixpanel.track(
+						"[/user/create#education] Education -> Story",
+						{ "method": "tab" }
+					);
+					break;
+				case 'account':
+					mixpanel.track(
+						"[/user/create#account] Story -> Account",
+						{ "method": "tab" }
+					);
+					break;
+			}
+		}
+	});
+
+	// TODO: Enable mixpanel to track tab click on dashboard tab
+	// (it's not as straightforward as it seems, dashboard tab can be clicked on even when not on account tab,
+	// so will have to route all funnels properties)
+
 	var UserModel = Backbone.Model.extend({
 		url: '/signup/user_signup/' + user_setup.id,
 	})
@@ -133,7 +165,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		saveAbout: function(e){
 			mixpanel.track(
-				"[/user/create#about] Save About You"
+				"[/user/create#about] About You -> Education",
+				{ "method": "save button" }
 			);
 
 			var countries = $('input#country_of_residence').val().split(',');
@@ -166,6 +199,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 		switchTabs: function(e){
 			$('a[href="#about"]').removeClass('active');
 			$('a[href="#education"]').addClass('active');
+
+			mixpanel.track(
+				"[/user/create#about] About You -> Education",
+				{ "method": "skip" }
+			);
 		}
 	})
 	var EducationDisplay = Backbone.View.extend({
@@ -228,7 +266,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		saveEducation: function(){
 			mixpanel.track(
-				"[/user/create#education] Save Education"
+				"[/user/create#education] Education -> Story",
+				{ "method": "save button" }
 			);
 			var subject = $('input[name=subject]').val().split(',');
 			var targetDegree = $('input[name=target_degree]').val().split(',');
@@ -254,6 +293,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 		switchTabs: function(){
 			$('a[href="#education"]').removeClass('active');
 			$('a[href="#story"]').addClass('active');
+
+			mixpanel.track(
+				"[/user/create#education] Education -> Story",
+				{ "method": "skip" }
+			);
 		}
 
 	})
@@ -302,7 +346,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		saveStory: function(){
 			mixpanel.track(
-				"[/user/create#story] Save Story"
+				"[/user/create#story] Story -> Account",
+				{ "method": "save button" }
 			);
 			var story = tinymce.activeEditor.getContent();
 			var formData = {
@@ -362,6 +407,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 		switchTabs: function(){
 			$('a[href="#story"]').removeClass('active');
 			$('a[href="#account"]').addClass('active');
+
+			mixpanel.track(
+				"[/user/create#story] Story -> Account",
+				{ "method": "skip" }
+			);
 		}
 	});
 	var AccountDisplay = Backbone.View.extend({
@@ -381,7 +431,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		addressPost: function(){
 			mixpanel.track(
-				"[/user/create#account] Save Account"
+				"[/user/create#account] Account -> Dashboard",
+				{ "method": "save button" }
 			);
 
 			var refund;
