@@ -319,6 +319,7 @@ module.exports = {
     req.body['college'] = req.body.college.split(',');
     req.body['previous_university'] = req.body.previous_university.split(',');
     req.body['previous_degree'] = req.body.previous_degree.split(',');
+    req.body['freshers_signup'] = true;
     models.users.create(req.body).then(function(user){
       res.redirect('/admin/freshers-signup');
     });

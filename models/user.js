@@ -141,6 +141,10 @@ module.exports = function(sequelize, DataTypes) {
     user_launch: {
       type: DataTypes.BOOLEAN,
       field: 'user_launch'
+    },
+    freshers_signup:{
+      type: DataTypes.BOOLEAN,
+      field: 'freshers_signup'
     }
   }, {
     timestamps: true,
