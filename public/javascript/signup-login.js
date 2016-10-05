@@ -339,7 +339,8 @@ jQuery.fn.putCursorAtEnd = function() {
        );
      } else {
        mixpanel.track(
-         "[/] Create account as student"
+         "[/] Create account as student",
+         { "method": "signup button"}
        );
      }
      // end: mixpanel
@@ -351,7 +352,8 @@ jQuery.fn.putCursorAtEnd = function() {
  // start: mixpanel
  $("a.btn-facebook").click(function(e) {
    mixpanel.track(
-     "[/] Create account as student using facebook login"
+     "[/] Create account as student",
+     { "method": "facebook" }
    );
  });
  // end: mixpanel
