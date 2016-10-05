@@ -317,6 +317,8 @@ module.exports = {
     req.body['subject'] = subjectArray;
     console.log(req.body);
     req.body['college'] = req.body.college.split(',');
+    req.body['previous_university'] = req.body.previous_university.split(',');
+    req.body['previous_degree'] = req.body.previous_degree.split(',');
     models.users.create(req.body).then(function(user){
       res.redirect('/admin/freshers-signup');
     });
