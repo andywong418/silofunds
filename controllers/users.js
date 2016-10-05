@@ -709,19 +709,16 @@ module.exports = {
   removeFund: function(req, res) {
     var user_id = req.body.user_id;
     var fund_id = req.body.fund_id;
-    var checked = false;
-    if(req.body.checkbox == 'checked') {
-      checked == true
-    }
     models.users.findById(user_id).then(function(user) {
       var newArray;
       if(user.removed_funds !== null) {
         newArray = user.removed_funds;
-        if(checked == true) {
-          newArray[0] = 'true'
+        console.log('in here')
+        if(req.body.checkbox) {
+          newArray[0] = true
         }
       } else {
-        if(checked == true) {
+        if(req.body.checkbox) {
           newArray = [true]
         } else {
           newArray = [false]

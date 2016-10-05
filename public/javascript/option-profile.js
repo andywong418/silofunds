@@ -1465,10 +1465,31 @@ var subjectCounter = 0;
       }
   });
 
-  $('.remove').click(function() {
-    console.log("clicked")
-    $('.modal.fade.modal-remove').modal('toggle')
-  })
+  if(user.removed_funds) {
+    if(user.removed_funds[0] == 'true') {
+      $('.remove').click(function() {
+        $.ajax({
+          type: 'POST',
+          url: '/user/remove-fund',
+          data: {
+            user_id: user.id,
+            fund_id: fund.id
+          },
+          success: function() {
+            window.location.assign('/user/dashboard')
+          }
+        })
+      })
+    } else {
+      $('.remove').click(function() {
+        $('.modal.fade.modal-remove').modal('toggle')
+      })
+    }
+  } else {
+    $('.remove').click(function() {
+      $('.modal.fade.modal-remove').modal('toggle')
+    })
+  }
 
   noProfilePicDivResizer();
   displayTopBottomDivs();
@@ -1485,8 +1506,6 @@ var subjectCounter = 0;
     fundBioBackgroundColor();
     pictureColumnNoChanger();
   })
-
-  // $('#box_3_right').css('display', 'block')
 
   if(user && user.organisation_or_user == null) {
     $('#big_flex_div #right_div #eligibility_div').show()
