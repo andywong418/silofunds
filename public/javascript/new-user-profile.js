@@ -381,7 +381,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		addressPost: function(){
 			mixpanel.track(
-				"[/user/create#about] Save Account"
+				"[/user/create#account] Save Account"
 			);
 
 			var refund;
