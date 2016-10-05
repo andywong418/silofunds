@@ -18,7 +18,10 @@ router.get('/migrations', admin.migrations);
 router.get('/migrateUp?*', admin.migrateUp);
 router.get('/migrateDown', admin.migrateDown);
 router.post('/funds/reset-table', admin.resetTable);
-
+router.get('/freshers-signup', function(req, res){
+  res.render('admin/freshers-signup');
+});
+router.post('/freshers-signup', admin.fresherSignup);
 router.get('/mc-list', admin_mc.index);
 router.get('/mc-list/:id', admin_mc.view);
 

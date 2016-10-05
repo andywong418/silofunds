@@ -1,0 +1,30 @@
+extends admin-layout
+
+block extraHeader
+
+block content
+  .container
+    form(action = '/admin/freshers-signup', method = 'post', name = 'create_fresher_user')
+      .form-group
+        label(for='username') Username
+        input#username.form-control(name='username', placeholder='Username')
+      .form-group
+        label(for='email') Email address
+        input#email.form-control(type='email', name='email', placeholder='Enter email')
+        small#emailHelp.form-text.text-muted We'll never share your email with anyone else.
+      .form-group
+        label(for='password') Password
+        input#password.form-control(type='password', name='password', placeholder='Password')
+      .form-group
+        label(for='country_of_residence') Country of Residence
+        input#country_of_residence.form-control(name='country_of_residence', placeholder='Country of Residence')
+      .form-group
+        label(for='date_of_birth') Date of birth
+        input#date_of_birth.form-control(name='date_of_birth', type= 'date', placeholder='Date of birth')
+      .form-group
+        label(for='subject') Subject
+        input#subject.form-control(name='subject', placeholder = 'subject')
+      .form-group
+        label(for='college') College
+        input#college.form-control(name='college', placeholder = 'college')
+      button.btn.btn-primary(type='submit') Submit
