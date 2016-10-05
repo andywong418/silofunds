@@ -47,7 +47,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 					break;
 				case 'account':
 					mixpanel.track(
-						"[/user/create#account] Story -> Account",
+						"[/user/create#story] Story -> Account",
 						{ "method": "tab" }
 					);
 					break;
