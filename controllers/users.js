@@ -141,10 +141,24 @@ module.exports = {
             index: "funds",
             type: "fund",
             body: {
-              "size": 4,
+              "size": 1000,
               "query": queryOptions
             }
           }).then(function(resp){
+            // Get rid of those the user has removed
+            var resp_length_4 = [];
+            for(var i = 0; i < 1000; i++) {
+              if(resp_length_4.length < 4) {
+                if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
+                } else {
+                  resp_length_4.push(resp.hits.hits[i])
+                }
+              } else {
+                break;
+              }
+            }
+            resp.hits.hits = resp_length_4;
+            //
             var fund_id_list = [];
             var funds = resp.hits.hits.map(function(hit) {
               var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
@@ -159,6 +173,9 @@ module.exports = {
               hash.fund_user = false; // for the user logic later
               return hash;
             });
+            console.log('hi')
+            console.log(funds)
+            console.log('^^^^^^^^')
             models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
               if (user) {
                 for (var i=0; i < funds.length; i++) {
