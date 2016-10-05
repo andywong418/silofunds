@@ -1202,8 +1202,26 @@ h1 {
   border: 1px solid #e1e8ed; }
   #box_3_right #eligibility_para_right {
     font-weight: bold;
+    font-size: 23px;
     margin-bottom: 0;
     padding-left: 2%; }
+  #box_3_right .remove-fund {
+    float: right;
+    margin-right: 20px; }
+  #box_3_right .modal-remove {
+    margin-top: 50px; }
+    #box_3_right .modal-remove p {
+      font-size: 16px; }
+    #box_3_right .modal-remove .modal-footer #fund_id.hide {
+      display: none; }
+    #box_3_right .modal-remove .modal-footer .checkbox {
+      float: left;
+      margin-top: 7px; }
+    #box_3_right .modal-remove .modal-footer span.checkbox {
+      margin-left: 10px;
+      font-size: 14px; }
+    #box_3_right .modal-remove .modal-footer input.checkbox {
+      margin-top: 10px; }
   #box_3_right hr {
     width: 100%;
     margin-top: 5px;

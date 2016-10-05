@@ -1465,6 +1465,11 @@ var subjectCounter = 0;
       }
   });
 
+  $('.remove').click(function() {
+    console.log("clicked")
+    $('.modal.fade.modal-remove').modal('toggle')
+  })
+
   noProfilePicDivResizer();
   displayTopBottomDivs();
   favouriteStarMargin();

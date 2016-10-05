@@ -1,0 +1,21 @@
+if user
+  span.desktop.remove-fund This fund definitely does not apply to me:  
+    .btn.btn-default.remove Remove from results
+    
+  .modal.fade.modal-remove
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h3.modal-title Remove fund from results
+        .modal-body
+          p Are you sure you want to remove this fund from your results, you will never see it again, only do this if you are sure you do not qualify for it.
+        .modal-footer
+          form(action='/user/remove-fund', method='post')
+            input.checkbox(type='checkbox', name='checkbox', value='checked')
+            span.checkbox Don't show this message again
+            input(type='hidden', name='fund_id', value='#{fund.id}')
+            input(type='hidden', name='user_id', value='#{user.id}')
+            button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+            button#delete-actual.btn.btn-danger(type='submit') Remove

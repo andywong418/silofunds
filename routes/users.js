@@ -23,6 +23,7 @@ router.post('/add-application', users.addApplication);
 router.post('/edit-application/:id', users.editApplication);
 router.post('/add-favourite', users.addFavourite);
 router.post('/remove-favourite', users.removeFavourite);
+router.post('/remove-fund', users.removeFund);
 router.post('/create-update', users.createUpdate);
 router.get('/logout', users.logoutGET);
 router.get('/home', users.dashboard);

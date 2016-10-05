@@ -141,6 +141,11 @@ module.exports = function(sequelize, DataTypes) {
     user_launch: {
       type: DataTypes.BOOLEAN,
       field: 'user_launch'
+    },
+    removed_funds: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'removed_funds',
+      defaultValue: ['FALSE']
     }
   }, {
     timestamps: true,

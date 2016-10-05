@@ -325,8 +325,35 @@ h1 {
   border: 1px solid #e1e8ed;
   #eligibility_para_right {
     font-weight: bold;
+    font-size: 23px;
     margin-bottom:0;
     padding-left: 2%;
+  }
+  .remove-fund {
+    float: right;
+    margin-right: 20px;
+  }
+  .modal-remove {
+    margin-top: 50px;
+    p {
+      font-size: 16px;
+    }
+    .modal-footer {
+      #fund_id.hide {
+        display: none;
+      }
+      .checkbox {
+        float: left;
+        margin-top: 7px;
+      }
+      span.checkbox {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+      input.checkbox {
+        margin-top: 10px;
+      }
+    }
   }
   hr{
     width:100%;

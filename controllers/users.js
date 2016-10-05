@@ -706,6 +706,33 @@ module.exports = {
 			res.send(favourite);
 		});
 	},
+  removeFund: function(req, res) {
+    var user_id = req.body.user_id;
+    var fund_id = req.body.fund_id;
+    var checked = false;
+    if(req.body.checkbox == 'checked') {
+      checked == true
+    }
+    models.users.findById(user_id).then(function(user) {
+      var newArray;
+      if(user.removed_funds !== null) {
+        newArray = user.removed_funds;
+        if(checked == true) {
+          newArray[0] = 'true'
+        }
+      } else {
+        if(checked == true) {
+          newArray = [true]
+        } else {
+          newArray = [false]
+        }
+      }
+      newArray.push(fund_id);
+      user.update({removed_funds: newArray}).then(function(user) {
+        res.redirect('/user/dashboard')
+      })
+    })
+  },
 
   settingsGET: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function(){

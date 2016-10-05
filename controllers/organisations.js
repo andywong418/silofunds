@@ -319,7 +319,7 @@ dashboard: function(req, res) {
   getOptionProfile: function(req, res){
     var fundId = req.params.id;
     console.log(req.params);
-    if(req.params.user_id){
+    if(req.params.user_id) {
       var userId = req.params.user_id;
       console.log(userId);
       //Email clicked
@@ -331,7 +331,7 @@ dashboard: function(req, res) {
         res.redirect('/organisation/options/' +  fundId);
       });
     }
-    else{
+    else {
       if(req.isAuthenticated()){
         var user = req.user;
         models.funds.findById(fundId).then(function(fund){
