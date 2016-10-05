@@ -49,14 +49,16 @@ block content
             each fund in funds
               if fund.organisation_picture
                 .col-md-3.col-xs-6.fund-imgs
-                  img.col-md-12(src=fund.organisation_picture)
-                  p
+                  .flex-img
+                    img.col-md-12(src=fund.organisation_picture)
+                  .flex-p                  
                     a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
               if !fund.organisation_picture
                 .col-md-3.col-xs-6.fund-imgs
-                  img.col-md-12(src='/images/fund_img_placeholder.jpg')
-                  p
-                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+                  .flex-img
+                    img.col-md-12(src='/images/fund_img_placeholder.jpg')
+                  .flex-p                  
+                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
         .flex-it-no-pics.flex-it
           if picture_counter == 0
             each fund in funds

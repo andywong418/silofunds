@@ -432,7 +432,7 @@ $(document).ready(function(){
     $eligibility_div.css('background-color', 'rgb(236, 198, 44)');
     $('p#eligibility_div_p ').html('You may not be eligible for this fund - click this bar to learn why. <a id="ignore"> Ignore for now </a>');
     $(document).on('click', '#big_flex_div #right_div #eligibility_div', function(e){
-      $('#right_div_desktop #notEligible').css('display', 'block');
+      $('#notEligible').css('display', 'block');
       //add criteria to explanation modal
       var NotEligibleDisplay = Backbone.View.extend({
         el: '.modal-container',

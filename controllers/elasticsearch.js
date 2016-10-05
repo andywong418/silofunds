@@ -309,6 +309,8 @@ module.exports = {
                 relevantTerms.push(countryObj);
             }
           }
+        
+
         }
         var boolQuery = queryOptions.filtered.query.bool;
         boolQuery.must_not = [];
@@ -449,13 +451,13 @@ module.exports = {
       es.explain({
         index: 'funds',
         type: 'fund',
-        id: '459',
+        id: '505',
         body: {
           "query": queryOptions
         }
       }, function (error, response) {
-        // Logger.error(response.explanation.details[0].details[1].details);
-        // Logger.error(response.explanation.details[0].details[0].details);
+        // Logger.error(response.explanation.details[0].details[1].details[0].details[0]);
+        // Logger.error(response.explanation)
         var bodyObj;
         if(!sort_by){
           bodyObj = {

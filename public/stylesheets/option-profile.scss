@@ -1033,7 +1033,7 @@ h1 {
       }
     }
     #eligibility_div {
-      margin: 0px 0px 20px 0px;
+      margin: 40px 0px 0px 0px;
       width: 100%;
       p#eligibility_div_p, a{
         font-size: 18px;
@@ -1125,8 +1125,10 @@ h1 {
 }
 
 @media (max-width: 767px) {
-  #big_flex_div #eligibility_div p#eligibility_div_p, #big_flex_div #eligibility_div a {
-    font-size: 17px;
+  #big_flex_div #eligibility_div {
+    p#eligibility_div_p, a {
+     font-size: 17px;
+    }
   }
 }
 
