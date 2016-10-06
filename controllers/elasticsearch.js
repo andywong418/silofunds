@@ -501,7 +501,6 @@ module.exports = {
             console.log(resp.hits.hits.length)
             for(var i = 0; i < resp.hits.hits.length; i++) {
               if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
-                console.log('getrekt')
               } else {
                 new_resp.push(resp.hits.hits[i])
               }
