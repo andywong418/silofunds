@@ -496,6 +496,20 @@ module.exports = {
           type: "fund",
           body: bodyObj
         }).then(function(resp) {
+          var new_resp = []; // This removes funds in user.removed_funds
+          if(user) {
+            console.log(resp.hits.hits.length)
+            for(var i = 0; i < resp.hits.hits.length; i++) {
+              if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
+                console.log('getrekt')
+              } else {
+                new_resp.push(resp.hits.hits[i])
+              }
+            }
+          } else {
+            new_resp = resp.hits.hits
+          }
+          resp.hits.hits = new_resp;
           var fund_id_list = [];
           var funds = resp.hits.hits.map(function(hit) {
             var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
