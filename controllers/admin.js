@@ -309,7 +309,21 @@ module.exports = {
       res.redirect('/admin/funds');
     }
   },
-
+  fresherSignup: function(req, res){
+    console.log(req.body);
+    var countryArray = req.body.country_of_residence.split(',');
+    req.body['country_of_residence'] = countryArray;
+    var subjectArray = req.body.subject.split(',');
+    req.body['subject'] = subjectArray;
+    console.log(req.body);
+    req.body['college'] = req.body.college.split(',');
+    req.body['previous_university'] = req.body.previous_university.split(',');
+    req.body['previous_degree'] = req.body.previous_degree.split(',');
+    req.body['freshers_signup'] = true;
+    models.users.create(req.body).then(function(user){
+      res.redirect('/admin/freshers-signup');
+    });
+  },
   upload: function(req, res) {
     var fieldValues = {};
     var busboy = new Busboy({ headers: req.headers });

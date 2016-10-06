@@ -1,4 +1,4 @@
-var multiMatchFields = ["tags^10","title.autocomplete", "religion", "gender", "financial_situation", "country_of_residence", "target_country", "required_grade", "specific_location", "subject", "target_degree", "target_university", "required_degree", "required_university"];
+var multiMatchFields = ["tags","title.autocomplete", "religion", "gender", "financial_situation", "country_of_residence", "target_country", "required_grade", "specific_location", "subject", "target_degree", "target_university", "required_degree", "required_university"];
 
 var autocompleteSettings = {
   "countries": {

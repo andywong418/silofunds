@@ -146,6 +146,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'removed_funds',
       defaultValue: ['FALSE']
+    },
+    freshers_signup:{
+      type: DataTypes.BOOLEAN,
+      field: 'freshers_signup'
     }
   }, {
     timestamps: true,

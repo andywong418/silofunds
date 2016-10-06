@@ -177,11 +177,11 @@ var parallax = document.querySelectorAll(".parallax"),
     });
 
   });
-  $.stellar({
-    horizontalScrolling: false,
-     verticalOffset: -380,
-     horizontalOffset: 0
-});
+//   $.stellar({
+//     horizontalScrolling: false,
+//      verticalOffset: -380,
+//      horizontalOffset: 0
+// });
   var viewPortWidth = $(window).width();
   if(viewPortWidth < 994){
     $('#relevant-div').css('background-repeat', 'none');
