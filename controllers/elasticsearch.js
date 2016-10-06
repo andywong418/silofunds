@@ -29,6 +29,22 @@ function containsObject(obj, list) {
 
     return false;
 }
+function checkTargetIndex(field, relevantTerms){
+  var relTermCounter = 0;
+  var relTerm;
+  for(var i = 0; i < relevantTerms.length; i++){
+    if(relevantTerms[i][field]){
+      relTerm = relevantTerms[i][field];
+      relTermCounter++;
+    }
+  }
+  if(relTermCounter === 0){
+    return false;
+  }
+  else{
+    return relTerm;
+  }
+}
 var sort_by;
 module.exports = {
   fundSearch: function(req, res) {
@@ -225,6 +241,7 @@ module.exports = {
 
 
       ///////////////////// NOTE: SPECIAL NEEDS /////////////////////////
+      Logger.warn("CHECKING RESP");
       Logger.warn(resp.hits.hits);
 
       var relevantTerms = []; // NOTE: Whole object to be passed into view for "Did you mean?" prompt.
@@ -250,6 +267,18 @@ module.exports = {
             if(!containsObject(subjectObj, relevantTerms)){
               //rnot in there
                 relevantTerms.push(subjectObj);
+                console.log("SB OBJ", subjectObj);
+                queryOptions.filtered.query.bool.should.push({
+                  "match": {
+                    "subject": {
+                      "query": subjectObj.subject,
+                      "minimum_should_match": "100%",
+                      "operator": "and",
+                      "boost": 4
+                    }
+                  }
+                });
+                console.log(queryOptions.filtered.query.bool.should);
             }
           }
 
@@ -309,7 +338,7 @@ module.exports = {
                 relevantTerms.push(countryObj);
             }
           }
-        
+
 
         }
         var boolQuery = queryOptions.filtered.query.bool;
@@ -366,15 +395,35 @@ module.exports = {
         // Logger.warn("countryCategories\n" + countryCategories);
 
         // TODO: match for required_university too?
-        queryOptions.filtered.query.bool.should.push({
-          "match": {
-            "target_university":{
-              "query": universityCategories.join(' '),
-              "minimum_should_match": "100%",
-              "operator": "and"
-            }
+        console.log("REL TERMS", relevantTerms);
+
+          var uniRelTerm = checkTargetIndex("target_university", relevantTerms);
+          console.log("REL TER", uniRelTerm);
+          if(uniRelTerm){
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "target_university":{
+                  "query": universityCategories.join(' ') +  ' ' + uniRelTerm,
+                  "minimum_should_match": "100%",
+                  "operator": "and"
+                }
+              }
+            });
           }
-        });
+          else{
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "target_university":{
+                  "query": universityCategories.join(' '),
+                  "minimum_should_match": "100%",
+                  "operator": "and"
+                }
+              }
+            });
+          }
+
+
+
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
@@ -395,6 +444,8 @@ module.exports = {
             }
           }
         });
+        var degreeRelTerm = checkTargetIndex("target_degree", relevantTerms);
+
 
         queryOptions.filtered.query.bool.should.push({
           "match": {
@@ -458,6 +509,8 @@ module.exports = {
       }, function (error, response) {
         // Logger.error(response.explanation.details[0].details[1].details[0].details[0]);
         // Logger.error(response.explanation)
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[6].match);
         var bodyObj;
         if(!sort_by){
           bodyObj = {
