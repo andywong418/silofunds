@@ -147,7 +147,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'removed_funds',
       defaultValue: ['FALSE']
     },
-    freshers_signup:{
+    freshers_signup: {
       type: DataTypes.BOOLEAN,
       field: 'freshers_signup'
     }

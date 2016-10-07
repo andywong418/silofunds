@@ -1938,3 +1938,13 @@ h1 {
     .alert-known.alert-success .radio-inline {
       margin: 0;
       margin-left: 10px; } }
+
+.remove.btn-default {
+  background: rgba(0, 137, 137, 0.8);
+  border: none;
+  color: white;
+  padding: 5px 8px;
+  margin-left: 10px; }
+
+#remove-button:hover {
+  background: rgba(0, 137, 137, 0.6); }
