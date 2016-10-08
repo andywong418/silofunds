@@ -146,13 +146,20 @@ module.exports = {
             }
           }).then(function(resp){
             // Get rid of those the user has removed
+            console.log("RESP HIT LEGNTH", resp.hits.hits.length);
             var resp_length_4 = [];
-            for(var i = 0; i < 1000; i++) {
+            for(var i = 0; i < resp.hits.hits.length; i++) {
               if(resp_length_4.length < 4) {
-                if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
-                } else {
-                  resp_length_4.push(resp.hits.hits[i])
+                if(user.removed_funds && user.removed_funds.length > 0){
+                  if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
+                  } else {
+                    resp_length_4.push(resp.hits.hits[i]);
+                  }
                 }
+                else{
+                  resp_length_4 = resp.hits.hits.slice(0,4);
+                }
+
               } else {
                 break;
               }

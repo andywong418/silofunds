@@ -114,7 +114,7 @@ module.exports = {
 
       var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
 
-      var user = req.session.passport.user;
+      var user = req.user;
       var session = req.sessionID;
       var search_url_array = req.url.split('/');
       req.session.redirect_user = search_url_array[1];
@@ -553,15 +553,22 @@ module.exports = {
         }).then(function(resp) {
           var new_resp = []; // This removes funds in user.removed_funds
           if(user) {
-            console.log(resp.hits.hits.length)
-            for(var i = 0; i < resp.hits.hits.length; i++) {
-              if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
-              } else {
-                new_resp.push(resp.hits.hits[i])
+            console.log("USER FUNDS", user);
+            if(user.removed_funds && user.removed_funds.length > 0){
+              console.log("WE HERE BABY");
+              for(var i = 0; i < resp.hits.hits.length; i++) {
+                  if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
+                    console.log("IT's there");
+                  } else {
+                    new_resp.push(resp.hits.hits[i]);
+                  }
               }
+          }
+            else{
+              new_resp = resp.hits.hits;
             }
           } else {
-            new_resp = resp.hits.hits
+            new_resp = resp.hits.hits;
           }
           resp.hits.hits = new_resp;
           var fund_id_list = [];

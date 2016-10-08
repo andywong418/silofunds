@@ -315,11 +315,23 @@ module.exports = {
     req.body['country_of_residence'] = countryArray;
     var subjectArray = req.body.subject.split(',');
     req.body['subject'] = subjectArray;
-    console.log(req.body);
     req.body['college'] = req.body.college.split(',');
-    req.body['previous_university'] = req.body.previous_university.split(',');
-    req.body['previous_degree'] = req.body.previous_degree.split(',');
+    // req.body['previous_university'] = req.body.previous_university.split(',');
+    console.log('hi');
+    if(req.body['previous_degree'] !== ''){
+      req.body['previous_degree'] = req.body.previous_degree.split(',');
+    }
+    if(req.body['previous_degree'] === ''){
+      delete req.body['previous_degree'];
+    }
     req.body['freshers_signup'] = true;
+    req.body['previous_university'] = ['Oxford'];
+    var nameArray = req.body.username.split(' ');
+    var lastName = nameArray[nameArray.length - 1].toLowerCase();
+    var birthYear = new Date(req.body.date_of_birth);
+    birthYear = birthYear.getFullYear().toString();
+    var shortForm = birthYear.slice(-2);
+    req.body.password = lastName + shortForm;
     models.users.create(req.body).then(function(user){
       res.redirect('/admin/freshers-signup');
     });
