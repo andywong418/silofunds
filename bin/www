@@ -739,10 +739,10 @@ function checkIndices(){
                  for (var i = 0; i < fields.length ; i++) {
                    wrapper[fields[i]] = fund[fields[i]];
                  }
-                 wrapper["suggest"] = { "input": fund.tags };
+                 wrapper["suggest_funds"] = { "input": fund.tags };
                  body.push(wrapper);
                });
-
+               console.log("BODY", body);
                es.bulk({
                  body: body
                }, function (err, resp) {
@@ -750,6 +750,7 @@ function checkIndices(){
                });
              }).then(function() {
                Logger.info('...Finished sync');
+               return true;
              });
            }
            else{
