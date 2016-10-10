@@ -472,6 +472,7 @@ var allShown = false;
   var nonDeadlineArray = [];
   var deadlineArray = [];
   var anotherCounter = 0;
+  var closeMessageCounter = 0;
   var k = 0;
   for(var i = 0; i < fundData.length; i++) {
     var deadline = moment.utc(fundData[i].deadline, "YYYY-MM-DD");
@@ -500,6 +501,11 @@ var allShown = false;
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
                // set to whatever you want it to be
+        if($('.fund_list').length > 4){
+          if(closeMessageCounter === 0){
+            $('.message-box').show();
+          }
+        }
         if(y_scroll_pos % 200 === 0 && y_scroll_pos < 15000){
           var numberOfResults = $('.fund_list').length;
           mixpanel.track(
@@ -537,7 +543,14 @@ var allShown = false;
     });
   }
 
-
+  $(document).on('click', '.message-box', function(){
+    $('.message-box').hide();
+    $('.no-suitable-funds').show();
+  });
+  $(document).on('click', '.close-message', function(){
+    $('.no-suitable-funds').hide();
+    closeMessageCounter++;
+  });
   var counter3 = 0;
   $('#show-all').on('click', function(){
   if(allShown){
