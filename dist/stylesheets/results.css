@@ -1225,6 +1225,9 @@ i {
         margin-left: 30px;
         padding-top: 5px; }
 
+.message-box, .no-suitable-funds {
+  display: none; }
+
 .results {
   width: 66%;
   margin-left: 17%;

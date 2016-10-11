@@ -96,6 +96,13 @@ block content
 						p#contact-us Our search engine didn't return any funds for you! Email 
 							a(href='mailto:howard@silofunds.com') Us
 							| and we'll personally find a funding opportunity that suits you.
+					.no-suitable-funds(style='position: fixed; width: 300px; bottom: 0; right: 0px; z-index: 100; background-color: #e74c3c; padding: 15px; border-radius: 4px')
+						i.fa.fa-times.close-message(style= 'float: right; cursor: pointer')
+						p#message-us(style='font-size: 15px; margin-bottom: 0; color: white') No relevant results? Send us a request 
+							a(href='/contact_us', style='color: white; text-decoration: underline') here
+							span= ' and we will personally find you a suitable funding opportunity.'
+					.message-box(style='position: fixed; bottom: 20px; right: 20px; background: #e74c3c; border-radius: 50%; width: 50px; height: 50px; cursor: pointer')
+						i.fa.fa-comments(style='font-size: 35px; margin-top: 6px')
 					div.page-header
 						script#fund-template(type='text/template')
 							.lazyload
