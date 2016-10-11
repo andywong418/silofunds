@@ -59,15 +59,15 @@ block content
                     img.col-md-12(src='/images/fund_img_placeholder.jpg')
                   .flex-p                  
                     a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
-        .flex-it-no-pics.flex-it
-          if picture_counter == 0
-            each fund in funds
-              .col-md-6.col-xs-6.flex-me
-                .col-md-1.col-xs-0
-                .col-md-10.col-xs-12.fund-no-pic
-                  .align-central
-                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
-                .col-md-1.col-xs-0
+        if picture_counter == 0
+          each fund in funds
+            .col-xs-6.col-sm-6.col-md-6
+              .box
+                .box-icon
+                  span.fa.fa-2x
+                .info
+                  h4.text-center
+                    a(href='/organisation/options/'+ fund.id)= fund.title
     section#updates
       p#header Post an update
       .col-xs-2.mobile.force-block

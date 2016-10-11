@@ -100,4 +100,14 @@ $(document).ready(function(){
     });
   }
 
+  $('.box-icon:eq(0)').css('background-color', 'rgb(39, 174, 96)')
+  $('.box-icon:eq(0) span').addClass('fa-university')
+  $('.box-icon:eq(1)').css('background-color', 'rgb(41, 128, 185)')
+  $('.box-icon:eq(1) span').addClass('fa-graduation-cap')
+  $('.box-icon:eq(2)').css('background-color', 'rgb(231, 76, 60)')
+  $('.box-icon:eq(2) span').addClass('fa-users')
+  $('.box-icon:eq(3)').css('background-color', 'rgb(230, 126, 34)')
+  $('.box-icon:eq(3) span').addClass('fa-cube')
+
+
 });
