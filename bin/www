@@ -264,6 +264,68 @@ var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, t
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
+// var signupFreshersTemplate = new CronJob('0 35 * * * *', signupFreshers, null, true);
+
+function signupFreshers(){
+  console.log("SIGNING UP FRESHERS");
+  models.users.findAll({where: {freshers_signup: true}}).then(function(users){
+    //Don't forget to slice users!
+    async.each(users, function(user, callback){
+      var loginEmail = user.email;
+      var nameArray = user.username.split(' ');
+      var lastName = nameArray[nameArray.length - 1].toLowerCase();
+      var password;
+      if(user.date_of_birth){
+        var birthYear = new Date(user.date_of_birth);
+        birthYear = birthYear.getFullYear().toString();
+        var shortForm = birthYear.slice(-2);
+        password = lastName + shortForm;
+      }
+      else{
+        password = lastName;
+      }
+      var locals = {
+        header: "Dear " + nameArray[0] + ',',
+        loginEmail: "Email: " +loginEmail,
+        password: "Password: " + password,
+        user_id: user.id
+      };
+      var transporter = nodemailer.createTransport(smtpTransport({
+       service: 'Gmail',
+       auth: {user: 'notifications@silofunds.com',
+             pass: 'ThisIsNotificationsAccount'}
+      }));
+      var templatePath = path.join(process.cwd(), 'email-templates/freshers-signup-template');
+      var template = new EmailTemplate(templatePath);
+      template.render(locals, function(err, results){
+        if (err) {
+           callback();
+           return console.error(err);
+        }
+        transporter.sendMail({
+          from: 'Silofunds',
+          to: user.email,
+          subject: "Fresher's Signup Log-in details",
+          html: results.html
+        }, function(err, responseStatus){
+          if (err) {
+           console.error(err);
+           console.log("USER ERROR", user.email);
+           callback();
+          }
+          else{
+            console.log("SUCCESS");
+            console.log("USER", user.email);
+            console.log(responseStatus);
+            callback();
+          }
+
+        });
+      });
+
+    });
+  });
+}
 
 function weeklyFundNewsLetter(){
   var oneDay = 24*60*60*1000;

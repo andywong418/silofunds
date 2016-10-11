@@ -39,8 +39,27 @@ router.get(/user/, users.organisationBlocker)
 router.get('/auth/facebook', passport.authenticate('facebook', {authType: 'rerequest', scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']}));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/facebookSplit', failureRedirect: '/facebookError'}));
 router.get('/facebookSplit', users.facebookSplit);
-router.get('/facebookError', users.facebookAuthError)
-
+router.get('/facebookError', users.facebookAuthError);
+router.get('/fresher-email-signup-login/:id', function(req, res){
+  var userId = req.params.id;
+  var options = {
+    user_id: userId,
+    analytic_type: 'fresher signup email login click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/login');
+  });
+});
+router.get('/fresher-email-signup-contact/:id', function(req, res){
+  var userId = req.params.id;
+  var options = {
+    user_id: userId,
+    analytic_type: 'fresher signup email contact click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/contact_us');
+  });
+});
 
 //Footer pages
 //about-silo

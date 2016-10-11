@@ -329,7 +329,7 @@ block content
               .col-md-12.col-xs-12
                 label.col-md-3.col-xs-3(for='college') Previous colleges/halls
                 .col-md-6.col-xs-9
-                  input#college.form-control(type='text', name='college', value = user.college, placholder ='Separate each college/hall with a comma')
+                  input#input-college.form-control(type='text', name='college', value = user.college, placeholder ='Separate each college/hall with a comma')
             .col-md-12.col-xs-12.sub-content
               h4 Further education
               .col-md-12.col-xs-12
@@ -345,7 +345,7 @@ block content
                 .col-md-6.col-xs-9
                   input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
           .col-md-12.col-xs-12.footer
-            button#save-education-settings.btn.btn-primary(type='submit') Save changes
+            button#save-education-settings.btn.btn-primary Save changes
             #save-education-settings-notification Your changes have been saved            
 block scripts
   script(src='/javascript/advanced-search.js')
