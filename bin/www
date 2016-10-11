@@ -264,12 +264,13 @@ var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, t
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
-var signupFreshersTemplate = new CronJob('0 15 22 * * *', signupFreshers, null, true);
+var signupFreshersTemplate = new CronJob('0 45 * * * *', signupFreshers, null, true);
 
 function signupFreshers(){
   console.log("SIGNING UP FRESHERS");
   models.users.findAll({where: {freshers_signup: true, freshers_email_sent: null}}).then(function(users){
     //Don't forget to slice users!
+  if(users.length > 0){
     users = users.slice(0,100);
     console.log("USER LENGTH", users.length);
     var unsentEmailArray = [];
@@ -356,6 +357,7 @@ function signupFreshers(){
       });
 
     });
+  }
   });
 }
 
