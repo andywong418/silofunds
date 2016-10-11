@@ -48,6 +48,8 @@ function checkTargetIndex(field, relevantTerms){
 var sort_by;
 module.exports = {
   fundSearch: function(req, res) {
+    console.log(req.query)
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^")
     var query = req.query;
     Logger.debug("query\n", query);
 
