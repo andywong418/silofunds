@@ -127,7 +127,7 @@ function prePopulate() {
   }
   $('#advanced_required_university').val(user.previous_university);
   $('#advanced_required_degree').val(user.previous_degree);
-  $('#advanced_subject').val(user.target_degree);
+  $('#advanced_subject').val(user.subject);
   $('#advanced_target_country').val(user.target_country);
   $('#advanced_specific_location').val(user.specific_location);
   $('#advanced_target_university').val(user.target_university);

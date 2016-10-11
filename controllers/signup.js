@@ -97,6 +97,7 @@ module.exports = {
 		}
 	},
 	saveUserSignup: function(req, res){
+		console.log(req.body)
 
 		var userId = req.user.id;
 		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university','college'];
