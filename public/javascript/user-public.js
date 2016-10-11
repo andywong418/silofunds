@@ -565,4 +565,32 @@ $(document).ready(function(){
 	});
 
 	var userInfo = new UserInfo();
+
+	prePopulate();
 })
+
+// Prepopulation of advanced search
+function prePopulate() {
+  var age = calcAge(user.date_of_birth)
+  console.log(age)
+  $('#advanced_age').val(age);
+  $('#advanced_country_of_residence').val(user.country_of_residence);
+  $('#advanced_religion').val(user.religion);
+  if(user.gender == 'male') {
+    $('#male').prop('checked', 'true')
+  } else if (user.gender == 'female') {
+    $('#female').prop('checked', 'true')
+  }
+  $('#advanced_required_university').val(user.previous_university);
+  $('#advanced_required_degree').val(user.previous_degree);
+  $('#advanced_subject').val(user.subject);
+  $('#advanced_target_country').val(user.target_country);
+  $('#advanced_specific_location').val(user.specific_location);
+  $('#advanced_target_university').val(user.target_university);
+  $('#advanced_target_degree').val(user.target_degree);
+}
+
+function calcAge(dateString) {
+  var birthday = +new Date(dateString);
+  return ~~((Date.now() - birthday) / (31557600000));
+}

@@ -264,12 +264,14 @@ var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, t
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
-// var signupFreshersTemplate = new CronJob('0 35 * * * *', signupFreshers, null, true);
+var signupFreshersTemplate = new CronJob('0 38 19 * * *', signupFreshers, null, true);
 
 function signupFreshers(){
   console.log("SIGNING UP FRESHERS");
   models.users.findAll({where: {freshers_signup: true}}).then(function(users){
     //Don't forget to slice users!
+    users = users.slice(0,100);
+    console.log("USER LENGTH", users.length);
     async.each(users, function(user, callback){
       var loginEmail = user.email;
       var nameArray = user.username.split(' ');
@@ -1239,7 +1241,7 @@ function bulkUpload(data) {
             if (resp) {
               Logger.info("Bulk sync for " + data.fieldName + " complete");
               if (process.env.NODE_ENV == "production") {
-                sleep.sleep(5);
+                sleep.sleep(3);
               }
               // sleep.sleep(5);
             }

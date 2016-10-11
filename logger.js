@@ -43,8 +43,8 @@ Logger.setHandler(function (messages, context) {
     timestampPrepender(messages, context);
 });
 
-if (process.env.NODE_ENV === 'production') {
-  Logger.setLevel(Logger.WARN);
-}
+// if (process.env.NODE_ENV === 'production') {
+//   Logger.setLevel(Logger.WARN);
+// }
 
 module.exports = Logger;
