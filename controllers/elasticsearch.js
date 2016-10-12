@@ -73,6 +73,7 @@ module.exports = {
     queryTerms.push(query.specific_location ? query.specific_location : "");
     queryTerms.push(query.target_country ? query.target_country : "");
     queryTerms.push(query.religion ? query.religion : "");
+    // querTerms.push(query.college ? query.college: "");
     queryTerms.push(query.title ? query.title : "");
     queryTerms = queryTerms.join(' ');
     var queryString = [];
@@ -502,13 +503,12 @@ module.exports = {
       es.explain({
         index: 'funds',
         type: 'fund',
-        id: '505',
+        id: '827',
         body: {
           "query": queryOptions
         }
       }, function (error, response) {
         // Logger.error(response.explanation.details[0].details[1].details[0].details[0]);
-        // Logger.error(response.explanation)
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[6].match);
         var bodyObj;
@@ -553,12 +553,9 @@ module.exports = {
         }).then(function(resp) {
           var new_resp = []; // This removes funds in user.removed_funds
           if(user) {
-            console.log("USER FUNDS", user);
             if(user.removed_funds && user.removed_funds.length > 0){
-              console.log("WE HERE BABY");
               for(var i = 0; i < resp.hits.hits.length; i++) {
                   if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
-                    console.log("IT's there");
                   } else {
                     new_resp.push(resp.hits.hits[i]);
                   }

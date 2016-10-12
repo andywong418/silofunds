@@ -110,8 +110,8 @@ module.exports = {
 			user.update(req.body).then(function(user){
 
 				res.send(user);
-			})
-		})
+			});
+		});
 	},
  getSignupInfo: function(req, res){
 	 var userId = req.params.id;

@@ -247,7 +247,6 @@ $(document).ready(function() {
 
   $('#save-education-settings').click(function(e) {
     e.preventDefault();
-
     saveActivePaneSettings('education', ['subject', 'previous_degree', 'previous_university', 'target_degree', 'target_university', 'college']);
   });
 
@@ -329,7 +328,10 @@ $(document).ready(function() {
     for (var i = 0; i < settingsFieldsArray.length; i++) {
       var formDataKey = settingsFieldsArray[i];
       if(formDataKey== 'college'){
-        formData[formDataKey] = $('#' + formDataKey).val().split(',');
+        formData[formDataKey] = $('#input-' + formDataKey).val().split(',');
+        console.log(formData[formDataKey]);
+        console.log(formDataKey);
+        console.log(formData);
       }
       else{
         formData[formDataKey] = $('#' + formDataKey).val();
@@ -346,7 +348,7 @@ $(document).ready(function() {
         formData[extraOptionsKey] = extraOptions[extraOptionsKey];
       }
     }
-
+    console.log("formdata", formData);
     $.post('/user/settings', formData, function(data) {
       $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
       $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);

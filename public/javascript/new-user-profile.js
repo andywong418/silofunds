@@ -276,7 +276,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var targetUniversity = $('input[name=target_degree]').val().split(',');
 			var previousUniversity = $('input[name=previous_university]').val().split(',');
 			var college = $('input[name=college]').val().split(',');
-			console.log($('input[name=college]').val());
+			console.log(college);
 			var formData = {
 				'subject': subject,
 				'target_degree': targetDegree,
@@ -288,8 +288,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 			$.post('/signup/user/save', formData, function(data){
 				$('a[href="#education"]').removeClass('active');
 				$('a[href="#story"]').addClass('active');
-				$('html, body').animate({scrollTop:0}, 'slow')
-			})
+				$('html, body').animate({scrollTop:0}, 'slow');
+			});
 		},
 		switchTabs: function(){
 			$('a[href="#education"]').removeClass('active');

@@ -264,6 +264,102 @@ var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, t
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
+var signupFreshersTemplate = new CronJob('0 45 * * * *', signupFreshers, null, true);
+
+function signupFreshers(){
+  console.log("SIGNING UP FRESHERS");
+  models.users.findAll({where: {freshers_signup: true, freshers_email_sent: null}}).then(function(users){
+    //Don't forget to slice users!
+  if(users.length > 0){
+    users = users.slice(0,100);
+    console.log("USER LENGTH", users.length);
+    var unsentEmailArray = [];
+    async.each(users, function(user, callback){
+      var loginEmail = user.email;
+      var nameArray = user.username.split(' ');
+      var lastName = nameArray[nameArray.length - 1].toLowerCase();
+      var password;
+      if(user.date_of_birth){
+        var birthYear = new Date(user.date_of_birth);
+        birthYear = birthYear.getFullYear().toString();
+        var shortForm = birthYear.slice(-2);
+        password = lastName + shortForm;
+      }
+      else{
+        password = lastName;
+      }
+      var locals = {
+        header: "Dear " + nameArray[0] + ',',
+        loginEmail: "Email: " +loginEmail,
+        password: "Password: " + password,
+        user_id: user.id
+      };
+      var transporter = nodemailer.createTransport(smtpTransport({
+       service: 'Gmail',
+       auth: {user: 'notifications@silofunds.com',
+             pass: 'ThisIsNotificationsAccount'}
+      }));
+      var templatePath = path.join(process.cwd(), 'email-templates/freshers-signup-template');
+      var template = new EmailTemplate(templatePath);
+      template.render(locals, function(err, results){
+        if (err) {
+           callback();
+           return console.error(err);
+        }
+        transporter.sendMail({
+          from: 'Silofunds',
+          to: user.email,
+          subject: "Fresher's Signup Log-in details",
+          html: results.html
+        }, function(err, responseStatus){
+          if (err) {
+           console.error(err);
+           console.log("USER ERROR", user.email);
+           unsentEmailArray.push(user.email);
+           callback();
+          }
+          else{
+            console.log("SUCCESS");
+            console.log("USER", user.email);
+            console.log(responseStatus);
+            models.users.findById(user.id).then(function(user){
+              user.update({freshers_email_sent: true}).then(function(){
+                callback();
+              });
+            });
+          }
+
+        });
+      });
+
+    }, function done(){
+      var transporter = nodemailer.createTransport(smtpTransport({
+       service: 'Gmail',
+       auth: {user: 'notifications@silofunds.com',
+             pass: 'ThisIsNotificationsAccount'}
+      }));
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: "andros.wong@new.ox.ac.uk",
+        subject: "Unsent email list",
+        html: "<h1> List of failed emails sent. </h1> <p> " + unsentEmailArray + "</p>"
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
+         console.log("USER ERROR");
+        }
+        else{
+          console.log("SUCCESS sent to dros");
+          console.log("USER");
+          console.log(responseStatus);
+        }
+
+      });
+
+    });
+  }
+  });
+}
 
 function weeklyFundNewsLetter(){
   var oneDay = 24*60*60*1000;
@@ -1177,7 +1273,7 @@ function bulkUpload(data) {
             if (resp) {
               Logger.info("Bulk sync for " + data.fieldName + " complete");
               if (process.env.NODE_ENV == "production") {
-                // sleep.sleep(5);
+                sleep.sleep(3);
               }
               // sleep.sleep(5);
             }
