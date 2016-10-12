@@ -98,6 +98,10 @@ $(document).ready(function(){
     });
   }
 
+  if($('.update-me')) {
+    $('.spacing_div.spacing_div_1').css('display', 'none')
+  }
+
   $('.box-icon:eq(0)').css('background-color', 'rgb(39, 174, 96)')
   $('.box-icon:eq(0) span').addClass('fa-university')
   $('.box-icon:eq(1)').css('background-color', 'rgb(41, 128, 185)')

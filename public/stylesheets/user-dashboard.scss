@@ -1,5 +1,9 @@
 @import './mobile/user/dashboard-mobile.scss';
 
+body {
+  background: #f0f2f4;
+}
+
 @media (min-width: 994px) {
   .mobile {
     display: none;
@@ -280,6 +284,9 @@
     margin-top: -20px;
     margin-bottom: 10px;
   }
+  #updates {
+    margin-top: 30px;
+  }
   @media(max-width: 700px) {
     .col-xs-2.mobile {
       margin-top: -10px;
@@ -309,6 +316,11 @@
 
 
 //
+#recommended {
+  .row.recommended-row {
+    margin-top: -35px;
+  }
+}
 .box {
   font-family: Source Sans Pro;
   border-radius: 3px;

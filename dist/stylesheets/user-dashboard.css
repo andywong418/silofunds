@@ -2216,6 +2216,9 @@ table#header {
   .container {
     width: 92%; } }
 
+body {
+  background: #f0f2f4; }
+
 @media (min-width: 994px) {
   .mobile {
     display: none; }
@@ -2398,7 +2401,9 @@ table#header {
 @media (max-width: 993px) {
   .col-xs-2.mobile {
     margin-top: -20px;
-    margin-bottom: 10px; } }
+    margin-bottom: 10px; }
+  #updates {
+    margin-top: 30px; } }
 
 @media (max-width: 993px) and (max-width: 700px) {
   .col-xs-2.mobile {
@@ -2425,6 +2430,9 @@ table#header {
   .fund-imgs a {
     margin-top: 10px;
     font-size: 16px; }
+
+#recommended .row.recommended-row {
+  margin-top: -35px; }
 
 .box {
   font-family: Source Sans Pro;
