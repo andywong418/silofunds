@@ -119,6 +119,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'required_degree'
     },
+    required_college: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
+      field: 'required_degree'
+    },
     number_of_places: {
       type: DataTypes.INTEGER,
       field: 'number_of_places'
@@ -162,7 +166,7 @@ module.exports = function(sequelize, DataTypes) {
     other_application_steps: {
       type: DataTypes.TEXT,
       field: 'other_application_steps'
-    },
+    }
   }, {
     timestamps: true,
     underscored: true,

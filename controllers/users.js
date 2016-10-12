@@ -1396,6 +1396,7 @@ module.exports = {
       models.users.findById(req.user.id).then(function(user) {
         return user.destroy();
       }).then(function() {
+        req.logout();
         req.flash('goodbye', "Your account has been successfully deleted. We're sorry to see you go!")
         res.redirect('/login')
       })

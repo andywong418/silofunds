@@ -34,7 +34,7 @@ NOTE: Uploading funds with sequential IDs will not cause problems with 'organisa
 NOTE: TLDR; (usually) CHECK BOX when uploading organisations, DON'T CHECK when uploading funds;
 */
 
-var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at","organisation_id"];
+var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_college","required_university","merit_or_finance","deadline","target_country","number_of_places","support_type","other_eligibility","other_application_steps","created_at","updated_at","organisation_id"];
 
 var organisationsTableFields = ["name","charity_id","created_at","updated_at"];
 
@@ -222,6 +222,7 @@ module.exports = {
     var required_degree = fund.required_degree[0] ? lowercaseArray(fund.required_degree.split(",")) : null;
     var required_university = fund.required_university[0] ? lowercaseArray(fund.required_university.split(",")) : null;
     var required_grade = fund.required_grade ? fund.required_grade : null;
+    var required_college = fund.required_college[0] ? lowercaseArray(fund.required_college.split(",")) : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -258,6 +259,7 @@ module.exports = {
         country_of_residence: country_of_residence,
         target_country: target_country,
         required_grade: required_grade,
+        required_college: required_college,
         religion: religion,
         financial_situation: financial_situation,
         organisation_id: organisation_id,
@@ -422,6 +424,7 @@ module.exports = {
     var required_degree = fund.required_degree[0] ? lowercaseArray(fund.required_degree.split(",")) : null;
     var required_university = fund.required_university[0] ? lowercaseArray(fund.required_university.split(",")) : null;
     var required_grade = fund.required_grade ? fund.required_grade : null;
+    var required_college = fund.required_college[0] ? lowercaseArray(fund.required_college.split(",")) : null;
     var gender = fund.gender;
     var merit_or_finance = fund.merit_or_finance;
     var deadline = fund.deadline ? fund.deadline : null;
@@ -433,7 +436,6 @@ module.exports = {
     var max_amount = parseIfInt(fund.max_amount);
     var number_of_places = parseIfInt(fund.number_of_places);
     var support_type = fund.support_type ? fund.support_type : null;
-
     models.funds.create({
       application_decision_date: application_decision_date,
       application_documents: application_documents,
@@ -457,6 +459,7 @@ module.exports = {
       country_of_residence: country_of_residence,
       target_country: target_country,
       required_grade: required_grade,
+      required_college: required_college,
       religion: religion,
       financial_situation: financial_situation,
       organisation_id: organisation_id,
