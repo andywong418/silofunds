@@ -1628,7 +1628,7 @@ function createAppNotif(fundId, user, status, res){
       if(fundUser){
         options = {
           user_id: fundUser.id,
-          notification: user.username+ " changed their application status to " + status + ". Click <a href='/public/" + user.id +"'> here</a> to confirm and verify this update.",
+          notification: user.username+ " changed their application status to " + status + ". Click <a href='http://www.silofunds.com/public/" + user.id +"'> here</a> to confirm and verify this update.",
           category: "application",
           read_by_user: false
         };
