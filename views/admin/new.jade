@@ -128,18 +128,24 @@ block content
                 input#target_university.form-control.hide-this-shit(type='text', name='target_university', style="text-transform: lowercase;")
           .row
             tr
-              .col-md-5.form-group
+              .col-md-6.form-group
                 label(for='required_degree')
                   a#required_degree(href='#') Required Degree (separate with comma, no space)
                 input#required_degree.form-control.hide-this-shit(type='text', name='required_degree', style="text-transform: lowercase;")
-              .col-md-5.form-group
+              .col-md-6.form-group
                 label(for='required_university')
                   a#required_university(href='#') Required University (separate with comma, no space)
-                input#required_university.form-control.hide-this-shit(type='text', name='required_university', style="text-transform: lowercase;")
+                input#required_university.form-control.hide-this-shit(type='text', name='required_university', style="text-transform: lowercase;")       
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='required_college')
+                  a#required_college(href='#') College (separate with comma, no space)
+                input#required_college.form-control(type='text', name='required_college', style="text-transform: lowercase;")
               .col-md-2.form-group
                 label(for='required_grade')
                   a#required_grade(href='#') Required Grade
-                input#required_grade.form-control.hide-this-shit(type='text', name='required_grade', style="text-transform: lowercase;")
+                input#required_grade.form-control(type='text', name='required_grade', style="text-transform: lowercase;")   
           .row
             tr
               h3 Location

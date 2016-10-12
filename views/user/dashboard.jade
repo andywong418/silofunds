@@ -38,7 +38,14 @@ block content
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
       if user.email_is_verified && !success && stripe
-        .spacing_div
+        if !user.target_degree || !user.profile_picture || !user.previous_university
+          .alert.alert-info.update-me
+            | You have information missing in your profile, click 
+            a(href='/user/settings') here
+            |  to update!
+      if user.email_is_verified && !success && stripe
+        if user.target_degree && user.profile_picture && user.previous_university
+          .spacing_div
       .col-md-12.text-center
         h2#name= 'Welcome to your dashboard, ' + user.username.split(' ')[0]
     section#recommended

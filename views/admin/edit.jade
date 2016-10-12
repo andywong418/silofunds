@@ -127,12 +127,18 @@ block content
                 input#target_university.form-control(type='text', name='target_university', value=fund.target_university, style="text-transform: lowercase;")
           .row
             tr
-              .col-md-5.form-group
+              .col-md-6.form-group
                 label(for='required_degree') Required Degree (separate with comma, no space)
                 input#required_degree.form-control(type='text', name='required_degree', value=fund.required_degree, style="text-transform: lowercase;")
-              .col-md-5.form-group
+              .col-md-6.form-group
                 label(for='required_university') Required University (separate with comma, no space)
                 input#required_university.form-control(type='text', name='required_university', style="text-transform: lowercase;")
+          .row
+            tr
+              .col-md-6.form-group
+                label(for='required_college')
+                  a#required_college(href='#') College (separate with comma, no space)
+                input#required_college.form-control(type='text', name='required_college', value=fund.required_college, style="text-transform: lowercase;")
               .col-md-2.form-group
                 label(for='required_grade') Required Grade
                 input#required_grade.form-control(type='text', name='required_grade', value=fund.required_grade, style="text-transform: lowercase;")
