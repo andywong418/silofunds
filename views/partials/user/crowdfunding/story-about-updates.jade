@@ -31,7 +31,7 @@
             a(href!='<%= fileLink %>') <%=fileName %>
             span#file-description <%= fileDescription %>
     script#about-template(type='text/template')
-      if user.date_of_birth || user.country_of_residence
+      if user.date_of_birth || user.country_of_residence || user.religion
         p#header.basic-header Basic Info
         hr
         .row
@@ -48,22 +48,25 @@
               .col-md-5.col-sm-5.religion(style="height: 30px;")
                 p#religion Religous Views:
                   span=user.religion
-      if user.previous_degree ||  user.previous_university
+      if user.previous_degree || user.previous_university || user.subject || user.college
         p#header.education Education
         hr
         .row
-          if user.subject.length > 0
-            .col-md-6.col-sm-6
-              i.fa.fa-book 
-                span#subject= user.subject.join(' ')
-          if user.previous_degree.length >0
-            .col-md-6.col-sm-6
-              i.fa.fa-graduation-cap(aria-hidden="true")
-                span#previous_degree= user.previous_degree.join(', ')
-          if user.previous_university.length > 0
-            .col-md-6.col-sm-6
-              i.fa.fa-university(aria-hidden="true")
-                span#previous_university= user.previous_university.join(', ')
+          if user.subject
+            if user.subject.length > 0
+              .col-md-6.col-sm-6
+                i.fa.fa-book 
+                  span#subject= user.subject.join(' ')
+          if user.previous_degree
+            if user.previous_degree.length >0
+              .col-md-6.col-sm-6 HELLOFONJDNF
+                i.fa.fa-graduation-cap(aria-hidden="true")
+                  span#previous_degree= user.previous_degree.join(', ')
+          if user.previous_university
+            if user.previous_university.length > 0
+              .col-md-6.col-sm-6
+                i.fa.fa-university(aria-hidden="true")
+                  span#previous_university= user.previous_university.join(', ')
           if user.college
             .col-md-6.col-sm-6
               i.fa.fa-street-view(aria=hidden="true")
