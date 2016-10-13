@@ -264,7 +264,7 @@ var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, t
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
-var signupFreshersTemplate = new CronJob('0 45 * * * *', signupFreshers, null, true);
+var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 
 function signupFreshers(){
   console.log("SIGNING UP FRESHERS");
@@ -330,30 +330,6 @@ function signupFreshers(){
           }
 
         });
-      });
-
-    }, function done(){
-      var transporter = nodemailer.createTransport(smtpTransport({
-       service: 'Gmail',
-       auth: {user: 'notifications@silofunds.com',
-             pass: 'ThisIsNotificationsAccount'}
-      }));
-      transporter.sendMail({
-        from: 'Silofunds',
-        to: "andros.wong@new.ox.ac.uk",
-        subject: "Unsent email list",
-        html: "<h1> List of failed emails sent. </h1> <p> " + unsentEmailArray + "</p>"
-      }, function(err, responseStatus){
-        if (err) {
-         console.error(err);
-         console.log("USER ERROR");
-        }
-        else{
-          console.log("SUCCESS sent to dros");
-          console.log("USER");
-          console.log(responseStatus);
-        }
-
       });
 
     });
