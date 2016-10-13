@@ -1337,7 +1337,8 @@ i {
 
 .description_control {
   font-weight: normal;
-  text-align: left; }
+  text-align: left;
+  overflow: hidden; }
   .description_control li {
     list-style-type: disc; }
   .description_control p {
