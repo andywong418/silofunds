@@ -73,6 +73,7 @@ module.exports = {
     queryTerms.push(query.specific_location ? query.specific_location : "");
     queryTerms.push(query.target_country ? query.target_country : "");
     queryTerms.push(query.religion ? query.religion : "");
+
     // querTerms.push(query.college ? query.college: "");
     queryTerms.push(query.title ? query.title : "");
     queryTerms = queryTerms.join(' ');
@@ -166,11 +167,18 @@ module.exports = {
             }
           });
         }
+        queryOptions.filtered.filter.bool.must = [];
+        // if(query.college){
+        //   queryOptions.filtered.filter.bool.must.push({
+        //         "exists": {"field": required_college}
+        //   });
+        // }
+        console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
-          queryOptions.filtered.filter.bool.must = {
+          queryOptions.filtered.filter.bool.must.push({
             "missing": { "field": "specific_location" }
-          };
+          });
         }
 
         // If nothing has been appended to should filter, restore it to "match_all"
@@ -191,6 +199,9 @@ module.exports = {
 
         //TODO: consider using type:"most_fields"; it is now by default "best_fields"
         if (query.tags) {
+          if(query.tags.indexOf('travel') > -1){
+            elasticsearchModels.multiMatchFields[0] = "tags^10";
+          }
           queryOptions.filtered.query.bool.should.push({
             "multi_match" : {
               "query": query.tags, // NOTE: MAYBE HAS TO BE ARRAY OF ONE STRING, STRING IS A JOIN(' ') OF ALL INDIVIDUAL STRINGS FROM DIFFERENT FIELDS -----> reference above
@@ -207,8 +218,9 @@ module.exports = {
           var notAge = key !== "age";
           var notAmount = key !== "amount_offered";
           var notTitle = key !== "title";
+          var notCollege = key !== "required_college";
 
-          if (notTags && notAge && notAmount) {
+          if (notTags && notAge && notAmount && notCollege) {
             var matchObj = {
               "bool": {
                 "should": [{
@@ -219,7 +231,7 @@ module.exports = {
             var fieldsWithAllParam = ["subject", "country_of_residence", "required_degree", "target_degree", "required_university", "target_university"];
             matchObj.bool.should[0].match[key] = {
               "query": query[key],
-              "boost": 10
+              "boost": 7
             };
             if (fieldsWithAllParam.indexOf(key) > -1) {
               var obj = {
@@ -239,7 +251,19 @@ module.exports = {
           }
         }
       }
+      if(query.required_college){
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "required_college": {
+              "query": query.required_college,
+              "operator": "and",
+              "boost": 4
+            }
+          }
+        });
 
+      }
+      // console.log("OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should[0].match);
 
       ///////////////////// NOTE: SPECIAL NEEDS /////////////////////////
       Logger.warn("CHECKING RESP");
@@ -492,12 +516,14 @@ module.exports = {
       }
 
 
-      // Logger.debug("queryOptions\n", queryOptions);
-      // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should);
+      // Logger.debug("queryOptions\n", queryOptions.filtered.filter.bool.must[0]);
+      // Logger.debug("queryOptions.filtered.query.bool.should\n",queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should[0].match.college);
       //
       // if (queryOptions.filtered.filter) {
       //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
       // }
+      // console.log("JAMES", query.college.join(' '));
+
 
 
       es.explain({

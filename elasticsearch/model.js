@@ -1,4 +1,4 @@
-var multiMatchFields = ["tags^3","title.autocomplete", "religion", "gender", "financial_situation", "country_of_residence", "target_country", "required_grade", "specific_location", "subject", "target_degree", "target_university", "required_degree", "required_university"];
+var multiMatchFields = ["tags^3","title.autocomplete", "religion", "gender", "financial_situation", "country_of_residence", "target_country", "required_grade", "specific_location", "subject", "target_degree", "target_university", "required_degree", "required_university", "required_college"];
 
 var autocompleteSettings = {
   "countries": {
@@ -107,6 +107,9 @@ var userSettings = {
         },
         "organisation_or_user": {
           "type": "boolean"
+        },
+        "college": {
+          "type": "string"
         },
         "suggest": {
           "type": "completion",
@@ -329,6 +332,9 @@ var fundSettings = {
           "type": "string"
         },
         "required_university": {
+          "type": "string"
+        },
+        "required_college": {
           "type": "string"
         },
         "description": {
