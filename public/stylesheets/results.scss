@@ -236,6 +236,7 @@ i {
 .description_control {
   font-weight: normal;
   text-align: left;
+  overflow: hidden;
   // padding-bottom: 200px;
   li {
     list-style-type: disc;

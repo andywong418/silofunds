@@ -1409,12 +1409,9 @@ module.exports = {
 
 ////// Helper functions
 function createPageView(pageViewCreate, loggedInUser, user, callback){
-  console.log("HELLO", user);
-  console.log("YA KNOW", loggedInUser);
   if(loggedInUser){
     console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
-
       if(loggedInUser != user.id){
         if(other_user.organisation_or_user){
           pageViewCreate['fund_id'] = other_user.id;

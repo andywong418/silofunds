@@ -2442,6 +2442,7 @@ body {
   text-align: right;
   display: block;
   height: 8em;
+  background-color: white;
   padding-bottom: 40px;
   margin-top: 50px;
   border: 1px solid #dcdce0; }
