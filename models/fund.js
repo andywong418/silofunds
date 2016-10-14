@@ -121,7 +121,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     required_college: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
-      field: 'required_degree'
+      field: 'required_college'
     },
     number_of_places: {
       type: DataTypes.INTEGER,
