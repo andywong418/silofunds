@@ -106,7 +106,16 @@ module.exports = {
           };
 
           user = user.get();
-
+          if(user.college){
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "required_college": {
+                  "query": user.college.join(', '),
+                  "operator": "and"
+                }
+              }
+            });
+          }
           for (var i = 0; i< searchFields.length; i++) {
             var key = searchFields[i];
             var notAge = key !== "age";
