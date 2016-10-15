@@ -23,6 +23,16 @@ module.exports = function(sequelize, DataTypes){
       onUpdate: 'cascade',
       onDelete: 'cascade'
     },
+    fund_id:{
+      type: DataTypes.INTEGER,
+      field: 'fund_id',
+      references: {
+        model: 'funds',
+        key: 'id'
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade'
+    },
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',

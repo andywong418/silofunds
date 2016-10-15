@@ -60,7 +60,16 @@ router.get('/fresher-email-signup-contact/:id', function(req, res){
     res.redirect('/contact_us');
   });
 });
-
+router.get('/fund-app-notification/:id', function(req, res){
+  var fundId = req.params.id;
+  var options = {
+    fund_id: fundId,
+    analytic_type: 'Applied funds email sign up click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/register');
+  });
+});
 //Footer pages
 //about-silo
 
