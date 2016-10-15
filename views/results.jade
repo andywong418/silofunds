@@ -42,6 +42,10 @@ block content
 						each value, key in query
 							if key != 'sort_by'
 								if key.indexOf('_') != -1
+									if key =='amount_offered'
+										span#tokenKey(class = key)=key + ": " 
+											a(href='/results?' + key + '=' + value)= value
+									else				
 										span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
 											each tag in value.split(' ')
 												a(href='/results?' + key+'=' + tag)= tag
@@ -52,7 +56,7 @@ block content
 												each tag in value.split(' ')
 													a(href='/results?' + key +'=' + tag)= tag
 											else
-												a(href='/results?' + key + '=' + 'age')= value 
+												a(href='/results?' + key + '=' + value)= value 
 											i.fa.fa-times
 					span#sort Sort by:
 						.dropdown

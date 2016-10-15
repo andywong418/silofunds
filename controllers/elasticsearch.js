@@ -82,7 +82,6 @@ module.exports = {
 
     Logger.info("queryString");
     Logger.info(queryString);
-
     es.search({
       index: "funds",
       type: ["autocomplete_universities", "autocomplete_subjects", "autocomplete_degrees", "autocomplete_countries"],
@@ -136,15 +135,9 @@ module.exports = {
 
         queryOptions.filtered.filter.bool.should = [];
         var shouldFilter = queryOptions.filtered.filter.bool.should;
-
+        console.log("QUERY");
         if (query.amount_offered || query.age) {
-          shouldFilter.push({
-            "range": {
-              "minimum_amount": {
-                "lte": query.amount_offered
-              }
-            }
-          });
+          console.log("GETTING HERE", query.amount_offered);
           shouldFilter.push({
             "range": {
               "maximum_amount": {
@@ -161,18 +154,15 @@ module.exports = {
           });
           shouldFilter.push({
             "range": {
-              "maximum_amount": {
+              "maximum_age": {
                 "gte": query.age
               }
             }
           });
         }
         queryOptions.filtered.filter.bool.must = [];
-        // if(query.college){
-        //   queryOptions.filtered.filter.bool.must.push({
-        //         "exists": {"field": required_college}
-        //   });
-        // }
+        console.log("YA KNOW ME", queryOptions.filtered.filter.bool.should);
+
         console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
