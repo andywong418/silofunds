@@ -273,7 +273,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var subject = $('input[name=subject]').val().split(',');
 			var targetDegree = $('input[name=target_degree]').val().split(',');
 			var previousDegree = $('input[name=previous_degree]').val().split(',');
-			var targetUniversity = $('input[name=target_degree]').val().split(',');
+			var targetUniversity = $('input[name=target_university]').val().split(',');
 			var previousUniversity = $('input[name=previous_university]').val().split(',');
 			var college = $('input[name=college]').val().split(',');
 			console.log(college);
