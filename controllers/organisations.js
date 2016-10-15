@@ -325,7 +325,7 @@ dashboard: function(req, res) {
       //Email clicked
       var createOptions = {
         fund_id: fundId,
-        user_id: userId
+        user_id: userId,
       };
       models.email_clicks.create(createOptions).then(function(email_clicks){
         res.redirect('/organisation/options/' +  fundId);

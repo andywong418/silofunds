@@ -50,6 +50,16 @@ router.get('/fresher-email-signup-login/:id', function(req, res){
     res.redirect('/login');
   });
 });
+router.get('/email-user-profile-guide/:id', function(req, res){
+  var userId = req.params.id;
+  var options = {
+    user_id: userId,
+    analytic_type: 'user email profile guide click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/user-profile-guide');
+  });
+});
 router.get('/fresher-email-signup-contact/:id', function(req, res){
   var userId = req.params.id;
   var options = {
