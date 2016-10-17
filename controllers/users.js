@@ -674,7 +674,52 @@ module.exports = {
 		var fund_id = req.body.fund_id;
 		models.applications.findOrCreate({where: {fund_id: fund_id, user_id: user_id}}).spread(function(app, created) {
 			if(created){
-        notifyUsers(user_id, fund_id, res, app);
+        models.funds.findById(fund_id).then(function(fund){
+          models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
+            if(!user){
+              var transporter = nodemailer.createTransport(smtpTransport({
+               service: 'Gmail',
+               auth: {user: 'andros@silofunds.com',
+                     pass: 'whatever418'}
+              }));
+
+              var locals = {
+                header: "Dear Sir/Madam,",
+                fund_title: fund.title,
+                fund_id: fund.id
+              };
+              var templatePath = path.join(process.cwd(), 'email-templates/fund-application-notification-template');
+              var template = new EmailTemplate(templatePath);
+              template.render(locals, function(err, results){
+                if (err) {
+                   console.error(err);
+                   notifyUsers(user_id, fund_id, res, app);
+                }
+                transporter.sendMail({
+                  from: 'Silofunds',
+                  to: fund.email,
+                  subject: "Connecting students with your institution",
+                  html: results.html
+                }, function(err, responseStatus){
+                  if (err) {
+                   console.error(err);
+                   notifyUsers(user_id, fund_id, res, app);
+                  }
+                  else{
+                    console.log("SUCCESS");
+                    console.log(responseStatus);
+                    notifyUsers(user_id, fund_id, res, app);
+                  }
+
+                });
+              });
+            }
+            else{
+              notifyUsers(user_id, fund_id, res, app);
+            }
+          });
+        });
+
 			}
 			else{
 				res.send("Already applied!");
@@ -1052,8 +1097,8 @@ module.exports = {
           user.update({password_token: token}).then(function(user){
             var transporter = nodemailer.createTransport(smtpTransport({
              service: 'Gmail',
-             auth: {user: 'james.morrill.6@gmail.com',
-                   pass: 'exogene5i5'}
+             auth: {user: 'notifications@silofunds.com',
+                   pass: 'ThisIsNotificationsAccount'}
             }));
             var mailOptions = {
                from: 'Silofunds <james.morrill.6@gmail.com>',
@@ -1349,7 +1394,7 @@ module.exports = {
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: 'james.morrill.6@gmail.com',
+       to: 'notifications@silofunds.com',
        subject: 'User query from ' + name + ', ' + id,
        text: 'Dear Silo, \n' +
            message + '\n\n' +

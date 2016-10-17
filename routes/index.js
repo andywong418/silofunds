@@ -50,6 +50,16 @@ router.get('/fresher-email-signup-login/:id', function(req, res){
     res.redirect('/login');
   });
 });
+router.get('/email-user-profile-guide/:id', function(req, res){
+  var userId = req.params.id;
+  var options = {
+    user_id: userId,
+    analytic_type: 'user email profile guide click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/user-profile-guide');
+  });
+});
 router.get('/fresher-email-signup-contact/:id', function(req, res){
   var userId = req.params.id;
   var options = {
@@ -60,7 +70,16 @@ router.get('/fresher-email-signup-contact/:id', function(req, res){
     res.redirect('/contact_us');
   });
 });
-
+router.get('/fund-app-notification/:id', function(req, res){
+  var fundId = req.params.id;
+  var options = {
+    fund_id: fundId,
+    analytic_type: 'Applied funds email sign up click'
+  };
+  models.email_analytics.create(options).then(function(){
+    res.redirect('/register');
+  });
+});
 //Footer pages
 //about-silo
 

@@ -25,6 +25,7 @@ router.get('/options/:id/edit', organisations.editOptionProfile);
 router.get('/option_creation/:id', organisations.getOptionInfo);
 router.post('/options/:id/edit', organisations.saveOptionEdit);
 router.get('/options/:id/tips', organisations.getOptionTips);
+router.get('/options/:id/email_clicked/:user_id', organisations.getOptionProfile);
 router.post('/edit_description/:id', organisations.editDescription);
 router.post('/edit_dates/:id', organisations.editDates);
 router.get('/get-organisation-info', organisations.getOrganisationInfo);

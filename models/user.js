@@ -155,6 +155,10 @@ module.exports = function(sequelize, DataTypes) {
     freshers_email_sent: {
       type: DataTypes.BOOLEAN,
       field: 'freshers_email_sent'
+    },
+    weekly_email_sent: {
+      type: DataTypes.BOOLEAN,
+      field: 'weekly_email_sent'
     }
   }, {
     timestamps: true,

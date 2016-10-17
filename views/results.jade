@@ -42,6 +42,10 @@ block content
 						each value, key in query
 							if key != 'sort_by'
 								if key.indexOf('_') != -1
+									if key =='amount_offered'
+										span#tokenKey(class = key)=key + ": " 
+											a(href='/results?' + key + '=' + value)= value
+									else				
 										span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
 											each tag in value.split(' ')
 												a(href='/results?' + key+'=' + tag)= tag
@@ -52,7 +56,7 @@ block content
 												each tag in value.split(' ')
 													a(href='/results?' + key +'=' + tag)= tag
 											else
-												a(href='/results?' + key + '=' + 'age')= value 
+												a(href='/results?' + key + '=' + value)= value 
 											i.fa.fa-times
 					span#sort Sort by:
 						.dropdown
@@ -93,8 +97,8 @@ block content
 							span
 						button#show-all.btn.btn-primary(type='button') Only show funds who have not passed their deadlines
 					.contact-div
-						p#contact-us Our search engine didn't return any funds for you! Email 
-							a(href='mailto:howard@silofunds.com') Us
+						p#contact-us Our search engine didn't return any funds for you! Contact 
+							a(href='/contact_us') Us
 							| and we'll personally find a funding opportunity that suits you.
 					.no-suitable-funds(style='position: fixed; width: 300px; bottom: 0; right: 0px; z-index: 100; background-color: #e74c3c; padding: 15px; border-radius: 4px')
 						i.fa.fa-times.close-message(style= 'float: right; cursor: pointer')
@@ -114,7 +118,6 @@ block content
 												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
 											</li>
 											<li class="fund_info">
-												<p class="fund_subjects<%= id %>">Subjects:</p>
 												<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
 												<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
 												<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>

@@ -262,7 +262,8 @@ var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
-var weeklyStudentNewsLetterScheduler = new CronJob('0 5 8 * * 0', weeklyStudentNewsLetter, null, true);
+var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStudentNewsLetter, null, true);
+// var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 
@@ -537,8 +538,11 @@ function checkFavourite(fund, oneWeekAgo, callback){
 //   });
 // }
 function weeklyStudentNewsLetter(){
-models.users.findAll({where: {organisation_or_user: null}}).then(function(users){
+models.users.findAll({where: {organisation_or_user: null, weekly_email_sent: null }}).then(function(users){
     //student users - check for campaign views, how many applications you made, donations, recommended funds.
+    console.log("WEEKLY STUDENT NEWSLETTER");
+    users = users.slice(0,100);
+    console.log("USER LEGNTH", users.length);
     async.each(users, function(user, callback){
       if(user.email_updates){
         checkDonations(user, function(donation_array){
@@ -573,6 +577,7 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                   fund_link_4: "http://www.silofunds.com/organisation/options/" + funds[3].id + '/email_clicked/' + user.id ,
                   page_views:  page_view_array.length ,
                   donations:  donation_array.length,
+                  user_id: user.id,
                   unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
                 };
                 var templatePath = path.join(process.cwd(), 'email-templates');
@@ -592,6 +597,9 @@ models.users.findAll({where: {organisation_or_user: null}}).then(function(users)
                     }
                     console.log("SUCCESS");
                     console.log(responseStatus);
+                    models.users.findById(user.id).then(function(user){
+                      user.update({weekly_email_sent: true});
+                    });
                   });
                 });
               });
