@@ -45,6 +45,7 @@ block content
 									if key =='amount_offered'
 										span#tokenKey(class = key)=key + ": " 
 											a(href='/results?' + key + '=' + value)= value
+											i.fa.fa-times
 									else				
 										span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
 											each tag in value.split(' ')
@@ -118,6 +119,7 @@ block content
 												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
 											</li>
 											<li class="fund_info">
+												<p class="fund_subjects<%= id %>"><span class="control"></span></p>
 												<p class="fund_min_amount<%= id %>"><span class="control"></span></p>
 												<p class="fund_max_amount<%= id %>"><span class="control"><%= maximum_amount %></span></p>
 												<p class="fund_min_age<%= id %>"><span class="control"><%= minimum_age %></span></p>
