@@ -104,15 +104,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     email_verify_token: {
       type: DataTypes.TEXT,
-      field: 'email_verify_token'
-    },
+      field: 'email_verify_token'    },
     link: {
       type: DataTypes.TEXT,
       field: 'link'
     },
     email_is_verified: {
       type: DataTypes.BOOLEAN,
-      field: 'email_is_verified'
+      field: 'email_is_verified',
+      defaultValue: 'TRUE'
     },
     funding_accrued: {
       type: DataTypes.INTEGER,
