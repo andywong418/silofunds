@@ -664,7 +664,6 @@ module.exports = {
   },
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
-      Logger.info("HI REQ", req.user);
       var emailSuccess = req.flash('emailSuccess');
       res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]});
     });

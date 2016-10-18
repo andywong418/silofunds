@@ -71,6 +71,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email_updates:{
       type: DataTypes.BOOLEAN,
+      defaultValue: 'TRUE',
       field: 'email_updates'
     },
     subject: {
