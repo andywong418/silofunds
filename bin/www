@@ -266,6 +266,58 @@ var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStuden
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
+var variableTemplate = new CronJob('0 */5 * * * 2', variableEmail, null, true);
+
+function variableEmail(){
+  models.users.findAll({where: {organisation_or_user: null, email_updates: true, weekly_email_sent: null}}).then(function(users){
+    console.log("SENDING VAR EMAIL");
+    users = users.slice(0,100);
+    async.each(users, function(user, callback){
+      var name = user.username.split(' ')[0];
+      var locals = {
+        header: 'Dear ' + name + ',',
+        unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
+      };
+      var transporter = nodemailer.createTransport(smtpTransport({
+       service: 'Gmail',
+       auth: {user: 'andros@silofunds.com',
+             pass: 'whatever418'}
+      }));
+
+      var templatePath = path.join(process.cwd(), 'email-templates/variable-template');
+      var template = new EmailTemplate(templatePath);
+      template.render(locals, function(err, results){
+        if (err) {
+           callback();
+           return console.error(err);
+        }
+        transporter.sendMail({
+          from: 'Andros Wong',
+          to: user.email,
+          subject: "Customer Feedback",
+          html: results.html
+        }, function(err, responseStatus){
+          if (err) {
+           console.error(err);
+           console.log("USER ERROR", user.email);
+           callback();
+          }
+          else{
+            console.log("SUCCESS");
+            console.log("USER", user.email);
+            console.log(responseStatus);
+            models.users.findById(user.id).then(function(user){
+              user.update({weekly_email_sent: true}).then(function(){
+                callback();
+              });
+            });
+          }
+
+        });
+      });
+    });
+  });
+}
 
 function signupFreshers(){
   console.log("SIGNING UP FRESHERS");
