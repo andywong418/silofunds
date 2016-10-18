@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $("#left_div div.settings-tab-menu div.list-group a").click(function(e) {
     e.preventDefault();
 
@@ -39,7 +40,10 @@ $(document).ready(function() {
   }
 
   //Change profile picture
-  $("#userImage").click(function() {
+  if(!user.profile_picture) {
+    $('#userImage').css('border', '2px solid rgba(255, 0, 0, 0.4)')
+  }
+  $("#userImage, .update-me").click(function() {
     $("input[id='my_file']").click();
   });
   // Change prof pic for mobile display
