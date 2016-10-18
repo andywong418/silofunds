@@ -435,21 +435,28 @@ module.exports = {
 								subject: 'Email verification',
 								html: results.html
 							}, function(err, responseStatus){
-							if (err) {
-								console.log(err);
-								res.end("Email send failed");
+							// if (err) {
+							// 	console.log(err);
+							// 	console.log('Here is the error')
+							// 	transporter.close();
+							// 	res.end("Email send failed");
+							// }
+							// else {
+							if(err) {
+								console.log(err)
+								console.log('Be aware, there is an error here.')
 							}
-							else {
-								var message = "Awesome! An email has been sent to " + user.email + " for verification."
-								if(!user.organisation_or_user) {
-									Logger.info('hello')
-									req.flash('emailSuccess', message)
-									res.redirect('/user/create')
-								} else {
-									req.flash('emailSuccess', message)
-									res.redirect('/organisation/create')
-								}
+							var message = "Awesome! An email has been sent to " + user.email + " for verification.";
+							transporter.close();
+							if(!user.organisation_or_user) {
+								Logger.info('hello')
+								req.flash('emailSuccess', message)
+								res.redirect('/user/create')
+							} else {
+								req.flash('emailSuccess', message)
+								res.redirect('/organisation/create')
 							}
+							// }
 						})
 					})
 				})

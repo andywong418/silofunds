@@ -1101,6 +1101,9 @@ p {
     #left_div #box-profile:hover .fa-camera {
       cursor: pointer;
       display: block; }
+    @media (max-width: 541px) {
+      #left_div #box-profile:hover .fa-camera.desktop {
+        display: none; } }
     #left_div #box-profile #userImage {
       width: 100%;
       max-height: 300px;
@@ -1401,3 +1404,56 @@ label.removeFile {
     padding-left: 0px; }
   .launch_status span.status {
     display: none; } }
+
+.update-me.desktop {
+  cursor: pointer;
+  position: absolute;
+  top: 190px;
+  padding-left: 5px;
+  padding-right: 20px;
+  text-align: center;
+  z-index: 99; }
+  @media (max-width: 1200px) {
+    .update-me.desktop {
+      top: 150px; } }
+  @media (max-width: 1200px) and (max-width: 992px) {
+    .update-me.desktop {
+      top: 135px;
+      padding: 5px 5px;
+      font-size: 12px; } }
+  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 700px) {
+    .update-me.desktop {
+      top: 150px; } }
+  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 621px) {
+    .update-me.desktop {
+      top: 130px; } }
+
+#userImage.no-picture {
+  border: 2px solid rgba(255, 0, 0, 0.4);
+  float: left; }
+
+.bubble {
+  position: absolute;
+  top: 0;
+  left: calc(25% + 20px);
+  padding: 5px;
+  font-size: 12px;
+  width: 130px;
+  height: 70px;
+  background: #FFFFFF;
+  border-radius: 10px; }
+  @media (min-width: 541px) {
+    .bubble {
+      display: none !important; } }
+
+.bubble:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #FFFFFF;
+  display: block;
+  width: 0;
+  z-index: 1;
+  left: -15px;
+  top: 20px; }

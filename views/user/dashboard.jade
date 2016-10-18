@@ -33,11 +33,11 @@ block content
           |  You are now a verified user. 
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
-      if user.email_is_verified && !success && !stripe
+      if user.email_is_verified && !success && !stripe && user.target_degree && user.profile_picture && user.previous_university
         .alert.alert-warning
           a(href='/user/authorize') Setup your stripe account
           |  to start receiving donations.
-      if user.email_is_verified && !success && stripe
+      if user.email_is_verified && !success && !stripe
         if !user.target_degree || !user.profile_picture || !user.previous_university
           .alert.alert-info.update-me
             | You have information missing in your profile, click 
