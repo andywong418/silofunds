@@ -1409,16 +1409,24 @@ label.removeFile {
   cursor: pointer;
   position: absolute;
   top: 190px;
-  padding-right: 15px;
-  text-align: center; }
+  padding-left: 5px;
+  padding-right: 20px;
+  text-align: center;
+  z-index: 99; }
   @media (max-width: 1200px) {
     .update-me.desktop {
       top: 150px; } }
   @media (max-width: 1200px) and (max-width: 992px) {
     .update-me.desktop {
-      top: 120px;
+      top: 135px;
       padding: 5px 5px;
       font-size: 12px; } }
+  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 700px) {
+    .update-me.desktop {
+      top: 150px; } }
+  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 621px) {
+    .update-me.desktop {
+      top: 130px; } }
 
 #userImage.no-picture {
   border: 2px solid rgba(255, 0, 0, 0.4);
@@ -1434,7 +1442,7 @@ label.removeFile {
   height: 70px;
   background: #FFFFFF;
   border-radius: 10px; }
-  @media (min-width: 540px) {
+  @media (min-width: 541px) {
     .bubble {
       display: none !important; } }
 

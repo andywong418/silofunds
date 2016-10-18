@@ -419,7 +419,12 @@ function cameraFaviconMover() {
     var left = (imageWidth - cameraWidth)/2
     $('#box-profile .fa.fa-camera').css('margin-left', $('#left_div').css('padding-left'))
     $('#box-profile .fa.fa-camera').css('left', left + 1) // Not sure why not exact, but +1 improves the centering
-    var top = $('#box-profile').height() - $('#box-profile .fa.fa-camera').height();
+    var top;
+    if(user.profile_picture) {
+      top = $('#userImage').height() - $('#box-profile .fa.fa-camera').height();
+    } else {
+      top = $('.top-no-pic').height() - $('#box-profile .fa.fa-camera').height();
+    }
     $('#box-profile .fa.fa-camera').css('top', top - 9);
     console.log($('#box-profile').height())
   }
