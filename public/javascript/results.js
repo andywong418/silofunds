@@ -327,7 +327,7 @@ var allShown = false;
             collapsedHeight: 170,
             heightMargin: 0,
             beforeToggle: function(trigger, element, expanded) {
-              $('.description_control').css('overflow', 'hidden');
+              // $('.description_control').css('overflow', 'hidden');
               if(expanded) {
                 $('#fade_div' + id).show()
               } if(!expanded) {
@@ -337,15 +337,16 @@ var allShown = false;
             afterToggle: function(trigger, element, expanded){
               if(expanded) {
                 $('#id' + id).css('overflow', 'visible');
-                $.when($('#id' + id).css('overflow', 'visible')).then(function() {
-                  var divLength = $('#id' + id ).children().length - 2;
-                  var lastParagraph = $('#id' + id ).children()[divLength];
-                  lastParagraph = $(lastParagraph);
-                  var height = lastParagraph.height();
-                  var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
-                  var newHeight = vbl + height
-                  $('#id' + id).css('height', newHeight)
-                })
+                console.log('so this is happening')
+                console.log($('#id' + id).css('overflow'))
+                var divLength = $('#id' + id ).children().length - 2;
+                var lastParagraph = $('#id' + id ).children()[divLength];
+                lastParagraph = $(lastParagraph);
+                var height = lastParagraph.height();
+                var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
+                var newHeight = vbl + height
+                console.log(newHeight)
+                $('#id' + id).css('height', newHeight)
               }
               if(!expanded){
                 $('#id' + id).css('overflow', 'hidden');
