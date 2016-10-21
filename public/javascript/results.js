@@ -334,17 +334,18 @@ var allShown = false;
                 $('#fade_div' + id).hide()
               }
             },
-            afterToggle: function(trigger, element,expanded){
-              if(expanded){
+            afterToggle: function(trigger, element, expanded){
+              if(expanded) {
                 $('#id' + id).css('overflow', 'visible');
-                var divLength = $('#id' + id ).children().length - 2;
-                var lastParagraph = $('#id' + id ).children()[divLength];
-                lastParagraph = $(lastParagraph);
-                var height = lastParagraph.height();
-                var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
-                var newHeight = vbl + height
-                $('#id' + id).css('height', newHeight)
-
+                $.when($('#id' + id).css('overflow', 'visible')).then(function() {
+                  var divLength = $('#id' + id ).children().length - 2;
+                  var lastParagraph = $('#id' + id ).children()[divLength];
+                  lastParagraph = $(lastParagraph);
+                  var height = lastParagraph.height();
+                  var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
+                  var newHeight = vbl + height
+                  $('#id' + id).css('height', newHeight)
+                })
               }
               if(!expanded){
                 $('#id' + id).css('overflow', 'hidden');
