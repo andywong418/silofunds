@@ -268,7 +268,7 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 // var variableTemplate = new CronJob('0 */5 * * * 2', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
-var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
+// var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
 
 function fundDeadlineEmail(){
   var today = new Date();
