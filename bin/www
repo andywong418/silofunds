@@ -266,7 +266,35 @@ var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStuden
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
-var variableTemplate = new CronJob('0 */5 * * * 2', variableEmail, null, true);
+// var variableTemplate = new CronJob('0 */5 * * * 2', variableEmail, null, true);
+// var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
+var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
+
+function fundDeadlineEmail(){
+  var today = new Date();
+var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+  // models.funds.findById(615).then(function(fund){
+  //   recommendUsers(fund, 1000, function(userArray){
+  //     //Change later when recommended users is better. For now it's dud
+  //     // if(userArray.length > 0){
+  //     //   console.log("it's this fund", fund);
+  //     //   console.log("USERARYY", userArray);
+  //     // }
+  //   });
+  // });
+  models.funds.findAll({where: {deadline: {$lt: nextWeek, $gt: today}}}).then(function(funds){
+    console.log("FUNDs expire next week", funds.length);
+    async.each(funds, function(fund, callback){
+      recommendUsers(fund, 1000, function(userArray){
+        //Change later when recommended users is better. For now it's dud
+        if(userArray.length > 0){
+          console.log("it's this fund", fund.title);
+          console.log("USERARYY", userArray);
+        }
+      });
+    });
+  });
+}
 
 function variableEmail(){
   models.users.findAll({where: {organisation_or_user: null, email_updates: true, weekly_email_sent: null}}).then(function(users){
@@ -409,7 +437,7 @@ function weeklyFundNewsLetter(){
               emailObj['pageViews'] = pageViews.length;
               checkFundApplications(fund, oneWeekAgo, function(apps){
                 emailObj['apps'] = apps.length;
-                recommendUsers(fund, function(userArray){
+                recommendUsers(fund, 2, function(userArray){
                   //Change later when recommended users is better. For now it's dud
                   emailObj['recommendUsers'] = [];
                   emailArray.push(emailObj);
@@ -470,13 +498,16 @@ function weeklyFundNewsLetter(){
     });
   });
 }
-function recommendUsers(fund, callback){
+function recommendUsers(fund,size, callback){
   var queryOptions = {
     "filtered": {
       "filter": {
-        "bool": {
-          "should": { "match_all": {} }
+        "bool":{
+          "must":[{
+            "missing": {"field": "organisation_or_user"}
+          }]
         }
+
       }
     }
   };
@@ -489,23 +520,33 @@ function recommendUsers(fund, callback){
     var upperBirthdaySeconds = userBirthday.setFullYear(upperBoundBirthdate);
     var lowerDate = new Date(lowerBirthdaySeconds);
     var upperDate = new Date(upperBirthdaySeconds);
+    lowerDate = lowerDate.toISOString().split('T')[0];
+    upperDate = upperDate.toISOString().split('T')[0];
     var queryOptionsShouldArr = [
       {
         "range": {
           "date_of_birth": {
-            "gte": lowerDate
+            "lte": lowerDate
           }
         }
       },
       {
         "range": {
           "date_of_birth": {
-            "lte": upperDate
+            "gte": upperDate
           }
         }
       }
     ];
     queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+  }
+  if(fund.gender){
+    var termObj = {
+      "term": {
+        "gender": fund.gender
+      }
+    };
+    queryOptions.filtered.filter.bool.must.push(termObj);
   }
   queryOptions.filtered.query = {
     "bool": {
@@ -520,14 +561,16 @@ function recommendUsers(fund, callback){
       var notGender = key !== 'gender';
 
 
-      if (notAge) {
+      if (notGender) {
         var matchObj = {
           "match": {}
         };
 
         if (fund[key]){
+          // console.log("FUNDkey", key);
           if(Array.isArray(fund[key])){
             if(fund[key].indexOf('all') < 0 && fund[key].indexOf('All') < 0){
+              // console.log("FUNDkey2", fund[key]);
               if (key === 'required_degree') {
                 matchObj.match.previous_degree = fund[key].join(', ');
               } else if (key === 'required_university') {
@@ -540,7 +583,7 @@ function recommendUsers(fund, callback){
             }
           }
           if(typeof fund[key] === 'string'){
-            if(fund[key].toLowerCase() === 'all'){
+            if(fund[key].toLowerCase() !== 'all'){
               matchObj.match[key] = fund[key];
               queryOptions.filtered.query.bool.should.push(matchObj);
             }
@@ -548,26 +591,30 @@ function recommendUsers(fund, callback){
         }
       }
     }
-    es.search({
-      index: "users",
-      type: "user",
-      body: {
-        "size": 2,
-        "query": queryOptions
-      }
-    }).then(function(resp){
-      var userArray = resp.hits.hits.map(function(hit) {
-        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
-        var hash = {};
-        for (var i = 0; i < fields.length ; i++) {
-          hash[fields[i]] = hit._source[fields[i]];
+    queryOptions.filtered.query.bool.minimum_should_match = 2;
+
+    // console.log("QUEry OPTIONS 2", queryOptions.filtered.filter.bool);
+      es.search({
+        index: "users",
+        type: "user",
+        body: {
+          "size": size,
+          "query": queryOptions
         }
-        // Sync id separately, because it is hit._id, NOT hit._source.id
-        hash.id = hit._id;
-        return hash;
+      }).then(function(resp){
+        var userArray = resp.hits.hits.map(function(hit) {
+          var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
+          var hash = {};
+          for (var i = 0; i < fields.length ; i++) {
+            hash[fields[i]] = hit._source[fields[i]];
+          }
+          // Sync id separately, because it is hit._id, NOT hit._source.id
+          hash.id = hit._id;
+          return hash;
+        });
+        callback(userArray);
       });
-      callback(userArray);
-    });
+
 }
 function checkFundApplications(fund, oneWeekAgo, callback){
   models.applications.findAll({where:{fund_id: fund.id, created_at: {$gt: oneWeekAgo}}}).then(function(apps){

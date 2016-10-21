@@ -56,11 +56,28 @@ module.exports = {
           if(user.funding_needed){
             minimum_amount = user.funding_needed * 0.6;
           }
+          var today = new Date();
+          today = today.toISOString().split('T')[0];
           var queryOptions = {
             "filtered": {
               "filter": {
                 "bool": {
-                  "should": { "match_all": {} }
+                  "should": [{
+                    "or": [
+                      {
+                        "range":{
+                          "deadline":{
+                            "gte": today
+                          }
+                        }
+                      },
+                      {
+                        "missing": {
+                          "field": "deadline"
+                        }
+                      }
+                    ]
+                  }]
                 }
               }
             }
@@ -96,7 +113,7 @@ module.exports = {
                 }
               }
             ];
-            queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
+            queryOptions.filtered.filter.bool.should.concat(queryOptionsShouldArr);
           }
 
           queryOptions.filtered.query = {
@@ -146,6 +163,8 @@ module.exports = {
               }
             }
           }
+          queryOptions.filtered.query.bool.minimum_should_match = 3;
+          console.log("queery options",queryOptions.filtered.query.bool);
           es.search({
             index: "funds",
             type: "fund",
