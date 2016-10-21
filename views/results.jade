@@ -47,7 +47,7 @@ block content
 											a(href='/results?' + key + '=' + value)= value
 											i.fa.fa-times
 									else				
-										span#tokenKey(class=key)= key.split('_').join(' ') + ": "  
+										span#tokenKey(class=key)= key.split('_').join(' ') + ": "	
 											each tag in value.split(' ')
 												a(href='/results?' + key+'=' + tag)= tag
 											i.fa.fa-times
@@ -116,6 +116,16 @@ block content
 										<div class="fund_list">
 											<li><a id="profile_link<%= id %>">
 													<h3 class="fund_title"><%= title %></h3></a>
+													<div id='#dropdown_addClass', class="three_dots">
+														<div class='dot'></div>
+														<div class='dot'></div>
+														<div class='dot'></div>
+														<div class="dropdown">
+															<div id="remove_result" class="dropdown-content">
+																<a href="#">Remove from results</a>
+															</div>
+														</div>
+													</div>
 												<h4 id="deadline-passed" class="deadline-passed<%= id %>">Oops the deadline has passed for this fund...</h4>
 											</li>
 											<li class="fund_info">

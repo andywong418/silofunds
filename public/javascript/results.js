@@ -1,4 +1,16 @@
 $(document).ready(function() {
+  $('.dot').click(function() {
+    console.log('WORK U CUNT')
+  })
+  $('.three_dots, .dot').click(function() {
+    console.log('hi')
+    console.log($('#remove_result').css('display'))
+    if($('#remove_result').css('display') == 'none') {
+      $('#remove_result').css('display', 'block')
+    } else {
+      $('#remove_result').css('display', 'none')
+    }
+  })
 
 //queryOptions for search
 if(typeof query != 'undefined' && query){
