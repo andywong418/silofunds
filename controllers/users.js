@@ -165,21 +165,21 @@ module.exports = {
                   matchObj.match.required_university ={
                     "query": user[key],
                     "operator": "or",
-                    "boost": 4
+                    "boost": 3
                   };
                 }
                 else if (key ==='subject'){
                   matchObj.match.subject = {
                     "query": user[key],
                     "operator": "or",
-                    "boost": 3
+                    "boost": 4
                   };
                 }
                 else if(key === 'target_university'){
                   matchObj.match.target_university = {
                     "query": user[key],
                     "operator": "or",
-                    "boost": 4
+                    "boost": 3
                   };
                 }
                 else {
