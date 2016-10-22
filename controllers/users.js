@@ -62,7 +62,7 @@ module.exports = {
             "filtered": {
               "filter": {
                 "bool": {
-                  "should": [{
+                  "must": [{
                     "or": [
                       {
                         "range":{
@@ -77,7 +77,8 @@ module.exports = {
                         }
                       }
                     ]
-                  }]
+                  }],
+                  "should": []
                 }
               }
             }
@@ -113,9 +114,16 @@ module.exports = {
                 }
               }
             ];
-            queryOptions.filtered.filter.bool.should.concat(queryOptionsShouldArr);
+            queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
           }
-
+          if(user.college){
+            var termObj = {
+              "term":{
+                "required_college": user.college
+              }
+            };
+            queryOptions.filtered.filter.bool.should.push(termObj);
+          }
           queryOptions.filtered.query = {
             "bool": {
               "should": []
@@ -154,8 +162,27 @@ module.exports = {
                 if (key === 'previous_degree') {
                   matchObj.match.required_degree = user[key];
                 } else if (key === 'previous_university') {
-                  matchObj.match.required_university = user[key];
-                } else {
+                  matchObj.match.required_university ={
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 4
+                  };
+                }
+                else if (key ==='subject'){
+                  matchObj.match.subject = {
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 3
+                  };
+                }
+                else if(key === 'target_university'){
+                  matchObj.match.target_university = {
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 4
+                  };
+                }
+                else {
                   matchObj.match[key] = user[key];
                 }
 

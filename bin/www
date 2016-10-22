@@ -266,7 +266,7 @@ var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStuden
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
-// var variableTemplate = new CronJob('0 */5 * * * 2', variableEmail, null, true);
+// var variableTemplate = new CronJob('0 */5 * * * 5', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
 
