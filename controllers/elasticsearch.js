@@ -514,6 +514,7 @@ module.exports = {
       // }
       // console.log("JAMES", query.college.join(' '));
 
+      queryOptions.filtered.query.bool.minimum_should_match = 2;
 
 
       es.explain({

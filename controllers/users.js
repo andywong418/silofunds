@@ -56,11 +56,29 @@ module.exports = {
           if(user.funding_needed){
             minimum_amount = user.funding_needed * 0.6;
           }
+          var today = new Date();
+          today = today.toISOString().split('T')[0];
           var queryOptions = {
             "filtered": {
               "filter": {
                 "bool": {
-                  "should": { "match_all": {} }
+                  "must": [{
+                    "or": [
+                      {
+                        "range":{
+                          "deadline":{
+                            "gte": today
+                          }
+                        }
+                      },
+                      {
+                        "missing": {
+                          "field": "deadline"
+                        }
+                      }
+                    ]
+                  }],
+                  "should": []
                 }
               }
             }
@@ -98,7 +116,14 @@ module.exports = {
             ];
             queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
           }
-
+          if(user.college){
+            var termObj = {
+              "term":{
+                "required_college": user.college
+              }
+            };
+            queryOptions.filtered.filter.bool.should.push(termObj);
+          }
           queryOptions.filtered.query = {
             "bool": {
               "should": []
@@ -137,8 +162,27 @@ module.exports = {
                 if (key === 'previous_degree') {
                   matchObj.match.required_degree = user[key];
                 } else if (key === 'previous_university') {
-                  matchObj.match.required_university = user[key];
-                } else {
+                  matchObj.match.required_university ={
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 3
+                  };
+                }
+                else if (key ==='subject'){
+                  matchObj.match.subject = {
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 4
+                  };
+                }
+                else if(key === 'target_university'){
+                  matchObj.match.target_university = {
+                    "query": user[key],
+                    "operator": "or",
+                    "boost": 3
+                  };
+                }
+                else {
                   matchObj.match[key] = user[key];
                 }
 
@@ -146,6 +190,8 @@ module.exports = {
               }
             }
           }
+          queryOptions.filtered.query.bool.minimum_should_match = 3;
+          console.log("queery options",queryOptions.filtered.query.bool);
           es.search({
             index: "funds",
             type: "fund",
