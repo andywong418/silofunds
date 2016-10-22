@@ -82,6 +82,22 @@ block content
 								li
 									a#lowest-amount-sort Least amount
 				.col-lg-8.col-lg-offset-2
+					// Removal confirmation modal
+					//- .modal.fade.modal-remove
+					//- 	.modal-dialog(role='document')
+					//- 		.modal-content
+					//- 			.modal-header
+					//- 				button.close(type='button', data-dismiss='modal', aria-label='Close')
+					//- 					span(aria-hidden='true') ×
+					//- 				h3.modal-title Remove fund from results
+					//- 			.modal-body
+					//- 				p Are you sure you want to remove this fund from your results, you will never see it again, only do this if you are sure you do not qualify for it.
+					//- 			.modal-footer
+					//- 				form(action='/user/remove-fund', method='post')
+					//- 					input.checkbox(type='checkbox', name='checkbox', value='checked')
+					//- 					span.checkbox Don't show this message again
+					//- 					button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+					//- 					button#delete-actual.btn.btn-danger(type='submit') Remove
 					#countriesModal.modal.fade(role='dialog')
 						.modal-dialog
 							// Modal content
@@ -113,7 +129,25 @@ block content
 							.lazyload
 								//
 									<ul class="database">
-										<div class="fund_list">
+									<div class="modal fade modal-remove modal-remove<%= id %>">
+										<div role="document" class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+													<h3 class="modal-title">Remove fund from results</h3>
+												</div>
+												<div class="modal-body">
+													<p>Are you sure you want to remove this fund from your results, you will never see it again, only do this if you are sure you do not qualify for it.</p>
+												</div>
+												<div class="modal-footer">
+														<input type="checkbox" value="checked" class="checkbox"/><span class="checkbox">Dont show this message again</span>
+														<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+														<button id="delete-actual<%= id %>" type="submit" class="btn btn-danger delete-actual">Remove</button>
+												</div>
+											</div>
+										</div>
+									</div>
+										<div id='fund_list<%= id %>' class="fund_list">
 											<li><a id="profile_link<%= id %>">
 													<h3 class="fund_title"><%= title %></h3></a>
 													<div id='#dropdown_addClass', class="three_dots">
@@ -121,8 +155,8 @@ block content
 														<div class='dot'></div>
 														<div class='dot'></div>
 														<div class="dropdown">
-															<div id="remove_result" class="dropdown-content">
-																<a href="#">Remove from results</a>
+															<div id="remove_result<%= id %>" class="dropdown-content, remove_result">
+																<a id='a_remove<%= id %>' class='a_remove'>Remove from results</a>
 															</div>
 														</div>
 													</div>
