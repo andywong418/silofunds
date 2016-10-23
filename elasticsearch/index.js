@@ -3,9 +3,10 @@ var esConnectionString = 'localhost:9200';
 var elasticsearchModel = require('./model');
 var sleep = require('sleep');
 
-if (process.env.SEARCHBOX_URL) {
+if (process.env.AWS_ES) {
   // Heroku
-  esConnectionString = process.env.SEARCHBOX_URL;
+  esConnectionString = process.env.AWS_ES;
+  Logger.info("esConnectionString " + esConnectionString);
 }
 
 var es = new elasticsearch.Client({
