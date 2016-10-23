@@ -6,7 +6,7 @@ var sleep = require('sleep');
 if (process.env.AWS_ES) {
   // Heroku
   esConnectionString = process.env.AWS_ES;
-  Logger.info("esConnectionString " + esConnectionString);
+  console.log("esConnectionString " + esConnectionString);
 }
 
 var es = new elasticsearch.Client({
