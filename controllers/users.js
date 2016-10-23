@@ -127,7 +127,7 @@ module.exports = {
           queryOptions.filtered.query = {
             "bool": {
               "should": []
-            },
+            }
           };
 
           user = user.get();
@@ -164,22 +164,19 @@ module.exports = {
                 } else if (key === 'previous_university') {
                   matchObj.match.required_university ={
                     "query": user[key],
-                    "operator": "or",
-                    "boost": 3
+                    "minimum_should_match": "100%"
                   };
                 }
                 else if (key ==='subject'){
                   matchObj.match.subject = {
                     "query": user[key],
-                    "operator": "or",
-                    "boost": 4
+                    "boost": 5
                   };
                 }
                 else if(key === 'target_university'){
                   matchObj.match.target_university = {
                     "query": user[key],
-                    "operator": "or",
-                    "boost": 3
+                    "minimum_should_match": "100%"
                   };
                 }
                 else {
@@ -188,110 +185,131 @@ module.exports = {
 
                 queryOptions.filtered.query.bool.should.push(matchObj);
               }
+              // if(user.subject && user.target_university){
+              //   queryOptions.filtered.query.dis_max.queries = []
+              // }
             }
           }
-          queryOptions.filtered.query.bool.minimum_should_match = 3;
-          console.log("queery options",queryOptions.filtered.query.bool);
-          es.search({
-            index: "funds",
-            type: "fund",
+          // queryOptions.filtered.query.bool.minimum_should_match = ;
+          // console.log("queery options",queryOptions.filtered.query.bool.should[0]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[1]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[2]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[3]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[4]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[5]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[6]);
+          // console.log("queery options",queryOptions.filtered.query.bool.should[7]);
+          es.explain({
+            index: 'funds',
+            type: 'fund',
+            id: '1924',
             body: {
-              "size": 1000,
               "query": queryOptions
             }
-          }).then(function(resp){
-            // Get rid of those the user has removed
-            console.log("RESP HIT LEGNTH", resp.hits.hits.length);
-            var resp_length_4 = [];
-            for(var i = 0; i < resp.hits.hits.length; i++) {
-              if(resp_length_4.length < 4) {
-                if(user.removed_funds && user.removed_funds.length > 0){
-                  if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
-                  } else {
-                    resp_length_4.push(resp.hits.hits[i]);
+          }, function(error, response){
+            console.log(response.explanation.details[0].details[2].details);
+            es.search({
+              index: "funds",
+              type: "fund",
+              body: {
+                "size": 1000,
+                "query": queryOptions
+              }
+            }).then(function(resp){
+              // Get rid of those the user has removed
+              console.log("RESP HIT LEGNTH", resp.hits.hits.length);
+              var resp_length_4 = [];
+              for(var i = 0; i < resp.hits.hits.length; i++) {
+                if(resp_length_4.length < 4) {
+                  if(user.removed_funds && user.removed_funds.length > 0){
+                    if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
+                    } else {
+                      resp_length_4.push(resp.hits.hits[i]);
+                    }
                   }
-                }
-                else{
-                  resp_length_4 = resp.hits.hits.slice(0,4);
-                }
+                  else{
+                    resp_length_4 = resp.hits.hits.slice(0,4);
+                  }
 
-              } else {
-                break;
+                } else {
+                  break;
+                }
               }
-            }
-            resp.hits.hits = resp_length_4;
-            //
-            var fund_id_list = [];
-            var funds = resp.hits.hits.map(function(hit) {
-              var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
-              var hash = {};
+              resp.hits.hits = resp_length_4;
+              //
+              var fund_id_list = [];
+              var funds = resp.hits.hits.map(function(hit) {
+                var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+                var hash = {};
 
-              for (var i = 0; i < fields.length ; i++) {
-                hash[fields[i]] = hit._source[fields[i]];
-              }
-              // Sync id separately, because it is hit._id, NOT hit._source.id
-              hash.id = hit._id;
-              fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
-              hash.fund_user = false; // for the user logic later
-              return hash;
-            });
-            console.log('hi')
-            console.log(funds)
-            console.log('^^^^^^^^')
-            models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
-              if (user) {
-                for (var i=0; i < funds.length; i++) {
-                  if (funds[i].organisation_id == user.organisation_or_user) {
-                    funds[i].fund_user = true;
-                    if(user.profile_picture){
-                      funds[i].organisation_picture = user.profile_picture;
+                for (var i = 0; i < fields.length ; i++) {
+                  hash[fields[i]] = hit._source[fields[i]];
+                }
+                // Sync id separately, because it is hit._id, NOT hit._source.id
+                hash.id = hit._id;
+                fund_id_list.push(hash.organisation_id); // for the WHERE ___ IN ___ query on users table later
+                hash.fund_user = false; // for the user logic later
+                return hash;
+              });
+              console.log('hi')
+              console.log(funds)
+              console.log('^^^^^^^^')
+              models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
+                if (user) {
+                  for (var i=0; i < funds.length; i++) {
+                    if (funds[i].organisation_id == user.organisation_or_user) {
+                      funds[i].fund_user = true;
+                      if(user.profile_picture){
+                        funds[i].organisation_picture = user.profile_picture;
+                      }
                     }
                   }
                 }
-              }
-            }).then(function() {
-                models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
-                  var applied_funds = [];
-                  async.each(applications, function(app, callback){
-                      models.funds.findById(app.dataValues.fund_id).then(function(fund){
-                        fund['status'] = app.dataValues.status;
-                        applied_funds.push(fund);
-                        callback();
-                      });
-
-                  }, function done(){
-                    models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
-                      var recently_browsed_funds = [];
-                      async.each(recent_funds.slice(0, 5), function(fund, callback){
-                        models.funds.findById(fund.fund_id).then(function(fund){
-                          recently_browsed_funds.push(fund);
+              }).then(function() {
+                  models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
+                    var applied_funds = [];
+                    async.each(applications, function(app, callback){
+                        models.funds.findById(app.dataValues.fund_id).then(function(fund){
+                          fund['status'] = app.dataValues.status;
+                          applied_funds.push(fund);
                           callback();
                         });
-                      }, function done(){
-                        // Flash message logic here
-                        var success = req.flash('emailSuccess')[0];
-                        models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
-                          var counter = 0;
-                          for(var i = 0; i < funds.length; i++) {
-                            if(funds[i].organisation_picture) {
-                              counter = counter + 1
+
+                    }, function done(){
+                      models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
+                        var recently_browsed_funds = [];
+                        async.each(recent_funds.slice(0, 5), function(fund, callback){
+                          models.funds.findById(fund.fund_id).then(function(fund){
+                            recently_browsed_funds.push(fund);
+                            callback();
+                          });
+                        }, function done(){
+                          // Flash message logic here
+                          var success = req.flash('emailSuccess')[0];
+                          models.stripe_users.find({where: {user_id: req.user.id}}).then(function(stripe_user) {
+                            var counter = 0;
+                            for(var i = 0; i < funds.length; i++) {
+                              if(funds[i].organisation_picture) {
+                                counter = counter + 1
+                              }
                             }
-                          }
-                          if(!stripe_user) {
-                            var dataObject = {user: req.user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
-                            findFavourites({user_id: user.id}, res, dataObject);
-                          }
-                          if (stripe_user) {
-                            var dataObject = {user: user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
-                            findFavourites({user_id: user.id}, res, dataObject);
-                          }
+                            if(!stripe_user) {
+                              var dataObject = {user: req.user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success};
+                              findFavourites({user_id: user.id}, res, dataObject);
+                            }
+                            if (stripe_user) {
+                              var dataObject = {user: user, funds: funds, picture_counter: counter, applied_funds: applied_funds, recent_funds: recently_browsed_funds, success: success, stripe: true};
+                              findFavourites({user_id: user.id}, res, dataObject);
+                            }
+                          });
                         });
                       });
                     });
                   });
-                });
+              });
             });
           });
+
       });
     } );
 

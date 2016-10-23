@@ -268,34 +268,65 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 // var variableTemplate = new CronJob('0 */5 * * * 5', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
-// var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
+var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
 
 function fundDeadlineEmail(){
   var today = new Date();
-var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-  // models.funds.findById(615).then(function(fund){
-  //   recommendUsers(fund, 1000, function(userArray){
-  //     //Change later when recommended users is better. For now it's dud
-  //     // if(userArray.length > 0){
-  //     //   console.log("it's this fund", fund);
-  //     //   console.log("USERARYY", userArray);
-  //     // }
-  //   });
-  // });
+  var nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
   models.funds.findAll({where: {deadline: {$lt: nextWeek, $gt: today}}}).then(function(funds){
     console.log("FUNDs expire next week", funds.length);
     async.each(funds, function(fund, callback){
       recommendUsers(fund, 1000, function(userArray){
         //Change later when recommended users is better. For now it's dud
         if(userArray.length > 0){
-          console.log("it's this fund", fund.title);
-          console.log("USERARYY", userArray);
+
         }
       });
     });
   });
 }
+function asyncsendUserEmailFundDeadline(userArray, fund){
+  async.each(userArray, function(user, callback){
+    var name = user.username.split(' ')[0];
+    var locals = {
+      header: 'Dear ' + name + ',',
+      unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
+    };
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'notifcations@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
+    }));
 
+    var templatePath = path.join(process.cwd(), 'email-templates/variable-template');
+    var template = new EmailTemplate(templatePath);
+    template.render(locals, function(err, results){
+      if (err) {
+         callback();
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Andros Wong',
+        to: user.email,
+        subject: fund + ' has an application deadline in one week!',
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
+         console.log("USER ERROR", user.email);
+         callback();
+        }
+        else{
+          console.log("SUCCESS");
+          console.log("USER", user.email);
+          console.log(responseStatus);
+        }
+
+      });
+    });
+  });
+}
 function variableEmail(){
   models.users.findAll({where: {organisation_or_user: null, email_updates: true, weekly_email_sent: null}}).then(function(users){
     console.log("SENDING VAR EMAIL");
@@ -307,9 +338,8 @@ function variableEmail(){
         unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
       };
       var transporter = nodemailer.createTransport(smtpTransport({
-       service: 'Gmail',
-       auth: {user: 'andros@silofunds.com',
-             pass: 'whatever418'}
+       service: 'Gmail'
+       //add later
       }));
 
       var templatePath = path.join(process.cwd(), 'email-templates/variable-template');
