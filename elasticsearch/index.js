@@ -33,7 +33,8 @@ function checkConnection() {
     // undocumented params are appended to the query string
     hello: "elasticsearch"
   }).catch(function(err) {
-    Logger.error('elasticsearch cluster is down!');
+    Logger.error('elasticsearch cluster is down:');
+    Logger.error(err);
   });
 }
 
