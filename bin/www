@@ -260,7 +260,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 //
 var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
-var checkRefundScheduler = new CronJob('00 00 23 * * *', checkForRefund, null, true);
+var checkRefundScheduler = new CronJob('0 0 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
 var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStudentNewsLetter, null, true);
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
@@ -269,6 +269,56 @@ var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null,
 // var variableTemplate = new CronJob('0 */5 * * * 5', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
+var sendExpiredFundsListScheduler = new CronJob('0 0 20 * * *', sendExpiredFundsList, null, true);
+
+function sendExpiredFundsList(){
+  var today = new Date();
+  models.funds.findAll({where: {deadline: {$lt: today}}}).then(function(funds){
+    console.log("GOT IN", funds);
+    var fundsList = [];
+    for(var i =0; i < funds.length; i++){
+      funds[i] = funds[i].get();
+      console.log('fund', funds[i].title);
+      console.log('id', funds[i].id);
+      var fundObj = {
+        title: funds[i].title,
+        id: funds[i].id
+      };
+      fundsList.push(fundObj);
+    }
+    var templatePath = path.join(process.cwd(), 'email-templates/fund-deadline-list-template');
+    var template = new EmailTemplate(templatePath);
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
+    }));
+    var locals = {
+      funds: fundsList
+    };
+    template.render(locals, function(err, results){
+      if (err) {
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Andros Wong',
+        to: "andros@silofunds.com",
+        subject: 'Expired funds',
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
+        }
+        else{
+          console.log("SUCCESS");
+          console.log(responseStatus);
+        }
+
+      });
+    });
+
+  });
+}
 
 function fundDeadlineEmail(){
   var today = new Date();
@@ -295,7 +345,7 @@ function asyncsendUserEmailFundDeadline(userArray, fund){
     };
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'notifcations@silofunds.com',
+     auth: {user: 'notifications@silofunds.com',
            pass: 'ThisIsNotificationsAccount'}
     }));
 
