@@ -207,7 +207,6 @@ module.exports = {
               "query": queryOptions
             }
           }, function(error, response){
-            console.log(response.explanation.details[0].details[2].details);
             es.search({
               index: "funds",
               type: "fund",
