@@ -310,6 +310,7 @@ var allShown = false;
       this.$("#" + id).css("margin-top", "7px");
       this.$("#" + id).css("margin-bottom", "15px");
       this.$("#" + id).css("font-size", "16px");
+      this.$("#" + id).children('.description_control').html(description);
       if(description){
         var html_fade_div_id = '<div id="fade_div' + id + '"></div>'
         this.$("#" + id).children('.description_control').html(description);
@@ -327,7 +328,7 @@ var allShown = false;
             collapsedHeight: 170,
             heightMargin: 0,
             beforeToggle: function(trigger, element, expanded) {
-              $('.description_control').css('overflow', 'hidden');
+              // $('.description_control').css('overflow', 'hidden');
               if(expanded) {
                 $('#fade_div' + id).show()
               } if(!expanded) {
@@ -337,15 +338,16 @@ var allShown = false;
             afterToggle: function(trigger, element, expanded){
               if(expanded) {
                 $('#id' + id).css('overflow', 'visible');
-                $.when($('#id' + id).css('overflow', 'visible')).then(function() {
-                  var divLength = $('#id' + id ).children().length - 2;
-                  var lastParagraph = $('#id' + id ).children()[divLength];
-                  lastParagraph = $(lastParagraph);
-                  var height = lastParagraph.height();
-                  var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
-                  var newHeight = vbl + height
-                  $('#id' + id).css('height', newHeight)
-                })
+                console.log('so this is happening')
+                console.log($('#id' + id).css('overflow'))
+                var divLength = $('#id' + id ).children().length - 2;
+                var lastParagraph = $('#id' + id ).children()[divLength];
+                lastParagraph = $(lastParagraph);
+                var height = lastParagraph.height();
+                var vbl = lastParagraph.offset().top - lastParagraph.parent().offset().top - lastParagraph.parent().scrollTop()
+                var newHeight = vbl + height
+                console.log(newHeight)
+                $('#id' + id).css('height', newHeight)
               }
               if(!expanded){
                 $('#id' + id).css('overflow', 'hidden');
@@ -599,8 +601,67 @@ var allShown = false;
  //mixpanel checking actions prior to signin
  var mixpanelClickCheck = [];
  $(document).click(function(e){
-   console.log(e);
-   console.log(e.target);
+  console.log(e);
+  console.log(e.target);
+  if($(e.target).hasClass('three_dots') || $(e.target).hasClass('dot')) {
+    if($('.remove_result').css('display') == 'none') {
+      $('.remove_result').css('display', 'block')
+    } else {
+      $('.remove_result').css('display', 'none')
+    }
+  } else {
+    $('.remove_result').css('display', 'none')
+  }
+  if($(e.target).hasClass('remove_result') || $(e.target).hasClass('a_remove') || $(e.target).hasClass('delete-actual')) {
+    var id;
+    var checkbox;
+    if($(e.target).hasClass('a_remove')) {
+      id = parseInt($(e.target).attr('id').split('e')[2]);
+    } else if ($(e.target).hasClass('delete-actual')) {
+      id = parseInt($(e.target).attr('id').split('l')[2]);
+      if($('.modal-remove input.checkbox').is(':checked')) {
+        checkbox = 'checked'
+      }
+    } else if ($(e.target).hasClass('remove_result')) {
+      id = parseInt($(e.target).attr('id').split('t')[1]);
+    }
+    if(user) {
+      if(user.removed_funds) {
+        if(user.removed_funds[0] !== 'true' && !$(e.target).hasClass('delete-actual')) {
+          $('.modal.fade.modal-remove' + id.toString()).modal('toggle')
+        } else {
+          if(checkbox == 'checked') {
+            $('.modal.fade.modal-remove' + id.toString()).modal('toggle')
+            $.ajax({
+              type: "POST",
+              url: "/user/remove-fund",
+              data: {user_id: user.id, fund_id: id, checkbox: checkbox},
+              success: function() {
+                $('.remove_result').css('display', 'none')
+                var newId = '#fund_list' + id.toString();
+                $(newId).hide()
+              }
+            });
+          } else {
+            $('.modal.fade.modal-remove' + id.toString()).modal('toggle')
+            $.ajax({
+              type: "POST",
+              url: "/user/remove-fund",
+              data: {user_id: user.id, fund_id: id},
+              success: function() {
+                $('.remove_result').css('display', 'none')
+                var newId = '#fund_list' + id.toString();
+                $(newId).hide()
+              }
+            });
+          }
+        }
+      }
+    } else {
+      var newId = '#fund_list' + id.toString();
+      $(newId).hide()
+    }
+  }
    mixpanelClickCheck.push(e.target.outerHTML);
    if($(e.target).attr('id') == "signup-button"){
      //track array and page
