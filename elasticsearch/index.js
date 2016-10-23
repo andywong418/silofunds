@@ -21,6 +21,8 @@ if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
       auth: 'admin:$#g#g3tWWDDSR3',
     }
   ];
+
+  console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 } else {
   esClientOptions.host = esConnectionString;
 }
