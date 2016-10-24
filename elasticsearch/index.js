@@ -9,27 +9,30 @@ esClientOptions = {
     levels: ['error', 'warning']
   }]
 };
-
-if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
-  // Use AWS Cluster
-  esClientOptions.hosts = [
-    {
-      host: process.env.AWS_ES_1,
-      port: 80,
-      auth: "admin:$#g#g3tWWDDSR3"
-    }, {
-      host: process.env.AWS_ES_2,
-      port: 80,
-      auth: "admin:$#g#g3tWWDDSR3"
-    }
-  ];
-  console.log("PROCESS ENV", process.env.AWS_ES_1);
-  console.log("process env 2", process.env.AWS_ES_2);
-  console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-} else {
-  esClientOptions.host = esConnectionString;
+console.log("PROCESS ENV", process.env);
+// if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
+//   // Use AWS Cluster
+//   esClientOptions.hosts = [
+//     {
+//       host: process.env.AWS_ES_1,
+//       port: 80,
+//       auth: "admin:$#g#g3tWWDDSR3"
+//     }, {
+//       host: process.env.AWS_ES_2,
+//       port: 80,
+//       auth: "admin:$#g#g3tWWDDSR3"
+//     }
+//   ];
+//   console.log("PROCESS ENV", process.env.AWS_ES_1);
+//   console.log("process env 2", process.env.AWS_ES_2);
+//   console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+// } else {
+//   esClientOptions.host = esConnectionString;
+// }
+if (process.env.SEARCHBOX_URL) {
+  // Heroku
+  esConnectionString = process.env.SEARCHBOX_URL;
 }
-
 var es = new elasticsearch.Client(esClientOptions);
 
 module.exports = es;
