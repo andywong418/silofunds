@@ -19,7 +19,8 @@ if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
       host: process.env.AWS_ES_2,
     }
   ];
-
+  console.log("PROCESS ENV", process.env.AWS_ES_1);
+  console.log("process env 2", process.env.AWS_ES_2);
   console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 } else {
   esClientOptions.host = esConnectionString;
