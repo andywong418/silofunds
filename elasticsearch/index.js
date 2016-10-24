@@ -13,15 +13,13 @@ esClientOptions = {
 if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   // Use AWS Cluster
   esClientOptions.hosts = [
-    {
-      host: 'http://52.200.219.208',
-    }
+    'https://user:pass@box1.server.org:9200',
+    'https://user:pass@box2.server.org:9200'
   ];
   console.log("PROCESS ENV", process.env.AWS_ES_1);
   console.log("process env 2", process.env.AWS_ES_2);
   console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 } else {
-  console.log("NOT GETTING IN HERE");
   esClientOptions.host = esConnectionString;
 }
 
@@ -38,10 +36,10 @@ module.exports.createIndex = createIndex;
 
 function checkConnection() {
   return es.ping({
-    requestTimeout: 30000,
+    requestTimeout: 30000
 
-    // undocumented params are appended to the query string
-    hello: "elasticsearch"
+    // // undocumented params are appended to the query string
+    // hello: "elasticsearch"
   }).catch(function(err) {
     Logger.error('elasticsearch cluster is down:');
     Logger.error(err);
