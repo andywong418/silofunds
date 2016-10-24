@@ -14,15 +14,14 @@ if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   // Use AWS Cluster
   esClientOptions.hosts = [
     {
-      host: process.env.AWS_ES_1,
-    }, {
-      host: process.env.AWS_ES_2,
+      host: 'http://52.200.219.208',
     }
   ];
   console.log("PROCESS ENV", process.env.AWS_ES_1);
   console.log("process env 2", process.env.AWS_ES_2);
   console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 } else {
+  console.log("NOT GETTING IN HERE");
   esClientOptions.host = esConnectionString;
 }
 
@@ -35,7 +34,11 @@ module.exports.deleteIndex = deleteIndex;
 module.exports.createIndex = createIndex;
 
 
-
+var es = new elasticsearch.Client({
+hosts: [
+'http://52.200.219.208'
+]
+});
 
 function checkConnection() {
   return es.ping({
