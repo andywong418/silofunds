@@ -34,11 +34,7 @@ module.exports.deleteIndex = deleteIndex;
 module.exports.createIndex = createIndex;
 
 
-var es = new elasticsearch.Client({
-hosts: [
-'http://52.200.219.208'
-]
-});
+
 
 function checkConnection() {
   return es.ping({
