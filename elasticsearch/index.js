@@ -31,6 +31,7 @@ console.log("PROCESS ENV", process.env);
 // }
 if (process.env.SEARCHBOX_URL) {
   // Heroku
+  console.log("GOT IN");
   esConnectionString = process.env.SEARCHBOX_URL;
 }
 var es = new elasticsearch.Client(esClientOptions);
