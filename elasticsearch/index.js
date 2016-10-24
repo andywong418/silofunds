@@ -13,8 +13,13 @@ esClientOptions = {
 if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   // Use AWS Cluster
   esClientOptions.hosts = [
-    'https://user:pass@box1.server.org:9200',
-    'https://user:pass@box2.server.org:9200'
+    {
+      host: process.env.AWS_ES_1,
+      port: 80
+    }, {
+      host: process.env.AWS_ES_2,
+      port: 80
+    }
   ];
   console.log("PROCESS ENV", process.env.AWS_ES_1);
   console.log("process env 2", process.env.AWS_ES_2);
