@@ -15,10 +15,8 @@ if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   esClientOptions.hosts = [
     {
       host: process.env.AWS_ES_1,
-      auth: 'admin:$#g#g3tWWDDSR3',
     }, {
       host: process.env.AWS_ES_2,
-      auth: 'admin:$#g#g3tWWDDSR3',
     }
   ];
 
