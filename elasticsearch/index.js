@@ -15,10 +15,12 @@ if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   esClientOptions.hosts = [
     {
       host: process.env.AWS_ES_1,
-      port: 80
+      port: 80,
+      auth: "admin:$#g#g3tWWDDSR3"
     }, {
       host: process.env.AWS_ES_2,
-      port: 80
+      port: 80,
+      auth: "admin:$#g#g3tWWDDSR3"
     }
   ];
   console.log("PROCESS ENV", process.env.AWS_ES_1);
