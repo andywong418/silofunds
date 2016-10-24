@@ -3,18 +3,31 @@ var esConnectionString = 'localhost:9200';
 var elasticsearchModel = require('./model');
 var sleep = require('sleep');
 
-if (process.env.SEARCHBOX_URL) {
-  // Heroku
-  esConnectionString = process.env.SEARCHBOX_URL;
-}
-
-var es = new elasticsearch.Client({
-  host: esConnectionString,
+esClientOptions = {
   log: [{
     type: 'stdio',
     levels: ['error', 'warning']
   }]
-});
+};
+
+if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
+  // Use AWS Cluster
+  esClientOptions.hosts = [
+    {
+      host: process.env.AWS_ES_1,
+      auth: 'admin:$#g#g3tWWDDSR3',
+    }, {
+      host: process.env.AWS_ES_2,
+      auth: 'admin:$#g#g3tWWDDSR3',
+    }
+  ];
+
+  console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Using AWS ES Cluster ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+} else {
+  esClientOptions.host = esConnectionString;
+}
+
+var es = new elasticsearch.Client(esClientOptions);
 
 module.exports = es;
 module.exports.checkConnection = checkConnection;
@@ -32,7 +45,8 @@ function checkConnection() {
     // undocumented params are appended to the query string
     hello: "elasticsearch"
   }).catch(function(err) {
-    Logger.error('elasticsearch cluster is down!');
+    Logger.error('elasticsearch cluster is down:');
+    Logger.error(err);
   });
 }
 
