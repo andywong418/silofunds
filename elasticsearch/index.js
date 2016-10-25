@@ -2,8 +2,18 @@ var elasticsearch = require('elasticsearch');
 var esConnectionString = 'localhost:9200';
 var elasticsearchModel = require('./model');
 var sleep = require('sleep');
-
-
+if (process.env.SEARCHBOX_URL) {
+  // Heroku
+  console.log("GOT IN");
+  esConnectionString = process.env.SEARCHBOX_URL;
+}
+esClientOptions = {
+  log: [{
+    type: 'stdio',
+    levels: ['error', 'warning']
+  }]
+};
+console.log("PROCESS ENV", process.env);
 if (process.env.AWS_ES_1 && process.env.AWS_ES_2) {
   // Use AWS Cluster
   esClientOptions.hosts = [
