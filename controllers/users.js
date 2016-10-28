@@ -45,6 +45,8 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
+        var today = new Date();
+        user.update({last_login: today}).then(function(user){
           var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university'];
           var age;
           if(user.date_of_birth){
@@ -308,6 +310,7 @@ module.exports = {
               });
             });
           });
+        });
 
       });
     } );

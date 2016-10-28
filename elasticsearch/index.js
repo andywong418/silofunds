@@ -2,11 +2,7 @@ var elasticsearch = require('elasticsearch');
 var esConnectionString = 'localhost:9200';
 var elasticsearchModel = require('./model');
 var sleep = require('sleep');
-if (process.env.SEARCHBOX_URL) {
-  // Heroku
-  console.log("GOT IN");
-  esConnectionString = process.env.SEARCHBOX_URL;
-}
+
 esClientOptions = {
   log: [{
     type: 'stdio',
@@ -83,7 +79,7 @@ function deleteIndex(indexName) {
     }
 
     if (process.env.NODE_ENV == "production") {
-      sleep.sleep(5);
+      // sleep.sleep(5);
     }
     // sleep.sleep(10);
   });
@@ -107,7 +103,7 @@ function createIndex(indexName) {
     if (resp) {
       Logger.info("Created " + indexName + " index.");
       if (process.env.NODE_ENV == "production") {
-        sleep.sleep(3);
+        // sleep.sleep(3);
       }
       // // sleep.sleep(5);
     }

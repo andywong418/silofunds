@@ -279,9 +279,31 @@ dashboard: function(req, res) {
               category: 'app-success',
               read_by_user: false
             };
-            models.notifications.create(options).then(function(notif){
-              sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click', "http://silofunds.com/user/dashboard", ' here to tell your users!', app, 'Your application to ' + fund.title, res);
-            });
+            if(req.body.amount_gained){
+              models.users.findById(app.user_id).then(function(user){
+                if(user.funding_accrued === null){
+                  var amount_accrued = parseInt(req.body.amount_gained);
+                  user.update({funding_accrued: amount_accrued }).then(function(){
+                    models.notifications.create(options).then(function(notif){
+                      sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click', "http://silofunds.com/user/dashboard", ' here to tell your users!', app, 'Your application to ' + fund.title, res);
+                    });
+                  });
+                }
+                else{
+                  var amount_accrued = user.funding_accrued + parseInt(req.body.amount_gained);
+                  user.update({funding_accrued: amount_accrued }).then(function(){
+                    models.notifications.create(options).then(function(notif){
+                      sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click', "http://silofunds.com/user/dashboard", ' here to tell your users!', app, 'Your application to ' + fund.title, res);
+                    });
+                  });
+                }
+              });
+            }
+            else{
+              models.notifications.create(options).then(function(notif){
+                sendUserEmail(app.user_id, 'Congratulations! ' + fund.title + ' has approved your application success. Click', "http://silofunds.com/user/dashboard", ' here to tell your users!', app, 'Your application to ' + fund.title, res);
+              });
+            }
           }
           if(app.status ==='unsuccessful'){
             var options = {
