@@ -43,7 +43,7 @@ module.exports.createIndex = createIndex;
 
 function checkConnection() {
   return es.ping({
-    requestTimeout: 30000
+    requestTimeout: 60000
 
     // // undocumented params are appended to the query string
     // hello: "elasticsearch"
