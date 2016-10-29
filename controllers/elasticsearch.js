@@ -277,9 +277,26 @@ module.exports = {
             if (subject_categories.indexOf(hit._source["subject_category"]) === -1 ) {
               subject_categories.push(hit._source["subject_category"]);
             }
-            var relevantTerm = hit.highlight.subject[0].split('<')[1].split('>')[1];
+            console.log("FIRST SPLIT",hit.highlight.subject[0].split('<'));
+            var termString = '';
+            var relevantTerm;
+            if(hit.highlight.subject[0].split('<').length > 1){
+              for(var j = 1; j < hit.highlight.subject[0].split('<').length; j++){
+                if(j % 2 !== 0){
+                  //target odd terms
+                  termString =  termString + ' ' + hit.highlight.subject[0].split('<')[j].split('>')[1];
+
+                }
+              }
+              relevantTerm = termString;
+            }
+            else{
+              relevantTerm = hit.highlight.subject[0].split('<')[1].split('>')[1];
+
+            }
             subjectObj.subject = relevantTerm;
-            if(!containsObject(subjectObj, relevantTerms)){
+            console.log("SUBJECT subjectile", subjectObj.subject.length);
+            if(!containsObject(subjectObj, relevantTerms) && subjectObj.subject.length > 3){
               //rnot in there
                 relevantTerms.push(subjectObj);
                 console.log("SB OBJ", subjectObj);
@@ -293,7 +310,6 @@ module.exports = {
                     }
                   }
                 });
-                console.log(queryOptions.filtered.query.bool.should);
             }
           }
 
@@ -307,7 +323,6 @@ module.exports = {
             var firstSplit = hit.highlight.university[0].split('<em>').join((''));
             Logger.info(firstSplit.replace("</em>", ""));
             var relevantTerm = firstSplit.replace("</em>", "");
-
             console.log("RELEVANT TERM", relevantTerm);
             uniObj.target_university = relevantTerm;
             console.log(uniObj);
@@ -367,6 +382,15 @@ module.exports = {
           });
           Logger.info(notCountryCategories);
           Logger.info(notString);
+          queryOptions.filtered.query.bool.should.push({
+            "match": {
+              "country_of_residence":{
+                "query": countryOfResidence,
+                "minimum_should_match": "100%",
+                "boost": 4
+              }
+            }
+          });
           boolQuery.must_not.push({
             "match": {
               "country_of_residence": {
@@ -394,6 +418,15 @@ module.exports = {
 
         if (targetCountry) {
           var notTargetCountry = "not " + targetCountry;
+          queryOptions.filtered.query.bool.should.push({
+            "match": {
+              "targetCountry":{
+                "query": targetCountry,
+                "minimum_should_match": "100%",
+                "operator": "and",
+              }
+            }
+          });
           boolQuery.must_not.push({
             "match": {
               "country_of_residence": {
@@ -411,16 +444,54 @@ module.exports = {
 
         // TODO: match for required_university too?
         console.log("REL TERMS", relevantTerms);
-
+          if(query.required_university){
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "required_university":{
+                  "query": query.required_university,
+                  "minimum_should_match": "100%",
+                  "boost": 4
+                }
+              }
+            });
+          }
+          if(query.required_degree){
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "required_degree":{
+                  "query": query.required_degree,
+                  "minimum_should_match": "100%",
+                  "boost": 4
+                }
+              }
+            });
+          }
+          if(query.target_degree){
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "target_degree":{
+                  "query": query.target_degree,
+                  "minimum_should_match": "100%",
+                }
+              }
+            });
+          }
           var uniRelTerm = checkTargetIndex("target_university", relevantTerms);
           console.log("REL TER", uniRelTerm);
           if(uniRelTerm){
             queryOptions.filtered.query.bool.should.push({
               "match": {
                 "target_university":{
-                  "query": universityCategories.join(' ') +  ' ' + uniRelTerm,
+                  "query": universityCategories.join(' ') +  ' ' +'all',
                   "minimum_should_match": "100%",
-                  "operator": "and"
+                }
+              }
+            });
+            queryOptions.filtered.query.bool.should.push({
+              "match": {
+                "target_university":{
+                  "query": uniRelTerm,
+                  "minimum_should_match": "100%",
                 }
               }
             });
@@ -429,7 +500,7 @@ module.exports = {
             queryOptions.filtered.query.bool.should.push({
               "match": {
                 "target_university":{
-                  "query": universityCategories.join(' '),
+                  "query": universityCategories.join(' ') + ' all',
                   "minimum_should_match": "100%",
                   "operator": "and"
                 }
@@ -443,9 +514,9 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "required_university": {
-              "query": universityCategories.join(' '),
+              "query": universityCategories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
+              "operator": "or"
             }
           }
         });
@@ -453,9 +524,9 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "subject": {
-              "query": subject_categories.join(' '),
+              "query": subject_categories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
+              "operator": "or"
             }
           }
         });
@@ -465,9 +536,8 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "target_degree": {
-              "query":   degreeCategories.join(' '),
+              "query":   degreeCategories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
             }
           }
         });
@@ -475,20 +545,17 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "required_degree":{
-              "query": degreeCategories.join(' '),
+              "query": degreeCategories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
             }
           }
 
         });
-
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "target_country": {
-              "query": countryCategories.join(' '),
+              "query": countryCategories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
             }
           }
         });
@@ -496,9 +563,17 @@ module.exports = {
         queryOptions.filtered.query.bool.should.push({
           "match": {
             "country_of_residence":{
-              "query": countryCategories.join(' '),
+              "query": countryCategories.join(' ') + ' all',
               "minimum_should_match": "100%",
-              "operator": "and"
+            }
+          }
+
+        });
+        queryOptions.filtered.query.bool.should.push({
+          "match": {
+            "country_of_residence":{
+              "query": countryCategories.join(' ') + ' all',
+              "minimum_should_match": "100%",
             }
           }
 
@@ -512,7 +587,6 @@ module.exports = {
       // if (queryOptions.filtered.filter) {
       //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
       // }
-      // console.log("JAMES", query.college.join(' '));
 
       queryOptions.filtered.query.bool.minimum_should_match = 2;
 
@@ -526,8 +600,26 @@ module.exports = {
         }
       }, function (error, response) {
         // Logger.error(response.explanation.details[0].details[1].details[0].details[0]);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should);
+        console.log("General options", queryOptions.filtered.query.bool.should);
+        // // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[1].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[3].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[4].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[5].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[6].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[7].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[8].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[9].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[10].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[11].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[12].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[13].match);
+
+
+
+
+
         var bodyObj;
         if(!sort_by){
           bodyObj = {
