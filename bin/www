@@ -179,9 +179,7 @@ es.checkConnection().then(function(resp) {
           .then(bulkUpload)
           .then(es.indexExists('users', function(resp){
               console.log("THERE's RESP", resp);
-              es.deleteIndex('users')
-              .then(es.createIndex('users'))
-              .then(bulkUploadUsers);
+              es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
 
             // else{
             //   es.createIndex('users')
