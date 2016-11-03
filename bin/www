@@ -258,7 +258,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //
-var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
+// var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('0 0 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
@@ -266,7 +266,7 @@ var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStuden
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
-// var variableTemplate = new CronJob('0 */5 * * * 5', variableEmail, null, true);
+var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
 var sendExpiredFundsListScheduler = new CronJob('0 0 20 * * *', sendExpiredFundsList, null, true);
@@ -388,7 +388,9 @@ function variableEmail(){
         unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
       };
       var transporter = nodemailer.createTransport(smtpTransport({
-       service: 'Gmail'
+       service: 'Gmail',
+       auth: {user: 'notifications@silofunds.com',
+             pass: 'ThisIsNotificationsAccount'}
        //add later
       }));
 
@@ -400,9 +402,9 @@ function variableEmail(){
            return console.error(err);
         }
         transporter.sendMail({
-          from: 'Andros Wong',
+          from: 'Silo',
           to: user.email,
-          subject: "Customer Feedback",
+          subject: "Degree Info Session",
           html: results.html
         }, function(err, responseStatus){
           if (err) {

@@ -305,7 +305,6 @@ module.exports = {
                     "subject": {
                       "query": subjectObj.subject,
                       "minimum_should_match": "100%",
-                      "operator": "and",
                       "boost": 4
                     }
                   }
@@ -530,6 +529,13 @@ module.exports = {
             }
           }
         });
+        // queryOptions.filtered.query.bool.should.push({
+        //   "term": {
+        //     "subject": subject_categories.join(' '),
+        //
+        //   }
+        // });
+
         var degreeRelTerm = checkTargetIndex("target_degree", relevantTerms);
 
 
@@ -594,22 +600,22 @@ module.exports = {
       es.explain({
         index: 'funds',
         type: 'fund',
-        id: '827',
+        id: '1684',
         body: {
           "query": queryOptions
         }
       }, function (error, response) {
-        // Logger.error(response.explanation.details[0].details[1].details[0].details[0]);
+        console.log(response.explanation.details[0].details);
         console.log("General options", queryOptions.filtered.query.bool.should);
         // // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[1].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[3].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[4].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[5].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[6].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[7].match);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[8].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[1].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[3].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[4].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[5].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[6].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[7].match);
+        console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[8].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[9].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[10].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[11].match);
