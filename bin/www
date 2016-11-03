@@ -178,16 +178,15 @@ es.checkConnection().then(function(resp) {
           .then(function() { return loadSettingsForBulkPrepFor('subjects', { "subject_category": "science" }, subjects.sciences); })
           .then(bulkUpload)
           .then(es.indexExists('users', function(resp){
-            if(resp){
-              console.log("THERE's RESP");
+              console.log("THERE's RESP", resp);
               es.deleteIndex('users')
               .then(es.createIndex('users'))
               .then(bulkUploadUsers);
-            }
-            else{
-              es.createIndex('users')
-              .then(bulkUploadUsers);
-            }
+
+            // else{
+            //   es.createIndex('users')
+            //   .then(bulkUploadUsers);
+            // }
           }));
       }
       else{
