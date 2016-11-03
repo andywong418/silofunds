@@ -79,7 +79,8 @@ function deleteIndex(indexName) {
     }
 
     if (process.env.NODE_ENV == "production") {
-      sleep.sleep(10);
+      console.log("SLEEP");
+      sleep.sleep(13);
     }
     // sleep.sleep(10);
   });

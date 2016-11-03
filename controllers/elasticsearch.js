@@ -197,7 +197,7 @@ module.exports = {
               "query": query.tags, // NOTE: MAYBE HAS TO BE ARRAY OF ONE STRING, STRING IS A JOIN(' ') OF ALL INDIVIDUAL STRINGS FROM DIFFERENT FIELDS -----> reference above
               "fields": elasticsearchModels.multiMatchFields,
               "operator": "and", // NOTE: and MAYBE THIS IS "or"
-              "boost": 3
+              "boost": 2
             }
           });
         }
