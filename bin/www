@@ -141,7 +141,7 @@ es.checkConnection().then(function(resp) {
 
     es.indexExists('funds', function(resp){
       if(resp){
-        es.deleteIndex('funds').then(es.createIndex('funds'))
+        es.deleteIndex('funds').then(function(){ return es.createIndex('funds');})
           .then(bulkUploadFunds)
           .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
           .then(bulkUpload)
@@ -179,7 +179,7 @@ es.checkConnection().then(function(resp) {
           .then(bulkUpload)
           .then(es.indexExists('users', function(resp){
               console.log("THERE's RESP", resp);
-              es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+              es.deleteIndex('users').then(function(){return es.createIndex('users') ;}).then(bulkUploadUsers);
 
             // else{
             //   es.createIndex('users')
@@ -227,7 +227,7 @@ es.checkConnection().then(function(resp) {
         .then(es.indexExists('users', function(resp){
           console.log("RESP RESP", resp);
             es.deleteIndex('users')
-            .then(es.createIndex('users'))
+            .then(function() {return es.createIndex('users') ;})
             .then(bulkUploadUsers);
 
           // else{
@@ -1017,7 +1017,7 @@ function checkIndices(){
                if(resp){
                  es.indices.stats('users').then(function(resp){
                    if(resp._all.total.docs.count < 10){
-                     es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+                     es.deleteIndex('users').then(function(){return es.createIndex('users') ;}).then(bulkUploadUsers);
                    }
                    else{
                      return true;
@@ -1071,7 +1071,7 @@ function checkIndices(){
            if(resp){
              es.indices.stats('users').then(function(resp){
                if(resp._all.total.docs.count < 10){
-                 es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+                 es.deleteIndex('users').then(function(){return es.createIndex('users') ;}).then(bulkUploadUsers);
                }
                else{
                  return true;
