@@ -256,7 +256,7 @@ var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 //
-// var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
+var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('0 0 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
@@ -985,7 +985,7 @@ function checkIndices(){
        Logger.error(resp);
        if(resp){
          es.indices.stats('funds').then(function(resp){
-           if(resp._all.total.docs.count < 2000){
+           if(resp._all.total.docs.count < 3000){
              models.funds.findAll().then(function(funds) {
                var body = [];
                funds = fund_array_to_json(funds);
@@ -1016,7 +1016,7 @@ function checkIndices(){
              es.indexExists('users', function(resp){
                if(resp){
                  es.indices.stats('users').then(function(resp){
-                   if(resp._all.total.docs.count ===0){
+                   if(resp._all.total.docs.count < 10){
                      es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
                    }
                    else{
@@ -1025,16 +1025,14 @@ function checkIndices(){
                  });
                }
                else{
-                 es.createIndex('users')
-                 .then(bulkUploadUsers);
+                 es.createIndex('users').then(bulkUploadUsers);
                }
              });
            }
          });
        }
        else{
-         es.createIndex('funds')
-         .then(bulkUploadFunds)
+         es.createIndex('funds').then(bulkUploadFunds)
          .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "rest of the world" }, countries.rotw); })
          .then(bulkUpload)
          .then(function() { return loadSettingsForBulkPrepFor('countries', { "country_category": "africa" }, countries.africanCountries); })
@@ -1071,13 +1069,17 @@ function checkIndices(){
          .then(bulkUpload)
          .then(es.indexExists('users', function(resp){
            if(resp){
-             es.deleteIndex('users')
-             .then(es.createIndex('users'))
-             .then(bulkUploadUsers);
+             es.indices.stats('users').then(function(resp){
+               if(resp._all.total.docs.count < 10){
+                 es.deleteIndex('users').then(es.createIndex('users')).then(bulkUploadUsers);
+               }
+               else{
+                 return true;
+               }
+             });
            }
            else{
-             es.createIndex('users')
-             .then(bulkUploadUsers);
+             es.createIndex('users').then(bulkUploadUsers);
            }
          }));
        }
