@@ -85,6 +85,10 @@ block content
               .col-md-4.col-xs-6
                 p#target_degree-header Degree
                 input#target_degree(name='target_degree', form='advs-funding-form')
+              .col-md-12
+                strong(style='font-size: 16px') Refine Search: Disregard broad category awards!
+                input#refine_search.refine_search(type='checkbox', name='refine_search', form = "advs-funding-form", style='width: auto; display: inline; margin-left: 10px; margin-top: 20px;')
+
           section#search
             button#advs-grant-submit.btn.btn-primary(type='submit') Search
     #user.tab-pane

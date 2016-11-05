@@ -60,6 +60,18 @@ router.get('/email-user-profile-guide/:id', function(req, res){
     res.redirect('/user-profile-guide');
   });
 });
+router.get('/email-user-results/:id', function(req, res){
+  var userId = req.params.id;
+  var options = {
+    user_id: userId,
+    analytic_type: 'user email user results link click'
+  };
+
+    models.email_analytics.create(options).then(function(){
+      res.redirect('/results/users?all=true');
+    });
+
+});
 router.get('/fresher-email-signup-contact/:id', function(req, res){
   var userId = req.params.id;
   var options = {

@@ -245,7 +245,7 @@ es.checkConnection().then(function(resp) {
 // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
 
 var CronJob = require('cron').CronJob;
-var lastUpdate = new Date();
+
 var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
 ////////////////////////////////////////////////////////////////////////
@@ -1264,6 +1264,7 @@ function checkUserIndex(){
  });
 }
 function checkForChanges() {
+  var lastUpdate = new Date();
   var log = 'Last updated: ' + lastUpdate;
 
   models.funds.findAll({

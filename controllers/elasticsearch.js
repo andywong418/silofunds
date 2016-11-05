@@ -195,10 +195,19 @@ module.exports = {
                   }
             };
             var fieldsWithAllParam = ["subject", "country_of_residence", "required_degree", "target_degree", "required_university", "target_university"];
-            matchObj.match[key] = {
-              "query": query[key],
-              "boost": 7
-            };
+            if(key === 'subject'){
+              matchObj.match[key] = {
+                "query": query[key],
+                "boost": 7
+              };
+            }
+            else{
+              matchObj.match[key] = {
+                "query": query[key],
+                "boost": 2
+              };
+            }
+
 
             queryOptions.filtered.query.bool.should.push(matchObj);
             // if query.tags doesn't exist, multi_match query won't exist
@@ -215,7 +224,7 @@ module.exports = {
             "required_college": {
               "query": query.required_college,
               "operator": "and",
-              "boost": 7
+              "boost": 4
             }
           }
         });
@@ -287,12 +296,10 @@ module.exports = {
         }
       }, function (error, response) {
         // console.log(response.explanation.details[0].details);
-        console.log("General options", queryOptions.filtered.query.bool.should);
+        // console.log("General options", queryOptions.filtered.query.bool.should);
         // // // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[3]);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2]);
-        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[4]);
-
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[1].match);
+        // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[3].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[4].match);
         // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[5].match);
@@ -550,27 +557,23 @@ module.exports = {
 
             if (notTags && notAge && notAmount && notCollege) {
               var matchObj = {
-                "bool": {
-                  "should": [{
                     "match": {}
-                  }]
-                }
               };
               var fieldsWithAllParam = ["subject", "country_of_residence", "required_degree", "target_degree", "required_university", "target_university"];
-              matchObj.bool.should[0].match[key] = {
-                "query": query[key],
-                "boost": 7
-              };
-              if (fieldsWithAllParam.indexOf(key) > -1) {
-                var obj = {
-                  "match": {}
+              if(key === 'subject'){
+                matchObj.match[key] = {
+                  "query": query[key],
+                  "boost": 7,
                 };
-
-                obj.match[key] = "all";
-                matchObj.bool.should.push(obj);
+              }
+              else{
+                matchObj.match[key] = {
+                  "query": query[key],
+                  "boost": 2,
+                };
               }
 
-              queryOptions.filtered.query.bool.should[0].bool.must.push(matchObj);
+              queryOptions.filtered.query.bool.should.push(matchObj);
               // if query.tags doesn't exist, multi_match query won't exist
               if (notTitle && query.tags) {
                 // Push the field name into the "multi_match" fields array for matching tags
@@ -639,15 +642,17 @@ module.exports = {
                 //rnot in there
                   relevantTerms.push(subjectObj);
                   console.log("SB OBJ", subjectObj);
-                  queryOptions.filtered.query.bool.should.push({
-                    "match": {
-                      "subject": {
-                        "query": subjectObj.subject,
-                        "minimum_should_match": "100%",
-                        "boost": 4
+                  if(!query.subject){
+                    queryOptions.filtered.query.bool.should.push({
+                      "match": {
+                        "subject": {
+                          "query": subjectObj.subject,
+                          "minimum_should_match": "100%",
+                          "boost": 4
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
               }
             }
 
@@ -720,15 +725,6 @@ module.exports = {
             });
             Logger.info(notCountryCategories);
             Logger.info(notString);
-            queryOptions.filtered.query.bool.should.push({
-              "match": {
-                "country_of_residence":{
-                  "query": countryOfResidence,
-                  "minimum_should_match": "100%",
-                  "boost": 4
-                }
-              }
-            });
             boolQuery.must_not.push({
               "match": {
                 "country_of_residence": {
@@ -756,15 +752,6 @@ module.exports = {
 
           if (targetCountry) {
             var notTargetCountry = "not " + targetCountry;
-            queryOptions.filtered.query.bool.should.push({
-              "match": {
-                "targetCountry":{
-                  "query": targetCountry,
-                  "minimum_should_match": "100%",
-                  "operator": "and",
-                }
-              }
-            });
             boolQuery.must_not.push({
               "match": {
                 "country_of_residence": {
@@ -782,38 +769,7 @@ module.exports = {
 
           // TODO: match for required_university too?
           console.log("REL TERMS", relevantTerms);
-            if(query.required_university){
-              queryOptions.filtered.query.bool.should.push({
-                "match": {
-                  "required_university":{
-                    "query": query.required_university,
-                    "minimum_should_match": "100%",
-                    "boost": 4
-                  }
-                }
-              });
-            }
-            if(query.required_degree){
-              queryOptions.filtered.query.bool.should.push({
-                "match": {
-                  "required_degree":{
-                    "query": query.required_degree,
-                    "minimum_should_match": "100%",
-                    "boost": 4
-                  }
-                }
-              });
-            }
-            if(query.target_degree){
-              queryOptions.filtered.query.bool.should.push({
-                "match": {
-                  "target_degree":{
-                    "query": query.target_degree,
-                    "minimum_should_match": "100%",
-                  }
-                }
-              });
-            }
+
             var uniRelTerm = checkTargetIndex("target_university", relevantTerms);
             console.log("REL TER", uniRelTerm);
             if(uniRelTerm){
@@ -914,15 +870,6 @@ module.exports = {
             }
 
           });
-          queryOptions.filtered.query.bool.should.push({
-            "match": {
-              "country_of_residence":{
-                "query": countryCategories.join(' ') + ' all',
-                "minimum_should_match": "100%",
-              }
-            }
-
-          });
         }
 
 
@@ -933,19 +880,18 @@ module.exports = {
         //   Logger.debug("queryOptions.filtered.filter\n", queryOptions.filtered.filter);
         // }
 
-        queryOptions.filtered.query.bool.minimum_should_match = 2;
+        queryOptions.filtered.query.bool.minimum_should_match = 3;
 
 
         es.explain({
           index: 'funds',
           type: 'fund',
-          id: '1684',
+          id: '1924',
           body: {
             "query": queryOptions
           }
         }, function (error, response) {
-          // console.log(response.explanation.details[0].details);
-          console.log("General options", queryOptions.filtered.query.bool.should);
+          // console.log("General options", queryOptions.filtered.query.bool.should);
           // // // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should);
           // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[1].match);
           // console.log("QUEER OPTIONS", queryOptions.filtered.query.bool.should[2].match);
