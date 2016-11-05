@@ -73,7 +73,12 @@
           label(for='target_degree') Degree
           input#advanced_target_degree(type = "text", name = "target_degree", form = "advs-funding-form")
       .row
-        .col-md-3.col-md-offset-6
+        .col-md-6
+          .row(style='margin-top: 20px; font-size: 14px')
+              label.radio-inline.center-block
+                strong() Refine Search: Disregard broad category awards!
+                input#refine_search.refine_search(type='checkbox', name='refine_search', form = "advs-funding-form", style='width: auto; display: inline; margin-left: 10px')
+        .col-md-3
           label(for="merit_or_finance") Merit or finance based
           .row
             .col-md-5

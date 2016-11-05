@@ -10,6 +10,9 @@ if(typeof query != 'undefined' && query){
     if(field == 'gender'){
       $('#' + query[field]).attr("checked", "true");
     }
+    if(field =='refine_search'){
+      $('#refine_search').attr("checked", "true");
+    }
   }
 }
 $('span#tokenKey i').click(function(){
@@ -17,6 +20,18 @@ $('span#tokenKey i').click(function(){
   if(field == 'tags'){
     $('input#text_search').val('');
   }
+  if(field=='refine_search'){
+    $('input#refine_search').prop('checked', false);
+  }
+  // if(field.indexOf('_category') > -1){
+  //   console.log("FIELD", field);
+  //   var categoryInput = $("<input>")
+  //              .attr("type", "hidden")
+  //              .attr("name", field).val(false);
+  //   $('#advs-funding-form').append($(categoryInput));
+  //   console.log($('#advs-funding-form'));
+  // }
+
   $(this).closest('#tokenKey').fadeOut();
   $('input#advanced_' +field).val('');
 });

@@ -792,6 +792,13 @@ module.exports = {
 			}
 		});
 	},
+  addFundClick: function(req, res){
+    var user_id = req.user.id;
+    var fund_id = req.body.fund_id;
+    models.fund_link_clicks.create({fund_id: fund_id, user_id: user_id}).then(function(fundClick){
+      res.send(fundClick);
+    });
+  },
 	editApplication: function(req, res){
 		var userId = req.user.id;
 		var fundId = req.params.id;

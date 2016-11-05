@@ -24,7 +24,7 @@
       a#external-link( href!= fund.link, target='_blank', style='background: white; padding: 30px;margin-bottom: 30px; border: 1px solid #e1e8ed; border-radius: 3px; margin-top -10px;')
         span#favourite.favourite.no-profile_picture(style='margin-left: -20px;margin-top: -25px') ☆
         #fund_title_div
-          h4(style='font-size: 22px;')#bio=fund.title
+          h4(style='font-size: 22px;')#bio.fund_title=fund.title
         
     else
       a#external-link(href!=fund.link)
@@ -34,7 +34,7 @@
       span#favourite.favourite(style='margin-left: 10px;margin-top: 13px') ☆
       h4#bio(style='background: white;font-size: 22px; padding: 30px; margin-bottom: 20px; border-radius: 3px;border: 1px solid #e1e8ed; margin-top -10px;')=fund.title
     else
-      h4#bio=fund.title
+      h4#bio.fund_title=fund.title
   #left_info_div
     p.fundBio.desktop
     if fund.number_of_places

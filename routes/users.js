@@ -20,6 +20,7 @@ router.post('/settings/remove-file', users.settingsRemoveFile);
 router.post('/settings/update-description', users.settingsUpdateDocumentDescription);
 router.post('/email-settings/:id', users.changeEmailSettings);
 router.post('/add-application', users.addApplication);
+router.post('/add-fund-link-click', users.addFundClick);
 router.post('/edit-application/:id', users.editApplication);
 router.post('/add-favourite', users.addFavourite);
 router.post('/remove-favourite', users.removeFavourite);

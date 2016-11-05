@@ -9,10 +9,19 @@ $(document).ready(function(){
     }
     if($('#right_div_desktop #notEligible').css('display') !== 'none') {
       if(evt.target.class !== "modal-container") {
-        $('#right_div_desktop #notEligible').css('display', 'none')
+        $('#right_div_desktop #notEligible').css('display', 'none');
       }
     }
-  })
+  });
+  $(document).on('click', '.fund_title', function(){
+    console.log("WHAT");
+    var formData = {
+      fund_id: fund.id
+    };
+    $.post('/user/add-fund-link-click', formData, function(data){
+
+    });
+  });
   if(!user){
     showLimitedProfile();
   }
@@ -1392,8 +1401,8 @@ var subjectCounter = 0;
         fund_id: fund.id
       }
       $.post('/user/add-application', formData, function(data){
-        $('#application-notification').html("Check the new opened tab!");
-        $('#application-notification').delay(3000).fadeOut('slow');
+        $('#application-notification').html("Check the new opened tab! Please also edit the applications once you know the result!");
+
       })
     }
   })
