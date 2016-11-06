@@ -1198,7 +1198,6 @@ h1 {
   margin-bottom: -3%;
   background-color: white;
   padding-top: 1%;
-  padding-bottom: 15px;
   border: 1px solid #e1e8ed; }
   #box_3_right #eligibility_para_right {
     font-weight: bold;
@@ -1277,7 +1276,7 @@ h1 {
       padding-bottom: 50px; }
   #box_3_right div.readmore, #box_3_right div.readless {
     box-sizing: border-box;
-    height: 20px;
+    height: 35px;
     margin: 0 auto;
     text-align: center;
     border-top: 1px solid #e1e8ed;
