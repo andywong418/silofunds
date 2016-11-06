@@ -61,7 +61,8 @@ module.exports = function(passport) {
               username: req.body.username,
               email: email,
               password: password,
-              email_updates: true
+              email_updates: true,
+              user_launch: true
             }).then(function(user){
               Logger.info("AM I HERE");
               return done(null, user);
