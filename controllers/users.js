@@ -1463,12 +1463,12 @@ module.exports = {
     }
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'james.morrill.6@gmail.com',
-           pass: 'exogene5i5'}
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
-       to: 'notifications@silofunds.com',
+       to: 'support@silofunds.com',
        subject: 'User query from ' + name + ', ' + id,
        text: 'Dear Silo, \n' +
            message + '\n\n' +
@@ -1478,7 +1478,8 @@ module.exports = {
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
-            res.end("Email send failed");
+
+            res.end('email send failed');
         }
         else {
           req.flash('success', "Thank you for your query, we'll get back to you as soon as possible")
@@ -1494,8 +1495,8 @@ module.exports = {
     var email = req.body.email
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
-     auth: {user: 'james.morrill.6@gmail.com',
-           pass: 'exogene5i5'}
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'ThisIsNotificationsAccount'}
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
