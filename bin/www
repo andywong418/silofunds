@@ -245,7 +245,7 @@ es.checkConnection().then(function(resp) {
 // TODO: Eventually have to implement queuing system? Querying whole funds table is high volume.
 
 var CronJob = require('cron').CronJob;
-
+var lastUpdate = new Date();
 var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
 
 ////////////////////////////////////////////////////////////////////////
@@ -263,7 +263,7 @@ var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLet
 var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStudentNewsLetter, null, true);
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
-var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
+// var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 // var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
@@ -903,7 +903,13 @@ function recommendUserFunds(user, callback){
           matchObj.match.required_degree = user[key];
         } else if (key === 'previous_university') {
           matchObj.match.required_university = user[key];
-        } else {
+        } else if(key=='subject'){
+          matchObj.match.subject = {
+            "query": user[key],
+            "boost": 4
+          };
+        }
+        else {
           matchObj.match[key] = user[key];
         }
 
@@ -960,7 +966,7 @@ function checkCampaignViews(user, callback){
   var nowDate = Date.now();
   var oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  models.page_views.findAll({where:{user_id: user.id, created_at: {$gt: oneWeekAgo}}}).then(function(page_view_array){
+  models.page_views.findAll({where:{user_id: user.id, fund_id: null, created_at: {$gt: oneWeekAgo}}}).then(function(page_view_array){
     callback(page_view_array);
   });
 }
@@ -1264,9 +1270,8 @@ function checkUserIndex(){
  });
 }
 function checkForChanges() {
-  var lastUpdate = new Date();
   var log = 'Last updated: ' + lastUpdate;
-
+  console.log(log);
   models.funds.findAll({
     where: {
       created_at: {
@@ -1277,6 +1282,7 @@ function checkForChanges() {
   }).then(function(funds) {
     if (funds.length === 0) {
       Logger.info("nothing to update....");
+      updateUserTable(lastUpdate);
     } else {
       var wrapper = {};
       var body = prepareBulkUploadFunds(funds);
@@ -1284,15 +1290,19 @@ function checkForChanges() {
       wrapper.fieldName = 'funds';
       wrapper.body = body;
 
-      bulkUpload(wrapper).then(function() {
+       bulkUpload(wrapper).then(function() {
         // Timestamp from table rounds down. Here is the correction to avoid duplication.
         var lastUpdateFromTable = funds[funds.length - 1].created_at;
         lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
         lastUpdate = lastUpdateFromTable;
+      }).then(function(){
+        updateUserTable();
       });
     }
-  }).then(function(){
-    models.users.findAll({
+  });
+}
+function updateUserTable(lastUpdate){
+   models.users.findAll({
       where: {
         created_at: {
           $gte: lastUpdate
@@ -1301,24 +1311,25 @@ function checkForChanges() {
       },
       order: 'created_at ASC'
     }).then(function(users){
+      console.log("NEW USERS", users);
       if(users.length === 0){
-        Logger.info('nothing to update');
+        Logger.info('no users to update');
       }else{
+        console.log("WE GOT IN");
         var wrapper = {};
         var body = prepareBulkUploadUsers(users);
         wrapper.fieldName = 'users';
         wrapper.body = body;
         bulkUpload(wrapper).then(function(){
           // Timestamp from table rounds down. Here is the correction to avoid duplication.
-          var lastUpdateFromTable = funds[funds.length - 1].created_at;
+          var lastUpdateFromTable = users[users.length - 1].created_at;
           lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
           lastUpdate = lastUpdateFromTable;
         });
       }
     });
-  });
-}
 
+}
 function loadSettingsForBulkPrepFor(typeName, extraOptions, dataSource) {
   var wrapper = {};
   var body = prepareBulkUploadAutocomplete(typeName, elasticsearchModels.autocompleteSettings[typeName], extraOptions, dataSource);

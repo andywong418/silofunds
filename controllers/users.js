@@ -1541,12 +1541,8 @@ function createPageView(pageViewCreate, loggedInUser, user, callback){
     console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
       if(loggedInUser != user.id){
-        if(other_user.organisation_or_user){
-          pageViewCreate['fund_id'] = other_user.id;
-        }
-        else{
-          pageViewCreate['other_user'] = other_user.id;
-        }
+
+        pageViewCreate['other_user'] = other_user.id;
         models.page_views.create(pageViewCreate).then(function(){
           callback();
         });
