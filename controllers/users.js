@@ -35,7 +35,7 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 }
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
-var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
