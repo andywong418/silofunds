@@ -463,9 +463,11 @@ module.exports = {
       var body = JSON.parse(bodyUnparsed);
 
       if (body.error) {
+        console.log("stripe account authorization failure");
         Logger.info(body);
         res.redirect('/user/dashboard');
       } else {
+        console.log("successful account");
         models.stripe_users.create({
           user_id: req.user.id,
           token_type: body.token_type,
