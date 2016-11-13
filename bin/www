@@ -246,7 +246,9 @@ es.checkConnection().then(function(resp) {
 
 var CronJob = require('cron').CronJob;
 var lastUpdate = new Date();
+var lastUpdateUsers = new Date();
 var job = new CronJob('*/30 * * * * *', checkForChanges, null, true);
+var updateESUsers = new CronJob('*/30 * * * * *', checkForChangesUsers, null, true);
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -1282,7 +1284,6 @@ function checkForChanges() {
   }).then(function(funds) {
     if (funds.length === 0) {
       Logger.info("nothing to update....");
-      updateUserTable(lastUpdate);
     } else {
       var wrapper = {};
       var body = prepareBulkUploadFunds(funds);
@@ -1295,12 +1296,41 @@ function checkForChanges() {
         var lastUpdateFromTable = funds[funds.length - 1].created_at;
         lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
         lastUpdate = lastUpdateFromTable;
-      }).then(function(){
-        updateUserTable();
       });
     }
   });
 }
+
+function checkForChangesUsers() {
+  var log = 'Last updated users: ' + lastUpdateUsers;
+  console.log(log);
+  models.users.findAll({
+    where: {
+      created_at: {
+        $gte: lastUpdateUsers
+      },
+      organisation_or_user: null
+    },
+    order: 'created_at ASC'
+  }).then(function(users) {
+    if (users.length == 0) {
+      Logger.info("nothing to update.....");
+    } else {
+      var wrapper = {};
+      var body = prepareBulkUploadUsers(users);
+
+      wrapper.fieldName = 'users';
+      wrapper.body = body;
+      bulkUpload(wrapper).then(function(){
+        // Timestamp from table rounds down. Here is the correction to avoid duplication.
+        var lastUpdateFromTable = users[users.length - 1].created_at;
+        lastUpdateFromTable.setSeconds(lastUpdateFromTable.getSeconds() + 1);
+        lastUpdateUsers = lastUpdateFromTable;
+      });
+    }
+  })
+}
+
 function updateUserTable(lastUpdate){
    models.users.findAll({
       where: {
