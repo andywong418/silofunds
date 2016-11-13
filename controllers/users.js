@@ -10,7 +10,7 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
+var stripe = require('stripe')("sk_live_dd4eyhVytvbxcrELa3uibXjK");
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
