@@ -425,7 +425,7 @@ module.exports = {
       stripe_user: {
         email: user.email,
         url: userPublicProfile,
-        business_name: userPublicProfile,
+        business_name: "Education Crowdfunding",
         business_type: "sole_prop",
         country: user.billing_country,
         first_name: user.username.split(' ')[0],
@@ -540,41 +540,6 @@ module.exports = {
   //   // Redirect to Stripe /oauth/authorize endpoint
   //   res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
   // },
-
-  authorizeStripeCallback: function(req, res) {
-    var code = req.query.code;
-
-    // Make /oauth/token endpoint POST request
-    request.post({
-      url: TOKEN_URI,
-      form: {
-        grant_type: "authorization_code",
-        client_id: CLIENT_ID,
-        code: code,
-        client_secret: API_KEY
-      }
-    }, function(err, r, bodyUnparsed) {
-      var body = JSON.parse(bodyUnparsed);
-
-      if (body.error) {
-        Logger.info(body);
-        res.redirect('/user/dashboard');
-      } else {
-        models.stripe_users.create({
-          user_id: req.user.id,
-          token_type: body.token_type,
-          stripe_user_id: body.stripe_user_id,
-          refresh_token: body.refresh_token,
-          access_token: body.access_token,
-          stripe_publishable_key: body.stripe_publishable_key,
-          scope: body.scope,
-          livemode: body.livemode
-        });
-
-        res.redirect('/user/dashboard');
-      }
-    });
-  },
 
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly

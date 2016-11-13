@@ -287,7 +287,7 @@ $(document).ready(function() {
   // Stripe
 
   var handler = StripeCheckout.configure({
-      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r',
+      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE',
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',
