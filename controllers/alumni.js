@@ -6,6 +6,14 @@ var passportFunctions = require('./passport/functions');
 
 module.exports = {
   profile: function(req, res) {
-    res.render('alumni/profile')
+    if(req.user) {
+      var user = req.user
+      res.render('alumni/profile', {user: user})
+    } else {
+      models.users.findById(431).then(function(user) {
+        console.log(user)
+        res.render('alumni/profile', {user: user})
+      })
+    }
   }
 }
