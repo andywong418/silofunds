@@ -3,7 +3,6 @@ extend layout
 block extraHeader
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
 	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
-	meta(property='og:url', content='http://www.silofunds.com/public/' + user.id)
 	meta(property='og:type', content='website')
 	meta(property='og:title', content=user.username + "'s funding page")
 	meta(property='og:description', content='A crowdfunding page for ' + user.username + ".")
