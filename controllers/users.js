@@ -1828,10 +1828,12 @@ function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 function findStripeUser(option, res, dataObject1, dataObject2){
 	models.stripe_users.find({where: option}).then(function(stripe_user){
 		if(stripe_user){
+      dataObject1.stripe_user = true;
 			findCharges("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'", res, dataObject1, dataObject1, {destination_id: stripe_user.stripe_user_id}, option);
 
 		}else{
 			//Not stripe user
+      dataObject2.stripe_user = false;
 			findAllUpdatesComments(option, res,dataObject2);
 		}
 	});

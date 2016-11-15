@@ -1267,6 +1267,16 @@ body {
         font-size: 20px; }
         body #crowdfunding-wrapper #user-progress #progress-card #donate:hover, body #crowdfunding-wrapper #user-progress #progress-card .submit:hover {
           background-color: #0273e3; }
+      body #crowdfunding-wrapper #user-progress #progress-card #contact-user {
+        width: 100%;
+        border: none;
+        color: white;
+        padding: 5px;
+        margin-top: 20px;
+        background-color: #07a5b5;
+        font-size: 16px; }
+        body #crowdfunding-wrapper #user-progress #progress-card #contact-user:hover {
+          background-color: #04737e; }
       body #crowdfunding-wrapper #user-progress #progress-card .btn-facebook {
         width: 100%;
         margin-top: 20px;

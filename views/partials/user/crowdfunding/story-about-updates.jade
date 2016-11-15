@@ -111,4 +111,4 @@
                 p#comment= comment.comment
         else
           p#no-comment= 'You can add a comment by donating. Otherwise you can contact ' +user.username.split(' ')[0] + ' '
-            a(href=user.email) here.
+            a(href="mailto:" + user.email) here.

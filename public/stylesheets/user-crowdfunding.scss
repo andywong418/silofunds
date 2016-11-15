@@ -512,6 +512,18 @@ body{
 						background-color: #0273e3;
 					}
 				}
+        #contact-user{
+          width: 100%;
+          border: none;
+          color:white;
+          padding: 5px;
+          margin-top: 20px;
+          background-color: #07a5b5;
+          font-size: 16px;
+          &:hover{
+            background-color: #04737e;
+          }
+        }
 				.btn-facebook{
 					width: 100%;
 
