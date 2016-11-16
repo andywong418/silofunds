@@ -4,6 +4,7 @@ block extraHeader
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
 	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 	meta(property='og:type', content='website')
+	meta(property='og:url', content='https://www.silofunds.com/public/' + user.id)
 	meta(property='og:title', content=user.username + "'s funding page")
 	meta(property='og:description', content='A crowdfunding page for ' + user.username + ".")
 	meta(property='og:image', content=user.profile_picture)
