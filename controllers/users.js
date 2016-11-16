@@ -1212,7 +1212,17 @@ module.exports = {
     var queryOptions = {
       "filtered": {
         "filter": {
-          "missing": {"field": "organisation_or_user"}
+          "bool":{
+            "must":[
+              {
+                "missing": {"field": "organisation_or_user"}
+              },
+              {
+                "exists":{"field": "profile_picture"}
+              }
+            ]
+          }
+
         }
       }
     };

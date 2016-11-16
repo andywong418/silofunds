@@ -17,7 +17,6 @@ body {
   color: #2d4a76; }
 
 .page-header {
-  background-color: white;
   border-radius: 3px; }
 
 .database {
@@ -58,8 +57,7 @@ body {
 .user_list {
   background-color: white;
   border-radius: 15px;
-  margin-bottom: 60px;
-  margin-right: 35px; }
+  margin-bottom: 60px; }
 
 #user-info {
   padding-left: 30px; }

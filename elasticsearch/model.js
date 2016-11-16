@@ -64,8 +64,7 @@ var userSettings = {
           }
         },
         "profile_picture": {
-          "type": "string",
-          "index": "not_analyzed"
+          "type": "string"
         },
         "description": {
           "type": "string",
