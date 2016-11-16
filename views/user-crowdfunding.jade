@@ -1,14 +1,16 @@
 extend layout
 
-block extraHeader
-	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
-	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+block extraMeta
 	meta(property='og:type', content='website')
 	meta(property='og:url', content='https://www.silofunds.com/public/' + user.id)
 	meta(property='og:title', content=user.username + "'s funding page")
 	meta(property='og:description', content='A crowdfunding page for ' + user.username + ".")
 	meta(property='og:image', content=user.profile_picture)
 	meta(property='og:site_name', content='SiloFunds')
+
+block extraHeader
+	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 	script(src='http://connect.facebook.net/en_US/all.js')
 	script(src='https://checkout.stripe.com/checkout.js')
 	
