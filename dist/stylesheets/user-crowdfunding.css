@@ -1019,6 +1019,8 @@ body {
         padding: 20px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler #story {
           font-size: 16px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #story-handler #story a {
+            color: #639dd0  !important; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler .documents {
           margin-top: 15px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler #header {
