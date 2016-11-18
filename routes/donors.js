@@ -7,6 +7,7 @@ require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 router.get('/profile', donors.profile)
-router.get('/signup', donors.signup)
+router.get('/register', donors.registerPage)
+router.post('/register', donors.register)
 
 module.exports = router

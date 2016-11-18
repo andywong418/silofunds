@@ -17,7 +17,12 @@ module.exports = {
     }
   },
 
-  signup: function(req, res) {
-    res.render('donor/signup')
+  registerPage: function(req, res) {
+    res.render('donor/register')
+  },
+
+  register: function(req, res) {
+    console.log(req.body)
+    res.send('BOOBS')
   }
 }
