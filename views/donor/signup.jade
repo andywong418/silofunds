@@ -12,11 +12,12 @@ block content
   include ../advanced-search.jade
   include ../partials/signup-modal.jade
   
+  #payment-div.alert.alert-success Your payment has been recieved successfully.
   #form_container
-    p#confirmation_header.margin-remove.description Your donation has been made!
+    p.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
     .flex_div
       .signup
-        form(action='')
+        form(action='/donor/register', method='POST')
           .two_line
             input.right(type='text', placeholder='First:')
             input(type='text', placeholder='Last:')
