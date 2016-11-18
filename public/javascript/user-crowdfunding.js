@@ -454,7 +454,7 @@ $(document).ready(function() {
       $('#payment-div').fadeOut('slow');
     });
     $('#payment-div').delay(3000).fadeOut('slow');
-    location.reload();
+    $(location).attr('href', window.location.host + '/donor/signup')
   }
 
   // Stuff for mobile

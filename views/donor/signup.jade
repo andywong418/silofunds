@@ -1,0 +1,45 @@
+extend ../layout
+
+block extraHeader
+  link(href='/stylesheets/donor/signup.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+
+  
+
+block content
+  include ../navbar.jade
+  include ../partials/navbar-loggedin.jade
+  include ../advanced-search.jade
+  include ../partials/signup-modal.jade
+  
+  #form_container
+    .signup
+      form(action='http://qayum848.wix.com/qayum')
+        input(type='text', placeholder='First:')
+        input(type='text', placeholder='Last:')
+        input(type='text', placeholder='Email:')
+        input(type='text', placeholder='Phone:')
+        input(type='submit', placeholder='SUBMIT')
+    .whysign
+      h1
+        a(href='http://qayum848.wix.com/qayum') Becca Wilkin
+      //- p
+      //-   | Learning to code is not magic. It is as simply as opening your browser! See in real time the changes you make to HTMl, CSS, JavaScript, HAML, and more!
+      //- p
+      //-   | Learn: 
+      //-   span HTML
+      //-   span CSS
+      //-   span JavaScript
+
+    
+    
+
+block scripts
+  //moment
+  script(src='/bower_components/moment/min/moment-with-locales.js')
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/notifications.js')
+  script(src='/javascript/signup-login.js')
+  script.
+    var user = !{JSON.stringify(user)}
+    console.log(user)
