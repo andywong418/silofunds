@@ -17,12 +17,7 @@ module.exports = {
     }
   },
 
-  registerGET: function(req, res) {
+  register: function(req, res) {
     res.render('donor/register')
-  },
-
-  registerPOST: function(req, res) {
-    console.log(req.body)
-    res.send('BOOBS')
   }
 }

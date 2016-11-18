@@ -7,7 +7,7 @@ require('../controllers/passport/strategies')(passport);
 var router = express.Router();
 
 router.get('/profile', donors.profile)
-router.get('/register', donors.registerGET)
+router.get('/register', donors.register)
 router.post('/register', passport.authenticate('registrationStrategy', {successRedirect: '/donor/profile', failureRedirect: '/donor/register'}))
 
 module.exports = router

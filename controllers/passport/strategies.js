@@ -135,13 +135,19 @@ passport.use('registrationStrategy', new LocalStrategy({
                         return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                     }
                 } else if (req.body.paymentSuccessful == 'true') {
-                  models.donors.create({
-                    username: data.firstName + ' ' + data.lastName,
-                    email: data.email,
-                    password: data.password
-                  }).then(function(donor) {
-                    return done(null, donor)
-                  })
+                  if(data.password == data.confirmPassword) {
+                    models.donors.create({
+                      username: data.firstName + ' ' + data.lastName,
+                      email: data.email,
+                      password: data.password
+                    }).then(function(donor) {
+                      return done(null, donor)
+                    })
+                  } else if (data.password !== data.confirmPassword) {
+                      return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                  } else {
+                    return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                  }
                 }
             });
         });
