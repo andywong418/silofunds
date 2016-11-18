@@ -153,6 +153,18 @@ body{
     display: none;
   }
 }
+#looking-to-support{
+  color:white;
+  background: #19B5FE;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: lighter;
+  &:hover, &:active, &:focus{
+    text-decoration: none;
+    background: #1490cb;
+  }
+}
 #text_search {
   height: 40px;
   width: 340px;

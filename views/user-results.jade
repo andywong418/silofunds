@@ -78,9 +78,14 @@ block content
 										//- 	p#user-religion(class!= 'user-religion' + '<%= user_id %>')
 								.col-xs-1
 								#user-action.col-xs-2
-									a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
-										i.fa.fa-comments-o(aria-hidden="true")
-										|Message 
+									if user
+										a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+											i.fa.fa-comments-o(aria-hidden="true")
+											|Message 
+									else
+										a#message.center-block.btn.btn-default(href!='mailto:' + '<%=user_email %>')
+											i.fa.fa-envelope-o(aria-hidden="true")
+											|Contact
 			div.page-header.mobile
 				each user in users
 					.row.main-mobile-row

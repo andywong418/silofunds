@@ -1209,10 +1209,24 @@ module.exports = {
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
+    var today = new Date();
     var queryOptions = {
       "filtered": {
         "filter": {
-          "missing": {"field": "organisation_or_user"}
+          "bool":{
+            "must":[
+              {
+                "missing": {"field": "organisation_or_user"}
+              },
+              {
+                "range":{
+                  "completion_date":{
+                    "gte": today
+                  }
+                }
+              }
+            ]
+          }
         }
       }
     };
@@ -1291,14 +1305,17 @@ module.exports = {
           }
         }
       }
-      Logger.warn(queryOptions.filtered.filter.bool);
+      console.log(queryOptions.filtered.query.bool.should);
     }
     es.search({
       index: "users",
       type: "user",
       body: {
         "size": 1000,
-        "query": queryOptions
+        "query": queryOptions,
+        "sort": [
+          {"completion_date": {"order": "asc"}}
+        ]
       }
     }).then(function(resp) {
       if(query['upper_date']){
@@ -1308,7 +1325,7 @@ module.exports = {
         delete query['lower_date'];
       }
       var users = resp.hits.hits.map(function(hit) {
-        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
+        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];

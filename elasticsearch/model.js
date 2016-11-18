@@ -67,6 +67,10 @@ var userSettings = {
           "type": "string",
           "index": "not_analyzed"
         },
+        "email":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
         "description": {
           "type": "string",
           "index": "not_analyzed"
@@ -104,6 +108,9 @@ var userSettings = {
         },
         "funding_needed": {
           "type": "integer"
+        },
+        "completion_date":{
+          "type": "date"
         },
         "organisation_or_user": {
           "type": "boolean"

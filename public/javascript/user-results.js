@@ -83,9 +83,10 @@ $(document).ready(function(){
           previous_university: userData[i].previous_university,
           target_university: userData[i].target_university,
           user_religion: userData[i].religion,
-          user_id: userData[i].id
+          user_id: userData[i].id,
+          user_email: userData[i].email
         });
-
+        console.log(userData[i]);
         var view = new UserView({ model: user });
         var religion = userData[i].religion;
         var id = userData[i].id;
