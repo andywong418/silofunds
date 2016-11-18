@@ -149,23 +149,50 @@ passport.use('registrationStrategy', new LocalStrategy({
                         return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                     }
                 } else if (req.body.paymentSuccessful == 'true') {
-                    models.donors.find({where: {email: email}}).then(function(user) {
-                      if(!user) {
-                        if(data.password == data.confirmPassword) {
-                          models.donors.create({
-                            username: data.firstName + ' ' + data.lastName,
-                            email: data.email,
-                            password: data.password
-                          }).then(function(user) {
-                            return done(null, user)
-                          })
-                        } else if (data.password !== data.confirmPassword) {
-                          return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                    var passOnUser;
+                    if(!user) {
+                      models.donors.find({where: {email: email}}).then(function(user) {
+                        if(!user) {
+                          if(data.password == data.confirmPassword) {
+                            models.donors.create({
+                              username: data.firstName + ' ' + data.lastName,
+                              email: data.email,
+                              password: data.password
+                            }).then(function(user) {
+                              return done(null, user)
+                            })
+                          } else if (data.password !== data.confirmPassword) {
+                            return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                          }
+                        } else {
+                          return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                         }
-                      } else {
-                        return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-                      }
-                    })
+                      })
+                    } else if(user) {
+                      var user_id = user.id;
+                      models.donors.find({where: {email: email}}).then(function(user) {
+                        if(!user) {
+                          if(data.password == data.confirmPassword) {
+                            models.donors.create({
+                              username: data.firstName + ' ' + data.lastName,
+                              email: data.email,
+                              password: data.password,
+                              user_id: user_id
+                            }).then(function(user) {
+                              models.users.findById(user_id).then(function(user_userTable) {
+                                user_userTable.update({user_type: 'donor'}).then(function() {
+                                  return done(null, user)
+                                })
+                              })
+                            })
+                          } else if (data.password !== data.confirmPassword) {
+                            return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                          }
+                        } else {
+                          return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                        }
+                      })
+                    }
                   }
             });
         });

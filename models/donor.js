@@ -45,9 +45,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'religion'
     },
-    email_updates:{
+    email_updates: {
       type: DataTypes.BOOLEAN,
       field: 'email_updates'
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      field: 'user_id'
     }
   }, {
     timestamps: true,
