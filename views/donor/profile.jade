@@ -48,98 +48,23 @@ block content
   include ../advanced-search.jade
   include ../partials/signup-modal.jade
   
-  #crowdfunding-wrapper.container
-    if user && user.user_launch !== true
-      #launch_box
-        form(method='post', action='/user/launch')
-          .alert.alert-info.col-xs-10.col-xs-offset-1
-            span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
-            button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
-    #pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
-      if user.profile_picture && !user.video
-        .no-vid-pic-border
-          img#profile_picture.pic-resize(src!=user.profile_picture)
-      if user.video
-        .video-div.mobile
-        .video-div.desktop
-      if !user.profile_picture && !user.video
-        img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
-                  
-    #user-progress.col-md-5.col-sm-6.col-xs-12
-      #progress-card
-        if !user.video
-          h3= user.username
-        if user.video
-          if user.profile_picture
-            .flex-container
-              .flex-div.flex-div-name
-                span#sit_the_h3_down
-                  h3= user.username
-              .flex-div.flex-div-middle
-              .flex-div.flex-div-image
-                img.ifVideoPhoto#profile_picture(src!=user.profile_picture)
-          if !user.profile_picture
-            h3= user.username
-        if user.funding_needed
-          if user.funding_accrued != null || user.funding_accrued > 0
-            p#raised= '£' +user.funding_accrued
-              span= 'of £' + user.funding_needed + ' reached'
-          else
-            p#raised £0
-              span= 'of ' + user.funding_needed + ' reached'
-        else
-          if user.funding_accrued != null || user.funding_accrued > 0
-            p#raised= '£' +user.funding_accrued
-              span= ' reached'
-          else
-            p#raised £0
-              span=' reached'
-        .progress
-          .progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-          .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-        #progress-info.row
-          .col-md-4.col-sm-4.col-xs-4
-            p#percentage 0%
-              span funded
-          .col-md-4.col-sm-4.col-xs-4
-            if charges
-              p#no-of-supporters= charges
-                span supporters
-            else
-              p#no-of-supporters 0
-                span supporters
-          .col-md-4.col-sm-4.col-xs-4
-            p#remaining-days 0
-              span days to go
-        span
-          #amount.input-group
-            span.input-group-addon £
-            input#donate-amount.form-control(type='number', aria-label='Amount (to the nearest pound)')
-            span.input-group-addon .00
-          a#donate.btn.btn-default= 'Donate to ' + user.username.split(' ')[0]
-        #donate-amount.hidden
-          #applicationFeeMessage.col-md-12.col-sm-12
-            if user.refund
-              p#refund-text You will be refunded if the user is does not reach his/her goal.
-            p Do you want to pay the processing fee (~2.9%)?
-            #buttonDiv.col-md-5.col-sm-5
-              .btn-group.btn-group-justified
-                .btn-group(role='group', aria-label='...')
-                  button#donorpays.btn.btn-default.active(type='button') I do!
-                .btn-group(role='group', aria-label='...')
-                  button#recipientpays.btn.btn-default(type='button') Nope.
-            #helperDiv.col-md-7.col-sm-7
-              span#process-fee
-            #comment-div
-              textarea#comment-text(placeholder= 'Leave a note to show your support!')
-      //- .mobile
-      //-   #story-about-updates-targeting-div-mobile
-      //-     include ./partials/user/crowdfunding/story-about-updates.jade
-      //-   include ./partials/user/crowdfunding/social-buttons.jade
-      //-   include ./partials/user/crowdfunding/applications-and-donations.jade
-      //- .desktop
-      //-   include ./partials/user/crowdfunding/applications-and-donations.jade
-    
+  //- #crowdfunding-wrapper.container
+  //-   if user && user.user_launch !== true
+  //-     #launch_box
+  //-       form(method='post', action='/user/launch')
+  //-         .alert.alert-info.col-xs-10.col-xs-offset-1
+  //-           span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
+  //-           button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
+  //-   #pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
+  //-     if user.profile_picture && !user.video
+  //-       .no-vid-pic-border
+  //-         img#profile_picture.pic-resize(src!=user.profile_picture)
+  //-     if user.video
+  //-       .video-div.mobile
+  //-       .video-div.desktop
+  //-     if !user.profile_picture && !user.video
+  //-       img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
+
 
 block scripts
   //moment

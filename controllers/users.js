@@ -508,7 +508,6 @@ module.exports = {
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    Logger.info("HUH")
     if (!req.body.remember_me) {
       res.redirect('loginSplit');
     } else {
@@ -527,12 +526,10 @@ module.exports = {
       passportFunctions.ensureAuthenticated(req, res, function(){
           res.redirect('/user/create');
       });
-
     }
     else {
       passportFunctions.ensureAuthenticated(req, res, function(){
         res.redirect('/organisation/create');
-
       });
     }
   },
@@ -570,7 +567,7 @@ module.exports = {
           scope: body.scope,
           livemode: body.livemode
         });
-        
+
         res.redirect('/user/dashboard');
       }
     });

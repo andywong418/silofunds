@@ -6,15 +6,9 @@ var passportFunctions = require('./passport/functions');
 
 module.exports = {
   profile: function(req, res) {
-    if(req.user) {
-      var user = req.user
-      res.render('donor/profile', {user: user})
-    } else {
-      models.users.findById(431).then(function(user) {
-        console.log(user)
-        res.render('donor/profile', {user: user})
-      })
-    }
+    passportFunctions.ensureAuthenticated(req, res, function() {
+      res.render('donor/profile', {user: req.user});
+    });
   },
 
   register: function(req, res) {

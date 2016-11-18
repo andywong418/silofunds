@@ -14,6 +14,7 @@ module.exports.ensureAuthenticated = function(req, res, next) {
 };
 
 
+
 // Functions for the remember me strategy
 var tokens = {};
 function issueToken(user, done) {

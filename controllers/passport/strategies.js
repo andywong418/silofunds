@@ -10,25 +10,31 @@ var passportFunctions = require('./functions')
 var signup = require('../signup')
 
 
-
 // Export passport strategies
 module.exports = function(passport) {
-
 
   //  Serialize and deserialize
   passport.serializeUser(function(user, done){
      done(null, user);
   });
   passport.deserializeUser(function(obj, done) {
+    var email = obj.email
     // Do this step to update req.user if user has just been updated
-    models.users.findById(obj.id).then(function(user) {
+    models.users.find({where: {email: email}}).then(function(user) {
       // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up
-      if(user){
+      if(user) {
         user = user.get();
         done(null, user);
       } else {
-        user = {}
-        done(null, user)
+        models.donors.find({where: {email: email}}).then(function(user) {
+          if(user) {
+            user = user.get();
+            done(null, user);
+          } else {
+            user = {}
+            done(null, user)
+          }
+        })
       }
     });
   });
@@ -43,7 +49,17 @@ module.exports = function(passport) {
   function(username, password, done) {
     models.users.find({where: {email: username}}).then(function(user) {
       if (!user) {
-        return done(null, false, {message: 'There is no account under this name.'});
+        models.donors.find({where: {email: username}}).then(function(user) {
+          if(!user) {
+            return done(null, false, {message: 'There is no account under this name.'});
+          } bcrypt.compare(password, user.password, function(err, res) {
+              if (!res) {
+                return done(null, false, {message: 'Wrong password'});
+              } else {
+                return done(null, user);
+              }
+          });
+        })
       } bcrypt.compare(password, user.password, function(err, res) {
           if (!res) {
             return done(null, false, {message: 'Wrong password'});
@@ -53,7 +69,6 @@ module.exports = function(passport) {
       });
     });
   }));
-
 
 // Create a registraton strategy
 passport.use('registrationStrategy', new LocalStrategy({
@@ -72,7 +87,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                 var data = req.body;
                 // If a user go via this route
                 // Some logic to make both the modal box and the stand alone login pages work
-                if (req.body.fundOption && req.body.fundOption !== 'on') {
+                if (req.body.paymentSuccessful !== 'true' && req.body.fundOption !== 'on') {
                   var confirmPassword;
                   var name;
                   if(data.confirmPassword == null) {
@@ -92,7 +107,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                           password: data.password,
                           email_updates: true
                       }).then(function(user) {
-                          return done(null, user);
+                        return done(null, user);
                       });
                   } else if (data.password !== data.confirmPassword) {
                       return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
@@ -140,8 +155,8 @@ passport.use('registrationStrategy', new LocalStrategy({
                       username: data.firstName + ' ' + data.lastName,
                       email: data.email,
                       password: data.password
-                    }).then(function(donor) {
-                      return done(null, donor)
+                    }).then(function(user) {
+                      return done(null, user)
                     })
                   } else if (data.password !== data.confirmPassword) {
                       return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
