@@ -570,7 +570,7 @@ module.exports = {
           scope: body.scope,
           livemode: body.livemode
         });
-
+        
         res.redirect('/user/dashboard');
       }
     });

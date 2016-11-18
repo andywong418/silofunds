@@ -9,7 +9,7 @@ var autocomplete = require('../routes/autocomplete');
 var validation = require('../routes/validation');
 var user_edit = require('../routes/user-edit');
 var user = require('../routes/users');
-var alumni = require('../routes/alumni');
+var donors = require('../routes/donors');
 var organisation = require('../routes/organisations');
 var basicAuth = require('basic-auth');
 var notifications = require('../routes/notifications');
@@ -67,7 +67,7 @@ module.exports.initialize = function (app) {
   app.use('/validation', validation);
   app.use('/user-edit', user_edit);
   app.use('/user', user);
-  app.use('/alumni', alumni);
+  app.use('/donor', donors);
   app.use('/organisation', organisation);
   app.use('/messages', messages);
   app.use('/notifications', notifications);

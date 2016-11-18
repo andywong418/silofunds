@@ -8,12 +8,16 @@ module.exports = {
   profile: function(req, res) {
     if(req.user) {
       var user = req.user
-      res.render('alumni/profile', {user: user})
+      res.render('donor/profile', {user: user})
     } else {
       models.users.findById(431).then(function(user) {
         console.log(user)
-        res.render('alumni/profile', {user: user})
+        res.render('donor/profile', {user: user})
       })
     }
+  },
+
+  signup: function(req, res) {
+    res.render('donor/signup')
   }
 }
