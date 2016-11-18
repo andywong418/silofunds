@@ -18,6 +18,7 @@ block content
     .flex_div
       .signup
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')
+          input.right(type='hidden', value='true', name='paymentSuccessful', placeholder='First:')
           .two_line
             input.right(type='text', name='firstName', placeholder='First:')
             input(type='text', name='lastName', placeholder='Last:')

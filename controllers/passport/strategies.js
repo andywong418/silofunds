@@ -72,7 +72,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                 var data = req.body;
                 // If a user go via this route
                 // Some logic to make both the modal box and the stand alone login pages work
-                if (req.body.fundOption !== 'on') {
+                if (req.body.fundOption && req.body.fundOption !== 'on') {
                   var confirmPassword;
                   var name;
                   if(data.confirmPassword == null) {
@@ -100,7 +100,7 @@ passport.use('registrationStrategy', new LocalStrategy({
                     return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                   }
                 // If a fund, go via this route
-                } else {
+              } else if (req.body.fundOption == 'on') {
                   // Again, do logic for modal box and standalone login routes
                   var confirmPassword;
                   var name;
@@ -134,6 +134,14 @@ passport.use('registrationStrategy', new LocalStrategy({
                     } else {
                         return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
                     }
+                } else if (req.body.paymentSuccessful == 'true') {
+                  console.log('hi')
+                  // models.users.create({
+                  //   username: data.firstName + ' ' + data.lastName,
+                  //   email: data.email,
+                  //   password: data.password,
+                  //
+                  // })
                 }
             });
         });

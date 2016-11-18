@@ -17,11 +17,11 @@ module.exports = {
     }
   },
 
-  registerPage: function(req, res) {
+  registerGET: function(req, res) {
     res.render('donor/register')
   },
 
-  register: function(req, res) {
+  registerPOST: function(req, res) {
     console.log(req.body)
     res.send('BOOBS')
   }
