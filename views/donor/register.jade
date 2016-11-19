@@ -16,7 +16,11 @@ block content
     .flex_div
       .signup
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')
-          input.right(type='hidden', value='true', name='paymentSuccessful', placeholder='First:')
+          // Hidden form pieces
+          input.right(type='hidden', value='true', name='paymentSuccessful')
+          if user_id && amount
+            input.right(type='hidden', value=amount, name='amount')
+            input.right(type='hidden', value=user_id, name='user_id')
           .two_line
             input.right(type='text', name='firstName', placeholder='First:')
             input(type='text', name='lastName', placeholder='Last:')
@@ -26,7 +30,7 @@ block content
             input#password.right(type='password', name='password', placeholder='Password:')
             input#password_confirmation(type='password', name='confirmPassword', placeholder='Confirm password:')
           p.error.password_match Passwords do not match
-          input.submit(type='submit', placeholder='SUBMIT')
+          input.submit(type='submit' placeholder='SUBMIT')
     
     
 

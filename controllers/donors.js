@@ -15,6 +15,12 @@ module.exports = {
     res.render('donor/register')
   },
 
+  transaction_signup: function(req, res) {
+    var amount = req.body.amount
+    var user_id = req.body.user_id
+    res.render('donor/register', {user_id: user_id, amount: amount})
+  },
+
   logout: function(req, res) {
     res.cookie('remember_me', '', {expires: new Date(1), path: '/'});
     req.flash('logoutMsg', 'Successfully logged out');

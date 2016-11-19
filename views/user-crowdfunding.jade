@@ -53,13 +53,17 @@ block content
 	include ./partials/signup-modal.jade
 	#payment-div.alert.alert-success.hidden
 	#payment-div-invisible
+	form#hidden_form(name='transaction', role='form', type='hidden', method='post', action='/donor/transaction_signup')
+		input.hidden_amount(type='text', name='amount')
+		input.hidden_userId(type='text', name='user_id')
+		input(type='submit')
 	#crowdfunding-wrapper.container
 		if user && user.user_launch !== true
 			#launch_box
-				form(method='post', action='/user/launch')
-					.alert.alert-info.col-xs-10.col-xs-offset-1
-						span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
-						button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
+				//- form(method='post', action='/user/launch')
+				//- 	.alert.alert-info.col-xs-10.col-xs-offset-1
+				//- 		span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
+				//- 		button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit', name='submit_launch').launch_campaign.btn.btn-primary Launch!
 		#pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
 			if user.profile_picture && !user.video
 				.no-vid-pic-border

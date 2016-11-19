@@ -223,7 +223,13 @@ $(document).ready(function() {
   var counter = 0;
   $('#donate').click(function(e) {
     e.preventDefault();
-    if(counter == 0){
+    var amount = $('input#donate-amount').val();
+    var applicationFee = Math.ceil(amount * 0.029 + 0.2);
+    var userId = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
+    $('#hidden_form .hidden_amount').attr('value', amount)
+    $('#hidden_form .hidden_userId').attr('value', userId)
+    $('#hidden_form').submit()
+    if(counter == 0) {
       counter++;
       $('#donate').css('font-size', '14px');
       $('.donate-row').css('display', 'flex');
@@ -237,8 +243,7 @@ $(document).ready(function() {
         $('div#donate-amount').removeClass('hidden');
         $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
       });
-    }
-    else{
+    } else {
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
@@ -298,7 +303,7 @@ $(document).ready(function() {
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
-          var comment = $('textarea#comment-text').val();
+        var comment = $('textarea#comment-text').val();
         var amountAdjusted;
 
         if (donorIsPaying) {
@@ -321,7 +326,7 @@ $(document).ready(function() {
           url: '/user/charge',
           data: data
         }).done(function(data) {
-          //calculate width of bar and supporters and bar
+          // calculate width of bar and supporters and bar
           displayCompletionMessage(data);
         });
       }
@@ -329,7 +334,6 @@ $(document).ready(function() {
 
     $('.submit').on('click', function(e) {
       // Open Checkout with further options:
-
     });
 
     // Close Checkout on page navigation:
@@ -454,7 +458,11 @@ $(document).ready(function() {
       $('#payment-div').fadeOut('slow');
     });
     $('#payment-div').delay(3000).fadeOut('slow');
-    $(location).attr('href', window.location.host + '/donor/signup')
+    var userId = data.recipientUserID
+    var amount = data.amount // Note that this is in pence
+    $('#hidden_form .hidden_amount').attr('value', amount)
+    $('#hidden_form .hidden_userId').attr('value', user_id)
+    $('#hidden_form').submit()
   }
 
   // Stuff for mobile
