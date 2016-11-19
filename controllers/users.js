@@ -483,7 +483,7 @@ module.exports = {
       }
     });
   },
-  
+
   loginGET: function(req, res) {
     var logoutMsg = req.flash('logoutMsg');
     var goodbye = req.flash('goodbye')
@@ -1531,10 +1531,8 @@ module.exports = {
 ////// Helper functions
 function createPageView(pageViewCreate, loggedInUser, user, callback){
   if(loggedInUser){
-    console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
       if(loggedInUser != user.id){
-
         pageViewCreate['other_user'] = other_user.id;
         models.page_views.create(pageViewCreate).then(function(){
           callback();

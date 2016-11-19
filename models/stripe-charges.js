@@ -86,9 +86,13 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			field: 'sender_name'
 		},
-		user_from: {
+		user_id: {
 			type: DataTypes.INTEGER,
-			field: 'user_from'
+			field: 'user_id'
+		},
+		donor_id: {
+			type: DataTypes.INTEGER,
+			field: 'donor_id'
 		}
   }, {
 		timestamps: true,

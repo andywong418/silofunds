@@ -112,13 +112,26 @@ module.exports = {
       if(!user) {
         models.donors.find({where: {email: data.email}}).then(function(user) {
           if(!user) {
+            console.log(data)
+            console.log('DATA!!!!!!!')
             if(data.password == data.confirmPassword) {
               models.donors.create({
                 username: data.firstName + ' ' + data.lastName,
                 email: data.email,
                 password: data.password
               }).then(function(user) {
-                return done(null, user)
+                if(data.stripe_id) {
+                  models.stripe_charges.findById(data.stripe_id).then(function(stripe_transaction) {
+                    stripe_transaction.update({
+                      user_id: data.user_id,
+                      donor_id: user.id
+                    }).then(function() {
+                      return done(null, user)
+                    })
+                  })
+                } else {
+                  return done(null, user)
+                }
               })
             } else if (data.password !== data.confirmPassword) {
               return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
@@ -140,7 +153,18 @@ module.exports = {
               }).then(function(user) {
                 models.users.findById(user_id).then(function(user_userTable) {
                   user_userTable.update({user_type: 'donor'}).then(function() {
-                    return done(null, user)
+                    if(data.stripe_id) {
+                      models.stripe_charges.findById(data.stripe_id).then(function(stripe_tstripe_transaction) {
+                        stripe_transaction.update({
+                          user_id: data.user_id,
+                          donor_id: user.id
+                        }).then(function() {
+                          return done(null, user)
+                        })
+                      })
+                    } else {
+                      return done(null, user)
+                    }
                   })
                 })
               })

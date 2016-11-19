@@ -16,9 +16,11 @@ module.exports = {
   },
 
   transaction_signup: function(req, res) {
-    var amount = req.body.amount
+    console.log(req.body)
+    console.log('HEHEHEHEHEHEHRERERERER')
+    var stripe_id = req.body.stripe_id
     var user_id = req.body.user_id
-    res.render('donor/register', {user_id: user_id, amount: amount})
+    res.render('donor/register', {user_id: user_id, stripe_id: stripe_id})
   },
 
   logout: function(req, res) {

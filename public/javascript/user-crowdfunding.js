@@ -223,12 +223,12 @@ $(document).ready(function() {
   var counter = 0;
   $('#donate').click(function(e) {
     e.preventDefault();
-    var amount = $('input#donate-amount').val();
-    var applicationFee = Math.ceil(amount * 0.029 + 0.2);
+    // In between is just to test, needs to be deleted
     var userId = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
-    $('#hidden_form .hidden_amount').attr('value', amount)
+    $('#hidden_form .hidden_stripeId').attr('value', 1)
     $('#hidden_form .hidden_userId').attr('value', userId)
     $('#hidden_form').submit()
+    //
     if(counter == 0) {
       counter++;
       $('#donate').css('font-size', '14px');
@@ -459,8 +459,8 @@ $(document).ready(function() {
     });
     $('#payment-div').delay(3000).fadeOut('slow');
     var userId = data.recipientUserID
-    var amount = data.amount // Note that this is in pence
-    $('#hidden_form .hidden_amount').attr('value', amount)
+    // var stripeId = data.id // Note that this is in pence ** WE NEED THE STRIPE ID HERE!!
+    $('#hidden_form .hidden_amount').attr('value', 1)
     $('#hidden_form .hidden_userId').attr('value', user_id)
     $('#hidden_form').submit()
   }
