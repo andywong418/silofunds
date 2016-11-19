@@ -223,12 +223,6 @@ $(document).ready(function() {
   var counter = 0;
   $('#donate').click(function(e) {
     e.preventDefault();
-    // In between is just to test, needs to be deleted
-    var userId = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
-    $('#hidden_form .hidden_stripeId').attr('value', 1)
-    $('#hidden_form .hidden_userId').attr('value', userId)
-    $('#hidden_form').submit()
-    //
     if(counter == 0) {
       counter++;
       $('#donate').css('font-size', '14px');
@@ -305,7 +299,6 @@ $(document).ready(function() {
         var donorIsPaying = $('#donorpays').hasClass('active');
         var comment = $('textarea#comment-text').val();
         var amountAdjusted;
-
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
@@ -320,7 +313,6 @@ $(document).ready(function() {
         data.email = token.email;
         data.recipientUserID = recipientUserID;
         data.comment = comment;
-
         $.ajax({
           type: "POST",
           url: '/user/charge',
@@ -458,9 +450,9 @@ $(document).ready(function() {
       $('#payment-div').fadeOut('slow');
     });
     $('#payment-div').delay(3000).fadeOut('slow');
-    var userId = data.recipientUserID
-    // var stripeId = data.id // Note that this is in pence ** WE NEED THE STRIPE ID HERE!!
-    $('#hidden_form .hidden_amount').attr('value', 1)
+    var user_id = data.user_id
+    var stripe_id = data.id
+    $('#hidden_form .hidden_stripeId').attr('value', stripe_id)
     $('#hidden_form .hidden_userId').attr('value', user_id)
     $('#hidden_form').submit()
   }

@@ -10,7 +10,8 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')("sk_live_dd4eyhVytvbxcrELa3uibXjK");
+// var stripe = require('stripe')("sk_live_dd4eyhVytvbxcrELa3uibXjK");
+var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -35,7 +36,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 }
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
-var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -336,7 +338,7 @@ module.exports = {
     if(req.user && req.user.id != req.body.recipientUserID){
       user_from = req.user.id;
     }
-    else{
+    else {
       user_from = null;
     }
     stripe.customers.create({
@@ -395,12 +397,8 @@ module.exports = {
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
                 });
-
               }
-
-
-            }
-            else{
+            } else{
               models.users.findById(stripe_user.user_id).then(function(user){
                 returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
               });
