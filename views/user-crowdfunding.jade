@@ -51,11 +51,14 @@ block content
 	include ./partials/navbar-loggedin.jade
 	include ./advanced-search.jade
 	include ./partials/signup-modal.jade
-	#payment-div.alert.alert-success.hidden
-	#payment-div-invisible
-	form#hidden_form(name='transaction', role='form', type='hidden', method='post', action='/donor/transaction_signup')
-		input.hidden_stripeId(type='text', name='stripe_id')
-		input.hidden_userId(type='text', name='user_id')
+	#payment_processing.modal.fade
+		#payment-div.alert.alert-success.hidden
+		#payment-div-invisible
+		#processing-div.alert.alert-info
+			p Your payment is being processed
+	form#hidden_form.hidden(name='transaction', role='form', type='hidden', method='post', action='/donor/transaction_signup')
+		input.hidden.hidden_stripeId(type='text', name='stripe_id')
+		input.hidden.hidden_userId(type='text', name='user_id')
 	#crowdfunding-wrapper.container
 		if user && user.user_launch !== true
 			#launch_box
@@ -163,4 +166,3 @@ block scripts
 	script(src='/javascript/signup-login.js')
 	script.
 		var user = !{JSON.stringify(user)}
-		console.log(user)
