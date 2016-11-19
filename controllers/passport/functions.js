@@ -108,80 +108,52 @@ module.exports = {
 
   registerDonor: function(data, user, req, done) {
     // This is registration for someone who has donated
-      var passOnUser;
-      if(!user) {
-        models.donors.find({where: {email: data.email}}).then(function(user) {
-          if(!user) {
-            console.log(data)
-            console.log('DATA!!!!!!!')
-            if(data.password == data.confirmPassword) {
-              models.donors.create({
-                username: data.firstName + ' ' + data.lastName,
-                email: data.email,
-                password: data.password
-              }).then(function(user) {
-                if(data.stripe_id) {
-                  models.stripe_charges.findById(data.stripe_id).then(function(stripe_transaction) {
-                    stripe_transaction.update({
-                      user_id: data.user_id,
-                      donor_id: user.id
-                    }).then(function() {
-                      return done(null, user)
-                    })
-                  })
-                } else {
-                  return done(null, user)
-                }
-              })
-            } else if (data.password !== data.confirmPassword) {
-              return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-            }
-          } else {
-            return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-          }
-        })
-      } else if(user) {
-        var user_id = user.id;
-        models.donors.find({where: {email: email}}).then(function(user) {
-          if(!user) {
-            if(data.password == data.confirmPassword) {
-              models.donors.create({
-                username: data.firstName + ' ' + data.lastName,
-                email: data.email,
-                password: data.password,
-                user_id: user_id
-              }).then(function(user) {
-                models.users.findById(user_id).then(function(user_userTable) {
-                  user_userTable.update({user_type: 'donor'}).then(function() {
-                    if(data.stripe_id) {
-                      models.stripe_charges.findById(data.stripe_id).then(function(stripe_tstripe_transaction) {
-                        stripe_transaction.update({
-                          user_id: data.user_id,
-                          donor_id: user.id
-                        }).then(function() {
-                          return done(null, user)
-                        })
-                      })
-                    } else {
-                      return done(null, user)
-                    }
-                  })
-                })
-              })
-            } else if (data.password !== data.confirmPassword) {
-              return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-            }
-          } else {
-            return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-          }
-        })
-      }
+    var user_id = null;
+    if(user) {
+      user_id = user.id;
+    }
+    if(user) {
+      user.update({
+        user_type: 'donor'
+      }).then(createDonor(data, user_id, req, done))
+    } else {
+      createDonor(data, user_id, req, done)
+    }
   }
-
-
 }
 
-
+// Registration functions
+function createDonor(data, user_id, req, done) {
+  models.donors.find({where: {email: data.email}}).then(function(user) {
+    if(!user) {
+      if(data.password == data.confirmPassword) {
+        models.donors.create({
+          username: data.firstName + ' ' + data.lastName,
+          email: data.email,
+          password: data.password,
+          user_id: user_id
+        }).then(function(user) {
+          if(data.stripe_id) {
+            models.stripe_charges.findById(data.stripe_id).then(function(transaction) {
+              transaction.update({
+                user_id: data.user_id,
+                donor_id: user.id
+              }).then(function(user) {
+                return done(null, user)
+              })
+            })
+          } else {
+            return done(null, user)
+          }
+        })
+      } else {
+        return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+      }
+    } else {
+      return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+    }
+  })
+}
 
 // Functions for the remember me strategy
 var tokens = {};
