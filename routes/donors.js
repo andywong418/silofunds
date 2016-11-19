@@ -9,5 +9,6 @@ var router = express.Router();
 router.get('/profile', donors.profile)
 router.get('/register', donors.register)
 router.post('/register', passport.authenticate('registrationStrategy', {successRedirect: '/donor/profile', failureRedirect: '/donor/register'}))
+router.get('/logout', donors.logout)
 
 module.exports = router

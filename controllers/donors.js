@@ -13,5 +13,12 @@ module.exports = {
 
   register: function(req, res) {
     res.render('donor/register')
+  },
+
+  logout: function(req, res) {
+    res.cookie('remember_me', '', {expires: new Date(1), path: '/'});
+    req.flash('logoutMsg', 'Successfully logged out');
+    req.logout();
+    res.redirect('/login');
   }
 }

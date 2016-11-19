@@ -512,7 +512,6 @@ module.exports = {
       res.redirect('loginSplit');
     } else {
       passportFunctions.issueToken(req.user.get(), function(err, token) {
-        Logger.info("BUG TOKEN", token);
         if (err) {return next(err)}
         res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
         res.redirect('loginSplit')
@@ -576,13 +575,17 @@ module.exports = {
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
     if(req.user.organisation_or_user == null) {
-      passportFunctions.ensureAuthenticated(req, res, function(){
+      passportFunctions.ensureAuthenticated(req, res, function() {
         res.redirect('/user/dashboard');
       });
     }
-    else {
-      passportFunctions.ensureAuthenticated(req, res, function(){
+    else if(req.user.organisation_or_user !== null) {
+      passportFunctions.ensureAuthenticated(req, res, function() {
         res.redirect('/organisation/dashboard');
+      });
+    } else {
+      passportFunctions.ensureAuthenticated(req, res, function() {
+        res.redirect('/donor/profile');
       });
     }
   },

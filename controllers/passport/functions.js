@@ -110,7 +110,7 @@ module.exports = {
     // This is registration for someone who has donated
       var passOnUser;
       if(!user) {
-        models.donors.find({where: {email: email}}).then(function(user) {
+        models.donors.find({where: {email: data.email}}).then(function(user) {
           if(!user) {
             if(data.password == data.confirmPassword) {
               models.donors.create({
