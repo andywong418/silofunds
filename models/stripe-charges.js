@@ -89,10 +89,6 @@ module.exports = function(sequelize, DataTypes) {
 		user_from: {
 			type: DataTypes.INTEGER,
 			field: 'user_from'
-		},
-		donor_id: {
-			type: DataTypes.INTEGER,
-			field: 'donor_id'
 		}
   }, {
 		timestamps: true,
