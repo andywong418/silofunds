@@ -147,10 +147,10 @@ function createDonor(data, user_id, req, done) {
           }
         })
       } else {
-        return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+        return done(null, false, req.flash('errorInformation', 'Passwords did not match' + ',' + data.stripe_id + ',' + data.user_id))
       }
     } else {
-      return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+      return done(null, false, req.flash('errorInformation', 'Sorry, that email has already been used' + ',' + data.stripe_id + ',' + data.user_id))
     }
   })
 }

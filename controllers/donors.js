@@ -12,12 +12,19 @@ module.exports = {
   },
 
   register: function(req, res) {
-    res.render('donor/register')
+    if(req.session.flash.errorInformation[0].split(',').length !== 0) {
+      var errorInformation = req.session.flash.errorInformation[0].split(',')
+      var error = errorInformation[0]
+      var stripe_id = parseInt(errorInformation[1])
+      var user_id = parseInt(errorInformation[2])
+      res.render('donor/register', {stripe_id: stripe_id, user_id: user_id, error: error})
+    } else {
+      req.session.flash = []
+      res.render('donor/register')
+    }
   },
 
   transaction_signup: function(req, res) {
-    console.log(req.body)
-    console.log('HEHEHEHEHEHEHRERERERER')
     var stripe_id = req.body.stripe_id
     var user_id = req.body.user_id
     res.render('donor/register', {user_id: user_id, stripe_id: stripe_id})

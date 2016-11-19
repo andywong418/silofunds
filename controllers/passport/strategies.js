@@ -87,7 +87,6 @@ passport.use('registrationStrategy', new LocalStrategy({
         process.nextTick(function() {
             models.users.find({where: {email: email}}).then(function(user) {
               var data = req.body;
-              // If a user go via this route
               // Some logic to make both the modal box and the stand alone login pages work
               if (req.body.paymentSuccessful !== 'true' && req.body.fundOption !== 'on') {
                 models.donors.find({where: {email: email}}).then(function(donor) {
