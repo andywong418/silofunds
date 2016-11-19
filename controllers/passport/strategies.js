@@ -92,21 +92,21 @@ passport.use('registrationStrategy', new LocalStrategy({
               if (req.body.paymentSuccessful !== 'true' && req.body.fundOption !== 'on') {
                 models.donors.find({where: {email: email}}).then(function(donor) {
                   if(!donor) {
-                    registerUser(data, user, done)
+                    registerUser(data, user, false, req, done)
                   } else {
-                    registerUser(data, user, donor, done)
+                    registerUser(data, user, donor, req, done)
                   }
                 })
               } else if (req.body.fundOption == 'on') {
                 models.donors.find({where: {email: email}}).then(function(donor) {
                   if(!donor) {
-                    registerOrganisation(data, user, done)
+                    registerOrganisation(data, user, false, req, done)
                   } else {
-                    registerOrganisation(data, user, donor, done)
+                    registerOrganisation(data, user, donor, req, done)
                   }
                 })
               } else if (req.body.paymentSuccessful == 'true') {
-                registerDonor(data, user, done)
+                registerDonor(data, user, req, done)
               }
             });
         });
@@ -160,7 +160,6 @@ passport.use('registrationStrategy', new LocalStrategy({
     }
     if(data.hasOwnProperty('religion')) {
       religion = data.religion.split('(')[0]
-      console.log(religion)
     }
     if(data.hasOwnProperty('education')) {
       educationArray = [];
@@ -219,8 +218,9 @@ passport.use('registrationStrategy', new LocalStrategy({
 
 }
 
-// Registration Functions
-function registerUser(data, user, done) {
+
+// ** Registration Functions **
+function registerUser(data, user, donor, req, done) {
   // This is the normal login route
   var confirmPassword;
   var name;
@@ -235,13 +235,26 @@ function registerUser(data, user, done) {
   if (!user && data.password == confirmPassword) {
       // Set username to be fund name or firstname + last name,
       var username = name;
+      var user_type = null;
+      if(donor) {
+        user_type = 'donor'
+      }
       models.users.create({
           username: username,
           email: data.email,
           password: data.password,
+          user_type: user_type,
           email_updates: true
       }).then(function(user) {
-        return done(null, user);
+        if(user.user_type == 'donor') {
+          models.donors.find({where: {email: user.email}}).then(function(donor) {
+            donor.update({user_id: user.id})
+          }).then(function() {
+            return done(null, user);
+          })
+        } else {
+          return done(null, user);
+        }
       });
   } else if (data.password !== data.confirmPassword) {
       return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
@@ -250,7 +263,7 @@ function registerUser(data, user, done) {
   }
 }
 
-function registerOrganisation(data, user, done) {
+function registerOrganisation(data, user, donor, req, done) {
   // Again, do logic for modal box and standalone login routes
   var confirmPassword;
   var name;
@@ -267,14 +280,27 @@ function registerOrganisation(data, user, done) {
         }).catch(function(err) {
           Logger.error(err);
         }).then(function(organisation) {
+            var user_type = null;
+            if(donor) {
+              user_type = 'donor'
+            }
             models.users.create({
                 username: name,
                 email: data.email,
                 password: data.password,
                 organisation_or_user: organisation.id,
+                user_type: user_type,
                 email_updates: true
             }).then(function(user) {
+              if(user.user_type == 'donor') {
+                models.donors.find({where: {email: user.email}}).then(function(donor) {
+                  donor.update({user_id: user.id}).then(function() {
+                    return done(null, user);
+                  })
+                })
+              } else {
                 return done(null, user);
+              }
             })
         })
     }
@@ -285,7 +311,7 @@ function registerOrganisation(data, user, done) {
     }
 }
 
-function registerDonor(data, user, done) {
+function registerDonor(data, user, req, done) {
   // This is registration for someone who has donated
     var passOnUser;
     if(!user) {
