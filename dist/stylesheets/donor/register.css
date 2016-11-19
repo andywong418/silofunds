@@ -1030,8 +1030,8 @@ body {
     height: 50px;
     width: 15%;
     margin-left: 10px;
-    background-color: #5cb85c;
-    border: 1px solid #4cae4c;
+    background-color: #44CF6C;
+    border: none;
     border-radius: 5px; }
 
 #login_modal {
