@@ -14,6 +14,24 @@ block content
   #form_container
     p.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
     .flex_div
+      #login.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;
+              |         
+              h4#myModalLabel.modal-title Login
+            |       
+            .modal-body
+              form(accept-charset='UTF-8', name='register', id='register', role='form', action="/login", method='post')
+                // Hidden form pieces
+                if stripe_id && user_id
+                  input.right(type='hidden', value=stripe_id, name='stripe_id')
+                  input.right(type='hidden', value=user_id, name='user_id')
+                input(type='text', name='email', placeholder='Email:')
+                input(type='password', name='password', placeholder='Password:')
+                input.login-submit.submit(type='submit', value='Login') 
       .signup
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')
           // Hidden form pieces

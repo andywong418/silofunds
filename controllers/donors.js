@@ -12,7 +12,16 @@ module.exports = {
   },
 
   register: function(req, res) {
-    if(req.session.flash.errorInformation[0].split(',').length !== 0) {
+    var errorInformation = null;
+    if(req.session.flash) {
+      if(req.session.flash.length == 0 || req.session.flash.length == undefined) {
+        // do nothing
+      } else {
+        errorInformation = req.session.flash.errorInformation[0].split(',').length
+      }
+    }
+    if(errorInformation !== null) {
+      console.log('hi')
       var errorInformation = req.session.flash.errorInformation[0].split(',')
       var error = errorInformation[0]
       var stripe_id = parseInt(errorInformation[1])

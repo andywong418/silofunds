@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  $('#payment-div').click(function() {
+    $('#login').modal('toggle')
+  })
+
   $('#email').blur(function() {
     var email = $(this).val()
     var parameters = {email: email, loginEmail: email}
