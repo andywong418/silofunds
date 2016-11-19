@@ -924,7 +924,7 @@ body {
 
 #form_container {
   margin: 25px auto;
-  margin-top: 40px;
+  margin-top: 30px;
   margin-left: 20%;
   width: 60%;
   background-color: white;
@@ -933,6 +933,10 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
@@ -1007,8 +1011,32 @@ body {
     text-decoration: none; }
 
 #login {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: -8px;
+  width: 100%;
+  border-top: 1px solid #e1e8ed;
+  font-size: 17px; }
+  #login span {
+    font-size: 18px;
+    margin-right: 10px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: black; }
+  #login button {
+    color: white;
+    height: 50px;
+    width: 15%;
+    margin-left: 10px;
+    background-color: #5cb85c;
+    border: 1px solid #4cae4c;
+    border-radius: 5px; }
+
+#login_modal {
   margin-top: 110px; }
-  #login .login-submit {
+  #login_modal .login-submit {
     background-color: #5cb85c;
     border: 1px solid #4cae4c; }
 

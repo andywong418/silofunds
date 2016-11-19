@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
-  $('#payment-div').click(function() {
-    $('#login').modal('toggle')
+  $('#login').click(function() {
+    $('#login_modal').modal('toggle')
   })
+
 
   $('#email').blur(function() {
     var email = $(this).val()
