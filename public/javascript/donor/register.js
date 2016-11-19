@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
   $('#email').blur(function() {
     var email = $(this).val()
     var parameters = {email: email, loginEmail: email}
