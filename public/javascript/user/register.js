@@ -16,9 +16,9 @@ $(document).ready(function(){
 
 
 // Validation
-$(document).ready(function(){
-  $(document).click(function(e){
-    if($(e.target).hasClass('btn-success')){
+$(document).ready(function() {
+  $(document).click(function(e) {
+    if($(e.target).hasClass('btn-success')) {
       //track array and page
       mixpanel.track(
         "Pre Signup Action",
@@ -63,7 +63,6 @@ $(document).ready(function(){
       $('#passwordError').show();
       $('#passwordError').append('Passwords do not match')
     }
-
   })
 
 
@@ -71,7 +70,7 @@ $(document).ready(function(){
   $('#email').focus(function(){
     $('#emailError').empty()
   })
-  $('#password').focus(function(){
+  $('#password, #password_confirmation').focus(function(){
     $('#passwordError').empty()
   })
 })

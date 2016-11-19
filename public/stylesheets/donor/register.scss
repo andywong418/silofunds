@@ -103,15 +103,20 @@ body {
     color: #2390fd;
   }
 
-  p:nth-of-type(2) {
-    font-size: 1em;
-  }
-
   a:hover {
     text-decoration:none;
   }
 }
 
+p.error {
+  display: none;
+  color: #CC0000;
+  font-family: PT Sans;
+  font-size: 12px;
+  text-align: left;
+  margin: -5px 0px 10px 0px;
+  margin-left: 5%;
+}
 
 #payment-div  {
 	text-align: center;
@@ -123,3 +128,6 @@ body {
 	margin-bottom: -1%;
 	padding: 1%;
 }
+
+
+// Errors

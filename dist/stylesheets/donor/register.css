@@ -984,7 +984,7 @@ body {
     height: 50px;
     color: white;
     font-weight: 400;
-    font-size: 1em; }
+    font-size: 1.3em; }
   #form_container input:focus {
     outline: none;
     border-color: #2390fd;
@@ -1003,10 +1003,17 @@ body {
     margin: 5px; }
   #form_container span:hover {
     color: #2390fd; }
-  #form_container p:nth-of-type(2) {
-    font-size: 1em; }
   #form_container a:hover {
     text-decoration: none; }
+
+p.error {
+  display: none;
+  color: #CC0000;
+  font-family: PT Sans;
+  font-size: 12px;
+  text-align: left;
+  margin: -5px 0px 10px 0px;
+  margin-left: 5%; }
 
 #payment-div {
   text-align: center;

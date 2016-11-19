@@ -4,8 +4,6 @@ block extraHeader
   link(href='/stylesheets/donor/register.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 
-  
-
 block content
   include ../navbar.jade
   include ../partials/navbar-loggedin.jade
@@ -22,14 +20,13 @@ block content
           .two_line
             input.right(type='text', name='firstName', placeholder='First:')
             input(type='text', name='lastName', placeholder='Last:')
-          input(type='text', name='email', placeholder='Email:')
+          input#email(type='text', name='email', placeholder='Email:')
+          p.error.email Please enter a valid email address
           .two_line
-            input.right(type='password', name='password', placeholder='Password:')
-            input(type='password', name='confirmPassword', placeholder='Confirm password:')
+            input#password.right(type='password', name='password', placeholder='Password:')
+            input#password_confirmation(type='password', name='confirmPassword', placeholder='Confirm password:')
+          p.error.password_match Passwords do not match
           input.submit(type='submit', placeholder='SUBMIT')
-
-
-
     
     
 
@@ -39,6 +36,7 @@ block scripts
   script(src='/javascript/advanced-search.js')
   script(src='/javascript/notifications.js')
   script(src='/javascript/signup-login.js')
+  script(src='/javascript/donor/register.js')
   script.
     var user = !{JSON.stringify(user)}
     console.log(user)
