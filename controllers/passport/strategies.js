@@ -57,21 +57,25 @@ module.exports = function(passport) {
         models.donors.find({where: {email: username}}).then(function(user) {
           if(!user) {
             return done(null, false, {message: 'There is no account under this name.'});
-          } bcrypt.compare(password, user.password, function(err, res) {
-              if (!res) {
-                return done(null, false, {message: 'Wrong password'});
-              } else {
-                return done(null, user);
-              }
-          });
-        })
-      } bcrypt.compare(password, user.password, function(err, res) {
-          if (!res) {
-            return done(null, false, {message: 'Wrong password'});
           } else {
-            return done(null, user);
+            bcrypt.compare(password, user.password, function(err, res) {
+               if (!res) {
+                 return done(null, false, {message: 'Wrong password'});
+               } else {
+                 return done(null, user);
+               }
+           });
           }
-      });
+        })
+      } else {
+        bcrypt.compare(password, user.password, function(err, res) {
+            if (!res) {
+              return done(null, false, {message: 'Wrong password'});
+            } else {
+              return done(null, user);
+            }
+        });
+      }
     });
   }));
 

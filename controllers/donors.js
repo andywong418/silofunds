@@ -17,11 +17,10 @@ module.exports = {
       if(req.session.flash.length == 0 || req.session.flash.length == undefined) {
         // do nothing
       } else {
-        errorInformation = req.session.flash.errorInformation[0].split(',').length
+        errorInformation = req.session.flash.errorInformation[0].split(',')
       }
     }
     if(errorInformation !== null) {
-      console.log('hi')
       var errorInformation = req.session.flash.errorInformation[0].split(',')
       var error = errorInformation[0]
       var stripe_id = parseInt(errorInformation[1])
@@ -29,6 +28,7 @@ module.exports = {
       res.render('donor/register', {stripe_id: stripe_id, user_id: user_id, error: error})
     } else {
       req.session.flash = []
+      req.flash = []
       res.render('donor/register')
     }
   },

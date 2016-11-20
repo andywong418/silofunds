@@ -254,9 +254,6 @@ module.exports = {
                 hash.fund_user = false; // for the user logic later
                 return hash;
               });
-              console.log('hi')
-              console.log(funds)
-              console.log('^^^^^^^^')
               models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
                 if (user) {
                   for (var i=0; i < funds.length; i++) {
@@ -496,16 +493,59 @@ module.exports = {
 
 
   rememberMe: function(req, res, next) {
-    // Issue a remember me cookie if the option was checked
-    if (!req.body.remember_me) {
-      res.redirect('loginSplit');
+    var data = req.body
+    console.log(data)
+    console.log('^^^^^^^^^^data^^^^^^^^^^')
+    if(data.stripe_id) {
+      models.donors.find({where: {email: data.email}}).then(function(user) {
+        if(user) {
+          console.log(user.id, 'donorid')
+          models.stripe_charges.findById(data.stripe_id).then(function(transaction) {
+            transaction.update({
+              user_id: data.user_id,
+              donor_id: user.id
+            }).then(function(user) {
+              console.log(user)
+            })
+          })
+          // models.stripe_charges.findById(data.stripe_id).then(function(transaction) {
+          //   transaction.update({
+          //     user_id: data.user_id,
+          //     donor_id: user.id
+          //   }).then(function(transaction) {
+          //     if (!req.body.remember_me) {
+          //       res.redirect('loginSplit');
+          //     } else {
+          //       passportFunctions.issueToken(req.user.get(), function(err, token) {
+          //         if (err) {return next(err)}
+          //         res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+          //         res.redirect('loginSplit')
+          //       });
+          //     }
+          //   })
+          // })
+        } else {
+          // // console.log('IM IN HERE THOUGH!!!')
+          // // console.log(data.stripe_id)
+          // // console.log(data.user_id)
+          // req.flash('errorInformation', 'Account not found.' + ',' + data.stripe_id + ',' + data.user_id)
+          // req.flash('errorInformation', 'Account not found.' + ',' + data.stripe_id + ',' + data.user_id)
+          // req.flash('why', 'are you being annoying')
+          res.redirect('/donor/register')
+        }
+      })
     } else {
-      passportFunctions.issueToken(req.user.get(), function(err, token) {
-        if (err) {return next(err)}
-        res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
-        res.redirect('loginSplit')
-      });
+      if (!req.body.remember_me) {
+        res.redirect('loginSplit');
+      } else {
+        passportFunctions.issueToken(req.user.get(), function(err, token) {
+          if (err) {return next(err)}
+          res.cookie('remember_me', token, {path: '/', httpOnly: true, maxAge: 2419200000});
+          res.redirect('loginSplit')
+        });
+      }
     }
+    // Issue a remember me cookie if the option was checked
   },
 
   registerSplit: function(req, res) {
@@ -848,8 +888,6 @@ module.exports = {
 		});
 	},
   removeFund: function(req, res) {
-    console.log(req.body)
-    console.log('^^&^^^^^^^^')
     var user_id = req.body.user_id;
     var fund_id = req.body.fund_id;
     models.users.findById(user_id).then(function(user) {

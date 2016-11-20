@@ -46,12 +46,13 @@ block content
             .modal-body
               form(accept-charset='UTF-8', name='register', id='register', role='form', action="/login", method='post')
                 // Hidden form pieces
+                input.right(type='hidden', value='true', name='donor_registration')
                 if stripe_id && user_id
                   input.right(type='hidden', value=stripe_id, name='stripe_id')
                   input.right(type='hidden', value=user_id, name='user_id')
                 input(type='text', name='email', placeholder='Email:')
                 input(type='password', name='password', placeholder='Password:')
-                input.login-submit.submit(type='submit', value='Login') 
+                input#login-submit.login-submit.submit(type='submit', value='Login') 
     
     
 
