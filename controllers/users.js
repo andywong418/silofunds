@@ -1324,7 +1324,7 @@ module.exports = {
         delete query['lower_date'];
       }
       var users = resp.hits.hits.map(function(hit) {
-        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user", "funding_accrued"];
+        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user", "funding_accrued", "college"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];

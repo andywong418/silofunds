@@ -39,7 +39,7 @@ body {
   width: 100px;
   height: 100px; }
 
-#user-nationality, #user-religion, #target_country, #previous_university, #target_university, #subject {
+#user-nationality, #user-religion, #target_country, #previous_university, #target_university, #subject, #college {
   color: grey;
   font-size: 15px; }
 

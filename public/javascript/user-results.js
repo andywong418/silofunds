@@ -84,7 +84,8 @@ $(document).ready(function(){
           target_university: userData[i].target_university,
           user_religion: userData[i].religion,
           user_id: userData[i].id,
-          user_email: userData[i].email
+          user_email: userData[i].email,
+          college: userData[i].college
         });
         console.log(userData[i]);
         var view = new UserView({ model: user });
@@ -97,7 +98,7 @@ $(document).ready(function(){
         if(userData[i].religion === null){
           $('p.user-religion' + id).hide();
         }
-        var arrayFields= ['subject', 'target_country', 'previous_university', 'target_university'];
+        var arrayFields= ['subject', 'target_country', 'previous_university', 'target_university', 'college'];
         for(var j = 0; j < arrayFields.length; j++){
           if(userData[i][arrayFields[j]] === null || userData[i][arrayFields[j]] ===undefined  ){
             $('p.' + arrayFields[j] + ''+ id).hide();
