@@ -23,6 +23,11 @@ block content
 	include ./partials/signup-modal.jade
 	include ./advanced-search.jade
 	.queryToken
+		if from_homepage
+			.alert.alert-info.center-block(style='width: 50%; margin-left: 25%; margin-bottom: 20px')
+				p You can use the 
+					a#many-results advanced search 
+					| to search for students in a specific subject or college
 		span#wrapper-span You searched for:
 			each value, key in query
 				if key != 'sort_by'

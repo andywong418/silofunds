@@ -118,6 +118,9 @@ var userSettings = {
         "college": {
           "type": "string"
         },
+        "funding_accrued":{
+          "type": "integer"
+        },
         "suggest": {
           "type": "completion",
           "index_analyzer": "simple",

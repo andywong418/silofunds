@@ -1219,10 +1219,8 @@ module.exports = {
                 "missing": {"field": "organisation_or_user"}
               },
               {
-                "range":{
-                  "completion_date":{
-                    "gte": today
-                  }
+                "exists":{
+                  "field": "profile_picture"
                 }
               }
             ]
@@ -1314,7 +1312,8 @@ module.exports = {
         "size": 1000,
         "query": queryOptions,
         "sort": [
-          {"completion_date": {"order": "asc"}}
+          {"completion_date": {"order": "asc"}},
+          {"funding_accrued": {"order": "asc"}}
         ]
       }
     }).then(function(resp) {
@@ -1325,7 +1324,7 @@ module.exports = {
         delete query['lower_date'];
       }
       var users = resp.hits.hits.map(function(hit) {
-        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
+        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user", "funding_accrued"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];
@@ -1335,13 +1334,21 @@ module.exports = {
         return hash;
       });
       var results_page = true;
+      var from_homepage;
+      if (query.all){
+        from_homepage = true
+      }
+      else{
+        from_homepage = false
+      }
       if(user){
+
         models.users.findById(user.id).then(function(user){
-          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query });
+          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query, from_homepage: from_homepage });
         })
       }
       else{
-        res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
+        res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query, from_homepage:from_homepage });
       }
     }, function(err) {
       console.trace(err.message);

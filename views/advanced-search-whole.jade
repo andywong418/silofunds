@@ -92,7 +92,7 @@ block content
           section#search
             button#advs-grant-submit.btn.btn-primary(type='submit') Search
     #user.tab-pane
-      form(id='advs-user-form', action='/results/users', method='get', name='advs_user-form')
+      form(id='advs-user-form', action='/results/users', method='get', name='advs-user-form')
         section#key-words.text-center
           p Keywords
           input#tags(name='tags', form='advs-user-form')
@@ -103,19 +103,19 @@ block content
               p About the user
             .row
               .col-md-3.col-xs-6
-                p#age-header Age
-                input#age(name='age', form= 'advs-user-form')
+                p#age-header Subject
+                input#user_subject(name='subject', form= 'advs-user-form')
               .col-md-3.col-xs-6
-                p#country_of_residence Country of Residence
+                p#religion-header College
+                input#user_college(name='college', form= 'advs-user-form')
+              .col-md-3.col-xs-6
+                p#user_country_of_residence Country of Residence
                 input#country_of_residence(name='country_of_residence', form= 'advs-user-form')
               .col-md-3.col-xs-6
-                p#religion-header Religion
-                input#religion(name='religion', form= 'advs-user-form')
-              .col-md-3.col-xs-6
                 p#amount-header Amount needed
-                input#funding_needed(name= 'funding_needed', form= 'advs-user-form')
+                input#user_funding_needed(name= 'funding_needed', form= 'advs-user-form')
         section#search
-          button#advs-grant-submit.btn.btn-primary(type='submit') Search
+          button#advs-user-submit.btn.btn-primary(type='submit') Search
         
 
   include ./partials/footer.jade
