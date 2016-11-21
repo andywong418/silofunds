@@ -229,9 +229,11 @@ $(document).ready(function() {
       $('.donate-row').css('display', 'flex');
       $('#donate').css('float', 'right');
       $('#progress-card').css('padding-bottom', '60px');
+      $('#contact-user').hide();
       $('#donate').animate({width: "30%", float:'right'}, 500, "easeOutQuad",function(){
         $('#donate').html('Donate');
-        $('#progress-card').css('padding-bottom', '120px');
+        $('#progress-card').css('padding-bottom', '0px');
+        $('#progress-card').css('display','inline-block' );
         $('#amount').css('display', 'inline-table');
         $('#amount').animate({opacity: 1}, {duration: 500, queue: false});
         $('div#donate-amount').removeClass('hidden');
@@ -299,6 +301,7 @@ $(document).ready(function() {
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
           var comment = $('textarea#comment-text').val();
+          var isAnon = $('#is-anon').prop("checked");
         var amountAdjusted;
 
         if (donorIsPaying) {
@@ -315,6 +318,9 @@ $(document).ready(function() {
         data.email = token.email;
         data.recipientUserID = recipientUserID;
         data.comment = comment;
+        if(isAnon){
+          data.is_anon = true;
+        }
 
         $.ajax({
           type: "POST",

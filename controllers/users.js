@@ -36,6 +36,7 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
 var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+// var API_KEY= 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -323,6 +324,8 @@ module.exports = {
     console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
     var donorIsPaying = req.body.donorIsPaying;
+    var isAnon = req.body.is_anon;
+    console.log("BODY BODY", req.body);
     var platformCharge;
     if(donorIsPaying){
       platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
@@ -349,7 +352,7 @@ module.exports = {
           customer: customer.id,
           destination: stripe_user.stripe_user_id,
           application_fee: parseInt(applicationFee) + platformCharge,
-          amount: chargeAmount
+          amount: chargeAmount,
         };
 
         // if (!donorIsPaying) {
@@ -380,7 +383,7 @@ module.exports = {
                   comment: comment
                 }).then(function(comment){
                   models.users.findById(stripe_user.user_id).then(function(user){
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
 
@@ -392,7 +395,7 @@ module.exports = {
                   comment: comment
                 }).then(function(comment){
                   models.users.findById(stripe_user.user_id).then(function(user){
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
 
@@ -402,7 +405,7 @@ module.exports = {
             }
             else{
               models.users.findById(stripe_user.user_id).then(function(user){
-                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
               });
             }
           });
@@ -1642,7 +1645,7 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
     });
   });
 }
-function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at){
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at){
   var amount;
   if(user.funding_accrued == null){
     amount = chargeAmountPounds;
@@ -1672,6 +1675,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
       source_address_zip_check: charge.source.address_zip_check,
       source_cvc_check: charge.source.cvc_check,
       user_from: user_from,
+      is_anon: isAnon,
       created_at: created_at,
     }).then(function(object){
       Logger.error(charge.email);
@@ -1877,7 +1881,7 @@ function asyncChangeDonations(options, array, res, dataObject){
 		var newObj = {};
 		newObj.sender_name = element.sender_name;
 		newObj.amount = (element.amount)/100;
-
+    newObj.is_anon = element.is_anon;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		if(element.user_from){
 			models.users.findById(element.user_from).then(function(user){

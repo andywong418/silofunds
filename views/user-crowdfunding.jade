@@ -140,7 +140,9 @@ block content
 							p#refund-text You will be refunded if the user does not reach his/her goal.
 						else
 							p#refund-text The user will keep funds raised even if they do not reach their goal.
-						p Do you want to pay the processing fee (~2.9%)?
+						input#is-anon(type='checkbox', name='is_anon', style='margin-right: 5px;')
+						| Hide your name from this page. You will still have to enter your name for verification of the payment.
+						p(style='margin-top: 10px') Do you want to pay the processing fee (~2.9%)?
 						#buttonDiv.col-md-5.col-sm-5
 							.btn-group.btn-group-justified
 								.btn-group(role='group', aria-label='...')
