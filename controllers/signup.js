@@ -162,7 +162,7 @@ module.exports = {
 		});
 		async.eachSeries(req.files, function iterator(item, callback){
 				var s3 = new AWS.S3();
-				var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(item.originalname), ACL: 'public-read', Body: item.buffer, ContentType: item.mimetype};
+				var params = {Bucket: bucketName, Key: folderString + item.originalname, ACL: 'public-read', Body: item.buffer, ContentType: item.mimetype};
 				s3.putObject(params, function(){
 					models.documents.upsert({
 						link: "https://s3-us-west-2.amazonaws.com/" + bucketName + "/" + folderString +  encodeURIComponent(item.originalname),
@@ -518,7 +518,7 @@ module.exports = {
 				secretAccessKey: aws_key
 			});
 			var s3 = new AWS.S3();
-			var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(req.file.originalname), ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
+			var params = {Bucket: bucketName, Key: folderString + req.file.originalname, ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
 			s3.putObject(params, function(){
 					models.users.findById(userId).then(function(user){
 						user.update({

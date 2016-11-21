@@ -27,27 +27,27 @@
     each donation in donations
       .row.donation-row#some-donations
         .col-md-2.col-sm-2.col-xs-2
-          if donation.profile_picture
-            img#donation-picture(src= donation.profile_picture)
-          else
-            img#donation-picture(src='/images/profile-placeholder.jpg')
-        .col-md-9.col-sm-9.col-xs-9.donor-info-row
-          if donation.amount < 10
-            img.emoji(src='/images/smile.svg')
-          if donation.amount >= 10 && donation.amount < 100
-            img.emoji(src='/images/bright-smile.svg')
-          if donation.amount >= 100 && donation.amount < 500
-            img.emoji(src='/images/money-wow.svg')
-          if donation.amount >= 500
-            img.emoji(src='/images/heart.svg')
-          p#donated-amount= '£' + donation.amount
-          span#donor-name= donation.sender_name
-          if donation.diffDays == 0
-            span#sent-date Today
-          if donation.diffDays == 1
-            span#sent-date Yesterday
-          if donation.diffDays > 1
-            span#sent-date= donation.diffDays +' days ago'
+        //-   if donation.profile_picture
+        //-     img#donation-picture(src= donation.profile_picture)
+        //-   else
+        //-     img#donation-picture(src='/images/profile-placeholder.jpg')
+        //- .col-md-9.col-sm-9.col-xs-9.donor-info-row
+        //-   if donation.amount < 10
+        //-     img.emoji(src='/images/smile.svg')
+        //-   if donation.amount >= 10 && donation.amount < 100
+        //-     img.emoji(src='/images/bright-smile.svg')
+        //-   if donation.amount >= 100 && donation.amount < 500
+        //-     img.emoji(src='/images/money-wow.svg')
+        //-   if donation.amount >= 500
+        //-     img.emoji(src='/images/heart.svg')
+        //-   p#donated-amount= '£' + donation.amount
+        //-   span#donor-name= donation.sender_name
+        //-   if donation.diffDays == 0
+        //-     span#sent-date Today
+        //-   if donation.diffDays == 1
+        //-     span#sent-date Yesterday
+        //-   if donation.diffDays > 1
+        //-     span#sent-date= donation.diffDays +' days ago'
           
   else
     p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'

@@ -83,7 +83,7 @@ module.exports = {
 	    secretAccessKey: aws_key
 	  });
 		var s3 = new AWS.S3();
-		var params = {Bucket: bucketName, Key: folderString + encodeURIComponent(req.file.originalname), ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
+		var params = {Bucket: bucketName, Key: folderString + req.file.originalname, ACL: 'public-read', Body: req.file.buffer, ContentType: req.file.mimetype};
 		s3.putObject(params, function(){
 				models.users.findById(userId).then(function(user){
 					user.update({
