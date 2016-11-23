@@ -1306,12 +1306,12 @@ function checkForChangesUsers() {
   console.log(log);
   models.users.findAll({
     where: {
-      created_at: {
+      updated_at: {
         $gte: lastUpdateUsers
       },
       organisation_or_user: null
     },
-    order: 'created_at ASC'
+    order: 'updated_at ASC'
   }).then(function(users) {
     if (users.length == 0) {
       Logger.info("nothing to update.....");
