@@ -221,7 +221,11 @@ $(document).ready(function() {
   var router = new Router();
   Backbone.history.start();
   var counter = 0;
-  $('#donate').click(function(e) {
+  $(document).on('click', '#start-donate', function(){
+    $('#donate').click();
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+  });
+  $(document).on('click', '#donate', function(e){
     e.preventDefault();
     if(counter == 0){
       counter++;
@@ -263,8 +267,11 @@ $(document).ready(function() {
 
     }
 
-
   });
+  // $('#donate').click(function(e) {
+  //
+  //
+  // });
 
   $('input#donate-amount').on('keyup', function(e){
     displayApplicationFeeHelperText();

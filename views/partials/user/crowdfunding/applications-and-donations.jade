@@ -54,3 +54,5 @@
           
   else
     p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
+    if stripe_user
+      a#start-donate.btn.btn-primary.center-block= 'Be the first to donate to ' + user.username.split(' ')[0] + '!'

@@ -1098,6 +1098,8 @@ body {
           margin-top: 10px; }
         body #crowdfunding-wrapper #tab-table #tab-content #about-handler .documents, body #crowdfunding-wrapper #tab-table #tab-content #about-handler .education {
           margin-top: 15px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #college {
+          font-family: 'Source Sans Pro'; }
         body #crowdfunding-wrapper #tab-table #tab-content #update-handler #update-header {
           margin-top: 20px;
           font-size: 15px;
