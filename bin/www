@@ -1311,7 +1311,7 @@ function checkForChangesUsers() {
       },
       organisation_or_user: null
     },
-    order: 'created_at ASC'
+    order: 'updated_at ASC'
   }).then(function(users) {
     if (users.length == 0) {
       Logger.info("nothing to update.....");
