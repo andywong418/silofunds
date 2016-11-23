@@ -224,7 +224,7 @@ $(document).ready(function() {
   $(document).on('click', '#start-donate', function(){
     $('#donate').click();
     $('html,body').animate({
-        scrollTop: $("#progress-card").offset().top},
+        scrollTop: $("#donate").offset().top},
         'slow');
   });
   $(document).on('click', '#donate', function(e){
