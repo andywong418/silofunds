@@ -307,7 +307,6 @@ $(document).ready(function() {
           data.amount = amount * 100;
           data.donorIsPaying = false;
         }
-
         data.applicationFee = applicationFee * 100;
         data.tokenID = token.id;
         data.email = token.email;
@@ -320,6 +319,7 @@ $(document).ready(function() {
           data: data
         }).done(function(data) {
           // calculate width of bar and supporters and bar
+          console.log(data)
           displayCompletionMessage(data);
         });
       }
@@ -451,14 +451,12 @@ $(document).ready(function() {
     // $('#payment-div-invisible').click(function() {
     //   $('#payment-div').fadeOut('slow');
     // });
-    console.log(data)
-    console.log('data')
     var user_id = data.user_id
-    var stripe_id = data.id // THIS IS WRONG
+    var stripe_id = data.stripe_id
 
     $('#hidden_form .hidden_stripeId').attr('value', stripe_id)
     $('#hidden_form .hidden_userId').attr('value', user_id)
-    // $('#hidden_form').submit()
+    $('#hidden_form').submit()
   }
 
   // Stuff for mobile

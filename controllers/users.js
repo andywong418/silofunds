@@ -369,22 +369,20 @@ module.exports = {
         charge.customer,
         function(err, customer){
           charge.email = customer.description;
-          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-            if(comment && comment !== ''){
-              if(user_from){
+          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user) {
+            if(comment && comment !== '') {
+              if(user_from) {
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
                   user_from_id: user_from,
                   commentator_name: charge.source.name,
                   comment: comment
-                }).then(function(comment){
+                }).then(function(comment) {
                   models.users.findById(stripe_user.user_id).then(function(user){
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
                   });
                 });
-
-              }
-              else{
+              } else {
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
                   commentator_name: charge.source.name,
@@ -395,7 +393,7 @@ module.exports = {
                   });
                 });
               }
-            } else{
+            } else {
               models.users.findById(stripe_user.user_id).then(function(user){
                 returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
               });
@@ -1674,19 +1672,18 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
       callback();
     });
   }, function done(){
-    app.update({status: 'pending'}).then(function(data){
+    app.update({status: 'pending'}).then(function(data) {
     });
   });
 }
-function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at){
+
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at) {
   var amount;
-  if(user.funding_accrued == null){
+  if(user.funding_accrued == null) {
     amount = chargeAmountPounds;
-  }
-  else{
+  } else {
     amount = (user.funding_accrued + chargeAmountPounds);
   }
-  console.log("AOO FEE", application_fee);
   user.update({funding_accrued: amount}).then(function(user){
     return models.stripe_charges.create({
       charge_id: charge.id,
@@ -1710,7 +1707,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
       user_from: user_from,
       created_at: created_at,
     }).then(function(object){
-      Logger.error(charge.email);
+      var stripe_id = object.id;
       var options;
       var emailOptions;
       if(user_from){
@@ -1721,8 +1718,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
           read_by_user: false
         }
         messageUser = true;
-      }
-      else{
+      } else {
         options = {
           user_id: user.id,
           notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
@@ -1732,13 +1728,12 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
         messageUser = false;
       }
 
-      models.notifications.create(options).then(function(notification){
-        if(messageUser){
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+      models.notifications.create(options).then(function(notification) {
+        if(messageUser) {
+          sendUserEmail(user.id, stripe_id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
           'You have a new donation!', res);
-        }
-        else{
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+        } else {
+          sendUserEmail(user.id, stripe_id,charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
           'You have a new donation!', res);
         }
       });
@@ -1782,7 +1777,7 @@ function createAppNotif(fundId, user, status, res){
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, null, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
         })
       }
       else{
@@ -1792,7 +1787,7 @@ function createAppNotif(fundId, user, status, res){
     })
   })
 }
-function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
+function sendUserEmail(userId, stripeId, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
@@ -1826,11 +1821,10 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
          console.error(err);
         }
         else{
-          console.log("SUCCESS");
-          console.log(responseStatus.message);
+          app = app.get();
+          app.stripe_id = stripeId;
           res.send(app);
         }
-
       });
     });
   });
