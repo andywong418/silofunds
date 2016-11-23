@@ -57,8 +57,6 @@ block content
 		#processing-div.alert.alert-info
 			p Your payment is being processed
 	form#hidden_form.hidden(name='transaction', role='form', type='hidden', method='post', action='/donor/transaction_signup')
-		input.hidden.hidden_stripeId(type='text', name='stripe_id')
-		input.hidden.hidden_userId(type='text', name='user_id')
 	#crowdfunding-wrapper.container
 		if user && user.user_launch !== true
 			#launch_box

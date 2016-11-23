@@ -18,9 +18,6 @@ block content
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')
           // Hidden form pieces
           input.right(type='hidden', value='true', name='paymentSuccessful')
-          if stripe_id && user_id
-            input.right(type='hidden', value=stripe_id, name='stripe_id')
-            input.right(type='hidden', value=user_id, name='user_id')
           .two_line
             input.right(type='text', name='firstName', placeholder='First:')
             input(type='text', name='lastName', placeholder='Last:')
