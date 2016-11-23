@@ -453,7 +453,6 @@ $(document).ready(function() {
     // });
     var user_id = data.user_id
     var stripe_id = data.stripe_id
-
     $('#hidden_form .hidden_stripeId').attr('value', stripe_id)
     $('#hidden_form .hidden_userId').attr('value', user_id)
     $('#hidden_form').submit()

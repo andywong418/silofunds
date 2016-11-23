@@ -149,6 +149,15 @@ function createDonor(data, user_id, req, done) {
       } else {
         return done(null, false, req.flash('errorInformation', 'Passwords did not match' + ',' + data.stripe_id + ',' + data.user_id))
       }
+    } else if (user && user.username == 'Not Yet Added') {
+      user.update({
+        username: data.firstName + ' ' + data.lastName,
+        email: data.email,
+        password: data.password,
+        user_id: user_id
+      }).then(function(user) {
+        return done(null, user)
+      })
     } else {
       return done(null, false, req.flash('errorInformation', 'Sorry, that email has already been used' + ',' + data.stripe_id + ',' + data.user_id))
     }
