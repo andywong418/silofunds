@@ -11,6 +11,7 @@ block extraMeta
 block extraHeader
 	link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
 	link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+	link(href='/stylesheets/footer.css', rel='stylesheet')
 	script(src='http://connect.facebook.net/en_US/all.js')
 	script(src='https://checkout.stripe.com/checkout.js')
 	
@@ -160,7 +161,7 @@ block content
 				include ./partials/user/crowdfunding/applications-and-donations.jade
 			.desktop
 				include ./partials/user/crowdfunding/applications-and-donations.jade
-			
+	include ./partials/footer.jade
 		
 
 block scripts

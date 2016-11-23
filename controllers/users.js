@@ -326,13 +326,14 @@ module.exports = {
     var donorIsPaying = req.body.donorIsPaying;
     var isAnon = req.body.is_anon;
     console.log("BODY BODY", req.body);
-    var platformCharge;
-    if(donorIsPaying){
-      platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
-    }
-    if(!donorIsPaying){
-      platformCharge = Math.ceil(parseInt(chargeAmount) * 0.03);
-    }
+    //We're GOING FREE!
+    // var platformCharge;
+    // if(donorIsPaying){
+    //   platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
+    // }
+    // if(!donorIsPaying){
+    //   platformCharge = Math.ceil(parseInt(chargeAmount) * 0.03);
+    // }
     var email = req.body.email;
 		var comment = req.body.comment;
     var user_from;
@@ -351,7 +352,7 @@ module.exports = {
           currency: "gbp",
           customer: customer.id,
           destination: stripe_user.stripe_user_id,
-          application_fee: parseInt(applicationFee) + platformCharge,
+          application_fee: parseInt(applicationFee),
           amount: chargeAmount,
         };
 

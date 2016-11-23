@@ -1306,7 +1306,7 @@ function checkForChangesUsers() {
   console.log(log);
   models.users.findAll({
     where: {
-      created_at: {
+      updated_at: {
         $gte: lastUpdateUsers
       },
       organisation_or_user: null
