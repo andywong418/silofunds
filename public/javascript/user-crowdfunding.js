@@ -223,7 +223,9 @@ $(document).ready(function() {
   var counter = 0;
   $(document).on('click', '#start-donate', function(){
     $('#donate').click();
-    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $('html,body').animate({
+        scrollTop: $("#progress-card").offset().top},
+        'slow');
   });
   $(document).on('click', '#donate', function(e){
     e.preventDefault();
