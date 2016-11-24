@@ -1316,8 +1316,9 @@ module.exports = {
         "size": 1000,
         "query": queryOptions,
         "sort": [
-          {"completion_date": {"order": "asc"}},
-          {"funding_accrued": {"order": "asc"}}
+          // {"completion_date": {"order": "asc"}},
+          {"funding_accrued": {"order": "asc"}},
+          {"updated_at": {"order": "asc"}}
         ]
       }
     }).then(function(resp) {

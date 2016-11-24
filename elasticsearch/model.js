@@ -121,6 +121,9 @@ var userSettings = {
         "funding_accrued":{
           "type": "integer"
         },
+        "updated_at":{
+          "type": "date"
+        },
         "suggest": {
           "type": "completion",
           "index_analyzer": "simple",

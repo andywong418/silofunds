@@ -22,7 +22,7 @@ var fund_array_to_json = function(array) {
 };
 
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","required_college", "merit_or_finance","deadline","target_country","number_of_places", "support_type","organisation_id"];
-var userFields =  ["username","email","profile_picture","description","past_work","date_of_birth","subject", "country_of_residence", "target_country", "religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds", "removed_funds", "college", "funding_accrued"];
+var userFields =  ["username","email","profile_picture","description","past_work","date_of_birth","subject", "country_of_residence", "target_country", "religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds", "removed_funds", "college", "funding_accrued", "updated_at"];
 //Try again
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
@@ -266,7 +266,7 @@ var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStuden
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 // var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
-// var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
+var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
 var sendExpiredFundsListScheduler = new CronJob('0 0 20 * * *', sendExpiredFundsList, null, true);
@@ -404,7 +404,7 @@ function variableEmail(){
         transporter.sendMail({
           from: 'Silo',
           to: user.email,
-          subject: "Degree Info Session",
+          subject: "Making a difference to a DPhil's life",
           html: results.html
         }, function(err, responseStatus){
           if (err) {
