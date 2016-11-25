@@ -49,7 +49,6 @@ module.exports = {
 
       if (body.error) {
         console.log(body);
-
         res.redirect('/user/dashboard');
       } else {
         models.stripe_users.create({
