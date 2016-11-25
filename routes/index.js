@@ -35,7 +35,8 @@ router.post('/login', passport.authenticate('loginStrategy', {failureRedirect: '
     },
     function(req, res) {
       res.redirect('/loginSplit');
-})
+  }
+)
 
 router.get('/loginSplit', users.loginSplitterGET)
 
@@ -49,8 +50,8 @@ router.post('/register', signup.subscribe, passport.authenticate('registrationSt
 // Register splitter
 router.get('/registerSplit', users.registerSplitterGET)
 
-// NOTE: without below, an organisation can get onto user page.
 
+// NOTE: without below, an organisation can get onto user page.
 router.get(/organisation/, function(req, res, next){
   var url = req.url
   var checkFirstLetters = url.substring(1,13)
@@ -88,8 +89,25 @@ router.get('/reset/:token', users.resetPasswordGET)
 router.post('/reset/:token', users.resetPasswordConfirm)
 
 
+
 // Functions for remember me Strategy
-var tokens = {}
+var tokens = {};
+
+function findById(id, fn) {
+  if (req.user.get()) {
+    fn(null, req.user.get());
+  } else {
+    fn(new Error('User ' + id + ' does not exist'));
+  }
+}
+
+function issueToken(user, done) {
+  var token = utils.randomString(64);
+  saveRememberMeToken(token, user.id, function(err) {
+    if (err) { return done(err); }
+    return done(null, token);
+  });
+}
 
 function consumeRememberMeToken(token, fn) {
   var uid = tokens[token];
@@ -103,12 +121,6 @@ function saveRememberMeToken(token, uid, fn) {
   return fn();
 }
 
-function issueToken(user, done) {
-  var token = utils.randomString(64);
-  saveRememberMeToken(token, user.id, function(err) {
-    if (err) { return done(err); }
-    return done(null, token);
-  });
-}
+//
 
 module.exports = router;
