@@ -9,6 +9,7 @@ var pg = require('pg');
 var flash = require('connect-flash');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var RememberMeStrategy = require('passport-remember-me-extended').Strategy;
 require('./controllers/passport')(passport);
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
@@ -76,7 +77,6 @@ app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
-
 // Load routes
 routes.initialize(app);
 
@@ -110,6 +110,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
