@@ -27,7 +27,7 @@
     each donation in donations
       .row.donation-row#some-donations
         .col-md-2.col-sm-2.col-xs-2
-          if donation.profile_picture
+          if donation.profile_picture && !donation.is_anon
             img#donation-picture(src= donation.profile_picture)
           else
             img#donation-picture(src='/images/profile-placeholder.jpg')
@@ -41,7 +41,10 @@
           if donation.amount >= 500
             img.emoji(src='/images/heart.svg')
           p#donated-amount= '£' + donation.amount
-          span#donor-name= donation.sender_name
+          if donation.is_anon
+            span#donor-name Anonymous donor
+          else
+            span#donor-name= donation.sender_name
           if donation.diffDays == 0
             span#sent-date Today
           if donation.diffDays == 1
@@ -51,3 +54,5 @@
           
   else
     p#no-donations= user.username.split(' ')[0] + ' has not received any donations yet.'
+    if stripe_user
+      a#start-donate.btn.btn-primary.center-block= 'Be the first to donate to ' + user.username.split(' ')[0] + '!'

@@ -9,18 +9,18 @@
     section.header
       .row
         .col-md-12
-          h5 About the user
+          h5 About the user 
     section.content-section
       .row
         .col-md-3
-          label(for='age') Age
-          input#advanced_user_age(type = "number", name = "age", form = "advs-user-form")
+          label(for='user_subject') Subject
+          input#advanced_user_subject(type = "text", name = "subject", form = "advs-user-form")
+        .col-md-3
+          label(for='user_college') College
+          input#advanced_user_college(type = "text", name = "college", form = "advs-user-form")
         .col-md-3
           label(for= 'user_country_of_residence') Country of Residence
           input#advanced_user_country_of_residence(type = "text", name = "country_of_residence", form = "advs-user-form")
-        .col-md-3
-          label(for='user_religion') Religion
-          input#advanced_user_religion(type = "text", name = "religion", form = "advs-user-form")
         .col-md-3
           label(for='funding_needed') Amount Needed
           input#advanced_user_funding_needed(type = "number", name = "funding_needed", form = "advs-user-form")

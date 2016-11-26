@@ -23,6 +23,11 @@ block content
 	include ./partials/signup-modal.jade
 	include ./advanced-search.jade
 	.queryToken
+		if from_homepage
+			.alert.alert-info.center-block(style='width: 50%; margin-left: 25%; margin-bottom: 20px')
+				p You can use the 
+					a#many-results advanced search 
+					| to search for students in a specific subject or college
 		span#wrapper-span You searched for:
 			each value, key in query
 				if key != 'sort_by'
@@ -66,10 +71,10 @@ block content
 											p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
 												span.control <%= user_nationality %>
 										.col-xs-12
-											p#target_country(class!='target_country' + '<%= user_id %>') Intending to go to
-												span.control <%= target_country %>
+											p#college(class!='college' + '<%= user_id %>') Studying at
+												span.control <%= college %>
 										.col-xs-12
-											p#target_country(class!='previous_university' + '<%= user_id %>') Studied at
+											p#target_country(class!='previous_university' + '<%= user_id %>') Studying/studied at
 												span.control <%=previous_university %>
 										.col-xs-12
 											p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
@@ -78,9 +83,14 @@ block content
 										//- 	p#user-religion(class!= 'user-religion' + '<%= user_id %>')
 								.col-xs-1
 								#user-action.col-xs-2
-									a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
-										i.fa.fa-comments-o(aria-hidden="true")
-										|Message 
+									if user
+										a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
+											i.fa.fa-comments-o(aria-hidden="true")
+											|Message 
+									else
+										a#message.center-block.btn.btn-default(href!='mailto:' + '<%=user_email %>')
+											i.fa.fa-envelope-o(aria-hidden="true")
+											|Contact
 			div.page-header.mobile
 				each user in users
 					.row.main-mobile-row

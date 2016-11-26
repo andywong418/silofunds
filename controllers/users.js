@@ -36,8 +36,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 }
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
-// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
-var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+// var API_KEY= 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -321,13 +321,16 @@ module.exports = {
     console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
     var donorIsPaying = req.body.donorIsPaying;
-    var platformCharge;
-    if(donorIsPaying){
-      platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
-    }
-    if(!donorIsPaying){
-      platformCharge = Math.ceil(parseInt(chargeAmount) * 0.03);
-    }
+    var isAnon = req.body.is_anon;
+    console.log("BODY BODY", req.body);
+    //We're GOING FREE!
+    // var platformCharge;
+    // if(donorIsPaying){
+    //   platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
+    // }
+    // if(!donorIsPaying){
+    //   platformCharge = Math.ceil(parseInt(chargeAmount) * 0.03);
+    // }
     var email = req.body.email;
 		var comment = req.body.comment;
     var user_from;
@@ -346,8 +349,8 @@ module.exports = {
           currency: "gbp",
           customer: customer.id,
           destination: stripe_user.stripe_user_id,
-          application_fee: parseInt(applicationFee) + platformCharge,
-          amount: chargeAmount
+          application_fee: parseInt(applicationFee),
+          amount: chargeAmount,
         };
 
         // if (!donorIsPaying) {
@@ -378,7 +381,7 @@ module.exports = {
                   comment: comment
                 }).then(function(comment) {
                   models.users.findById(stripe_user.user_id).then(function(user){
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
               } else {
@@ -388,13 +391,13 @@ module.exports = {
                   comment: comment
                 }).then(function(comment){
                   models.users.findById(stripe_user.user_id).then(function(user){
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
               }
             } else {
               models.users.findById(stripe_user.user_id).then(function(user){
-                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, created_at);
+                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
               });
             }
           });
@@ -417,7 +420,7 @@ module.exports = {
       stripe_user: {
         email: user.email,
         url: userPublicProfile,
-        business_name: userPublicProfile,
+        business_name: "Education Crowdfunding",
         business_type: "sole_prop",
         country: user.billing_country,
         first_name: user.username.split(' ')[0],
@@ -560,41 +563,6 @@ module.exports = {
   //   // Redirect to Stripe /oauth/authorize endpoint
   //   res.redirect(AUTHORIZE_URI + "?" + qs.stringify(authenticationOptions));
   // },
-
-  authorizeStripeCallback: function(req, res) {
-    var code = req.query.code;
-
-    // Make /oauth/token endpoint POST request
-    request.post({
-      url: TOKEN_URI,
-      form: {
-        grant_type: "authorization_code",
-        client_id: CLIENT_ID,
-        code: code,
-        client_secret: API_KEY
-      }
-    }, function(err, r, bodyUnparsed) {
-      var body = JSON.parse(bodyUnparsed);
-
-      if (body.error) {
-        Logger.info(body);
-        res.redirect('/user/dashboard');
-      } else {
-        models.stripe_users.create({
-          user_id: req.user.id,
-          token_type: body.token_type,
-          stripe_user_id: body.stripe_user_id,
-          refresh_token: body.refresh_token,
-          access_token: body.access_token,
-          stripe_publishable_key: body.stripe_publishable_key,
-          scope: body.scope,
-          livemode: body.livemode
-        });
-
-        res.redirect('/user/dashboard');
-      }
-    });
-  },
 
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
@@ -1265,10 +1233,22 @@ module.exports = {
     var user = req.session.passport.user;
     var session = req.sessionID;
     var search_url_array = req.url.split('/');
+    var today = new Date();
     var queryOptions = {
       "filtered": {
         "filter": {
-          "missing": {"field": "organisation_or_user"}
+          "bool":{
+            "must":[
+              {
+                "missing": {"field": "organisation_or_user"}
+              },
+              {
+                "exists":{
+                  "field": "profile_picture"
+                }
+              }
+            ]
+          }
         }
       }
     };
@@ -1347,14 +1327,19 @@ module.exports = {
           }
         }
       }
-      Logger.warn(queryOptions.filtered.filter.bool);
+      console.log(queryOptions.filtered.query.bool.should);
     }
     es.search({
       index: "users",
       type: "user",
       body: {
         "size": 1000,
-        "query": queryOptions
+        "query": queryOptions,
+        "sort": [
+          // {"completion_date": {"order": "asc"}},
+          {"funding_accrued": {"order": "asc"}},
+          {"updated_at": {"order": "asc"}}
+        ]
       }
     }).then(function(resp) {
       if(query['upper_date']){
@@ -1364,7 +1349,7 @@ module.exports = {
         delete query['lower_date'];
       }
       var users = resp.hits.hits.map(function(hit) {
-        var fields  =  ["username","profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user"];
+        var fields  =  ["username","email", "profile_picture","description","date_of_birth","subject", "country_of_residence","target_country","previous_degree", "target_degree", "previous_university", "target_university","religion","funding_needed","organisation_or_user", "funding_accrued", "college"];
         var hash = {};
         for (var i = 0; i < fields.length ; i++) {
           hash[fields[i]] = hit._source[fields[i]];
@@ -1374,13 +1359,21 @@ module.exports = {
         return hash;
       });
       var results_page = true;
+      var from_homepage;
+      if (query.all){
+        from_homepage = true
+      }
+      else{
+        from_homepage = false
+      }
       if(user){
+
         models.users.findById(user.id).then(function(user){
-          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query });
+          res.render('user-results',{ users: users, user: user, resultsPage: results_page, query: query, from_homepage: from_homepage });
         })
       }
       else{
-        res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query });
+        res.render('user-results', { users: users, user: false, resultsPage: results_page, query: query, from_homepage:from_homepage });
       }
     }, function(err) {
       console.trace(err.message);
@@ -1697,7 +1690,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
   })
 };
 
-function updateAppSuccess(app, res, userId, amount_gained){
+function updateAppSuccess(app, res, userId, amount_gain~ed){
 	app.update({status: 'success', amount_gained: amount_gained, hide_from_profile: false}).then(function(app){
 		models.users.findById(userId).then(function(user){
 			if(user.funding_accrued === null){
@@ -1836,10 +1829,12 @@ function asyncChangeApplications(array, options, res, dataObject, dataObject2){
 function findStripeUser(option, res, dataObject1, dataObject2){
 	models.stripe_users.find({where: option}).then(function(stripe_user){
 		if(stripe_user){
+      dataObject1.stripe_user = true;
 			findCharges("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'", res, dataObject1, dataObject1, {destination_id: stripe_user.stripe_user_id}, option);
 
 		}else{
 			//Not stripe user
+      dataObject2.stripe_user = false;
 			findAllUpdatesComments(option, res,dataObject2);
 		}
 	});
@@ -1859,7 +1854,7 @@ function asyncChangeDonations(options, array, res, dataObject){
 		var newObj = {};
 		newObj.sender_name = element.sender_name;
 		newObj.amount = (element.amount)/100;
-
+    newObj.is_anon = element.is_anon;
 		newObj.diffDays = updateDiffDays(element.created_at);
 		if(element.user_from){
 			models.users.findById(element.user_from).then(function(user){

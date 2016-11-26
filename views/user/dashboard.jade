@@ -51,30 +51,37 @@ block content
     section#recommended
       p#header Recommended for you
       .row.recommended-row
-        .flex-it
-          if picture_counter !== 0
+        if funds.length > 0
+          .flex-it
+            if picture_counter !== 0
+              each fund in funds
+                if fund.organisation_picture
+                  .col-md-3.col-xs-6.fund-imgs
+                    .flex-img
+                      img.col-md-12(src=fund.organisation_picture)
+                    .flex-p                  
+                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
+                if !fund.organisation_picture
+                  .col-md-3.col-xs-6.fund-imgs
+                    .flex-img
+                      img.col-md-12(src='/images/fund_img_placeholder.jpg')
+                    .flex-p                  
+                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
+          if picture_counter == 0
             each fund in funds
-              if fund.organisation_picture
-                .col-md-3.col-xs-6.fund-imgs
-                  .flex-img
-                    img.col-md-12(src=fund.organisation_picture)
-                  .flex-p                  
-                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
-              if !fund.organisation_picture
-                .col-md-3.col-xs-6.fund-imgs
-                  .flex-img
-                    img.col-md-12(src='/images/fund_img_placeholder.jpg')
-                  .flex-p                  
-                    a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
-        if picture_counter == 0
-          each fund in funds
-            .col-xs-6.col-sm-6.col-md-6
-              .box
-                .box-icon
-                  span.fa.fa-2x
-                .info
-                  h4.text-center
-                    a(href='/organisation/options/'+ fund.id)= fund.title
+              .col-xs-6.col-sm-6.col-md-6
+                .box
+                  .box-icon
+                    span.fa.fa-2x
+                  .info
+                    h4.text-center
+                      a(href='/organisation/options/'+ fund.id)= fund.title
+        else
+          p#none-recommended It seems that there are currently no currently no funds recommended for you. Click 
+            a(href='/request-fund/' + user.id) here 
+            span to request new funds. Alternatively bolster your 
+              a(href='/user/profile') crowdfunding profile 
+              span to connect with people interested in your goals.
     section#updates
       p#header Post an update
       .col-xs-2.mobile.force-block

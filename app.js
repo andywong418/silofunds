@@ -31,7 +31,7 @@ var MAX_CONTENT_LENGTH_ACCEPTED = 9999;
 Logger = require('./logger');
 
 //Use prerender
-app.use(require('prerender-node').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
+//app.use(require('prerender-node').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
 // app.use(require('prerender-node').set('prerenderServiceUrl', 'http://localhost:1337/').set('prerenderToken', 'hCDkfgPPa4oQo1K3NZOW'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1021,6 +1021,8 @@ body {
         padding: 20px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler #story {
           font-size: 16px; }
+          body #crowdfunding-wrapper #tab-table #tab-content #story-handler #story a {
+            color: #639dd0  !important; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler .documents {
           margin-top: 15px; }
         body #crowdfunding-wrapper #tab-table #tab-content #story-handler #header {
@@ -1098,6 +1100,8 @@ body {
           margin-top: 10px; }
         body #crowdfunding-wrapper #tab-table #tab-content #about-handler .documents, body #crowdfunding-wrapper #tab-table #tab-content #about-handler .education {
           margin-top: 15px; }
+        body #crowdfunding-wrapper #tab-table #tab-content #about-handler #college {
+          font-family: 'Source Sans Pro'; }
         body #crowdfunding-wrapper #tab-table #tab-content #update-handler #update-header {
           margin-top: 20px;
           font-size: 15px;
@@ -1269,6 +1273,16 @@ body {
         font-size: 20px; }
         body #crowdfunding-wrapper #user-progress #progress-card #donate:hover, body #crowdfunding-wrapper #user-progress #progress-card .submit:hover {
           background-color: #0273e3; }
+      body #crowdfunding-wrapper #user-progress #progress-card #contact-user {
+        width: 100%;
+        border: none;
+        color: white;
+        padding: 5px;
+        margin-top: 20px;
+        background-color: #07a5b5;
+        font-size: 16px; }
+        body #crowdfunding-wrapper #user-progress #progress-card #contact-user:hover {
+          background-color: #04737e; }
       body #crowdfunding-wrapper #user-progress #progress-card .btn-facebook {
         width: 100%;
         margin-top: 20px;

@@ -221,7 +221,13 @@ $(document).ready(function() {
   var router = new Router();
   Backbone.history.start();
   var counter = 0;
-  $('#donate').click(function(e) {
+  $(document).on('click', '#start-donate', function(){
+    $('#donate').click();
+    $('html,body').animate({
+        scrollTop: $("#donate").offset().top},
+        'slow');
+  });
+  $(document).on('click', '#donate', function(e){
     e.preventDefault();
     if(counter == 0) {
       counter++;
@@ -229,9 +235,11 @@ $(document).ready(function() {
       $('.donate-row').css('display', 'flex');
       $('#donate').css('float', 'right');
       $('#progress-card').css('padding-bottom', '60px');
+      $('#contact-user').hide();
       $('#donate').animate({width: "30%", float:'right'}, 500, "easeOutQuad",function(){
         $('#donate').html('Donate');
-        $('#progress-card').css('padding-bottom', '120px');
+        $('#progress-card').css('padding-bottom', '0px');
+        $('#progress-card').css('display','inline-block' );
         $('#amount').css('display', 'inline-table');
         $('#amount').animate({opacity: 1}, {duration: 500, queue: false});
         $('div#donate-amount').removeClass('hidden');
@@ -260,8 +268,11 @@ $(document).ready(function() {
 
     }
 
-
   });
+  // $('#donate').click(function(e) {
+  //
+  //
+  // });
 
   $('input#donate-amount').on('keyup', function(e){
     displayApplicationFeeHelperText();
@@ -286,7 +297,7 @@ $(document).ready(function() {
   // Stripe
 
   var handler = StripeCheckout.configure({
-      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r',
+      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE',
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',
@@ -298,6 +309,7 @@ $(document).ready(function() {
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
         var comment = $('textarea#comment-text').val();
+        var isAnon = $('#is-anon').prop("checked");
         var amountAdjusted;
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
@@ -313,6 +325,9 @@ $(document).ready(function() {
         data.recipientUserID = recipientUserID;
         data.comment = comment;
         $('#payment_processing').modal('toggle')
+        if(isAnon) {
+          data.is_anon = true;
+        }
         $.ajax({
           type: "POST",
           url: '/user/charge',

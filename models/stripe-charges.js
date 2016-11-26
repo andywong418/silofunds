@@ -93,6 +93,10 @@ module.exports = function(sequelize, DataTypes) {
 		donor_id: {
 			type: DataTypes.INTEGER,
 			field: 'donor_id'
+		},
+		is_anon: {
+			type: DataTypes.BOOLEAN,
+			field: 'is_anon'
 		}
   }, {
 		timestamps: true,
