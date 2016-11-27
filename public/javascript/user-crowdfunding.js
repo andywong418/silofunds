@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
   $('.menu-item').click(function(){
     $('.active-item').removeClass('active-item');
     $(this).find('p').addClass('active-item');
@@ -255,14 +256,14 @@ $(document).ready(function() {
         description: '2 widgets',
         currency: "gbp",
         panelLabel: "Donate",
-        amount: amount
+        amount: amount * 100
       };
 
-      if (donorIsPaying) {
-        handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
-      } else {
-        handlerDisplayOptions.amount = amount * 100;
-      }
+      // if (donorIsPaying) {
+      //   handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
+      // } else {
+      //   handlerDisplayOptions.amount = amount * 100;
+      // }
 
       handler.open(handlerDisplayOptions);
 
@@ -304,8 +305,18 @@ $(document).ready(function() {
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
+        var europeanArray= ["AL","AD","AT","BY","BE","BA","BG","HR","CY","CZ","DK","EE","FO","FI","FR","DE","GI","GR","HU","IS","IE","IM","IT","RS","LV",'LI','LT','LU','MK','MT','MD','MC','ME','NL','NO','PL','PT','RO','RU','SM','RS','SK','SI','ES','SE','CH','UA','GB','VA','RS'];
+        console.log(token.card.country);
+        var cardcountry = token.card.country;
+        var applicationFee;
         var amount = $('input#donate-amount').val();
-        var applicationFee = Math.ceil(amount * 0.029 + 0.2);
+        if(europeanArray.indexOf(cardcountry)> -1){
+          //European card
+          applicationFee = Math.ceil(amount * 0.014 + 0.2);
+        }
+        else{
+          applicationFee = Math.ceil(amount * 0.029 + 0.2);
+        }
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
@@ -413,6 +424,7 @@ $(document).ready(function() {
   function displayApplicationFeeHelperText() {
     var userInput = $('input#donate-amount').val();
     var applicationFee = Math.ceil(userInput * 0.029 + 0.2);
+    var europeanAppFee = Math.ceil(userInput * 0.014 + 0.2);
     var firstProgressBar = $('#initial-bar');
     var amountAdded = parseInt(userInput);
     var newAmount = amountAdded + user.funding_accrued;
@@ -420,9 +432,9 @@ $(document).ready(function() {
     var addedPercentage = Math.ceil((amountAdded/user.funding_needed) * 100)
     if(userInput !== '') {
       if ($('#donorpays').hasClass('active')) {
-        $('#process-fee').html('£' + applicationFee + ' will be added to your payment.');
+        $('#process-fee').html('£' + europeanAppFee + '-' + applicationFee + ' will be added to your payment.');
       } else {
-        $('#process-fee').html('The recipient will receive £' + applicationFee + ' less.');
+        $('#process-fee').html('The recipient will receive £' + europeanAppFee + '-' + applicationFee + ' less.');
         newAmount = newAmount - applicationFee;
         percentage = Math.ceil((newAmount/user.funding_needed) * 100);
         amountAdded = amountAdded = applicationFee;

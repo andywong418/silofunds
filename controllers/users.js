@@ -10,7 +10,7 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')("sk_live_dd4eyhVytvbxcrELa3uibXjK");
+var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -323,6 +323,7 @@ module.exports = {
     var chargeAmount = req.body.amount;
     console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
+    console.log("APP FEE", applicationFee);
     var donorIsPaying = req.body.donorIsPaying;
     var isAnon = req.body.is_anon;
     console.log("BODY BODY", req.body);
@@ -373,6 +374,7 @@ module.exports = {
       stripe.customers.retrieve(
         charge.customer,
         function(err, customer){
+          console.log("CUSTOMER", customer);
           charge.email = customer.description;
           models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
             if(comment && comment !== ''){
@@ -1660,12 +1662,11 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
 function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at){
   var amount;
   if(user.funding_accrued == null){
-    amount = chargeAmountPounds;
+    amount = chargeAmountPounds - (application_fee / 100);
   }
   else{
-    amount = (user.funding_accrued + chargeAmountPounds);
+    amount = (user.funding_accrued + chargeAmountPounds - (application_fee /100));
   }
-  console.log("AOO FEE", application_fee);
   user.update({funding_accrued: amount}).then(function(user){
     return models.stripe_charges.create({
       charge_id: charge.id,

@@ -64,6 +64,11 @@ block content
 					.alert.alert-info.col-xs-10.col-xs-offset-1
 						span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
 						button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
+		if user.funding_accrued > user.funding_needed
+			.alert.alert-success(style='margin-top: -20px; width: 80%; margin-left: 10%; margin-bottom: 20px')
+				p#successful-campaign.center-block
+					i.fa.fa-check-square-o(style='margin-right: 10px; color: #2390fd; font-size: 19px; ')
+					span(style='font-size: 18px')= 'They did it! Thanks to your help, the campaign was successful and the target was reached.'
 		#pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
 			if user.profile_picture && !user.video
 				.no-vid-pic-border
@@ -143,7 +148,7 @@ block content
 							p#refund-text The user will keep funds raised even if they do not reach their goal.
 						input#is-anon(type='checkbox', name='is_anon', style='margin-right: 5px;')
 						| Hide your name from this page. You will still have to enter your name for verification of the payment.
-						p(style='margin-top: 10px') Do you want to pay the processing fee (~2.9%)?
+						p(style='margin-top: 10px') Do you want to pay the processing fee (~2.9% for non-European cards and 1.4% otherwise)?
 						#buttonDiv.col-md-5.col-sm-5
 							.btn-group.btn-group-justified
 								.btn-group(role='group', aria-label='...')
