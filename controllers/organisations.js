@@ -794,7 +794,7 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
 
     template.render(locals, function(err, results){

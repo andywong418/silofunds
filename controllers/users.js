@@ -1145,7 +1145,7 @@ module.exports = {
             var transporter = nodemailer.createTransport(smtpTransport({
              service: 'Gmail',
              auth: {user: 'notifications@silofunds.com',
-                   pass: 'ThisIsNotificationsAccount'}
+                   pass: 'notifaccount'}
             }));
             var mailOptions = {
                from: 'Silofunds <james.morrill.6@gmail.com>',
@@ -1462,7 +1462,7 @@ module.exports = {
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
@@ -1494,7 +1494,7 @@ module.exports = {
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
     var mailOptions = {
        from: 'Silofunds <james.morrill.6@gmail.com>',
@@ -1715,17 +1715,18 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
 
       models.notifications.create(options).then(function(notification){
         if(messageUser){
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+           sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
           'You have a new donation!', res);
         }
         else{
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+           sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
           'You have a new donation!', res);
         }
       });
     });
   });
 };
+
 
 function updateAppSuccess(app, res, userId, amount_gained){
 	app.update({status: 'success', amount_gained: amount_gained, hide_from_profile: false}).then(function(app){
@@ -1773,6 +1774,51 @@ function createAppNotif(fundId, user, status, res){
     })
   })
 }
+// function sendDonorEmail(userId, donor_email, donor_name, callback){
+//   models.users.findById(userId).then(function(user){
+//     var username = user.username.split(' ')[0];
+//     var donor_first_name;
+//     if(donor_name.split(' ')[0]){
+//       donor_first_name = donor_name.split(' ')[0]
+//     }
+//     else{
+//       donor_first_name = donor_name;
+//     }
+//     //send emails here
+//     // var locals = {
+//     //   header: 'Dear ' + username + ',',
+//     //   notif_link: link,
+//     //   notiftext: notiftext,
+//     //   notification: notification
+//     // };
+//     // var templatePath = path.join(process.cwd(), 'email-notification-templates');
+//     // var template = new EmailTemplate(templatePath);
+//
+//     var transporter = nodemailer.createTransport(smtpTransport({
+//      service: 'Gmail',
+//      auth: {user: 'notifications@silofunds.com',
+//            pass: 'notifaccount'}
+//     }));
+//
+//     transporter.sendMail({
+//       from: 'Silofunds',
+//       to: user.email,
+//       subject: subject,
+//       html: '<p> Dear ' + donor_name + ', </p> <p> Thank you so much for your donation to ' + username+ '. Your help has ensured that '
+//     }, function(err, responseStatus){
+//       if (err) {
+//        console.error(err);
+//       }
+//       else{
+//         console.log("SUCCESS");
+//         console.log(responseStatus.message);
+//         res.send(app);
+//       }
+//
+//     });
+//
+//   });
+// }
 function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
@@ -1789,7 +1835,7 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
 
     template.render(locals, function(err, results){

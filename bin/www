@@ -262,7 +262,7 @@ var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('0 0 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
-var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStudentNewsLetter, null, true);
+var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 1', weeklyStudentNewsLetter, null, true);
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
 // var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
@@ -291,7 +291,7 @@ function sendExpiredFundsList(){
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
     var locals = {
       funds: fundsList
@@ -346,7 +346,7 @@ function asyncsendUserEmailFundDeadline(userArray, fund){
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
-           pass: 'ThisIsNotificationsAccount'}
+           pass: 'notifaccount'}
     }));
 
     var templatePath = path.join(process.cwd(), 'email-templates/variable-template');
@@ -390,7 +390,7 @@ function variableEmail(){
       var transporter = nodemailer.createTransport(smtpTransport({
        service: 'Gmail',
        auth: {user: 'notifications@silofunds.com',
-             pass: 'ThisIsNotificationsAccount'}
+             pass: 'notifaccount'}
        //add later
       }));
 
@@ -460,7 +460,7 @@ function signupFreshers(){
       var transporter = nodemailer.createTransport(smtpTransport({
        service: 'Gmail',
        auth: {user: 'notifications@silofunds.com',
-             pass: 'ThisIsNotificationsAccount'}
+             pass: 'notifaccount'}
       }));
       var templatePath = path.join(process.cwd(), 'email-templates/freshers-signup-template');
       var template = new EmailTemplate(templatePath);
@@ -534,7 +534,7 @@ function weeklyFundNewsLetter(){
             var transporter = nodemailer.createTransport(smtpTransport({
              service: 'Gmail',
              auth: {user: 'notifications@silofunds.com',
-                   pass: 'ThisIsNotificationsAccount'}
+                   pass: 'notifaccount'}
             }));
 
             // var sendMail = function(toAddress, subject, content, next){
@@ -734,7 +734,7 @@ models.users.findAll({where: {organisation_or_user: null, weekly_email_sent: nul
                 var transporter = nodemailer.createTransport(smtpTransport({
                  service: 'Gmail',
                  auth: {user: 'notifications@silofunds.com',
-                       pass: 'ThisIsNotificationsAccount'}
+                       pass: 'notifaccount'}
                 }));
 
                 // var sendMail = function(toAddress, subject, content, next){
@@ -1140,7 +1140,7 @@ function checkForFundUnreadMessages() {
         var transporter = nodemailer.createTransport(smtpTransport({
          service: 'Gmail',
          auth: {user: 'notifications@silofunds.com',
-               pass: 'ThisIsNotificationsAccount'}
+               pass: 'notifaccount'}
         }));
         var mailOptions = {
            from: 'Silofunds <notifications@silofunds.com>',
@@ -1571,7 +1571,7 @@ function onError(error) {
      var transporter = nodemailer.createTransport(smtpTransport({
       service: 'Gmail',
       auth: {user: 'notifications@silofunds.com',
-      pass: 'ThisIsNotificationsAccount'}
+      pass: 'notifaccount'}
      }));
      var mailOptions = {
         from: 'Silofunds <notifications@silofunds.com>',
