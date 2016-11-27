@@ -1528,6 +1528,16 @@ module.exports = {
       req.flash('error', "There has been an error in deleting your account, please try again or contact us if the problem persists")
       res.redirect('/user/settings')
     }
+  },
+  getCostBreakdown: function(req, res){
+    console.log("WE in");
+    var userId = req.params.id;
+    models.cost_breakdowns.findAll({where: {user_id: userId} }).then(function(breakdowns){
+      breakdowns = breakdowns.map(function(breakdown) {
+        return breakdown.get();
+      });
+      res.json(breakdowns);
+    })
   }
 }
 

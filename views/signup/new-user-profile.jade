@@ -165,7 +165,15 @@ block content
 							a(href='https://www.youtube.com/upload', target='_blank') here
 				.row.story-row
 					.col-md-8.col-md-offset-2.col-sm-12
+						p#mission-statement In one sentence, desribe what you are fundraising for.
+							input#short_description.form-control(type='text',name="video",placeholder='E.g I am currently raising money for my DPhil to research artificial intelligence via autonomous learning')
+						p#story-outline Tell us more about your story! This is your chance to express yourself in more depth.
 						textarea#story-text
+						//- p#cost-breakdown Partial cost contributions
+						//- 	p By noting down your cost break down, contributors can more directly donate for particular parts of your needs (you can also do this later in settings)
+						//- 	.breakdown-div
+						//- 	a#add-breakdown
+						//- 		i.fa.fa-plus
 				.row#work
 						#work-row.col-md-8.col-md-offset-2.col-sm-12
 							h6 Showcase your talents.
@@ -188,6 +196,12 @@ block content
 				.container-fluid.save
 					a#save.btn.btn-primary(href="#account") Save progress
 					a#skip(href='#account') Skip
+			script#cost-breakdown-template(type='text/template')
+				.row(style='border-bottom: none')
+					.col-md-6(style='padding-left: 5px')
+						input(placeholder='E.g. Living costs')
+					.col-md-4
+						input(placeholder='Amount')
 			script#account-template(type='text/template')
 				p#verify-header.description You&#39re almost finished! Enter information below that can help you set up your stripe account.
 				.row#address-row(style='margin-top: -25px')

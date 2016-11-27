@@ -207,6 +207,13 @@ block content
                   else
                     input#refund(type='checkbox')
               .col-md-12.col-xs-12.remove-padding
+                label.col-md-3.col-xs-12.remove-padding#short_description_label(for='short_description') Mission statement
+                .col-md-8.col-xs-12.remove-padding
+                  if user.short_description
+                    input#short_description.form-control(name='short_description', rows='5', placeholder = 'E.g I am currently raising money for my MSt in Hebrew studies at Oxford', value = user.short_description)
+                  else
+                    input#short_description.form-control(name='short_description', rows='5', placeholder = 'E.g I am currently raising money for my MSt in Hebrew studies at Oxford')
+              .col-md-12.col-xs-12.remove-padding
                 label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
                 .col-md-8.col-xs-12.remove-padding
                   textarea#description.form-control(name='description', rows='5')=user.description

@@ -61,7 +61,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 
 	var UserModel = Backbone.Model.extend({
 		url: '/signup/user_signup/' + user_setup.id,
-	})
+	});
+	var CostBreakDownModel = Backbone.Model.extend({
+		url: '/user/cost_breakdown/' + user_setup.id
+	});
 	var AboutView = Backbone.View.extend({
 		id: 'about-form',
 		template: _.template($('#about-template').html()),
@@ -301,7 +304,19 @@ var tokenArrayPopulate = function(value, emptyArray){
 			);
 		}
 
-	})
+	});
+	var CostBreakdownDisplay = Backbone.View.extend({
+		tagName: 'div',
+		id: 'breakdown-handler',
+		template: _.template($('#cost-breakdown-template').html()),
+		render: function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		},
+		initialize: function(){
+			this.el = this.render().el;
+		}
+	});
 	var StoryDisplay = Backbone.View.extend({
 		tagName: 'div',
 		id:'story-handler',
@@ -327,6 +342,10 @@ var tokenArrayPopulate = function(value, emptyArray){
 				var link = this.model.get('link')
 				this.$('input#work-link').val(link);
 			}
+			if(this.model.get('short_description')){
+				var short_description = this.model.get('short_description')
+				this.$('input#short_description').val(short_description);
+			}
 			if(this.model.get('documents')){
 				var documents = this.model.get('documents');
 				var fileName;
@@ -344,6 +363,23 @@ var tokenArrayPopulate = function(value, emptyArray){
 				}
 
 			}
+			var breakdownModel = new CostBreakDownModel();
+			breakdownModel.fetch({
+				success:function(){
+					console.log(breakdownModel);
+					console.log(breakdownModel.attributes);
+					if(breakdownModel.attributes.length > 0){
+						console.log(breakdownModel)
+					}
+					else{
+						console.log("LOL");
+						var costBreakdownView = new CostBreakdownDisplay({model: breakdownModel});
+						console.log(costBreakdownView.render());
+						console.log(this.$('.breakdown-div'));
+						this.$('.breakdown-div').append(costBreakdownView.render().el);
+					}
+				}
+			});
 		},
 		saveStory: function(){
 			mixpanel.track(
@@ -354,8 +390,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var formData = {
 				'description': story,
 				'link': $('input#work-link').val(),
-				'video': $('input#video').val()
-			}
+				'video': $('input#video').val(),
+				'short_description': $('input#short_description').val()
+			};
 			$.post('/signup/user/save', formData, function(data){
 				$('a[href="#story"]').removeClass('active');
 				$('a[href="#account"]').addClass('active');
@@ -415,6 +452,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 			);
 		}
 	});
+
+
+
 	var AccountDisplay = Backbone.View.extend({
 		tagName: 'div',
 		id: 'account-handler',

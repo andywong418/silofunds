@@ -163,6 +163,10 @@ module.exports = function(sequelize, DataTypes) {
     last_login: {
       type: DataTypes.DATE,
       field: 'last_login'
+    },
+    short_description: {
+      type: DataTypes.TEXT,
+      field: 'short_description'
     }
   }, {
     timestamps: true,

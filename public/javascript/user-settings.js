@@ -225,7 +225,7 @@ $(document).ready(function() {
         refund = false;
       }
     }
-    saveActivePaneSettings('campaign', ['video', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
+    saveActivePaneSettings('campaign', ['video', 'short_description', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
   });
 
   $('.launch_status a.offline').click(function() {

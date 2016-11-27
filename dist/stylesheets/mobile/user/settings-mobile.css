@@ -18,8 +18,7 @@ label.col-md-3.col-xs-3 {
 label#describe_your_goal {
   padding-top: 23px;
   font-size: 13px;
-  text-align: left;
-  border-top: 1px solid #e1e8ed; }
+  text-align: left; }
 
 @media (max-width: 795px) {
   #left_div .settings-tab-menu .list-group a h5 {

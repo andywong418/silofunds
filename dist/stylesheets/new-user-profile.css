@@ -1092,6 +1092,20 @@ body {
       cursor: pointer; }
     #signup-wrapper #signup-form .story-row {
       padding-bottom: 30px; }
+      #signup-wrapper #signup-form .story-row #mission-statement, #signup-wrapper #signup-form .story-row #story-outline {
+        font-size: 16px;
+        font-weight: bold; }
+        #signup-wrapper #signup-form .story-row #mission-statement input, #signup-wrapper #signup-form .story-row #story-outline input {
+          padding-left: 5px;
+          margin-top: 15px; }
+      #signup-wrapper #signup-form .story-row #cost-breakdown {
+        margin-top: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px; }
+        #signup-wrapper #signup-form .story-row #cost-breakdown #add-breakdown {
+          margin-top: 10px;
+          border: 1px dashed #337ab7; }
     #signup-wrapper #signup-form #work {
       border-bottom: none; }
       #signup-wrapper #signup-form #work #work-row {
