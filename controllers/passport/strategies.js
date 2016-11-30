@@ -77,25 +77,31 @@ passport.use('registrationStrategy', new LocalStrategy({
             models.users.find({where: {email: email}
             }).then(function(user) {
               var data = req.body;
-              if(data.confirmPassword == null) { // Logic for mocal boxes
-                data.confirmPassword = data.password
-                data.confirmWasNull = true
-              }
-              if(data.password == data.confirmPassword) {
-                if(data.donor_registration !== 'true') {
-                  if(data.fundOption !== 'on') {
-                    passportFunctions.registerUser(data, user, req, done)
-                  } else {
-                    passportFunctions.registerOrganisation(data, user, req, done)
-                  }
-                } else if (data.donor_registration == 'true') {
-                  passportFunctions.registerDonor(data, user, req, done)
+              var donor_id = null;
+              models.donors.find({where: {email: email}}).then(function(donor) {
+                if(donor) {
+                  donor_id = donor.id
                 }
-              } else if (data.password !== data.confirmPassword) {
-                  return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-              } else {
-                  return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-              }
+                if(data.confirmPassword == null) { // Logic for mocal boxes
+                  data.confirmPassword = data.password
+                  data.confirmWasNull = true
+                }
+                if(data.password == data.confirmPassword) {
+                  if(data.donor_registration !== 'true') {
+                    if(data.fundOption !== 'on') {
+                      passportFunctions.registerUser(data, user, donor_id, req, done)
+                    } else {
+                      passportFunctions.registerOrganisation(data, user, donor_id, req, done)
+                    }
+                  } else if (data.donor_registration == 'true') {
+                    passportFunctions.registerDonor(data, user, donor_id, req, done)
+                  }
+                } else if (data.password !== data.confirmPassword) {
+                    return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                } else {
+                    return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                }
+              })
             });
         });
     }));
