@@ -43,7 +43,7 @@ var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 module.exports = {
 
   dashboard: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    passportFunctions.ensureAuthenticated(req, res, function() {
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
         var today = new Date();
@@ -692,6 +692,7 @@ module.exports = {
       })
     })
   },
+  
   refundDonors: function(req, res){
     var userId = req.user.id;
     models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
@@ -701,6 +702,7 @@ module.exports = {
       });
     });
   },
+
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
       var emailSuccess = req.flash('emailSuccess');
