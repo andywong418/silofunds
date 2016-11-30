@@ -1001,6 +1001,87 @@ a.cd-login {
 .nav li a.cd-signin:hover {
   color: white; }
 
+#social-proof {
+  background-color: #f1f1f1;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 0;
+  padding-bottom: 10px; }
+  #social-proof img#success-story {
+    width: 170px;
+    height: auto;
+    border-radius: 50%; }
+  #social-proof p {
+    font-size: 18px; }
+  #social-proof .main .mb-style-3 {
+    width: 100%; }
+  #social-proof .main .mb-style-3 blockquote {
+    border-left: none;
+    background: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    border: 1px solid rgba(188, 147, 200, 0.7); }
+  #social-proof .main .mb-style-3 blockquote:after {
+    border-top-color: #ffffff;
+    border-width: 10px;
+    left: 65%;
+    margin-left: -10px; }
+  #social-proof .main .mb-style-3 blockquote:before {
+    border-top-color: rgba(0, 0, 0, 0.01);
+    border-width: 11px;
+    left: 65%;
+    margin-left: -11px; }
+  #social-proof .main .mb-style-3 blockquote p {
+    font-family: 'Source sans Pro', serif;
+    font-size: 19px;
+    color: #2d4a76;
+    font-weight: 400;
+    line-height: 40px;
+    text-indent: 100px;
+    position: relative; }
+  #social-proof .main .mb-style-3 blockquote p:before {
+    content: '\201C';
+    font-family: serif;
+    font-style: normal;
+    font-weight: 700;
+    position: absolute;
+    font-size: 175px;
+    top: 0px;
+    left: -105px;
+    color: #317fad;
+    text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1); }
+  #social-proof .main .mb-style-3 .mb-attribution {
+    text-align: right;
+    padding: 20px 100px 20px 20px;
+    position: relative; }
+  #social-proof .main .mb-style-3 .mb-thumb {
+    display: block;
+    width: 70px;
+    height: 70px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    background: url(../images/bronte.jpg) no-repeat center center;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6); }
+  #social-proof .main .mb-style-3 .mb-author {
+    font-family: 'Source Sans Pro', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #2d4a76;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+    margin-bottom: 0; }
+    #social-proof .main .mb-style-3 .mb-author a {
+      color: #2d4a76;
+      cursor: pointer; }
+  #social-proof .main .mb-style-3 cite a {
+    font-family: 'Source Sans Pro', serif;
+    color: #2d4a76;
+    text-decoration: none; }
+
 #number-of-funds {
   font-size: 34px;
   width: 200px;
@@ -1245,7 +1326,8 @@ a.cd-login {
 #profile-features, #application-feature, #coming-features {
   font-size: 18px;
   color: #6C7A89;
-  margin-bottom: -16px; }
+  margin-bottom: -16px;
+  text-align: left; }
 
 #coming-soon {
   font-size: 18px;
@@ -1425,6 +1507,18 @@ a.cd-login {
     margin-top: 0;
     display: block;
     margin-left: 15px; }
+  #social-proof {
+    padding-top: 10px;
+    padding-bottom: 20px; }
+    #social-proof img#success-story {
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 20px; }
+    #social-proof .main .mb-style-3 blockquote {
+      margin: 5px; }
+      #social-proof .main .mb-style-3 blockquote p {
+        font-size: 16px; }
   #free, #crowd-funding, #network {
     height: auto; }
   #profile-features, #application-feature {
@@ -1489,6 +1583,18 @@ a.cd-login {
     margin-bottom: -50px; }
   .cd-signup {
     border: none; }
+  #social-proof {
+    padding-top: 20px;
+    padding-bottom: 40px; }
+    #social-proof img#success-story {
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 40px; }
+    #social-proof .main .mb-style-3 blockquote {
+      margin: 0px; }
+      #social-proof .main .mb-style-3 blockquote p {
+        font-size: 16px; }
   .hideme {
     margin-bottom: -30px; }
     .hideme .progress-bar p {

@@ -257,6 +257,133 @@ a.cd-login {
   color: white;
 }
 
+// social proof section
+#social-proof{
+  background-color: #f1f1f1;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 0;
+  padding-bottom: 10px;
+  img#success-story{
+    width: 170px;
+    height: auto;
+    border-radius: 50%;
+  }
+  p{
+    font-size: 18px;
+  }
+  .main{
+    .mb-style-3 {
+    	width: 100%;
+    }
+
+    .mb-style-3 blockquote{
+      border-left: none;
+    	background: #fff;
+    	padding: 30px;
+    	border-radius: 5px;
+      border: 2px solid rgba(188, 147, 200, 0.7)
+    	// box-shadow:
+// inset 0 2px 0 #6AA79B, -2px -2px 15px rgba(0, 0, 0, 0.3)
+    }
+
+    // .mb-style-3 blockquote:after,
+    // .mb-style-3 blockquote:before  {
+    // 	top: 100%;
+    // 	border: solid transparent;
+    // 	content: " ";
+    // 	height: 0;
+    // 	width: 0;
+    // 	position: absolute;
+    // 	pointer-events: none;
+    // }
+
+    .mb-style-3 blockquote:after  {
+    	border-top-color: #ffffff;
+    	border-width: 10px;
+    	left: 65%;
+    	margin-left: -10px;
+    }
+
+    .mb-style-3 blockquote:before {
+    	border-top-color: rgba(0,0,0,0.01);
+    	border-width: 11px;
+    	left: 65%;
+    	margin-left: -11px;
+    }
+
+    .mb-style-3 blockquote p {
+    	font-family: 'Source sans Pro', serif;
+    	font-size: 19px;
+    	color: #2d4a76;
+    	font-weight: 400;
+    	line-height: 40px;
+    	text-indent: 100px;
+    	position: relative;
+    }
+
+    .mb-style-3 blockquote p:before{
+    	content: '\201C';
+    	font-family: serif;
+    	font-style: normal;
+    	font-weight: 700;
+    	position: absolute;
+    	font-size: 175px;
+    	top: 0px;
+    	left: -105px;
+    	color: #317fad ;
+    	text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .mb-style-3 .mb-attribution {
+    	text-align: right;
+    	padding: 20px 100px 20px 20px;
+    	position: relative;
+    }
+
+    .mb-style-3 .mb-thumb {
+    	display: block;
+    	width: 70px;
+    	height: 70px;
+    	border: 5px solid #fff;
+    	border-radius: 50%;
+    	background: url(../images/bronte.jpg) no-repeat center center;
+    	position: absolute;
+    	right: 10px;
+    	bottom: 5px;
+    	box-shadow:
+    		inset 1px 1px 4px rgba(0,0,0,0.5),
+    		0 2px 3px rgba(0,0,0,0.6);
+    }
+
+    .mb-style-3 .mb-author{
+    	font-family: 'Source Sans Pro', serif;
+    	font-weight: 700;
+    	font-size: 18px;
+    	color: #2d4a76;
+      cursor: pointer;
+    	text-shadow: 0 1px 1px rgba(255,255,255,0.7);
+      margin-bottom: 0;
+      a{
+            	color: #2d4a76;
+              cursor: pointer;
+      }
+    }
+
+    .mb-style-3 cite a{
+    	font-family: 'Source Sans Pro', serif;
+      color: #2d4a76;
+      text-decoration: none;
+    }
+
+    .mb-style-3 cite a:hover{
+    	// color: rgba(188, 147, 200, 1);
+    	// text-shadow: 0 1px 1px rgba(255,255,255,0.7);
+    }
+  }
+}
+
 //about section
 #number-of-funds {
   font-size: 34px;
@@ -549,6 +676,7 @@ background: #f1f1f1;
   font-size: 18px;
   color: #6C7A89;
   margin-bottom: -16px;
+  text-align: left;
 }
 
 #coming-soon {
@@ -775,7 +903,28 @@ background: #f1f1f1;
     display: block;
     margin-left: 15px;
   }
+  #social-proof{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    img#success-story{
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+    .main {
+      .mb-style-3{
+        blockquote{
+          margin: 5px;
+          p{
+            font-size: 16px;
+          }
+        }
 
+      }
+    }
+
+  }
   #free, #crowd-funding, #network {
     height: auto;
   }
@@ -898,6 +1047,28 @@ background: #f1f1f1;
   }
   .cd-signup {
     border: none;
+  }
+  #social-proof{
+    padding-top: 20px;
+    padding-bottom: 40px;
+    img#success-story{
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 40px;
+    }
+    .main {
+      .mb-style-3{
+        blockquote{
+          margin: 0px;
+          p{
+            font-size: 16px;
+          }
+        }
+
+      }
+    }
+
   }
   .hideme{
     margin-bottom: -30px;
