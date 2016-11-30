@@ -3,6 +3,10 @@ var bcrypt = require('bcrypt');
 
 module.exports = function(sequelize, DataTypes) {
   var Donor = sequelize.define("donors", {
+    email: {
+      type: DataTypes.STRING,
+      field: 'email'
+    },
     alumni: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'alumni'

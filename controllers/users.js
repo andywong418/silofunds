@@ -1666,12 +1666,11 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
     });
   });
 }
-function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at){
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at) {
   var amount;
   if(user.funding_accrued == null){
     amount = chargeAmountPounds - (application_fee / 100);
-  }
-  else{
+  } else {
     amount = (user.funding_accrued + chargeAmountPounds - (application_fee /100));
   }
   user.update({funding_accrued: amount}).then(function(user){

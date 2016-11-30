@@ -89,6 +89,7 @@ module.exports =  {
       } else {
         if (user.donor_id == null) {
           models.donors.create({
+            email: user.email,
             subject: user.subject,
             country_of_residence: user.country_of_residence
           }).then(function(donor) {

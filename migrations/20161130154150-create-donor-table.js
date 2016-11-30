@@ -12,6 +12,10 @@ module.exports = {
           unique: true,
           autoIncrement: true
         },
+        email: {
+          type: Sequelize.STRING,
+          field: 'email'
+        },
         alumni: {
           type: Sequelize.ARRAY(Sequelize.TEXT),
           field: 'alumni'

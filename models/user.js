@@ -167,7 +167,7 @@ module.exports = function(sequelize, DataTypes) {
     short_description: {
       type: DataTypes.TEXT,
       field: 'short_description'
-    },
+    }m
     student: {
       type: DataTypes.TEXT,
       field: 'student',
