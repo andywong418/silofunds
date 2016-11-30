@@ -9,7 +9,7 @@ var router = express.Router();
 router.get('/profile', donors.profile)
 // router.post('/transaction_signup', donors.transaction_signup)
 router.get('/register', donors.register)
-// router.post('/register', passport.authenticate('registrationStrategy', {successRedirect: '/donor/profile', failureRedirect: '/donor/register'}))
+router.post('/register', passport.authenticate('registrationStrategy', {successRedirect: '/donor/profile', failureRedirect: '/donor/register'}))
 router.get('/logout', donors.logout)
 
 module.exports = router

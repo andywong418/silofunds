@@ -17,17 +17,14 @@ module.exports =  {
 
   registerUser: function(data, user, req, done) {
     // This is the normal login route
-    var confirmPassword;
     var name;
     if(data.confirmPassword == null) {
       name = data.username;
-      confirmPassword = data.password
     } else {
       name = data.firstName + " " + data.lastName;
-      confirmPassword = data.confirmPassword
     }
     // If user does not exist and passwords match, create user
-    if (!user && data.password == confirmPassword) {
+    if (!user && data.password == data.confirmPassword) {
         // Set username to be fund name or firstname + last name,
         var username = name;
         var user_type = null;
@@ -44,6 +41,66 @@ module.exports =  {
     } else {
       return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
     }
+  },
+
+  registerOrganisation: function(data, user, req, done) {
+    // Again, do logic for modal box and standalone login routes
+    var name;
+    if(data.confirmWasNull) {
+      name = data.username;
+    } else {
+      name = data.fundName;
+    }
+    if (!user && data.password == data.confirmPassword) {
+        models.organisations.create({
+            name: name
+        }).catch(function(err) {
+          Logger.error(err);
+        }).then(function(organisation) {
+            var user_type = null;
+            models.users.create({
+                username: name,
+                email: data.email,
+                password: data.password,
+                organisation_or_user: organisation.id,
+                email_updates: true
+            }).then(function(user) {
+              return done(null, user);
+            })
+        })
+      }
+  },
+
+  registerDonor: function(data, user, req, done) {
+    models.users.find({where: {email: data.email}}).then(function(user) {
+      if(!user) {
+        models.donors.create({
+          }).then(function(donor) {
+          models.users.create({
+            username: data.firstName + ' ' + data.lastName,
+            email: data.email,
+            password: data.password,
+            student: 'FALSE',
+            donor_id: donor.id
+          }).then(function(user) {
+            return done(null, user)
+          })
+        })
+      } else {
+        if (user.donor_id == null) {
+          models.donors.create({
+            subject: user.subject,
+            country_of_residence: user.country_of_residence
+          }).then(function(donor) {
+            user.update({
+              donor_id: donor.id
+            }).then(function(user) {
+              return done(null, user)
+            })
+          })
+        }
+      }
+    })
   }
 }
 
