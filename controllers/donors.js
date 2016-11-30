@@ -7,7 +7,7 @@ var passportFunctions = require('./passport/functions');
 module.exports = {
   profile: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
-      res.render('donor/profile', {user: req.user});
+      res.render('donor/profile', {user: req.user, donor: req.user.donor});
     });
   },
 

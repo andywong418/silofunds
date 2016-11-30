@@ -514,7 +514,6 @@ module.exports = {
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    Logger.info("HUH")
     if (!req.body.remember_me) {
       res.redirect('loginSplit');
     } else {
@@ -549,15 +548,21 @@ module.exports = {
 
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
-    if(req.user.organisation_or_user == null) {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.redirect('/user/dashboard');
-      });
-    }
-    else {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.redirect('/organisation/dashboard');
-      });
+    if(req.user.student == 'TRUE' || req.user.organisation_or_user !== null) {
+      if(req.user.organisation_or_user == null) {
+        passportFunctions.ensureAuthenticated(req, res, function(){
+          res.redirect('/user/dashboard');
+        });
+      }
+      else {
+        passportFunctions.ensureAuthenticated(req, res, function(){
+          res.redirect('/organisation/dashboard');
+        });
+      }
+    } else if (req.user.donor_id !== null) {
+      models.donors.findById(req.user.donor_id).then(function(donor) {
+        res.redirect('/donor/profile');
+      })
     }
   },
 
@@ -692,7 +697,7 @@ module.exports = {
       })
     })
   },
-  
+
   refundDonors: function(req, res){
     var userId = req.user.id;
     models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){

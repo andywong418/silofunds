@@ -21,10 +21,18 @@ module.exports = function(passport) {
   passport.deserializeUser(function(obj, done) {
     // Do this step to update req.user if user has just been updated
     models.users.findById(obj.id).then(function(user) {
-      // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up
+      // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up, also adds donor information
       if(user) {
-        user = user.get();
-        done(null, user);
+        if(user.donor_id !== null) {
+          models.donors.findById(user.donor_id).then(function(donor) {
+            user = user.get();
+            user.donor = donor.get();
+            done(null, user);
+          })
+        } else {
+          user = user.get();
+          done(null, user);
+        }
       } else {
         user = {}
         done(null, user)
@@ -43,13 +51,15 @@ module.exports = function(passport) {
     models.users.find({where: {email: username}}).then(function(user) {
       if (!user) {
         return done(null, false, {message: 'There is no account under this name.'});
-      } bcrypt.compare(password, user.password, function(err, res) {
-          if (!res) {
-            return done(null, false, {message: 'Wrong password'});
-          } else {
-            return done(null, user);
-          }
-      });
+      } else {
+        bcrypt.compare(password, user.password, function(err, res) {
+            if (!res) {
+              return done(null, false, {message: 'Wrong password'});
+            } else {
+              return done(null, user);
+            }
+        });
+      }
     });
   }));
 

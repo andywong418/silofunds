@@ -7,7 +7,6 @@ module.exports =  {
   // Export ensureAuthenticated function (redirects to user login page)s
   ensureAuthenticated: function(req, res, next) {
     if(req.isAuthenticated()) {
-      console.log('helloI AM INPORTAIBF')
       // next() fucks things up here
       next();
     } else {
@@ -63,6 +62,7 @@ module.exports =  {
                 email: data.email,
                 password: data.password,
                 organisation_or_user: organisation.id,
+                student: 'FALSE',
                 email_updates: true
             }).then(function(user) {
               return done(null, user);
