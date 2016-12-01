@@ -1,0 +1,49 @@
+#login {
+  border-top: none; }
+
+#register {
+  border-top: 1px solid #e1e8ed; }
+
+#form_container {
+  clear: both; }
+  #form_container .submit.login {
+    background-color: #44CF6C; }
+
+#login button, #register button {
+  background-color: #2390fd; }
+
+.checkbox {
+  width: 90%;
+  margin-left: 5%; }
+
+#rememberMe {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  float: left;
+  vertical-align: middle;
+  padding-top: 14px; }
+  #rememberMe input {
+    position: absolute;
+    top: 19px;
+    width: auto;
+    height: auto;
+    margin-left: 10px; }
+
+#passwordReset p {
+  margin-top: 10px;
+  float: right;
+  font-size: 18px; }
+
+.alert {
+  text-align: center; }

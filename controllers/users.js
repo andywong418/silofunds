@@ -10,7 +10,8 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
+// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
+var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -34,16 +35,17 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
   aws_key = secrets.AWS_KEY;
 }
 // Stripe OAuth
-var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
-var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
-// var API_KEY= 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+// var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
+var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
+// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
 module.exports = {
 
   dashboard: function(req, res) {
-    passportFunctions.ensureAuthenticated(req, res, function(){
+    passportFunctions.ensureAuthenticated(req, res, function() {
       var userId = req.user.id;
       models.users.findById(userId).then(function(user){
         var today = new Date();
@@ -315,19 +317,15 @@ module.exports = {
 
       });
     } );
-
   },
 
   chargeStripe: function(req, res) {
     var stripeToken = req.body.tokenID;
     var chargeAmount = req.body.amount;
-    console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
-    console.log("APP FEE", applicationFee);
     var donorIsPaying = req.body.donorIsPaying;
     var isAnon = req.body.is_anon;
-    console.log("BODY BODY", req.body);
-    //We're GOING FREE!
+    // We're GOING FREE!
     // var platformCharge;
     // if(donorIsPaying){
     //   platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
@@ -338,17 +336,16 @@ module.exports = {
     var email = req.body.email;
 		var comment = req.body.comment;
     var user_from;
-    if(req.user && req.user.id != req.body.recipientUserID){
+    if(req.user && req.user.id != req.body.recipientUserID) {
       user_from = req.user.id;
-    }
-    else{
+    } else {
       user_from = null;
     }
     stripe.customers.create({
       source: stripeToken,
       description: email
     }).then(function(customer) {
-      return models.stripe_users.find({ where: { user_id: req.body.recipientUserID }}).then(function(stripe_user) {
+      return models.stripe_users.find({where: {user_id: req.body.recipientUserID}}).then(function(stripe_user) {
         var chargeOptions = {
           currency: "gbp",
           customer: customer.id,
@@ -356,7 +353,6 @@ module.exports = {
           application_fee: parseInt(applicationFee),
           amount: chargeAmount,
         };
-
         // if (!donorIsPaying) {
         //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
         //   chargeOptions.amount = chargeAmount;
@@ -374,10 +370,9 @@ module.exports = {
       stripe.customers.retrieve(
         charge.customer,
         function(err, customer){
-          console.log("CUSTOMER", customer);
           charge.email = customer.description;
-          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-            if(comment && comment !== ''){
+          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user) {
+            if(comment && comment !== '') {
               if(user_from){
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
@@ -385,13 +380,11 @@ module.exports = {
                   commentator_name: charge.source.name,
                   comment: comment
                 }).then(function(comment){
-                  models.users.findById(stripe_user.user_id).then(function(user){
+                  models.users.findById(stripe_user.user_id).then(function(user) {
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
-
-              }
-              else{
+              } else {
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
                   commentator_name: charge.source.name,
@@ -401,12 +394,8 @@ module.exports = {
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
-
               }
-
-
-            }
-            else{
+            } else {
               models.users.findById(stripe_user.user_id).then(function(user){
                 returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
               });
@@ -414,8 +403,6 @@ module.exports = {
           });
         }
       );
-
-
     });
   },
 
@@ -514,7 +501,6 @@ module.exports = {
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
-    Logger.info("HUH")
     if (!req.body.remember_me) {
       res.redirect('loginSplit');
     } else {
@@ -549,15 +535,21 @@ module.exports = {
 
   loginSplit: function(req, res) {
     // Find whether the login was for a user or a fund and redirect accordingly
-    if(req.user.organisation_or_user == null) {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.redirect('/user/dashboard');
-      });
-    }
-    else {
-      passportFunctions.ensureAuthenticated(req, res, function(){
-        res.redirect('/organisation/dashboard');
-      });
+    if(req.user.student == 'TRUE' || req.user.organisation_or_user !== null) {
+      if(req.user.organisation_or_user == null) {
+        passportFunctions.ensureAuthenticated(req, res, function(){
+          res.redirect('/user/dashboard');
+        });
+      }
+      else {
+        passportFunctions.ensureAuthenticated(req, res, function(){
+          res.redirect('/organisation/dashboard');
+        });
+      }
+    } else if (req.user.donor_id !== null) {
+      models.donors.findById(req.user.donor_id).then(function(donor) {
+        res.redirect('/donor/profile');
+      })
     }
   },
 
@@ -692,6 +684,7 @@ module.exports = {
       })
     })
   },
+
   refundDonors: function(req, res){
     var userId = req.user.id;
     models.stripe_users.find({where: {user_id: userId}}).then(function(stripe_user){
@@ -701,6 +694,7 @@ module.exports = {
       });
     });
   },
+
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
       var emailSuccess = req.flash('emailSuccess');
@@ -1554,14 +1548,11 @@ function createPageView(pageViewCreate, loggedInUser, user, callback){
         models.page_views.create(pageViewCreate).then(function(){
           callback();
         });
-      }
-      else{
+      } else {
         callback();
       }
-
     });
-  }
-  else{
+  } else {
     models.page_views.create(pageViewCreate).then(function(){
       callback();
     });
@@ -1659,72 +1650,42 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
     });
   });
 }
-function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at){
+function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at) {
   var amount;
+  var donor_email = charge.email;
   if(user.funding_accrued == null){
     amount = chargeAmountPounds - (application_fee / 100);
-  }
-  else{
+  } else {
     amount = (user.funding_accrued + chargeAmountPounds - (application_fee /100));
   }
-  user.update({funding_accrued: amount}).then(function(user){
-    return models.stripe_charges.create({
-      charge_id: charge.id,
-      amount: parseFloat(charge.amount),
-      application_fee: application_fee,
-      balance_transaction: charge.balance_transaction,
-      captured: charge.captured,
-      customer_id: charge.customer,
-      description: charge.description,
-      destination_id: charge.destination,
-      fingerprint: charge.source.fingerprint,
-      livemode: charge.livemode,
-      paid: charge.paid,
-      status: charge.status,
-      transfer_id: charge.transfer,
-      sender_name: charge.source.name,
-      source_id: charge.source.id,
-      source_address_line1_check: charge.source.address_line1_check,
-      source_address_zip_check: charge.source.address_zip_check,
-      source_cvc_check: charge.source.cvc_check,
-      user_from: user_from,
-      is_anon: isAnon,
-      created_at: created_at,
-    }).then(function(object){
-      Logger.error(charge.email);
-      var options;
-      var emailOptions;
-      if(user_from){
-        options = {
-          user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
-          category: "donation",
-          read_by_user: false
+  models.donors.find({where: {email: donor_email}}).then(function(donor) {
+    if(donor) {
+      var donor_id = donor.id;
+      completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+    } else {
+      models.users.find({where: {email: donor_email}}).then(function(donor_user) {
+        if(donor_user) {
+          models.donors.create({
+            email: donor_email
+          }).then(function(donor) {
+            var donor_id = donor.id
+            donor_user.update({
+              donor_id: donor_id
+            }).then(function(donor) {
+              completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+            })
+          })
+        } else {
+          models.donors.create({
+            email: donor_email
+          }).then(function(donor) {
+            var donor_id = donor.id
+            completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+          })
         }
-        messageUser = true;
-      }
-      else{
-        options = {
-          user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
-          category: "donation",
-          read_by_user: false
-        };
-        messageUser = false;
-      }
-
-      models.notifications.create(options).then(function(notification){
-        if(messageUser){
-           sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
-          'You have a new donation!', res);
-        }
-        else{
-           sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
-          'You have a new donation!', res);
-        }
-      });
-    });
-  });
+      })
+    }
+  })
 };
 
 
@@ -1759,16 +1720,15 @@ function createAppNotif(fundId, user, status, res){
       if(fundUser){
         options = {
           user_id: fundUser.id,
-          notification: user.username+ " changed their application status to " + status + ". Click <a href='http://www.silofunds.com/public/" + user.id +"'> here</a> to confirm and verify this update.",
+          notification: user.username + " changed their application status to " + status + ". Click <a href='http://www.silofunds.com/public/" + user.id +"'> here</a> to confirm and verify this update.",
           category: "application",
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, charge.email, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
         })
-      }
-      else{
-          res.send(user);
+      } else {
+        res.send(user);
       }
 
     })
@@ -1819,7 +1779,7 @@ function createAppNotif(fundId, user, status, res){
 //
 //   });
 // }
-function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
+function sendUserEmail(userId, charge_email, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
@@ -1838,7 +1798,7 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
            pass: 'notifaccount'}
     }));
 
-    template.render(locals, function(err, results){
+    template.render(locals, function(err, results) {
       if (err) {
          firstCallback();
          return console.error(err);
@@ -1851,13 +1811,11 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
       }, function(err, responseStatus){
         if (err) {
          console.error(err);
-        }
-        else{
-          console.log("SUCCESS");
-          console.log(responseStatus.message);
+        } else {
+          app = app.get()
+          app.charge_email = charge_email
           res.send(app);
         }
-
       });
     });
   });
@@ -1917,8 +1875,7 @@ function findStripeUser(option, res, dataObject1, dataObject2){
 		if(stripe_user){
       dataObject1.stripe_user = true;
 			findCharges("SELECT DISTINCT fingerprint FROM stripe_charges where destination_id = '"  + stripe_user.stripe_user_id + "'", res, dataObject1, dataObject1, {destination_id: stripe_user.stripe_user_id}, option);
-
-		}else{
+		} else {
 			//Not stripe user
       dataObject2.stripe_user = false;
 			findAllUpdatesComments(option, res,dataObject2);
@@ -2013,7 +1970,7 @@ function asyncChangeComments(array, res, dataObject){
 				newArray.push(newObj);
 				callback();
 			});
-		}else{
+		} else {
 			newArray.push(newObj);
 			callback();
 		}
@@ -2023,17 +1980,74 @@ function asyncChangeComments(array, res, dataObject){
 	})
 }
 
-// function findAllChange(table,  )
+function completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res) {
+  user.update({funding_accrued: amount}).then(function(user){
+    return models.stripe_charges.create({
+      charge_id: charge.id,
+      amount: parseFloat(charge.amount),
+      application_fee: application_fee,
+      balance_transaction: charge.balance_transaction,
+      captured: charge.captured,
+      customer_id: charge.customer,
+      description: charge.description,
+      destination_id: charge.destination,
+      fingerprint: charge.source.fingerprint,
+      livemode: charge.livemode,
+      paid: charge.paid,
+      status: charge.status,
+      transfer_id: charge.transfer,
+      sender_name: charge.source.name,
+      source_id: charge.source.id,
+      source_address_line1_check: charge.source.address_line1_check,
+      source_address_zip_check: charge.source.address_zip_check,
+      source_cvc_check: charge.source.cvc_check,
+      user_from: user_from,
+      created_at: created_at,
+      user_id: user.id,
+      donor_id: donor_id
+    }).then(function(object) {
+      var stripe_id = object.id;
+      var options;
+      var emailOptions;
+      if(user_from){
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
+          category: "donation",
+          read_by_user: false
+        }
+        messageUser = true;
+      } else {
+        options = {
+          user_id: user.id,
+          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
+          category: "donation",
+          read_by_user: false
+        };
+        messageUser = false;
+      }
+
+      models.notifications.create(options).then(function(notification) {
+        if(messageUser) {
+          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+          'You have a new donation!', res);
+        } else {
+          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+          'You have a new donation!', res);
+        }
+      });
+    });
+  });
+}
 
 function updateDiffDays(date){
 	var oneDay = 24*60*60*1000;
 	var completionDate = new Date(date);
 	var nowDate = Date.now();
-
 	var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
 	return diffDays;
-
 }
+
 function reformatDate(date) {
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();

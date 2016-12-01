@@ -1,3 +1,32 @@
+$(document).ready(function() {
+  $('input[type="submit"]').prop('disabled', true);
+
+  $('#user_type_dropdown').on('change', function() {
+    $('input[type="submit"]').prop('disabled', false);
+    $('.initial_hide').css('display', 'block')
+    $('.late_hide').css('display', 'none')
+    if($('#user_type_dropdown').val() == 'student') {
+      $('#donor_hidden').prop('value', 'false')
+      $('#fundCheckbox').prop('checked', false)
+      $('.fund_only input').val(null)
+      $('.fund_only').css('display', 'none')
+      $('.non_fund').css('display', 'flex')
+    } else if ($('#user_type_dropdown').val() == 'donor') {
+      $('#donor_hidden').prop('value', 'true')
+      $('#fundCheckbox').prop('checked', false)
+      $('.fund_only').css('display', 'none')
+      $('.non_fund').css('display', 'flex')
+      $('.fund_only input').val(null)
+    } else if($('#user_type_dropdown').val() == 'organisation') {
+      $('#donor_hidden').prop('value', 'false')
+      $('#fundCheckbox').prop('checked', true)
+      $('.non_fund input').val(null)
+      $('.fund_only').css('display', 'block')
+      $('.non_fund').css('display', 'none')
+    }
+  })
+})
+
 $(document).ready(function(){
   $('#fund').hide()
   $('#fundCheckbox').click(function(){
@@ -63,10 +92,7 @@ $(document).ready(function(){
       $('#passwordError').show();
       $('#passwordError').append('Passwords do not match')
     }
-
   })
-
-
 
   $('#email').focus(function(){
     $('#emailError').empty()

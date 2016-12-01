@@ -1,0 +1,77 @@
+extend ../layout
+
+block extraHeader
+  link(href='/stylesheets/donor/profile.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
+  script(src='http://connect.facebook.net/en_US/all.js')
+  script(src='https://checkout.stripe.com/checkout.js')
+  
+
+block content
+  #fb-row
+  script.
+    window.fbAsyncInit = function() {
+      FB.init({
+          appId  : '506830149486287',
+          xfbml  : true,
+          status : true,
+          cookie : true,
+          version: 'v2.5'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    var documents = !{JSON.stringify(documents)};
+    var applications = !{JSON.stringify(applications)}
+    var donations = !{JSON.stringify(donations)};
+    var updates = !{JSON.stringify(updates)};
+    var loggedInUser = !{JSON.stringify(loggedInUser)};
+    if(loggedInUser){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ../navbar.jade
+  include ../partials/navbar-loggedin.jade
+  include ../advanced-search.jade
+  include ../partials/signup-modal.jade
+  
+  //- #crowdfunding-wrapper.container
+  //-   if user && user.user_launch !== true
+  //-     #launch_box
+  //-       form(method='post', action='/user/launch')
+  //-         .alert.alert-info.col-xs-10.col-xs-offset-1
+  //-           span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
+  //-           button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
+  //-   #pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
+  //-     if user.profile_picture && !user.video
+  //-       .no-vid-pic-border
+  //-         img#profile_picture.pic-resize(src!=user.profile_picture)
+  //-     if user.video
+  //-       .video-div.mobile
+  //-       .video-div.desktop
+  //-     if !user.profile_picture && !user.video
+  //-       img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
+
+
+block scripts
+  //moment
+  script(src='/bower_components/moment/min/moment-with-locales.js')
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/notifications.js')
+  script(src='/javascript/signup-login.js')
+  script.
+    var user = !{JSON.stringify(user)}
+    console.log(user)

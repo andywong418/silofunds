@@ -448,15 +448,18 @@ module.exports = {
 							}
 							var message = "Awesome! An email has been sent to " + user.email + " for verification.";
 							transporter.close();
-							if(!user.organisation_or_user) {
-								Logger.info('hello')
-								req.flash('emailSuccess', message)
-								res.redirect('/user/create')
+							if(user.student == 'TRUE' || user.organisation_or_user !== null) {
+								if(user.organisation_or_user == null) {
+									Logger.info('hello')
+									req.flash('emailSuccess', message)
+									res.redirect('/user/create')
+								} else {
+									req.flash('emailSuccess', message)
+									res.redirect('/organisation/create')
+								}
 							} else {
-								req.flash('emailSuccess', message)
-								res.redirect('/organisation/create')
+								res.redirect('/donor/profile')
 							}
-							// }
 						})
 					})
 				})

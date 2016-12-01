@@ -4,27 +4,23 @@ $(document).ready(function() {
 
 // Verification
   $('#email').focus(function() {
-    $('#emailError').empty();
+    $('.error.email').hide();
   });
   $('#password').focus(function() {
     $('#passwordError').empty();
   });
-
+  
   $('#email').blur(function() {
     var email = $(this).val();
     $('#passwordError').empty();
     var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if(!re.test(email)) {
-      $('#emailError').empty();
-      $('#emailError').show();
-      $('#emailError').append('Please enter a valid email address');
+      $('.error.email').show();
     } else {
       var parameters = {email: email};
       $.post('/validation/login', parameters, function(data) {
         if(data) {
-          $('#emailError').empty();
-          $('#emailError').show();
-          $('#emailError').append(data);
+          $('.error.email').show();
         }
       });
     }

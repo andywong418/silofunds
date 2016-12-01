@@ -1,0 +1,70 @@
+extend ../layout
+
+block extraHeader
+  link(href='/stylesheets/donor/register.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+
+block content
+  include ../navbar.jade
+  include ../partials/navbar-loggedin.jade
+  include ../advanced-search.jade
+  include ../partials/signup-modal.jade
+  
+  if email
+    #payment-div.alert.alert-success Your payment has been recieved successfully.
+  else 
+    #payment-div
+  #form_container
+    p.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
+    .flex_div
+      .signup
+        form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')
+          input.right(type='hidden', value='true', name='donor_registration')
+          .two_line
+            input.right(type='text', name='firstName', placeholder='First:')
+            input(type='text', name='lastName', placeholder='Last:')
+          if email
+            input#email(type='text', name='email', placeholder='Email:', value=email)
+          if !email
+            input#email(type='text', name='email', placeholder='Email:')
+          p.error.email Please enter a valid email address
+          .two_line
+            input#password.right(type='password', name='password', placeholder='Password:')
+            input#password_confirmation(type='password', name='confirmPassword', placeholder='Confirm password:')
+          p.error.password_match Passwords do not match
+          input.submit(type='submit' placeholder='SUBMIT')
+      #login
+        span Already have an account?
+        button Login
+      #login_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;
+              |         
+              h4#myModalLabel.modal-title Login
+            |       
+            .modal-body
+              form(accept-charset='UTF-8', name='register', id='register', role='form', action="/login", method='post')
+                // Hidden form pieces
+                input.right(type='hidden', value='true', name='donor_registration')
+                if stripe_id && user_id
+                  input.right(type='hidden', value=stripe_id, name='stripe_id')
+                  input.right(type='hidden', value=user_id, name='user_id')
+                input(type='text', name='email', placeholder='Email:')
+                input(type='password', name='password', placeholder='Password:')
+                input#login-submit.login-submit.submit(type='submit', value='Login') 
+    
+    
+
+block scripts
+  //moment
+  script(src='/bower_components/moment/min/moment-with-locales.js')
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/notifications.js')
+  script(src='/javascript/signup-login.js')
+  script(src='/javascript/donor/register.js')
+  script.
+    var user = !{JSON.stringify(user)}
+    console.log(user)

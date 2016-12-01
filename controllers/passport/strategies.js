@@ -14,18 +14,25 @@ var signup = require('../signup')
 // Export passport strategies
 module.exports = function(passport) {
 
-
   //  Serialize and deserialize
-  passport.serializeUser(function(user, done){
+  passport.serializeUser(function(user, done) {
      done(null, user);
   });
   passport.deserializeUser(function(obj, done) {
     // Do this step to update req.user if user has just been updated
     models.users.findById(obj.id).then(function(user) {
-      // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up
-      if(user){
-        user = user.get();
-        done(null, user);
+      // If somehow the user is deleted off the database before a passport logout, this prevents everything fucking up, also adds donor information
+      if(user) {
+        if(user.donor_id !== null) {
+          models.donors.findById(user.donor_id).then(function(donor) {
+            user = user.get();
+            user.donor = donor.get();
+            done(null, user);
+          })
+        } else {
+          user = user.get();
+          done(null, user);
+        }
       } else {
         user = {}
         done(null, user)
@@ -44,13 +51,15 @@ module.exports = function(passport) {
     models.users.find({where: {email: username}}).then(function(user) {
       if (!user) {
         return done(null, false, {message: 'There is no account under this name.'});
-      } bcrypt.compare(password, user.password, function(err, res) {
-          if (!res) {
-            return done(null, false, {message: 'Wrong password'});
-          } else {
-            return done(null, user);
-          }
-      });
+      } else {
+        bcrypt.compare(password, user.password, function(err, res) {
+            if (!res) {
+              return done(null, false, {message: 'Wrong password'});
+            } else {
+              return done(null, user);
+            }
+        });
+      }
     });
   }));
 
@@ -64,77 +73,35 @@ passport.use('registrationStrategy', new LocalStrategy({
     },
     function(req, email, password, done) {
         // User.findOne wont fire unless data is sent back
-        Logger.info("EMAIL 2", email);
         process.nextTick(function() {
             models.users.find({where: {email: email}
             }).then(function(user) {
-              Logger.info(user)
-                var data = req.body;
-                // If a user go via this route
-                // Some logic to make both the modal box and the stand alone login pages work
-                if (req.body.fundOption !== 'on') {
-                  var confirmPassword;
-                  var name;
-                  if(data.confirmPassword == null) {
-                    name = data.username;
-                    confirmPassword = data.password
-                  } else {
-                    name = data.firstName + " " + data.lastName;
-                    confirmPassword = data.confirmPassword
-                  }
-                  // If user does not exist and passwords match, create user
-                  if (!user && data.password == confirmPassword) {
-                      // Set username to be fund name or firstname + last name,
-                      var username = name;
-                      models.users.create({
-                          username: username,
-                          email: data.email,
-                          password: data.password,
-                          email_updates: true
-                      }).then(function(user) {
-                          return done(null, user);
-                      });
-                  } else if (data.password !== data.confirmPassword) {
-                      return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-                  } else {
-                    return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-                  }
-                // If a fund, go via this route
-                } else {
-                  // Again, do logic for modal box and standalone login routes
-                  var confirmPassword;
-                  var name;
-                  Logger.info("FUND SIGNUP");
-                  if(data.confirmPassword == null) {
-                    name = data.username;
-                    confirmPassword = data.password
-                  } else {
-                    name = data.fundName;
-                    confirmPassword = data.confirmPassword
-                  }
-                    if (!user && data.password == confirmPassword) {
-                        models.organisations.create({
-                            name: name
-                        }).catch(function(err) {
-                          Logger.error(err);
-                        }).then(function(organisation) {
-                            models.users.create({
-                                username: name,
-                                email: data.email,
-                                password: data.password,
-                                organisation_or_user: organisation.id,
-                                email_updates: true
-                            }).then(function(user) {
-                                return done(null, user);
-                            })
-                        })
-                    }
-                    else if (data.password !== data.confirmPassword) {
-                        return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
-                    } else {
-                        return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
-                    }
+              var data = req.body;
+              var donor_id = null;
+              models.donors.find({where: {email: email}}).then(function(donor) {
+                if(donor) {
+                  donor_id = donor.id
                 }
+                if(data.confirmPassword == null) { // Logic for mocal boxes
+                  data.confirmPassword = data.password
+                  data.confirmWasNull = true
+                }
+                if(data.password == data.confirmPassword) {
+                  if(data.donor_registration !== 'true') {
+                    if(data.fundOption !== 'on') {
+                      passportFunctions.registerUser(data, user, donor_id, req, done)
+                    } else {
+                      passportFunctions.registerOrganisation(data, user, donor_id, req, done)
+                    }
+                  } else if (data.donor_registration == 'true') {
+                    passportFunctions.registerDonor(data, user, donor_id, req, done)
+                  }
+                } else if (data.password !== data.confirmPassword) {
+                    return done(null, false, req.flash('flashMsg', 'Passwords did not match'))
+                } else {
+                    return done(null, false, req.flash('flashMsg', 'Sorry, that email has already been used'))
+                }
+              })
             });
         });
     }));

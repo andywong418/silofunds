@@ -167,6 +167,15 @@ module.exports = function(sequelize, DataTypes) {
     short_description: {
       type: DataTypes.TEXT,
       field: 'short_description'
+    },
+    student: {
+      type: DataTypes.TEXT,
+      field: 'student',
+      defaultValue: 'TRUE'
+    },
+    donor_id: {
+      type: DataTypes.INTEGER,
+      field: 'donor_id'
     }
   }, {
     timestamps: true,
