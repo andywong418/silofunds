@@ -10,7 +10,10 @@ block content
   include ../advanced-search.jade
   include ../partials/signup-modal.jade
   
-  #payment-div.alert.alert-success Your payment has been recieved successfully.
+  if email
+    #payment-div.alert.alert-success Your payment has been recieved successfully.
+  else 
+    #payment-div
   #form_container
     p.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
     .flex_div
@@ -20,7 +23,10 @@ block content
           .two_line
             input.right(type='text', name='firstName', placeholder='First:')
             input(type='text', name='lastName', placeholder='Last:')
-          input#email(type='text', name='email', placeholder='Email:')
+          if email
+            input#email(type='text', name='email', placeholder='Email:', value=email)
+          if !email
+            input#email(type='text', name='email', placeholder='Email:')
           p.error.email Please enter a valid email address
           .two_line
             input#password.right(type='password', name='password', placeholder='Password:')

@@ -60,41 +60,28 @@ $(document).ready(function() {
         var file = doc.title;
         var description = doc.description;
         var extension;
-        if(file){
+        if(file) {
           var seekingExtension = file.split(".");
           extension = seekingExtension[1];
         }
-
         var fileClass;
         if(extension == "pdf"){
           fileClass = "fa fa-file-pdf-o pdf-file"
-        }
-        else if(extension == "jpg" || extension == "png"){
+        } else if(extension == "jpg" || extension == "png"){
           fileClass = "fa fa-file-photo-o photo-file"
-        }
-
-        else if (extension == "xls" || extension == "xlsx"){
+        } else if (extension == "xls" || extension == "xlsx"){
           fileClass = "fa fa-file-excel-o excel-file"
-        }
-
-        else if (extension == "ppt" || extension == "pptx"){
+        } else if (extension == "ppt" || extension == "pptx"){
           fileClass = "fa fa-file-powerpoint-o powerpoint-file"
-        }
-
-        else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
+        } else if(extension == "mp4" || extension == "avi" || extension == "mkv"){
           fileClass = 'fa fa-file-video-o video-file'
-        }
-
-        else if (extension == "doc" || extension == "docx"){
+        } else if (extension == "doc" || extension == "docx"){
           fileClass = "fa fa-file-word-o word-file"
-        }
-        else if(extension== "m" || extension == "html" || extension == "js" || extension == "py" || extension== 'c' || extension == 'cpp'){
+        } else if (extension== "m" || extension == "html" || extension == "js" || extension == "py" || extension== 'c' || extension == 'cpp'){
           fileClass = "fa fa-file-code-o code-file";
-        }
-        else{
+        } else {
           fileClass = "fa fa-file filename";
         }
-
         var documentModel = new DocumentModel({
           fileClass: fileClass,
           fileLink: link,
@@ -103,8 +90,6 @@ $(document).ready(function() {
         });
         var docView = new DocumentView({model: documentModel});
         this.$('.document-row').append(docView.render().el);
-
-
       }
     }
   });
@@ -131,8 +116,6 @@ $(document).ready(function() {
         var age = Math.floor((nowDate - birthDate) / 31536000000 );
         this.$('#age').html(age);
       }
-
-
     }
   });
 
@@ -246,8 +229,7 @@ $(document).ready(function() {
         $('div#donate-amount').removeClass('hidden');
         $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
       });
-    }
-    else{
+    } else {
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
@@ -258,18 +240,13 @@ $(document).ready(function() {
         panelLabel: "Donate",
         amount: amount * 100
       };
-
       // if (donorIsPaying) {
       //   handlerDisplayOptions.amount = (parseInt(amount) + applicationFee) * 100;
       // } else {
       //   handlerDisplayOptions.amount = amount * 100;
       // }
-
       handler.open(handlerDisplayOptions);
-
-
     }
-
   });
   // $('#donate').click(function(e) {
   //
@@ -278,20 +255,17 @@ $(document).ready(function() {
 
   $('input#donate-amount').on('keyup', function(e){
     displayApplicationFeeHelperText();
-
   });
 
   $('#donorpays').click(function() {
     $('#donorpays').addClass('active');
     $('#recipientpays').removeClass('active');
-
     displayApplicationFeeHelperText();
   });
 
   $('#recipientpays').click(function() {
     $('#recipientpays').addClass('active');
     $('#donorpays').removeClass('active');
-
     displayApplicationFeeHelperText();
   });
 
@@ -314,8 +288,7 @@ $(document).ready(function() {
         if(europeanArray.indexOf(cardcountry)> -1){
           //European card
           applicationFee = Math.ceil(amount * 0.014 + 0.2);
-        }
-        else{
+        } else {
           applicationFee = Math.ceil(amount * 0.029 + 0.2);
         }
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
@@ -397,25 +370,22 @@ $(document).ready(function() {
 
 
   // Twitter popup buttons
-    $('a.twitter-tweet').click(function(e){
+    $('a.twitter-tweet').click(function(e) {
       var offset = (screen.width/2) - Math.ceil(575/2);
       var username = user.username.split(' ')[0];
       var subject = user.subject;
       var gender = user.gender;
       var pronoun;
-      if(gender == 'male'){
+      if(gender == 'male') {
         pronoun = 'He';
       }
-      if(gender == 'female'){
+      if(gender == 'female') {
         pronoun = 'She';
       }
-      if(user.subject){
+      if(user.subject) {
         var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+" +pronoun+ "+is+raising+money+to+study+" + subject +"%2E+Your+support+will+make+a+difference&url=https%3a%2f%2fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
-
-      }
-      else{
-                var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+They+are+raising+money+for+their+studies%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
-
+      } else {
+        var newWindow=window.open("https://twitter.com/intent/tweet?text=" + username + "+needs+your+help!+They+are+raising+money+for+their+studies%2E+Your+support+will+make+a+difference&url=http:%3A%2F%2Fsilofunds.com%2Fpublic%2f" + user.id, 'name','height=503, width=575, top = 200, left=' + offset);
       }
     });
 
@@ -482,8 +452,8 @@ $(document).ready(function() {
     // });
     // $('#payment-div').delay(3000).fadeOut('slow');
     $('#processing-div').hide()
+    $('#donor_email').val(data.charge_email)
     $('#hidden_form').submit()
-    // location.reload();
   }
 
   // Stuff for mobile

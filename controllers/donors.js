@@ -38,11 +38,14 @@ module.exports = {
   // },
   //
   transaction_complete: function(req, res) {
-    if(req.isAuthenticated) {
-      res.send("You're all sorted bud")
-    } else {
-      res.redirect('/donor/register')
-    }
+    var email = req.body.donor_email
+    models.users.find({where: {email: email}}).then(function(user) {
+      if(user) {
+        res.send('you are already a user' + email)
+      } else {
+        res.render('donor/register', {email: email, what: true})
+      }
+    })
   },
 
   logout: function(req, res) {

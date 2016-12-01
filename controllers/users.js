@@ -364,7 +364,6 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
-      console.log('so here is fuckedin')
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = applicationFee ? parseFloat(applicationFee) : null;
@@ -1549,11 +1548,9 @@ function createPageView(pageViewCreate, loggedInUser, user, callback){
         models.page_views.create(pageViewCreate).then(function(){
           callback();
         });
-      }
-      else{
+      } else {
         callback();
       }
-
     });
   } else {
     models.page_views.create(pageViewCreate).then(function(){
@@ -1666,15 +1663,15 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
       var donor_id = donor.id;
       completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
     } else {
-      models.users.find({where: {email: donor_email}}).then(function(user) {
-        if(user) {
+      models.users.find({where: {email: donor_email}}).then(function(donor_user) {
+        if(donor_user) {
           models.donors.create({
             email: donor_email
           }).then(function(donor) {
             var donor_id = donor.id
-            user.update({
+            donor_user.update({
               donor_id: donor_id
-            }).then(function(user) {
+            }).then(function(donor) {
               completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
             })
           })
@@ -1723,16 +1720,15 @@ function createAppNotif(fundId, user, status, res){
       if(fundUser){
         options = {
           user_id: fundUser.id,
-          notification: user.username+ " changed their application status to " + status + ". Click <a href='http://www.silofunds.com/public/" + user.id +"'> here</a> to confirm and verify this update.",
+          notification: user.username + " changed their application status to " + status + ". Click <a href='http://www.silofunds.com/public/" + user.id +"'> here</a> to confirm and verify this update.",
           category: "application",
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, charge.email, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
         })
-      }
-      else{
-          res.send(user);
+      } else {
+        res.send(user);
       }
 
     })
@@ -1783,7 +1779,7 @@ function createAppNotif(fundId, user, status, res){
 //
 //   });
 // }
-function sendUserEmail(userId, notiftext, link, notification, app, subject, res){
+function sendUserEmail(userId, charge_email, notiftext, link, notification, app, subject, res){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
@@ -1802,7 +1798,7 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
            pass: 'notifaccount'}
     }));
 
-    template.render(locals, function(err, results){
+    template.render(locals, function(err, results) {
       if (err) {
          firstCallback();
          return console.error(err);
@@ -1815,13 +1811,11 @@ function sendUserEmail(userId, notiftext, link, notification, app, subject, res)
       }, function(err, responseStatus){
         if (err) {
          console.error(err);
-        }
-        else{
-          console.log("SUCCESS");
-          console.log(responseStatus.message);
+        } else {
+          app = app.get()
+          app.charge_email = charge_email
           res.send(app);
         }
-
       });
     });
   });
@@ -2035,10 +2029,10 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
 
       models.notifications.create(options).then(function(notification) {
         if(messageUser) {
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
           'You have a new donation!', res);
         } else {
-          sendUserEmail(user.id, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
           'You have a new donation!', res);
         }
       });
