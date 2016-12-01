@@ -23,3 +23,6 @@ img#silo-image {
 
 .fund_only {
   display: none; }
+
+button.login {
+  cursor: pointer; }

@@ -1010,7 +1010,7 @@ body {
   #form_container a:hover {
     text-decoration: none; }
 
-#login {
+#login, #register {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -1018,14 +1018,14 @@ body {
   width: 100%;
   border-top: 1px solid #e1e8ed;
   font-size: 17px; }
-  #login span {
+  #login span, #register span {
     font-size: 18px;
     margin-right: 10px;
     background: none;
     border: none;
     box-shadow: none;
     color: black; }
-  #login button {
+  #login button, #register button {
     color: white;
     height: 50px;
     width: 15%;

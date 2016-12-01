@@ -1,0 +1,8 @@
+#login {
+  border-top: none; }
+
+#form_container .submit.login {
+  background-color: #44CF6C; }
+
+#login button, #register button {
+  background-color: #2390fd; }

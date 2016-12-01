@@ -5,72 +5,56 @@ block extraHeader
   link(href='/stylesheets/user/register.css', rel='stylesheet')
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
   script(src='/javascript/user/register.js')
+  script(src='/javascript/donor/register.js')
+
 
 block content
   a(href="/")
     #img_div
       img#silo-image(src="/images/silo no background.gif")
-  if email
-    #payment-div.alert.alert-success Your payment has been recieved successfully.
-  else 
-    #payment-div
-    #form_container
-      .flex_div
-        .signup
-          form(accept-charset='UTF-8', name='register', id='register', role='form', action="/register", method='post')
-            //- input.right(type='hidden', value='true', name='donor_registration')
-            .user-type.col-xs-12
-              .col-xs-5
-                .panel-title
-                  | Register for silo as a:
-              .col-xs-7
-                select#user_type_dropdown.form-control(name='user_type')
-                  option(disabled='', selected='', value='')
-                  option(value='student') Student
-                  option(value='organisation') Fund institution
-                  option(value='donor') Donor
-                br
-            .fund_only
-              input#fundName(type='text', name='fundName', placeholder='Institution name:')
-            .two_line.non_fund
-              input.right(type='text', name='firstName', placeholder='First:')
-              input(type='text', name='lastName', placeholder='Last:')
-            if email
-              input#email(type='text', name='email', placeholder='Email:', value=email)
-            if !email
-              input#email(type='text', name='email', placeholder='Email:')
-            p.error.email Please enter a valid email address
-            .two_line
-              input#password.right(type='password', name='password', placeholder='Password:')
-              input#password_confirmation(type='password', name='confirmPassword', placeholder='Confirm password:')
-            p.error.password_match Passwords do not match
-            // Hidden input fields
-            input#donor_hidden.right(type='hidden', value='false', name='donor_registration')
-            input#fundCheckbox.hide(name='fundOption', type='checkbox')
-            //- 
-            input.submit(type='submit' placeholder='SUBMIT')
-        #login
-          span Already have an account?
-          button Login
-        #login_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-          .modal-dialog(role='document')
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal', aria-label='Close')
-                  span(aria-hidden='true') &times;
-                |         
-                h4#myModalLabel.modal-title Login
-              |       
-              .modal-body
-                form(accept-charset='UTF-8', name='register', id='register', role='form', action="/login", method='post')
-                  // Hidden form pieces
-                  input.right(type='hidden', value='true', name='donor_registration')
-                  if stripe_id && user_id
-                    input.right(type='hidden', value=stripe_id, name='stripe_id')
-                    input.right(type='hidden', value=user_id, name='user_id')
-                  input(type='text', name='email', placeholder='Email:')
-                  input(type='password', name='password', placeholder='Password:')
-                  input#login-submit.login-submit.submit(type='submit', value='Login') 
+  .col-md-6.col-md-offset-3
+    if flashMsg
+      .alert.alert-danger= flashMsg
+  #payment-div
+  #form_container
+    .flex_div
+      .signup
+        form(accept-charset='UTF-8', name='register', id='register', role='form', action="/register", method='post')
+          //- input.right(type='hidden', value='true', name='donor_registration')
+          .user-type.col-xs-12
+            .col-xs-5
+              .panel-title
+                | Register for silo as a:
+            .col-xs-7
+              select#user_type_dropdown.form-control(name='user_type')
+                option(disabled='', selected='', value='')
+                option(value='student') Student
+                option(value='organisation') Fund institution
+                option(value='donor') Donor
+              br
+          .fund_only
+            input#fundName(type='text', name='fundName', placeholder='Institution name:')
+          .two_line.non_fund
+            input.right(type='text', name='firstName', placeholder='First:')
+            input(type='text', name='lastName', placeholder='Last:')
+          if email
+            input#email(type='text', name='email', placeholder='Email:', value=email)
+          if !email
+            input#email(type='text', name='email', placeholder='Email:')
+          p.error.email Please enter a valid email address
+          .two_line
+            input#password.right(type='password', name='password', placeholder='Password:')
+            input#password_confirmation(type='password', name='confirmPassword', placeholder='Confirm password:')
+          p.error.password_match Passwords do not match
+          // Hidden input fields
+          input#donor_hidden.right(type='hidden', value='false', name='donor_registration')
+          input#fundCheckbox.hide(name='fundOption', type='checkbox')
+          //- 
+          input.submit(type='submit' placeholder='SUBMIT')
+      #login
+        span Already have an account?
+        a(href='/login')
+          button.login Login
   
     
 
@@ -83,5 +67,4 @@ block scripts
   script(src='/javascript/donor/register.js')
   script.
     var user = !{JSON.stringify(user)}
-    console.log(user)
-s
+    

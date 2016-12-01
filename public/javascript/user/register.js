@@ -1,5 +1,8 @@
 $(document).ready(function() {
+  $('input[type="submit"]').prop('disabled', true);
+
   $('#user_type_dropdown').on('change', function() {
+    $('input[type="submit"]').prop('disabled', false);
     $('.initial_hide').css('display', 'block')
     $('.late_hide').css('display', 'none')
     if($('#user_type_dropdown').val() == 'student') {
