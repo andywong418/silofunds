@@ -448,8 +448,8 @@ module.exports = {
 							}
 							var message = "Awesome! An email has been sent to " + user.email + " for verification.";
 							transporter.close();
-							if(user.student == 'true' || user.organisation_or_user !== null) {
-								if(!user.organisation_or_user) {
+							if(user.student == 'TRUE' || user.organisation_or_user !== null) {
+								if(user.organisation_or_user == null) {
 									Logger.info('hello')
 									req.flash('emailSuccess', message)
 									res.redirect('/user/create')
