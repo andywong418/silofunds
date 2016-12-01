@@ -78,6 +78,7 @@ module.exports =  {
       if(!user) {
         if(donor_id == null) {
           models.donors.create({
+            email: data.email
             }).then(function(donor) {
             models.users.create({
               username: data.firstName + ' ' + data.lastName,

@@ -6,8 +6,11 @@
   border-top: 1px solid #e1e8ed;
 }
 
-#form_container .submit.login {
-  background-color: #44CF6C
+#form_container {
+  clear: both;
+  .submit.login {
+    background-color: #44CF6C
+  }
 }
 
 #login button, #register button {
@@ -40,4 +43,8 @@
   margin-top: 10px;
   float: right;
   font-size: 18px;
+}
+
+.alert {
+  text-align: center
 }
