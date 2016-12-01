@@ -264,7 +264,7 @@ a.cd-login {
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 0;
-  padding-bottom: 10px;
+  padding-bottom: 50px;
   img#success-story{
     width: 170px;
     height: auto;
@@ -273,6 +273,46 @@ a.cd-login {
   p{
     font-size: 18px;
   }
+  .mb-attribution {
+    text-align: center;
+    position: relative;
+  }
+
+  .mb-thumb {
+    display: block;
+    width: 70px;
+    height: 70px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    background: url(../images/bronte.jpg) no-repeat center center;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    box-shadow:
+      inset 1px 1px 4px rgba(0,0,0,0.5),
+      0 2px 3px rgba(0,0,0,0.6);
+  }
+
+  .mb-author{
+    font-family: 'Source Sans Pro', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #2d4a76;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.7);
+    margin-bottom: 0;
+    a{
+            color: #2d4a76;
+            cursor: pointer;
+    }
+  }
+
+  cite a{
+    font-family: 'Source Sans Pro', serif;
+    color: #2d4a76;
+    text-decoration: none;
+  }
+
   .main{
     .mb-style-3 {
     	width: 100%;
@@ -336,46 +376,6 @@ a.cd-login {
     	text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .mb-style-3 .mb-attribution {
-    	text-align: right;
-    	padding: 20px 100px 20px 20px;
-    	position: relative;
-    }
-
-    .mb-style-3 .mb-thumb {
-    	display: block;
-    	width: 70px;
-    	height: 70px;
-    	border: 5px solid #fff;
-    	border-radius: 50%;
-    	background: url(../images/bronte.jpg) no-repeat center center;
-    	position: absolute;
-    	right: 10px;
-    	bottom: 5px;
-    	box-shadow:
-    		inset 1px 1px 4px rgba(0,0,0,0.5),
-    		0 2px 3px rgba(0,0,0,0.6);
-    }
-
-    .mb-style-3 .mb-author{
-    	font-family: 'Source Sans Pro', serif;
-    	font-weight: 700;
-    	font-size: 18px;
-    	color: #2d4a76;
-      cursor: pointer;
-    	text-shadow: 0 1px 1px rgba(255,255,255,0.7);
-      margin-bottom: 0;
-      a{
-            	color: #2d4a76;
-              cursor: pointer;
-      }
-    }
-
-    .mb-style-3 cite a{
-    	font-family: 'Source Sans Pro', serif;
-      color: #2d4a76;
-      text-decoration: none;
-    }
 
     .mb-style-3 cite a:hover{
     	// color: rgba(188, 147, 200, 1);
@@ -905,12 +905,16 @@ background: #f1f1f1;
   }
   #social-proof{
     padding-top: 10px;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     img#success-story{
       width: 100px;
       height: auto;
       border-radius: 50%;
       margin-bottom: 20px;
+    }
+    .mb-attribution{
+      margin-bottom: 20px;
+      margin-left: 20px;
     }
     .main {
       .mb-style-3{
@@ -1050,13 +1054,17 @@ background: #f1f1f1;
   }
   #social-proof{
     padding-top: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 80px;
     img#success-story{
       width: 100px;
       height: auto;
       border-radius: 50%;
-      margin-bottom: 40px;
     }
+    .mb-attribution{
+      margin-bottom: 40px;
+      margin-left: 20px;
+    }
+
     .main {
       .mb-style-3{
         blockquote{

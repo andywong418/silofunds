@@ -68,22 +68,8 @@ block content
 						input#age(type='number', name='age', placeholder='Age')
 						button#search_button.btn.btn-danger(type='submit') Search
 						p.error-text.alert.alert-danger You must input some values into the search.
-					a#looking-to-support(href='/results/users?all=true') Looking to support someone's education?
+					a#looking-to-support(href='/results/users?all=true') Looking to support someone's research?
 	// About Section
-	section#social-proof.container.content-section.text-center
-		.row
-			.col-md-4.hideme
-				img#success-story(src='/images/roshan.jpg')
-			.col-md-8.hideme
-				section.main
-					.mb-wrap.mb-style-3
-						blockquote
-							p First of all, my heartiest thanks to all donors who participated in my campaign and to making it successful. I would like to thank Silo who played a very important role in my fundraising campaign towards my accommodation deposit. They provided me with a platform where I was able to convey to donors my situation and to ask them for help in a more convincing way. They also connected me with all potential donors and made my campaign successful in just 7 days. I received constant support from Silo staff and a big help from other groups to make my campaign successful. Thank you Silo!
-						.mb-attribution
-							p.mb-author 
-								a(href='/public/1125') Roshan Kumar
-							cite
-								a DPhil at Worcester
 	section#about.container.content-section.text-center
 		.row
 			.col-sm-4.hideme
@@ -147,6 +133,20 @@ block content
 					img#application.module-2.module-3(src="images/fund-profile.png")
 				.col-md-1
 			span#fund-sign-up Sign up
+	section#social-proof.container.content-section.text-center
+		.row
+			.col-md-4.hideme
+				img#success-story(src='/images/roshan.jpg')
+				.mb-attribution
+					p.mb-author 
+						a(href='/public/1125') Roshan Kumar
+					cite
+						a Pharmacology DPhil
+			.col-md-8.hideme
+				section.main
+					.mb-wrap.mb-style-3
+						blockquote
+							p First of all, my heartiest thanks to all donors who participated in my campaign and to making it successful. I would like to thank Silo who played a very important role in my fundraising campaign towards my accommodation deposit. They provided me with a platform where I was able to convey to donors my situation and to ask them for help in a more convincing way. They also connected me with all potential donors and made my campaign successful in just 7 days. I received constant support from Silo staff and a big help from other groups to make my campaign successful. Thank you Silo!
 	section#relevant-people(data-stellar-background-ratio="0.5")
 		#relevant-div
 			h3#relevant-intro Creating a community

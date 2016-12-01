@@ -1007,13 +1007,42 @@ a.cd-login {
   padding-left: 20px;
   padding-right: 20px;
   margin-top: 0;
-  padding-bottom: 10px; }
+  padding-bottom: 50px; }
   #social-proof img#success-story {
     width: 170px;
     height: auto;
     border-radius: 50%; }
   #social-proof p {
     font-size: 18px; }
+  #social-proof .mb-attribution {
+    text-align: center;
+    position: relative; }
+  #social-proof .mb-thumb {
+    display: block;
+    width: 70px;
+    height: 70px;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    background: url(../images/bronte.jpg) no-repeat center center;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6); }
+  #social-proof .mb-author {
+    font-family: 'Source Sans Pro', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #2d4a76;
+    cursor: pointer;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+    margin-bottom: 0; }
+    #social-proof .mb-author a {
+      color: #2d4a76;
+      cursor: pointer; }
+  #social-proof cite a {
+    font-family: 'Source Sans Pro', serif;
+    color: #2d4a76;
+    text-decoration: none; }
   #social-proof .main .mb-style-3 {
     width: 100%; }
   #social-proof .main .mb-style-3 blockquote {
@@ -1021,7 +1050,7 @@ a.cd-login {
     background: #fff;
     padding: 30px;
     border-radius: 5px;
-    border: 1px solid rgba(188, 147, 200, 0.7); }
+    border: 2px solid rgba(188, 147, 200, 0.7); }
   #social-proof .main .mb-style-3 blockquote:after {
     border-top-color: #ffffff;
     border-width: 10px;
@@ -1051,36 +1080,6 @@ a.cd-login {
     left: -105px;
     color: #317fad;
     text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1); }
-  #social-proof .main .mb-style-3 .mb-attribution {
-    text-align: right;
-    padding: 20px 100px 20px 20px;
-    position: relative; }
-  #social-proof .main .mb-style-3 .mb-thumb {
-    display: block;
-    width: 70px;
-    height: 70px;
-    border: 5px solid #fff;
-    border-radius: 50%;
-    background: url(../images/bronte.jpg) no-repeat center center;
-    position: absolute;
-    right: 10px;
-    bottom: 5px;
-    box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5), 0 2px 3px rgba(0, 0, 0, 0.6); }
-  #social-proof .main .mb-style-3 .mb-author {
-    font-family: 'Source Sans Pro', serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: #2d4a76;
-    cursor: pointer;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
-    margin-bottom: 0; }
-    #social-proof .main .mb-style-3 .mb-author a {
-      color: #2d4a76;
-      cursor: pointer; }
-  #social-proof .main .mb-style-3 cite a {
-    font-family: 'Source Sans Pro', serif;
-    color: #2d4a76;
-    text-decoration: none; }
 
 #number-of-funds {
   font-size: 34px;
@@ -1509,12 +1508,15 @@ a.cd-login {
     margin-left: 15px; }
   #social-proof {
     padding-top: 10px;
-    padding-bottom: 20px; }
+    padding-bottom: 50px; }
     #social-proof img#success-story {
       width: 100px;
       height: auto;
       border-radius: 50%;
       margin-bottom: 20px; }
+    #social-proof .mb-attribution {
+      margin-bottom: 20px;
+      margin-left: 20px; }
     #social-proof .main .mb-style-3 blockquote {
       margin: 5px; }
       #social-proof .main .mb-style-3 blockquote p {
@@ -1585,12 +1587,14 @@ a.cd-login {
     border: none; }
   #social-proof {
     padding-top: 20px;
-    padding-bottom: 40px; }
+    padding-bottom: 80px; }
     #social-proof img#success-story {
       width: 100px;
       height: auto;
-      border-radius: 50%;
-      margin-bottom: 40px; }
+      border-radius: 50%; }
+    #social-proof .mb-attribution {
+      margin-bottom: 40px;
+      margin-left: 20px; }
     #social-proof .main .mb-style-3 blockquote {
       margin: 0px; }
       #social-proof .main .mb-style-3 blockquote p {
