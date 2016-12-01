@@ -1016,7 +1016,6 @@ body {
   padding-bottom: 20px;
   margin-top: -8px;
   width: 100%;
-  border-top: 1px solid #e1e8ed;
   font-size: 17px; }
   #login span, #register span {
     font-size: 18px;
@@ -1033,6 +1032,9 @@ body {
     background-color: #44CF6C;
     border: none;
     border-radius: 5px; }
+
+#login {
+  border-top: 1px solid #e1e8ed; }
 
 #login_modal {
   margin-top: 110px; }

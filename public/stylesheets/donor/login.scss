@@ -2,10 +2,42 @@
   border-top: none;
 }
 
+#register {
+  border-top: 1px solid #e1e8ed;
+}
+
 #form_container .submit.login {
   background-color: #44CF6C
 }
 
 #login button, #register button {
   background-color: #2390fd
+}
+
+.checkbox {
+  width: 90%;
+  margin-left: 5%;
+}
+
+#rememberMe {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  float: left;
+  vertical-align: middle;
+  padding-top: 14px;
+  input {
+    position: absolute;
+    top: 19px;
+    width: auto;
+    height: auto;
+    margin-left: 10px;
+  }
+}
+
+#passwordReset p {
+  margin-top: 10px;
+  float: right;
+  font-size: 18px;
 }

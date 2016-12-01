@@ -15,13 +15,30 @@ block content
     if flashMsg
       .alert.alert-danger= flashMsg
   #payment-div
+  .col-md-6.col-md-offset-3
+    if logoutMsg
+      .alert.alert-success= logoutMsg
+    if goodbye
+      .alert.alert-success.flash-deleted
+        h4 Your account has successfully been deleted
+        .lead We're sorry to see you go
   #form_container
     .flex_div
+      h4.panel-title Login to silofunds
       .signup
         form(accept-charset='UTF-8', name='login', id='login', role='form', action="/login", method='post')
           input#email(type='text', name='email', placeholder='Email:')
           p.error.email No account with that email exists
           input#password.right(type='password', name='password', placeholder='Password:')
+          .checkbox
+            #rememberMe
+              .flex-1
+                |  Remember Me
+              .flex-2
+                input(name='remember_me', type='checkbox', value='Remember Me')
+            a#passwordReset(href="/forgot")
+              .flex-3
+                p forgot password?
           input.submit.login(type='submit' placeholder='SUBMIT', value='Login')
       #register
         span Need an account?
