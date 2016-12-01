@@ -51,12 +51,17 @@ block content
 				document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
 			}
 		}
+		
 	include ./navbar.jade
 	include ./partials/navbar-loggedin.jade
 	include ./advanced-search.jade
 	include ./partials/signup-modal.jade
-	#payment-div.alert.alert-success.hidden
-	#payment-div-invisible
+	#payment_processing.modal.fade
+		#payment-div.alert.alert-success.hidden
+		#payment-div-invisible
+		#processing-div.alert.alert-info
+			p Your payment is being processed
+	form#hidden_form.hidden(name='transaction', role='form', type='hidden', method='post', action='/donor/transaction_complete')
 	#crowdfunding-wrapper.container
 		if user && user.user_launch !== true
 			#launch_box

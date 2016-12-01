@@ -37,11 +37,13 @@ module.exports = {
   //   }
   // },
   //
-  // transaction_signup: function(req, res) {
-  //   var stripe_id = req.body.stripe_id
-  //   var user_id = req.body.user_id
-  //   res.render('donor/register', {user_id: user_id, stripe_id: stripe_id})
-  // },
+  transaction_complete: function(req, res) {
+    if(req.isAuthenticated) {
+      res.send("You're all sorted bud")
+    } else {
+      res.redirect('/donor/register')
+    }
+  },
 
   logout: function(req, res) {
     res.cookie('remember_me', '', {expires: new Date(1), path: '/'});

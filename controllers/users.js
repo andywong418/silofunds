@@ -35,7 +35,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
   aws_key = secrets.AWS_KEY;
 }
 // Stripe OAuth
-var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
+// var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
+var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
 // var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
 var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
@@ -321,13 +322,10 @@ module.exports = {
   chargeStripe: function(req, res) {
     var stripeToken = req.body.tokenID;
     var chargeAmount = req.body.amount;
-    console.log("CHARGE", chargeAmount);
     var applicationFee = req.body.applicationFee;
-    console.log("APP FEE", applicationFee);
     var donorIsPaying = req.body.donorIsPaying;
     var isAnon = req.body.is_anon;
-    console.log("BODY BODY", req.body);
-    //We're GOING FREE!
+    // We're GOING FREE!
     // var platformCharge;
     // if(donorIsPaying){
     //   platformCharge = Math.ceil((parseInt(chargeAmount) - parseInt(applicationFee)) * 0.03);
@@ -355,7 +353,6 @@ module.exports = {
           application_fee: parseInt(applicationFee),
           amount: chargeAmount,
         };
-
         // if (!donorIsPaying) {
         //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
         //   chargeOptions.amount = chargeAmount;
@@ -367,16 +364,16 @@ module.exports = {
         return stripe.charges.create(chargeOptions);
       });
     }).then(function(charge) {
+      console.log('so here is fuckedin')
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = applicationFee ? parseFloat(applicationFee) : null;
       stripe.customers.retrieve(
         charge.customer,
         function(err, customer){
-          console.log("CUSTOMER", customer);
           charge.email = customer.description;
-          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user){
-            if(comment && comment !== ''){
+          models.stripe_users.find({where: {stripe_user_id: charge.destination}}).then(function(stripe_user) {
+            if(comment && comment !== '') {
               if(user_from){
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
@@ -384,13 +381,11 @@ module.exports = {
                   commentator_name: charge.source.name,
                   comment: comment
                 }).then(function(comment){
-                  models.users.findById(stripe_user.user_id).then(function(user){
+                  models.users.findById(stripe_user.user_id).then(function(user) {
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
-
-              }
-              else{
+              } else {
                 models.comments.create({
                   user_to_id: stripe_user.user_id,
                   commentator_name: charge.source.name,
@@ -400,12 +395,8 @@ module.exports = {
                     returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
-
               }
-
-
-            }
-            else{
+            } else {
               models.users.findById(stripe_user.user_id).then(function(user){
                 returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
               });
@@ -413,8 +404,6 @@ module.exports = {
           });
         }
       );
-
-
     });
   },
 

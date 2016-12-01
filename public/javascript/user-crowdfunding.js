@@ -299,7 +299,8 @@ $(document).ready(function() {
   // Stripe
 
   var handler = StripeCheckout.configure({
-      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE',
+      // key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE',
+      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r',
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',
@@ -332,7 +333,6 @@ $(document).ready(function() {
           data.amount = amount * 100;
           data.donorIsPaying = false;
         }
-
         data.applicationFee = applicationFee * 100;
         data.tokenID = token.id;
         data.email = token.email;
@@ -341,7 +341,7 @@ $(document).ready(function() {
         if(isAnon){
           data.is_anon = true;
         }
-
+        $('#payment_processing').modal('toggle')
         $.ajax({
           type: "POST",
           url: '/user/charge',
@@ -474,14 +474,16 @@ $(document).ready(function() {
 
   };
   function displayCompletionMessage(data) {
-    $('#payment-div').append('Thank you, your payment has been processed');
-    $('#payment-div').removeClass('hidden');
-    $('#payment-div').animate({'left': '85%'}, 'slow');
-    $('#payment-div-invisible').click(function() {
-      $('#payment-div').fadeOut('slow');
-    });
-    $('#payment-div').delay(3000).fadeOut('slow');
-    location.reload();
+    // $('#payment-div').append('Thank you, your payment has been processed');
+    // $('#payment-div').removeClass('hidden');
+    // $('#payment-div').animate({'left': '85%'}, 'slow');
+    // $('#payment-div-invisible').click(function() {
+    //   $('#payment-div').fadeOut('slow');
+    // });
+    // $('#payment-div').delay(3000).fadeOut('slow');
+    $('#processing-div').hide()
+    $('#hidden_form').submit()
+    // location.reload();
   }
 
   // Stuff for mobile
