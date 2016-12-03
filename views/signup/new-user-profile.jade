@@ -18,7 +18,7 @@ block content
 				span.glyphicon.glyphicon-menu-right
 			a.btn.btn-default.process(href='#account') Account
 				span.glyphicon.glyphicon-menu-right.glyph-remove
-			a.btn.btn-default.process#dashboard-button.desktop(href='/user/dashboard') Dashboard
+			//- a.btn.btn-default.process#dashboard-button.desktop(href='/user/dashboard') Accepting Payments
 		#signup-form.center-block
 			script#about-template(type='text/template')
 				p#about-header.description Get started by telling us more about yourself, your funding goals and the date by which you want to reach your goal.
@@ -107,7 +107,7 @@ block content
 					a#save.btn.btn-primary(href="#education") Save progress
 					a#skip(href='#education') Skip
 			script#education-template(type='text/template')
-				p#education-header.description Specifying your educational past and targets can help us match you with funding institutions more quickly!
+				p#education-header.description Specifying your educational past and targets can help us match you with interested donors more quickly!
 				.row
 					.col-sm-0.col-md-0
 					.col-sm-4.col-xs-4 
@@ -207,10 +207,13 @@ block content
 				.row#address-row(style='margin-top: -25px')
 					p(style='width: 60%; margin-left: 20%') For more information on our crowdfunding system, please read
 						a(href='/terms-and-conditions', style='background-color: transparent')= ' our terms and conditions. '
-						| Whilst we do not take a fee, there will be a 2.9% online payment fee which donors can choose to pay.
+						span Whilst we do not take a fee, there will be 
+							a(href='https://stripe.com/gb/pricing', style='background-color: transparent') online transaction costs 
+							span associated with each donation.
 					.col-sm-0.col-md-1
 					.col-sm-3.col-xs-2
-						p.description Address
+						p.description *Address
+						p.address-error This is compulsory
 					.col-md-6.col-sm-8.col-xs-10
 						input#address_line1(placeholder='Address', x-autocompletetype="street-address", autocompletetype="street-address", autocapitalize="off", autocorrect="off", spellcheck="false", name='address_line1')
 						.row
@@ -463,6 +466,20 @@ block content
 									option(value='Yemen') Yemen
 									option(value='Zambia') Zambia
 									option(value='Zimbabwe') Zimbabwe
+				//- #advertise-alumni-row.row
+				//- 	.col-sm-0.col-md-1
+				//- 	.col-sm-3.col-xs-4
+				//- 		p.description(style='display: inline; margin-right: 5px') *Affiliate with your institution
+				//- 		a(href='/explain-college-accounts', target='_blank',	style='background: none')
+				//- 			span.glyphicon.glyphicon-info-sign(style='top: 3px; margin-top: 9px')
+				//- 		p.error-check This is a compulsory field.						
+				//- 	.col-md-6.col-sm-8.col-xs-8(style='padding-left: 0')
+				//- 		.col-sm-3.col-xs-4(style='padding-left: 0')
+				//- 				label(for='true').radio-inline('padding-left: 0') Yes
+				//- 				input#true(type='radio', name='college_affiliation', value= 'true')
+				//- 			.col-sm-3.col-xs-4
+				//- 				label(for='false').radio-inline No
+				//- 				input#false(type='radio', name='college_affiliation', value='false')
 				.row#refund-choice
 					.col-xs-1.col-sm-1.col-md-3
 					.col-md-1.col-xs-1

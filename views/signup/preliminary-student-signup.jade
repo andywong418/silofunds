@@ -1,0 +1,58 @@
+extends layout-signup
+ 
+block extraHeader
+	link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
+	link(href='/stylesheets/new-user-profile.css', rel='stylesheet')
+	link(href='/stylesheets/prelim-user-signup.css', rel='stylesheet')
+block content
+	#signup-wrapper.container-fluid
+		#signup-form.center-block
+			a(href='/')
+				img(src='/images/silo-logo-coloured.png', style='width: 200px; height: auto')
+			p#education-header.description Specifying information below can help us better match you with funding institutions!
+			.row
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4 
+					p#subject-description.description Subject of study
+				.col-md-6.col-sm-8.col-xs-8
+					input#subject-input(name="subject")
+			.row
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4
+					p#country_of_residence.description.line-wrap-380px Country of residence
+				.col-md-6.col-sm-8.col-xs-8
+					input#country_of_residence(name="country_of_residence")
+			.row
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4
+					p.description.line-wrap-817px Completed/current degree levels
+				.col-md-6.col-sm-8.col-xs-8
+					input#requiredDegree-input(name="previous_degree")
+			.row
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4
+					p.description.line-wrap-466px Intended degree of study
+				.col-md-6.col-sm-8.col-xs-8
+					input#targetDegree-input(name="target_degree" )
+			#previous-university-row.row
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4
+					p.description.line-wrap-988px Previously/currently enrolled universities
+				.col-md-6.col-sm-8.col-xs-8
+					input#previous-university(name="previous_university")
+			.row(style='border-bottom: none')
+				.col-sm-0.col-md-0
+				.col-sm-4.col-xs-4
+					p.description Target university
+				.col-md-6.col-sm-8.col-xs-8
+					input#target-university(name="target_university")
+			.container-fluid.save
+				a#skip(style='display: hidden')
+				a#save-prelim.btn.btn-primary Dashboard &#8594
+block scripts
+	script(src='/javascript/preliminary-student-signup.js')
+	script(src='/javascript/lib/modernizr-input.js')
+	script(src='/javascript/lib/jquery.tokeninput.js')
+	script(src='/javascript/new-user-profile.js')
+	script.
+		var user_setup = !{JSON.stringify(user)};

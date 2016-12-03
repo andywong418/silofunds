@@ -24,30 +24,33 @@ block content
   section#user-dashboard.container.content-section
     .row
       // Flash messages
-      if !user.email_is_verified
-        a(href="/user/dashboard")
-          #emailVerification.alert.alert-danger Your account has not yet been verified, click me if you need us to send you another email!
-      if user.email_is_verified && success
-        .alert.alert-success
-          strong Success!
-          |  You are now a verified user. 
-          a(href='/user/authorize') Setup your stripe account
-          |  to start receiving donations.
-      if user.email_is_verified && !success && !stripe && user.target_degree && user.profile_picture && user.previous_university
-        .alert.alert-warning
-          a(href='/user/authorize') Setup your stripe account
-          |  to start receiving donations.
-      if user.email_is_verified && !success && !stripe
+      //- if !user.email_is_verified
+      //-   a(href="/user/dashboard")
+      //-     #emailVerification.alert.alert-danger Your account has not yet been verified, click me if you need us to send you another email!
+      //- if user.email_is_verified && success
+      //-   .alert.alert-success
+      //-     strong Success!
+      //-     |  You are now a verified user. 
+      //-     a(href='/user/authorize') Setup your stripe account
+      //-     |  to start receiving donations.
+      //- if user.email_is_verified && !success && !stripe && user.target_degree && user.profile_picture && user.previous_university
+      //-   .alert.alert-warning
+      //-     a(href='/user/authorize') Setup your stripe account
+          //- |  to start receiving donations.
+      //- if user.email_is_verified && !success && !stripe
+      if user.is_crowdfunding
         if !user.target_degree || !user.profile_picture || !user.previous_university
           .alert.alert-info.update-me
             | You have information missing in your profile, click 
             a(href='/user/settings') here
             |  to update!
-      if user.email_is_verified && !success && stripe
-        if user.target_degree && user.profile_picture && user.previous_university
-          .spacing_div
+      //- if user.email_is_verified && !success && stripe
+      //-   if user.target_degree && user.profile_picture && user.previous_university
+      .spacing_div
       .col-md-12.text-center
         h2#name= 'Welcome to your dashboard, ' + user.username.split(' ')[0]
+        if !user.is_crowdfunding
+          a#start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary Start your fundraising campaign now!
     section#recommended
       p#header Recommended for you
       .row.recommended-row

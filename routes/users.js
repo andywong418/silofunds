@@ -34,6 +34,7 @@ router.get('/oauth/callback', users.authorizeStripeCallback);
 router.get('/email-unsubscribe/:id', users.emailUnsubscribe);
 router.post('/delete', users.delete);
 router.get('/cost_breakdown/:id', users.getCostBreakdown);
+router.get('/start-crowdfunding', users.startCrowdfunding);
 // router.get('url-shortener', users.urlShortener);
 
 module.exports = router;

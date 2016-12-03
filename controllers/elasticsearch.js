@@ -115,8 +115,7 @@ module.exports = {
         queryOptions.filtered.filter.bool.should = [];
         var shouldFilter = queryOptions.filtered.filter.bool.should;
         console.log("QUERY");
-        if (query.amount_offered || query.age) {
-          console.log("GETTING HERE", query.amount_offered);
+        if(query.amount_offered){
           shouldFilter.push({
             "range": {
               "maximum_amount": {
@@ -124,6 +123,8 @@ module.exports = {
               }
             }
           });
+        }
+        if (query.age) {
           shouldFilter.push({
             "range": {
               "minimum_age": {

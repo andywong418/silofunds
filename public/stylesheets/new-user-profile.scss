@@ -128,8 +128,21 @@ body{
 			}
 		}
 
-		#religion-row,#previous-college-row{
+		#religion-row,#advertise-alumni-row{
 			border-bottom: none;
+		}
+		#advertise-alumni-row{
+			input{
+				width:auto;
+			}
+			label{
+				margin-top: -20px;
+				margin-right: 10px;
+			}
+			.error-check{
+				color: red;
+				display: none;
+			}
 		}
 		#religion-select{
 			border: 2px solid #dad7d4;
@@ -243,9 +256,15 @@ body{
 			font-size: 16px;
 			font-weight: bold;
 			margin-bottom: 10px;
-			#add-breakdown{
-				margin-top: 10px;
-				border: 1px dashed #337ab7;
+		}
+		a#add-breakdown{
+			margin-top: 10px;
+			border: 1px dashed #337ab7;
+			padding: 2px 100px;
+			cursor: pointer;
+			&:hover{
+				background-color: #337ab7;
+				color: white
 			}
 		}
 	}
@@ -341,6 +360,9 @@ body{
 			border-bottom: none;
 		}
 		#address-row{
+			.description{
+				margin-bottom: 0;
+			}
 			.row{
 				margin-left: 0;
 				margin-right: 0;
@@ -352,6 +374,10 @@ body{
 					padding-right: 0;
 					padding-left: 0;
 				}
+			}
+			.address-error{
+				color: red;
+				display: none;
 			}
 		}
 		a{

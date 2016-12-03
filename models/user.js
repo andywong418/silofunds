@@ -176,6 +176,14 @@ module.exports = function(sequelize, DataTypes) {
     donor_id: {
       type: DataTypes.INTEGER,
       field: 'donor_id'
+    },
+    is_crowdfunding: {
+      type: DataTypes.BOOLEAN,
+      field: 'is_crowdfunding'
+    },
+    college_affiliation: {
+      type: DataTypes.BOOLEAN,
+      field: 'college_affiliation'
     }
   }, {
     timestamps: true,

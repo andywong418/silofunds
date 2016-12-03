@@ -20,7 +20,7 @@ var fund_array_to_json = function(array) {
   });
   return funds;
 };
-
+var notifications = require('../controllers/notifications');
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","required_college", "merit_or_finance","deadline","target_country","number_of_places", "support_type","organisation_id"];
 var userFields =  ["username","email","profile_picture","description","past_work","date_of_birth","subject", "country_of_residence", "target_country", "religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds", "removed_funds", "college", "funding_accrued", "updated_at"];
 //Try again
@@ -269,6 +269,7 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 // var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);
+var checkAppliedFundDeadline = new CronJob('0 0 22 * * *', checkAppliedFundDeadlineEmail, null, true);
 var sendExpiredFundsListScheduler = new CronJob('0 0 20 * * *', sendExpiredFundsList, null, true);
 
 function sendExpiredFundsList(){
@@ -335,6 +336,87 @@ function fundDeadlineEmail(){
       });
     });
   });
+}
+function checkAppliedFundDeadlineEmail(){
+  console.log("HI HI");
+  models.applications.findAll().then(function(apps){
+    console.log("HELLO", apps);
+    var appArray = apps.map(function(app) {
+
+      return app.get();
+    });
+    async.each(appArray, function(app, callback){
+      models.funds.findById(app.fund_id).then(function(fund){
+        if(fund.deadline){
+          var diffDays = updateDiffDays(fund.deadline);
+          console.log("HI AGAIN", diffDays);
+          var userId = app.user_id;
+            if(diffDays === 7){
+              console.log("WE're in");
+              sendUserEmail(userId, "http://silofunds/organisation/options/" + fund.id, "A grant opportunity you are interested in is expiring soon. " + fund.title + ' has a deadline in 1 week! ', 'Apply now.', callback, 'Fund deadline approaching!');
+            }
+            if(diffDays ==3){
+              sendUserEmail(userId, "http://silofunds/organisation/options/" + fund.id, "A grant opportunity you are interested in is expiring soon. " + fund.title + ' has a deadline in 3 days! ', 'Apply now.', callback, 'Fund deadline approaching!');
+            }
+        }
+      });
+    });
+  });
+}
+function sendUserEmail(userId, link, notiftext, notification, callback, subject){
+  console.log("GETI N HERE");
+  models.users.findById(userId).then(function(user){
+    var username = user.username.split(' ')[0];
+    //send emails here
+    var locals = {
+      header: 'Dear ' + username + ',',
+      notif_link: link,
+      notiftext: notiftext,
+      notification: notification,
+      unsubscribe_link: "http://silofunds.com/user/email-unsubscribe/" + user.id
+    };
+    var templatePath = path.join(process.cwd(), 'email-notification-templates');
+    var template = new EmailTemplate(templatePath);
+
+    var transporter = nodemailer.createTransport(smtpTransport({
+     service: 'Gmail',
+     auth: {user: 'notifications@silofunds.com',
+           pass: 'notifaccount'}
+    }));
+
+    template.render(locals, function(err, results){
+      if (err) {
+         callback();
+         return console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: user.email,
+        subject: subject,
+        html: results.html
+      }, function(err, responseStatus){
+        if (err) {
+         console.error(err);
+         callback();
+        }
+        else{
+          console.log("SUCCESS");
+          console.log(responseStatus.message);
+          callback();
+        }
+
+      });
+    });
+  });
+}
+function updateDiffDays(date){
+	var oneDay = 24*60*60*1000;
+	var completionDate = new Date(date);
+	var nowDate = Date.now();
+
+	var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
+	return diffDays;
+
 }
 function asyncsendUserEmailFundDeadline(userArray, fund){
   async.each(userArray, function(user, callback){

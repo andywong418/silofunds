@@ -279,7 +279,6 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var targetUniversity = $('input[name=target_university]').val().split(',');
 			var previousUniversity = $('input[name=previous_university]').val().split(',');
 			var college = $('input[name=college]').val().split(',');
-			console.log(college);
 			var formData = {
 				'subject': subject,
 				'target_degree': targetDegree,
@@ -369,15 +368,9 @@ var tokenArrayPopulate = function(value, emptyArray){
 					console.log(breakdownModel);
 					console.log(breakdownModel.attributes);
 					if(breakdownModel.attributes.length > 0){
-						console.log(breakdownModel)
+						console.log(breakdownModel);
 					}
-					else{
-						console.log("LOL");
-						var costBreakdownView = new CostBreakdownDisplay({model: breakdownModel});
-						console.log(costBreakdownView.render());
-						console.log(this.$('.breakdown-div'));
-						this.$('.breakdown-div').append(costBreakdownView.render().el);
-					}
+
 				}
 			});
 		},
@@ -483,18 +476,34 @@ var tokenArrayPopulate = function(value, emptyArray){
 			else{
 				refund = false;
 			}
-			var addressData = {
-				"address_line1": $('input#address_line1').val(),
-				"address_zip": $('input#address_zip').val(),
-				"address_city": $('input#address_city').val(),
-				"billing_country": $('#billing_country').val(),
-				"refund": refund,
-				"heard_from": $('#heard_from').val(),
-				"heard_other": $('input#heard_other').val()
-			};
-			$.post('/signup/address', addressData, function(data){
-				window.location = '/user/dashboard';
-			});
+			console.log(this.model);
+			var college_affiliation = $('input[name=college_affiliation]:checked').val();
+			var address_zip = this.$('input#address_zip').val();
+			var address_line1 =  this.$('input#address_line1').val();
+			console.log(address_zip);
+			console.log(address_line1);
+			// if(college_affiliation === undefined){
+			// 	this.$('.error-check').show();
+			// }
+			if (address_zip === '' || address_line1=== ''){
+				this.$('.address-error').show();
+			}
+			else{
+				var addressData = {
+					"address_line1": $('input#address_line1').val(),
+					"address_zip": $('input#address_zip').val(),
+					"address_city": $('input#address_city').val(),
+					"billing_country": $('#billing_country').val(),
+					"refund": refund,
+					"heard_from": $('#heard_from').val(),
+					"heard_other": $('input#heard_other').val(),
+					"college_affiliation": college_affiliation
+				};
+				$.post('/signup/address', addressData, function(data){
+					window.location = '/user/authorize';
+				});
+			}
+
 		},
 		heardOther: function(e){
 			if($('#heard_from').val() == 'other') {

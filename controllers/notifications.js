@@ -27,7 +27,8 @@ module.exports = {
           var nonAppliedFunds = favourite.filter(function(obj){
             return app.indexOf(obj) == -1;
           });
-          asyncChangeFavourites(userId, nonAppliedFunds, res);
+          var sendEmailArray = app.concat(nonAppliedFunds);
+          asyncChangeFavourites(userId, sendEmailArray, res);
         });
     });
   },
@@ -72,7 +73,6 @@ function asyncChangeFavourites(userId, favourites, res){
             };
             checkWeek = false;
           }
-          console.log("FAT COCK");
           models.notifications.find({where: options}).then(function(notif){
             console.log("NOTIF", notif);
             if(!notif){

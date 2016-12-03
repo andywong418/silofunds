@@ -184,7 +184,15 @@ router.get('/crowdfunding-video', function(req, res){
   }
   res.render('crowdfunding-video', {user: user});
 });
-
+router.get('/explain-college-accounts', function(req, res){
+  console.log("WHAT", req.user);
+  if(req.user){
+    res.render('explain-college-accounts', {user: req.user});
+  }
+  else{
+    res.render('explain-college-accounts');
+  }
+});
 router.get('/public/:id', users.crowdFundingPage);
 
 module.exports = router;

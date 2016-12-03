@@ -17,8 +17,10 @@ module.exports =  {
   registerUser: function(data, user, donor_id, req, done) {
     // This is the normal login route
     var name;
-    if(data.confirmPassword == null) {
+    console.log(data);
+    if(data.confirmWasNull) {
       name = data.username;
+      console.log("HI", name);
     } else {
       name = data.firstName + " " + data.lastName;
     }

@@ -43,6 +43,15 @@ body {
   h2#name{
     color: #010138;
   }
+  a#start-crowdfunding{
+    background-color: #05d257;
+    border: none;
+    &:hover{
+      background-color: #04a042;
+    }
+    color: white;
+    font-size: 17px;
+  }
   #recommended {
     p#header {
       display: inline-block;

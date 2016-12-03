@@ -2240,6 +2240,13 @@ body {
   /* Everything else */
   h2#name {
     color: #010138; }
+  a#start-crowdfunding {
+    background-color: #05d257;
+    border: none;
+    color: white;
+    font-size: 17px; }
+    a#start-crowdfunding:hover {
+      background-color: #04a042; }
   #recommended p#header {
     display: inline-block;
     border-bottom: 2px solid #010138;

@@ -461,18 +461,22 @@ module.exports = {
         res.redirect('/user/dashboard');
       } else {
         console.log("successful account");
-        models.stripe_users.create({
-          user_id: req.user.id,
-          token_type: body.token_type,
-          stripe_user_id: body.stripe_user_id,
-          refresh_token: body.refresh_token,
-          access_token: body.access_token,
-          stripe_publishable_key: body.stripe_publishable_key,
-          scope: body.scope,
-          livemode: body.livemode
-        });
+        models.users.findById(req.user.id).then(function(user){
+          user.update({is_crowdfunding: true}).then(function(user){
+            models.stripe_users.create({
+              user_id: req.user.id,
+              token_type: body.token_type,
+              stripe_user_id: body.stripe_user_id,
+              refresh_token: body.refresh_token,
+              access_token: body.access_token,
+              stripe_publishable_key: body.stripe_publishable_key,
+              scope: body.scope,
+              livemode: body.livemode
+            });
 
-        res.redirect('/user/dashboard');
+            res.redirect('/user/dashboard');
+          });
+        });
       }
     });
   },
@@ -698,7 +702,7 @@ module.exports = {
   initialCreation: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
       var emailSuccess = req.flash('emailSuccess');
-      res.render('signup/new-user-profile', {user: req.user, success: emailSuccess[0]});
+      res.render('signup/preliminary-student-signup.jade', {user: req.user, success: emailSuccess[0]});
     });
 	},
 
@@ -1534,6 +1538,20 @@ module.exports = {
       });
       res.json(breakdowns);
     })
+  },
+  startCrowdfunding: function(req, res){
+    console.log("HI", req.user);
+    var userId = req.user.id;
+    if(userId){
+      models.users.findById(userId).then(function(user){
+        user = user.get();
+        res.render('signup/new-user-profile', {user: user});
+      })
+    }
+    else{
+      res.redirect('/login');
+    }
+
   }
 }
 

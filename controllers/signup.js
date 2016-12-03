@@ -413,8 +413,8 @@ module.exports = {
 					user.update({email: user.email, email_verify_token: token}).then(function(user){
 						var transporter = nodemailer.createTransport(smtpTransport({
 						 service: 'Gmail',
-						 auth: {user: 'andros@silofunds.com',
-									 pass: 'whatever418'}
+						 auth: {user: 'notifications@silofunds.com',
+									 pass: 'notifaccount'}
 						}));
 						var templatePath = path.join(process.cwd(), 'email-templates');
 						resetLink = 'http://' + req.headers.host + '/signup/verify/' + token

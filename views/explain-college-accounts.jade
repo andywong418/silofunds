@@ -1,0 +1,26 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/privacy_policy.css', rel='stylesheet')
+
+block content
+  .container
+    .col-md-4.col-md-offset-4
+      a(href="/")
+        #img_div
+          a(href='/')
+            img#brand-image(src="/images/silo no background.gif")
+    #heading.page-header
+      h1 College accounts
+      p#giveMeAMargin By agreeing to affiliate with a college, your donations will go directly into your target university/college account. This will bring about a number of benefits:
+      ul
+        li Your donors can claim tax back on their donations via gift aid - increasing the probability of giving.
+        li You will appear on a specific Silo page that colleges will advertise to their alumni and other potential donors - connecting you with individuals who are interested in your research and your cause.
+        li Donors can be assured that the your profile is approved of and that the college/university can pay you back given you do not reach your goal.
+        li The increased engagement with your college/university can bring about benefits for you - such as more scholarships and bursaries.
+      p Once you show that you can take up your place - the college can transfer the funding allocated back to you, either all in one go or via installments.
+      p If you have any further queries, please email  
+        a(href='mailto:support@silofunds.com') our support team.
+  include ./partials/footer.jade
