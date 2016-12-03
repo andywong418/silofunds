@@ -43,41 +43,66 @@ $(document).ready(function() {
   if(!user.profile_picture) {
     $('#userImage').css('border', '2px solid rgba(255, 0, 0, 0.4)')
   }
-  $("#userImage, .update-me").click(function() {
-    $("input[id='my_file']").click();
+  var $my_file = $("#my_file");
+  var $my_canvas_image = $("#my_canvas_image");
+  var $upload_button = $("#upload_button");
+  var $my_modal = $("#mymodal");
+  var $user_image = $("#userImage");
+  var upload_crop_settings = null;
+  $user_image.on('load', function() {
+    $(window).resize();
+  });
+  $upload_button.on("click", function() {
+    uploadImage();
+    $my_modal.modal("hide");
+  });
+  $("#userImage, .update-me, i#overlayed_camera").click(function() {
+    $("#openModal").click();
+    //$("input[id='my_file']").click();
+  });
+  $my_file.on("change", function() {
+    if ($my_canvas_image.cropper) {
+      console.log('destroyed');
+      $my_canvas_image.cropper("destroy");
+    }
+    var file = $my_file[0].files[0];
+    var url = URL.createObjectURL(file);
+    $my_canvas_image[0].src = url;
+    $my_canvas_image.cropper({
+      aspectRatio: 1,
+      viewMode: 1,
+      crop: function(e) {
+        upload_crop_settings = { x: e.x, y: e.y, width: e.width, height: e.height, rot: e.rotate, scaleX: e.scaleX, scaleY: e.scaleY };
+        console.log(upload_crop_settings);
+      }
+    });
   });
   // Change prof pic for mobile display
   $(".userImageMobile").click(function() {
       $("input[id='my_file']").click();
   });
-    $("input[id='my_file']").change(function(){
-
-      if (this.files && this.files[0]) {
-
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-
-        $('#userImage')
-          .attr('src', e.target.result);
-        };
-
-        reader.readAsDataURL(this.files[0]);
+  function uploadImage() {
+    if ($my_file[0].files && $my_file[0].files[0]) {
+     $user_image.attr('src', "/images/ajax-loader.gif");
+    }
+    var file = $my_file[0].files[0];
+    var data = new FormData();
+    data.append('profile_picture', file);
+    data.append('user', user.id);
+    data.append('crop_settings', JSON.stringify(upload_crop_settings));
+    $.ajax({
+      type: "POST",
+      url: "/user-edit/profile-picture",
+      data: data,
+      processData: false,
+      contentType: false,
+    }).then(function(data){
+      console.log(data);
+      if (data != "FAIL") {
+        $user_image.attr("src", data);
       }
-      var file = this.files[0];
-      var data = new FormData();
-      data.append('profile_picture', file);
-      data.append('user', user.id);
-      $.ajax({
-        type: "POST",
-        url: "/user-edit/profile-picture",
-        data: data,
-        processData: false,
-        contentType: false,
-      }).then(function(data){
-        // console.log("SUCCESS", data);
-      });
     });
+  }
   // NOTE: Change label name upon file upload
 
   var inputs = document.querySelectorAll( '.realFileUpload' );
