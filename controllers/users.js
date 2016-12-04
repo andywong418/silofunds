@@ -10,8 +10,8 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
-var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
+var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
+// var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -37,8 +37,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 // Stripe OAuth
 // var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
-// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
-var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+// var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -1314,12 +1314,7 @@ module.exports = {
       type: "user",
       body: {
         "size": 1000,
-        "query": queryOptions,
-        "sort": [
-          // {"completion_date": {"order": "asc"}},
-          {"funding_accrued": {"order": "asc"}},
-          {"updated_at": {"order": "asc"}}
-        ]
+        "query": queryOptions
       }
     }).then(function(resp) {
       if(query['upper_date']){
