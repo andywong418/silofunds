@@ -323,7 +323,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 		events: {
 			'click #save': 'saveStory',
 			'change input[id="work"]': 'saveFiles',
-			'click #skip': 'switchTabs'
+			'click #skip': 'switchTabs',
+			'click #add-breakdown': 'addBreakdown'
 		},
 		render:function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -443,6 +444,14 @@ var tokenArrayPopulate = function(value, emptyArray){
 				"[/user/create#story] Story -> Account",
 				{ "method": "skip" }
 			);
+		},
+		addBreakdown: function(){
+			console.log("in");
+			var breakdownModel = new CostBreakDownModel();
+			var breakdownView = new CostBreakdownDisplay({model: breakdownModel});
+			console.log(breakdownView.render().el);
+			this.$('.breakdown-div').append(breakdownView.render().el);
+
 		}
 	});
 
