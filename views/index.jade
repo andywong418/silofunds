@@ -64,7 +64,7 @@ block content
 						span#emphasis(style='margin-left: 7px') now.
 					form#search-form.search_form(action='/results', method='get', name='search_form', style='margin-bottom: 40px')
 						input#text_search(type='text', name='tags', placeholder='Subject, Target University, Target Degree level')
-						input#amount_req(type='number', name='amount_offered', placeholder='£ Amount required')
+						input#amount_req(type='number', step='100', name='amount_offered', placeholder='£ Amount required')
 						input#age(type='number', name='age', placeholder='Age')
 						button#search_button.btn.btn-danger(type='submit') Search
 						p.error-text.alert.alert-danger You must input some values into the search.

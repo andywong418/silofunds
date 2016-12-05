@@ -4,6 +4,8 @@ block extraHeader
   link(href='/stylesheets/token-input-facebook.css', rel='stylesheet')
   link(href='/stylesheets/user-settings.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css', rel='stylesheet')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.js')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
@@ -25,16 +27,31 @@ block content
       .profile
         #box-profile 
           if user.profile_picture
-            input#my_file(type='file', style='display: none;', name = 'profile_picture')
             img#userImage(src=user.profile_picture)
-            i.fa.fa-camera.desktop
+            i#overlayed_camera.fa.fa-camera.desktop(title="Upload a new picture")
+            button#openModal(visibility="hidden", style='display: none', data-toggle='modal', data-target='#mymodal') Launch
+            div.modal.fade#mymodal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
+              div.modal-dialog.modal-lg(role='document')
+                div.modal-content
+                  div.modal-header
+                    button.close(type='button', data-dismiss='modal', aria-labelledby='close')
+                      span(aria-hidden="true") &times;
+                    h4.modal-title#myModalLabel Upload a new picture
+                  div.modal-body
+                    input#my_file(type='file', name = 'profile_picture')
+                    div
+                      img#my_canvas_image(width="400", height="400",style="max-width: 100%")
+                    h2. Drag an image here or click to upload from your files
+                  div.modal-footer
+                    button.btn.btn-default(type="button", data-dismiss="modal") Close
+                    button#upload_button.btn.btn-primary Upload
           else
             input#my_file(type='file', style='display: none;', name = 'profile_picture')
             .img-container
               .update-me.desktop Adding a photo increases your chances of funding!
               img#userImage.no-picture.top-no-pic(src='/images/profile-placeholder.jpg')
               .update-me.bubble.mobile Adding a photo increases your chances of funding!
-            i.fa.fa-camera.desktop.no-picture(style='color: grey; left: 45%;top: 125px')
+            i#overlayed_camera.fa.fa-camera.desktop.no-picture(style='color: grey; left: 45%;top: 125px')
       #mobile-remove-div
         .settings-tab-menu
           .list-group
@@ -206,13 +223,6 @@ block content
                     input#refund(type = 'checkbox', checked= '')
                   else
                     input#refund(type='checkbox')
-              .col-md-12.col-xs-12.remove-padding
-                label.col-md-3.col-xs-12.remove-padding#short_description_label(for='short_description') Mission statement
-                .col-md-8.col-xs-12.remove-padding
-                  if user.short_description
-                    input#short_description.form-control(name='short_description', rows='5', placeholder = 'E.g I am currently raising money for my MSt in Hebrew studies at Oxford', value = user.short_description)
-                  else
-                    input#short_description.form-control(name='short_description', rows='5', placeholder = 'E.g I am currently raising money for my MSt in Hebrew studies at Oxford')
               .col-md-12.col-xs-12.remove-padding
                 label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
                 .col-md-8.col-xs-12.remove-padding
