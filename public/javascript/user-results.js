@@ -32,7 +32,12 @@ $(document).ready(function(){
     });
     var UserView = Backbone.View.extend({
       tagname: 'div',
-      id: 'user-handler',
+      class: '',
+      attributes: function() {
+        return {
+          class: 'user-handler col-xs-6 col-sm-6 col-md-6 col-lg-4'
+        };
+      },
       template: _.template($('#user-template').html()),
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -136,7 +141,7 @@ $(document).ready(function(){
   if(windowPortWidth < 545){
     $('.page-header.desktop').hide();
     $('.page-header.mobile').show();
-    $('div[id="user-handler"]').hide();
+    $('div.user-handler').hide();
     var lastElementIndex = $('.main-mobile-row').length -1;
     console.log($('.main-mobile-row')[lastElementIndex]);
     $($('.main-mobile-row')[lastElementIndex]).css('border-bottom', 'none');
@@ -146,14 +151,14 @@ $(document).ready(function(){
     if(windowPortWidth < 545){
       $('.page-header.desktop').hide();
       $('.page-header.mobile').show();
-      $('div[id="user-handler"]').hide();
+      $('div.user-handler').hide();
       var lastElementIndex = $('.main-mobile-row').length -1;
       $($('.main-mobile-row')[lastElementIndex]).css('border-bottom', 'none');
     }
     if(windowPortWidth > 545){
       $('.page-header.desktop').show();
       $('.page-header.mobile').hide();
-      $('div[id="user-handler"]').show();
+      $('div.user-handler').show();
     }
   });
 });

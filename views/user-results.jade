@@ -57,31 +57,31 @@ block content
 				script#user-template(type='text/template')
 					.database
 						.user_list
-							.row
-								.col-xs-2
-									img#user-picture(src!= '<%= profile_picture%>')
-								#user-info.col-xs-6
-									a(href != '/public/' + '<%= user_id %>')
-										h4.username <%= username %>
-									.row
-										.col-xs-12
-											p#subject(class!='subject' + '<%= user_id %>') Studying
-												span.control <%= subject %>
-										.col-xs-12
-											p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
-												span.control <%= user_nationality %>
-										.col-xs-12
-											p#college(class!='college' + '<%= user_id %>') Studying at
-												span.control <%= college %>
-										.col-xs-12
-											p#target_country(class!='previous_university' + '<%= user_id %>') Studying/studied at
-												span.control <%=previous_university %>
-										.col-xs-12
-											p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
-												span.control <%= target_university %>				
-										//- .col-xs-12
-										//- 	p#user-religion(class!= 'user-religion' + '<%= user_id %>')
-								.col-xs-1
+							.user-picture-container
+								img.user-picture(src!= '<%= profile_picture%>')
+							.user-info
+								a(href != '/public/' + '<%= user_id %>')
+									h4.username <%= username %>
+								.row
+									.col-xs-12
+										p#subject(class!='subject' + '<%= user_id %>') Studying
+											span.control <%= subject %>
+									.col-xs-12
+										p#user-nationality(class!= 'user-nationality' + '<%= user_id %>') Lives in
+											span.control <%= user_nationality %>
+									.col-xs-12
+										p#college(class!='college' + '<%= user_id %>') Studying at
+											span.control <%= college %>
+									.col-xs-12
+										p#target_country(class!='previous_university' + '<%= user_id %>') Studying/studied at
+											span.control <%=previous_university %>
+									.col-xs-12
+										p#target_university(class!='target_university' + '<%= user_id %>') Intended study at
+											span.control <%= target_university %>				
+									//- .col-xs-12
+									//- 	p#user-religion(class!= 'user-religion' + '<%= user_id %>')
+								div.blur-up
+							.col-xs-1
 								#user-action.col-xs-2
 									if user
 										a#message.center-block.btn.btn-default(href!='/messages/' + '<%=user_id %>')
@@ -96,10 +96,10 @@ block content
 					.row.main-mobile-row
 						.col-xs-2
 							if user.profile_picture
-								img#user-picture(src= user.profile_picture)
+								img.user-picture(src= user.profile_picture)
 							else
-								img#user-picture(src='/images/profile-placeholder.jpg')
-						#user-info.col-xs-8
+								img.user-picture(src='/images/profile-placeholder.jpg')
+						.user-info.col-xs-8
 							a(href != '/public/' + user.id)
 								h4.username= user.username
 							.row
