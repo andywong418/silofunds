@@ -97,7 +97,7 @@ module.exports = {
 		}
 	},
 	saveUserSignup: function(req, res){
-		console.log(req.body)
+		console.log("WHAT", req.body);
 
 		var userId = req.user.id;
 		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university','college'];
@@ -108,9 +108,48 @@ module.exports = {
 		models.users.findById(userId).then(function(user){
 			Logger.info(req.body);
 			user.update(req.body).then(function(user){
+				if (req.body['breakdown']){
+					console.log("breakdown", req.body.breakdown);
+					var breakdownArray = JSON.parse(req.body.breakdown);
+					console.log("breakdown again", breakdownArray);
+					async.each(breakdownArray, function(breakdown, callback){
+						breakdown.user_id = userId;
+						console.log("breakdwon", breakdown);
+						models.cost_breakdowns.findOrCreate({where: {segment: breakdown.segment}}).spread(function(individualBreakdown, created){
+							if(created){
+								individualBreakdown.update({user_id: userId, cost: breakdown.cost}).then(function(){
+									callback();
+								});
+							}
+							else{
+								console.log("COST", breakdown.cost);
+								if(breakdown.cost){
+									individualBreakdown.update({cost: breakdown.cost}).then(function(){
+										callback();
+									});
+								}
+								else{
+									callback();
+								}
 
-				res.send(user);
+							}
+						}, function done(){
+							res.send(user);
+						});
+					});
+				}
+				else{
+					res.send(user);
+				}
 			});
+		});
+	},
+	removeBreakdown:function(req, res){
+		var breakdownId = req.params.id;
+		models.cost_breakdowns.findById(breakdownId).then(function(breakdown){
+		breakdown.destroy().then(function(){
+			res.send(breakdown);
+		})
 		});
 	},
  getSignupInfo: function(req, res){

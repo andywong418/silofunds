@@ -87,7 +87,7 @@ router.get('/fund_account/:id', signup.get);
 router.post('/fund_signup/:id', upload.single('profile_picture'), signup.fundAccount);
 router.post('/fund_signup/charity_no/:id', signup.insertCharityNumber);
 router.post('/fund_signup/fund_data/:id', signup.insertFundData);
-
+router.post('/user/remove-breakdown/:id', signup.removeBreakdown);
 
 // Now edited
 router.post('/user_signup_complete/', signup.uploadInfo);

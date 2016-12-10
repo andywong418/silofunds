@@ -631,7 +631,7 @@ module.exports = {
     }
     models.users.find({where: {id: userId}}).then(function(user) {
       // Set display profile to be true if user has chosen to launch
-      if(user.user_launch == true) {
+      if(user.user_launch == true || user.is_crowdfunding == true) {
         displayProfile = true
       } else {
         displayProfile = false
@@ -642,12 +642,16 @@ module.exports = {
           models.documents.findAll({where: {user_id: user.id}}).then(function(documents){
             models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
               var pageViewCreate = {user_id: user.id};
-              if(applications.length > 0){
-                createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents}, { user: user, loggedInUser: loggedInUser,documents: documents});});
-              } else {
-                // No applications
-                createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false},{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false});});
-              }
+              models.cost_breakdowns.findAll({where: {user_id: user.id}}).then(function(breakdowns){
+
+                if(applications.length > 0){
+                  createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, breakdowns: breakdowns}, { user: user, loggedInUser: loggedInUser,documents: documents, breakdowns: breakdowns});});
+                } else {
+                  // No applications
+                  createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false, breakdowns: breakdowns },{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false, breakdowns: breakdowns});});
+                }
+              });
+
             });
           });
         });

@@ -1111,14 +1111,19 @@ body {
         font-size: 16px;
         font-weight: bold;
         margin-bottom: 10px; }
-      #signup-wrapper #signup-form .story-row a#add-breakdown {
-        margin-top: 10px;
-        border: 1px dashed #337ab7;
-        padding: 2px 100px;
+      #signup-wrapper #signup-form .story-row .breakdown-handler .row {
+        margin-top: 5px; }
+      #signup-wrapper #signup-form .story-row .breakdown-handler .remove-breakdown {
         cursor: pointer; }
-        #signup-wrapper #signup-form .story-row a#add-breakdown:hover {
-          background-color: #337ab7;
-          color: white; }
+      #signup-wrapper #signup-form .story-row #add-breakdown-para {
+        margin-top: 20px; }
+        #signup-wrapper #signup-form .story-row #add-breakdown-para a#add-breakdown {
+          border: 1px dashed #337ab7;
+          padding: 2px 100px;
+          cursor: pointer; }
+          #signup-wrapper #signup-form .story-row #add-breakdown-para a#add-breakdown:hover {
+            background-color: #337ab7;
+            color: white; }
     #signup-wrapper #signup-form #work {
       border-bottom: none; }
       #signup-wrapper #signup-form #work #work-row {

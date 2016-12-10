@@ -62,8 +62,12 @@ var tokenArrayPopulate = function(value, emptyArray){
 	var UserModel = Backbone.Model.extend({
 		url: '/signup/user_signup/' + user_setup.id,
 	});
+
 	var CostBreakDownModel = Backbone.Model.extend({
 		url: '/user/cost_breakdown/' + user_setup.id
+	});
+	var CostBreakdownCollection = Backbone.Collection.extend({
+		model: CostBreakDownModel
 	});
 	var AboutView = Backbone.View.extend({
 		id: 'about-form',
@@ -306,7 +310,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 	});
 	var CostBreakdownDisplay = Backbone.View.extend({
 		tagName: 'div',
-		id: 'breakdown-handler',
+		className: 'breakdown-handler',
 		template: _.template($('#cost-breakdown-template').html()),
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -324,7 +328,8 @@ var tokenArrayPopulate = function(value, emptyArray){
 			'click #save': 'saveStory',
 			'change input[id="work"]': 'saveFiles',
 			'click #skip': 'switchTabs',
-			'click #add-breakdown': 'addBreakdown'
+			'click #add-breakdown': 'addBreakdown',
+			'click .remove-breakdown': 'removeBreakdown'
 		},
 		render:function(){
 			this.$el.html(this.template(this.model.toJSON()));
@@ -363,13 +368,20 @@ var tokenArrayPopulate = function(value, emptyArray){
 				}
 
 			}
+
 			var breakdownModel = new CostBreakDownModel();
 			breakdownModel.fetch({
 				success:function(){
 					console.log(breakdownModel);
 					console.log(breakdownModel.attributes);
-					if(breakdownModel.attributes.length > 0){
-						console.log(breakdownModel);
+					if(breakdownModel){
+						for(var breakdown in breakdownModel.attributes){
+							console.log(breakdownModel.attributes[breakdown]);
+							var individualBreakdownModel = new CostBreakDownModel(breakdownModel.attributes[breakdown])
+							var breakdownView = new CostBreakdownDisplay({model: individualBreakdownModel});
+							this.$('.breakdown-div').append(breakdownView.render().el);
+
+						}
 					}
 
 				}
@@ -381,17 +393,34 @@ var tokenArrayPopulate = function(value, emptyArray){
 				{ "method": "save button" }
 			);
 			var story = tinymce.activeEditor.getContent();
+			var rowPair = this.$('.breakdown-handler');
+			var breakdownArray = [];
+			for(var i =0; i < rowPair.length; i++){
+				var breakdownObj = {};
+				console.log($(rowPair[i]));
+				breakdownObj.segment = $(rowPair[i]).find('input[name=segment]').val();
+				breakdownObj.cost = $(rowPair[i]).find('input[name=cost]').val();
+				if(breakdownObj.segment !== '' && breakdownObj.cost !==null){
+					breakdownArray.push(breakdownObj);
+				}
+			}
+			console.log(breakdownArray);
+			breakdownArray = JSON.stringify(breakdownArray);
+						console.log(breakdownArray);
 			var formData = {
 				'description': story,
 				'link': $('input#work-link').val(),
 				'video': $('input#video').val(),
 				'short_description': $('input#short_description').val()
 			};
+			if(breakdownArray.length > 0){
+				formData['breakdown'] = breakdownArray;
+			}
 			$.post('/signup/user/save', formData, function(data){
 				$('a[href="#story"]').removeClass('active');
 				$('a[href="#account"]').addClass('active');
-				$('html, body').animate({scrollTop:0}, 'slow')
-			})
+				$('html, body').animate({scrollTop:0}, 'slow');
+			});
 
 		},
 		saveFiles: function(e){
@@ -447,11 +476,23 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		addBreakdown: function(){
 			console.log("in");
-			var breakdownModel = new CostBreakDownModel();
+			var breakdownModel = new CostBreakDownModel({segment: '', cost: null, remove_id: ''});
 			var breakdownView = new CostBreakdownDisplay({model: breakdownModel});
 			console.log(breakdownView.render().el);
 			this.$('.breakdown-div').append(breakdownView.render().el);
 
+		},
+		removeBreakdown: function(e){
+
+			if(e.currentTarget.id !==''){
+
+				$.post('/signup/user/remove-breakdown/' + e.currentTarget.id, function(){
+					$(e.currentTarget).closest('.breakdown-handler').remove();
+				});
+			}
+			else{
+				$(e.currentTarget).closest('.breakdown-handler').remove();
+			}
 		}
 	});
 

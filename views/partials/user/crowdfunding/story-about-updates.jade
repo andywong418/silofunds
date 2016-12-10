@@ -15,6 +15,14 @@
   #tab-content
     script#story-template(type='text/template')
       p#story
+      if breakdowns.length > 0
+        .breakdown-div
+          p#header Cost breakdown
+          hr
+          each breakdown in breakdowns
+            p
+              span.breakdown-segment(style='text-decoration: underline')= breakdown.segment
+              span.breakdown-segment(style='text-decoration: none')= ' - £' + breakdown.cost
       if documents.length > 0
         p#header.documents Work showcase
         hr

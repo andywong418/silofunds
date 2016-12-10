@@ -257,16 +257,27 @@ body{
 			font-weight: bold;
 			margin-bottom: 10px;
 		}
-		a#add-breakdown{
-			margin-top: 10px;
-			border: 1px dashed #337ab7;
-			padding: 2px 100px;
-			cursor: pointer;
-			&:hover{
-				background-color: #337ab7;
-				color: white
+		.breakdown-handler{
+			.row{
+				margin-top: 5px;
+			}
+			.remove-breakdown{
+				cursor:pointer;
 			}
 		}
+		#add-breakdown-para{
+			margin-top: 20px;
+			a#add-breakdown{
+				border: 1px dashed #337ab7;
+				padding: 2px 100px;
+				cursor: pointer;
+				&:hover{
+					background-color: #337ab7;
+					color: white
+				}
+			}
+		}
+
 	}
 
 #work{
