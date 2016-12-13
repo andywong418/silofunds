@@ -497,7 +497,13 @@ module.exports = {
 									res.redirect('/organisation/create')
 								}
 							} else {
-								res.redirect('/donor/profile')
+								if(user.donor_id){
+									res.redirect('/donor/profile');
+								}
+								if(user.institution_id){
+									res.redirect('/institution/profile');
+								}
+
 							}
 						})
 					})

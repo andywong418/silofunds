@@ -629,9 +629,20 @@ body{
 			border-radius: 3px;
 		}
 
+
 	}
 }
-
+#campaign-header{
+  font-size: 22px;
+  margin-top: 15px;
+  font-weight: bolder;
+  margin-bottom: 5px;
+}
+#short_description{
+margin-top: 15px;
+font-weight: bolder;
+padding: 10px;
+}
 #recent-donations p {
 	margin-top: 15px;
 }

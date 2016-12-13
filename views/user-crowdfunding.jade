@@ -84,6 +84,8 @@ block content
 				.video-div.desktop
 			if !user.profile_picture && !user.video
 				img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
+			if user.short_description
+				p#short_description.alert.alert-info=user.short_description
 			.desktop
 				include ./partials/user/crowdfunding/social-buttons.jade
 				#story-about-updates-targeting-div-desktop

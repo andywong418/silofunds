@@ -184,6 +184,10 @@ module.exports = function(sequelize, DataTypes) {
     college_affiliation: {
       type: DataTypes.BOOLEAN,
       field: 'college_affiliation'
+    },
+    institution_id:{
+      type: DataTypes.INTEGER,
+      field: 'institution_id'
     }
   }, {
     timestamps: true,

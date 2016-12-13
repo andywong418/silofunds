@@ -77,6 +77,7 @@ passport.use('registrationStrategy', new LocalStrategy({
             models.users.find({where: {email: email}
             }).then(function(user) {
               var data = req.body;
+              console.log("DATA", data);
               var donor_id = null;
               models.donors.find({where: {email: email}}).then(function(donor) {
                 if(donor) {
@@ -88,10 +89,14 @@ passport.use('registrationStrategy', new LocalStrategy({
                 }
                 if(data.password == data.confirmPassword) {
                   if(data.donor_registration !== 'true') {
-                    if(data.fundOption !== 'on') {
-                      passportFunctions.registerUser(data, user, donor_id, req, done)
-                    } else {
-                      passportFunctions.registerOrganisation(data, user, donor_id, req, done)
+                    if(data.user_type === 'student') {
+                      passportFunctions.registerUser(data, user, donor_id, req, done);
+                    }
+                    else if(data.user_type ==='affiliated_institutions'){
+                      passportFunctions.registerInstitution(data, user, req, done);
+                    }
+                    else {
+                      passportFunctions.registerOrganisation(data, user, donor_id, req, done);
                     }
                   } else if (data.donor_registration == 'true') {
                     passportFunctions.registerDonor(data, user, donor_id, req, done)
