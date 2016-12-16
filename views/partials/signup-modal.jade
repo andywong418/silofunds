@@ -31,6 +31,9 @@
             input#signup-password.full-width.has-padding.has-border(type='password', placeholder='Password', name='password')
             a.hide-password(href='#0') Show
             span#password-error.cd-error-message Error message here!
+          // Hidden input fields
+          input#donor_hidden.right(type='hidden', value='false', name='donor_registration')
+          input#fundCheckbox.hide(name='fundOption', type='checkbox')
           p#google-social.signup-social-btn
             a.btn.btn-block.btn-social.btn-lg.btn-google(href = "/auth/google")
               span.fa.fa-google
