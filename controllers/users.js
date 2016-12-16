@@ -219,9 +219,8 @@ module.exports = {
                 "size": 1000,
                 "query": queryOptions
               }
-            }).then(function(resp){
+            }).then(function(resp) {
               // Get rid of those the user has removed
-              console.log("RESP HIT LEGNTH", resp.hits.hits.length);
               var resp_length_4 = [];
               for(var i = 0; i < resp.hits.hits.length; i++) {
                 if(resp_length_4.length < 4) {
@@ -230,11 +229,9 @@ module.exports = {
                     } else {
                       resp_length_4.push(resp.hits.hits[i]);
                     }
-                  }
-                  else{
+                  } else{
                     resp_length_4 = resp.hits.hits.slice(0,4);
                   }
-
                 } else {
                   break;
                 }
@@ -255,9 +252,6 @@ module.exports = {
                 hash.fund_user = false; // for the user logic later
                 return hash;
               });
-              console.log('hi')
-              console.log(funds)
-              console.log('^^^^^^^^')
               models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
                 if (user) {
                   for (var i=0; i < funds.length; i++) {
@@ -832,8 +826,6 @@ module.exports = {
 		});
 	},
   removeFund: function(req, res) {
-    console.log(req.body)
-    console.log('^^&^^^^^^^^')
     var user_id = req.body.user_id;
     var fund_id = req.body.fund_id;
     models.users.findById(user_id).then(function(user) {
@@ -925,8 +917,6 @@ module.exports = {
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
-    Logger.info("WHAT");
-
     var s3 = new AWS.S3();
     var params = {
       Bucket: bucketName,
@@ -1837,7 +1827,7 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
     });
   });
 }
-function findFavourites(options, res, dataObject){
+function findFavourites(options, res, dataObject) {
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
 		var newArray = [];
 		async.each(favourite_funds, function(element, callback){
@@ -1854,6 +1844,7 @@ function findFavourites(options, res, dataObject){
 }
 function findStripeDashboard(option, dataObject, res){
 	models.stripe_users.find({where: option}).then(function(stripe_user){
+    console.log(dataObject)
 		if(!stripe_user){
 			res.render('user/dashboard', dataObject);
 		}

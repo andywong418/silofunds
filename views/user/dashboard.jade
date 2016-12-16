@@ -50,7 +50,13 @@ block content
       .col-md-12.text-center
         h2#name= 'Welcome to your dashboard, ' + user.username.split(' ')[0]
         if !user.is_crowdfunding
-          a#start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary Start your fundraising campaign now!
+          .first_time
+            #campaignLaunched
+              a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary We've launched your campaign for you, click to start fundraising now! 
+                br
+                span.take_offline (You can take your profile offline via the settings page)
+          .not-first_time
+            a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary Start your fundraising campaign now!
     section#recommended
       p#header Recommended for you
       .row.recommended-row

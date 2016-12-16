@@ -19,7 +19,7 @@ $(document).ready(function(){
       'previous_degree': previousDegree,
       'target_university': targetUniversity,
       'previous_university': previousUniversity,
-      'country_of_residence': countries,
+      'country_of_residence': countries
     };
 
 
