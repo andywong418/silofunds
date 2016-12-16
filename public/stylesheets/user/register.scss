@@ -1,6 +1,15 @@
 #form_container {
   margin-top: 20px;
-  .donor.header.description {
+  .user-type {
+    width: 90%;
+    margin-left: 5%;
+    padding: 0;
+    .panel-small {
+      display: none;
+    }
+    .col-xs-6, .col-md-7, .col-md-5 {
+      padding: 0;
+    }
   }
   #register {
     border-bottom: 1px solid #e1e8ed;
@@ -26,4 +35,43 @@
 
 button.login {
   cursor: pointer;
+}
+
+// Mobile
+.mobileSix {
+  display: none
+}
+
+@media (max-width: 1050px) {
+}
+
+@media (max-width: 750px) {
+  #form_container {
+    .panel-title, select#user_type_dropdown, input {
+      font-size: 1.1em;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  #form_container {
+    .user-type {
+      .panel-large {
+        display: none;
+      }
+      .panel-small {
+        display: block;
+      }
+    }
+    .panel-title, select#user_type_dropdown, input {
+      font-size: 1em;
+    }
+  }
+  #login {
+    button {
+      font-size: 1em;
+      height: 38px;
+      width: 30%;
+    }
+  }
 }

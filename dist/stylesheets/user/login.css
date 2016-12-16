@@ -1182,7 +1182,7 @@ body {
     #form_container input {
       font-size: 15px;
       height: 38px; }
-    #form_container .submit.login {
+    #form_container .submit {
       height: 38px;
       font-size: 1em; }
   #register button {

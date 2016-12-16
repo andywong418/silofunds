@@ -1,5 +1,13 @@
 #form_container {
   margin-top: 20px; }
+  #form_container .user-type {
+    width: 90%;
+    margin-left: 5%;
+    padding: 0; }
+    #form_container .user-type .panel-small {
+      display: none; }
+    #form_container .user-type .col-xs-6, #form_container .user-type .col-md-7, #form_container .user-type .col-md-5 {
+      padding: 0; }
   #form_container #register {
     border-bottom: 1px solid #e1e8ed; }
   #form_container #login {
@@ -18,3 +26,22 @@
 
 button.login {
   cursor: pointer; }
+
+.mobileSix {
+  display: none; }
+
+@media (max-width: 750px) {
+  #form_container .panel-title, #form_container select#user_type_dropdown, #form_container input {
+    font-size: 1.1em; } }
+
+@media (max-width: 600px) {
+  #form_container .user-type .panel-large {
+    display: none; }
+  #form_container .user-type .panel-small {
+    display: block; }
+  #form_container .panel-title, #form_container select#user_type_dropdown, #form_container input {
+    font-size: 1em; }
+  #login button {
+    font-size: 1em;
+    height: 38px;
+    width: 30%; } }
