@@ -17,16 +17,19 @@ img#silo-image {
   text-align: center
 }
 
-.panel-title {
-  text-decoration: underline;
-}
-
 .panel-title, select#user_type_dropdown {
   font-size: 1.3em;
   text-align: left;
   line-height: 30px;
   margin: 0;
   margin-top: 10px;
+}
+
+.panel-title {
+  font-family: PT Sans;
+  font-size: 1.6em;
+  font-weight: 500;
+  // text-decoration: underline;
 }
 
 #form_container {
