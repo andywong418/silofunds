@@ -2219,6 +2219,41 @@ table#header {
 body {
   background: #f0f2f4; }
 
+h2#name {
+  margin-bottom: 20px; }
+
+.first_time {
+  display: none;
+  margin-bottom: 15px; }
+  .first_time .small {
+    display: none; }
+  @media (max-width: 579px) {
+    .first_time .small {
+      display: block; }
+    .first_time .large {
+      display: none; } }
+
+.not-first_time {
+  display: none;
+  margin-bottom: 15px; }
+
+a.start-crowdfunding {
+  background-color: #05d257;
+  border: none;
+  color: white;
+  font-size: 17px; }
+  a.start-crowdfunding:hover {
+    background-color: #04a042; }
+  a.start-crowdfunding .take_offline {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.4); }
+  @media (max-width: 579px) {
+    a.start-crowdfunding {
+      font-size: 15px; } }
+
+#user-dashboard {
+  padding-top: 30px; }
+
 @media (min-width: 994px) {
   .mobile {
     display: none; }
@@ -2240,20 +2275,6 @@ body {
   /* Everything else */
   h2#name {
     color: #010138; }
-  .first_time {
-    display: none; }
-  .not-first_time {
-    display: none; }
-  a.start-crowdfunding {
-    background-color: #05d257;
-    border: none;
-    color: white;
-    font-size: 17px; }
-    a.start-crowdfunding:hover {
-      background-color: #04a042; }
-    a.start-crowdfunding .take_offline {
-      font-size: 15px;
-      color: rgba(0, 0, 0, 0.6); }
   #recommended p#header {
     display: inline-block;
     border-bottom: 2px solid #010138;

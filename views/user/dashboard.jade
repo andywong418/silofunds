@@ -2,8 +2,8 @@ extends ../layout
 
 block extraHeader
   link(href='/stylesheets/notifications.css', rel='stylesheet')
-  link(href='/stylesheets/user-dashboard.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/user-dashboard.css', rel='stylesheet')
 block content
   script.
     var bodyEl = document.getElementsByTagName('body');
@@ -52,9 +52,18 @@ block content
         if !user.is_crowdfunding
           .first_time
             #campaignLaunched
-              a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary We've launched your campaign for you, click to start fundraising now! 
-                br
-                span.take_offline (You can take your profile offline via the settings page)
+              .large
+                a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary We've launched your campaign for you, click to start fundraising now! 
+                  br
+                  span Click to start fundraising now.
+                  br
+                  span.take_offline (You can take your profile offline via the settings page)
+              .small
+                a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary We've launched your campaign for you!
+                  br
+                  span Click to start fundraising now! 
+                  br
+                  span.take_offline (Remove this via the settings page)
           .not-first_time
             a.start-crowdfunding(href='/user/start-crowdfunding').btn.btn-primary Start your fundraising campaign now!
     section#recommended
