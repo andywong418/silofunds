@@ -575,7 +575,7 @@ div.navbar-center-container {
       transform: translateY(-50%);
       height: 20px;
       width: 20px;
-      overflow: auto;
+      overflow: hidden;
       text-indent: 100%;
       white-space: nowrap;
       color: transparent;
@@ -724,7 +724,7 @@ div.navbar-center-container {
   background: url("../images/cd-icon-close.svg") no-repeat center center;
   text-indent: 100%;
   white-space: nowrap;
-  overflow: auto; }
+  overflow: hidden; }
 
 @media only screen and (min-width: 1170px) {
   .cd-close-form {

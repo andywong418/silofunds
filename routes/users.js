@@ -38,3 +38,11 @@ router.get('/start-crowdfunding', users.startCrowdfunding);
 // router.get('url-shortener', users.urlShortener);
 
 module.exports = router;
+
+
+
+models.users.find({where: email: email}).then(function(user) {
+  models.students.findById(user.student_id).then(function(student) [
+    
+  ])
+})
