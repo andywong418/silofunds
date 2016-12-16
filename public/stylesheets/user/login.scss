@@ -126,7 +126,6 @@ img#silo-image {
 
 #login, #register {
   text-align: center;
-  padding-top: 20px;
   padding-bottom: 20px;
   margin-top: -8px;
   width: 100%;
@@ -151,12 +150,11 @@ img#silo-image {
 }
 
 #login {
-  border-top: 1px solid #e1e8ed;
   border-bottom: 1px solid #e1e8ed;
 }
 
 #register {
-  margin-top: -25px;
+  padding-top: 5px;
 }
 
 #login_modal {
@@ -251,9 +249,15 @@ body {
 
 // Mobile
 @media (max-width: 1050px) {
+  img#silo-image {
+    margin-top: 10px;
+    width: 30%;
+    margin-left: 35%;
+  }
   #form_container {
-    width: 70%;
-    margin-left: 15%;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
     .flex_div {
       width: 94%;
       margin-left: 3%;
@@ -265,15 +269,24 @@ body {
   #form_container {
     width: 88%;
     margin-left: 6%;
-    margin-top: 30px;
+  }
+  #register {
+    button {
+      width: 20%;
+    }
   }
 }
 
 @media (max-width: 600px) {
+  img#silo-image {
+    margin-top: 10px;
+    width: 40%;
+    margin-left: 30%;
+  }
   #form_container {
+    margin-top: 30px;
     width: 96%;
     margin-left: 2%;
-    margin-top: 15px;
     p.header {
       width: 94%;
       margin-left: 3%;
@@ -283,9 +296,29 @@ body {
       width: 100%;
       margin: 0;
     }
+    #rememberMe {
+      font-size: 15px;
+    }
+    #passwordReset {
+      margin-top: 3px;
+      p {
+        font-size: 15px;
+      }
+    }
     input {
       font-size: 15px;
       height: 38px;
+    }
+    .submit.login {
+      height: 38px;
+      font-size: 1em;
+    }
+  }
+  #register {
+    button {
+      font-size: 1em;
+      height: 38px;
+      width: 30%;
     }
   }
 }

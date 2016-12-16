@@ -1043,7 +1043,6 @@ img#silo-image {
 
 #login, #register {
   text-align: center;
-  padding-top: 20px;
   padding-bottom: 20px;
   margin-top: -8px;
   width: 100%;
@@ -1065,11 +1064,10 @@ img#silo-image {
     border-radius: 5px; }
 
 #login {
-  border-top: 1px solid #e1e8ed;
   border-bottom: 1px solid #e1e8ed; }
 
 #register {
-  margin-top: -25px; }
+  padding-top: 5px; }
 
 #login_modal {
   margin-top: 110px; }
@@ -1140,9 +1138,14 @@ body {
   background-color: #0d2456 \9  !important; }
 
 @media (max-width: 1050px) {
+  img#silo-image {
+    margin-top: 10px;
+    width: 30%;
+    margin-left: 35%; }
   #form_container {
-    width: 70%;
-    margin-left: 15%; }
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px; }
     #form_container .flex_div {
       width: 94%;
       margin-left: 3%; } }
@@ -1150,14 +1153,19 @@ body {
 @media (max-width: 750px) {
   #form_container {
     width: 88%;
-    margin-left: 6%;
-    margin-top: 30px; } }
+    margin-left: 6%; }
+  #register button {
+    width: 20%; } }
 
 @media (max-width: 600px) {
+  img#silo-image {
+    margin-top: 10px;
+    width: 40%;
+    margin-left: 30%; }
   #form_container {
+    margin-top: 30px;
     width: 96%;
-    margin-left: 2%;
-    margin-top: 15px; }
+    margin-left: 2%; }
     #form_container p.header {
       width: 94%;
       margin-left: 3%;
@@ -1165,6 +1173,19 @@ body {
     #form_container .flex_div {
       width: 100%;
       margin: 0; }
+    #form_container #rememberMe {
+      font-size: 15px; }
+    #form_container #passwordReset {
+      margin-top: 3px; }
+      #form_container #passwordReset p {
+        font-size: 15px; }
     #form_container input {
       font-size: 15px;
-      height: 38px; } }
+      height: 38px; }
+    #form_container .submit.login {
+      height: 38px;
+      font-size: 1em; }
+  #register button {
+    font-size: 1em;
+    height: 38px;
+    width: 30%; } }
