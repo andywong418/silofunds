@@ -472,6 +472,24 @@ div.navbar-center-container {
     display: block;
     float: left; }
 
+.user-type {
+  margin-bottom: 1.4em;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 17px; }
+  .user-type select {
+    height: 40px;
+    line-height: 40px; }
+  .user-type .panel-title {
+    float: left; }
+  .user-type .col-xs-6, .user-type .col-md-7, .user-type .col-md-5 {
+    padding: 0; }
+
 .cd-user-modal {
   position: fixed;
   top: 0;
@@ -560,12 +578,14 @@ div.navbar-center-container {
   padding-bottom: 5px; }
   .cd-form .fieldset {
     position: relative;
-    margin: 1.4em 0;
+    margin-bottom: 1.2em;
     display: none; }
     .cd-form .fieldset:first-child {
       margin-top: 0; }
     .cd-form .fieldset:last-child {
       margin-bottom: 0; }
+  .cd-form p#email-signup-option.fieldset {
+    margin-bottom: 0; }
   .cd-form label {
     font-size: 14px;
     font-size: 0.875rem; }
@@ -748,7 +768,7 @@ div.navbar-center-container {
   border-radius: 10px; }
   #cd-signup input {
     font-family: "Montserrat", sans-serif;
-    font-size: 15px; }
+    font-size: 13px; }
     #cd-signup input::-ms-clear {
       display: none; }
   #cd-signup p {
@@ -869,6 +889,10 @@ div.navbar-center-container {
 
 #settings-menu a:hover {
   color: black; }
+
+@media (max-width: 400px) {
+  .cd-form {
+    padding: 1.5em 0.7em; } }
 
 .fa-cog, .fa-user, .fa-comment {
   font-size: 20px; }

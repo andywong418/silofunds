@@ -1,3 +1,24 @@
+// Dropdown
+.user-type {
+  margin-bottom: 1.4em;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  select {
+    height: 40px;
+    line-height: 40px;
+  }
+  .panel-title {
+    float: left;
+  }
+  .col-xs-6, .col-md-7, .col-md-5 {
+    padding: 0;
+  }
+}
+//
+
+
 .cd-user-modal {
   position: fixed;
   top: 0;
@@ -114,7 +135,7 @@
   padding-bottom: 5px;
   .fieldset {
     position: relative;
-    margin: 1.4em 0;
+    margin-bottom: 1.2em;
     display: none;
     &:first-child {
       margin-top: 0;
@@ -122,6 +143,9 @@
     &:last-child {
       margin-bottom: 0;
     }
+  }
+  p#email-signup-option.fieldset {
+    margin-bottom: 0;
   }
   label {
     font-size: 14px;
@@ -274,7 +298,6 @@
     padding: 2em;
     padding-bottom: 5px !important;
     .fieldset {
-      // margin: 2em 0;
       &:first-child {
         margin-top: 0;
       }
@@ -354,7 +377,7 @@
   border-radius: 10px;
   input {
     font-family: "Montserrat", sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     &::-ms-clear {
       display: none;
     }
@@ -509,7 +532,11 @@
   color: black;
 }
 
-
+@media (max-width: 400px) {
+  .cd-form {
+    padding: 1.5em 0.7em;
+  }
+}
 
 .fa-cog, .fa-user, .fa-comment {
   font-size: 20px;

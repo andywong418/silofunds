@@ -8,6 +8,16 @@
           a(href='#0') New account
       #cd-signup
         form(id='signup-form', class='cd-form', action ='/register', method="post", name="signup_form")
+          .user-type
+            .col-xs-6.col-md-5
+              .panel-title.panel-small
+                | Register as a:
+            .col-xs-6.col-md-7
+              select#user_type_dropdown.form-control(name='user_type')
+                option(disabled='', selected='', value='')
+                option(value='student') Student
+                option(value='organisation') Fund institution
+                option(value='donor') Donor
           p#email-username.fieldset
             label.image-replace.cd-username(for='signup-username')
             input#signup-username.full-width.has-padding.has-border(type='text', placeholder='Full Name', name='username')
@@ -33,9 +43,9 @@
             //Add back for social login
               a(href='#0') Continue with email.
               span By signing up you indicate that you have read and agree to the Terms of Service and Privacy Policy.
-          p#fund-option
-            input#fund-signup(type='checkbox', name='fundOption', form="signup-form")
-            label(for='fund-signup') Sign up as an funding institution
+          //- p#fund-option
+          //-   input#fund-signup(type='checkbox', name='fundOption', form="signup-form")
+          //-   label(for='fund-signup') Sign up as an funding institution
           p(style='font-size: 13px; margin-bottom: 10px') By signing up you are agreeing to our
               a(href='/terms-and-conditions')= ' terms and conditions'
           p#signup-terms.fieldset
