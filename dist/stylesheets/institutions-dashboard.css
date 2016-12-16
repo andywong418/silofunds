@@ -1,0 +1,25 @@
+.recommended-students {
+  padding-left: 50px;
+  margin-top: 50px; }
+  .recommended-students #recommended-header {
+    text-decoration: underline;
+    font-size: 20px; }
+  .recommended-students .student-card {
+    margin-bottom: 150px; }
+    .recommended-students .student-card .student-pictures {
+      width: 250px;
+      height: 250px;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px; }
+    .recommended-students .student-card .student-info {
+      background: white;
+      padding: 5px;
+      padding-bottom: 10px;
+      width: 250px;
+      height: 200px; }
+      .recommended-students .student-card .student-info .name {
+        font-size: 18px; }
+      .recommended-students .student-card .student-info .same-faculty, .recommended-students .student-card .student-info .same-college {
+        font-size: 16px;
+        color: grey;
+        margin-bottom: 5px; }

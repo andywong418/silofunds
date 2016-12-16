@@ -16,7 +16,10 @@ module.exports = function(sequelize, DataTypes){
     affiliated_students: {
       type: DataTypes.ARRAY(DataTypes.INTEGER)
     },
-
+		buffer_type:{
+			type: DataTypes.TEXT,
+			field: 'buffer_type'
+		},
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',

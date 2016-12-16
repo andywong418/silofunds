@@ -36,6 +36,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 }
 // Stripe OAuth
 var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
+
+//test
 // var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
 var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
 // var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
@@ -410,25 +412,48 @@ module.exports = {
     var user = req.user;
     var userDOB = user.date_of_birth ? reformatDate(user.date_of_birth) : null;
     var userPublicProfile = "https://www.silofunds.com/public/" + user.id;
+    var authenticationOptions;
+    console.log(req.user);
+    console.log(user.institution_id);
+    if(user.institution_id){
+      console.log("ON ")
+      authenticationOptions = {
+        response_type: "code",
+        scope: "read_write",
+        client_id: CLIENT_ID,
+        stripe_user: {
+          email: user.email,
+          business_name: user.username,
+          business_type: "non_profit",
+          country: user.billing_country,
+          street_address: user.address_line1,
+          zip: user.address_zip,
+          city: user.address_city
 
-    var authenticationOptions = {
-      response_type: "code",
-      scope: "read_write",
-      client_id: CLIENT_ID,
-      stripe_user: {
-        email: user.email,
-        url: userPublicProfile,
-        business_name: "Education Crowdfunding",
-        business_type: "sole_prop",
-        country: user.billing_country,
-        first_name: user.username.split(' ')[0],
-        last_name: user.username.split(' ')[1],
-        street_address: user.address_line1,
-        zip: user.address_zip,
-        city: user.address_city
+        }
+      };
+    }
+    if(user.student !== 'FALSE'){
+      authenticationOptions = {
+        response_type: "code",
+        scope: "read_write",
+        client_id: CLIENT_ID,
+        stripe_user: {
+          email: user.email,
+          url: userPublicProfile,
+          business_name: "Education Crowdfunding",
+          business_type: "sole_prop",
+          country: user.billing_country,
+          first_name: user.username.split(' ')[0],
+          last_name: user.username.split(' ')[1],
+          street_address: user.address_line1,
+          zip: user.address_zip,
+          city: user.address_city
 
-      }
-    };
+        }
+      };
+    }
+
 
     if (userDOB) {
       authenticationOptions.stripe_user.dob_day = userDOB.split('-')[2];
@@ -458,7 +483,15 @@ module.exports = {
       if (body.error) {
         console.log("stripe account authorization failure");
         Logger.info(body);
-        res.redirect('/user/dashboard');
+        models.users.findById(req.user.id).then(function(user){
+          if(user.institution_id){
+            res.redirect('/institution/dashboard');
+          }
+          if(user.student !== 'FALSE'){
+            res.redirect('/user/dashboard');
+          }
+        });
+
       } else {
         console.log("successful account");
         models.users.findById(req.user.id).then(function(user){
@@ -472,9 +505,14 @@ module.exports = {
               stripe_publishable_key: body.stripe_publishable_key,
               scope: body.scope,
               livemode: body.livemode
+            }).then(function(){
+              if(user.institution_id){
+                res.redirect('/institution/dashboard');
+              }
+              if(user.student!=='FALSE'){
+                res.redirect('/user/dashboard');
+              }
             });
-
-            res.redirect('/user/dashboard');
           });
         });
       }
@@ -553,7 +591,10 @@ module.exports = {
     } else if (req.user.donor_id !== null) {
       models.donors.findById(req.user.donor_id).then(function(donor) {
         res.redirect('/donor/profile');
-      })
+      });
+    }
+    else if (req.user.institution_id){
+      res.redirect('/institution/dashboard');
     }
   },
 

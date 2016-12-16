@@ -1,0 +1,33 @@
+.recommended-students{
+  padding-left: 50px;
+  margin-top: 50px;
+  #recommended-header{
+    text-decoration: underline;
+    font-size: 20px;
+  }
+  .student-card{
+    margin-bottom: 150px;
+    .student-pictures{
+      width: 250px;
+      height: 250px;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+    }
+    .student-info{
+      background: white;
+      padding: 5px;
+      padding-bottom: 10px;
+      width: 250px;
+      height: 200px;
+      .name{
+        font-size: 18px;
+      }
+      .same-faculty, .same-college{
+        font-size: 16px;
+        color: grey;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+}

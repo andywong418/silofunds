@@ -1,0 +1,52 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/notifications.css', rel='stylesheet')
+  link(href='/stylesheets/user-dashboard.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/institutions-dashboard.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./advanced-search.jade
+  .col-md-12.text-center(style='margin-top: 100px')
+    h2#name= 'Welcome to your dashboard, ' + user.username
+    if !institution.affiliated_students
+      if user.college || user.previous_university || user.subject
+        p Start directing prospective students and alumni onto Silo!
+  .col-md-12.recommended-students
+    .row
+      .col-xs-7
+       p#recommended-header Recommended users
+    .row
+      each student in users
+        .col-md-3.student-card
+          if student.profile_picture
+            img.student-pictures(src=student.profile_picture)
+            .student-info
+              a.name(href='/public/' + student.id)= student.username
+              if student.subject && user.subject
+                p.same-faculty= 'Studying ' + student.subject.join(', ')
+              if student.college && user.college
+                p.same-college= 'Part of ' + student.college
+          else
+            img.student-pictures(src='/images/fund_img_placeholder.jpg')
+            .student-info
+              a.name(href='/public/' + student.id)= student.username
+              if student.subject && user.subject
+                p.same-faculty= 'Studying ' + student.subject.join(', ')
+              if student.college && user.college
+                p.same-college= 'Part of ' + student.college.join(', ')
+  include ./partials/footer.jade
+          

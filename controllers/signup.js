@@ -501,7 +501,7 @@ module.exports = {
 									res.redirect('/donor/profile');
 								}
 								if(user.institution_id){
-									res.redirect('/institution/profile');
+									res.redirect('/institution/signup');
 								}
 
 							}
@@ -646,34 +646,44 @@ module.exports = {
 
 		})
 	},
-	signupFundComplete: function(req, res){
-		var id = req.params.id;
-		models.users.findById(id).then(function(user){
-			var fundUser = user;
-			models.funds.findById(user.organisation_or_user).then(function(fund){
-				for (var attrname in fund['dataValues']){
-					if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
-						user["dataValues"][attrname] = fund[attrname];
+		signupFundComplete: function(req, res){
+			var id = req.params.id;
+			models.users.findById(id).then(function(user){
+				var fundUser = user;
+				models.funds.findById(user.organisation_or_user).then(function(fund){
+					for (var attrname in fund['dataValues']){
+						if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
+							user["dataValues"][attrname] = fund[attrname];
+
+						}
 					}
-				}
-				var fields= [];
-				models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
-						models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
-						// for (var category in categories){
-						//   Logger.info(category);
-						//   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
-						//     Logger.info(field)
-						//   })
-						user["dataValues"]["categories"] = categories;
-						res.render('signup/fund-dashboard', {user: user, newUser: true});
-					 })
+					var fields= [];
+					models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
+							models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+							// for (var category in categories){
+							//   Logger.info(category);
+							//   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
+							//     Logger.info(field)
+							//   })
+							user["dataValues"]["categories"] = categories;
+							res.render('signup/fund-dashboard', {user: user, newUser: true});
+						 })
 
 
+					})
+				})
+
+			})
+		},
+		saveInstitution: function(req, res){
+			var user = req.user;
+			console.log("INSTITUTION REQ BODY", req.body);
+			models.affiliated_institutions.findById(user.institution_id).then(function(institution){
+				institution.update(req.body).then(function(data){
+					res.send(data);
 				})
 			})
-
-		})
-	}
-};
+		}
+	};
