@@ -39,7 +39,9 @@ button.login {
     display: none; }
   #form_container .user-type .panel-small {
     display: block; }
-  #form_container .panel-title, #form_container select#user_type_dropdown, #form_container input {
+  #form_container .panel-title {
+    font-size: 1.2em; }
+  #form_container select#user_type_dropdown, #form_container input {
     font-size: 1em; }
   #login button {
     font-size: 1em;

@@ -63,7 +63,10 @@ button.login {
         display: block;
       }
     }
-    .panel-title, select#user_type_dropdown, input {
+    .panel-title {
+      font-size: 1.2em;
+    }
+    select#user_type_dropdown, input {
       font-size: 1em;
     }
   }
