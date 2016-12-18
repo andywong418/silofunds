@@ -580,7 +580,7 @@ div.navbar-center-container {
       transform: translateY(-50%);
       height: 20px;
       width: 20px;
-      overflow: auto;
+      overflow: hidden;
       text-indent: 100%;
       white-space: nowrap;
       color: transparent;
@@ -729,7 +729,7 @@ div.navbar-center-container {
   background: url("../images/cd-icon-close.svg") no-repeat center center;
   text-indent: 100%;
   white-space: nowrap;
-  overflow: auto; }
+  overflow: hidden; }
 
 @media only screen and (min-width: 1170px) {
   .cd-close-form {
@@ -1090,6 +1090,7 @@ p {
           flex-direction: column;
   height: auto; }
   #left_div #box-profile {
+    text-align: center;
     -webkit-transition: 2.5s;
     transition: 2.5s; }
     #left_div #box-profile .fa-camera {
@@ -1106,6 +1107,8 @@ p {
     #left_div #box-profile #userImage {
       width: 100%;
       max-height: 300px;
+      height: auto;
+      max-width: 300px;
       border-radius: 5px;
       border: 1px solid #e1e8ed;
       cursor: pointer; }
@@ -1234,12 +1237,6 @@ label.removeFile {
   margin-top: 3px;
   margin-bottom: 5px;
   border: 1px solid #ccc; }
-
-#describe_your_goal {
-  border-top: none; }
-
-#short_description_label {
-  margin-top: 16px !important; }
 
 .hidden {
   display: none; }
