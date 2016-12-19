@@ -474,19 +474,12 @@ module.exports = {
       }
     });
   },
-  // loginGET: function(req, res) {
-  //   // Flash message if we have come via logging out to say 'successfully logged out'
-  //   var logoutMsg = req.flash('logoutMsg');
-  //   // Message prints as empty array, showing if length non zero
-  //   if(logoutMsg.length !== 0) {
-  //     res.render('user/login', {logoutMsg: logoutMsg})
-  //   } else {
-  //     res.render('user/login')
-  //   }
-  // },
+
   loginGET: function(req, res) {
     var logoutMsg = req.flash('logoutMsg');
     var goodbye = req.flash('goodbye')
+    req.session.flash = [];
+    req.flash = [];
     if (logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})
     } else if (goodbye.length !== 0) {
@@ -495,7 +488,6 @@ module.exports = {
       res.render('user/login')
     }
   },
-
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked

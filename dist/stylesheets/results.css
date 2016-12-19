@@ -1426,21 +1426,6 @@ i {
   .results p {
     padding-top: 5px; } }
 
-/* form sign in */
-@media only screen and (min-width: 600px) {
-  .cd-form {
-    padding: 2em; }
-    .cd-form .fieldset {
-      margin: 2em 0; }
-      .cd-form .fieldset:first-child {
-        margin-top: 0; }
-      .cd-form .fieldset:last-child {
-        margin-bottom: 0; }
-    .cd-form input.has-padding {
-      padding: 16px 20px 16px 50px; }
-    .cd-form button[type=submit] {
-      padding: 16px 0; } }
-
 @media only screen and (min-width: 1170px) {
   .cd-close-form {
     display: none; } }

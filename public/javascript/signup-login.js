@@ -8,14 +8,15 @@ $(document).ready(function(){
     if($('#user_type_dropdown').val() == 'student') {
       $('#donor_hidden').prop('value', 'false')
       $('#fundCheckbox').prop('checked', false)
+      $('#signup-username').prop('placeholder', 'Full Name')
     } else if ($('#user_type_dropdown').val() == 'donor') {
-      console.log('donor')
       $('#donor_hidden').prop('value', 'true')
       $('#fundCheckbox').prop('checked', false)
+      $('#signup-username').prop('placeholder', 'Full Name')
     } else if($('#user_type_dropdown').val() == 'organisation') {
-      console.log('organisation')
       $('#donor_hidden').prop('value', 'false')
       $('#fundCheckbox').prop('checked', true)
+      $('#signup-username').prop('placeholder', 'Institution Name')
     }
   })
   //
