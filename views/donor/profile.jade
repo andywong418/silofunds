@@ -1,20 +1,16 @@
 extend ../layout
 
 block extraHeader
-  link(href='/stylesheets/donor/profile.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
-  link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
-  script(src='http://connect.facebook.net/en_US/all.js')
-  script(src='https://checkout.stripe.com/checkout.js')
+  link(href='/stylesheets/donor/profile.css', rel='stylesheet')
   
 
 block content
-  #fb-row
   script.
     window.fbAsyncInit = function() {
       FB.init({
-          appId  : '506830149486287',
-          xfbml  : true,
+          appId	: '506830149486287',
+          xfbml	: true,
           status : true,
           cookie : true,
           version: 'v2.5'
@@ -70,31 +66,34 @@ block content
     .main-content
       #bio
         .header
-          h1 Your bio
+          h1 Your Bio
         if donor.bio
-          p= donor.bio
+          p.bio= donor.bio
         else 
-          p You haven't added a bio yet. 
+          p.bio You haven't added a bio yet. 
             a(href='/donor/settings') Update your profile now
       #updates
-      #funded
-  //- #crowdfunding-wrapper.container
-  //-   if user && user.user_launch !== true
-  //-     #launch_box
-  //-       form(method='post', action='/user/launch')
-  //-         .alert.alert-info.col-xs-10.col-xs-offset-1
-  //-           span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
-  //-           button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
-  //-   #pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
-  //-     if user.profile_picture && !user.video
-  //-       .no-vid-pic-border
-  //-         img#profile_picture.pic-resize(src!=user.profile_picture)
-  //-     if user.video
-  //-       .video-div.mobile
-  //-       .video-div.desktop
-  //-     if !user.profile_picture && !user.video
-  //-       img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
-
+        .header
+          h1 Updates
+      //- #tab-table
+      //-   #tab-menu-flex
+      //-     a.menu-item.story(href='#story')
+      //-       p.active-item Story
+      //-     a.menu-item.about(href='#about')
+      //-       p About 
+      //-     a.menu-item(href='#updates')
+      //-       p= 'Updates '
+      //-         if updates
+      //-           span.badge= updates.length
+      //-     a.menu-item(href='#comments')
+      //-       p= 'Comments '
+      //-         if comments
+      //-           span#comments.badge= comments.length
+      #donations
+        .header
+          h1 Your Donations
+            
+        
 
 block scripts
   //moment
@@ -102,6 +101,7 @@ block scripts
   script(src='/javascript/advanced-search.js')
   script(src='/javascript/notifications.js')
   script(src='/javascript/signup-login.js')
+  script(src='/javascript/user-crowdfunding.js')
   script.
     var user = !{JSON.stringify(user)}
     console.log(user)

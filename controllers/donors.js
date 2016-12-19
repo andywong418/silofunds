@@ -7,11 +7,16 @@ var passportFunctions = require('./passport/functions');
 module.exports = {
   profile: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
-      var splitName = req.user.username.split(' ')
-      console.log(splitName)
-      var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-      req.user.initials = initials
-      res.render('donor/profile', {user: req.user, donor: req.user.donor});
+      // We need to get all the donation information
+      var user = req.user
+      models.stripe_charges.find({where: {donor_id: user.donor_id}}).then(function(charges) {
+        console.log(charges.get())
+        console.log('CHARGES ARE HERE U GAY')
+        var splitName = req.user.username.split(' ')
+        var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+        req.user.initials = initials
+        res.render('donor/profile', {user: req.user, donor: req.user.donor});
+      })
     });
   },
 
