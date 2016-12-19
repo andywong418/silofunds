@@ -48,6 +48,36 @@ block content
   include ../advanced-search.jade
   include ../partials/signup-modal.jade
   
+  .container
+    .heading.main-info
+      .profile_picture
+        if user.profile_picture
+          img
+        else 
+          .initials.circle= user.initials
+      .info-div
+        .name= user.username
+        if user.date_of_birth
+          .dob= user.date_of_birth
+        else
+          a(href='/donor/settings')
+            .dob.add Add your date of birth
+        if user.country_of_residence
+          .country= user.country_of_residence
+        else
+          a(href='/donor/settings')
+            .country.add Add your country of resience
+    .main-content
+      #bio
+        .header
+          h1 Your bio
+        if donor.bio
+          p= donor.bio
+        else 
+          p You haven't added a bio yet. 
+            a(href='/donor/settings') Update your profile now
+      #updates
+      #funded
   //- #crowdfunding-wrapper.container
   //-   if user && user.user_launch !== true
   //-     #launch_box

@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  console.log('this document')
   //
   $('input[type="submit"]').prop('disabled', true);
 
@@ -14,7 +13,7 @@ $(document).ready(function(){
       $('#donor_hidden').prop('value', 'true')
       $('#fundCheckbox').prop('checked', false)
       $('#signup-username').prop('placeholder', 'Full Name')
-      $('#fb-social').css('display', 'block')
+      $('#fb-social').css('display', 'none')
     } else if($('#user_type_dropdown').val() == 'organisation') {
       $('#donor_hidden').prop('value', 'false')
       $('#fundCheckbox').prop('checked', true)
