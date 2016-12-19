@@ -74,8 +74,7 @@ passport.use('registrationStrategy', new LocalStrategy({
     function(req, email, password, done) {
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
-            models.users.find({where: {email: email}
-            }).then(function(user) {
+            models.users.find({where: {email: email}}).then(function(user) {
               var data = req.body;
               var donor_id = null;
               models.donors.find({where: {email: email}}).then(function(donor) {
