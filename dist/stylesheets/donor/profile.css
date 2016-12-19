@@ -28,6 +28,6 @@
 .main-content {
   margin-top: 20px; }
   .main-content .header h1 {
-    padding-bottom: 1px;
+    margin-bottom: 10px;
     font-size: 18px;
     border-bottom: 1px solid #e1e8ed; }
