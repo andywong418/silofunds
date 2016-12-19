@@ -9,13 +9,38 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function() {
       // We need to get all the donation information
       var user = req.user
-      models.stripe_charges.find({where: {donor_id: user.donor_id}}).then(function(charges) {
-        console.log(charges.get())
-        console.log('CHARGES ARE HERE U GAY')
-        var splitName = req.user.username.split(' ')
-        var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-        req.user.initials = initials
-        res.render('donor/profile', {user: req.user, donor: req.user.donor});
+      models.stripe_charges.findAll({where: {donor_id: user.donor_id}}).then(function(charges) {
+        var chargesArray = []
+        for(var i = 0; i < charges.length; i++) {
+          chargesArray.push(charges[i].get())
+        }
+        var userIdArray = [];
+        for(var i = 0; i < chargesArray.length; i++) {
+          userIdArray.push(chargesArray[i].user_id)
+        }
+        models.users.findAll({where: {id: userIdArray}}).then(function(users) {
+          var usersArray = []
+          for(var i = 0; i < users.length; i++) {
+            usersArray.push(users[i].get())
+          }
+          for(var i = 0; i < chargesArray.length; i++) {
+            for(var j = 0; j < usersArray.length; j++) {
+              if(chargesArray[i].user_id == usersArray[j].id) {
+                usersArray[j].amount = chargesArray[i].amount
+                usersArray[j].chargeDate = chargesArray[i].created_at
+                var splitName = usersArray[j].username.split(' ')
+                var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+                usersArray[j].initials = initials
+                chargesArray[i] = usersArray[j]
+              }
+            }
+          }
+          // So all the user info along with the
+          var splitName = req.user.username.split(' ')
+          var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+          req.user.initials = initials
+          res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray});
+        })
       })
     });
   },
