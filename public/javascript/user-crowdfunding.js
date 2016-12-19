@@ -5,7 +5,7 @@ $(document).ready(function() {
     $(this).find('p').addClass('active-item');
   });
   $('.fa-check-circle').tooltip();
-  if(user.funding_accrued){
+  if(user.funding_accrued) {
     var amount = user.funding_accrued;
     var goal = user.funding_needed;
     var percentage = Math.ceil((amount/ goal) * 100);

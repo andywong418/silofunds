@@ -2,6 +2,10 @@
 @import '../advanced-search.scss';
 @import '../signup.scss';
 
+body {
+  background-color: #f0f2f4;
+}
+
 .heading {
   margin-top: 70px;
   padding-top: 15px;
@@ -53,6 +57,35 @@
     }
     p.bio {
       font-size: 15px;
+    }
+  }
+}
+
+#donations {
+  .header {
+    h1 {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #e1e8ed;
+    }
+  }
+  .flex_box {
+    border: 1px solid #e1e8ed;
+    background-color: white;
+    margin-bottom: 6px;
+    align-items: center;
+    display: flex;
+    padding: 5px;
+    img, .initials.circle {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      background-color: orange;
+      border-radius: 50%;
+    }
+    .information {
+      padding-left: 15px;
+      display: flex;
     }
   }
 }

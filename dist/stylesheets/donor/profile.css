@@ -913,6 +913,9 @@ margin-right: -40px;
   margin-top: -20px;
   margin-bottom: 20px; }
 
+body {
+  background-color: #f0f2f4; }
+
 .heading {
   margin-top: 70px;
   padding-top: 15px;
@@ -955,3 +958,31 @@ margin-right: -40px;
     border-bottom: 1px solid #e1e8ed; }
   .main-content .header p.bio {
     font-size: 15px; }
+
+#donations .header h1 {
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e1e8ed; }
+
+#donations .flex_box {
+  border: 1px solid #e1e8ed;
+  background-color: white;
+  margin-bottom: 6px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 5px; }
+  #donations .flex_box img, #donations .flex_box .initials.circle {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: orange;
+    border-radius: 50%; }
+  #donations .flex_box .information {
+    padding-left: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
