@@ -45,11 +45,19 @@ module.exports = {
             }
             chargesArray[i].number = i
           }
-          // So all the user info along with the
-          var splitName = req.user.username.split(' ')
-          var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-          req.user.initials = initials
-          res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray});
+          // Es seach should go here though
+          models.users.findAll({where: {address_city: '3'}}).then(function(recommendedUsers) {
+            var users = []
+            for(var i = 0; i < 4; i++) {
+              users.push(recommendedUsers[i].get())
+            }
+            users[0].first = true // Allowing us to easily mark the first as the active item for mobile
+            // So all the user info along with the
+            var splitName = req.user.username.split(' ')
+            var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+            req.user.initials = initials
+            res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
+          })
         })
       })
     });

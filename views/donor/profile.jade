@@ -91,57 +91,62 @@ block content
       #other-students
         .header
           h1 Other students to support
-          #student-mobile-layout.desktop
-            .student-div.left
-              .image
-                img(src=user.profile_picture)
-              .information
-                .name
-                  span= user.username
-                  span, 21
-                .progress-bar
-                  .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-                .description
-                  span.percent-funded 23% funded
-                  span.amount-left £315 to go
-                  br
-                  .bio
-                      p.line-clamp= user.description
-            .student-div.right
-              .image
-                img(src=user.profile_picture)
-              .information
-                .name
-                  span= user.username
-                  span, 21
-                .progress-bar
-                  .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-                .description
-                  span.percent-funded 23% funded
-                  span.amount-left £315 to go
-                  br
-                  .bio
-                      p.line-clamp= user.description
+          #student-desktop-layout.desktop
+            each user in users
+              .student-div
+                .image
+                  img(src=user.profile_picture)
+                .information
+                  .name
+                    span= user.username
+                    span, 21
+                  .progress-bar
+                    .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                  .description
+                    span.percent-funded 23% funded
+                    span.amount-left £315 to go
+                    br
+                    .bio
+                        p.line-clamp= user.description
           // ** CAROUSEL START
           #student-carousel.carousel.slide.mobile(data-ride='carousel', data-interval='30000')
             // Wrapper for slides
             .carousel-inner
-              .item.active
-                .student-div
-                  .image
-                    img(src=user.profile_picture)
-                  .information
-                    .name
-                      span= user.username
-                      span, 21
-                    .progress-bar
-                      .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-                    .description
-                      span.percent-funded 23% funded
-                      span.amount-left £315 to go
-                      br
-                      .bio
-                          p.line-clamp= user.description
+              each user in users
+                if user.first
+                  .item.active
+                    .student-div
+                      .image
+                        img(src=user.profile_picture)
+                      .information
+                        .name
+                          span= user.username
+                          span, 21
+                        .progress-bar
+                          .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                        .description
+                          span.percent-funded 23% funded
+                          span.amount-left £315 to go
+                          br
+                          .bio
+                              p.line-clamp= user.description
+                else
+                  .item
+                    .student-div
+                      .image
+                        img(src=user.profile_picture)
+                      .information
+                        .name
+                          span= user.username
+                          span, 21
+                        .progress-bar
+                          .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                        .description
+                          span.percent-funded 23% funded
+                          span.amount-left £315 to go
+                          br
+                          .bio
+                              p.line-clamp= user.description              
               //- .item
               //- .item
             // Controls
