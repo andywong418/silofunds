@@ -106,23 +106,18 @@ body {
       }
       .description {
         margin-top: 5px;
-        .subject {
+        .percent-funded, .amount-left {
           float: left;
-          width: 46%;
+          margin-left: 2%;
+          font-family: Montserrat;
+          color: rgba(0, 0, 0, 0.8);
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
         }
-        .divide {
-          text-align: center;
-          width: 8%;
-        }
-        .university {
+        .amount-left {
           float: right;
-          width: 46%;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
+          margin-right: 2%;
         }
         .bio {
           margin: 5px 0px;

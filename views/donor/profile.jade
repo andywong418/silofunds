@@ -92,7 +92,6 @@ block content
             // Wrapper for slides
             .carousel-inner.student-div
               .item.active
-                // carousel content      
                 .image
                   img(src=user.profile_picture)
                 .information
@@ -102,20 +101,19 @@ block content
                   .progress-bar
                     .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
                   .description
-                    span.subject #{user.subject}
-                    span.divide //
-                    span.university #{user.target_university}
+                    span.percent-funded 23% funded
+                    span.amount-left £315 to go
                     br
                     .bio
                         p.line-clamp= user.description
-              .item
-                img(src='http://placehold.it/1200x315', alt='...')
-                .carousel-caption
-                  h3 Caption Text
-              .item
-                img(src='http://placehold.it/1200x315', alt='...')
-                .carousel-caption
-                  h3 Caption Text
+              //- .item
+              //-   img(src='http://placehold.it/1200x315', alt='...')
+              //-   .carousel-caption
+              //-     h3 Caption Text
+              //- .item
+              //-   img(src='http://placehold.it/1200x315', alt='...')
+              //-   .carousel-caption
+              //-     h3 Caption Text
             // Controls
             a.left.carousel-control(href='#student-carousel', role='button', data-slide='prev')
               span.glyphicon.glyphicon-chevron-left
