@@ -62,6 +62,14 @@ body {
 }
 
 #other-students {
+  #student-carousel {
+    .carousel-control.left, .carousel-control.right {
+      background-image: none
+    }
+    .carousel-indicators li {
+      visibility: hidden;
+    }
+  }
   .student-div {
     display: flex;
     flex-direction: column;

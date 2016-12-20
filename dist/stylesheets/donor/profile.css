@@ -959,6 +959,12 @@ body {
   .main-content .header p.bio {
     font-size: 15px; }
 
+#other-students #student-carousel .carousel-control.left, #other-students #student-carousel .carousel-control.right {
+  background-image: none; }
+
+#other-students #student-carousel .carousel-indicators li {
+  visibility: hidden; }
+
 #other-students .student-div {
   display: -webkit-box;
   display: -ms-flexbox;

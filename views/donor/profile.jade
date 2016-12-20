@@ -81,23 +81,47 @@ block content
       #other-students
         .header
           h1 Other students to support
-        a(href='/public/' + user.id)
-        .student-div
-          .image
-            img(src=user.profile_picture)
-          .information
-            .name
-              span= user.username
-              span, 21
-            .progress-bar
-              .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-            .description
-              span.subject #{user.subject}
-              span.divide //
-              span.university #{user.target_university}
-              br
-              .bio
-                p.line-clamp= user.description
+          // Carousel
+          #student-carousel.carousel.slide(data-ride='carousel')
+            // Indicators
+            //- ol.carousel-indicators
+            //-   li.active(data-target='#student-carousel', data-slide-to='0', data-interval="3000")
+            //-   li(data-target='#student-carousel', data-slide-to='1')
+            //-   li(data-target='#student-carousel', data-slide-to='2')
+            
+            // Wrapper for slides
+            .carousel-inner.student-div
+              .item.active
+                // carousel content      
+                .image
+                  img(src=user.profile_picture)
+                .information
+                  .name
+                    span= user.username
+                    span, 21
+                  .progress-bar
+                    .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                  .description
+                    span.subject #{user.subject}
+                    span.divide //
+                    span.university #{user.target_university}
+                    br
+                    .bio
+                        p.line-clamp= user.description
+              .item
+                img(src='http://placehold.it/1200x315', alt='...')
+                .carousel-caption
+                  h3 Caption Text
+              .item
+                img(src='http://placehold.it/1200x315', alt='...')
+                .carousel-caption
+                  h3 Caption Text
+            // Controls
+            a.left.carousel-control(href='#student-carousel', role='button', data-slide='prev')
+              span.glyphicon.glyphicon-chevron-left
+            a.right.carousel-control(href='#student-carousel', role='button', data-slide='next')
+              span.glyphicon.glyphicon-chevron-right
+          // Carousel
               
       #donations
         .header
