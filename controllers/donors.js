@@ -9,6 +9,10 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function() {
       // We need to get all the donation information
       var user = req.user
+      // Reformat date
+      separateDate = reformatDate(user.date_of_birth)
+      newDate = separateDate.split('-').reverse().join('/')
+      user.date_of_birth = newDate
       models.stripe_charges.findAll({where: {donor_id: user.donor_id}}).then(function(charges) {
         var chargesArray = []
         for(var i = 0; i < charges.length; i++) {
@@ -34,6 +38,7 @@ module.exports = {
                 chargesArray[i] = usersArray[j]
               }
             }
+            chargesArray[i].number = i
           }
           // So all the user info along with the
           var splitName = req.user.username.split(' ')
@@ -89,3 +94,15 @@ module.exports = {
     res.redirect('/login');
   }
 }
+
+function reformatDate(date) {
+  var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
+  var dd = date.getDate();
+  var yyyy = date.getFullYear();
+  mm = mm.toString(); // Prepare for comparison below
+  dd = dd.toString();
+  mm = mm.length > 1 ? mm : '0' + mm;
+  dd = dd.length > 1 ? dd : '0' + dd;
+  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  return reformattedDate;
+};
