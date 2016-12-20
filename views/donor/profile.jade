@@ -79,23 +79,24 @@ block content
       #donations
         .header
           h1 Your Donations
-          if charges
-            each user in charges
-              .flex_box
-                .image(class=user.number)
-                  if(user.profile_picture)
-                    img(src=user.profile_picture)
-                  else
-                    .initials.circle(class=user.number)= user.initials
-                .information
-                  .basic-info
-                    span £#{user.amount}
-                    a(href='/public/' + '#{user.id}')
-                      p= user.username
-                    span= user.chargeDate
-          else
-            p.donations.else You haven't made any donations yet.
-              a(href='/results/users') Search for students now!
+          .donation-container
+            if charges
+              each user in charges
+                .flex_box
+                  .image(class=user.number)
+                    if(user.profile_picture)
+                      img(src=user.profile_picture)
+                    else
+                      .initials.circle(class=user.number)= user.initials
+                  .information
+                    .basic-info
+                      span £#{user.amount}
+                      a(href='/public/' + '#{user.id}')
+                        p= user.username
+                      span= user.chargeDate
+            else
+              p.donations.else You haven't made any donations yet.
+                a(href='/results/users') Search for students now!
           
         
 

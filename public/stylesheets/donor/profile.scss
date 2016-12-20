@@ -68,24 +68,30 @@ body {
       border-bottom: 1px solid #e1e8ed;
     }
   }
-  .flex_box {
-    border: 1px solid #e1e8ed;
-    background-color: white;
-    margin-bottom: 6px;
-    align-items: center;
-    display: flex;
-    padding: 5px;
-    img, .initials.circle {
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      background-color: orange;
-      border-radius: 50%;
-    }
-    .information {
-      padding-left: 15px;
+  .donation-container {
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+    .flex_box {
+      border: 1px solid #e1e8ed;
+      background-color: white;
+      margin-bottom: 6px;
+      align-items: center;
       display: flex;
+      padding: 5px;
+      img, .initials.circle {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        border-radius: 50%;
+      }
+      .information {
+        padding-left: 15px;
+        display: flex;
+      }
     }
   }
 }
