@@ -1024,6 +1024,7 @@ body {
         margin: 5px 0px;
         font-size: 13px; }
       #other-students .student-div .information .description .line-clamp {
+        font-size: 16px;
         text-align: center;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1128,4 +1129,26 @@ body {
   .heading.main-info .other {
     font-size: 18px;
     color: rgba(0, 0, 0, 0.7);
-    margin-top: 4px; } }
+    margin-top: 4px; }
+  .main-content .header h1 {
+    font-size: 27px; }
+  .main-content .header p {
+    font-size: 18px; }
+  .main-content #story p {
+    font-size: 18px; }
+  .main-content #donations, .main-content #other-students {
+    margin-top: 200px; }
+  .main-content #donations {
+    width: 40%;
+    float: right;
+    margin-top: 20px;
+    padding-top: 20px; }
+  .main-content #other-students {
+    width: 56%;
+    float: left; }
+    .main-content #other-students .student-div {
+      width: 49%; }
+    .main-content #other-students .left {
+      float: left; }
+    .main-content #other-students .right {
+      float: right; } }

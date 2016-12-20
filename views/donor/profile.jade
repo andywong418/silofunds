@@ -91,12 +91,43 @@ block content
       #other-students
         .header
           h1 Other students to support
+          #student-mobile-layout.desktop
+            .student-div.left
+              .image
+                img(src=user.profile_picture)
+              .information
+                .name
+                  span= user.username
+                  span, 21
+                .progress-bar
+                  .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                .description
+                  span.percent-funded 23% funded
+                  span.amount-left £315 to go
+                  br
+                  .bio
+                      p.line-clamp= user.description
+            .student-div.right
+              .image
+                img(src=user.profile_picture)
+              .information
+                .name
+                  span= user.username
+                  span, 21
+                .progress-bar
+                  .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                .description
+                  span.percent-funded 23% funded
+                  span.amount-left £315 to go
+                  br
+                  .bio
+                      p.line-clamp= user.description
           // ** CAROUSEL START
           #student-carousel.carousel.slide.mobile(data-ride='carousel', data-interval='30000')
             // Wrapper for slides
             .carousel-inner
               .item.active
-                .student-div.left
+                .student-div
                   .image
                     img(src=user.profile_picture)
                   .information
@@ -111,21 +142,6 @@ block content
                       br
                       .bio
                           p.line-clamp= user.description
-                .student-div.right
-                  .image
-                    img(src=charges[0].profile_picture)
-                  .information
-                    .name
-                      span= charges[0].username
-                      span, 21
-                    .progress-bar
-                      .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-                    .description
-                      span.percent-funded 22% funded
-                      span.amount-left £3125 to go
-                      br
-                      .bio
-                          p.line-clamp= charges[0].description
               //- .item
               //- .item
             // Controls
