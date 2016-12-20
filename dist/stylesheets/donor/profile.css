@@ -919,6 +919,9 @@ body {
 .container {
   margin-bottom: 100px; }
 
+.hide {
+  display: none; }
+
 .heading {
   margin-top: 70px;
   padding-top: 15px;
@@ -1014,9 +1017,9 @@ body {
       height: 8px;
       border-radius: 100px;
       width: 100%; }
-      #other-students .student-div .information .progress-bar #another-one {
+      #other-students .student-div .information .progress-bar .another-one {
         height: 100%;
-        width: 20%;
+        width: 0%;
         box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
         background-color: #55e6a5; }
     #other-students .student-div .information .description {

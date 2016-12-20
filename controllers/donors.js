@@ -53,6 +53,18 @@ module.exports = {
               for(var i = 0; i < 2; i++) {
                 users.push(recommendedUsers[i].get())
               }
+              for(var i = 0; i < 2; i++) {
+                users[i].number = i.toString()
+              }
+              for(var i = 0; i < 2; i++) {
+                if(users[i].funding_accrued !== null && users[i].funding_needed !== null) {
+                  var accrued = users[i].funding_accrued
+                  var needed = users[i].funding_needed
+                  var percentage = (100*accrued)/needed
+                  users[i].percentage = percentage
+                  users[i].width = 'width: ' + percentage.toString() + '%'
+                }
+              }
               users[0].first = true // Allowing us to easily mark the first as the active item for mobile
             }
             // So all the user info along with the
