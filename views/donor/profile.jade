@@ -82,17 +82,17 @@ block content
           if charges
             each user in charges
               .flex_box
-                .image
+                .image(class=user.number)
                   if(user.profile_picture)
                     img(src=user.profile_picture)
                   else
-                    .initials.circle= user.initials
+                    .initials.circle(class=user.number)= user.initials
                 .information
                   .basic-info
                     span £#{user.amount}
                     a(href='/public/' + '#{user.id}')
                       p= user.username
-                  //- span= user.chargeDate
+                    span= user.chargeDate
           else
             p.donations.else You haven't made any donations yet.
               a(href='/results/users') Search for students now!
@@ -106,6 +106,7 @@ block scripts
   script(src='/javascript/notifications.js')
   script(src='/javascript/signup-login.js')
   script(src='/javascript/user-crowdfunding.js')
+  script(src='/javascript/donor/profile.js')
   script.
     var user = !{JSON.stringify(user)}
     console.log(user)

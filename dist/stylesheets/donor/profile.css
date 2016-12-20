@@ -931,7 +931,7 @@ body {
     font-size: 55px;
     text-align: center;
     border-radius: 50%;
-    background-color: #19B5FE;
+    background-color: #3399FF;
     color: white; }
   .heading .info-div {
     padding-left: 20px; }
@@ -940,7 +940,7 @@ body {
     .heading .info-div .add {
       font-size: 12px;
       cursor: pointer;
-      color: #19B5FE; }
+      color: #3399FF; }
     .heading .info-div .add:hover {
       text-decoration: none;
       color: #2d4a76; }

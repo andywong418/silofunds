@@ -847,34 +847,26 @@ module.exports = {
         documents = documents.map(function(document) {
           return document.get();
         });
-
         for (var i = 0; i < documents.length; i++) {
           var document = documents[i];
-
           document.count = i + 1;
         }
         Logger.info(documents);
-
         var numberRemainingPastWorkDivs = 5 - documents.length;
         var remainingPastWorkDivs = [];
-
         if (numberRemainingPastWorkDivs > 0) {
           for (var j = documents.length; j < 5; j++) {
             var id = j + 1;
-
             remainingPastWorkDivs.push(id.toString());
           }
         }
-
         var user = req.user;
         if (user.date_of_birth) {
           user.date_of_birth = reformatDate(user.date_of_birth);
         }
-
         if (user.completion_date) {
           user.completion_date = reformatDate(user.completion_date);
         }
-
         res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
       });
     });
@@ -2056,7 +2048,6 @@ function reformatDate(date) {
   dd = dd.toString();
   mm = mm.length > 1 ? mm : '0' + mm;
   dd = dd.length > 1 ? dd : '0' + dd;
-
   var reformattedDate = yyyy + "-" + mm + "-" + dd;
   return reformattedDate;
 };
