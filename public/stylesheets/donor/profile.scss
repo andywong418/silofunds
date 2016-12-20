@@ -97,6 +97,27 @@ body {
           background-color: rgb(85, 230, 165);
         }
       }
+      .description {
+        margin-top: 5px;
+        .subject {
+          float: left;
+        }
+        .university {
+          float: right;
+        }
+        .bio {
+          margin: 5px 0px;
+          font-size: 13px;
+        }
+        .line-clamp {
+          text-align: center;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+        }
+      }
     }
   }
 }

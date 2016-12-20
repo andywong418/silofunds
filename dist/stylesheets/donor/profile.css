@@ -1000,6 +1000,22 @@ body {
         width: 20%;
         box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
         background-color: #55e6a5; }
+    #other-students .student-div .information .description {
+      margin-top: 5px; }
+      #other-students .student-div .information .description .subject {
+        float: left; }
+      #other-students .student-div .information .description .university {
+        float: right; }
+      #other-students .student-div .information .description .bio {
+        margin: 5px 0px;
+        font-size: 13px; }
+      #other-students .student-div .information .description .line-clamp {
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical; }
 
 #donations .header h1 {
   margin-bottom: 8px;

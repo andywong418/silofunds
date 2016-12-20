@@ -87,11 +87,15 @@ block content
           .information
             .name
               span= user.username
+              span, 21
             .progress-bar
-              //- .progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
               .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
             .description
-              span= user.description
+              span.subject #{user.subject}
+              span.university #{user.target_university}
+              br
+              .bio
+                p.line-clamp= user.description
               
       #donations
         .header
