@@ -9,8 +9,8 @@ block content
   script.
     window.fbAsyncInit = function() {
       FB.init({
-          appId	: '506830149486287',
-          xfbml	: true,
+          appId  : '506830149486287',
+          xfbml  : true,
           status : true,
           cookie : true,
           version: 'v2.5'
@@ -48,7 +48,7 @@ block content
     .heading.main-info
       .profile_picture
         if user.profile_picture
-          img
+          img(src=user.profile_picture)
         else 
           .initials.circle= user.initials
       .info-div
@@ -72,10 +72,27 @@ block content
         else 
           p.bio.else You haven't added a bio yet. 
             a(href='/donor/settings') Update your profile now
+            
       #updates
         .header
           h1 Updates
           p.updates You don't have any updates at the moment.
+          
+      #other-students
+        .header
+          h1 Other students to support
+        .student-div
+          .image
+            img(src=user.profile_picture)
+          .information
+            .name
+              span= user.username
+            .progress-bar
+              //- .progress-bar#initial-bar(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+              .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+            .description
+              span= user.description
+              
       #donations
         .header
           h1 Your Donations

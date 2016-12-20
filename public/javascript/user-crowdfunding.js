@@ -416,8 +416,7 @@ $(document).ready(function() {
       if(percentage + addedPercentage > 100){
         var maxPercentage = 99 - Math.floor((user.funding_accrued/ user.funding_needed) * 100);
         $('#another-one').animate({width: maxPercentage + '%'});
-      }
-      else{
+      } else {
         $('#another-one').animate({width: addedPercentage + '%'});
       }
       $('#raised').html('£' + newAmount + "<span> of " + user.funding_needed + " reached");
