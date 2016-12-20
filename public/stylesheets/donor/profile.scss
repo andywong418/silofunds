@@ -33,7 +33,7 @@ body {
       font-size: 25px;
     }
     .break {
-      margin: 0px 3px;
+      margin: 0px 8px;
     }
     .add {
       font-size: 12px;
@@ -206,7 +206,12 @@ body {
     display: none;
   }
   .mobile {
-    display: block;
+    display: block !important;
+  }
+  @media (min-width: 550px) {
+    #student-carousel {
+      padding: 0px 25px;
+    }
   }
 }
 @media (min-width: 650px) {
@@ -269,7 +274,7 @@ body {
       width: 100%;
       overflow: hidden;
       clear: both;
-      margin-top: 60px;
+      margin-top: 40px;
       border: 1px solid #e1e8ed;
       border-radius: none;
       background-color: white;

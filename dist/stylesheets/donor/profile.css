@@ -941,7 +941,7 @@ body {
     .heading .info-div .name {
       font-size: 25px; }
     .heading .info-div .break {
-      margin: 0px 3px; }
+      margin: 0px 8px; }
     .heading .info-div .add {
       font-size: 12px;
       cursor: pointer;
@@ -1088,7 +1088,11 @@ body {
   .desktop {
     display: none; }
   .mobile {
-    display: block; } }
+    display: block !important; } }
+
+@media (max-width: 650px) and (min-width: 550px) {
+  #student-carousel {
+    padding: 0px 25px; } }
 
 @media (min-width: 650px) {
   .mobile {
@@ -1130,7 +1134,7 @@ body {
     width: 100%;
     overflow: hidden;
     clear: both;
-    margin-top: 60px;
+    margin-top: 40px;
     border: 1px solid #e1e8ed;
     border-radius: none;
     background-color: white;
