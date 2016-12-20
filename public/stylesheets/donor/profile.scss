@@ -6,6 +6,10 @@ body {
   background-color: #f0f2f4;
 }
 
+.container {
+  margin-bottom: 100px;
+}
+
 .heading {
   margin-top: 70px;
   padding-top: 15px;
@@ -195,10 +199,16 @@ body {
   .desktop {
     display: none;
   }
+  .mobile {
+    display: block;
+  }
 }
 @media (min-width: 650px) {
   .mobile {
     display: none;
+  }
+  .desktop {
+    display: block;
   }
   .container {
     width: 94%;
@@ -248,9 +258,33 @@ body {
       width: 40%;
       margin-top: 0;
     }
+    #donations {
+      clear: both;
+      padding-top: 30px;
+      #donation-banner {
+        p {
+          border-bottom: 1px solid #e1e8ed;
+          font-size: 22px;
+          padding: 10px 0;
+          border-radius: 3px;
+          i {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
     #other-students {
       clear: both;
       padding-top: 20px;
+      .student-div {
+        width: 49%;
+      }
+      .left {
+        float: left;
+      }
+      .right {
+        float: right;
+      }
     }
   }
 }
@@ -299,10 +333,18 @@ body {
       margin-top: 200px;
     }
     #donations {
+      clear: none;
       width: 40%;
       float: right;
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: 80px;
+      border: 1px solid #e1e8ed;
+      background-color: white;
+      padding: 0px 10px;
+      .flex_box {
+        border: none;
+        width: 96%;
+        margin-left: 2%;
+      }
     }
     #other-students {
       width: 56%;

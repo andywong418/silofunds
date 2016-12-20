@@ -153,7 +153,9 @@ block content
               
       #donations
         .header
-          h1 Your Donations
+          #donation-banner
+            p Recent donations
+              i.fa.fa-caret-down(aria-hidden="true")
           .donation-container
             if charges
               each user in charges

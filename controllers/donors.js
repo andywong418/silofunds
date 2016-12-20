@@ -5,6 +5,11 @@ require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 
 module.exports = {
+
+  register: function(req, res) {
+    res.render('donor/register')
+  },
+
   profile: function(req, res) {
     passportFunctions.ensureAuthenticated(req, res, function() {
       // We need to get all the donation information
@@ -50,8 +55,8 @@ module.exports = {
     });
   },
 
-  register: function(req, res) {
-    res.render('donor/register')
+  settings: function(req, res) {
+    res.render('donor/settings')
   },
 
   // register: function(req, res) {
