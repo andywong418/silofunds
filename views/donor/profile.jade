@@ -94,8 +94,9 @@ block content
           #student-desktop-layout.desktop
             each user in users
               .student-div
-                .image
-                  img(src=user.profile_picture)
+                a(href='/public/' + user.id)
+                  .image
+                    img(src=user.profile_picture)
                 .information
                   .name
                     span= user.username
