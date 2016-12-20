@@ -967,7 +967,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  border: 1px solid #e1e8ed;
   background-color: #f0f2f4;
   border-radius: 0px 0px 3px 3px; }
   #other-students .student-div img {
@@ -1003,9 +1002,20 @@ body {
     #other-students .student-div .information .description {
       margin-top: 5px; }
       #other-students .student-div .information .description .subject {
-        float: left; }
+        float: left;
+        width: 46%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden; }
+      #other-students .student-div .information .description .divide {
+        text-align: center;
+        width: 8%; }
       #other-students .student-div .information .description .university {
-        float: right; }
+        float: right;
+        width: 46%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden; }
       #other-students .student-div .information .description .bio {
         margin: 5px 0px;
         font-size: 13px; }
@@ -1048,4 +1058,11 @@ body {
       padding-left: 15px;
       display: -webkit-box;
       display: -ms-flexbox;
-      display: flex; }
+      display: flex;
+      width: 100%; }
+      #donations .donation-container .flex_box .information .basic-info {
+        width: 100%; }
+      #donations .donation-container .flex_box .information .amount {
+        float: left; }
+      #donations .donation-container .flex_box .information .date {
+        float: right; }

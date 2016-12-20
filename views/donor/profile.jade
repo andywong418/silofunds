@@ -81,6 +81,7 @@ block content
       #other-students
         .header
           h1 Other students to support
+        a(href='/public/' + user.id)
         .student-div
           .image
             img(src=user.profile_picture)
@@ -92,6 +93,7 @@ block content
               .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
             .description
               span.subject #{user.subject}
+              span.divide //
               span.university #{user.target_university}
               br
               .bio
@@ -111,10 +113,11 @@ block content
                       .initials.circle(class=user.number)= user.initials
                   .information
                     .basic-info
-                      span £#{user.amount}
+                      span.amount £#{user.amount}
+                      span.date= user.chargeDate
+                      br
                       a(href='/public/' + '#{user.id}')
                         p= user.username
-                      span= user.chargeDate
             else
               p.donations.else You haven't made any donations yet.
                 a(href='/results/users') Search for students now!

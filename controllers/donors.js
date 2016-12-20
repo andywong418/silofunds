@@ -31,7 +31,7 @@ module.exports = {
             for(var j = 0; j < usersArray.length; j++) {
               if(chargesArray[i].user_id == usersArray[j].id) {
                 usersArray[j].amount = chargesArray[i].amount
-                usersArray[j].chargeDate = chargesArray[i].created_at
+                usersArray[j].chargeDate = reformatDate(chargesArray[i].created_at)
                 var splitName = usersArray[j].username.split(' ')
                 var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
                 usersArray[j].initials = initials
@@ -96,6 +96,8 @@ module.exports = {
 }
 
 function reformatDate(date) {
+  console.log(date)
+
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();
   var yyyy = date.getFullYear();
@@ -103,6 +105,6 @@ function reformatDate(date) {
   dd = dd.toString();
   mm = mm.length > 1 ? mm : '0' + mm;
   dd = dd.length > 1 ? dd : '0' + dd;
-  var reformattedDate = yyyy + "-" + mm + "-" + dd;
+  var reformattedDate = dd + "/" + mm + "/" + yyyy;
   return reformattedDate;
 };
