@@ -955,7 +955,7 @@ body {
 .main-content {
   margin-top: 20px; }
   .main-content #updates, .main-content #donations {
-    margin-top: 40px; }
+    margin-top: 25px; }
   .main-content .header h1 {
     color: rgba(0, 0, 0, 0.77);
     text-transform: capitalize;
@@ -1044,45 +1044,60 @@ body {
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical; }
 
-#donations .header h1 {
-  margin-bottom: 8px;
-  border-bottom: 1px solid #e1e8ed; }
-
-#donations .donation-container {
-  max-height: 300px;
+#donations {
+  display: inline-block;
+  width: 100%;
   overflow: hidden;
-  overflow-y: scroll; }
-  #donations .donation-container .flex_box {
-    border: 1px solid #e1e8ed;
-    background-color: white;
-    margin-bottom: 6px;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding: 5px; }
-    #donations .donation-container .flex_box img, #donations .donation-container .flex_box .initials.circle {
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 20px;
-      color: white;
-      text-align: center;
-      border-radius: 50%; }
-    #donations .donation-container .flex_box .information {
-      padding-left: 15px;
+  clear: both;
+  margin-top: 40px;
+  border: 1px solid #e1e8ed;
+  border-radius: none;
+  background-color: white;
+  padding: 0px 15px; }
+  #donations .header h1 {
+    margin-bottom: 8px;
+    border-bottom: 1px solid #e1e8ed; }
+  #donations #donation-banner p {
+    border-bottom: 1px solid #e1e8ed;
+    font-size: 22px;
+    padding: 10px 0;
+    border-radius: 3px; }
+    #donations #donation-banner p i {
+      margin-left: 5px; }
+  #donations .donation-container {
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll; }
+    #donations .donation-container .flex_box {
+      background-color: white;
+      margin-bottom: 6px;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      width: 100%; }
-      #donations .donation-container .flex_box .information .basic-info {
+      padding: 5px; }
+      #donations .donation-container .flex_box img, #donations .donation-container .flex_box .initials.circle {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        border-radius: 50%; }
+      #donations .donation-container .flex_box .information {
+        padding-left: 15px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
         width: 100%; }
-      #donations .donation-container .flex_box .information .amount {
-        float: left; }
-      #donations .donation-container .flex_box .information .date {
-        float: right; }
+        #donations .donation-container .flex_box .information .basic-info {
+          width: 100%; }
+        #donations .donation-container .flex_box .information .amount {
+          float: left; }
+        #donations .donation-container .flex_box .information .date {
+          float: right; }
 
 @media (max-width: 650px) {
   .desktop {
@@ -1129,26 +1144,9 @@ body {
     float: right;
     width: 40%;
     margin-top: 0; }
-  .main-content #donations {
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    clear: both;
-    margin-top: 40px;
-    border: 1px solid #e1e8ed;
-    border-radius: none;
-    background-color: white;
-    padding: 0px 15px; }
-    .main-content #donations #donation-banner p {
-      border-bottom: 1px solid #e1e8ed;
-      font-size: 22px;
-      padding: 10px 0;
-      border-radius: 3px; }
-      .main-content #donations #donation-banner p i {
-        margin-left: 5px; }
-    .main-content #donations .flex_box {
-      padding: 4px 15px;
-      border: none; }
+  .main-content #donations .flex_box {
+    padding: 4px 15px;
+    border: none; }
   .main-content #student-desktop-layout {
     display: -webkit-box;
     display: -ms-flexbox;

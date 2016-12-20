@@ -57,7 +57,7 @@ body {
 .main-content {
   margin-top: 20px;
   #updates, #donations {
-    margin-top: 40px;
+    margin-top: 25px;
   }
   .header {
     h1 {
@@ -160,12 +160,31 @@ body {
       border-bottom: 1px solid #e1e8ed;
     }
   }
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  clear: both;
+  margin-top: 40px;
+  border: 1px solid #e1e8ed;
+  border-radius: none;
+  background-color: white;
+  padding: 0px 15px;
+  #donation-banner {
+    p {
+      border-bottom: 1px solid #e1e8ed;
+      font-size: 22px;
+      padding: 10px 0;
+      border-radius: 3px;
+      i {
+        margin-left: 5px;
+      }
+    }
+  }
   .donation-container {
     max-height: 300px;
     overflow: hidden;
     overflow-y: scroll;
     .flex_box {
-      border: 1px solid #e1e8ed;
       background-color: white;
       margin-bottom: 6px;
       align-items: center;
@@ -270,26 +289,6 @@ body {
       margin-top: 0;
     }
     #donations {
-      display: inline-block;
-      width: 100%;
-      overflow: hidden;
-      clear: both;
-      margin-top: 40px;
-      border: 1px solid #e1e8ed;
-      border-radius: none;
-      background-color: white;
-      padding: 0px 15px;
-      #donation-banner {
-        p {
-          border-bottom: 1px solid #e1e8ed;
-          font-size: 22px;
-          padding: 10px 0;
-          border-radius: 3px;
-          i {
-            margin-left: 5px;
-          }
-        }
-      }
       .flex_box {
         padding: 4px 15px;
         border: none;
