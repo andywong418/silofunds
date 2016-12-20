@@ -259,8 +259,15 @@ body {
       margin-top: 0;
     }
     #donations {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
       clear: both;
-      padding-top: 30px;
+      margin-top: 60px;
+      border: 1px solid #e1e8ed;
+      border-radius: none;
+      background-color: white;
+      padding: 0px 15px;
       #donation-banner {
         p {
           border-bottom: 1px solid #e1e8ed;
@@ -271,6 +278,10 @@ body {
             margin-left: 5px;
           }
         }
+      }
+      .flex_box {
+        padding: 4px 15px;
+        border: none;
       }
     }
     #other-students {
@@ -340,10 +351,13 @@ body {
       border: 1px solid #e1e8ed;
       background-color: white;
       padding: 0px 10px;
-      .flex_box {
-        border: none;
-        width: 96%;
-        margin-left: 2%;
+      .donation-container {
+        max-height: 1000px;
+        .flex_box {
+          border: none;
+          width: 96%;
+          margin-left: 2%;
+        }
       }
     }
     #other-students {
