@@ -937,6 +937,8 @@ body {
     padding-left: 20px; }
     .heading .info-div .name {
       font-size: 25px; }
+    .heading .info-div .break {
+      margin: 0px 3px; }
     .heading .info-div .add {
       font-size: 12px;
       cursor: pointer;
@@ -944,6 +946,8 @@ body {
     .heading .info-div .add:hover {
       text-decoration: none;
       color: #2d4a76; }
+    .heading .info-div .other .university.title {
+      margin-right: 10px; }
 
 .main-content {
   margin-top: 20px; }
@@ -956,8 +960,6 @@ body {
     margin-bottom: 6px;
     font-size: 18px;
     border-bottom: 1px solid #e1e8ed; }
-  .main-content .header p.bio {
-    font-size: 15px; }
 
 #other-students #student-carousel .carousel-control.left, #other-students #student-carousel .carousel-control.right {
   background-image: none; }
@@ -1068,3 +1070,62 @@ body {
         float: left; }
       #donations .donation-container .flex_box .information .date {
         float: right; }
+
+@media (max-width: 650px) {
+  .desktop {
+    display: none; } }
+
+@media (min-width: 650px) {
+  .mobile {
+    display: none; }
+  .container {
+    width: 94%; }
+  .heading.main-info .profile_picture img {
+    width: 150px;
+    height: 150px; }
+  .heading.main-info .name {
+    font-size: 32px; }
+  .heading.main-info .bio {
+    margin-top: 4px;
+    font-size: 19px;
+    color: rgba(0, 0, 0, 0.7); }
+  .heading.main-info .add {
+    font-size: 17px; }
+  .heading.main-info .other {
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.7);
+    margin-top: 4px; }
+  .main-content .header h1 {
+    font-size: 25px; }
+  .main-content .header p {
+    font-size: 17px; }
+  .main-content #story {
+    float: left;
+    width: 56%; }
+    .main-content #story p {
+      font-size: 17px; }
+  .main-content #updates {
+    float: right;
+    width: 40%;
+    margin-top: 0; }
+  .main-content #other-students {
+    clear: both;
+    padding-top: 20px; } }
+
+@media (min-width: 1000px) {
+  .heading.main-info .profile_picture img {
+    width: 200px;
+    height: 200px;
+    margin-right: 20px; }
+  .heading.main-info .name {
+    font-size: 35px; }
+  .heading.main-info .bio {
+    margin-top: 4px;
+    font-size: 21px;
+    color: rgba(0, 0, 0, 0.7); }
+  .heading.main-info .add {
+    font-size: 18px; }
+  .heading.main-info .other {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
+    margin-top: 4px; } }

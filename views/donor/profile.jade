@@ -53,24 +53,34 @@ block content
           .initials.circle= user.initials
       .info-div
         .name= user.username
-        if user.date_of_birth
-          .dob= user.date_of_birth
-        else
-          a(href='/donor/settings')
-            .dob.add Add your date of birth
-        if user.country_of_residence
-          .country= user.country_of_residence
-        else
-          a(href='/donor/settings')
-            .country.add Add your country of resience
+        .bio Chief technology officer at "Company X", CEO of "Company Y"!
+        .other
+          if user.date_of_birth
+            span.dob= user.date_of_birth
+          else
+            a(href='/donor/settings')
+              span.dob.add Add your date of birth
+          span.break |
+          if user.country_of_residence
+            span.country= user.country_of_residence
+          else
+            a(href='/donor/settings')
+              span.country.add Add your country of resience
+          br
+          if user.previous_university
+            span.university.title Education:
+            span.university= user.previous_university
+          else
+            a(href='/donor/settings')
+              span.university.add Add your previous universities
     .main-content
-      #bio
+      #story
         .header
-          h1 Your Bio
-        if donor.bio
-          p.bio= donor.bio
+          h1 Your story
+        if donor.story
+          p.story= donor.story
         else 
-          p.bio.else You haven't added a bio yet. 
+          p.story.else You haven't added a story yet. 
             a(href='/donor/settings') Update your profile now
             
       #updates
@@ -81,45 +91,49 @@ block content
       #other-students
         .header
           h1 Other students to support
-          // Carousel
-          #student-carousel.carousel.slide(data-ride='carousel')
-            // Indicators
-            //- ol.carousel-indicators
-            //-   li.active(data-target='#student-carousel', data-slide-to='0', data-interval="3000")
-            //-   li(data-target='#student-carousel', data-slide-to='1')
-            //-   li(data-target='#student-carousel', data-slide-to='2')
-            
+          // ** CAROUSEL START
+          #student-carousel.carousel.slide.mobile(data-ride='carousel', data-interval='30000')
             // Wrapper for slides
-            .carousel-inner.student-div
+            .carousel-inner
               .item.active
-                .image
-                  img(src=user.profile_picture)
-                .information
-                  .name
-                    span= user.username
-                    span, 21
-                  .progress-bar
-                    .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
-                  .description
-                    span.percent-funded 23% funded
-                    span.amount-left £315 to go
-                    br
-                    .bio
-                        p.line-clamp= user.description
+                .student-div.left
+                  .image
+                    img(src=user.profile_picture)
+                  .information
+                    .name
+                      span= user.username
+                      span, 21
+                    .progress-bar
+                      .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                    .description
+                      span.percent-funded 23% funded
+                      span.amount-left £315 to go
+                      br
+                      .bio
+                          p.line-clamp= user.description
+                .student-div.right
+                  .image
+                    img(src=charges[0].profile_picture)
+                  .information
+                    .name
+                      span= charges[0].username
+                      span, 21
+                    .progress-bar
+                      .progress-bar#another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100')
+                    .description
+                      span.percent-funded 22% funded
+                      span.amount-left £3125 to go
+                      br
+                      .bio
+                          p.line-clamp= charges[0].description
               //- .item
-              //-   img(src='http://placehold.it/1200x315', alt='...')
-              //-   .carousel-caption
-              //-     h3 Caption Text
               //- .item
-              //-   img(src='http://placehold.it/1200x315', alt='...')
-              //-   .carousel-caption
-              //-     h3 Caption Text
             // Controls
             a.left.carousel-control(href='#student-carousel', role='button', data-slide='prev')
               span.glyphicon.glyphicon-chevron-left
             a.right.carousel-control(href='#student-carousel', role='button', data-slide='next')
               span.glyphicon.glyphicon-chevron-right
-          // Carousel
+          // CAROUSEL END **
               
       #donations
         .header

@@ -28,6 +28,9 @@ body {
     .name {
       font-size: 25px;
     }
+    .break {
+      margin: 0px 3px;
+    }
     .add {
       font-size: 12px;
       cursor: pointer;
@@ -37,9 +40,15 @@ body {
       text-decoration: none;
       color: #2d4a76;
     }
+    .other {
+      .university.title {
+        margin-right: 10px;
+      }
+    }
   }
   padding-bottom: 15px;
 }
+
 
 .main-content {
   margin-top: 20px;
@@ -54,9 +63,6 @@ body {
       margin-bottom: 6px;
       font-size: 18px;
       border-bottom: 1px solid #e1e8ed;
-    }
-    p.bio {
-      font-size: 15px;
     }
   }
 }
@@ -177,6 +183,101 @@ body {
           float: right;
         }
       }
+    }
+  }
+}
+
+
+
+// Mediaqueries
+@media (max-width: 650px) {
+  .desktop {
+    display: none;
+  }
+}
+@media (min-width: 650px) {
+  .mobile {
+    display: none;
+  }
+  .container {
+    width: 94%;
+  }
+  .heading.main-info {
+    .profile_picture {
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    }
+    .name {
+      font-size: 32px;
+    }
+    .bio {
+      margin-top: 4px;
+      font-size: 19px;
+      color: rgba(0, 0, 0, 0.7)
+    }
+    .add {
+      font-size: 17px;
+    }
+    .other {
+      font-size: 17px;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 4px;
+    }
+  }
+  .main-content {
+    .header {
+      h1 {
+        font-size: 25px;
+      }
+      p {
+        font-size: 17px;
+      }
+    }
+    #story {
+      float: left;
+      width: 56%;
+      p {
+        font-size: 17px;
+      }
+    }
+    #updates {
+      float: right;
+      width: 40%;
+      margin-top: 0;
+    }
+    #other-students {
+      clear: both;
+      padding-top: 20px;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .heading.main-info {
+    .profile_picture {
+      img {
+        width: 200px;
+        height: 200px;
+        margin-right: 20px;
+      }
+    }
+    .name {
+      font-size: 35px;
+    }
+    .bio {
+      margin-top: 4px;
+      font-size: 21px;
+      color: rgba(0, 0, 0, 0.7)
+    }
+    .add {
+      font-size: 18px;
+    }
+    .other {
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 4px;
     }
   }
 }
