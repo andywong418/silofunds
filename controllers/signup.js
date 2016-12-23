@@ -530,29 +530,37 @@ module.exports = {
 	verifyAddress: function(req, res){
 		var userId = req.user.id;
 		var heard_from = req.body.heard_from;
+		var institute_id = parseInt(req.body.affiliated_institute_id);
 		models.users.findById(userId).then(function(user){
 			user.update(req.body).then(function(user){
-				models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
-					if(row) {
-						res.send(row)
-					} else {
-						models.heard_froms.create({
-							user_id: userId
-						}).then(function(row) {
-							if(heard_from !== 'other' && heard_from !== '') {
-								row.update({heard_from: true}).then(function() {
-									res.send(user)
+				if(req.body.affiliated_institute_id){
+					models.affiliated_institutions.findById(institute_id).then(function(institute){
+						if(institute.affiliated_students && institute.affiliated_students.indexOf(userId) === -1){
+							var existingStudents = institute.affiliated_students;
+							console.log("existingStudents", existingStudents);
+							var newAffiliatedStudents = existingStudents.push(userId);
+							console.log("EXISTING STUDENTs", existingStudents);
+							institute.update({affiliated_students: existingStudents}).then(function(){
+								heardFromsSend(userId, user, heard_from, req, res);
+							})
+						}
+						else{
+							if(!institute.affiliated_students){
+								var emptyArray = [];
+								var newAffiliatedStudents = emptyArray.push(userId);
+								institute.update({affiliated_students: emptyArray}).then(function(){
+									heardFromsSend(userId, user, heard_from, req, res)
 								})
-							} else if (heard_from == 'other') {
-								row.update({heard_from: req.body.heard_other}).then(function() {
-									res.send(user)
-								})
-							} else {
-								res.send(user)
 							}
-						})
-					}
-				})
+							else{
+								heardFromsSend(userId, user, heard_from, req, res);
+							}
+						}
+					})
+				}
+				else{
+					heardFromsSend(userId, user, heard_from, req, res);
+				}
 			})
 		})
 	},
@@ -687,3 +695,27 @@ module.exports = {
 			})
 		}
 	};
+
+	function heardFromsSend(userId, user, heard_from, req, res){
+		models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
+			if(row) {
+				res.send(row)
+			} else {
+				models.heard_froms.create({
+					user_id: userId
+				}).then(function(row) {
+					if(heard_from !== 'other' && heard_from !== '') {
+						row.update({heard_from: true}).then(function() {
+							res.send(user)
+						})
+					} else if (heard_from == 'other') {
+						row.update({heard_from: req.body.heard_other}).then(function() {
+							res.send(user)
+						})
+					} else {
+						res.send(user)
+					}
+				})
+			}
+		})
+	}

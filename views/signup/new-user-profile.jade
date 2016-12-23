@@ -470,20 +470,21 @@ block content
 									option(value='Yemen') Yemen
 									option(value='Zambia') Zambia
 									option(value='Zimbabwe') Zimbabwe
-				//- #advertise-alumni-row.row
-				//- 	.col-sm-0.col-md-1
-				//- 	.col-sm-3.col-xs-4
-				//- 		p.description(style='display: inline; margin-right: 5px') *Affiliate with your institution
-				//- 		a(href='/explain-college-accounts', target='_blank',	style='background: none')
-				//- 			span.glyphicon.glyphicon-info-sign(style='top: 3px; margin-top: 9px')
-				//- 		p.error-check This is a compulsory field.						
-				//- 	.col-md-6.col-sm-8.col-xs-8(style='padding-left: 0')
-				//- 		.col-sm-3.col-xs-4(style='padding-left: 0')
-				//- 				label(for='true').radio-inline('padding-left: 0') Yes
-				//- 				input#true(type='radio', name='college_affiliation', value= 'true')
-				//- 			.col-sm-3.col-xs-4
-				//- 				label(for='false').radio-inline No
-				//- 				input#false(type='radio', name='college_affiliation', value='false')
+				#advertise-alumni-row.row
+					.col-sm-0.col-md-1
+					.col-sm-3.col-xs-4
+						p.description(style='display: inline; margin-right: 5px') *Affiliate with your institution
+						a(href='/explain-college-accounts', target='_blank',	style='background: none')
+							span.glyphicon.glyphicon-info-sign(style='top: 3px; margin-top: 9px')
+						p.none Leave blank if you do not want to connect with interested donors through your institution					
+					.col-md-6.col-sm-8.col-xs-10
+						.row(style='margin-top: 0; padding-top: 2px')
+							span.input-group-btn
+								select#affiliate_choose.form-control(data-placeholder='Choose a type...', name = "buffer_type")
+									option(value='') Choose from...
+									each institute in institutions
+										option(value=institute.id)= institute.name
+								
 				.row#refund-choice
 					.col-xs-1.col-sm-1.col-md-3
 					.col-md-1.col-xs-1

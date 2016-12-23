@@ -527,7 +527,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				refund = false;
 			}
 			console.log(this.model);
-			var college_affiliation = $('input[name=college_affiliation]:checked').val();
+			var affiliation = $('select#affiliate_choose').val();
 			var address_zip = this.$('input#address_zip').val();
 			var address_line1 =  this.$('input#address_line1').val();
 			console.log(address_zip);
@@ -547,7 +547,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 					"refund": refund,
 					"heard_from": $('#heard_from').val(),
 					"heard_other": $('input#heard_other').val(),
-					"college_affiliation": college_affiliation
+					"affiliated_institute_id": affiliation
 				};
 				$.post('/signup/address', addressData, function(data){
 					window.location = '/user/authorize';

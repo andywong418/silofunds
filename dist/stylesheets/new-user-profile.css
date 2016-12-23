@@ -1028,6 +1028,9 @@ body {
     #signup-wrapper #signup-form #advertise-alumni-row label {
       margin-top: -20px;
       margin-right: 10px; }
+    #signup-wrapper #signup-form #advertise-alumni-row .none {
+      margin-top: 10px;
+      font-size: 11px; }
     #signup-wrapper #signup-form #advertise-alumni-row .error-check {
       color: red;
       display: none; }

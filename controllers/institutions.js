@@ -4,6 +4,7 @@ var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
 var es = require('../elasticsearch');
+var async = require('async');
 
 module.exports = {
   signupPreStripe: function(req, res){
@@ -38,6 +39,13 @@ module.exports = {
                       "range":{
                         "completion_date": {
                           "gte": today
+                        }
+                      }
+                    },
+                    {
+                      "not":{
+                        "term":{
+                          "affiliated_institute_id": institution.id
                         }
                       }
                     }
@@ -83,7 +91,6 @@ module.exports = {
                   "match": {}
                 };
                 var field = relevantFields[i];
-                console.log("FIELD", field);
                 var queryString = user[relevantFields[i]].join(' ');
                 matchObj.match[field] = queryString;
                 queryOptions.filtered.query.bool.should.push(matchObj);
@@ -109,8 +116,8 @@ module.exports = {
               hash.id = hit._id;
               return hash;
             });
-            console.log("USERS", users);
-            res.render('institutions-dashboard', {user: user, institution: institution, users: users});
+            asyncShowAffiliatedStudents(institution, res, user, users);
+
           });
 
         });
@@ -122,3 +129,20 @@ module.exports = {
 
   }
 };
+
+function asyncShowAffiliatedStudents(institution, res, user, users){
+  var affiliatedStudents = institution.affiliated_students;
+  var studentDisplay = [];
+  console.log("YOU KNOW", affiliatedStudents);
+  async.each(affiliatedStudents, function(student, callback){
+    models.users.findById(student).then(function(affiliatedStudent){
+      console.log("STIDENT", affiliatedStudent);
+      affiliatedStudent = affiliatedStudent.get();
+      studentDisplay.push(affiliatedStudent);
+      callback();
+    });
+  }, function done(){
+    console.log("STUDENTS", studentDisplay);
+    res.render('institutions-dashboard', {user: user, institution: institution, users: users, affiliated_students: studentDisplay});
+  });
+}

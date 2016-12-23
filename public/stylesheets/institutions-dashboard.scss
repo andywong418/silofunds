@@ -8,17 +8,20 @@
   .student-card{
     margin-bottom: 150px;
     .student-pictures{
-      width: 250px;
-      height: 250px;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
+      width: 300px;
+      height: 300px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
     }
     .student-info{
+      box-shadow: 0 1px 3px 0 rgba(36,65,85,0.3);
       background: white;
       padding: 5px;
       padding-bottom: 10px;
-      width: 250px;
-      height: 200px;
+      width: 300px;
+      height: 150px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
       .name{
         font-size: 18px;
       }
@@ -30,4 +33,70 @@
     }
   }
 
+}
+
+.progress-div{
+  text-align: left;
+  .student-card{
+    cursor: pointer;
+    .student-pictures{
+      width: 300px;
+      height: 300px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    .student-info{
+      box-shadow: 0 1px 3px 0 rgba(36,65,85,0.3);
+      background: #f4f7f8;
+      padding: 5px;
+      padding-bottom: 10px;
+      width: 300px;
+      height: 150px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      .progress{
+        height: 10px;
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
+      .student-intro{
+        .student-name{
+          margin-bottom: 0;
+          font-size: 18px;
+          color: #244255;
+          text-decoration: underline;
+        }
+        .student_description{
+          line-height: normal !important;
+          margin-bottom: 0;
+          font-size: 16px;
+          color: #244255;
+          height: 60px;
+        }
+      }
+      .student-progress{
+        .col-md-3{
+          padding: 0;
+          span{
+            color: grey;
+          }
+        }
+      }
+      .funding_accrued, .percentage_accrued, .funding_left{
+        font-size: 15px;
+        display: inline;
+        color: #244255;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .name{
+        font-size: 18px;
+      }
+      .same-faculty, .same-college{
+        font-size: 16px;
+        color: grey;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }

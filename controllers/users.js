@@ -1585,7 +1585,11 @@ module.exports = {
     if(userId){
       models.users.findById(userId).then(function(user){
         user = user.get();
-        res.render('signup/new-user-profile', {user: user});
+        console.log("HI");
+        models.affiliated_institutions.findAll({where: {buffer_type:{$ne: 'charity_buffer'}}}).then(function(institutions){
+          console.log("ANOTHER", institutions);
+          res.render('signup/new-user-profile', {user: user, institutions: institutions});
+        });
       })
     }
     else{

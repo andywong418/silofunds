@@ -10,6 +10,8 @@ block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
+    var students = !{JSON.stringify(affiliated_students)}
+    console.log(students)
     if(user){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
       windowPortWidth = window.innerWidth;
@@ -25,13 +27,41 @@ block content
     if !institution.affiliated_students
       if user.college || user.previous_university || user.subject
         p Start directing prospective students and alumni onto Silo!
+    else
+      .wrapper-div
+        .progress-div
+          script#student-template(type='text/template')
+            .col-md-3.student-card
+              img.student-pictures(src!= '<%=profile_picture%>')
+              .student-info
+                .student-intro
+                  p.student-name <%= username %>
+                  p.student_description <%= student_description %>
+                .progress-bar
+                .progress
+                  .progress-bar.active#initial-bar(role='progressbar',	aria-valuemin='0', aria-valuemax='100', aria-valuenow="70")
+                .student-progress
+                  .row
+                    .col-md-3
+                      p.percentage_accrued <%= percentage_accrued %>
+                      span  funded
+                    .col-md-3
+                      p.funding_accrued <%= funding_accrued %>
+                      span  raised
+                    .col-md-3
+                      p.funding_left <%= funding_left %>
+                      span  <%=variable_text%>
+            
+        
+  
   .col-md-12.recommended-students
     .row
       .col-xs-7
-       p#recommended-header Recommended users
+        if users.length > 0
+          p#recommended-header Recommended users
     .row
       each student in users
-        .col-md-3.student-card
+        .col-md-4.student-card
           if student.profile_picture
             img.student-pictures(src=student.profile_picture)
             .student-info
@@ -49,4 +79,10 @@ block content
               if student.college && user.college
                 p.same-college= 'Part of ' + student.college.join(', ')
   include ./partials/footer.jade
+
+block scripts
+  script(src='/javascript/advanced-search.js')
+  script(src='/javascript/signup-login.js')
+  script(src='/javascript/notifications.js')
+  script(src='/javascript/institution-dashboard.js')
           
