@@ -10,7 +10,7 @@ router.get('/register', donors.register)
 router.post('/register', passport.authenticate('registrationStrategy', {successRedirect: '/donor/profile', failureRedirect: '/donor/register'}))
 router.get('/profile', donors.profile)
 router.get('/settings', donors.settings)
-router.post('/transaction_complete', donors.transaction_complete)
+router.post('/transaction_complete', donors.transactionComplete)
 router.get('/logout', donors.logout)
 
 module.exports = router

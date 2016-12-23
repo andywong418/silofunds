@@ -644,14 +644,12 @@ module.exports = {
       } else {
         models.users.findById(req.params.id).then(function(user_viewed) {
           if(req.user) {
-            console.log('PLACE 1')
             if(req.user.id == user_viewed.id) {
               res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser})
             } else {
               res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
             }
           } else {
-            console.log('PLACE 2')
             res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
           }
         })
@@ -703,13 +701,12 @@ module.exports = {
 			if(created){
         models.funds.findById(fund_id).then(function(fund){
           models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
-            if(!user){
+            if(!user) {
               var transporter = nodemailer.createTransport(smtpTransport({
                service: 'Gmail',
                auth: {user: 'andros@silofunds.com',
                      pass: 'whatever418'}
               }));
-
               var locals = {
                 header: "Dear Sir/Madam,",
                 fund_title: fund.title,
@@ -717,10 +714,10 @@ module.exports = {
               };
               var templatePath = path.join(process.cwd(), 'email-templates/fund-application-notification-template');
               var template = new EmailTemplate(templatePath);
-              template.render(locals, function(err, results){
+              template.render(locals, function(err, results) {
                 if (err) {
-                   console.error(err);
-                   notifyUsers(user_id, fund_id, res, app);
+                  console.error(err);
+                  notifyUsers(user_id, fund_id, res, app);
                 }
                 transporter.sendMail({
                   from: 'Silofunds',
@@ -728,27 +725,22 @@ module.exports = {
                   subject: "Connecting students with your institution",
                   html: results.html
                 }, function(err, responseStatus){
-                  if (err) {
+                  if(err) {
                    console.error(err);
                    notifyUsers(user_id, fund_id, res, app);
-                  }
-                  else{
+                  } else {
                     console.log("SUCCESS");
                     console.log(responseStatus);
                     notifyUsers(user_id, fund_id, res, app);
                   }
-
                 });
               });
-            }
-            else{
+            } else {
               notifyUsers(user_id, fund_id, res, app);
             }
           });
         });
-
-			}
-			else{
+			} else {
 				res.send("Already applied!");
 			}
 		});
@@ -1174,7 +1166,6 @@ module.exports = {
       query.age = parseIfInt(query.age);
       var todayDate = new Date();
       var userBirthday = new Date();
-      console.log("TODAY", todayDate);
       var lowerBoundBirthDate = todayDate.getFullYear() - query.age - 5;
       var upperBoundBirthdate = todayDate.getFullYear() -query.age +5
       var lowerBirthdaySeconds = userBirthday.setFullYear(lowerBoundBirthDate);
@@ -1183,7 +1174,6 @@ module.exports = {
       var upperDate = new Date(upperBirthdaySeconds);
       query['lower_date'] = lowerDate.toISOString().split('T')[0];
       query['upper_date'] = upperDate.toISOString().split('T')[0];
-      console.log("birthday", query);
     }
     if (query.funding_needed) {
       query.funding_needed = parseIfInt(query.funding_needed);
@@ -1458,7 +1448,6 @@ module.exports = {
   },
 
   contact_us_email_organisation: function(req, res) {
-    console.log(req.body)
     var message = req.body.message
     var name = req.body.fund_name
     var email = req.body.email
@@ -1473,8 +1462,8 @@ module.exports = {
        subject: 'Question from ' + name + ' (organisation)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +
-           'with love from ' + name + ' xxx' + '\n\n\n'
-           + 'btw their email is ' + email
+           'From: ' + name + '\n\n\n'
+           + 'Email: ' + email
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
@@ -1503,7 +1492,6 @@ module.exports = {
     }
   },
   getCostBreakdown: function(req, res){
-    console.log("WE in");
     var userId = req.params.id;
     models.cost_breakdowns.findAll({where: {user_id: userId} }).then(function(breakdowns){
       breakdowns = breakdowns.map(function(breakdown) {
@@ -1513,25 +1501,21 @@ module.exports = {
     })
   },
   startCrowdfunding: function(req, res){
-    console.log("HI", req.user);
     var userId = req.user.id;
     if(userId){
       models.users.findById(userId).then(function(user){
         user = user.get();
         res.render('signup/new-user-profile', {user: user});
       })
-    }
-    else{
+    } else {
       res.redirect('/login');
     }
-
   }
 }
 
 ////// Helper functions
 function createPageView(pageViewCreate, loggedInUser, user, callback){
   if(loggedInUser){
-    console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
       if(loggedInUser != user.id){
 
@@ -1716,7 +1700,7 @@ function createAppNotif(fundId, user, status, res){
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, charge.email, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, charge, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
         })
       } else {
         res.send(user);
@@ -1725,52 +1709,8 @@ function createAppNotif(fundId, user, status, res){
     })
   })
 }
-// function sendDonorEmail(userId, donor_email, donor_name, callback){
-//   models.users.findById(userId).then(function(user){
-//     var username = user.username.split(' ')[0];
-//     var donor_first_name;
-//     if(donor_name.split(' ')[0]){
-//       donor_first_name = donor_name.split(' ')[0]
-//     }
-//     else{
-//       donor_first_name = donor_name;
-//     }
-//     //send emails here
-//     // var locals = {
-//     //   header: 'Dear ' + username + ',',
-//     //   notif_link: link,
-//     //   notiftext: notiftext,
-//     //   notification: notification
-//     // };
-//     // var templatePath = path.join(process.cwd(), 'email-notification-templates');
-//     // var template = new EmailTemplate(templatePath);
-//
-//     var transporter = nodemailer.createTransport(smtpTransport({
-//      service: 'Gmail',
-//      auth: {user: 'notifications@silofunds.com',
-//            pass: 'notifaccount'}
-//     }));
-//
-//     transporter.sendMail({
-//       from: 'Silofunds',
-//       to: user.email,
-//       subject: subject,
-//       html: '<p> Dear ' + donor_name + ', </p> <p> Thank you so much for your donation to ' + username+ '. Your help has ensured that '
-//     }, function(err, responseStatus){
-//       if (err) {
-//        console.error(err);
-//       }
-//       else{
-//         console.log("SUCCESS");
-//         console.log(responseStatus.message);
-//         res.send(app);
-//       }
-//
-//     });
-//
-//   });
-// }
-function sendUserEmail(userId, charge_email, notiftext, link, notification, app, subject, res){
+
+function sendUserEmail(userId, charge, notiftext, link, notification, app, subject, res) {
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
@@ -1782,13 +1722,11 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
     };
     var templatePath = path.join(process.cwd(), 'email-notification-templates');
     var template = new EmailTemplate(templatePath);
-
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
            pass: 'notifaccount'}
     }));
-
     template.render(locals, function(err, results) {
       if (err) {
          firstCallback();
@@ -1803,14 +1741,54 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
         if (err) {
          console.error(err);
         } else {
-          app = app.get()
-          app.charge_email = charge_email
-          res.send(app);
+          sendDonorEmail(userId, charge, app, res)
         }
       });
     });
   });
 }
+
+function sendDonorEmail(userId, charge, app, res) {
+  models.users.findById(userId).then(function(user) {
+    var transporter = nodemailer.createTransport(smtpTransport({
+      service: 'Gmail',
+      auth: {user: 'andros@silofunds.com',
+            pass: 'whatever418'}
+    }));
+    var date = reformatDate(new Date()).split('-').reverse().join('/')
+    var charge_amount = charge.amount.toString();
+    var amount = charge_amount.substr(0, charge_amount.length - 2) + '.' + charge_amount.substr(charge_amount.length - 2, charge_amount.length);
+    var locals = {
+      user: user,
+      charge: charge,
+      amount: amount,
+      donor_name: charge.source.name,
+      date: date
+    };
+    var templatePath = path.join(process.cwd(), 'email-templates/donation-confirmation-template');
+    var template = new EmailTemplate(templatePath);
+    template.render(locals, function(err, results) {
+      if (err) {
+        console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: charge.email,
+        subject: "Thank you for your donation!",
+        html: results.html
+      }, function(err, responseStatus) {
+        if(err) {
+         console.error(err);
+        } else {
+          app = app.get()
+          app.charge_email = charge.email
+          res.send(app);
+        }
+      });
+    });
+  })
+}
+
 function findFavourites(options, res, dataObject) {
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
 		var newArray = [];
@@ -1828,7 +1806,6 @@ function findFavourites(options, res, dataObject) {
 }
 function findStripeDashboard(option, dataObject, res){
 	models.stripe_users.find({where: option}).then(function(stripe_user){
-    console.log(dataObject)
 		if(!stripe_user){
 			res.render('user/dashboard', dataObject);
 		}
@@ -2021,10 +1998,10 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
 
       models.notifications.create(options).then(function(notification) {
         if(messageUser) {
-          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+          sendUserEmail(user.id, charge, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
           'You have a new donation!', res);
         } else {
-          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+          sendUserEmail(user.id, charge, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
           'You have a new donation!', res);
         }
       });

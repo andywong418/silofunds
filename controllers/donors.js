@@ -3,6 +3,10 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
 var passportFunctions = require('./passport/functions');
+var EmailTemplate = require('email-templates').EmailTemplate;
+var path = require('path');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = {
 
@@ -104,7 +108,7 @@ module.exports = {
   //   }
   // },
   //
-  transaction_complete: function(req, res) {
+  transactionComplete: function(req, res) {
     var email = req.body.donor_email
     models.users.find({where: {email: email}}).then(function(user) {
       if(user) {
