@@ -535,20 +535,20 @@ module.exports = {
 			user.update(req.body).then(function(user){
 				if(req.body.affiliated_institute_id){
 					models.affiliated_institutions.findById(institute_id).then(function(institute){
-						if(institute.affiliated_students && institute.affiliated_students.indexOf(userId) === -1){
-							var existingStudents = institute.affiliated_students;
+						if(institute.pending_students && institute.pending_students.indexOf(userId) === -1){
+							var existingStudents = institute.pending_students;
 							console.log("existingStudents", existingStudents);
-							var newAffiliatedStudents = existingStudents.push(userId);
+							var newpendingStudents = existingStudents.push(userId);
 							console.log("EXISTING STUDENTs", existingStudents);
-							institute.update({affiliated_students: existingStudents}).then(function(){
+							institute.update({pending_students: existingStudents}).then(function(){
 								heardFromsSend(userId, user, heard_from, req, res);
 							})
 						}
 						else{
-							if(!institute.affiliated_students){
+							if(!institute.pending_students){
 								var emptyArray = [];
-								var newAffiliatedStudents = emptyArray.push(userId);
-								institute.update({affiliated_students: emptyArray}).then(function(){
+								var newpendingStudents = emptyArray.push(userId);
+								institute.update({pending_students: emptyArray}).then(function(){
 									heardFromsSend(userId, user, heard_from, req, res)
 								})
 							}

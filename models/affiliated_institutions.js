@@ -16,6 +16,9 @@ module.exports = function(sequelize, DataTypes){
     affiliated_students: {
       type: DataTypes.ARRAY(DataTypes.INTEGER)
     },
+		pending_students:{
+			type: DataTypes.ARRAY(DataTypes.INTEGER)
+		},
 		buffer_type:{
 			type: DataTypes.TEXT,
 			field: 'buffer_type'

@@ -133,6 +133,7 @@ module.exports = {
 function asyncShowAffiliatedStudents(institution, res, user, users){
   var affiliatedStudents = institution.affiliated_students;
   var studentDisplay = [];
+  var pending_students = institution.pending_students;
   console.log("YOU KNOW", affiliatedStudents);
   async.each(affiliatedStudents, function(student, callback){
     models.users.findById(student).then(function(affiliatedStudent){
@@ -143,6 +144,21 @@ function asyncShowAffiliatedStudents(institution, res, user, users){
     });
   }, function done(){
     console.log("STUDENTS", studentDisplay);
-    res.render('institutions-dashboard', {user: user, institution: institution, users: users, affiliated_students: studentDisplay});
+    var pendingStudentDisplay = [];
+    async.each(pending_students, function(student, callback){
+      if(student){
+        models.users.findById(student).then(function(pendingStudent){
+          console.log("STIDENT", pendingStudent);
+          pendingStudent = pendingStudent.get();
+          pendingStudentDisplay.push(pendingStudent);
+          callback();
+        });
+      }
+      else{
+        callback();
+      }
+    }, function done(){
+      res.render('institutions-dashboard', {user: user, institution: institution, users: users, affiliated_students: studentDisplay, pending_students: pendingStudentDisplay});
+    });
   });
 }

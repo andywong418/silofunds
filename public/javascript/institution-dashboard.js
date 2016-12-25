@@ -10,37 +10,61 @@ var StudentCollection= Backbone.Collection.extend({
 var StudentView = Backbone.View.extend({
   tagname: 'div',
   className: 'progress-card',
-  template: _.template($('#student-template').html()),
   events:{
-    'click .student-card': 'browseStudentProfile'
+    'click .student-card': 'browseStudentProfile',
+    'click .remove-affiliation': 'removeStudentAffiliation',
+    'click .approve-affiliation': 'approveStudentAffiliation'
   },
   initialize: function(){
-    this.render();
-    console.log(this.model.get('percentage'));
-    if(this.model.get('percentage_accrued') !== 0 && this.model.get('percentage_accrued')){
-      console.log("WHAT");
-      var percentage = this.model.get('percentage_accrued').split('%')[0];
-      console.log("OERCENT", percentage);
-      console.log("SADf", this.$('#initial-bar'));
-      console.log("AGAIN", $('initial-bar'));
-      this.$('#initial-bar').css('width',  percentage+ '%');
-    }
 
   },
   render: function(){
     this.$el.html(this.template(this.model.toJSON()));
+    if(this.model.get('percentage_accrued') !== 0 && this.model.get('percentage_accrued')){
+      var percentage = this.model.get('percentage_accrued').split('%')[0];
+      this.$('#initial-bar').css('width',  percentage+ '%');
+    }
     return this; // enable chained calls
   },
-  browseStudentProfile: function(){
+  browseStudentProfile: function(e){
+    console.log(e.target.tagName.toLowerCase());
+    console.log(e.target.tagName.toLowerCase() === 'a');
+    if(e.target.tagName.toLowerCase() === 'a'){
+            console.log("HI");
+    }
+    else{
+
+      var studentId = this.model.get('id');
+      console.log(studentId);
+      window.location = '/public/' + studentId;
+    }
+
+  },
+  removeStudentAffiliation: function(e){
+    e.preventDefault();
     var studentId = this.model.get('id');
-    console.log(studentId);
-    window.location = '/public/' + studentId;
+    var r = confirm("Are you sure you want to remove this affiliation?");
+    if (r === true) {
+      $.post('/user/remove-affiliation/' + studentId, function(data){
+        location.reload();
+      });
+    } else {
+        x = "You pressed Cancel!";
+    }
+
+  },
+  approveStudentAffiliation: function(e){
+    e.preventDefault();
+    var studentId = this.model.get('id');
+    $.post('/user/approve-affiliation/' + studentId, function(data){
+      location.reload();
+    });
   }
 });
 
 var StudentList = Backbone.View.extend({
   el: '.progress-div',
-  render: function(){
+  render: function(template){
     this.collection.each(function(student){
       var descriptionText = extractContent(student.get('description'));
       descriptionText = descriptionText.replace('About me', '');
@@ -92,8 +116,11 @@ var StudentList = Backbone.View.extend({
         student.set('funding_left', funding_needed );
         student.set('variable_text', '');
       }
-      var studentView = new StudentView({model: student});
-      this.$el.append(studentView.el);
+      var studentView = new StudentView({model: student, template: template});
+      studentView.template = _.template(template.html());
+      console.log("STUDENT VIEW", studentView);
+      console.log(studentView.el);
+      this.$el.append(studentView.render().el);
     }, this);
     return this;
   }
@@ -101,8 +128,11 @@ var StudentList = Backbone.View.extend({
 
 var studentCollection = new StudentCollection(students);
 var studentList = new StudentList({collection: studentCollection});
-$('.wrapper-div').append(studentList.render().el);
+$('.wrapper-div').append(studentList.render($('#student-template')).el);
 
+var pendingStudentCollection = new StudentCollection(pending_students);
+var pendingStudentList = new StudentList({collection: pendingStudentCollection, el: '.progress-div-pending'});
+$('.wrapper-div-pending').append(pendingStudentList.render($('#student-pending-template')).el);
 
 function extractContent(s) {
   var span= document.createElement('span');

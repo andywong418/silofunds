@@ -1596,10 +1596,87 @@ module.exports = {
       res.redirect('/login');
     }
 
+  },
+  removeStudentAffiliation: function(req, res){
+    var studentId = parseInt(req.params.id);
+    var instituteId = req.user.institution_id;
+    models.users.findById(studentId).then(function(student){
+      student.update({affiliated_institute_id: null, affiliation_approved: false}).then(function(student){
+        models.users.find({where: {institution_id: instituteId }}).then(function(instituteUser){
+          models.affiliated_institutions.findById(instituteId).then(function(institute){
+            var idIndex = institute.affiliated_students.indexOf(studentId);
+            var newArr = institute.affiliated_students;
+            newArr.splice(idIndex, 1);
+            institute.update({affiliated_students: newArr}).then(function(institute){
+              //Make notifications, send email
+              institute = institute.get();
+              institute.email = instituteUser.email;
+              notifyStudent(student, institute, res, institute.name + ' removed your affiliation. You can email them by <a href="mailto:' + institute.email + '"> clicking this. </a>','remove_affiliation', institute.name + ' removed your affiliation. You can email them for further enquiry at', institute.name + ' has removed your affiliation' );
+            })
+          })
+        })
+      })
+    })
+  },
+  approveStudentAffiliation: function(req, res){
+    var studentId = parseInt(req.params.id);
+    var instituteId = req.user.institution_id;
+    models.users.findById(studentId).then(function(student){
+      student.update({affiliation_approved: true}).then(function(student){
+        console.log("STUDENT", student);
+        models.users.find({where:{institution_id: instituteId}}).then(function(instituteUser){
+          models.affiliated_institutions.findById(instituteId).then(function(institute){
+            console.log('Updated institute');
+            var newArr;
+            var newPendingArr;
+            if(institute.affiliated_students && institute.affiliated_students.indexOf(studentId) === -1){
+              console.log("NOT HERE", institute.affiliated_students);
+              console.log("WHAT IS HTIS", studentId);
+              newArr = institute.affiliated_students;
+              newArr.push(studentId);
+              console.log("AGAIN", newArr);
+            }
+            else{
+              if(institute.affiliated_students){
+                newArr = institute.affiliated_students;
+              }
+              else{
+                newArr = [studentId];
+              }
+            }
+            var idIndex = institute.pending_students.indexOf(studentId);
+            console.log(institute.pending_students);
+            console.log(typeof studentId);
+            console.log("IDINDEX", idIndex);
+            var newPendingArr = institute.pending_students;
+            newPendingArr.splice(idIndex, 1);
+            console.log("NEW ARR", newArr);
+            console.log("pendingarr", newPendingArr);
+            institute.update({affiliated_students: newArr, pending_students: newPendingArr}).then(function(institute){
+              console.log("SUCCESSFULLY UPDATED", institute);
+              institute = institute.get();
+              institute.email = instituteUser.email;
+              notifyStudent(student, institute,res, institute.name + ' approved your affiliation. You can discuss with them about advertising to alumni by  <a href="mailto:' + institute.email + '"> clicking this. </a>','approve_affiliation', institute.name + ' approved your affiliation. You can email them for further discussion of contacting alumni by', institute.name + ' has approved your affiliation' );
+            })
+          })
+        })
+      })
+    })
   }
 }
 
 ////// Helper functions
+function notifyStudent(student, institute, res, notification, notification_category, notiftext, email_subject){
+  var options = {
+    user_id: student.id,
+    notification: notification,
+    category: notification_category,
+    read_by_user: false
+  };
+  models.notifications.create(options).then(function(notifications){
+    sendUserEmail(student.id, "You know", notiftext, '', ' ' + institute.email, student, email_subject, res );
+  })
+}
 function createPageView(pageViewCreate, loggedInUser, user, callback){
   if(loggedInUser){
     console.log("HEY");
@@ -1859,10 +1936,10 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
      auth: {user: 'notifications@silofunds.com',
            pass: 'notifaccount'}
     }));
+    console.log("WE IN thee email");
 
     template.render(locals, function(err, results) {
       if (err) {
-         firstCallback();
          return console.error(err);
       }
       transporter.sendMail({
@@ -1872,8 +1949,10 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
         html: results.html
       }, function(err, responseStatus){
         if (err) {
-         console.error(err);
+         console.error("ERROR", err);
         } else {
+          console.log("SUCCESS", responseStatus);
+
           app = app.get()
           app.charge_email = charge_email
           res.send(app);

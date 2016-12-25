@@ -10,6 +10,22 @@ module.exports = {
         }
 
       }
+      else if (req.user.donor_id && !student){
+        try{
+          res.redirect('/donor/profile');
+        } catch(err) {
+          Logger.info("redirecting", err);
+          res.render('index', { title: 'Express', resultsPage: false });
+        }
+      }
+      else if (req.user.institution_id){
+        try{
+          res.redirect('/institution/dashboard');
+        } catch(err) {
+          Logger.info("redirecting", err);
+          res.render('index', { title: 'Express', resultsPage: false });
+        }
+      }
       else{
         try{
           res.redirect('/user/dashboard');

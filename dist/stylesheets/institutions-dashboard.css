@@ -27,52 +27,72 @@
         color: grey;
         margin-bottom: 5px; }
 
-.progress-div {
+.progress-div-pending h4 {
+  width: 100%; }
+
+.progress-div, .progress-div-pending {
   text-align: left; }
-  .progress-div .student-card {
+  .progress-div h4, .progress-div-pending h4 {
+    margin-left: 15px; }
+  .progress-div .student-card, .progress-div-pending .student-card {
     cursor: pointer; }
-    .progress-div .student-card .student-pictures {
+    .progress-div .student-card .student-pictures, .progress-div-pending .student-card .student-pictures {
       width: 300px;
       height: 300px;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px; }
-    .progress-div .student-card .student-info {
+    .progress-div .student-card .student-info, .progress-div-pending .student-card .student-info {
       box-shadow: 0 1px 3px 0 rgba(36, 65, 85, 0.3);
       background: #f4f7f8;
       padding: 5px;
       padding-bottom: 10px;
       width: 300px;
-      height: 150px;
+      height: 200px;
       border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px; }
-      .progress-div .student-card .student-info .progress {
+      border-bottom-right-radius: 5px;
+      position: relative; }
+      .progress-div .student-card .student-info .progress, .progress-div-pending .student-card .student-info .progress {
         height: 10px;
         margin-top: 10px;
         margin-bottom: 8px; }
-      .progress-div .student-card .student-info .student-intro .student-name {
+      .progress-div .student-card .student-info .student-intro .student-name, .progress-div-pending .student-card .student-info .student-intro .student-name {
         margin-bottom: 0;
         font-size: 18px;
         color: #244255;
         text-decoration: underline; }
-      .progress-div .student-card .student-info .student-intro .student_description {
+      .progress-div .student-card .student-info .student-intro .student_description, .progress-div-pending .student-card .student-info .student-intro .student_description {
         line-height: normal !important;
         margin-bottom: 0;
         font-size: 16px;
         color: #244255;
         height: 60px; }
-      .progress-div .student-card .student-info .student-progress .col-md-3 {
-        padding: 0; }
-        .progress-div .student-card .student-info .student-progress .col-md-3 span {
-          color: grey; }
-      .progress-div .student-card .student-info .funding_accrued, .progress-div .student-card .student-info .percentage_accrued, .progress-div .student-card .student-info .funding_left {
+      .progress-div .student-card .student-info .student-progress, .progress-div-pending .student-card .student-info .student-progress {
+        display: inline-block;
+        width: 100%; }
+        .progress-div .student-card .student-info .student-progress .row, .progress-div-pending .student-card .student-info .student-progress .row {
+          margin: 0; }
+        .progress-div .student-card .student-info .student-progress .col-md-3, .progress-div-pending .student-card .student-info .student-progress .col-md-3 {
+          padding: 0; }
+          .progress-div .student-card .student-info .student-progress .col-md-3 span, .progress-div-pending .student-card .student-info .student-progress .col-md-3 span {
+            color: grey; }
+      .progress-div .student-card .student-info .funding_accrued, .progress-div .student-card .student-info .percentage_accrued, .progress-div .student-card .student-info .funding_left, .progress-div-pending .student-card .student-info .funding_accrued, .progress-div-pending .student-card .student-info .percentage_accrued, .progress-div-pending .student-card .student-info .funding_left {
         font-size: 15px;
         display: inline;
         color: #244255;
         font-weight: bold;
         font-size: 16px; }
-      .progress-div .student-card .student-info .name {
+      .progress-div .student-card .student-info .name, .progress-div-pending .student-card .student-info .name {
         font-size: 18px; }
-      .progress-div .student-card .student-info .same-faculty, .progress-div .student-card .student-info .same-college {
+      .progress-div .student-card .student-info .same-faculty, .progress-div .student-card .student-info .same-college, .progress-div-pending .student-card .student-info .same-faculty, .progress-div-pending .student-card .student-info .same-college {
         font-size: 16px;
         color: grey;
         margin-bottom: 5px; }
+      .progress-div .student-card .student-info .remove-affiliation, .progress-div .student-card .student-info .approve-affiliation, .progress-div-pending .student-card .student-info .remove-affiliation, .progress-div-pending .student-card .student-info .approve-affiliation {
+        font-size: 15px;
+        text-align: center; }
+        .progress-div .student-card .student-info .remove-affiliation a, .progress-div .student-card .student-info .approve-affiliation a, .progress-div-pending .student-card .student-info .remove-affiliation a, .progress-div-pending .student-card .student-info .approve-affiliation a {
+          position: absolute;
+          bottom: 5px;
+          left: 0;
+          right: 0;
+          margin: 0 auto; }

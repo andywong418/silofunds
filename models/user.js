@@ -188,6 +188,11 @@ module.exports = function(sequelize, DataTypes) {
     affiliated_institute_id:{
       type: DataTypes.INTEGER,
       field:'affiliated_institute_id'
+    },
+    affiliation_approved:{
+      type: DataTypes.BOOLEAN,
+      field: 'affiliation_approved',
+      defaultValue: false
     }
   }, {
     timestamps: true,
