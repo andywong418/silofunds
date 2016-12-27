@@ -834,7 +834,9 @@ module.exports = {
   },
 
   settingsGET: function(req, res) {
+    console.log('FUCKAAH')
     passportFunctions.ensureAuthenticated(req, res, function(){
+      console.log('FUCKAAHTRUCKAAH')
       models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
         documents = documents.map(function(document) {
           return document.get();

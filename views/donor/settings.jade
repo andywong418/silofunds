@@ -1,0 +1,42 @@
+extend ../layout
+
+block extraHeader
+  link(href='/stylesheets/user-settings.css', rel='stylesheet')
+  link(href='/stylesheets/donor-settings.css', rel='stylesheet')
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      document.write('<style type="text/css">#left_div{display: none} #right_div{display: none} #top_div{display: none} </style>')
+    }
+  include ../navbar.jade
+  include ../partials/navbar-loggedin.jade
+  include ../advanced-search.jade
+  
+  #left_div.col-md-3.col-sm-3.col-xs-4
+    button#openModal(visibility="hidden", style='display: none', data-toggle='modal', data-target='#mymodal') Launch
+    div.modal.fade#mymodal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
+      div.modal-dialog.modal-lg(role='document')
+        div.modal-content
+          div.modal-header
+            button.close(type='button', data-dismiss='modal', aria-labelledby='close')
+              span(aria-hidden="true") &times;
+            h4.modal-title#myModalLabel Upload a new picture
+          div.modal-body
+            input#my_file(type='file', name = 'profile_picture')
+            div
+              img#my_canvas_image(width="400", height="400",style="max-width: 100%")
+            h2. Drag an image here or click to upload from your files
+          div.modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") Close
+            button#upload_button.btn.btn-primary Upload
+  
+  
+  
+      
+block scripts
+  script(src='/javascript/advanced-search.js')

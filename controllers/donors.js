@@ -1,4 +1,5 @@
 var models = require('../models');
+var users = require('./users');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 require('./passport/strategies')(passport);
@@ -80,10 +81,6 @@ module.exports = {
         })
       })
     });
-  },
-
-  settings: function(req, res) {
-    res.render('donor/settings')
   },
 
   // register: function(req, res) {
