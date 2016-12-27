@@ -104,8 +104,9 @@ block content
                   .progress-bar
                     .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
                   .description
-                    span.percent-funded #{user.percentage}% funded
-                    span.amount-left £#{user.funding_needed} to go
+                    if user.percentage
+                      span.percent-funded #{user.percentage}% funded
+                      span.amount-left £#{user.funding_needed} to go
                     br
                     .bio
                         p.line-clamp= user.description
