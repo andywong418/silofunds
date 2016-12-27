@@ -237,7 +237,7 @@ body {
     }
   }
 }
-@media (min-width: 650px) {
+@media (min-width: 600px) {
   .mobile {
     display: none;
   }
@@ -250,7 +250,7 @@ body {
   .heading.main-info {
     .profile_picture {
       img {
-        width: 150px;
+        width: 130px;
         height: 150px;
       }
     }

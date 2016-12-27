@@ -1112,7 +1112,7 @@ body {
   #student-carousel {
     padding: 0px 25px; } }
 
-@media (min-width: 650px) {
+@media (min-width: 600px) {
   .mobile {
     display: none; }
   .desktop {
@@ -1120,7 +1120,7 @@ body {
   .container {
     width: 94%; }
   .heading.main-info .profile_picture img {
-    width: 150px;
+    width: 130px;
     height: 150px; }
   .heading.main-info .name {
     font-size: 32px; }
