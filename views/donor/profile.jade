@@ -101,8 +101,9 @@ block content
                   .name
                     span= user.username
                     span, 21
-                  .progress-bar
-                    .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
+                  if user.percentage
+                    .progress-bar
+                      .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
                   .description
                     if user.percentage
                       span.percent-funded #{user.percentage}% funded

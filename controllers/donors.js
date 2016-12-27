@@ -56,7 +56,7 @@ module.exports = {
             index: "users",
             type: "user",
             body: {
-              "size": 1000,
+              "size": 4,
               "query": {
                 "filtered": {
                   "filter": {
@@ -85,7 +85,6 @@ module.exports = {
               for (var i = 0; i < recommendedUsers.length; i++) {
                 users.push(recommendedUsers[i]._source)
               }
-              console.log(users)
               for (var i = 0; i < users.length; i++) {
                 users[i].number = i.toString()
               }
