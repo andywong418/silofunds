@@ -88,7 +88,7 @@ module.exports = {
               }
             }
           };
-          if(age || user.funding_needed){
+          if (age || user.funding_needed) {
             var queryOptionsShouldArr = [
               {
                 "range": {

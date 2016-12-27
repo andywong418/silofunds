@@ -8,6 +8,7 @@ var EmailTemplate = require('email-templates').EmailTemplate;
 var path = require('path');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var es = require('../elasticsearch');
 
 module.exports = {
 
@@ -50,33 +51,60 @@ module.exports = {
             }
             chargesArray[i].number = i
           }
-          // Es seach should go here though
-          models.users.findAll({where: {address_city: '3'}}).then(function(recommendedUsers) {
-            var users = false
-            if(recommendedUsers) {
-              users = []
-              for(var i = 0; i < 2; i++) {
-                users.push(recommendedUsers[i].get())
+          // elasticsearch
+          es.search({
+            index: "users",
+            type: "user",
+            body: {
+              "size": 1000,
+              "query": {
+                "filtered": {
+                  "filter": {
+                    "bool": {
+                      "must": [
+                        {
+                          "exists": {"field": "description"}
+                        },
+                        {
+                          "exists": {"field": "profile_picture"}
+                        },
+                        {
+                          "missing": {"field": "organisation_or_user"}
+                        }
+                      ]
+                    }
+                  }
+                }
               }
-              for(var i = 0; i < 2; i++) {
+            }
+          }).then(function(resp) {
+            var recommendedUsers = resp.hits.hits
+            var users = false
+            if(resp) {
+              users = []
+              for (var i = 0; i < recommendedUsers.length; i++) {
+                users.push(recommendedUsers[i]._source)
+              }
+              console.log(users)
+              for (var i = 0; i < users.length; i++) {
                 users[i].number = i.toString()
               }
-              for(var i = 0; i < 2; i++) {
+              for(var i = 0; i < users.length; i++) {
                 if(users[i].funding_accrued !== null && users[i].funding_needed !== null) {
                   var accrued = users[i].funding_accrued
                   var needed = users[i].funding_needed
-                  var percentage = (100*accrued)/needed
+                  var percentage = Math.ceil((100*accrued)/needed)
                   users[i].percentage = percentage
                   users[i].width = 'width: ' + percentage.toString() + '%'
                 }
               }
               users[0].first = true // Allowing us to easily mark the first as the active item for mobile
+              // So all the user info along with the
+              var splitName = req.user.username.split(' ')
+              var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+              req.user.initials = initials
+              res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
             }
-            // So all the user info along with the
-            var splitName = req.user.username.split(' ')
-            var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-            req.user.initials = initials
-            res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
           })
         })
       })
@@ -126,7 +154,6 @@ module.exports = {
 
 function reformatDate(date) {
   console.log(date)
-
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();
   var yyyy = date.getFullYear();
