@@ -541,7 +541,7 @@ module.exports = {
 							var newpendingStudents = existingStudents.push(userId);
 							console.log("EXISTING STUDENTs", existingStudents);
 							institute.update({pending_students: existingStudents}).then(function(){
-								heardFromsSend(userId, user, heard_from, req, res);
+								notifyInstitution(institute, user, heard_from, req, res);
 							})
 						}
 						else{
@@ -549,7 +549,7 @@ module.exports = {
 								var emptyArray = [];
 								var newpendingStudents = emptyArray.push(userId);
 								institute.update({pending_students: emptyArray}).then(function(){
-									heardFromsSend(userId, user, heard_from, req, res)
+									notifyInstitution(institute, user, heard_from, req, res);
 								})
 							}
 							else{
@@ -696,6 +696,55 @@ module.exports = {
 		}
 	};
 
+	function notifyInstitution(institution, user, heard_from, req, res){
+		models.users.find({where: {institution_id: institution.id}}).then(function(instituteUser){
+			var options = {
+				user_id: instituteUser.id,
+				notification: 'A new student has chosen to affiliate with your institution. See their profile <a href="/public/' + user.id + '"> here.</a> ',
+				category: 'new_pending_student',
+				read_by_user: false
+			};
+			models.notifications.create(options).then(function(notifications){
+				var username = institution.name;
+				//send emails here
+				var locals = {
+					header: 'Dear ' + username + ',',
+					notif_link: 'https://silofunds.com/public/' + user.id ,
+					notiftext: user.username + ' has affiliated with your institution! Click ',
+					notification: "to confirm and approve this update."
+				};
+				var templatePath = path.join(process.cwd(), 'email-notification-templates');
+				var template = new EmailTemplate(templatePath);
+
+				var transporter = nodemailer.createTransport(smtpTransport({
+				 service: 'Gmail',
+				 auth: {user: 'notifications@silofunds.com',
+							 pass: 'notifaccount'}
+				}));
+				console.log("WE IN thee email");
+
+				template.render(locals, function(err, results) {
+					if (err) {
+						 return console.error(err);
+					}
+					transporter.sendMail({
+						from: 'Silofunds',
+						to: instituteUser.email,
+						subject: "A new student has affiliated with your institution!",
+						html: results.html
+					}, function(err, responseStatus){
+						if (err) {
+						 console.error("ERROR", err);
+						} else {
+							console.log("SUCCESS", responseStatus);
+							heardFromsSend(user.id, user, heard_from, req, res);
+
+						}
+					});
+				});
+			})
+		})
+	}
 	function heardFromsSend(userId, user, heard_from, req, res){
 		models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
 			if(row) {
