@@ -274,7 +274,8 @@ $(document).ready(function() {
 
   var handler = StripeCheckout.configure({
       // key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r ,
-      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE' ,
+      //pk_live_zSAA5TcxiGNl3Cdw88TDAqnE
+      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r' ,
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',
@@ -292,12 +293,17 @@ $(document).ready(function() {
           applicationFee = Math.ceil(amount * 0.029 + 0.2);
         }
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
+
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
           var comment = $('textarea#comment-text').val();
           var isAnon = $('#is-anon').prop("checked");
         var amountAdjusted;
-
+        console.log("USER", user);
+        if(user.affiliated_institute_id && user.affiliation_approved){
+          data.instituteId = user.affiliated_institute_id;
+        }
+        
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
@@ -314,7 +320,7 @@ $(document).ready(function() {
         if(isAnon){
           data.is_anon = true;
         }
-        $('#payment_processing').modal('toggle')
+        $('#payment_processing').modal('toggle');
         $.ajax({
           type: "POST",
           url: '/user/charge',
@@ -323,6 +329,7 @@ $(document).ready(function() {
           //calculate width of bar and supporters and bar
           displayCompletionMessage(data);
         });
+
       }
     });
 

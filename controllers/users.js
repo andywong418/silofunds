@@ -348,24 +348,62 @@ module.exports = {
       source: stripeToken,
       description: email
     }).then(function(customer) {
-      return models.stripe_users.find({where: {user_id: req.body.recipientUserID}}).then(function(stripe_user) {
-        var chargeOptions = {
-          currency: "gbp",
-          customer: customer.id,
-          destination: stripe_user.stripe_user_id,
-          application_fee: parseInt(applicationFee),
-          amount: chargeAmount,
-        };
-        // if (!donorIsPaying) {
-        //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
-        //   chargeOptions.amount = chargeAmount;
-        // } else {
-        //   //donor is paying.
-        //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
-        //   chargeOptions.amount = chargeAmount;
-        // }
-        return stripe.charges.create(chargeOptions);
-      });
+      if(req.body.instituteId){
+        console.log("in the right place");
+        return models.users.findById(req.body.recipientUserID).then(function(studentUser){
+          var amount;
+          if(studentUser.funding_accrued === null){
+            amount = (parseInt(chargeAmount)/100) - (parseInt(applicationFee) / 100);
+          } else {
+            amount = (studentUser.funding_accrued + (parseInt(chargeAmount)/100)  - (applicationFee /100));
+          }
+          console.log("IT's this amount", amount);
+          return studentUser.update({funding_accrued: amount}).then(function(studentUser){
+            return models.users.find({where:{institution_id: req.body.instituteId}}).then(function(institute){
+              return models.stripe_users.find({where: {user_id: institute.id}}).then(function(stripe_user) {
+                var chargeOptions = {
+                  currency: "gbp",
+                  customer: customer.id,
+                  destination: stripe_user.stripe_user_id,
+                  application_fee: parseInt(applicationFee),
+                  amount: chargeAmount,
+                };
+                // if (!donorIsPaying) {
+                //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+                //   chargeOptions.amount = chargeAmount;
+                // } else {
+                //   //donor is paying.
+                //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+                //   chargeOptions.amount = chargeAmount;
+                // }
+                return stripe.charges.create(chargeOptions);
+              });
+            });
+
+          });
+        });
+      }
+      else{
+        return models.stripe_users.find({where: {user_id: req.body.recipientUserID}}).then(function(stripe_user) {
+          var chargeOptions = {
+            currency: "gbp",
+            customer: customer.id,
+            destination: stripe_user.stripe_user_id,
+            application_fee: parseInt(applicationFee),
+            amount: chargeAmount,
+          };
+          // if (!donorIsPaying) {
+          //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+          //   chargeOptions.amount = chargeAmount;
+          // } else {
+          //   //donor is paying.
+          //   chargeOptions.application_fee = parseInt(applicationFee) + platformCharge;
+          //   chargeOptions.amount = chargeAmount;
+          // }
+          return stripe.charges.create(chargeOptions);
+        });
+      }
+
     }).then(function(charge) {
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);

@@ -127,6 +127,17 @@ module.exports = {
       res.redirect('/login');
     }
 
+  },
+  getUserId: function(req, res){
+    console.log(req.params);
+    var institutionId = req.params.instituteId;
+    models.users.find({where: {institution_id: institutionId}}).then(function(user){
+      console.log("user", user);
+      var object = {
+        userId: user.id
+      }
+      res.send(object);
+    });
   }
 };
 
