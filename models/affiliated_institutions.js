@@ -23,6 +23,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.TEXT,
 			field: 'buffer_type'
 		},
+		refund:{
+			type: DataTypes.BOOLEAN,
+			field: 'refund'
+		},
     created_at: {
       type: DataTypes.DATE,
       field: 'created_at',

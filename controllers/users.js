@@ -349,7 +349,7 @@ module.exports = {
       description: email
     }).then(function(customer) {
       if(req.body.instituteId){
-        console.log("in the right place");
+        console.log("in the right place", customer);
         return models.users.findById(req.body.recipientUserID).then(function(studentUser){
           var amount;
           if(studentUser.funding_accrued === null){
@@ -384,6 +384,7 @@ module.exports = {
         });
       }
       else{
+        console.log("in another place", req.body);
         return models.stripe_users.find({where: {user_id: req.body.recipientUserID}}).then(function(stripe_user) {
           var chargeOptions = {
             currency: "gbp",
@@ -405,6 +406,8 @@ module.exports = {
       }
 
     }).then(function(charge) {
+      console.log("CHARGE", charge);
+      console.log("something else", req.body);
       var chargeAmountPounds = charge.amount/100;
       var created_at = new Date(charge.created * 1000);
       var application_fee = applicationFee ? parseFloat(applicationFee) : null;
@@ -422,7 +425,7 @@ module.exports = {
                   comment: comment
                 }).then(function(comment){
                   models.users.findById(stripe_user.user_id).then(function(user) {
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
+                    returnStripeCharge(user, req, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
               } else {
@@ -432,13 +435,13 @@ module.exports = {
                   comment: comment
                 }).then(function(comment){
                   models.users.findById(stripe_user.user_id).then(function(user){
-                    returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
+                    returnStripeCharge(user, req, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
                   });
                 });
               }
             } else {
               models.users.findById(stripe_user.user_id).then(function(user){
-                returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
+                returnStripeCharge(user, req, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at);
               });
             }
           });
@@ -1713,7 +1716,9 @@ function notifyStudent(student, institute, res, notification, notification_categ
     read_by_user: false
   };
   models.notifications.create(options).then(function(notifications){
-    sendUserEmail(student.id, "You know", notiftext, '', ' ' + institute.email, student, email_subject, res );
+    sendUserEmail(student.id, "You know", notiftext, '', ' ' + institute.email, student, email_subject, function(){
+      res.send('seomthing');
+    } );
   })
 }
 function createPageView(pageViewCreate, loggedInUser, user, callback){
@@ -1828,7 +1833,7 @@ function asyncCreateNotifications(allUsers,user, res, app, fund){
     });
   });
 }
-function returnStripeCharge(user, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at) {
+function returnStripeCharge(user, req, res, charge, chargeAmountPounds, application_fee, user_from, isAnon, created_at) {
   var amount;
   var donor_email = charge.email;
   if(user.funding_accrued == null){
@@ -1839,7 +1844,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
   models.donors.find({where: {email: donor_email}}).then(function(donor) {
     if(donor) {
       var donor_id = donor.id;
-      completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+      completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, req, res)
     } else {
       models.users.find({where: {email: donor_email}}).then(function(donor_user) {
         if(donor_user) {
@@ -1850,7 +1855,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
             donor_user.update({
               donor_id: donor_id
             }).then(function(donor) {
-              completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+              completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, req, res)
             })
           })
         } else {
@@ -1858,7 +1863,7 @@ function returnStripeCharge(user, res, charge, chargeAmountPounds, application_f
             email: donor_email
           }).then(function(donor) {
             var donor_id = donor.id
-            completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res)
+            completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, req, res)
           })
         }
       })
@@ -1903,7 +1908,10 @@ function createAppNotif(fundId, user, status, res){
           read_by_user: false
         };
         models.notifications.create(options).then(function(notification){
-          sendUserEmail(fundUser.id, charge.email, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', res );
+          sendUserEmail(fundUser.id, charge.email, user.username+ " changed their application status to " + status + ". Click ", 'http://www.silofunds.com/public/' + user.id, "to confirm and verify this update", user, 'An applicant has changed their application status', function(app){
+            console.log("APP", app);
+            res.send('seomthing');
+          } );
         })
       } else {
         res.send(user);
@@ -1957,7 +1965,7 @@ function createAppNotif(fundId, user, status, res){
 //
 //   });
 // }
-function sendUserEmail(userId, charge_email, notiftext, link, notification, app, subject, res){
+function sendUserEmail(userId, charge_email, notiftext, link, notification, app, subject, callback){
   models.users.findById(userId).then(function(user){
     var username = user.username.split(' ')[0];
     //send emails here
@@ -1994,7 +2002,8 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
 
           app = app.get()
           app.charge_email = charge_email
-          res.send(app);
+          callback(app);
+
         }
       });
     });
@@ -2160,8 +2169,21 @@ function asyncChangeComments(array, res, dataObject){
 	})
 }
 
-function completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, res) {
+function completeStripeCharge(user, charge, amount, application_fee, user_from, created_at, chargeAmountPounds, donor_id, req, res) {
   user.update({funding_accrued: amount}).then(function(user){
+    var studentId;
+    var is_institution;
+    if(req.body.instituteId){
+      studentId = req.body.recipientUserID;
+      is_institution = true;
+      //Add donor type later
+
+    }
+    else{
+      studentId = null;
+      is_institution = false;
+
+    }
     return models.stripe_charges.create({
       charge_id: charge.id,
       amount: parseFloat(charge.amount),
@@ -2184,38 +2206,102 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
       user_from: user_from,
       created_at: created_at,
       user_id: user.id,
-      donor_id: donor_id
+      donor_id: donor_id,
+      student_id: studentId,
+      is_institution: is_institution
     }).then(function(object) {
       var stripe_id = object.id;
       var options;
       var emailOptions;
-      if(user_from){
-        options = {
-          user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
-          category: "donation",
-          read_by_user: false
+      var studentOptions;
+
+      if(req.body.instituteId){
+        models.users.findById(req.body.recipientUserID).then(function(student){
+          if(user_from){
+            options = {
+              user_id: user.id,
+              notification: charge.source.name + " donated £" + chargeAmountPounds + " to  " + student.username + "! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
+              category: "donation",
+              read_by_user: false
+            }
+            studentOptions = {
+              user_id: student.id,
+              notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign through your institution! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
+              category: 'donation',
+              read_by_user: false
+            }
+            messageUser = true;
+          } else {
+            options = {
+              user_id: user.id,
+              notification: charge.source.name + " donated £" + chargeAmountPounds + " to " + student.username +"! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
+              category: "donation",
+              read_by_user: false
+            };
+            studentOptions = {
+              user_id: student.id,
+              notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign through your institution! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
+              category: "donation",
+              read_by_user: false
+            };
+            messageUser = false;
+          }
+          models.notifications.create(options).then(function(notification) {
+            if(messageUser) {
+              sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to " + student.username + "! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+              'You have a new donation!', function(app){
+                sendUserEmail(student.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign through your institution! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+                'You have a new donation!', function(app){
+                  console.log("APP", app);
+                  res.send('semthing');
+                });
+              });
+            } else {
+              sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to " + student.username + "! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+              'You have a new donation!', function(){
+                sendUserEmail(student.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign through your institution! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+                'You have a new donation!', function(app){
+                  console.log("APP", app);
+                  res.send('something');
+                });
+              });
+            }
+          });
+        })
+      }
+      else{
+        if(user_from){
+          options = {
+            user_id: user.id,
+            notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='/messages/" + user_from + "'> this tab </a>",
+            category: "donation",
+            read_by_user: false
+          }
+          messageUser = true;
+        } else {
+          options = {
+            user_id: user.id,
+            notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
+            category: "donation",
+            read_by_user: false
+          };
+          messageUser = false;
         }
-        messageUser = true;
-      } else {
-        options = {
-          user_id: user.id,
-          notification: charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking <a href='mailto:" + charge.email +"'> this tab </a>",
-          category: "donation",
-          read_by_user: false
-        };
-        messageUser = false;
+        models.notifications.create(options).then(function(notification) {
+          if(messageUser) {
+            sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
+            'You have a new donation!', function(){
+              res.send('something');
+            });
+          } else {
+            sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
+            'You have a new donation!', function(){
+              res.send('something');
+            });
+          }
+        });
       }
 
-      models.notifications.create(options).then(function(notification) {
-        if(messageUser) {
-          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
-          'You have a new donation!', res);
-        } else {
-          sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
-          'You have a new donation!', res);
-        }
-      });
     });
   });
 }

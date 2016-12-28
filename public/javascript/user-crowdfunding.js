@@ -300,10 +300,11 @@ $(document).ready(function() {
           var isAnon = $('#is-anon').prop("checked");
         var amountAdjusted;
         console.log("USER", user);
+        console.log(recipientUserID);
         if(user.affiliated_institute_id && user.affiliation_approved){
           data.instituteId = user.affiliated_institute_id;
         }
-        
+
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
           data.amount = amountAdjusted;
