@@ -52,11 +52,24 @@ module.exports = {
             chargesArray[i].number = i
           }
           // elasticsearch
+          // create query
+          queryOptions = {
+            "filtered": {
+              "filter": {
+                "bool": {
+                }
+              },
+              "query": {
+                "bool": {
+                }
+              }
+            }
+          }
           es.search({
             index: "users",
             type: "user",
             body: {
-              "size": 4,
+              "size": 20,
               "query": {
                 "filtered": {
                   "filter": {
@@ -73,14 +86,35 @@ module.exports = {
                         }
                       ]
                     }
+                  },
+                  "query": {
+                    "bool": {
+                      "should": [
+                        {
+                          "match_all": {"boost": 1}
+                        },
+                        {
+                          "match": {
+                            "country_of_residence": {
+                              "query": user.country_of_residence
+                            }
+                          }
+                        }
+                      ]
+                    }
                   }
                 }
               }
             }
           }).then(function(resp) {
-            var recommendedUsers = resp.hits.hits
             var users = false
-            if(resp) {
+            if(resp.hits.total !== 0) {
+              console.log('HITS: ' + resp.hits.total)
+              var recommendedUsers = resp.hits.hits
+              for (var i = 0; i < recommendedUsers.length; i++) {
+                Logger.info(recommendedUsers[i]._id + ', NAME: ' + recommendedUsers[i]._source.username + ', SCORE: ' + recommendedUsers[i]._score)
+              }
+              var recommendedUsers = resp.hits.hits
               users = []
               for (var i = 0; i < recommendedUsers.length; i++) {
                 users.push(recommendedUsers[i]._source)
@@ -88,11 +122,12 @@ module.exports = {
               for (var i = 0; i < users.length; i++) {
                 users[i].number = i.toString()
               }
-              for(var i = 0; i < users.length; i++) {
+              for (var i = 0; i < users.length; i++) {
                 if(users[i].funding_accrued !== null && users[i].funding_needed !== null) {
                   var accrued = users[i].funding_accrued
                   var needed = users[i].funding_needed
                   var percentage = Math.ceil((100*accrued)/needed)
+                  users[i].to_go = needed - accrued
                   users[i].percentage = percentage
                   users[i].width = 'width: ' + percentage.toString() + '%'
                 }
@@ -103,7 +138,14 @@ module.exports = {
               var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
               req.user.initials = initials
               res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
+            } else {
+              // res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users})
+              res.send('None found')
             }
+          }, function(err) {
+            console.log('^^^^^^^^^^^^')
+            console.log("ELASTICSEARCH ERROR")
+            console.log('^^^^^^^^^^^')
           })
         })
       })
@@ -131,7 +173,7 @@ module.exports = {
   //     res.render('donor/register')
   //   }
   // },
-  //
+
   transactionComplete: function(req, res) {
     var email = req.body.donor_email
     models.users.find({where: {email: email}}).then(function(user) {
@@ -152,7 +194,6 @@ module.exports = {
 }
 
 function reformatDate(date) {
-  console.log(date)
   var mm = date.getMonth() + 1; // In JS months are 0-indexed, whilst days are 1-indexed
   var dd = date.getDate();
   var yyyy = date.getFullYear();

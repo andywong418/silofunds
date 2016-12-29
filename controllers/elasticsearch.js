@@ -111,10 +111,8 @@ module.exports = {
 
       if (query.all !== "true" || emptyQueryObj) {
         // Setting up filter
-
         queryOptions.filtered.filter.bool.should = [];
         var shouldFilter = queryOptions.filtered.filter.bool.should;
-        console.log("QUERY");
         if(query.amount_offered){
           shouldFilter.push({
             "range": {
@@ -404,8 +402,7 @@ module.exports = {
                 if (query.tags && Object.keys(query).length === 1) {
                   Logger.error(relevantTerms);
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
-                }
-                else{
+                } else {
                   res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                 }
               });
@@ -413,9 +410,7 @@ module.exports = {
               if (query.tags && Object.keys(query).length === 1){
                 console.log("RESULTS");
                 res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
-
-              }
-              else{
+              } else {
                 console.log("ANOTHER RESULTS", query);
                 res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
               }
@@ -426,8 +421,7 @@ module.exports = {
           res.render('error');
         });
       });
-    }
-    else{
+    } else {
       es.search({
         index: "funds",
         type: ["autocomplete_universities", "autocomplete_subjects", "autocomplete_degrees", "autocomplete_countries"],
@@ -593,8 +587,12 @@ module.exports = {
               }
             }
           });
-
         }
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+        console.log(queryOptions.filtered.query.bool.should[3].match, 'should')
+        console.log(queryOptions.filtered.query.bool.should[0].bool.must, 'must')
+        console.log(queryOptions.filtered.query, 'query')
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
         // console.log("OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should[0].match);
 
         ///////////////////// NOTE: SPECIAL NEEDS /////////////////////////
@@ -776,7 +774,7 @@ module.exports = {
             if(uniRelTerm){
               queryOptions.filtered.query.bool.should.push({
                 "match": {
-                  "target_university":{
+                  "target_university": {
                     "query": universityCategories.join(' ') +  ' ' +'all',
                     "minimum_should_match": "100%",
                   }
@@ -999,8 +997,7 @@ module.exports = {
                   if (query.tags && Object.keys(query).length === 1) {
                     Logger.error(relevantTerms);
                     res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
-                  }
-                  else{
+                  } else {
                     res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                   }
                 });
@@ -1008,9 +1005,7 @@ module.exports = {
                 if (query.tags && Object.keys(query).length === 1){
                   console.log("RESULTS");
                   res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
-
-                }
-                else{
+                } else {
                   console.log("ANOTHER RESULTS", query);
                   res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
                 }

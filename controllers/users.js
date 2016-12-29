@@ -1160,7 +1160,7 @@ module.exports = {
     })
   },
 
-  search: function(req, res){
+  search: function (req, res) {
     var query = req.query;
     var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
     // Parse integer fields

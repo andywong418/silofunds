@@ -100,14 +100,14 @@ block content
                 .information
                   .name
                     span= user.username
-                    span, 21
+                    span , 21
                   if user.percentage
                     .progress-bar
                       .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
                   .description
                     if user.percentage
                       span.percent-funded #{user.percentage}% funded
-                      span.amount-left £#{user.funding_needed} to go
+                      span.amount-left £#{user.to_go} to go
                     br
                     .bio
                         p.line-clamp= user.description
@@ -124,12 +124,12 @@ block content
                       .information
                         .name
                           span= user.username
-                          span, 21
+                          span , 21
                         .progress-bar
                           .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
                         .description
                           span.percent-funded #{user.percentage}% funded
-                          span.amount-left £#{user.funding_needed} to go
+                          span.amount-left £#{user.to_go} to go
                           br
                           .bio
                               p.line-clamp= user.description
@@ -141,12 +141,12 @@ block content
                       .information
                         .name
                           span= user.username
-                          span, 21
+                          span , 21
                         .progress-bar
                           .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
                         .description
                           span.percent-funded %#{user.percentage}% funded
-                          span.amount-left £#{user.funding_needed} to go
+                          span.amount-left £#{user.to_go} to go
                           br
                           .bio
                               p.line-clamp= user.description              
