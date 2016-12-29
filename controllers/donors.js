@@ -52,6 +52,8 @@ module.exports = {
             chargesArray[i].number = i
           }
           // elasticsearch
+          var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university']
+          var searchFieldArrays = ['country_of_residence','subject','previous_degree','target_degree','previous_university','target_university']
           // create query
           var queryOptions = {
             "filtered": {
@@ -68,7 +70,7 @@ module.exports = {
                       "missing": {"field": "organisation_or_user"}
                     },
                     {
-                      "not": { // This is to remove the donor from the results
+                      "not": { // This is to remove the user from their own results
                         "term": {
                           "email": user.email
                         }
@@ -91,40 +93,37 @@ module.exports = {
           // adding to the query should boolean
           var query = queryOptions.filtered.query.bool
           var queryShould = query.should
-          if (user.country_of_residence) {
-            queryShould.push({
-              "match": {
-                "country_of_residence": {
-                  "query": user.country_of_residence
-                }
-              }
-            })
+          for (var i = 0; i < searchFieldArrays.length; i++) {
+            var key = searchFieldArrays[i]
+            if (user[key] !== null) {
+              user[key] = user[key].join(' ')
+            }
           }
-          if (user.previous_degree) {
-            queryShould.push({
-              "multi_match": {
-                "query": user.previous_degree,
-                "fields": ["previous_degree", "target_degree"]
-              }
-            })
-          }
-          if (user.previous_university) {
-            queryShould.push({
-              "multi_match": {
-                "query": user.previous_university,
-                "fields": ["previous_university", "target_university"]
-              }
-            })
-          }
-          if (user.subject) {
-            queryShould.push({
-              "match": {
-                "subject": {
-                  "query": user.subject
-                }
-              }
-            })
-          }
+          var matchArray = [ // add in anything needing to be match queried
+            {
+              query: user.country_of_residence, // query
+              field: "country_of_residence",    // field
+              boost: 1                          // boost
+            },
+            {
+              query: user.religion,
+              field: "religion",
+              boost: 1
+            }
+          ]
+          var multiMatchArray = [ // add in here for multimatch
+            {
+              query: user.previous_degree + ' ' + user.subject,         // query
+              fields: ["previous_degree", "target_degree", "subject"],  // fields
+              boost: 1                                                  // boost
+            },
+            {
+              query: user.previous_university,
+              fields: ["previous_university", "target_university"],
+              boost: 1
+            }
+          ]
+          pushMatchesToQuery(matchArray, multiMatchArray, queryShould)
           es.search({
             index: "users",
             type: "user",
@@ -133,6 +132,7 @@ module.exports = {
               "query": queryOptions
             }
           }).then(function(resp) {
+            console.log(resp)
             var users = false
             if(resp.hits.total !== 0) {
               console.log('HITS: ' + resp.hits.total)
@@ -228,3 +228,39 @@ function reformatDate(date) {
   var reformattedDate = dd + "/" + mm + "/" + yyyy;
   return reformattedDate;
 };
+
+// es helper functions
+var shouldMatch = function(query, field, boost, queryShould) {
+  if (query) {
+    var object = {
+      "match": {}
+    }
+    object.match[field] = {
+      "query": query,
+      "boost": boost
+    }
+    queryShould.push(object)
+  }
+}
+
+var shouldMultiMatch = function(query, fields, boost, queryShould) {
+  if (query) {
+    var object = {
+      "multi_match": {
+        "query": query,
+        "fields": fields,
+        "boost": boost
+      }
+    }
+    queryShould.push(object)
+  }
+}
+
+var pushMatchesToQuery = function (match, multi, queryShould) {
+  for (var i = 0; i < match.length; i++) {
+    shouldMatch(match[i].query, match[i].field, match[i].boost, queryShould)
+  }
+  for (var i = 0; i < multi.length; i++) {
+    shouldMultiMatch(multi[i].query, multi[i].fields, multi[i].boost, queryShould)
+  }
+}

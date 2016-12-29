@@ -121,7 +121,7 @@ module.exports = {
             ];
             queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
           }
-          if(user.college){
+          if (user.college) {
             var termObj = {
               "term":{
                 "required_college": user.college
@@ -146,7 +146,7 @@ module.exports = {
               }
             });
           }
-          for (var i = 0; i< searchFields.length; i++) {
+          for (var i = 0; i < searchFields.length; i++) {
             var key = searchFields[i];
             var notAge = key !== "age";
             var notAmount = key !== "funding_needed";
@@ -167,27 +167,23 @@ module.exports = {
                 if (key === 'previous_degree') {
                   matchObj.match.required_degree = user[key];
                 } else if (key === 'previous_university') {
-                  matchObj.match.required_university ={
+                  matchObj.match.required_university = {
                     "query": user[key],
                     "minimum_should_match": "100%"
                   };
-                }
-                else if (key ==='subject'){
+                } else if (key ==='subject') {
                   matchObj.match.subject = {
                     "query": user[key],
                     "boost": 5
                   };
-                }
-                else if(key === 'target_university'){
+                } else if(key === 'target_university'){
                   matchObj.match.target_university = {
                     "query": user[key],
                     "minimum_should_match": "100%"
                   };
-                }
-                else {
+                } else {
                   matchObj.match[key] = user[key];
                 }
-
                 queryOptions.filtered.query.bool.should.push(matchObj);
               }
               // if(user.subject && user.target_university){
