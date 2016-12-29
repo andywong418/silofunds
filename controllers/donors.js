@@ -53,58 +53,84 @@ module.exports = {
           }
           // elasticsearch
           // create query
-          queryOptions = {
+          var queryOptions = {
             "filtered": {
               "filter": {
                 "bool": {
+                  "must": [
+                    {
+                      "exists": {"field": "description"}
+                    },
+                    {
+                      "exists": {"field": "profile_picture"}
+                    },
+                    {
+                      "missing": {"field": "organisation_or_user"}
+                    },
+                    {
+                      "not": { // This is to remove the donor from the results
+                        "term": {
+                          "email": user.email
+                        }
+                      }
+                    }
+                  ]
                 }
               },
               "query": {
                 "bool": {
+                  "should": [
+                    {
+                      "match_all": {"boost": 1} // This allows for results even if no should matches
+                    },
+                  ]
                 }
               }
             }
+          }
+          // adding to the query should boolean
+          var query = queryOptions.filtered.query.bool
+          var queryShould = query.should
+          if (user.country_of_residence) {
+            queryShould.push({
+              "match": {
+                "country_of_residence": {
+                  "query": user.country_of_residence
+                }
+              }
+            })
+          }
+          if (user.previous_degree) {
+            queryShould.push({
+              "multi_match": {
+                "query": user.previous_degree,
+                "fields": ["previous_degree", "target_degree"]
+              }
+            })
+          }
+          if (user.previous_university) {
+            queryShould.push({
+              "multi_match": {
+                "query": user.previous_university,
+                "fields": ["previous_university", "target_university"]
+              }
+            })
+          }
+          if (user.subject) {
+            queryShould.push({
+              "match": {
+                "subject": {
+                  "query": user.subject
+                }
+              }
+            })
           }
           es.search({
             index: "users",
             type: "user",
             body: {
               "size": 20,
-              "query": {
-                "filtered": {
-                  "filter": {
-                    "bool": {
-                      "must": [
-                        {
-                          "exists": {"field": "description"}
-                        },
-                        {
-                          "exists": {"field": "profile_picture"}
-                        },
-                        {
-                          "missing": {"field": "organisation_or_user"}
-                        }
-                      ]
-                    }
-                  },
-                  "query": {
-                    "bool": {
-                      "should": [
-                        {
-                          "match_all": {"boost": 1}
-                        },
-                        {
-                          "match": {
-                            "country_of_residence": {
-                              "query": user.country_of_residence
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
+              "query": queryOptions
             }
           }).then(function(resp) {
             var users = false
@@ -139,11 +165,9 @@ module.exports = {
               req.user.initials = initials
               res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
             } else {
-              // res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users})
-              res.send('None found')
+              res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users})
             }
           }, function(err) {
-            console.log('^^^^^^^^^^^^')
             console.log("ELASTICSEARCH ERROR")
             console.log('^^^^^^^^^^^')
           })
