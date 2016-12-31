@@ -726,13 +726,26 @@ module.exports = {
             models.applications.findAll({where: {user_id: user.id}}).then(function(applications){
               var pageViewCreate = {user_id: user.id};
               models.cost_breakdowns.findAll({where: {user_id: user.id}}).then(function(breakdowns){
-
-                if(applications.length > 0){
-                  createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, breakdowns: breakdowns}, { user: user, loggedInUser: loggedInUser,documents: documents, breakdowns: breakdowns});});
-                } else {
-                  // No applications
-                  createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false, breakdowns: breakdowns },{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false, breakdowns: breakdowns});});
+                if(user.affiliation_approved && user.affiliated_institute_id){
+                  models.affiliated_institutions.findById(user.affiliated_institute_id).then(function(institute){
+                    console.log('in', institute);
+                    if(applications.length > 0){
+                      createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, breakdowns: breakdowns, institute: institute}, { user: user, loggedInUser: loggedInUser,documents: documents, breakdowns: breakdowns, institute: institute});});
+                    } else {
+                      // No applications
+                      createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false, breakdowns: breakdowns, institute: institute },{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false, breakdowns: breakdowns, institute: institute});});
+                    }
+                  });
                 }
+                else{
+                  if(applications.length > 0){
+                    createPageView(pageViewCreate, loggedInUser, user, function(){asyncChangeApplications(applications, {user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, breakdowns: breakdowns}, { user: user, loggedInUser: loggedInUser,documents: documents, breakdowns: breakdowns});});
+                  } else {
+                    // No applications
+                    createPageView(pageViewCreate, loggedInUser, user, function(){findStripeUser({user_id: userId}, res, {user: user,loggedInUser: loggedInUser, documents: documents, applications: false, breakdowns: breakdowns },{ user: user, loggedInUser: loggedInUser, documents: documents, applications: false, charges: false, donations: false, breakdowns: breakdowns});});
+                  }
+                }
+
               });
 
             });
@@ -2199,6 +2212,15 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
       is_institution = false;
 
     }
+
+    var donor_type;
+    if(req.body.donor_type){
+      donor_type = req.body.donor_type;
+    }
+    else{
+      donor_type = null;
+    }
+    console.log("donor_type", donor_type);
     return models.stripe_charges.create({
       charge_id: charge.id,
       amount: parseFloat(charge.amount),
@@ -2223,7 +2245,8 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
       user_id: user.id,
       donor_id: donor_id,
       student_id: studentId,
-      is_institution: is_institution
+      is_institution: is_institution,
+      donor_type: donor_type
     }).then(function(object) {
       var stripe_id = object.id;
       var options;
