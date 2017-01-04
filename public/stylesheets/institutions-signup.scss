@@ -1,0 +1,28 @@
+#signup-wrapper.container-fluid{
+  #signup-form.center-block{
+    #previous-university-row.row, #subject-row.row, #previous-college-row.row, #donor-country-row.row{
+      display: none;
+    }
+    .row{
+      border-bottom: none;
+    }
+    #postal-code {
+      padding: 0
+    }
+    #city{
+      padding-right: 0;
+    }
+    .address-error{
+      display: none;
+      color: red;
+    }
+    #verify{
+      margin-top: 20px;
+      width: 50%;
+    }
+    .if-applicable{
+      margin-top: -20px;
+      color: grey;
+    }
+  }
+}

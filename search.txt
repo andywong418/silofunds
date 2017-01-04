@@ -1,0 +1,19 @@
+ Fund Search Readme
+
+ Query terms is a front end display mechanism - it has no effect on performance.
+
+ If refine search is on:
+  We do not apply wide range category fields to them - so we do not perform the two layered search. We then use a filtered query which has the effect of combining filters and queries a like. (filteres are performed before queries).
+
+  We then go through a bunch of if statements to check for specific fields. After making sure amount needed and age of the user is an integer we perform a range operator to return funds whose maximum age is greater than age, whose minimum age is smaller than age and whose max_amount_offered is greater than amount_needed  (this still needs work). We should explore whether to use the must filter.
+
+  We then disregard the specific_location field if users don't specify it (it is included in the search only if user inputs a specific location they are from.)
+
+  Then comes the multisearch on the all fields (this is the text search) - this is given a boost of 2 because we believe tags matter.
+
+  For loop to loop through all query fields which are not filters and not required_college - we put particular boosts of 7 in subject and a boost of 2 on everything else. College specific scholarships get a boost of 4 as they are very relevant.
+
+  Some funds are specific for non European or non Geography funds for example. We use this to create must_not filters to search for them as well - this is particularly prominent for countries.
+
+if refine search is off:
+  We search through the different resource files (degree levels, subjects, countries, universities) from queryString which is input from the textbox. We got through the same procedure as above but we also check for the relevant subject types (i.e. if someone types Geography then humanities is the relevant type), relevant country types(continents) and relevant degree level types (undergraduate and post graduate), universities(UK and Irish and US unis) and we add another match query onto our bool which is for example match{ 'science all'} which returns science grants and grants which don't specify subjects.
