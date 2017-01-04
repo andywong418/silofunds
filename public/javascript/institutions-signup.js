@@ -16,21 +16,21 @@ $(document).ready(function(){
   $('select[name="buffer_type"]').change(function(){
     switch($(this).val()){
       case "university":
-        $('#previous-university-row').show();
+        $('#previous-university-row, #refund-choice').show();
         $('#subject-row, #previous-college-row, #donor-country-row').hide();
         break;
       case "faculty":
-        $('#previous-university-row').show();
+        $('#previous-university-row, #refund-choice').show();
         $('#subject-row').show();
         $('#previous-college-row, #donor-country-row').hide();
         break;
       case "college":
-        $('#previous-university-row').show();
+        $('#previous-university-row, #refund-choice').show();
         $('#previous-college-row').show();
         $('#subject-row, #donor-country-row').hide();
         break;
       case 'charity_buffer':
-        $('#donor-country-row').show();
+        $('#donor-country-row, #refund-choice').show();
         $('#subject-row, #previous-university-row, #previous-college-row').hide();
         break;
 
@@ -45,6 +45,7 @@ $(document).ready(function(){
       $('.address-error').show();
     }
     else{
+      var refund = $('#refund').is(":checked");
       var addressData = {
         "address_line1": $('input#address_line1').val(),
         "address_zip": $('input#address_zip').val(),
@@ -54,9 +55,13 @@ $(document).ready(function(){
       var bufferData = {
         'buffer_type': $('select#buffer_type').val()
       };
+      if(refund){
+        bufferData.refund = true;
+      }
       var formData = {
 
       };
+
       checkIfVisibleToken($('input[name=previous_university]'), formData);
       checkIfVisible($('input[name=college]'), formData);
       checkIfVisibleToken($('input[name=subject]'), formData);

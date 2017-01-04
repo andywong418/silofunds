@@ -304,8 +304,8 @@ $(document).ready(function() {
 
   var handler = StripeCheckout.configure({
       // key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r ,
-      //pk_live_zSAA5TcxiGNl3Cdw88TDAqnE
-      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r' ,
+      // LIve: pk_live_zSAA5TcxiGNl3Cdw88TDAqnE
+      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE' ,
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',

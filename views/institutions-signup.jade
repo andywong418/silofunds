@@ -44,7 +44,7 @@ block content
 					input#subject(name="subject")
 			#previous-college-row.row
 				.col-sm-0.col-md-1
-				.col-sm-3.col-xs-2
+				.col-sm-3.col-xs-2 
 					p.description College
 				.col-md-6.col-sm-8.col-xs-8
 						input#college(name='college', placholder= "Separate each college/hall by a comma")
@@ -54,6 +54,12 @@ block content
 					p.description Country of operation
 				.col-md-6.col-sm-8.col-xs-8
 						input#country_of_residence(name='country_of_residence', placholder= "E.g. United States of America")
+			.row#refund-choice(style='display: none')
+				.col-xs-1.col-sm-1.col-md-3
+				.col-md-1.col-xs-1
+					input#refund(type='checkbox', name='refund', value='true')
+				.col-md-8.col-xs-9.col-sm-offset-0
+					p.description(style='text-align: left') Refund your donors if the goal is not reached by completion date. Once there has been a donation, this setting cannot be changed.
 			.row
 				.col-sm-0.col-md-1
 				.col-sm-3.col-xs-2
