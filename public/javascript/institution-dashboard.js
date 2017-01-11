@@ -76,8 +76,10 @@ var StudentList = Backbone.View.extend({
         shortenedDescription = shortenedDescription + '...';
       }
       else{
-        if(student.get('short_description')){
-          shortenedDescription = student.get(short_description);
+        console.log("STIDENT", student.get('short_description'));
+        var checkDescription = student.get('short_description');
+        if(checkDescription){
+          shortenedDescription = checkDescription;
         }
         else{
           shortenedDescription = 'No description available yet.';
@@ -89,7 +91,7 @@ var StudentList = Backbone.View.extend({
       var funding_accrued = student.get('funding_accrued');
       var funding_needed = student.get('funding_needed');
       if(funding_accrued){
-        percentage = Math.ceil((funding_accrued/funding_needed) * 100);
+        percentage = Math.floor((funding_accrued/funding_needed) * 100);
         student.set('percentage_accrued', percentage + '%');
         student.set('funding_accrued', '£' + funding_accrued);
         if(percentage && percentage < 100){
@@ -98,12 +100,10 @@ var StudentList = Backbone.View.extend({
         }
         else{
           if(percentage > 100){
-            console.log(percentage);
             student.set('funding_left', 'Fulfilled');
             student.set('variable_text', '');
           }
           else{
-            console.log(percentage);
             student.set('funding_left', '');
             student.set('variable_text', '');
           }
@@ -113,8 +113,8 @@ var StudentList = Backbone.View.extend({
       else{
         student.set('percentage_accrued', 0);
         student.set('funding_accrued', 0);
-        student.set('funding_left', funding_needed );
-        student.set('variable_text', '');
+        student.set('funding_left', '£' + funding_needed );
+        student.set('variable_text', 'left');
       }
       var studentView = new StudentView({model: student, template: template});
       studentView.template = _.template(template.html());

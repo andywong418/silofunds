@@ -112,7 +112,7 @@
                   if comment.diffDays == 1
                     span#comment-diffDays Yesterday
                   if comment.diffDays > 1
-                    span#comment-diffDays= diffDays + ' ago'
+                    span#comment-diffDays= comment.diffDays + ' days ago'
             .real-comment-row.row
               .col-md-1.col-sm-1
               .col-md-11.col-sm-11
