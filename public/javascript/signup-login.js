@@ -428,6 +428,7 @@ $("#login-form").submit(function(e){
            }
            else{
              var crowdFundingPage = location.href.indexOf('public');
+             var student = user.student;
              if(crowdFundingPage > -1){
                //public page
                $.get('/check-user/' + loggedInUser, function(user){

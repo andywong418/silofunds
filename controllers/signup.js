@@ -531,6 +531,10 @@ module.exports = {
 		var userId = req.user.id;
 		var heard_from = req.body.heard_from;
 		var institute_id = parseInt(req.body.affiliated_institute_id);
+		if(!institute_id){
+			delete req.body['affiliated_institute_id']
+		}
+		console.log("REQ BODY", req.body);
 		models.users.findById(userId).then(function(user){
 			user.update(req.body).then(function(user){
 				if(req.body.affiliated_institute_id){

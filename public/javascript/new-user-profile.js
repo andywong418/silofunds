@@ -545,6 +545,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				this.$('.address-error').show();
 			}
 			else{
+				console.log("WHAT");
 				var addressData = {
 					"address_line1": $('input#address_line1').val(),
 					"address_zip": $('input#address_zip').val(),

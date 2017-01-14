@@ -86,31 +86,31 @@ block content
                     a Approve affiliation
             
         
-  
-  .col-md-12.recommended-students
-    .row
-      .col-xs-7
-        if users.length > 0
-          p#recommended-header Recommended users
-    .row
-      each student in users
-        .col-md-4.student-card
-          if student.profile_picture
-            img.student-pictures(src=student.profile_picture)
-            .student-info
-              a.name(href='/public/' + student.id)= student.username
-              if student.subject && user.subject
-                p.same-faculty= 'Studying ' + student.subject.join(', ')
-              if student.college && user.college
-                p.same-college= 'Part of ' + student.college
-          else
-            img.student-pictures(src='/images/fund_img_placeholder.jpg')
-            .student-info
-              a.name(href='/public/' + student.id)= student.username
-              if student.subject && user.subject
-                p.same-faculty= 'Studying ' + student.subject.join(', ')
-              if student.college && user.college
-                p.same-college= 'Part of ' + student.college.join(', ')
+  if affiliated_students.length === 0 && pending_students === 0
+    .col-md-12.recommended-students
+      .row
+        .col-xs-7
+          if users.length > 0
+            p#recommended-header Recommended users
+      .row
+        each student in users
+          .col-md-4.student-card
+            if student.profile_picture
+              img.student-pictures(src=student.profile_picture)
+              .student-info
+                a.name(href='/public/' + student.id)= student.username
+                if student.subject && user.subject
+                  p.same-faculty= 'Studying ' + student.subject.join(', ')
+                if student.college && user.college
+                  p.same-college= 'Part of ' + student.college
+            else
+              img.student-pictures(src='/images/fund_img_placeholder.jpg')
+              .student-info
+                a.name(href='/public/' + student.id)= student.username
+                if student.subject && user.subject
+                  p.same-faculty= 'Studying ' + student.subject.join(', ')
+                if student.college && user.college
+                  p.same-college= 'Part of ' + student.college.join(', ')
   include ./partials/footer.jade
 
 block scripts
