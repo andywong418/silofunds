@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       field: 'alumni'
     },
+    short_bio: {
+      type: DataTypes.STRING,
+      field: 'short_bio'
+    },
     company: {
       type: DataTypes.TEXT,
       field: 'company'
