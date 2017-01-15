@@ -232,7 +232,7 @@ jQuery.fn.putCursorAtEnd = function() {
      return val.split(" ");
  };
 
- $("input#text_search" ).autocomplete({
+ $("input#text_search, input#subject_search, input#university, input#degree_level" ).autocomplete({
    source: "../autocomplete",
    minLength: 1,
    select: function( event, ui ) {
@@ -251,6 +251,7 @@ jQuery.fn.putCursorAtEnd = function() {
      return false;
    }
  });
+
 
 
  $("#signup-username").focus(function(){

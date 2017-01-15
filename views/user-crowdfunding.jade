@@ -152,7 +152,7 @@ block content
 					#applicationFeeMessage.col-md-12.col-sm-12
 						if user.affiliation_approved && user.affiliated_institute_id
 							p#refund-text= 'Your donations will go directly to ' + institute.name + ', where the student is intending to go. '
-								a(href='/explain-college-accounts', target='_blank') More information
+								a(href='/explain-affiliation-to-donors', target='_blank') More information
 						else
 							if user.refund
 								p#refund-text You will be refunded if the user does not reach his/her goal.
