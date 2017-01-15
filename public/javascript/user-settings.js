@@ -166,7 +166,7 @@ $(document).ready(function() {
     if ((previousPassword === '') && (newPassword === '') && (confirmNewPassword === '')) {
       saveActivePaneSettings('general', ['email'], {
         "email_updates": $('#email_updates').is(":checked")
-      });
+      }, null);
     } else {
       $.post('/user/settings/validate-password', { "previous_password": $('#previous_password').val() }, function(response) {
         $('span#previous_password_message').html(response.message);
@@ -191,7 +191,7 @@ $(document).ready(function() {
             saveActivePaneSettings('general', ['email'], {
               "email_updates": $('#email_updates').is(":checked"),
               "password": $('#confirm_new_password').val()
-            });
+            }, null);
 
             $('span.password_message').empty();
             $('input.password').val('');
@@ -205,17 +205,18 @@ $(document).ready(function() {
 
   $('#save-personal-settings').click(function(e) {
     e.preventDefault();
-
+    var donorInfo = {}
+    if($('#short_bio').val()) {
+      donorInfo.short_bio = $('#short_bio').val()
+    }
     var gender;
-
     if($('#male').is(":checked")){
       gender = 'male';
     }
     if($('#female').is(":checked")){
       gender = 'female';
     }
-
-    saveActivePaneSettings('personal', ['username', 'date_of_birth', 'religion', 'country_of_residence'], { gender: gender });
+    saveActivePaneSettings('personal', ['username', 'date_of_birth', 'religion', 'country_of_residence'], { gender: gender}, donorInfo);
   });
 
   $('#save-campaign-settings').click(function(e) {
@@ -250,7 +251,7 @@ $(document).ready(function() {
         refund = false;
       }
     }
-    saveActivePaneSettings('campaign', ['video', 'short_description', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund });
+    saveActivePaneSettings('campaign', ['video', 'short_description', 'link', 'funding_needed', 'completion_date'], { "description": tinymce.activeEditor.getContent(), "refund": refund }, null);
   });
 
   $('.launch_status a.offline').click(function() {
@@ -351,9 +352,8 @@ $(document).ready(function() {
     });
   }
 
-  function saveActivePaneSettings(tabPaneName, settingsFieldsArray, extraOptions) {
+  function saveActivePaneSettings(tabPaneName, settingsFieldsArray, extraOptions, donorInfo) {
     var formData = {};
-
     for (var i = 0; i < settingsFieldsArray.length; i++) {
       var formDataKey = settingsFieldsArray[i];
       if(formDataKey== 'college'){
@@ -361,28 +361,36 @@ $(document).ready(function() {
         console.log(formData[formDataKey]);
         console.log(formDataKey);
         console.log(formData);
-      }
-      else{
+      } else {
         formData[formDataKey] = $('#' + formDataKey).val();
       }
-
     }
-
     if (extraOptions) {
       var extraOptionsKeys = Object.keys(extraOptions);
-
       for (var j = 0; j < extraOptionsKeys.length; j++) {
         var extraOptionsKey = extraOptionsKeys[j];
-
         formData[extraOptionsKey] = extraOptions[extraOptionsKey];
       }
     }
-    console.log("formdata", formData);
-    $.post('/user/settings', formData, function(data) {
-      $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
-      $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
+    formData.donorSettings = donorInfo
+    formData = JSON.stringify(formData)
+    $.ajax({
+      type: "POST",
+      url: '/user/settings',
+      data: formData,
+      contentType: 'application/json; charset=utf-8',
+      success: function(data) {
+        $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
+        $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
+      },
+      dataType: 'JSON'
     });
-
+    // $.post('/user/settings',
+    //   formData,
+    //   function(data) {
+    //   $('#save-' + tabPaneName + '-settings-notification').css('display', 'block');
+    //   $('#save-' + tabPaneName + '-settings-notification').fadeOut(6000);
+    // });
   }
 
   // Mobile jquery
@@ -451,14 +459,12 @@ function cameraFaviconMover() {
       top = $('.top-no-pic').height() - $('#box-profile .fa.fa-camera').height();
     }
     $('#box-profile .fa.fa-camera').css('top', top - 9);
-    console.log($('#box-profile').height())
   }
 }
 
 // Prepopulation of advanced search
 function prePopulate() {
   var age = calcAge(user.date_of_birth)
-  console.log(age)
   $('#advanced_age').val(age);
   $('#advanced_country_of_residence').val(user.country_of_residence);
   $('#advanced_religion').val(user.religion);

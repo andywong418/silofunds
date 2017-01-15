@@ -925,9 +925,7 @@ module.exports = {
   },
 
   settingsGET: function(req, res) {
-    console.log('FUCKAAH')
     passportFunctions.ensureAuthenticated(req, res, function(){
-      console.log('FUCKAAHTRUCKAAH')
       models.documents.findAll({ where: { user_id: req.user.id }}).then(function(documents) {
         documents = documents.map(function(document) {
           return document.get();
@@ -1033,10 +1031,6 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userID = req.user.id;
       var settings = req.body;
-
-      Logger.info("Settings");
-      Logger.info(settings);
-
       var settingsKeys = Object.keys(settings);
       var numberOfKeys = Object.keys(settings).length;
       var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university", 'college'];
@@ -1054,9 +1048,6 @@ module.exports = {
           settings[settingsKey] = settings[settingsKey].split(',');
         }
       }
-
-      Logger.info("Settings");
-      Logger.info(settings);
       // var general_settings;
       // var id = req.user.id
       // var body = req.body;
@@ -1072,9 +1063,16 @@ module.exports = {
       //
       models.users.findById(userID).then(function(user) {
         user.update(settings).then(function(user) {
-          res.send("HAHHAHAH");
+          if (settings.donorSettings) {
+            if (user.donor_id) {
+              models.donors.findById(user.donor_id).then(function(donor) {
+                donor.update(settings.donorSettings).then(function(donor) {
+                  res.end();
+                })
+              })
+            }
+          }
           res.end();
-
           // res.render('user/settings', {user: user, general: general_settings});
         });
       });
