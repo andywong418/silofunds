@@ -10,8 +10,8 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
-// var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv'); Text
+// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); stripe*key
+var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -1975,7 +1975,7 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
   });
 }
 
-function sendDonorEmail(userId, charge, app, res) {
+function sendDonorEmail(userId, charge, res) {
   models.users.findById(userId).then(function(user) {
     var transporter = nodemailer.createTransport(smtpTransport({
       service: 'Gmail',
@@ -2007,7 +2007,7 @@ function sendDonorEmail(userId, charge, app, res) {
         if(err) {
          console.error(err);
         } else {
-          app = app.get()
+          app = {}
           app.charge_email = charge.email
           res.send(app);
         }
@@ -2323,12 +2323,12 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
           if(messageUser) {
             sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
             'You have a new donation!', function(){
-              sendDonorEmail(userId, charge, app, res)
+              sendDonorEmail(user.id, charge, res)
             });
           } else {
             sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
             'You have a new donation!', function(){
-              sendDonorEmail(userId, charge, app, res)
+              sendDonorEmail(user.id, charge, res)
             });
           }
         });
