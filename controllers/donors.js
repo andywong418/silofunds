@@ -238,7 +238,7 @@ module.exports = {
     var email = req.body.donor_email
     models.users.find({where: {email: email}}).then(function(user) {
       if(user) {
-        res.redirect('/login')
+        res.render('donor/register', {thankyou: true})
       } else {
         res.render('donor/register', {email: email, what: true})
       }

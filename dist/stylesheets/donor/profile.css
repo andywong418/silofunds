@@ -931,10 +931,11 @@ body {
   display: flex;
   padding-bottom: 15px; }
   .heading .profile_picture .initials.circle, .heading .profile_picture img {
-    height: 100px;
-    line-height: 100px;
-    width: 100px;
-    font-size: 55px;
+    height: 130px;
+    line-height: 130px;
+    margin-right: 20px;
+    width: 130px;
+    font-size: 65px;
     text-align: center;
     border-radius: 50%;
     background-color: #3399FF;
@@ -1124,10 +1125,12 @@ body {
     height: 150px; }
   .heading.main-info .name {
     font-size: 32px; }
-  .heading.main-info .bio {
+  .heading.main-info .bio.add {
     margin-top: 4px;
     font-size: 19px;
     color: rgba(0, 0, 0, 0.7); }
+  .heading.main-info .bio.add_bio {
+    color: #3399FF; }
   .heading.main-info .add {
     font-size: 17px; }
   .heading.main-info .other {
@@ -1180,8 +1183,8 @@ body {
     margin-top: 4px;
     font-size: 21px;
     color: rgba(0, 0, 0, 0.7); }
-  .heading.main-info .add {
-    font-size: 18px; }
+  .heading.main-info .bio.add_bio {
+    color: #3399FF; }
   .heading.main-info .other {
     font-size: 18px;
     color: rgba(0, 0, 0, 0.7);

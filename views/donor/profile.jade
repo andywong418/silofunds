@@ -53,7 +53,11 @@ block content
           .initials.circle= user.initials
       .info-div
         .name= user.username
-        .bio Chief technology officer at "Company X", CEO of "Company Y"!
+        if user.donor.headline
+          .bio= user.donor.headline
+        else
+          a(href='/donor/settings')
+            span.bio.add_bio Add a short bio
         .other
           if user.date_of_birth
             span.dob= user.date_of_birth
