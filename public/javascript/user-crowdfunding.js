@@ -443,7 +443,7 @@ $(document).ready(function() {
     $('#donor_email').val(data.charge_email)
     $('#donation_id').val(data.user_id)
     $('#user_id').val(data.charge_email)
-    // $('#hidden_form').submit()
+    $('#hidden_form').submit()
   }
 
   // Stuff for mobile

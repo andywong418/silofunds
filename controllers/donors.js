@@ -21,36 +21,72 @@ module.exports = {
       // We need to get all the donation information
       var user = req.user
       // Reformat date
-      separateDate = reformatDate(user.date_of_birth)
-      newDate = separateDate.split('-').reverse().join('/')
-      user.date_of_birth = newDate
+      if (user.date_of_birth) {
+        separateDate = reformatDate(user.date_of_birth)
+        newDate = separateDate.split('-').reverse().join('/')
+        user.date_of_birth = newDate
+      }
       models.stripe_charges.findAll({where: {donor_id: user.donor_id}}).then(function(charges) {
         var chargesArray = []
-        for(var i = 0; i < charges.length; i++) {
+        for (var i = 0; i < charges.length; i++) {
           chargesArray.push(charges[i].get())
         }
         var userIdArray = [];
-        for(var i = 0; i < chargesArray.length; i++) {
-          userIdArray.push(chargesArray[i].user_id)
+        for (var i = 0; i < chargesArray.length; i++) {
+          var duplicate = false;
+          if (userIdArray.length !== 0) {
+            for (var j = 0; j < userIdArray.length; j++) {
+              if (userIdArray[j] ==  chargesArray[i].user_id) {
+                duplicate = true
+              }
+            }
+          }
+          if (duplicate == false) {
+            userIdArray.push(chargesArray[i].user_id)
+          }
         }
         models.users.findAll({where: {id: userIdArray}}).then(function(users) {
           var usersArray = []
-          for(var i = 0; i < users.length; i++) {
+          for (var i = 0; i < users.length; i++) {
             usersArray.push(users[i].get())
           }
-          for(var i = 0; i < chargesArray.length; i++) {
-            for(var j = 0; j < usersArray.length; j++) {
-              if(chargesArray[i].user_id == usersArray[j].id) {
-                usersArray[j].amount = chargesArray[i].amount
-                usersArray[j].chargeDate = reformatDate(chargesArray[i].created_at)
-                var splitName = usersArray[j].username.split(' ')
-                var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-                usersArray[j].initials = initials
-                chargesArray[i] = usersArray[j]
+          console.log('CHARGES ARR')
+          console.log(chargesArray[1])
+          console.log('CHARGES ARR')
+          console.log(usersArray.length, 'usersArrayLENGHT')
+          for (var i = 0; i < usersArray.length; i++) {
+            usersArray[i].chargeList = [];
+            var splitName = usersArray[i].username.split(' ')
+            var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+            usersArray[i].initials = initials
+            for (var j = 0; j < chargesArray.length; j++) {
+              if (usersArray[i].id == chargesArray[j].user_id) {
+                var info = {
+                  amount: chargesArray[j].amount,
+                  chargeDate: reformatDate(chargesArray[j].created_at),
+                }
+                usersArray[i].chargeList.push(info)
               }
             }
             chargesArray[i].number = i
           }
+          chargesArray = usersArray
+          // for (var i = 0; i < chargesArray.length; i++) {
+          //   for (var j = 0; j < usersArray.length; j++) {
+          //     if (chargesArray[i].user_id == usersArray[j].id) {
+          //       usersArray[j].amount = chargesArray[i].amount
+          //       usersArray[j].chargeDate = reformatDate(chargesArray[i].created_at)
+          //       var splitName = usersArray[j].username.split(' ')
+          //       var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+          //       usersArray[j].initials = initials
+          //       chargesArray[i] = usersArray[j]
+          //     }
+          //   }
+          //   chargesArray[i].number = i
+          // }
+          console.log('CHARGES ARR')
+          console.log(chargesArray)
+          console.log('CHARGES ARR')
           // elasticsearch
           var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university']
           var searchFieldArrays = ['country_of_residence','subject','previous_degree','target_degree','previous_university','target_university']

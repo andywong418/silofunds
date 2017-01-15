@@ -167,19 +167,20 @@ block content
           .donation-container
             if charges
               each user in charges
-                .flex_box
-                  .image(class=user.number)
-                    if(user.profile_picture)
-                      img(src=user.profile_picture)
-                    else
-                      .initials.circle(class=user.number)= user.initials
-                  .information
-                    .basic-info
-                      span.amount £#{user.amount}
-                      span.date= user.chargeDate
-                      br
-                      a(href='/public/' + '#{user.id}')
-                        p= user.username
+                each info in user.chargeList
+                  .flex_box
+                    .image(class=user.number)
+                      if(user.profile_picture)
+                        img(src=user.profile_picture)
+                      else
+                        .initials.circle(class=user.number)= user.initials
+                    .information
+                      .basic-info
+                        span.amount £#{info.amount}
+                        span.date= info.chargeDate
+                        br
+                        a(href='/public/' + '#{user.id}')
+                          p= user.username
             else
               p.donations.else You haven't made any donations yet.
                 a(href='/results/users') Search for students now!

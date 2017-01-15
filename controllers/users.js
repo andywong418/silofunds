@@ -1858,26 +1858,26 @@ function findCharges(query, res, dataObject1, dataObject2, options1, options2){
 		findAllStripeCharges(options1, res, dataObject1, options2, dataObject2);
 	});
 }
-function asyncChangeDonations(options, array, res, dataObject){
+function asyncChangeDonations(options, array, res, dataObject) {
 	var newArray = [];
-	async.each(array, function(element, callback){
+	async.each(array, function(element, callback) {
+    console.log(element, 'ELEMENT')
 		var newObj = {};
 		newObj.sender_name = element.sender_name;
 		newObj.amount = (element.amount)/100;
     newObj.is_anon = element.is_anon;
 		newObj.diffDays = updateDiffDays(element.created_at);
-		if(element.user_from){
+		if (element.user_from) {
 			models.users.findById(element.user_from).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
-		}
-		else{
+		} else {
 			newArray.push(newObj);
 			callback();
 		}
-	}, function done(){
+	}, function done() {
 		dataObject.donations = newArray.reverse();
 		findAllUpdatesComments(options, res, dataObject);
 	});
