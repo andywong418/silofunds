@@ -474,7 +474,13 @@ module.exports = {
 									res.redirect('/organisation/create')
 								}
 							} else {
-								res.redirect('/donor/profile')
+								if(user.donor_id){
+									res.redirect('/donor/profile');
+								}
+								if(user.institution_id){
+									res.redirect('/institution/signup');
+								}
+
 							}
 						})
 					})
@@ -501,29 +507,38 @@ module.exports = {
 	verifyAddress: function(req, res){
 		var userId = req.user.id;
 		var heard_from = req.body.heard_from;
+		var institute_id = parseInt(req.body.affiliated_institute_id);
+		if(!institute_id){
+			delete req.body['affiliated_institute_id']
+		}
+		console.log("REQ BODY", req.body);
 		models.users.findById(userId).then(function(user){
 			user.update(req.body).then(function(user){
-				models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
-					if(row) {
-						res.send(row)
-					} else {
-						models.heard_froms.create({
-							user_id: userId
-						}).then(function(row) {
-							if(heard_from !== 'other' && heard_from !== '') {
-								row.update({[heard_from]: true}).then(function() {
-									res.send(user)
-								})
-							} else if (heard_from == 'other') {
-								row.update({heard_from: req.body.heard_other}).then(function() {
-									res.send(user)
+				if(req.body.affiliated_institute_id){
+					models.affiliated_institutions.findById(institute_id).then(function(institute){
+						if(institute.pending_students && institute.pending_students.indexOf(userId) === -1){
+							var existingStudents = institute.pending_students;
+							console.log("existingStudents", existingStudents);
+							var newpendingStudents = existingStudents.push(userId);
+							console.log("EXISTING STUDENTs", existingStudents);
+							institute.update({pending_students: existingStudents}).then(function(){
+								notifyInstitution(institute, user, heard_from, req, res);
+							})
+						} else {
+							if(!institute.pending_students){
+								var emptyArray = [];
+								var newpendingStudents = emptyArray.push(userId);
+								institute.update({pending_students: emptyArray}).then(function(){
+									notifyInstitution(institute, user, heard_from, req, res);
 								})
 							} else {
-								res.send(user)
+								heardFromsSend(userId, user, heard_from, req, res);
 							}
-						})
-					}
-				})
+						}
+					})
+				} else {
+					heardFromsSend(userId, user, heard_from, req, res);
+				}
 			})
 		})
 	},
@@ -617,34 +632,117 @@ module.exports = {
 
 		})
 	},
-	signupFundComplete: function(req, res){
-		var id = req.params.id;
-		models.users.findById(id).then(function(user){
-			var fundUser = user;
-			models.funds.findById(user.organisation_or_user).then(function(fund){
-				for (var attrname in fund['dataValues']){
-					if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
-						user["dataValues"][attrname] = fund[attrname];
+		signupFundComplete: function(req, res){
+			var id = req.params.id;
+			models.users.findById(id).then(function(user){
+				var fundUser = user;
+				models.funds.findById(user.organisation_or_user).then(function(fund){
+					for (var attrname in fund['dataValues']){
+						if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
 
+							user["dataValues"][attrname] = fund[attrname];
+
+						}
 					}
-				}
-				var fields= [];
-				models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
-						models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
-						// for (var category in categories){
-						//   Logger.info(category);
-						//   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
-						//     Logger.info(field)
-						//   })
-						user["dataValues"]["categories"] = categories;
-						res.render('signup/fund-dashboard', {user: user, newUser: true});
-					 })
+					var fields= [];
+					models.applications.find({where: {fund_id: fund.id, status: 'setup'}}).then(function(application){
+							models.categories.findAll({where: {application_id: application.id}}).then(function(categories){
+							// for (var category in categories){
+							//   Logger.info(category);
+							//   models.fields.findAll({where: {category_id : category['dataValues']['id']}}).then(function(fields){
+							//     Logger.info(field)
+							//   })
+							user["dataValues"]["categories"] = categories;
+							res.render('signup/fund-dashboard', {user: user, newUser: true});
+						 })
 
 
+					})
+				})
+
+			})
+		},
+		saveInstitution: function(req, res){
+			var user = req.user;
+			console.log("INSTITUTION REQ BODY", req.body);
+			models.affiliated_institutions.findById(user.institution_id).then(function(institution){
+				institution.update(req.body).then(function(data){
+					res.send(data);
 				})
 			})
+		}
+	};
 
+	function notifyInstitution(institution, user, heard_from, req, res){
+		models.users.find({where: {institution_id: institution.id}}).then(function(instituteUser){
+			var options = {
+				user_id: instituteUser.id,
+				notification: 'A new student has chosen to affiliate with your institution. See their profile <a href="/public/' + user.id + '"> here.</a> ',
+				category: 'new_pending_student',
+				read_by_user: false
+			};
+			models.notifications.create(options).then(function(notifications){
+				var username = institution.name;
+				//send emails here
+				var locals = {
+					header: 'Dear ' + username + ',',
+					notif_link: 'https://silofunds.com/public/' + user.id ,
+					notiftext: user.username + ' has affiliated with your institution! Click ',
+					notification: "to confirm and approve this update."
+				};
+				var templatePath = path.join(process.cwd(), 'email-notification-templates');
+				var template = new EmailTemplate(templatePath);
+
+				var transporter = nodemailer.createTransport(smtpTransport({
+				 service: 'Gmail',
+				 auth: {user: 'notifications@silofunds.com',
+							 pass: 'notifaccount'}
+				}));
+				console.log("WE IN thee email");
+
+				template.render(locals, function(err, results) {
+					if (err) {
+						 return console.error(err);
+					}
+					transporter.sendMail({
+						from: 'Silofunds',
+						to: instituteUser.email,
+						subject: "A new student has affiliated with your institution!",
+						html: results.html
+					}, function(err, responseStatus){
+						if (err) {
+						 console.error("ERROR", err);
+						} else {
+							console.log("SUCCESS", responseStatus);
+							heardFromsSend(user.id, user, heard_from, req, res);
+
+						}
+					});
+				});
+			})
 		})
 	}
-};
+	function heardFromsSend(userId, user, heard_from, req, res) {
+		models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
+			if(row) {
+				res.send(row)
+			} else {
+				models.heard_froms.create({
+					user_id: userId
+				}).then(function(row) {
+					if(heard_from !== 'other' && heard_from !== '') {
+						row.update({[heard_from]: true}).then(function() {
+							res.send(user)
+						})
+					} else if (heard_from == 'other') {
+						row.update({[heard_from]: req.body.heard_other}).then(function() {
+							res.send(user)
+						})
+					} else {
+						res.send(user)
+					}
+				})
+			}
+		})
+	}

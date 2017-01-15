@@ -504,6 +504,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 		template: _.template($('#account-template').html()),
 		events:{
 			'click #verify': 'addressPost',
+			'change #affiliate_choose': 'hideRefund',
 			'change #heard_from': 'heardOther'
 		},
 		render: function(){
@@ -512,6 +513,11 @@ var tokenArrayPopulate = function(value, emptyArray){
 		},
 		initialize: function(){
 			this.el = this.render().el;
+		},
+		hideRefund: function(){
+			if(this.$('#affiliate_choose').val()){
+				this.$('#refund-choice').hide();
+			}
 		},
 		addressPost: function(){
 			mixpanel.track(
@@ -527,7 +533,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				refund = false;
 			}
 			console.log(this.model);
-			var college_affiliation = $('input[name=college_affiliation]:checked').val();
+			var affiliation = $('select#affiliate_choose').val();
 			var address_zip = this.$('input#address_zip').val();
 			var address_line1 =  this.$('input#address_line1').val();
 			console.log(address_zip);
@@ -539,6 +545,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 				this.$('.address-error').show();
 			}
 			else{
+				console.log("WHAT");
 				var addressData = {
 					"address_line1": $('input#address_line1').val(),
 					"address_zip": $('input#address_zip').val(),
@@ -547,7 +554,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 					"refund": refund,
 					"heard_from": $('#heard_from').val(),
 					"heard_other": $('input#heard_other').val(),
-					"college_affiliation": college_affiliation
+					"affiliated_institute_id": affiliation
 				};
 				$.post('/signup/address', addressData, function(data){
 					window.location = '/user/authorize';
@@ -618,7 +625,7 @@ var tokenArrayPopulate = function(value, emptyArray){
 			var router = this;
 			accountModel.fetch({
 				success: function(){
-					router.loadView(new AccountDisplay({model: accountModel }))
+					router.loadView(new AccountDisplay({model: accountModel }));
 				}
 			})
 		},

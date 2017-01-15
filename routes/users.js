@@ -35,6 +35,8 @@ router.get('/email-unsubscribe/:id', users.emailUnsubscribe);
 router.post('/delete', users.delete);
 router.get('/cost_breakdown/:id', users.getCostBreakdown);
 router.get('/start-crowdfunding', users.startCrowdfunding);
+router.post('/remove-affiliation/:id', users.removeStudentAffiliation);
+router.post('/approve-affiliation/:id', users.approveStudentAffiliation);
 // router.get('url-shortener', users.urlShortener);
 
 module.exports = router;

@@ -124,6 +124,9 @@ var userSettings = {
         "updated_at":{
           "type": "date"
         },
+        "student":{
+          "type":"boolean"
+        },
         "suggest": {
           "type": "completion",
           "index_analyzer": "simple",

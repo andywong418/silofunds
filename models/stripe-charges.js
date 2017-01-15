@@ -101,6 +101,18 @@ module.exports = function(sequelize, DataTypes) {
 		donor_id: {
 			type: DataTypes.INTEGER,
 			field: 'donor_id'
+		},
+		student_id: {
+			type: DataTypes.INTEGER,
+			field: 'student_id'
+		},
+		is_institution: {
+			type: DataTypes.BOOLEAN,
+			field: 'is_institution'
+		},
+		donor_type:{
+			type: DataTypes.TEXT,
+			field: 'donor_type'
 		}
   }, {
 		timestamps: true,

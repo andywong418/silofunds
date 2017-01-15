@@ -23,7 +23,7 @@
             p
               span.breakdown-segment(style='text-decoration: underline')= breakdown.segment
               span.breakdown-segment(style='text-decoration: none')= ' - £' + breakdown.cost
-      if documents.length > 0
+      if documents.length > 0 || user.link
         p#header.documents Work showcase
         hr
         .document-row.row
@@ -112,7 +112,7 @@
                   if comment.diffDays == 1
                     span#comment-diffDays Yesterday
                   if comment.diffDays > 1
-                    span#comment-diffDays= diffDays + ' ago'
+                    span#comment-diffDays= comment.diffDays + 'days ago'
             .real-comment-row.row
               .col-md-1.col-sm-1
               .col-md-11.col-sm-11

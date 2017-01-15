@@ -451,6 +451,7 @@ $("#login-form").submit(function(e){
            }
            else{
              var crowdFundingPage = location.href.indexOf('public');
+             var student = user.student;
              if(crowdFundingPage > -1){
                //public page
                $.get('/check-user/' + loggedInUser, function(user){
@@ -463,6 +464,14 @@ $("#login-form").submit(function(e){
                  }
                  else{
                   //  $("#home").attr("href", '/user/dashboard');
+                  if(user.donor_id && !student){
+                    $('#dashboard').hide();
+                    $('#profile').attr('href', '/donor/profile');
+                  }
+                  if(user.institution_id){
+                    $('#dashboard').attr('href', '/institution/dashboard');
+                    $('#profile').hide();
+                  }
                    $(".settings").attr("href", '/user/settings' );
                    $(".logout").attr("href", '/user/logout');
                  }
@@ -476,7 +485,14 @@ $("#login-form").submit(function(e){
                  $(".logout").attr("href", '/organisation/logout');
                }
                else{
-
+                 if(user.donor_id && !student){
+                   $('#dashboard').hide();
+                   $('#profile').attr('href', '/donor/profile');
+                 }
+                 if(user.institution_id){
+                   $('#dashboard').attr('href', '/institution/dashboard');
+                   $('#profile').hide();
+                 }
                 //  $("#home").attr("href", '/user/dashboard');
                  $(".settings").attr("href", '/user/settings' );
                  $(".logout").attr("href", '/user/logout');

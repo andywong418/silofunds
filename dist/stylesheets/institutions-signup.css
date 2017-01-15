@@ -1,0 +1,23 @@
+#signup-wrapper.container-fluid #signup-form.center-block #previous-university-row.row, #signup-wrapper.container-fluid #signup-form.center-block #subject-row.row, #signup-wrapper.container-fluid #signup-form.center-block #previous-college-row.row, #signup-wrapper.container-fluid #signup-form.center-block #donor-country-row.row {
+  display: none; }
+
+#signup-wrapper.container-fluid #signup-form.center-block .row {
+  border-bottom: none; }
+
+#signup-wrapper.container-fluid #signup-form.center-block #postal-code {
+  padding: 0; }
+
+#signup-wrapper.container-fluid #signup-form.center-block #city {
+  padding-right: 0; }
+
+#signup-wrapper.container-fluid #signup-form.center-block .address-error {
+  display: none;
+  color: red; }
+
+#signup-wrapper.container-fluid #signup-form.center-block #verify {
+  margin-top: 20px;
+  width: 50%; }
+
+#signup-wrapper.container-fluid #signup-form.center-block .if-applicable {
+  margin-top: -20px;
+  color: grey; }

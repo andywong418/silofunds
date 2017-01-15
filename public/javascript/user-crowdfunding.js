@@ -210,6 +210,7 @@ $(document).ready(function() {
         scrollTop: $("#donate").offset().top},
         'slow');
   });
+  var flashInterval;
   $(document).on('click', '#donate', function(e){
     e.preventDefault();
     if(counter == 0){
@@ -229,6 +230,9 @@ $(document).ready(function() {
         $('div#donate-amount').animate({ opacity: 1}, {duration: 300, easing: "easeInExpo", queue: false});
       });
     } else {
+      clearInterval(flashInterval);
+      var donor_type = $('#donor-type').val();
+      console.log("DONOR TUYPE", donor_type);
       var amount = $('input#donate-amount').val();
       var applicationFee = Math.ceil(amount * 0.029 + 0.2);
       var donorIsPaying = $('#donorpays').hasClass('active');
@@ -244,13 +248,39 @@ $(document).ready(function() {
       // } else {
       //   handlerDisplayOptions.amount = amount * 100;
       // }
-      handler.open(handlerDisplayOptions);
+      if(!$('#donor-type').val()){
+        $('#donor-error-message').show();
+      }
+      else{
+        handler.open(handlerDisplayOptions);
+      }
+
     }
   });
-  // $('#donate').click(function(e) {
-  //
-  //
-  // });
+  $('#donor-type').on('change', function(){
+    $('#donor-type-div').hide();
+    $('#is-anon, #buttonDiv, #process-fee-para, #helperDiv, #donate-anonymous, #comment-div').show();
+    flashInterval = setInterval(function () {
+        console.log('anything?');
+        $('#donate').css('border', '2px solid #2ecc71');
+        var anotherFlast = setTimeout(
+        function()
+        {
+          console.log('more');
+          $('#donate').css('border', '2px solid white');
+        }, 500);
+    }, 1000);
+
+  });
+
+  // function flashingDonate(callback){
+  //   var flashInterval;
+  //   flashInterval = setInterval(function () {
+  //       $('#DivToolTip').toggleClass('red-border');
+  //   }, 1000);
+  //   clearInterval(flashInterval);
+  //   $('#DivToolTip').removeClass('red-border');
+  // }
 
   $('input#donate-amount').on('keyup', function(e){
     displayApplicationFeeHelperText();
@@ -290,11 +320,18 @@ $(document).ready(function() {
           applicationFee = Math.ceil(amount * 0.029 + 0.2);
         }
         var recipientUserID = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
+
         var data = {};
         var donorIsPaying = $('#donorpays').hasClass('active');
           var comment = $('textarea#comment-text').val();
           var isAnon = $('#is-anon').prop("checked");
         var amountAdjusted;
+        console.log("USER", user);
+        console.log(recipientUserID);
+        var donor_type = $('#donor-type').val();
+        if(user.affiliated_institute_id && user.affiliation_approved){
+          data.instituteId = user.affiliated_institute_id;
+        }
 
         if (donorIsPaying) {
           amountAdjusted = (parseInt(amount) + applicationFee) * 100;
@@ -304,6 +341,8 @@ $(document).ready(function() {
           data.amount = amount * 100;
           data.donorIsPaying = false;
         }
+        data.donor_type = $('#donor-type').val();
+        console.log("DATA donor_type", data.donor_type);
         data.applicationFee = applicationFee * 100;
         data.tokenID = token.id;
         data.email = token.email;
@@ -312,7 +351,7 @@ $(document).ready(function() {
         if(isAnon){
           data.is_anon = true;
         }
-        $('#payment_processing').modal('toggle')
+        $('#payment_processing').modal('toggle');
         $.ajax({
           type: "POST",
           url: '/user/charge',
@@ -321,6 +360,7 @@ $(document).ready(function() {
           //calculate width of bar and supporters and bar
           displayCompletionMessage(data);
         });
+
       }
     });
 

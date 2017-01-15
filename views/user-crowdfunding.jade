@@ -86,6 +86,8 @@ block content
 				.video-div.desktop
 			if !user.profile_picture && !user.video
 				img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
+			if user.short_description
+				p#short_description.alert.alert-info=user.short_description
 			.desktop
 				include ./partials/user/crowdfunding/social-buttons.jade
 				#story-about-updates-targeting-div-desktop
@@ -150,13 +152,27 @@ block content
 						a#contact-user.btn.btn-default(href='mailto:' + user.email)= 'Contact ' + user.username.split(' ')[0]
 				#donate-amount.hidden
 					#applicationFeeMessage.col-md-12.col-sm-12
-						if user.refund
-							p#refund-text You will be refunded if the user does not reach his/her goal.
+						if user.affiliation_approved && user.affiliated_institute_id
+							p#refund-text= 'Your donations will go directly to ' + institute.name + ', where the student is intending to go. '
+								a(href='/explain-college-accounts', target='_blank') More information
 						else
-							p#refund-text The user will keep funds raised even if they do not reach their goal.
-						input#is-anon(type='checkbox', name='is_anon', style='margin-right: 5px;')
-						| Hide your name from this page. You will still have to enter your name for verification of the payment.
-						p(style='margin-top: 10px') Do you want to pay the processing fee (~2.9% for non-European cards and 1.4% otherwise)?
+							if user.refund
+								p#refund-text You will be refunded if the user does not reach his/her goal.
+							else
+								p#refund-text The user will keep funds raised even if they do not reach their goal.
+						#donor-type-div
+							p#question What type of donor are you?
+							select#donor-type.form-control(name='donor_type')
+								option(disabled='', selected='', value='') Please select one of the above
+								option(value='alumni') Alumni
+								option(value='friend_or_relative') Friend/relative
+								option(value='company') Company
+								option(value='charity') Charity
+								option Other
+							p#donor-error-message Please pick an option.
+						input#is-anon(type='checkbox', name='is_anon', style='margin-right: 5px; display: none;')
+						span#donate-anonymous(style='display: none') Donate anonymously.
+						p#process-fee-para(style='margin-top: 10px; display: none') Do you want to pay the processing fee (~2.9% for non-European cards and 1.4% otherwise)?
 						#buttonDiv.col-md-5.col-sm-5
 							.btn-group.btn-group-justified
 								.btn-group(role='group', aria-label='...')

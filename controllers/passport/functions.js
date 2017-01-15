@@ -136,6 +136,33 @@ module.exports =  {
         })
       }
     })
+  },
+  registerInstitution: function(data, user, req, done){
+    console.log(req.body);
+    var name;
+    if(data.confirmWasNull) {
+      name = data.username;
+    } else {
+      name = data.fundName;
+    }
+
+    if(!user){
+      models.affiliated_institutions.create({
+        name: name
+      }).then(function(affiliated_institute){
+        models.users.create({
+          username: name,
+          email: data.email,
+          password: data.password,
+          student: 'FALSE',
+          institution_id: affiliated_institute.id,
+
+        }).then(function(user){
+          return done(null, user);
+        });
+      });
+    }
+
   }
 }
 
