@@ -60,7 +60,7 @@ block content
             a.list-group-item(href="#")
               h5 Personal settings
                 span.glyphicon.glyphicon-menu-right.remove-sm
-            if !user.donor_id
+            if user.student == 'TRUE'
               a.list-group-item(href="#")
                 h5 Campaign settings
                   span.glyphicon.glyphicon-menu-right.remove-sm
@@ -360,20 +360,21 @@ block content
                 label.col-md-3.col-xs-3(for='college') Previous colleges/halls
                 .col-md-6.col-xs-9
                   input#input-college.form-control(type='text', name='college', value = user.college, placeholder ='Separate each college/hall with a comma')
-            .col-md-12.col-xs-12.sub-content
-              h4 Further education
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='subject') Target subjects
-                .col-md-6.col-xs-9
-                  input#subject.form-control(type='text', name='subject', value=user.subject)
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='target_degree') Target degrees
-                .col-md-6.col-xs-9
-                  input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='target_university') Target universities
-                .col-md-6.col-xs-9
-                  input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
+            if user.student == 'TRUE'
+              .col-md-12.col-xs-12.sub-content
+                h4 Further education
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='subject') Target subjects
+                  .col-md-6.col-xs-9
+                    input#subject.form-control(type='text', name='subject', value=ubject)
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='target_degree') Target degrees
+                  .col-md-6.col-xs-9
+                    input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='target_university') Target universities
+                  .col-md-6.col-xs-9
+                    input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
           .col-md-12.col-xs-12.footer
             button#save-education-settings.btn.btn-primary Save changes
             #save-education-settings-notification Your changes have been saved     
