@@ -238,10 +238,20 @@ module.exports = {
   },
 
   donorBlocker: function(req, res, next) {
-    if (req.user.donor) {
-      next();
-    } else {
+
+    var userExceptionRoutesArray = ['register'];
+    var url = req.url
+    var urlSeparation = url.split('/')
+    var exceptionChecker;
+    for(i = 0; i < urlSeparation.length; i++) {
+      if (exceptionArray.indexOf(urlSeparation[i]) > -1) {
+        exceptionChecker = 'exception';
+      }
+    }
+    if (exceptionChecker !== 'exception' && req.user.donor_id == null) {
       res.render(error)
+    } else {
+      next();
     }
   },
 
