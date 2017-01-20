@@ -63,9 +63,9 @@ block content
 					p.intro-text-2 Fund your education
 						span#emphasis(style='margin-left: 7px') now.
 					form#search-form.search_form(action='/results', method='get', name='search_form', style='margin-bottom: 40px')
-						input#text_search(type='text', name='tags', placeholder='Subject, Target University, Target Degree level')
-						input#amount_req(type='number', step='100', name='amount_offered', placeholder='£ Amount required')
-						input#age(type='number', name='age', placeholder='Age')
+						input#subject_search(type='text', name='subject', placeholder='Subject')
+						input#university(name='target_university', placeholder='Target University')
+						input#degree_level( name='target_degree', placeholder='Degree Level')
 						button#search_button.btn.btn-danger(type='submit') Search
 						p.error-text.alert.alert-danger You must input some values into the search.
 					a#looking-to-support(href='/results/users?all=true') Looking to support someone's research?

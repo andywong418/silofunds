@@ -952,25 +952,25 @@ body {
     text-decoration: none;
     background: #1490cb; }
 
-#text_search {
+#subject_search {
   height: 40px;
-  width: 340px;
+  width: 170px;
   padding-left: 5px;
   margin: 5px;
   border: none;
   border-radius: 5px; }
 
-#amount_req {
+#university {
   height: 40px;
-  width: 160px;
+  width: 190px;
   padding-left: 5px;
   margin: 5px;
   border: none;
   border-radius: 5px; }
 
-#age {
+#degree_level {
   height: 40px;
-  width: 150px;
+  width: 190px;
   padding-left: 5px;
   margin: 5px;
   border: none;
@@ -1497,14 +1497,15 @@ a.cd-login {
 @media (max-width: 1199px) {
   ul.banner-social-buttons {
     margin-top: 15px; }
-  #text_search {
-    font-size: 13px; }
-  #amount_req {
+  #subject_search {
+    width: 130px;
+    font-size: 14px; }
+  #university {
     width: 150px;
-    font-size: 13px; }
-  #age {
-    width: 70px;
-    font-size: 13px; }
+    font-size: 14px; }
+  #degree_level {
+    width: 150px;
+    font-size: 14px; }
   .intro-body .container {
     padding-bottom: 30px; }
   .intro .intro-body .intro-text {

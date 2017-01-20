@@ -410,14 +410,19 @@ body{
 						background-color: #7bb7f4;
 						border: none;
 						color: white;
+            font-size: 18px;
 					}
 
 					input[type=number]::-webkit-inner-spin-button,
 					input[type=number]::-webkit-outer-spin-button {
 						-webkit-appearance: none;
 						margin: 0;
-					}
 
+					}
+          input#donate-amount{
+            height: 45px;
+            font-size: 18px;
+          }
 					input[type=number] {
 						-moz-appearance:textfield;
 					}
@@ -528,7 +533,6 @@ body{
 					width: 100%;
 					border: none;
 					color:white;
-					margin-top: -3px;
 					padding: 10px;
 					background-color: #2390fd;
 					font-size: 20px;

@@ -215,7 +215,7 @@ $(document).ready(function() {
     e.preventDefault();
     if(counter == 0){
       counter++;
-      $('#donate').css('font-size', '14px');
+      $('#donate').css('font-size', '18px');
       $('.donate-row').css('display', 'flex');
       $('#donate').css('float', 'right');
       $('#progress-card').css('padding-bottom', '60px');
