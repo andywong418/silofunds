@@ -944,6 +944,9 @@ module.exports = {
           }
         }
         var user = req.user;
+        var splitName = req.user.username.split(' ')
+        var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+        req.user.initials = initials
         if (user.date_of_birth) {
           user.date_of_birth = reformatDate(user.date_of_birth);
         }
@@ -1414,7 +1417,7 @@ module.exports = {
       res.render('error');
     });
   },
-  
+
   organisationBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
