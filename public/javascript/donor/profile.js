@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  console.log('helloooo')
   var initialsCircle = '.initials.circle'
   for(var i = 0; i < 10; i++) {
     newInitialsCircle = initialsCircle + '.' + i.toString();

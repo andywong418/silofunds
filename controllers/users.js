@@ -1414,6 +1414,7 @@ module.exports = {
       res.render('error');
     });
   },
+  
   organisationBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
@@ -1437,6 +1438,7 @@ module.exports = {
       next();
     }
   },
+
   userBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
@@ -1528,7 +1530,6 @@ module.exports = {
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
-
             res.end('email send failed');
         }
         else {

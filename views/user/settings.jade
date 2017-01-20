@@ -164,7 +164,7 @@ block content
                 .col-md-12.col-xs-12.remove-padding
                   label.col-md-3.col-xs-3.remove-padding.donor#add_short_bio(for='description') Add a short bio
                   .col-md-6.col-xs-9.remove-padding
-                    textarea#short_bio(type='text', placeholder='e.g. Head of projects and programmes at FDFC, co-founder of Twitter, prev. Data Solution Architect at Microsoft', name='short_bio')=user.donor.short_bio
+                    textarea#short_bio(type='text', placeholder='e.g. Head of projects and programmes at FDFC, co-founder of Twitter, prev. Data Solution Architect at Microsoft', max-length='300', name='short_bio')=user.donor.short_bio
               .col-md-12.col-xs-12
                 label.col-md-3.col-xs-3.personal-padding-1(for='religion') Religion
                 .col-md-6.col-xs-9

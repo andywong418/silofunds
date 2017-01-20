@@ -20,6 +20,18 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function() {
       // We need to get all the donation information
       var user = req.user
+      // This is for stuff edited for es that we need to keep as original
+      var countriesString = ''
+      for (var i = 0; i < 3; i++) {
+        if (i < 2) {
+          countriesString = countriesString + req.user.country_of_residence[i] + ', '
+        } else {
+          countriesString = countriesString + req.user.country_of_residence[i]
+        }
+      }
+      console.log('hello')
+      console.log(countriesString)
+      console.log('hello')
       // Reformat date
       if (user.date_of_birth) {
         separateDate = reformatDate(user.date_of_birth)
@@ -50,10 +62,6 @@ module.exports = {
           for (var i = 0; i < users.length; i++) {
             usersArray.push(users[i].get())
           }
-          console.log('CHARGES ARR')
-          console.log(chargesArray[1])
-          console.log('CHARGES ARR')
-          console.log(usersArray.length, 'usersArrayLENGHT')
           for (var i = 0; i < usersArray.length; i++) {
             usersArray[i].chargeList = [];
             var splitName = usersArray[i].username.split(' ')
@@ -71,22 +79,6 @@ module.exports = {
             chargesArray[i].number = i
           }
           chargesArray = usersArray
-          // for (var i = 0; i < chargesArray.length; i++) {
-          //   for (var j = 0; j < usersArray.length; j++) {
-          //     if (chargesArray[i].user_id == usersArray[j].id) {
-          //       usersArray[j].amount = chargesArray[i].amount
-          //       usersArray[j].chargeDate = reformatDate(chargesArray[i].created_at)
-          //       var splitName = usersArray[j].username.split(' ')
-          //       var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
-          //       usersArray[j].initials = initials
-          //       chargesArray[i] = usersArray[j]
-          //     }
-          //   }
-          //   chargesArray[i].number = i
-          // }
-          console.log('CHARGES ARR')
-          console.log(chargesArray)
-          console.log('CHARGES ARR')
           // elasticsearch
           var searchFields = ['country_of_residence','religion','subject','previous_degree','target_degree','previous_university','target_university']
           var searchFieldArrays = ['country_of_residence','subject','previous_degree','target_degree','previous_university','target_university']
@@ -199,13 +191,13 @@ module.exports = {
               var splitName = req.user.username.split(' ')
               var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
               req.user.initials = initials
+              req.user.country_of_residence = countriesString
               res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users});
             } else {
               res.render('donor/profile', {user: req.user, donor: req.user.donor, charges: chargesArray, users: users})
             }
           }, function(err) {
             console.log("ELASTICSEARCH ERROR")
-            console.log('^^^^^^^^^^^')
           })
         })
       })
@@ -243,6 +235,14 @@ module.exports = {
         res.render('donor/register', {email: email, what: true})
       }
     })
+  },
+
+  donorBlocker: function(req, res, next) {
+    if (req.user.donor) {
+      next();
+    } else {
+      res.render(error)
+    }
   },
 
   logout: function(req, res) {
