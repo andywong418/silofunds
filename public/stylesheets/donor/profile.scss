@@ -285,13 +285,6 @@ body {
         font-size: 17px;
       }
     }
-    #story {
-      float: left;
-      width: 56%;
-      p {
-        font-size: 17px;
-      }
-    }
     #updates {
       float: right;
       width: 40%;
@@ -309,8 +302,6 @@ body {
       justify-content: space-between;
     }
     #other-students {
-      clear: both;
-      padding-top: 20px;
       .student-div {
         width: 49%;
       }
@@ -359,12 +350,7 @@ body {
         font-size: 18px;
       }
     }
-    #story {
-      p {
-        font-size: 18px;
-      }
-    }
-    #donations, #other-students {
+    #donations {
       margin-top: 200px;
     }
     #donations {

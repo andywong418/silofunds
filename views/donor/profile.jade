@@ -75,16 +75,7 @@ block content
           else
             a(href='/donor/settings')
               span.university.add Add your previous universities
-    .main-content
-      #story
-        .header
-          h1 Your story
-        if donor.story
-          p.story= donor.story
-        else 
-          p.story.else You haven't added a story yet. 
-            a(href='/donor/settings') Update your profile now
-            
+    .main-content     
       #updates
         .header
           h1 Updates

@@ -1141,11 +1141,6 @@ body {
     font-size: 25px; }
   .main-content .header p {
     font-size: 17px; }
-  .main-content #story {
-    float: left;
-    width: 56%; }
-    .main-content #story p {
-      font-size: 17px; }
   .main-content #updates {
     float: right;
     width: 40%;
@@ -1162,15 +1157,12 @@ body {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between; }
-  .main-content #other-students {
-    clear: both;
-    padding-top: 20px; }
-    .main-content #other-students .student-div {
-      width: 49%; }
-    .main-content #other-students .left {
-      float: left; }
-    .main-content #other-students .right {
-      float: right; } }
+  .main-content #other-students .student-div {
+    width: 49%; }
+  .main-content #other-students .left {
+    float: left; }
+  .main-content #other-students .right {
+    float: right; } }
 
 @media (min-width: 1000px) {
   .heading.main-info .profile_picture img {
@@ -1193,9 +1185,7 @@ body {
     font-size: 27px; }
   .main-content .header p {
     font-size: 18px; }
-  .main-content #story p {
-    font-size: 18px; }
-  .main-content #donations, .main-content #other-students {
+  .main-content #donations {
     margin-top: 200px; }
   .main-content #donations {
     clear: none;
