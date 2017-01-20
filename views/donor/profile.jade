@@ -157,7 +157,7 @@ block content
             p Recent donations
               i.fa.fa-caret-down(aria-hidden="true")
           .donation-container
-            if charges
+            if charges.length !== 0 
               each user in charges
                 each info in user.chargeList
                   .flex_box
@@ -174,7 +174,7 @@ block content
                         a(href='/public/' + '#{user.id}')
                           p= user.username
             else
-              p.donations.else You haven't made any donations yet.
+              span.donations.else You haven't made any donations yet. 
                 a(href='/results/users') Search for students now!
           
         

@@ -1058,9 +1058,12 @@ body {
   border-radius: none;
   background-color: white;
   padding: 0px 15px; }
-  #donations .header h1 {
-    margin-bottom: 8px;
-    border-bottom: 1px solid #e1e8ed; }
+  #donations .header {
+    padding-top: 10px;
+    padding-bottom: 20px; }
+    #donations .header h1 {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #e1e8ed; }
   #donations #donation-banner p {
     border-bottom: 1px solid #e1e8ed;
     font-size: 22px;
@@ -1102,6 +1105,8 @@ body {
           float: left; }
         #donations .donation-container .flex_box .information .date {
           float: right; }
+  #donations span.donations.else {
+    font-size: 16px; }
 
 @media (max-width: 650px) {
   .desktop {
