@@ -29,9 +29,6 @@ module.exports = {
           countriesString = countriesString + req.user.country_of_residence[i]
         }
       }
-      console.log('hello')
-      console.log(countriesString)
-      console.log('hello')
       // Reformat date
       if (user.date_of_birth) {
         separateDate = reformatDate(user.date_of_birth)
@@ -76,7 +73,7 @@ module.exports = {
                 usersArray[i].chargeList.push(info)
               }
             }
-            chargesArray[i].number = i
+            usersArray[i].number = i
           }
           chargesArray = usersArray
           // elasticsearch
@@ -156,7 +153,7 @@ module.exports = {
             index: "users",
             type: "user",
             body: {
-              "size": 20,
+              "size": 4,
               "query": queryOptions
             }
           }).then(function(resp) {
@@ -238,12 +235,11 @@ module.exports = {
   },
 
   donorBlocker: function(req, res, next) {
-
-    var userExceptionRoutesArray = ['register'];
+    var exceptionArray = ['register'];
     var url = req.url
     var urlSeparation = url.split('/')
     var exceptionChecker;
-    for(i = 0; i < urlSeparation.length; i++) {
+    for (i = 0; i < urlSeparation.length; i++) {
       if (exceptionArray.indexOf(urlSeparation[i]) > -1) {
         exceptionChecker = 'exception';
       }

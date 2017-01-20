@@ -27,10 +27,6 @@ block content
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
-    //- var documents = !{JSON.stringify(documents)};
-    //- var applications = !{JSON.stringify(applications)}
-    //- var donations = !{JSON.stringify(donations)};
-    //- var updates = !{JSON.stringify(updates)};
     var loggedInUser = !{JSON.stringify(loggedInUser)};
     if(loggedInUser){
       bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
