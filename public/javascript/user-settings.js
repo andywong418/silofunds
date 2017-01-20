@@ -40,9 +40,6 @@ $(document).ready(function() {
   }
 
   //Change profile picture
-  if(!user.profile_picture) {
-    $('#userImage').css('border', '2px solid rgba(255, 0, 0, 0.4)')
-  }
   var $my_file = $("#my_file");
   var $my_canvas_image = $("#my_canvas_image");
   var $upload_button = $("#upload_button");
@@ -56,7 +53,12 @@ $(document).ready(function() {
     uploadImage();
     $my_modal.modal("hide");
   });
-  $("#userImage, .update-me, i#overlayed_camera").click(function() {
+  $('.circle.modal-open').hover(function() {
+    $('.circle.modal-open').css('background-color', 'rgba(51,153,255, 0.8)')
+  }, function() {
+    $('.circle.modal-open').css('background-color', 'rgba(51,153,255, 1)')
+  })
+  $("#userImage, .update-me, i#overlayed_camera, .circle.modal-open").click(function() {
     $("#openModal").click();
     //$("input[id='my_file']").click();
   });

@@ -23,7 +23,7 @@ block content
         h1 you are offline
       if status == 'launched'
         h1 nice launch
-    #left_div.col-md-3.col-sm-3.col-xs-4
+    #left_div.col-md-3.col-sm-4.col-xs-4
       button#openModal(visibility="hidden", style='display: none', data-toggle='modal', data-target='#mymodal') Launch
       div.modal.fade#mymodal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
         div.modal-dialog.modal-lg(role='document')
@@ -44,13 +44,14 @@ block content
         #box-profile 
           if user.profile_picture
             img#userImage(src=user.profile_picture)
-            i#overlayed_camera.fa.fa-camera.desktop(title="Upload a new picture")
-           else
+            //- i#overlayed_camera.fa.fa-camera.desktop(title="Upload a new picture")
+          else
             .img-container
-              .update-me.desktop Adding a photo increases your chances of funding!
-              img#userImage.no-picture.top-no-pic(src='/images/profile-placeholder.jpg')
-              .update-me.bubble.mobile Adding a photo increases your chances of funding!
-            i#overlayed_camera.fa.fa-camera.desktop.no-picture(style='color: grey; left: 45%;top: 125px')
+              #userInitials
+                .circle.modal-open
+                  .initials=user.initials
+                  .camera.fa.fa-camera.desktop
+              span.add Add a profile picture to increase your chances of funding!
       #mobile-remove-div
         .settings-tab-menu
           .list-group
