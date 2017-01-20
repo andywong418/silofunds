@@ -1427,12 +1427,18 @@ module.exports = {
         exceptionChecker = 'exception';
       }
     }
-    if(req.user !== {} && req.user && req.user !== undefined) {
-      if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
+    if(req.user !== {} && req.user && req.user !== undefined && req.user.student !== 'TRUE') {
+      if(urlSeparation[1] == 'user') {
         if(exceptionChecker == 'exception') {
           next();
         } else {
-          res.render(error)
+          if(req.user.organisation_or_user !== null) {
+            res.render(error)
+          } else if (req.user.student !== 'TRUE') {
+            res.render(error)
+          } else {
+            next();
+          }
         }
       } else {
         next();
