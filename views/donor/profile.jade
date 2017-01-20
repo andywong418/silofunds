@@ -46,7 +46,6 @@ block content
         if user.profile_picture
           img(src=user.profile_picture)
         else 
-          p hi
           p=user.number
           .initials.circle(class=user.number)= user.initials
       .info-div

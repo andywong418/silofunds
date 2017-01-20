@@ -22,11 +22,13 @@ module.exports = {
       var user = req.user
       // This is for stuff edited for es that we need to keep as original
       var countriesString = ''
-      for (var i = 0; i < 3; i++) {
-        if (i < 2) {
-          countriesString = countriesString + req.user.country_of_residence[i] + ', '
-        } else {
-          countriesString = countriesString + req.user.country_of_residence[i]
+      if (user.country_of_residence) {
+        for (var i = 0; i < 3; i++) {
+          if (i < 2) {
+            countriesString = countriesString + req.user.country_of_residence[i] + ', '
+          } else {
+            countriesString = countriesString + req.user.country_of_residence[i]
+          }
         }
       }
       // Reformat date
