@@ -10,9 +10,9 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
+// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
 
-// var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv'); Text
+var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -36,13 +36,13 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
   aws_key = secrets.AWS_KEY;
 }
 // Stripe OAuth
-var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
+// var CLIENT_ID = 'ca_8tfClj7m2KIYs9qQ4LUesaBiYaUfwXDQ';
 
 //test
-// var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
+var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
 
-var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
-// var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
+var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -2222,6 +2222,13 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
       donor_type = null;
     }
     console.log("donor_type", donor_type);
+    var isAnon;
+    if(req.body.is_anon === 'true'){
+      isAnon = true;
+    }
+    else{
+      isAnon = null;
+    }
     return models.stripe_charges.create({
       charge_id: charge.id,
       amount: parseFloat(charge.amount),
@@ -2246,6 +2253,7 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
       user_id: user.id,
       donor_id: donor_id,
       student_id: studentId,
+      is_anon: isAnon,
       is_institution: is_institution,
       donor_type: donor_type
     }).then(function(object) {
