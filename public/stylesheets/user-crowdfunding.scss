@@ -410,14 +410,19 @@ body{
 						background-color: #7bb7f4;
 						border: none;
 						color: white;
+            font-size: 18px;
 					}
 
 					input[type=number]::-webkit-inner-spin-button,
 					input[type=number]::-webkit-outer-spin-button {
 						-webkit-appearance: none;
 						margin: 0;
-					}
 
+					}
+          input#donate-amount{
+            height: 45px;
+            font-size: 18px;
+          }
 					input[type=number] {
 						-moz-appearance:textfield;
 					}
@@ -433,6 +438,18 @@ body{
 						font-size: 14px;
 						font-weight: bold;
 					}
+          #donor-type-div{
+
+            padding-bottom: 30px;
+            #question{
+              margin-top: 10px;
+            }
+            #donor-error-message{
+              display: none;
+              color: red;
+              margin-top: 10px;
+            }
+          }
 					#applicationFeeMessage {
 						button {
 							&:active, &:visited, &:focus, &:hover {
@@ -448,6 +465,7 @@ body{
 						#buttonDiv {
 							margin-top: 7px;
 							padding: 0px;
+              display: none;
 						}
 
 						#helperDiv {
@@ -455,7 +473,7 @@ body{
 							margin-top: 5px;
 							padding: 0px;
 							padding-left: 10px;
-
+              display: none;
 							span {
 								color: #a8a8a8;
 								font-size: 12px;
@@ -464,7 +482,7 @@ body{
 
 					}
 					#comment-div{
-
+            display: none;
 						#comment-text{
 							width: 90%;
 							margin-left: 5%;
@@ -515,7 +533,6 @@ body{
 					width: 100%;
 					border: none;
 					color:white;
-					margin-top: -3px;
 					padding: 10px;
 					background-color: #2390fd;
 					font-size: 20px;
@@ -629,9 +646,20 @@ body{
 			border-radius: 3px;
 		}
 
+
 	}
 }
-
+#campaign-header{
+  font-size: 22px;
+  margin-top: 15px;
+  font-weight: bolder;
+  margin-bottom: 5px;
+}
+#short_description{
+margin-top: 15px;
+font-weight: bolder;
+padding: 10px;
+}
 #recent-donations p {
 	margin-top: 15px;
 }

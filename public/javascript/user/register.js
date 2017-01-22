@@ -17,7 +17,7 @@ $(document).ready(function() {
       $('.fund_only').css('display', 'none')
       $('.non_fund').css('display', 'flex')
       $('.fund_only input').val(null)
-    } else if($('#user_type_dropdown').val() == 'organisation') {
+    } else if($('#user_type_dropdown').val() == 'organisation' || $('#user_type_dropdown').val() == 'affiliated_institutions') {
       $('#donor_hidden').prop('value', 'false')
       $('#fundCheckbox').prop('checked', true)
       $('.non_fund input').val(null)

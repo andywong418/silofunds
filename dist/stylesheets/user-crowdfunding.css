@@ -1198,11 +1198,15 @@ body {
         body #crowdfunding-wrapper #user-progress #progress-card #amount span {
           background-color: #7bb7f4;
           border: none;
-          color: white; }
+          color: white;
+          font-size: 18px; }
         body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number]::-webkit-inner-spin-button,
         body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number]::-webkit-outer-spin-button {
           -webkit-appearance: none;
           margin: 0; }
+        body #crowdfunding-wrapper #user-progress #progress-card #amount input#donate-amount {
+          height: 45px;
+          font-size: 18px; }
         body #crowdfunding-wrapper #user-progress #progress-card #amount input[type=number] {
           -moz-appearance: textfield; }
       body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount {
@@ -1215,6 +1219,14 @@ body {
           margin-bottom: 5px;
           font-size: 14px;
           font-weight: bold; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #donor-type-div {
+          padding-bottom: 30px; }
+          body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #donor-type-div #question {
+            margin-top: 10px; }
+          body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #donor-type-div #donor-error-message {
+            display: none;
+            color: red;
+            margin-top: 10px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:active, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:visited, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:focus, body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage button:hover {
           outline: 0; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage p {
@@ -1222,22 +1234,26 @@ body {
           font-size: 14px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #buttonDiv {
           margin-top: 7px;
-          padding: 0px; }
+          padding: 0px;
+          display: none; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv {
           margin: 0px;
           margin-top: 5px;
           padding: 0px;
-          padding-left: 10px; }
+          padding-left: 10px;
+          display: none; }
           body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #applicationFeeMessage #helperDiv span {
             color: #a8a8a8;
             font-size: 12px; }
-        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #comment-div #comment-text {
-          width: 90%;
-          margin-left: 5%;
-          margin-top: 30px;
-          margin-bottom: 30px;
-          height: 100px;
-          padding: 5px; }
+        body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #comment-div {
+          display: none; }
+          body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount #comment-div #comment-text {
+            width: 90%;
+            margin-left: 5%;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            height: 100px;
+            padding: 5px; }
         body #crowdfunding-wrapper #user-progress #progress-card div#donate-amount .col-md-3 {
           padding: 0;
           margin-top: 0px; }
@@ -1267,7 +1283,6 @@ body {
         width: 100%;
         border: none;
         color: white;
-        margin-top: -3px;
         padding: 10px;
         background-color: #2390fd;
         font-size: 20px; }
@@ -1345,6 +1360,17 @@ body {
       height: auto;
       max-height: 500px;
       border-radius: 3px; }
+
+#campaign-header {
+  font-size: 22px;
+  margin-top: 15px;
+  font-weight: bolder;
+  margin-bottom: 5px; }
+
+#short_description {
+  margin-top: 15px;
+  font-weight: bolder;
+  padding: 10px; }
 
 #recent-donations p {
   margin-top: 15px; }

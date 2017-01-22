@@ -22,7 +22,7 @@ var fund_array_to_json = function(array) {
 };
 var notifications = require('../controllers/notifications');
 var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","required_college", "merit_or_finance","deadline","target_country","number_of_places", "support_type","organisation_id"];
-var userFields =  ["username","email","profile_picture","description","past_work","date_of_birth","subject", "country_of_residence", "target_country", "religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds", "removed_funds", "college", "funding_accrued", "updated_at"];
+var userFields =  ["username","email","profile_picture","description","past_work","date_of_birth","subject", "country_of_residence", "target_country", "religion","funding_needed","organisation_or_user", "previous_degree", "previous_university", "target_university", "target_degree","completion_date", "favourite_funds", "removed_funds", "college", "funding_accrued", "updated_at", "student"];
 //Try again
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
@@ -262,10 +262,10 @@ var checkIndexScheduler = new CronJob('0 0 * * * *', checkIndices, null, true);
 var fundUnreadMessagesScheduler = new CronJob('0 0 */3 * * *', checkForFundUnreadMessages, null, true);
 var checkRefundScheduler = new CronJob('0 0 23 * * *', checkForRefund, null, true);
 var weeklyFundNewsLetterScheduler = new CronJob('0 5 8 * * 1', weeklyFundNewsLetter, null, true );
-var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 1', weeklyStudentNewsLetter, null, true);
+var weeklyStudentNewsLetterScheduler = new CronJob('0 */5 * * * 0', weeklyStudentNewsLetter, null, true);
 // var weeklyStudentNewsLetterScheduler = new CronJob('0 */1 * * * *', weeklyStudentNewsLetter, null, true);
 var EmailTemplate = require('email-templates').EmailTemplate;
-// var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
+var signupFreshersTemplate = new CronJob('0 */15 * * * *', signupFreshers, null, true);
 // var variableTemplate = new CronJob('0 */5 * * * 4', variableEmail, null, true);
 // var checkFundDeadline = new CronJob('0 0 22 * * *', fundDeadlineEmail, null, true);
 // var checkFundDeadline = new CronJob('*/30 * * * * *', fundDeadlineEmail, null, true);

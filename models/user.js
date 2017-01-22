@@ -182,9 +182,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       field: 'is_crowdfunding'
     },
-    college_affiliation: {
+    institution_id:{
+      type: DataTypes.INTEGER,
+      field: 'institution_id'
+    },
+    affiliated_institute_id:{
+      type: DataTypes.INTEGER,
+      field:'affiliated_institute_id'
+    },
+    affiliation_approved:{
       type: DataTypes.BOOLEAN,
-      field: 'college_affiliation'
+      field: 'affiliation_approved',
+      defaultValue: false
     }
   }, {
     timestamps: true,
