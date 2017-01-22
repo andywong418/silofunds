@@ -3,8 +3,8 @@ var inspect = require('util').inspect;
 var Busboy = require('busboy');
 var religions = require('../resources/religions');
 var sequelize = models.sequelize;
-// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); // stripe*key
-var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
+var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); // stripe*key
+// var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var Umzug = require('umzug');
 var umzugOptions = {
   storage: 'sequelize',
