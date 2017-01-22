@@ -7,33 +7,12 @@ block extraHeader
 
 block content
   script.
-    window.fbAsyncInit = function() {
-      FB.init({
-          appId  : '506830149486287',
-          xfbml  : true,
-          status : true,
-          cookie : true,
-          version: 'v2.5'
-      });
-    };
-  
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
-    var loggedInUser = !{JSON.stringify(loggedInUser)};
-    if(loggedInUser){
-      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
-      windowPortWidth = window.innerWidth;
-      if(windowPortWidth <767){
-        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
-      }
+    bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    windowPortWidth = window.innerWidth;
+    if(windowPortWidth <767) {
+      document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
     }
   include ../navbar.jade
   include ../partials/navbar-loggedin.jade
