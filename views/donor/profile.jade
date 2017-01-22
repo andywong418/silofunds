@@ -1,77 +1,172 @@
 extend ../layout
 
 block extraHeader
-  link(href='/stylesheets/donor/profile.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
-  link(href='/stylesheets/user-crowdfunding.css', rel='stylesheet')
-  script(src='http://connect.facebook.net/en_US/all.js')
-  script(src='https://checkout.stripe.com/checkout.js')
+  link(href='/stylesheets/donor/profile.css', rel='stylesheet')
   
 
 block content
-  #fb-row
-  script.
-    window.fbAsyncInit = function() {
-      FB.init({
-          appId  : '506830149486287',
-          xfbml  : true,
-          status : true,
-          cookie : true,
-          version: 'v2.5'
-      });
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
   script.
     var bodyEl = document.getElementsByTagName('body');
     var user = !{JSON.stringify(user)};
-    var documents = !{JSON.stringify(documents)};
-    var applications = !{JSON.stringify(applications)}
-    var donations = !{JSON.stringify(donations)};
-    var updates = !{JSON.stringify(updates)};
-    var loggedInUser = !{JSON.stringify(loggedInUser)};
-    if(loggedInUser){
-      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
-      windowPortWidth = window.innerWidth;
-      if(windowPortWidth <767){
-        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
-      }
+    bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+    windowPortWidth = window.innerWidth;
+    if(windowPortWidth <767) {
+      document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
     }
   include ../navbar.jade
   include ../partials/navbar-loggedin.jade
   include ../advanced-search.jade
   include ../partials/signup-modal.jade
   
-  //- #crowdfunding-wrapper.container
-  //-   if user && user.user_launch !== true
-  //-     #launch_box
-  //-       form(method='post', action='/user/launch')
-  //-         .alert.alert-info.col-xs-10.col-xs-offset-1
-  //-           span.col-xs-12 You have not yet launched your campaign, when it is ready click so others can see and donate to you!
-  //-           button.col-md-offset-5.col-md-2.col-xs-offset-4.col-xs-4(type='submit').launch_campaign.btn.btn-primary Launch!
-  //-   #pic-vid-div.col-md-7.col-sm-6.col-xs-12.remove-margin
-  //-     if user.profile_picture && !user.video
-  //-       .no-vid-pic-border
-  //-         img#profile_picture.pic-resize(src!=user.profile_picture)
-  //-     if user.video
-  //-       .video-div.mobile
-  //-       .video-div.desktop
-  //-     if !user.profile_picture && !user.video
-  //-       img#profile_picture.desktop(src='/images/fund_img_placeholder.jpg')
-
+  .container
+    .heading.main-info
+      .profile_picture
+        if user.profile_picture
+          img(src=user.profile_picture)
+        else 
+          p=user.number
+          .initials.circle(class=user.number)= user.initials
+      .info-div
+        .name= user.username
+        if user.donor.short_bio
+          .bio= user.donor.short_bio
+        else
+          a(href='/donor/settings')
+            span.bio.add_bio Add a short bio
+        .other
+          if user.date_of_birth
+            span.dob= user.date_of_birth
+          else
+            a(href='/donor/settings')
+              span.dob.add Add your date of birth
+          span.break |
+          if user.country_of_residence
+            span.country= user.country_of_residence
+          else
+            a(href='/donor/settings')
+              span.country.add Add your country of resience
+          br
+          if user.previous_university
+            span.university.title Education:
+            span.university= user.previous_university
+          else
+            a(href='/donor/settings')
+              span.university.add Add your previous universities
+    .main-content     
+      #updates
+        .header
+          h1 Updates
+          p.updates You don't have any updates at the moment.
+          
+      #other-students
+        .header
+          h1 Other students to support
+          #student-desktop-layout.desktop
+            each user in users
+              .student-div
+                a(href='/public/' + user.id)
+                  .image
+                    img(src=user.profile_picture)
+                .information
+                  .name
+                    span= user.username
+                    span , 21
+                  if user.percentage
+                    .progress-bar
+                      .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
+                  .description
+                    if user.percentage
+                      span.percent-funded #{user.percentage}% funded
+                      span.amount-left £#{user.to_go} to go
+                    br
+                    .bio
+                        p.line-clamp= user.description
+          // ** CAROUSEL START
+          #student-carousel.carousel.slide.mobile(data-ride='carousel', data-interval='30000')
+            // Wrapper for slides
+            .carousel-inner
+              each user in users
+                if user.first
+                  .item.active
+                    .student-div
+                      .image
+                        img(src=user.profile_picture)
+                      .information
+                        .name
+                          span= user.username
+                          span , 21
+                        .progress-bar
+                          .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
+                        .description
+                          span.percent-funded #{user.percentage}% funded
+                          span.amount-left £#{user.to_go} to go
+                          br
+                          .bio
+                              p.line-clamp= user.description
+                else
+                  .item
+                    .student-div
+                      .image
+                        img(src=user.profile_picture)
+                      .information
+                        .name
+                          span= user.username
+                          span , 21
+                        .progress-bar
+                          .progress-bar.another-one(role='progressbar',  aria-valuemin='0', aria-valuemax='100', style=user.width)
+                        .description
+                          span.percent-funded %#{user.percentage}% funded
+                          span.amount-left £#{user.to_go} to go
+                          br
+                          .bio
+                              p.line-clamp= user.description              
+              //- .item
+              //- .item
+            // Controls
+            a.left.carousel-control(href='#student-carousel', role='button', data-slide='prev')
+              span.glyphicon.glyphicon-chevron-left
+            a.right.carousel-control(href='#student-carousel', role='button', data-slide='next')
+              span.glyphicon.glyphicon-chevron-right
+          // CAROUSEL END **
+              
+      #donations
+        .header
+          #donation-banner
+            p Recent donations
+              i.fa.fa-caret-down(aria-hidden="true")
+          .donation-container
+            if charges.length !== 0 
+              each user in charges
+                each info in user.chargeList
+                  .flex_box
+                    .image(class=user.number)
+                      if(user.profile_picture)
+                        img(src=user.profile_picture)
+                      else
+                        .initials.circle(class=user.number)= user.initials
+                    .information
+                      .basic-info
+                        span.amount £#{info.amount}
+                        span.date= info.chargeDate
+                        br
+                        a(href='/public/' + '#{user.id}')
+                          p= user.username
+            else
+              span.donations.else You haven't made any donations yet. 
+                a(href='/results/users') Search for students now!
+          
+        
 
 block scripts
   //moment
+  script(src='/javascript/donor/profile.js')
   script(src='/bower_components/moment/min/moment-with-locales.js')
   script(src='/javascript/advanced-search.js')
   script(src='/javascript/notifications.js')
   script(src='/javascript/signup-login.js')
+  script(src='/javascript/user-crowdfunding.js')
+  script(src='/javascript/donor/profile.js')
   script.
     var user = !{JSON.stringify(user)}
     console.log(user)

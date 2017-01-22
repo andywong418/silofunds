@@ -1,6 +1,8 @@
 #form_container {
   margin-top: 20px;
   .user-type {
+    display: flex;
+    align-items: center;
     width: 90%;
     margin-left: 5%;
     padding: 0;
@@ -9,6 +11,8 @@
     }
     .col-xs-6, .col-md-7, .col-md-5 {
       padding: 0;
+      display: flex;
+      align-items: center;
     }
   }
   #register {

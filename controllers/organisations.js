@@ -581,14 +581,12 @@ dashboard: function(req, res) {
               organisation.update({charity_id: charity_id}).then(function(organisation){
                 res.redirect('/organisation/settings');
               })
-            }
-            else{
+            } else {
               if(req.body.description){
                 Logger.info('description')
                 user.charity_id = organisation.charity_id;
                 res.redirect('/organisation/settings#account');
-              }
-              else{
+              } else {
                 res.redirect('/organisation/settings');
               }
             }

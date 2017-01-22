@@ -1,13 +1,25 @@
 #form_container {
   margin-top: 20px; }
   #form_container .user-type {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     width: 90%;
     margin-left: 5%;
     padding: 0; }
     #form_container .user-type .panel-small {
       display: none; }
     #form_container .user-type .col-xs-6, #form_container .user-type .col-md-7, #form_container .user-type .col-md-5 {
-      padding: 0; }
+      padding: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
   #form_container #register {
     border-bottom: 1px solid #e1e8ed; }
   #form_container #login {

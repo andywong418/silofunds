@@ -472,6 +472,24 @@ div.navbar-center-container {
     display: block;
     float: left; }
 
+.user-type {
+  margin-bottom: 1.4em;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 17px; }
+  .user-type select {
+    height: 40px;
+    line-height: 40px; }
+  .user-type .panel-title {
+    float: left; }
+  .user-type .col-xs-6, .user-type .col-md-7, .user-type .col-md-5 {
+    padding: 0; }
+
 .cd-user-modal {
   position: fixed;
   top: 0;
@@ -560,12 +578,14 @@ div.navbar-center-container {
   padding-bottom: 5px; }
   .cd-form .fieldset {
     position: relative;
-    margin: 1.4em 0;
+    margin-bottom: 1.2em;
     display: none; }
     .cd-form .fieldset:first-child {
       margin-top: 0; }
     .cd-form .fieldset:last-child {
       margin-bottom: 0; }
+  .cd-form p#email-signup-option.fieldset {
+    margin-bottom: 0; }
   .cd-form label {
     font-size: 14px;
     font-size: 0.875rem; }
@@ -748,7 +768,7 @@ div.navbar-center-container {
   border-radius: 10px; }
   #cd-signup input {
     font-family: "Montserrat", sans-serif;
-    font-size: 15px; }
+    font-size: 13px; }
     #cd-signup input::-ms-clear {
       display: none; }
   #cd-signup p {
@@ -869,6 +889,10 @@ div.navbar-center-container {
 
 #settings-menu a:hover {
   color: black; }
+
+@media (max-width: 400px) {
+  .cd-form {
+    padding: 1.5em 0.7em; } }
 
 .fa-cog, .fa-user, .fa-comment {
   font-size: 20px; }
@@ -1093,17 +1117,6 @@ p {
     text-align: center;
     -webkit-transition: 2.5s;
     transition: 2.5s; }
-    #left_div #box-profile .fa-camera {
-      position: absolute;
-      color: white;
-      font-size: 45px;
-      display: none; }
-    #left_div #box-profile:hover .fa-camera {
-      cursor: pointer;
-      display: block; }
-    @media (max-width: 541px) {
-      #left_div #box-profile:hover .fa-camera.desktop {
-        display: none; } }
     #left_div #box-profile #userImage {
       width: 100%;
       max-height: 300px;
@@ -1111,7 +1124,64 @@ p {
       max-width: 300px;
       border-radius: 5px;
       border: 1px solid #e1e8ed;
-      cursor: pointer; }
+      cursor: pointer;
+      border: 1px solid #e1e8ed; }
+    #left_div #box-profile .img-container {
+      padding: 0px 10px 10px 10px; }
+    #left_div #box-profile #userInitials {
+      width: 100%;
+      height: 200px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      margin-bottom: 10px;
+      text-align: center; }
+      @media (max-width: 650px) {
+        #left_div #box-profile #userInitials {
+          margin-bottom: 3px;
+          height: 185px; } }
+  @media (max-width: 650px) and (max-width: 580px) {
+    #left_div #box-profile #userInitials {
+      margin-bottom: 3px;
+      height: 155px; } }
+      #left_div #box-profile #userInitials .circle {
+        width: 200px;
+        height: 200px;
+        background-color: #3399FF;
+        border-radius: 50%;
+        text-align: center; }
+        @media (max-width: 650px) {
+          #left_div #box-profile #userInitials .circle {
+            height: 180px;
+            width: 180px; } }
+  @media (max-width: 650px) and (max-width: 580px) {
+    #left_div #box-profile #userInitials .circle {
+      height: 155px;
+      width: 155px; } }
+        #left_div #box-profile #userInitials .circle .initials {
+          margin-top: 20px;
+          line-height: 100px;
+          font-size: 90px;
+          cursor: pointer;
+          color: white; }
+          @media (max-width: 650px) {
+            #left_div #box-profile #userInitials .circle .initials {
+              font-size: 60px;
+              line-height: 70px; } }
+        #left_div #box-profile #userInitials .circle .camera.fa.fa-camera {
+          display: block;
+          cursor: pointer;
+          color: white;
+          font-size: 50px;
+          margin: 0 !important; }
+          @media (max-width: 650px) {
+            #left_div #box-profile #userInitials .circle .camera.fa.fa-camera {
+              font-size: 35px; } }
+    #left_div #box-profile span {
+      color: #3399FF; }
   #left_div .settings-tab-menu, #left_div .logout-tab {
     padding: 0;
     display: -webkit-box;
@@ -1169,6 +1239,11 @@ p {
           margin: 0px;
           font-size: 14px;
           color: #8899a6; }
+      #right_div div.settings-tab .settings-tab-content #short_bio {
+        width: 100%;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        line-height: 1.5; }
       #right_div div.settings-tab .settings-tab-content .col-md-12.content {
         margin: 0px;
         padding: 0px 0px;
@@ -1406,56 +1481,3 @@ label.removeFile {
     padding-left: 0px; }
   .launch_status span.status {
     display: none; } }
-
-.update-me.desktop {
-  cursor: pointer;
-  position: absolute;
-  top: 190px;
-  padding-left: 5px;
-  padding-right: 20px;
-  text-align: center;
-  z-index: 99; }
-  @media (max-width: 1200px) {
-    .update-me.desktop {
-      top: 150px; } }
-  @media (max-width: 1200px) and (max-width: 992px) {
-    .update-me.desktop {
-      top: 135px;
-      padding: 5px 5px;
-      font-size: 12px; } }
-  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 700px) {
-    .update-me.desktop {
-      top: 150px; } }
-  @media (max-width: 1200px) and (max-width: 992px) and (max-width: 621px) {
-    .update-me.desktop {
-      top: 130px; } }
-
-#userImage.no-picture {
-  border: 2px solid rgba(255, 0, 0, 0.4);
-  float: left; }
-
-.bubble {
-  position: absolute;
-  top: 0;
-  left: calc(25% + 20px);
-  padding: 5px;
-  font-size: 12px;
-  width: 130px;
-  height: 70px;
-  background: #FFFFFF;
-  border-radius: 10px; }
-  @media (min-width: 541px) {
-    .bubble {
-      display: none !important; } }
-
-.bubble:after {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  border-width: 15px 15px 15px 0;
-  border-color: transparent #FFFFFF;
-  display: block;
-  width: 0;
-  z-index: 1;
-  left: -15px;
-  top: 20px; }
