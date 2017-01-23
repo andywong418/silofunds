@@ -23,7 +23,7 @@ block content
         h1 you are offline
       if status == 'launched'
         h1 nice launch
-    #left_div.col-md-3.col-sm-3.col-xs-4
+    #left_div.col-md-3.col-sm-4.col-xs-4
       button#openModal(visibility="hidden", style='display: none', data-toggle='modal', data-target='#mymodal') Launch
       div.modal.fade#mymodal(tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
         div.modal-dialog.modal-lg(role='document')
@@ -44,13 +44,14 @@ block content
         #box-profile 
           if user.profile_picture
             img#userImage(src=user.profile_picture)
-            i#overlayed_camera.fa.fa-camera.desktop(title="Upload a new picture")
-           else
+            //- i#overlayed_camera.fa.fa-camera.desktop(title="Upload a new picture")
+          else
             .img-container
-              .update-me.desktop Adding a photo increases your chances of funding!
-              img#userImage.no-picture.top-no-pic(src='/images/profile-placeholder.jpg')
-              .update-me.bubble.mobile Adding a photo increases your chances of funding!
-            i#overlayed_camera.fa.fa-camera.desktop.no-picture(style='color: grey; left: 45%;top: 125px')
+              #userInitials
+                .circle.modal-open
+                  .initials=user.initials
+                  .camera.fa.fa-camera.desktop
+              span.add Add a profile picture to increase your chances of funding!
       #mobile-remove-div
         .settings-tab-menu
           .list-group
@@ -60,9 +61,10 @@ block content
             a.list-group-item(href="#")
               h5 Personal settings
                 span.glyphicon.glyphicon-menu-right.remove-sm
-            a.list-group-item(href="#")
-              h5 Campaign settings
-                span.glyphicon.glyphicon-menu-right.remove-sm
+            if user.student == 'TRUE'
+              a.list-group-item(href="#")
+                h5 Campaign settings
+                  span.glyphicon.glyphicon-menu-right.remove-sm
             a.list-group-item(href="#")
               h5 Education settings
                 span.glyphicon.glyphicon-menu-right.remove-sm
@@ -158,6 +160,12 @@ block content
                 .col-xs-1
                 .col-md-2.col-xs-2.text-left.clear.personal-padding-1
                   a#clear_gender(href='#') Clear
+              // Add a short bio for donor profile
+              if user.donor_id
+                .col-md-12.col-xs-12.remove-padding
+                  label.col-md-3.col-xs-3.remove-padding.donor#add_short_bio(for='description') Add a short bio
+                  .col-md-6.col-xs-9.remove-padding
+                    textarea#short_bio(type='text', placeholder='e.g. Head of projects and programmes at FDFC, co-founder of Twitter, prev. Data Solution Architect at Microsoft', max-length='300', name='short_bio')=user.donor.short_bio
               .col-md-12.col-xs-12
                 label.col-md-3.col-xs-3.personal-padding-1(for='religion') Religion
                 .col-md-6.col-xs-9
@@ -169,170 +177,171 @@ block content
           .col-md-12.col-xs-12.footer
             button#save-personal-settings.btn.btn-primary(type='submit') Save changes
             #save-personal-settings-notification Your changes have been saved
-        #campaign-settings.settings-tab-content
-          .col-md-12.col-xs-12.header
-            .campaign_title.col-md-7.col-xs-8
-              h3 Campaign Settings
-              p.help-block Change your campaigning details.
-            .launch_status.col-md-5.col-xs-4
-              if user.user_launch == true
-                span.status Status: 
-                .btn-group.show-on-hover
-                  button.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown')
-                    | Launched 
-                    span.caret
-                  ul.dropdown-menu(role='menu')
-                    li
-                      a.offline Take offline
-              if user.user_launch !== true
-                span.status Status: 
-                .btn-group.show-on-hover
-                  button.btn.btn-warning.dropdown-toggle(type='button', data-toggle='dropdown')
-                    | Offline 
-                    span.caret
-                  ul.dropdown-menu(role='menu')
-                    li
-                      a.launch Launch
-          .col-md-12.col-xs-12.content
-            .col-md-12.col-xs-12.sub-content
-              h4 About your campaign
-              .col-md-12.col-xs-12
-                p#recommend-text(style='font-weight: bold; font-size: 15px') Read our 
-                  a(href='/user-profile-guide', target='_blank')= 'user profile guide '
-                  span= 'and '
-                  a(href='/crowdfunding-video', target='_blank')= 'video guide '
-                  span for some inspiration!
-                label.col-md-3.col-xs-3.padding-top-add(for='video') Your project video
-                .col-md-8.col-xs-9
-                  if user.video
-                    input#video( value = user.video, name="video")
-                    p.embedded-link Remember to use an 
-                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
-                      | by copying and pasting the url from the iframe html
-                  else
-                    input#video(placholder = 'https://www.youtube.com/embed/Qa5tocl0BeA', name='video')
-                    p.embedded-link Remember to use an
-                      a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
-                      | by copying and pasting the url from the iframe html
-              .col-xs-12.refund-choice
-                //- a(href='/user/refund') Refund
-                label.col-md-3.col-xs-10.padding-top-add(for='refund') Refund your donors if goal is not reached by completion date
-                .col-md-8.col-xs-2
-                  if user.refund
-                    input#refund(type = 'checkbox', checked= '')
-                  else
-                    input#refund(type='checkbox')
-              .col-md-12.col-xs-12.remove-padding
-                label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
-                .col-md-8.col-xs-12.remove-padding
-                  textarea#description.form-control(name='description', rows='5')=user.description
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3.padding-top-add(for='funding_needed') Target amount
-                .col-md-3.col-xs-9
-                  input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3.padding-top-add.padding-top-rm-1(for='completion_date') to be achieved by
-                .col-md-3.col-xs-9
-                  input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
-              .col-md-12.col-xs-12
-                  p.center-block(style='font-size: 16px; margin-top: 10px') You can edit your cost breakdowns 
-                    a(href='/user/start-crowdfunding#story') here
-            .col-md-12.col-xs-12.sub-content
-              h4 Showcase your accomplishments
-              each document in documents
-                div(id=document.id)
+        if !user.donor_id
+          #campaign-settings.settings-tab-content
+            .col-md-12.col-xs-12.header
+              .campaign_title.col-md-7.col-xs-8
+                h3 Campaign Settings
+                p.help-block Change your campaigning details.
+              .launch_status.col-md-5.col-xs-4
+                if user.user_launch == true
+                  span.status Status: 
+                  .btn-group.show-on-hover
+                    button.btn.btn-success.dropdown-toggle(type='button', data-toggle='dropdown')
+                      | Launched 
+                      span.caret
+                    ul.dropdown-menu(role='menu')
+                      li
+                        a.offline Take offline
+                if user.user_launch !== true
+                  span.status Status: 
+                  .btn-group.show-on-hover
+                    button.btn.btn-warning.dropdown-toggle(type='button', data-toggle='dropdown')
+                      | Offline 
+                      span.caret
+                    ul.dropdown-menu(role='menu')
+                      li
+                        a.launch Launch
+            .col-md-12.col-xs-12.content
+              .col-md-12.col-xs-12.sub-content
+                h4 About your campaign
+                .col-md-12.col-xs-12
+                  p#recommend-text(style='font-weight: bold; font-size: 15px') Read our 
+                    a(href='/user-profile-guide', target='_blank')= 'user profile guide '
+                    span= 'and '
+                    a(href='/crowdfunding-video', target='_blank')= 'video guide '
+                    span for some inspiration!
+                  label.col-md-3.col-xs-3.padding-top-add(for='video') Your project video
+                  .col-md-8.col-xs-9
+                    if user.video
+                      input#video( value = user.video, name="video")
+                      p.embedded-link Remember to use an 
+                        a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
+                        | by copying and pasting the url from the iframe html
+                    else
+                      input#video(placholder = 'https://www.youtube.com/embed/Qa5tocl0BeA', name='video')
+                      p.embedded-link Remember to use an
+                        a(href='https://support.google.com/youtube/answer/171780?hl=en-GB', target = '_blank')= ' embedded link '
+                        | by copying and pasting the url from the iframe html
+                .col-xs-12.refund-choice
+                  //- a(href='/user/refund') Refund
+                  label.col-md-3.col-xs-10.padding-top-add(for='refund') Refund your donors if goal is not reached by completion date
+                  .col-md-8.col-xs-2
+                    if user.refund
+                      input#refund(type = 'checkbox', checked= '')
+                    else
+                      input#refund(type='checkbox')
+                .col-md-12.col-xs-12.remove-padding
+                  label.col-md-3.col-xs-12.remove-padding#describe_your_goal(for='description') Describe your goal
+                  .col-md-8.col-xs-12.remove-padding
+                    textarea#description.form-control(name='description', rows='5')=user.description
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3.padding-top-add(for='funding_needed') Target amount
+                  .col-md-3.col-xs-9
+                    input#funding_needed.form-control(type='text', name='funding_needed', form='', value=user.funding_needed)
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3.padding-top-add.padding-top-rm-1(for='completion_date') to be achieved by
+                  .col-md-3.col-xs-9
+                    input#completion_date.form-control(type='date', name='completion_date', value=user.completion_date)
+                .col-md-12.col-xs-12
+                    p.center-block(style='font-size: 16px; margin-top: 10px') You can edit your cost breakdowns 
+                      a(href='/user/start-crowdfunding#story') here
+              .col-md-12.col-xs-12.sub-content
+                h4 Showcase your accomplishments
+                each document in documents
+                  div(id=document.id)
+                    .col-md-12.col-xs-12
+                      label.col-md-3.col-xs-3.pad.padding-top-add(for='past_work_#{document.count}') Past work #{document.count}
+                      .col-md-6.col-xs-9
+                        label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
+                        input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
+                        label.removeFile(id='past_work_#{document.count}')
+                          i.fa.fa-times
+                          p Remove
+                    .col-md-12.col-xs-12
+                      label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{document.count}_description') Brief description
+                      .col-md-6.col-xs-9(id="past_work_#{document.count}")
+                        textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
+                each id in remainingPastWorkDivs
                   .col-md-12.col-xs-12
-                    label.col-md-3.col-xs-3.pad.padding-top-add(for='past_work_#{document.count}') Past work #{document.count}
+                    label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}') Past work ##{id}
                     .col-md-6.col-xs-9
-                      label.fakeFileUpload.btn.btn-default(for="past_work_#{document.count}") #{document.title}
-                      input.realFileUpload(type="file", name="past_work_#{document.count}", id='past_work_#{document.count}')
-                      label.removeFile(id='past_work_#{document.count}')
+                      label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
+                      input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
+                      label.removeFile.hidden(id='past_work_#{id}')
                         i.fa.fa-times
                         p Remove
                   .col-md-12.col-xs-12
-                    label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{document.count}_description') Brief description
-                    .col-md-6.col-xs-9(id="past_work_#{document.count}")
-                      textarea(name='past_work_1_description', class='past_work_description form-control', id='#{document.id}', rows='4')=document.description
-              each id in remainingPastWorkDivs
+                    label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}_description') Brief description
+                    .col-md-6.col-xs-9(id="past_work_#{id}")
+                      textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_1') Past work #1
+                //-   .col-md-6
+                //-     label.fakeFileUpload.btn.btn-default(for="past_work_1") Upload
+                //-     input#past_work_1.realFileUpload(type="file", name="past_work_1")
+                //-     label#past_work_1.removeFile.hidden
+                //-       i.fa.fa-times
+                //-       p Remove
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_1_description') Brief description
+                //-   .col-md-6
+                //-     textarea#past_work_1_description.form-control(name='past_work_1_description', rows='4')
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_2') Past work #2
+                //-   .col-md-6
+                //-     label.fakeFileUpload.btn.btn-default(for="past_work_2") Upload
+                //-     input#past_work_2.realFileUpload(type="file", name="past_work_2")
+                //-     label#past_work_2.removeFile.hidden
+                //-       i.fa.fa-times
+                //-       p Remove
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_2_description') Brief description
+                //-   .col-md-6
+                //-     textarea#past_work_2_description.form-control(name='past_work_2_description', rows='4')
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_3') Past work #3
+                //-   .col-md-6
+                //-     label.fakeFileUpload.btn.btn-default(for="past_work_3") Upload
+                //-     input#past_work_3.realFileUpload(type="file", name="past_work_3")
+                //-     label#past_work_3.removeFile.hidden
+                //-       i.fa.fa-times
+                //-       p Remove
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_3_description') Brief description
+                //-   .col-md-6
+                //-     textarea#past_work_3_description.form-control(name='past_work_3_description', rows='4')
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_4') Past work #4
+                //-   .col-md-6
+                //-     label.fakeFileUpload.btn.btn-default(for="past_work_4") Upload
+                //-     input#past_work_4.realFileUpload(type="file", name="past_work_4")
+                //-     label#past_work_4.removeFile.hidden
+                //-       i.fa.fa-times
+                //-       p Remove
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_4_description') Brief description
+                //-   .col-md-6
+                //-     textarea#past_work_4_description.form-control(name='past_work_4_description', rows='4')
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_5') Past work #5
+                //-   .col-md-6
+                //-     label.fakeFileUpload.btn.btn-default(for="past_work_5") Upload
+                //-     input#past_work_5.realFileUpload(type="file", name="past_work_5")
+                //-     label#past_work_5.removeFile.hidden
+                //-       i.fa.fa-times
+                //-       p Remove
+                //- .col-md-12
+                //-   label.col-md-3(for='past_work_5_description') Brief description
+                //-   .col-md-6
+                //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
                 .col-md-12.col-xs-12
-                  label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}') Past work ##{id}
+                  label.col-md-3.col-xs-3.padding-top-add(for='link') Link
                   .col-md-6.col-xs-9
-                    label.fakeFileUpload.btn.btn-default(for="past_work_#{id}") Upload
-                    input.realFileUpload(type="file", name="past_work_#{id}", id='past_work_#{id}')
-                    label.removeFile.hidden(id='past_work_#{id}')
-                      i.fa.fa-times
-                      p Remove
-                .col-md-12.col-xs-12
-                  label.col-md-3.col-xs-3.padding-top-add(for='past_work_#{id}_description') Brief description
-                  .col-md-6.col-xs-9(id="past_work_#{id}")
-                    textarea(name='past_work_1_description', class='past_work_description form-control', rows='4')
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_1') Past work #1
-              //-   .col-md-6
-              //-     label.fakeFileUpload.btn.btn-default(for="past_work_1") Upload
-              //-     input#past_work_1.realFileUpload(type="file", name="past_work_1")
-              //-     label#past_work_1.removeFile.hidden
-              //-       i.fa.fa-times
-              //-       p Remove
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_1_description') Brief description
-              //-   .col-md-6
-              //-     textarea#past_work_1_description.form-control(name='past_work_1_description', rows='4')
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_2') Past work #2
-              //-   .col-md-6
-              //-     label.fakeFileUpload.btn.btn-default(for="past_work_2") Upload
-              //-     input#past_work_2.realFileUpload(type="file", name="past_work_2")
-              //-     label#past_work_2.removeFile.hidden
-              //-       i.fa.fa-times
-              //-       p Remove
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_2_description') Brief description
-              //-   .col-md-6
-              //-     textarea#past_work_2_description.form-control(name='past_work_2_description', rows='4')
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_3') Past work #3
-              //-   .col-md-6
-              //-     label.fakeFileUpload.btn.btn-default(for="past_work_3") Upload
-              //-     input#past_work_3.realFileUpload(type="file", name="past_work_3")
-              //-     label#past_work_3.removeFile.hidden
-              //-       i.fa.fa-times
-              //-       p Remove
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_3_description') Brief description
-              //-   .col-md-6
-              //-     textarea#past_work_3_description.form-control(name='past_work_3_description', rows='4')
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_4') Past work #4
-              //-   .col-md-6
-              //-     label.fakeFileUpload.btn.btn-default(for="past_work_4") Upload
-              //-     input#past_work_4.realFileUpload(type="file", name="past_work_4")
-              //-     label#past_work_4.removeFile.hidden
-              //-       i.fa.fa-times
-              //-       p Remove
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_4_description') Brief description
-              //-   .col-md-6
-              //-     textarea#past_work_4_description.form-control(name='past_work_4_description', rows='4')
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_5') Past work #5
-              //-   .col-md-6
-              //-     label.fakeFileUpload.btn.btn-default(for="past_work_5") Upload
-              //-     input#past_work_5.realFileUpload(type="file", name="past_work_5")
-              //-     label#past_work_5.removeFile.hidden
-              //-       i.fa.fa-times
-              //-       p Remove
-              //- .col-md-12
-              //-   label.col-md-3(for='past_work_5_description') Brief description
-              //-   .col-md-6
-              //-     textarea#past_work_5_description.form-control(name='past_work_5_description', rows='4')
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3.padding-top-add(for='link') Link
-                .col-md-6.col-xs-9
-                  input#link.form-control(type='text', name='link', placeholder='Link to your website, portfolio, Github profile etc.', value=user.link)
-          .col-md-12.col-xs-12.footer
-            button#save-campaign-settings.btn.btn-primary(type='submit') Save changes
-            #save-campaign-settings-notification Your changes have been saved
+                    input#link.form-control(type='text', name='link', placeholder='Link to your website, portfolio, Github profile etc.', value=user.link)
+            .col-md-12.col-xs-12.footer
+              button#save-campaign-settings.btn.btn-primary(type='submit') Save changes
+              #save-campaign-settings-notification Your changes have been saved
         #education-settings.settings-tab-content
           .col-md-12.col-xs-12.header
             h3 Education Settings
@@ -352,23 +361,25 @@ block content
                 label.col-md-3.col-xs-3(for='college') Previous colleges/halls
                 .col-md-6.col-xs-9
                   input#input-college.form-control(type='text', name='college', value = user.college, placeholder ='Separate each college/hall with a comma')
-            .col-md-12.col-xs-12.sub-content
-              h4 Further education
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='subject') Target subjects
-                .col-md-6.col-xs-9
-                  input#subject.form-control(type='text', name='subject', value=user.subject)
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='target_degree') Target degrees
-                .col-md-6.col-xs-9
-                  input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
-              .col-md-12.col-xs-12
-                label.col-md-3.col-xs-3(for='target_university') Target universities
-                .col-md-6.col-xs-9
-                  input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
+            if user.student == 'TRUE'
+              .col-md-12.col-xs-12.sub-content
+                h4 Further education
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='subject') Target subjects
+                  .col-md-6.col-xs-9
+                    input#subject.form-control(type='text', name='subject', value=subject)
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='target_degree') Target degrees
+                  .col-md-6.col-xs-9
+                    input#target_degree.form-control(type='text', name='target_degree', value=user.target_degree)
+                .col-md-12.col-xs-12
+                  label.col-md-3.col-xs-3(for='target_university') Target universities
+                  .col-md-6.col-xs-9
+                    input#target_university.form-control(type='text', name='target_university', form='', value=user.target_university)
           .col-md-12.col-xs-12.footer
             button#save-education-settings.btn.btn-primary Save changes
-            #save-education-settings-notification Your changes have been saved            
+            #save-education-settings-notification Your changes have been saved     
+                      
 block scripts
   script(src='/javascript/advanced-search.js')
   script(src="/javascript/user-settings.js")

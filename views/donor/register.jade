@@ -1,6 +1,8 @@
 extend ../layout
 
 block extraHeader
+  link(href='/stylesheets/user/login.css', rel='stylesheet')
+  link(href='/stylesheets/user/register.css', rel='stylesheet')
   link(href='/stylesheets/donor/register.css', rel='stylesheet')
   link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
 
@@ -11,11 +13,14 @@ block content
   include ../partials/signup-modal.jade
   
   if email
-    #payment-div.alert.alert-success Your payment has been recieved successfully.
+    if req.flash.flashMsg
+      .alert.alert-error= req.flash.flashMsg
+    else 
+      #payment-div.alert.alert-success Your payment has been recieved successfully.
   else 
     #payment-div
   #form_container
-    p.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
+    p.donor.header.description Thank you for making a donation! If you fill out this quick signup form, you will be able to make contact with your fundees and they will be able to contact you, along with making it easier to find other funding opportunites.
     .flex_div
       .signup
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/donor/register", method='post')

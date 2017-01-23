@@ -96,23 +96,19 @@ module.exports = {
 			res.redirect('/');
 		}
 	},
-	saveUserSignup: function(req, res){
-		console.log("WHAT", req.body);
-
+	saveUserSignup: function(req, res) {
 		var userId = req.user.id;
 		var arrayFields = ['country_of_residence','subject', 'target_degree', 'previous_degree', 'target_university', 'previous_university','college'];
 		req.body = changeArrayfields(req.body, arrayFields);
 		req.body = moderateObject(req.body);
 		Logger.info(userId);
-
 		models.users.findById(userId).then(function(user){
-			Logger.info(req.body);
 			user.update(req.body).then(function(user){
 				if (req.body['breakdown']){
 					console.log("breakdown", req.body.breakdown);
 					var breakdownArray = JSON.parse(req.body.breakdown);
 					console.log("breakdown again", breakdownArray);
-					async.each(breakdownArray, function(breakdown, callback){
+					async.each(breakdownArray, function(breakdown, callback) {
 						breakdown.user_id = userId;
 						console.log("breakdwon", breakdown);
 						models.cost_breakdowns.findOrCreate({where: {segment: breakdown.segment}}).spread(function(individualBreakdown, created){
@@ -120,25 +116,21 @@ module.exports = {
 								individualBreakdown.update({user_id: userId, cost: breakdown.cost}).then(function(){
 									callback();
 								});
-							}
-							else{
+							} else {
 								console.log("COST", breakdown.cost);
 								if(breakdown.cost){
 									individualBreakdown.update({cost: breakdown.cost}).then(function(){
 										callback();
 									});
-								}
-								else{
+								} else {
 									callback();
 								}
-
 							}
 						}, function done(){
 							res.send(user);
 						});
 					});
-				}
-				else{
+				} else {
 					res.send(user);
 				}
 			});
@@ -318,7 +310,6 @@ module.exports = {
 				res.json(user);
 			})
 		})
-
 	},
 	getTags:function(req, res){
 		var id = req.params.id;
@@ -327,8 +318,7 @@ module.exports = {
 		var tags = req.body["tags[]"];
 		if(Array.isArray(tags)){
 			tagArray = tags;
-		}
-		else{
+		} else {
 			tagArray= [];
 			tagArray.push(tags);
 		}
@@ -341,7 +331,6 @@ module.exports = {
 					res.send(data);
 				})
 			})
-
 		})
 	},
 	getCountries: function(req, res){
@@ -351,11 +340,10 @@ module.exports = {
 		var countries = req.body["countries[]"];
 		if(Array.isArray(countries)){
 			countriesArray = countries;
-	 }
-	 else{
+	 } else {
 			countriesArray = [];
 			countriesArray.push(countries);
-		 }
+		}
 		Logger.info(countriesArray);
 		models.users.findById(id).then(function(user){
 			models.funds.findById(user.organisation_or_user).then(function(user){
@@ -365,22 +353,18 @@ module.exports = {
 					res.send(data);
 				})
 			})
-
 		})
-
-
 	},
 	getReligion: function(req, res){
-		 var id = req.params.id;
+		var id = req.params.id;
 		var religionArray;
 		var religion = req.body["religion[]"];
-	 if(Array.isArray(religion)){
+	if(Array.isArray(religion)){
 			religionArray = religion;
-	 }
-	 else{
+	} else {
 			religionArray = [];
 			religionArray.push(religion);
-		 }
+		}
 		Logger.info(religionArray);
 		models.users.findById(id).then(function(user){
 			user.update({religion: religionArray}).then(function(user){
@@ -392,8 +376,6 @@ module.exports = {
 					})
 				})
 			})
-
-
 		})
 	},
 	getApplication: function(req, res){
@@ -401,11 +383,9 @@ module.exports = {
 		models.users.findById(id).then(function(user){
 			var fundUser = user;
 			models.funds.findById(user.organisation_or_user).then(function(fund){
-				for (var attrname in fund['dataValues']){
-					if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at"){
-
+				for (var attrname in fund['dataValues']) {
+					if(attrname != "id" && attrname != "description" && attrname != "religion" && attrname != "created_at" && attrname != "updated_at") {
 						user["dataValues"][attrname] = fund[attrname];
-
 					}
 				}
 				var fields= [];
@@ -420,14 +400,11 @@ module.exports = {
 						user["dataValues"]["categories"] = categories;
 						res.json(user);
 					 })
-					}
-					else{
+					} else {
 						res.json(user);
 					}
-
 				})
 			})
-
 		})
 	},
 	verifyEmail: function(req, res){
@@ -547,22 +524,19 @@ module.exports = {
 							institute.update({pending_students: existingStudents}).then(function(){
 								notifyInstitution(institute, user, heard_from, req, res);
 							})
-						}
-						else{
+						} else {
 							if(!institute.pending_students){
 								var emptyArray = [];
 								var newpendingStudents = emptyArray.push(userId);
 								institute.update({pending_students: emptyArray}).then(function(){
 									notifyInstitution(institute, user, heard_from, req, res);
 								})
-							}
-							else{
+							} else {
 								heardFromsSend(userId, user, heard_from, req, res);
 							}
 						}
 					})
-				}
-				else{
+				} else {
 					heardFromsSend(userId, user, heard_from, req, res);
 				}
 			})
@@ -749,7 +723,7 @@ module.exports = {
 			})
 		})
 	}
-	function heardFromsSend(userId, user, heard_from, req, res){
+	function heardFromsSend(userId, user, heard_from, req, res) {
 		models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
 			if(row) {
 				res.send(row)
@@ -758,11 +732,11 @@ module.exports = {
 					user_id: userId
 				}).then(function(row) {
 					if(heard_from !== 'other' && heard_from !== '') {
-						row.update({heard_from: true}).then(function() {
+						row.update({[heard_from]: true}).then(function() {
 							res.send(user)
 						})
 					} else if (heard_from == 'other') {
-						row.update({heard_from: req.body.heard_other}).then(function() {
+						row.update({[heard_from]: req.body.heard_other}).then(function() {
 							res.send(user)
 						})
 					} else {

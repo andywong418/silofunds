@@ -76,14 +76,21 @@ module.exports =  {
   },
 
   registerDonor: function(data, user, donor_id, req, done) {
+    console.log('look at my data', data)
     models.users.find({where: {email: data.email}}).then(function(user) {
       if(!user) {
         if(donor_id == null) {
           models.donors.create({
             email: data.email
             }).then(function(donor) {
+              var name;
+              if(data.firstName && data.lastName) {
+                name = data.firstName + ' ' + data.lastName
+              } else if(data.username) {
+                name = data.username
+              }
             models.users.create({
-              username: data.firstName + ' ' + data.lastName,
+              username: name,
               email: data.email,
               password: data.password,
               student: 'FALSE',

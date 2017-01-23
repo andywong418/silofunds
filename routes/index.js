@@ -1,6 +1,7 @@
 var express = require('express');
 var home = require('../controllers/home');
 var users = require('../controllers/users');
+var donors = require('../controllers/donors');
 var passport = require('passport');
 var signup = require('../controllers/signup');
 var models = require('../models')
@@ -33,7 +34,7 @@ router.post('/reset/:token', users.resetPasswordConfirm)
 // NOTE: without below, an organisation can get onto user page and vice versa
 router.get(/organisation/, users.userBlocker)
 router.get(/user/, users.organisationBlocker)
-
+router.get(/donor/, donors.donorBlocker)
 
 // Facebook auth strategy
 router.get('/auth/facebook', passport.authenticate('facebook', {authType: 'rerequest', scope: ['email', 'user_birthday', 'user_location', 'user_hometown', 'user_website', 'user_religion_politics', 'user_education_history']}));

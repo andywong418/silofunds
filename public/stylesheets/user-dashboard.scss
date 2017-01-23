@@ -4,6 +4,50 @@ body {
   background: #f0f2f4;
 }
 
+h2#name {
+  margin-bottom: 20px;
+}
+
+.first_time {
+  display: none;
+  margin-bottom: 15px;
+  .small {
+    display: none;
+  }
+  @media (max-width: 579px) {
+    .small {
+      display: block;
+    }
+    .large {
+      display: none;
+    }
+  }
+}
+.not-first_time {
+  display: none;
+  margin-bottom: 15px;
+}
+a.start-crowdfunding{
+  background-color: #05d257;
+  border: none;
+  &:hover {
+    background-color: #04a042;
+  }
+  .take_offline {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.4)
+  }
+  color: white;
+  font-size: 17px;
+  @media (max-width: 579px) {
+    font-size: 15px;
+  }
+}
+
+#user-dashboard {
+  padding-top: 30px;
+}
+
 @media (min-width: 994px) {
   .mobile {
     display: none;
@@ -42,15 +86,6 @@ body {
   $navbar-height: 54px;
   h2#name{
     color: #010138;
-  }
-  a#start-crowdfunding{
-    background-color: #05d257;
-    border: none;
-    &:hover{
-      background-color: #04a042;
-    }
-    color: white;
-    font-size: 17px;
   }
   #recommended {
     p#header {

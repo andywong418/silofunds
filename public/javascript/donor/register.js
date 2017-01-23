@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $('input[type="submit"]').prop('disabled', false);
 
   $('#login').click(function() {
     $('#login_modal').modal('toggle')

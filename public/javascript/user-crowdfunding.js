@@ -5,7 +5,7 @@ $(document).ready(function() {
     $(this).find('p').addClass('active-item');
   });
   $('.fa-check-circle').tooltip();
-  if(user.funding_accrued){
+  if(user.funding_accrued) {
     var amount = user.funding_accrued;
     var goal = user.funding_needed;
     var percentage = Math.ceil((amount/ goal) * 100);
@@ -18,8 +18,7 @@ $(document).ready(function() {
     var nowDate = Date.now();
     var diffDays = Math.round(Math.abs((completionDate.getTime() - nowDate)/(oneDay)));
     $('#remaining-days').html(diffDays + '<span> days to go </span>');
-  }
-  else{
+  } else {
       $('#remaining-days').html('60 <span> days to go </span>');
   }
   var UserModel = Backbone.Model.extend({
@@ -303,16 +302,14 @@ $(document).ready(function() {
   // Stripe
 
   var handler = StripeCheckout.configure({
-      // key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r ,
-      // LIve: pk_live_zSAA5TcxiGNl3Cdw88TDAqnE
-      key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r' ,
+      key: 'pk_live_zSAA5TcxiGNl3Cdw88TDAqnE', // stripe*key
+      // key: 'pk_test_APDW1SKRsKrZAh5sf0q1ur8r',
       billingAddress: true,
       zipCode: true,
       image: '/images/silo-transparent-square.png',
       locale: 'auto',
       token: function(token) {
         var europeanArray= ["AL","AD","AT","BY","BE","BA","BG","HR","CY","CZ","DK","EE","FO","FI","FR","DE","GI","GR","HU","IS","IE","IM","IT","RS","LV",'LI','LT','LU','MK','MT','MD','MC','ME','NL','NO','PL','PT','RO','RU','SM','RS','SK','SI','ES','SE','CH','UA','GB','VA','RS'];
-        console.log(token.card.country);
         var cardcountry = token.card.country;
         var applicationFee;
         var amount = $('input#donate-amount').val();
@@ -369,7 +366,6 @@ $(document).ready(function() {
 
     $('.submit').on('click', function(e) {
       // Open Checkout with further options:
-
     });
 
     // Close Checkout on page navigation:
@@ -404,8 +400,7 @@ $(document).ready(function() {
       picture: user.profile_picture,
       description: firstName + ' needs your help! ' + pronoun + ' is raising money to study ' + user.subject + '. Your support will make a difference.',
       link: 'https://www.silofunds.com/public/' + user.id
-    }, function(response){
-
+    }, function(response) {
     });
     })
 
@@ -457,8 +452,7 @@ $(document).ready(function() {
       if(percentage + addedPercentage > 100){
         var maxPercentage = 99 - Math.floor((user.funding_accrued/ user.funding_needed) * 100);
         $('#another-one').animate({width: maxPercentage + '%'});
-      }
-      else{
+      } else {
         $('#another-one').animate({width: addedPercentage + '%'});
       }
       $('#raised').html('£' + newAmount + "<span> of " + user.funding_needed + " reached");
@@ -482,18 +476,13 @@ $(document).ready(function() {
       date = new Date(date);
       return date.toDateString();
     }
-
   };
+
   function displayCompletionMessage(data) {
-    // $('#payment-div').append('Thank you, your payment has been processed');
-    // $('#payment-div').removeClass('hidden');
-    // $('#payment-div').animate({'left': '85%'}, 'slow');
-    // $('#payment-div-invisible').click(function() {
-    //   $('#payment-div').fadeOut('slow');
-    // });
-    // $('#payment-div').delay(3000).fadeOut('slow');
     $('#processing-div').hide()
     $('#donor_email').val(data.charge_email)
+    $('#donation_id').val(data.user_id)
+    $('#user_id').val(data.charge_email)
     $('#hidden_form').submit()
   }
 

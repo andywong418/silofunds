@@ -1,5 +1,11 @@
-$(document).ready(function(){
+$(document).ready(function() {
+  var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]
+  if(previousLocation == 'create') {
+    $('.first_time').css('display', 'block')
+  } else {
+    $('.not-first_time').css('display', 'block')
 
+  }
   checkMixpanel();
   $('#explore, #start-browsing').click(function(){
     $('html, body').animate({scrollTop:0}, 'slow');

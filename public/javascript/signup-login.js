@@ -1,4 +1,27 @@
 $(document).ready(function(){
+  //
+  $('input[type="submit"]').prop('disabled', true);
+
+  $('#user_type_dropdown').on('change', function() {
+    $('input[type="submit"]').prop('disabled', false);
+    if($('#user_type_dropdown').val() == 'student') {
+      $('#donor_hidden').prop('value', 'false')
+      $('#fundCheckbox').prop('checked', false)
+      $('#signup-username').prop('placeholder', 'Full Name')
+      $('#fb-social').css('display', 'block')
+    } else if ($('#user_type_dropdown').val() == 'donor') {
+      $('#donor_hidden').prop('value', 'true')
+      $('#fundCheckbox').prop('checked', false)
+      $('#signup-username').prop('placeholder', 'Full Name')
+      $('#fb-social').css('display', 'none')
+    } else if($('#user_type_dropdown').val() == 'organisation') {
+      $('#donor_hidden').prop('value', 'false')
+      $('#fundCheckbox').prop('checked', true)
+      $('#signup-username').prop('placeholder', 'Institution Name')
+      $('#fb-social').css('display', 'none')
+    }
+  })
+  //
   //media queries
   var crowdfundingException = window.location.pathname;
   try{

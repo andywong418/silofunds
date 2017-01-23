@@ -10,9 +10,8 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-// var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
-
-var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
+var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); stripe*key
+// var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
 var bcrypt = require('bcrypt');
@@ -40,9 +39,8 @@ if (process.env.AWS_KEYID && process.env.AWS_KEY) {
 
 //test
 var CLIENT_ID = 'ca_8tfCnlEr5r3rz0Bm7MIIVRSqn3kUWm8y';
-
-// var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK';
-var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
+var API_KEY = 'sk_live_dd4eyhVytvbxcrELa3uibXjK'; // stripe*key
+// var API_KEY = 'sk_test_pMhjrnm4PHA6cA5YZtmoD0dv';
 var TOKEN_URI = 'https://connect.stripe.com/oauth/token';
 var AUTHORIZE_URI = 'https://connect.stripe.com/oauth/authorize';
 
@@ -92,7 +90,7 @@ module.exports = {
               }
             }
           };
-          if(age || user.funding_needed){
+          if (age || user.funding_needed) {
             var queryOptionsShouldArr = [
               {
                 "range": {
@@ -125,7 +123,7 @@ module.exports = {
             ];
             queryOptions.filtered.filter.bool.should = queryOptionsShouldArr;
           }
-          if(user.college){
+          if (user.college) {
             var termObj = {
               "term":{
                 "required_college": user.college
@@ -150,7 +148,7 @@ module.exports = {
               }
             });
           }
-          for (var i = 0; i< searchFields.length; i++) {
+          for (var i = 0; i < searchFields.length; i++) {
             var key = searchFields[i];
             var notAge = key !== "age";
             var notAmount = key !== "funding_needed";
@@ -171,27 +169,23 @@ module.exports = {
                 if (key === 'previous_degree') {
                   matchObj.match.required_degree = user[key];
                 } else if (key === 'previous_university') {
-                  matchObj.match.required_university ={
+                  matchObj.match.required_university = {
                     "query": user[key],
                     "minimum_should_match": "100%"
                   };
-                }
-                else if (key ==='subject'){
+                } else if (key ==='subject') {
                   matchObj.match.subject = {
                     "query": user[key],
                     "boost": 5
                   };
-                }
-                else if(key === 'target_university'){
+                } else if(key === 'target_university'){
                   matchObj.match.target_university = {
                     "query": user[key],
                     "minimum_should_match": "100%"
                   };
-                }
-                else {
+                } else {
                   matchObj.match[key] = user[key];
                 }
-
                 queryOptions.filtered.query.bool.should.push(matchObj);
               }
               // if(user.subject && user.target_university){
@@ -223,9 +217,8 @@ module.exports = {
                 "size": 1000,
                 "query": queryOptions
               }
-            }).then(function(resp){
+            }).then(function(resp) {
               // Get rid of those the user has removed
-              console.log("RESP HIT LEGNTH", resp.hits.hits.length);
               var resp_length_4 = [];
               for(var i = 0; i < resp.hits.hits.length; i++) {
                 if(resp_length_4.length < 4) {
@@ -234,11 +227,9 @@ module.exports = {
                     } else {
                       resp_length_4.push(resp.hits.hits[i]);
                     }
-                  }
-                  else{
+                  } else{
                     resp_length_4 = resp.hits.hits.slice(0,4);
                   }
-
                 } else {
                   break;
                 }
@@ -259,9 +250,6 @@ module.exports = {
                 hash.fund_user = false; // for the user logic later
                 return hash;
               });
-              console.log('hi')
-              console.log(funds)
-              console.log('^^^^^^^^')
               models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
                 if (user) {
                   for (var i=0; i < funds.length; i++) {
@@ -561,19 +549,12 @@ module.exports = {
       }
     });
   },
-  // loginGET: function(req, res) {
-  //   // Flash message if we have come via logging out to say 'successfully logged out'
-  //   var logoutMsg = req.flash('logoutMsg');
-  //   // Message prints as empty array, showing if length non zero
-  //   if(logoutMsg.length !== 0) {
-  //     res.render('user/login', {logoutMsg: logoutMsg})
-  //   } else {
-  //     res.render('user/login')
-  //   }
-  // },
+
   loginGET: function(req, res) {
     var logoutMsg = req.flash('logoutMsg');
     var goodbye = req.flash('goodbye')
+    req.session.flash = [];
+    req.flash = [];
     if (logoutMsg.length !== 0) {
       res.render('user/login', {logoutMsg: logoutMsg})
     } else if (goodbye.length !== 0) {
@@ -582,7 +563,6 @@ module.exports = {
       res.render('user/login')
     }
   },
-
 
   rememberMe: function(req, res, next) {
     // Issue a remember me cookie if the option was checked
@@ -755,14 +735,12 @@ module.exports = {
       } else {
         models.users.findById(req.params.id).then(function(user_viewed) {
           if(req.user) {
-            console.log('PLACE 1')
             if(req.user.id == user_viewed.id) {
               res.render('crowdfunding-not-launched', {user: req.user, own_profile: true, loggedInUser: loggedInUser})
             } else {
               res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
             }
           } else {
-            console.log('PLACE 2')
             res.render('crowdfunding-not-launched', {user: user_viewed, loggedInUser: loggedInUser})
           }
         })
@@ -814,13 +792,12 @@ module.exports = {
 			if(created){
         models.funds.findById(fund_id).then(function(fund){
           models.users.find({where: {organisation_or_user: fund.organisation_id}}).then(function(user){
-            if(!user){
+            if(!user) {
               var transporter = nodemailer.createTransport(smtpTransport({
                service: 'Gmail',
                auth: {user: 'andros@silofunds.com',
                      pass: 'whatever418'}
               }));
-
               var locals = {
                 header: "Dear Sir/Madam,",
                 fund_title: fund.title,
@@ -828,10 +805,10 @@ module.exports = {
               };
               var templatePath = path.join(process.cwd(), 'email-templates/fund-application-notification-template');
               var template = new EmailTemplate(templatePath);
-              template.render(locals, function(err, results){
+              template.render(locals, function(err, results) {
                 if (err) {
-                   console.error(err);
-                   notifyUsers(user_id, fund_id, res, app);
+                  console.error(err);
+                  notifyUsers(user_id, fund_id, res, app);
                 }
                 transporter.sendMail({
                   from: 'Silofunds',
@@ -839,27 +816,22 @@ module.exports = {
                   subject: "Connecting students with your institution",
                   html: results.html
                 }, function(err, responseStatus){
-                  if (err) {
+                  if(err) {
                    console.error(err);
                    notifyUsers(user_id, fund_id, res, app);
-                  }
-                  else{
+                  } else {
                     console.log("SUCCESS");
                     console.log(responseStatus);
                     notifyUsers(user_id, fund_id, res, app);
                   }
-
                 });
               });
-            }
-            else{
+            } else {
               notifyUsers(user_id, fund_id, res, app);
             }
           });
         });
-
-			}
-			else{
+			} else {
 				res.send("Already applied!");
 			}
 		});
@@ -929,8 +901,6 @@ module.exports = {
 		});
 	},
   removeFund: function(req, res) {
-    console.log(req.body)
-    console.log('^^&^^^^^^^^')
     var user_id = req.body.user_id;
     var fund_id = req.body.fund_id;
     models.users.findById(user_id).then(function(user) {
@@ -960,34 +930,29 @@ module.exports = {
         documents = documents.map(function(document) {
           return document.get();
         });
-
         for (var i = 0; i < documents.length; i++) {
           var document = documents[i];
-
           document.count = i + 1;
         }
         Logger.info(documents);
-
         var numberRemainingPastWorkDivs = 5 - documents.length;
         var remainingPastWorkDivs = [];
-
         if (numberRemainingPastWorkDivs > 0) {
           for (var j = documents.length; j < 5; j++) {
             var id = j + 1;
-
             remainingPastWorkDivs.push(id.toString());
           }
         }
-
         var user = req.user;
+        var splitName = req.user.username.split(' ')
+        var initials = splitName[0].substr(0, 1) + splitName[1].substr(0, 1)
+        req.user.initials = initials
         if (user.date_of_birth) {
           user.date_of_birth = reformatDate(user.date_of_birth);
         }
-
         if (user.completion_date) {
           user.completion_date = reformatDate(user.completion_date);
         }
-
         res.render('user/settings', {user: user, general: true, documents: documents, remainingPastWorkDivs: remainingPastWorkDivs });
       });
     });
@@ -1022,8 +987,6 @@ module.exports = {
       accessKeyId: aws_keyid,
       secretAccessKey: aws_key
     });
-    Logger.info("WHAT");
-
     var s3 = new AWS.S3();
     var params = {
       Bucket: bucketName,
@@ -1071,10 +1034,6 @@ module.exports = {
     passportFunctions.ensureAuthenticated(req, res, function(){
       var userID = req.user.id;
       var settings = req.body;
-
-      Logger.info("Settings");
-      Logger.info(settings);
-
       var settingsKeys = Object.keys(settings);
       var numberOfKeys = Object.keys(settings).length;
       var userSettingsArrayFields = ["country_of_residence", "previous_degree", "previous_university", "subject", "target_degree", "target_university", 'college'];
@@ -1092,9 +1051,6 @@ module.exports = {
           settings[settingsKey] = settings[settingsKey].split(',');
         }
       }
-
-      Logger.info("Settings");
-      Logger.info(settings);
       // var general_settings;
       // var id = req.user.id
       // var body = req.body;
@@ -1110,9 +1066,16 @@ module.exports = {
       //
       models.users.findById(userID).then(function(user) {
         user.update(settings).then(function(user) {
-          res.send("HAHHAHAH");
+          if (settings.donorSettings) {
+            if (user.donor_id) {
+              models.donors.findById(user.donor_id).then(function(donor) {
+                donor.update(settings.donorSettings).then(function(donor) {
+                  res.end();
+                })
+              })
+            }
+          }
           res.end();
-
           // res.render('user/settings', {user: user, general: general_settings});
         });
       });
@@ -1289,7 +1252,7 @@ module.exports = {
     })
   },
 
-  search: function(req, res){
+  search: function (req, res) {
     var query = req.query;
     var emptyQueryObj = Object.keys(query).length === 0 && query.constructor === Object;
     // Parse integer fields
@@ -1297,7 +1260,6 @@ module.exports = {
       query.age = parseIfInt(query.age);
       var todayDate = new Date();
       var userBirthday = new Date();
-      console.log("TODAY", todayDate);
       var lowerBoundBirthDate = todayDate.getFullYear() - query.age - 5;
       var upperBoundBirthdate = todayDate.getFullYear() -query.age +5
       var lowerBirthdaySeconds = userBirthday.setFullYear(lowerBoundBirthDate);
@@ -1306,7 +1268,6 @@ module.exports = {
       var upperDate = new Date(upperBirthdaySeconds);
       query['lower_date'] = lowerDate.toISOString().split('T')[0];
       query['upper_date'] = upperDate.toISOString().split('T')[0];
-      console.log("birthday", query);
     }
     if (query.funding_needed) {
       query.funding_needed = parseIfInt(query.funding_needed);
@@ -1456,6 +1417,7 @@ module.exports = {
       res.render('error');
     });
   },
+
   organisationBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
@@ -1465,12 +1427,18 @@ module.exports = {
         exceptionChecker = 'exception';
       }
     }
-    if(req.user !== {} && req.user && req.user !== undefined) {
-      if(req.user.organisation_or_user !== null && urlSeparation[1] == 'user') {
+    if(req.user !== {} && req.user && req.user !== undefined && req.user.student !== 'TRUE') {
+      if(urlSeparation[1] == 'user') {
         if(exceptionChecker == 'exception') {
           next();
         } else {
-          res.render(error)
+          if(req.user.organisation_or_user !== null) {
+            res.render(error)
+          } else if (req.user.student !== 'TRUE') {
+            res.render(error)
+          } else {
+            next();
+          }
         }
       } else {
         next();
@@ -1479,6 +1447,7 @@ module.exports = {
       next();
     }
   },
+
   userBlocker: function(req, res, next) {
     var url = req.url
     var urlSeparation = url.split('/')
@@ -1570,7 +1539,6 @@ module.exports = {
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
-
             res.end('email send failed');
         }
         else {
@@ -1581,7 +1549,6 @@ module.exports = {
   },
 
   contact_us_email_organisation: function(req, res) {
-    console.log(req.body)
     var message = req.body.message
     var name = req.body.fund_name
     var email = req.body.email
@@ -1596,8 +1563,8 @@ module.exports = {
        subject: 'Question from ' + name + ' (organisation)',
        text: 'Dear Silo, \n\n' +
            message + '\n\n' +
-           'with love from ' + name + ' xxx' + '\n\n\n'
-           + 'btw their email is ' + email
+           'From: ' + name + '\n\n\n'
+           + 'Email: ' + email
     };
     transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
@@ -1626,7 +1593,6 @@ module.exports = {
     }
   },
   getCostBreakdown: function(req, res){
-    console.log("WE in");
     var userId = req.params.id;
     models.cost_breakdowns.findAll({where: {user_id: userId} }).then(function(breakdowns){
       breakdowns = breakdowns.map(function(breakdown) {
@@ -1636,7 +1602,6 @@ module.exports = {
     })
   },
   startCrowdfunding: function(req, res){
-    console.log("HI", req.user);
     var userId = req.user.id;
     if(userId){
       models.users.findById(userId).then(function(user){
@@ -1647,8 +1612,7 @@ module.exports = {
           res.render('signup/new-user-profile', {user: user, institutions: institutions});
         });
       })
-    }
-    else{
+    } else {
       res.redirect('/login');
     }
 
@@ -1721,7 +1685,7 @@ module.exports = {
   }
 }
 
-////// Helper functions
+////// Helper functionsµ
 function notifyStudent(student, institute, res, notification, notification_category, notiftext, email_subject){
   var options = {
     user_id: student.id,
@@ -1737,7 +1701,6 @@ function notifyStudent(student, institute, res, notification, notification_categ
 }
 function createPageView(pageViewCreate, loggedInUser, user, callback){
   if(loggedInUser){
-    console.log("HEY");
     models.users.findById(loggedInUser).then(function(other_user){
       if(loggedInUser != user.id){
 
@@ -1991,14 +1954,11 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
     };
     var templatePath = path.join(process.cwd(), 'email-notification-templates');
     var template = new EmailTemplate(templatePath);
-
     var transporter = nodemailer.createTransport(smtpTransport({
      service: 'Gmail',
      auth: {user: 'notifications@silofunds.com',
            pass: 'notifaccount'}
     }));
-    console.log("WE IN thee email");
-
     template.render(locals, function(err, results) {
       if (err) {
          return console.error(err);
@@ -2012,18 +1972,59 @@ function sendUserEmail(userId, charge_email, notiftext, link, notification, app,
         if (err) {
          console.error("ERROR", err);
         } else {
-          console.log("SUCCESS", responseStatus);
+                    console.log("SUCCESS", responseStatus);
 
-          app = app.get()
-          app.charge_email = charge_email
-          callback(app);
-
+                    app = app.get()
+                    app.charge_email = charge_email
+                    callback(app);
         }
       });
     });
   });
 }
-function findFavourites(options, res, dataObject){
+
+function sendDonorEmail(userId, charge, res) {
+  models.users.findById(userId).then(function(user) {
+    var transporter = nodemailer.createTransport(smtpTransport({
+      service: 'Gmail',
+      auth: {user: 'andros@silofunds.com',
+            pass: 'whatever418'}
+    }));
+    var date = reformatDate(new Date()).split('-').reverse().join('/')
+    var charge_amount = charge.amount.toString();
+    var amount = charge_amount.substr(0, charge_amount.length - 2) + '.' + charge_amount.substr(charge_amount.length - 2, charge_amount.length);
+    var locals = {
+      user: user,
+      charge: charge,
+      amount: amount,
+      donor_name: charge.source.name,
+      date: date
+    };
+    var templatePath = path.join(process.cwd(), 'email-templates/donation-confirmation-template');
+    var template = new EmailTemplate(templatePath);
+    template.render(locals, function(err, results) {
+      if (err) {
+        console.error(err);
+      }
+      transporter.sendMail({
+        from: 'Silofunds',
+        to: charge.email,
+        subject: "Thank you for your donation!",
+        html: results.html
+      }, function(err, responseStatus) {
+        if(err) {
+         console.error(err);
+        } else {
+          app = {}
+          app.charge_email = charge.email
+          res.send(app);
+        }
+      });
+    });
+  })
+}
+
+function findFavourites(options, res, dataObject) {
 	models.favourite_funds.findAll({where: options, order: 'updated_at DESC'}).then(function(favourite_funds){
 		var newArray = [];
 		async.each(favourite_funds, function(element, callback){
@@ -2109,26 +2110,26 @@ function findCharges(query, res, dataObject1, dataObject2, options1, options2){
 		findAllStripeCharges(options1, res, dataObject1, options2, dataObject2);
 	});
 }
-function asyncChangeDonations(options, array, res, dataObject){
+function asyncChangeDonations(options, array, res, dataObject) {
 	var newArray = [];
-	async.each(array, function(element, callback){
+	async.each(array, function(element, callback) {
+    console.log(element, 'ELEMENT')
 		var newObj = {};
 		newObj.sender_name = element.sender_name;
 		newObj.amount = (element.amount)/100;
     newObj.is_anon = element.is_anon;
 		newObj.diffDays = updateDiffDays(element.created_at);
-		if(element.user_from){
+		if (element.user_from) {
 			models.users.findById(element.user_from).then(function(user){
 				newObj.profile_picture = user.profile_picture;
 				newArray.push(newObj);
 				callback();
 			});
-		}
-		else{
+		} else {
 			newArray.push(newObj);
 			callback();
 		}
-	}, function done(){
+	}, function done() {
 		dataObject.donations = newArray.reverse();
 		findAllUpdatesComments(options, res, dataObject);
 	});
@@ -2338,12 +2339,12 @@ function completeStripeCharge(user, charge, amount, application_fee, user_from, 
           if(messageUser) {
             sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'http://silofunds.com/messages/' + user_from, "this link.", notification,
             'You have a new donation!', function(){
-              res.send('something');
+              sendDonorEmail(user.id, charge, res)
             });
           } else {
             sendUserEmail(user.id, charge.email, charge.source.name + " donated £" + chargeAmountPounds + " to your campaign! Thank them by clicking ", 'mailto:' + charge.email, "this link.", notification,
             'You have a new donation!', function(){
-              res.send('something');
+              sendDonorEmail(user.id, charge, res)
             });
           }
         });
@@ -2369,7 +2370,6 @@ function reformatDate(date) {
   dd = dd.toString();
   mm = mm.length > 1 ? mm : '0' + mm;
   dd = dd.length > 1 ? dd : '0' + dd;
-
   var reformattedDate = yyyy + "-" + mm + "-" + dd;
   return reformattedDate;
 };

@@ -1,9 +1,7 @@
 extend ../layout
 
 block extraHeader
-  link(href='/stylesheets/donor/register.css', rel='stylesheet')
-  link(href='/stylesheets/user/register.css', rel='stylesheet')
-  link(href='/stylesheets/donor/login.css', rel='stylesheet')
+  link(href='/stylesheets/user/login.css', rel='stylesheet')
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
 
 
@@ -23,7 +21,7 @@ block content
         .lead We're sorry to see you go
   #form_container
     .flex_div
-      h4.panel-title Login to silofunds
+      h4.panel-title Login to Silofunds
       .signup
         form(accept-charset='UTF-8', name='login', id='login', role='form', action="/login", method='post')
           input#email(type='text', name='email', placeholder='Email:')

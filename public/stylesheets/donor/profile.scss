@@ -1,0 +1,392 @@
+@import '../navbar.scss';
+@import '../advanced-search.scss';
+@import '../signup.scss';
+
+body {
+  background-color: #f0f2f4;
+}
+
+.container {
+  margin-bottom: 100px;
+}
+
+.hide {
+  display: none;
+}
+
+.heading {
+  margin-top: 70px;
+  padding-top: 15px;
+  height: auto;
+  display: flex;
+  .profile_picture {
+    .initials.circle, img {
+      height: 130px;
+      line-height: 130px;
+      margin-right: 20px;
+      width: 130px;
+      font-size: 65px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: #3399FF;
+      // background-color: #00da8d;
+      color: white;
+    }
+  }
+  .info-div {
+    padding-left: 20px;
+    .name {
+      font-size: 25px;
+    }
+    .break {
+      margin: 0px 8px;
+    }
+    .add {
+      font-size: 12px;
+      cursor: pointer;
+      color: #3399FF;
+    }
+    .add:hover {
+      text-decoration: none;
+      color: #2d4a76;
+    }
+    .other {
+      .university.title {
+        margin-right: 10px;
+      }
+    }
+  }
+  padding-bottom: 15px;
+}
+
+
+.main-content {
+  margin-top: 20px;
+  #updates, #donations {
+    margin-top: 25px;
+  }
+  .header {
+    h1 {
+      color: rgba(0, 0, 0, 0.77);
+      text-transform: capitalize;
+      padding-bottom: 2px;
+      margin-bottom: 6px;
+      font-size: 18px;
+      border-bottom: 1px solid #e1e8ed;
+    }
+  }
+}
+
+#other-students {
+  #student-carousel {
+    .carousel-control.left, .carousel-control.right {
+      background-image: none
+    }
+    .carousel-indicators li {
+      visibility: hidden;
+    }
+  }
+  .image {
+    display: flex;
+    justify-content: space-around;
+  }
+  .student-div {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f2f4;
+    border-radius: 0px 0px 3px 3px;
+    img {
+      border-radius: 3px 3px 0px 0px;
+      width: 100%;
+      height: 300px;
+    }
+    .information {
+      height: 100%;
+      background-color: white;
+      padding: 5px 7px;
+      display: flex;
+      flex-direction: column;
+      .name {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .progress-bar {
+        background-color: #f5f5f5;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+        overflow: hidden;
+        height: 8px;
+        border-radius: 100px;
+        width: 100%;
+        .another-one {
+          height: 100%;
+          width: 0%;
+          box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+          background-color: rgb(85, 230, 165);
+        }
+      }
+      .description {
+        margin-top: 5px;
+        .percent-funded, .amount-left {
+          float: left;
+          margin-left: 2%;
+          font-family: Montserrat;
+          color: rgba(0, 0, 0, 0.8);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .amount-left {
+          float: right;
+          margin-right: 2%;
+        }
+        .bio {
+          margin: 5px 0px;
+          font-size: 13px;
+        }
+        .line-clamp {
+          font-size: 16px;
+          text-align: center;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+}
+
+#donations {
+  .header {
+    h1 {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #e1e8ed;
+    }
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  clear: both;
+  margin-top: 40px;
+  border: 1px solid #e1e8ed;
+  border-radius: none;
+  background-color: white;
+  padding: 0px 15px;
+  #donation-banner {
+    p {
+      border-bottom: 1px solid #e1e8ed;
+      font-size: 22px;
+      padding: 10px 0;
+      border-radius: 3px;
+      i {
+        margin-left: 5px;
+      }
+    }
+  }
+  .donation-container {
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+    .flex_box {
+      background-color: white;
+      margin-bottom: 6px;
+      align-items: center;
+      display: flex;
+      padding: 5px;
+      img, .initials.circle {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        border-radius: 50%;
+      }
+      .information {
+        padding-left: 15px;
+        display: flex;
+        width: 100%;
+        .basic-info {
+          width: 100%;
+        }
+        .amount {
+          float: left;
+        }
+        .date {
+          float: right;
+        }
+      }
+    }
+  }
+  span.donations.else {
+    font-size: 16px;
+  }
+}
+
+
+
+// Mediaqueries
+@media (max-width: 650px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block !important;
+  }
+  @media (min-width: 550px) {
+    #student-carousel {
+      padding: 0px 25px;
+    }
+  }
+}
+@media (min-width: 600px) {
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: block;
+  }
+  .container {
+    width: 94%;
+  }
+  .heading.main-info {
+    .profile_picture {
+      img {
+        width: 130px;
+        height: 150px;
+      }
+    }
+    .name {
+      font-size: 32px;
+    }
+    .bio.add {
+      margin-top: 4px;
+      font-size: 19px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+    .bio.add_bio {
+      color: #3399FF;
+    }
+    .add {
+      font-size: 17px;
+    }
+    .other {
+      font-size: 17px;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 4px;
+    }
+  }
+  .main-content {
+    .header {
+      h1 {
+        font-size: 25px;
+      }
+      p {
+        font-size: 17px;
+      }
+    }
+    #updates {
+      float: right;
+      width: 40%;
+      margin-top: 0;
+    }
+    #donations {
+      .flex_box {
+        padding: 4px 15px;
+        border: none;
+      }
+    }
+    #student-desktop-layout {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    #other-students {
+      .student-div {
+        width: 49%;
+      }
+      .left {
+        float: left;
+      }
+      .right {
+        float: right;
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .heading.main-info {
+    .profile_picture {
+      img {
+        width: 200px;
+        height: 200px;
+        margin-right: 20px;
+      }
+    }
+    .name {
+      font-size: 40px;
+    }
+    .bio {
+      margin-top: 4px;
+      font-size: 21px;
+      color: rgba(0, 0, 0, 0.7)
+    }
+    .bio.add_bio {
+      color: #3399FF;
+    }
+    .other {
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.7);
+      margin-top: 4px;
+    }
+  }
+  .main-content {
+    .header {
+      h1 {
+        font-size: 27px;
+      }
+      p {
+        font-size: 18px;
+      }
+    }
+    #donations {
+      margin-top: 200px;
+    }
+    #donations {
+      clear: none;
+      width: 40%;
+      float: right;
+      margin-top: 80px;
+      border: 1px solid #e1e8ed;
+      background-color: white;
+      padding: 0px 10px;
+      .donation-container {
+        max-height: 1000px;
+        .flex_box {
+          border: none;
+          width: 96%;
+          margin-left: 2%;
+        }
+      }
+    }
+    #other-students {
+      width: 56%;
+      float: left;
+      .student-div {
+        width: 49%;
+      }
+      .left {
+        float: left;
+      }
+      .right {
+        float: right;
+      }
+    }
+  }
+}

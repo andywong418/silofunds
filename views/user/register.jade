@@ -1,7 +1,7 @@
 extend ../layout
 
 block extraHeader
-  link(href='/stylesheets/donor/register.css', rel='stylesheet')
+  link(href='/stylesheets/user/login.css', rel='stylesheet')
   link(href='/stylesheets/user/register.css', rel='stylesheet')
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
   script(src='/javascript/user/register.js')
@@ -21,10 +21,12 @@ block content
         form(accept-charset='UTF-8', name='register', id='register', role='form', action="/register", method='post')
           //- input.right(type='hidden', value='true', name='donor_registration')
           .user-type.col-xs-12
-            .col-xs-5
-              .panel-title
-                | Register for silo as a:
-            .col-xs-7
+            .col-xs-6.col-md-5
+              .panel-title.panel-large
+                | Register for Silo as a:
+              .panel-title.panel-small
+                | Register as a:
+            .col-xs-6.col-md-7
               select#user_type_dropdown.form-control(name='user_type')
                 option(disabled='', selected='', value='')
                 option(value='student') Student

@@ -6,7 +6,7 @@
 @import 'signup.scss';
 
 /*customised code*/
-#brand-image{
+#brand-image {
   margin-top: -15px;
   position: relative;
   cursor: pointer;
@@ -289,66 +289,43 @@ i {
     width: auto;
     margin-left:0;
   }
-  .navbar-collapse{
+  .navbar-collapse {
       background: #2d4a76;
   }
 }
 
 @media(max-width: 480px){
-  .database{
+  .database {
     padding-left: 10px;
     padding-right: 10px;
-    .fund_list{
+    .fund_list {
       margin-right: 0;
     }
   }
-  h3.fund_title{
+  h3.fund_title {
     font-size: 18px;
   }
   .fund_info{
-    span{
+    span {
       margin-top: 0;
     }
-    p{
+    p {
       font-size: 15px;
     }
-    a{
+    a {
       font-size: 14px;
     }
   }
 }
 @media(max-width: 457px){
-  #show-all{
+  #show-all {
     white-space: normal;
   }
 }
 @media (max-width: 400px) {
   .results {
-    p{
+    p {
       padding-top: 5px;
-    }
-  }
-}
-
-/* form sign in */
-
-@media only screen and (min-width: 600px) {
-  .cd-form {
-    padding: 2em;
-    .fieldset {
-      margin: 2em 0;
-      &:first-child {
-        margin-top: 0;
-      }
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    input.has-padding {
-      padding: 16px 20px 16px 50px;
-    }
-    button[type=submit] {
-      padding: 16px 0;
     }
   }
 }
