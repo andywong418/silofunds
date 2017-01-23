@@ -82,11 +82,11 @@ block content
 						input#progressController(type='range', min='0', max='100', value='72')
 					p#postgraduate-brief 72% of postgraduate students have no financial help.
 			.col-sm-4.hideme
-				h1#number-of-funds 2000
-				p#funds-brief We have a daily updated database of over 2000 grants.
+				h1#number-of-funds 2400
+				p#funds-brief We have a daily updated database of over 2400 grants.
 			.col-sm-4.hideme
 				h1#amount-searched £17 million
-				p#amount-available There are over £17 million worth of grants at Silo.
+				p#amount-available There are over £19 million worth of grants at Silo.
 
 			.col-md-2
 			.col-lg-8.col-lg-offset-2
@@ -134,44 +134,91 @@ block content
 				.col-md-1
 			span#fund-sign-up Sign up
 	section#social-proof.container.content-section.text-center
-		.row
-			.col-md-4.hideme
-				img#success-story(src='/images/roshan.jpg')
-				.mb-attribution
-					p.mb-author 
-						a(href='/public/1125') Roshan Kumar
-					cite
-						a Pharmacology DPhil
-			.col-md-8.hideme
-				section.main
-					.mb-wrap.mb-style-3
-						blockquote
-							p First of all, my heartiest thanks to all donors who participated in my campaign and to making it successful. I would like to thank Silo who played a very important role in my fundraising campaign towards my accommodation deposit. They provided me with a platform where I was able to convey to donors my situation and to ask them for help in a more convincing way. They also connected me with all potential donors and made my campaign successful in just 7 days. I received constant support from Silo staff and a big help from other groups to make my campaign successful. Thank you Silo!
+		#myCarousel.carousel.slide(data-ride='carousel')
+			// Indicators
+			ol.carousel-indicators
+				li.active(data-target='#myCarousel', data-slide-to='0')
+				li(data-target='#myCarousel', data-slide-to='1')
+				//- li(data-target='#myCarousel', data-slide-to='2')
+				//- li(data-target='#myCarousel', data-slide-to='3')
+			// Wrapper for slides
+			.carousel-inner(role='listbox')
+				.item.active
+					.row.roshan-row
+						.col-md-4.hideme
+							img#success-story(src='/images/roshan.jpg')
+							.mb-attribution
+								p.mb-author 
+									a(href='/public/1125') Roshan Kumar
+								cite
+									a Pharmacology DPhil
+						.col-md-8.hideme
+							section.main
+								.mb-wrap.mb-style-3
+									blockquote
+										p First of all, my heartiest thanks to all donors who participated in my campaign and to making it successful. I would like to thank Silo who played a very important role in my fundraising campaign towards my accommodation deposit. They provided me with a platform where I was able to convey to donors my situation and to ask them for help in a more convincing way. They also connected me with all potential donors and made my campaign successful in just 7 days. I received constant support from Silo staff and a big help from other groups to make my campaign successful. Thank you Silo!
+				.item
+					.row.oxsrc-row
+						.col-md-4.hideme
+							img#success-story(src='/images/oxsrc.jpg')
+							.mb-attribution
+								p.mb-author 
+									a(href='/public/1323') Oxford Student Refugee Campaign
+								cite
+									a Student run campaign
+						.col-md-8.hideme
+							section.main
+								.mb-wrap.mb-style-3
+									blockquote
+										p Silo has enabled our scholarship fund to access fundraising resources in an entirely new way. The opportunity to crowdfund represents a huge potential for our fund. We were able to successfully raise money for the application fees of 10 refugee students in only 6 days. The work of Silo to publish our campaign in social media and to extended networks was incredibly dedicated. I am sure we will continue to work closely with this service in future.
+			// Left and right controls
+			//- a.left.carousel-control(href='#myCarousel', role='button', data-slide='prev')
+			//- 	span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+			//- 	span.sr-only Previous
+			//- a.right.carousel-control(href='#myCarousel', role='button', data-slide='next')
+			//- 	span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+			//- 	span.sr-only Next
+
 	section#relevant-people(data-stellar-background-ratio="0.5")
 		#relevant-div
 			h3#relevant-intro Creating a community
 			p#relevant-explanation At Silo our focus is on building a community. Our service is currently exclusive to Oxford students but our aim is to help fund as many students as possible. In order to do this we believe we need to connect our users with relevant people who can provide both guidance and financial support for our users.
 			p#relevant-target Whether you're a student who has succesfully crowdfunded, an alumni member, or someone who is interested in research at the university, we would love to hear from you.
 			a#contact-span(href="/contact_us") Contact us
-	section#team
-		#team-div
-			h3 Our founders 
-			.row
-				.col-sm-4
-					img(src='/images/homepage-andros.jpg')
-					p 
-						a(href="mailto:andros@silofunds.com") Andros Wong
-					span Co-founder
-				.col-sm-4
-					img(src="/images/homepage-duaine.jpg")
-					p
-						a(href="mailto:du'aine@silofunds.com") Du'aine Davis
-					span Co-founder
-				.col-sm-4
-					img(src="/images/homepage-howard.jpg")
-					p
-						a(href="mailto:howard@silofunds.com") Howard Tam
-					span Co-founder
+	section#featured
+		h3 Featured on 
+		.row
+			.col-sm-3
+				a(href='http://thetab.com/uk/oxford/2016/11/15/small-loan-million-dollars-oxford-entrepreneur-spills-commercial-beans-27504')
+					img(src='http://thetab.com/wp-content/themes/thetab-three/assets/_img/thetab-logo-red.png')
+			.col-sm-3
+				a(href='http://oxfordstudent.com/2016/11/19/blast-off-silo-oxford-students-startup/')
+					img(src='http://oxfordstudent.com/wp-content/uploads/2016/01/FEd4xBfi-2.jpeg', style='width: 250px')
+			.col-sm-3
+				a(href='http://www.oxfordtoday.ox.ac.uk/interviews/student-entrepreneur-and-business-making-ends-meet')
+					img(src='http://jimmymorris.co.uk/wp-content/uploads/2015/02/oxford-today-logo-e1425062383330-321x221.png')
+			.col-sm-3
+				a(href='http://www.eship.ox.ac.uk/andros-wong-co-founder-silo-funds')
+					img(src='http://www.begbroke.ox.ac.uk/wp-content/uploads/2015/04/Enterprising-oxford.png', style='width: 250px;')
+	//- section#team
+	//- 	#team-div
+			//- h3 Our founders 
+			//- .row
+			//- 	.col-sm-4
+			//- 		img(src='/images/homepage-andros.jpg')
+			//- 		p 
+			//- 			a(href="mailto:andros@silofunds.com") Andros Wong
+			//- 		span Co-founder
+			//- 	.col-sm-4
+			//- 		img(src="/images/homepage-duaine.jpg")
+			//- 		p
+			//- 			a(href="mailto:du'aine@silofunds.com") Du'aine Davis
+			//- 		span Co-founder
+			//- 	.col-sm-4
+			//- 		img(src="/images/homepage-howard.jpg")
+			//- 		p
+			//- 			a(href="mailto:howard@silofunds.com") Howard Tam
+			//- 		span Co-founder
 	include ./partials/footer.jade
 block scripts
 	// Custom Theme JavaScript
