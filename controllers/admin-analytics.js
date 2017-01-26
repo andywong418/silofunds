@@ -18,7 +18,7 @@ module.exports = {
             }
           }
         }
-
+        newArr.sort();
         newArr = newArr.join(" || ");
 
         res.render('admin/analytics', { distinct_countries: newArr, userCount: userCount });
