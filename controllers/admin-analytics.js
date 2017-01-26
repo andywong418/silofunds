@@ -18,7 +18,11 @@ module.exports = {
             }
           }
         }
-        newArr.sort();
+
+        // Case insensitive sorting
+        newArr.sort(function (a, b) {
+          return a.toLowerCase().localeCompare(b.toLowerCase());
+        });
         newArr = newArr.join(" || ");
 
         res.render('admin/analytics', { distinct_countries: newArr, userCount: userCount });
