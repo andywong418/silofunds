@@ -47,5 +47,33 @@ module.exports = {
       res.send(count);
       res.end();
     });
+  },
+
+  seg_colleges: function(req, res) {
+    models.sequelize.query("select college, count(*) from users group by college").spread(function(data, metadata) {
+      console.log(data);
+
+      // Reformat array of objects
+      var college_counts = {};
+
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].college) {
+          for (var j = 0; j < data[i].college.length; j++) {
+            var college = data[i].college[j];
+            if (college_counts.hasOwnProperty(college)) {
+              college_counts[college] += parseInt(data[i].count);
+            } else {
+              college_counts[college] = parseInt(data[i].count);
+            }
+          }
+        } else {
+          // College field is null.
+          college_counts["null"] = parseInt(data[i].count);
+        }
+      }
+
+      res.send(college_counts);
+      res.end();
+    });
   }
 }
