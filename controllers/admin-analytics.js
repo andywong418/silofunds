@@ -12,7 +12,7 @@ module.exports = {
           if (countries[i].country_of_residence) {
             for (var j = 0; j < countries[i].country_of_residence.length; j++) {
               var tag = countries[i].country_of_residence[j];
-              if (newArr.indexOf(tag) != -1) {
+              if (newArr.indexOf(tag) == -1) {
                 newArr.push(tag);
               }
             }
