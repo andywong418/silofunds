@@ -11,7 +11,10 @@ module.exports = {
         for (var i = 0; i < countries.length; i++) {
           if (countries[i].country_of_residence) {
             for (var j = 0; j < countries[i].country_of_residence.length; j++) {
-              newArr.push(countries[i].country_of_residence[j]);
+              var tag = countries[i].country_of_residence[j];
+              if (newArr.indexOf(tag) != -1) {
+                newArr.push(tag);
+              }
             }
           }
         }
