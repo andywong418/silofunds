@@ -1,0 +1,31 @@
+extends admin-layout
+
+block content
+  .container
+    .col-md-12
+      p Unique entries in 'country_of_residence' =
+        b &nbsp;#{distinct_countries}
+      p Total number of users =
+        b &nbsp;#{userCount}
+    .col-md-12
+      table.table.table-responsive
+        tr
+          th Query
+          th Parameters
+          th Result
+          th Action
+        tr
+          td Number of users in the UK
+          td
+            input(type='text' name='seg_uk' form='seg_uk' value='United Kingdom, UK, U, united kingdom')
+          td#seg-uk-result -
+          td
+            form(action='/admin/analytics/seg_uk', method='get', name='seg_uk')
+              button.btn.btn-primary(type='submit') GET
+  // jQuery (necessary for Bootstrap's JavaScript plugins)
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+  // Include all compiled plugins (below), or include individual files as needed
+  script(src='/javascript/lib/bootstrap.min.js')
+  script(src='/javascript/admin-analytics.js')
+  script.
+    var userCount =!{JSON.stringify(userCount)};

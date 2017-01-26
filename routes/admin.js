@@ -38,4 +38,7 @@ router.post('/organisations/download', admin.organisations.download);
 router.post('/organisations/upload', admin.organisations.upload);
 router.post('/organisations/reset-table', admin.organisations.resetTable);
 
+router.get('/analytics', admin.analytics.index);
+router.get('/analytics/seg_uk', admin.analytics.seg_uk);
+
 module.exports = router;
