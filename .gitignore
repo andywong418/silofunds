@@ -1,6 +1,7 @@
 app/secrets.js
 database-fix.js
 .env
+scraping/**/*
 # Ignore Node & Bower
 ###################
 node_modules
