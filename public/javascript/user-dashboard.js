@@ -1,4 +1,33 @@
 $(document).ready(function() {
+  console.log(funds)
+  for (var i = 0; i < funds.length; i++) {
+
+    var elem_id = '#description_' + funds[i].number
+    var element = document.getElementById('description_' + funds[i].number);
+    // innerText for IE, textContent for other browsers
+    var text = element.innerText || element.textContent;
+    element.innerHTML = text;
+    console.log(element)
+    $(elem_id).find('*').css('font-size', '15px');
+    $(elem_id).find('*').css('font-family', 'PT Sans');
+    $(elem_id).find('*').css('line-height', '1.5');
+    $(elem_id).find('*').css('text-align', 'center');
+    $(elem_id).find('*').css('color', 'black');
+    // if ($(elem_id).find('.container')) {
+    //   $(elem_id).find('.container').removeClass('.container');
+    // }
+    // var paragraphs = $(elem_id).find('p');
+    // for (var i =0; i < paragraphs.length; i++ ) {
+    //   if(paragraphs[i].innerHTML == '&nbsp;') {
+    //     var parent = document.getElementById('description_' + funds[i].number);
+    //     try {
+    //       parent.removeChild(paragraphs[i]);
+    //     }
+    //     catch(err) {
+    //     }
+    //   }
+    // }
+  }
   var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]
   if(previousLocation == 'create') {
     $('.first_time').css('display', 'block')
