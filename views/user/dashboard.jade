@@ -82,20 +82,20 @@ block content
                       else 
                         img(src='/images/fund_img_placeholder.jpg')
                   .information
-                    .name
-                      a(href='/organisation/options/' + fund.id)
-                        span= fund.title
+                    .name.line-clamp-2
+                      .center-align
+                        .span-div
+                          a(href='/organisation/options/' + fund.id)
+                            span= fund.title
                     .description
-                      if fund.maximum_amount || fund.support_type || fund.minimum_amount
-                        if fund.maximum_amount
-                          span.amount £#{fund.maximum_amount}
-                        else if fund.minimum_amount
-                          span.amount £#{fund.minimum_amount}
-                        if fund.support_type
-                          span.support_type= fund.support_type
-                        br
-                      .hello
-                        p(id="description_#{fund.number}")= fund.description
+                      if fund.maximum_amount
+                        span.amount £#{fund.maximum_amount}
+                      else if fund.minimum_amount
+                        span.amount £#{fund.minimum_amount}
+                      if fund.support_type
+                        span.support_type= fund.support_type
+                      br
+                      p.line-clamp-5(id="description_#{fund.number}")= fund.description
           //
           .flex-itr
             if picture_counter !== 0

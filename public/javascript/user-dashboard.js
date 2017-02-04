@@ -12,21 +12,6 @@ $(document).ready(function() {
     $(elem_id).css('line-height', '1.5');
     $(elem_id).css('text-align', 'center');
     $(elem_id).css('color', 'black');
-    console.log(element.innerText.replace(/<(?:.|\n)*?>/gm, ''))
-    // if ($(elem_id).find('.container')) {
-    //   $(elem_id).find('.container').removeClass('.container');
-    // }
-    // var paragraphs = $(elem_id).find('p');
-    // for (var i =0; i < paragraphs.length; i++ ) {
-    //   if(paragraphs[i].innerHTML == '&nbsp;') {
-    //     var parent = document.getElementById('description_' + funds[i].number);
-    //     try {
-    //       parent.removeChild(paragraphs[i]);
-    //     }
-    //     catch(err) {
-    //     }
-    //   }
-    // }
   }
   var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]
   if(previousLocation == 'create') {
