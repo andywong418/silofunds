@@ -6,7 +6,7 @@ block content
   .container
     form(action = '/admin/freshers-signup', method = 'post', name = 'create_fresher_user')
       .form-group
-        label(for='username') Username
+        label(for='username') Full name
         input#username.form-control(name='username', placeholder='Username')
       .form-group
         label(for='email') Email address
@@ -16,7 +16,7 @@ block content
       //-   label(for='password') Password
       //-   input#password.form-control(name='password', placeholder='Password')
       .form-group
-        label(for='country_of_residence') Country of Residence
+        label(for='country_of_residence') Nationality
         input#country_of_residence.form-control(name='country_of_residence', placeholder='Country of Residence')
       .form-group
         label(for='date_of_birth') Date of birth
@@ -31,6 +31,6 @@ block content
       //-   label(for='previous_university') University
       //-   input#previous_university.form-control(name='previous_university', placeholder = 'University')
       .form-group
-        label(for='previous_degree') Degree studying
+        label(for='previous_degree') Degree level (E.g. BA, MSc, undergraduate, postgraduate, etc)
         input#previous_degree.form-control(name='previous_degree', placeholder = 'Current degree')
       button.btn.btn-primary(type='submit') Submit

@@ -1,5 +1,9 @@
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(document).ready(function() {
+  $('.oxsrc-row').height($('.roshan-row').height());
+  $(window).resize(function(){
+    $('.oxsrc-row').height($('.roshan-row').height());
+  });
   var Scrollview = Backbone.View.extend({
     el: ".navbar",
     events: {

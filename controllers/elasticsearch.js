@@ -139,9 +139,9 @@ module.exports = {
           });
         }
         queryOptions.filtered.filter.bool.must = [];
-        console.log("YA KNOW ME", queryOptions.filtered.filter.bool.should);
+        // console.log("YA KNOW ME", queryOptions.filtered.filter.bool.should);
 
-        console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
+        // console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
         if (!query.specific_location) {
           // If specific location is not specified in the search query append missing filter to "specific_location"
           queryOptions.filtered.filter.bool.must.push({
@@ -501,9 +501,9 @@ module.exports = {
             });
           }
           queryOptions.filtered.filter.bool.must = [];
-          console.log("YA KNOW ME", queryOptions.filtered.filter.bool.should);
-
-          console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
+          // console.log("YA KNOW ME", queryOptions.filtered.filter.bool.should);
+          //
+          // console.log("QUERY OPTS", queryOptions.filtered.filter.bool.must);
           if (!query.specific_location) {
             // If specific location is not specified in the search query append missing filter to "specific_location"
             queryOptions.filtered.filter.bool.must.push({
@@ -526,7 +526,7 @@ module.exports = {
               }]
             }
           };
-
+          console.log("SANITUY CHECK");
           //TODO: consider using type:"most_fields"; it is now by default "best_fields"
           if (query.tags) {
             if(query.tags.indexOf('travel') > -1){
@@ -589,9 +589,6 @@ module.exports = {
           });
         }
         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
-        console.log(queryOptions.filtered.query.bool.should[3].match, 'should')
-        console.log(queryOptions.filtered.query.bool.should[0].bool.must, 'must')
-        console.log(queryOptions.filtered.query, 'query')
         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
         // console.log("OPTIONS", queryOptions.filtered.query.bool.should[0].bool.must[0].bool.should[0].match);
 
@@ -1000,6 +997,7 @@ module.exports = {
                   } else {
                     res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
                   }
+                  //send to db query
                 });
               } else {
                 if (query.tags && Object.keys(query).length === 1){
@@ -1009,6 +1007,8 @@ module.exports = {
                   console.log("ANOTHER RESULTS", query);
                   res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
                 }
+                //send to db query
+
               }
             });
           }, function(err) {

@@ -194,7 +194,9 @@ router.get('/explain-college-accounts', function(req, res){
     res.render('explain-college-accounts');
   }
 });
-router.get('/explain-affiliation-to-donors', function(req, res){
+
+router.get('/explain-affiliation', function(req, res){
+  console.log("WHAT");
   if(req.user){
     res.render('explain-affiliation-to-donors', {user: req.user});
   }
@@ -202,6 +204,7 @@ router.get('/explain-affiliation-to-donors', function(req, res){
     res.render('explain-affiliation-to-donors');
   }
 });
+
 router.get('/public/:id', users.crowdFundingPage);
 
 module.exports = router;

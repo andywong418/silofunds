@@ -265,6 +265,9 @@ a.cd-login {
   padding-right: 20px;
   margin-top: 0;
   padding-bottom: 50px;
+  ol.carousel-indicators{
+    bottom: -50px !important;
+  }
   img#success-story{
     width: 170px;
     height: auto;
@@ -346,12 +349,12 @@ a.cd-login {
     	margin-left: -10px;
     }
 
-    .mb-style-3 blockquote:before {
-    	border-top-color: rgba(0,0,0,0.01);
-    	border-width: 11px;
-    	left: 65%;
-    	margin-left: -11px;
-    }
+    // .mb-style-3 blockquote:before {
+    // 	border-top-color: rgba(0,0,0,0.01);
+    // 	border-width: 11px;
+    // 	left: 65%;
+    // 	margin-left: -11px;
+    // }
 
     .mb-style-3 blockquote p {
     	font-family: 'Source sans Pro', serif;
@@ -359,22 +362,21 @@ a.cd-login {
     	color: #2d4a76;
     	font-weight: 400;
     	line-height: 40px;
-    	text-indent: 100px;
     	position: relative;
     }
 
-    .mb-style-3 blockquote p:before{
-    	content: '\201C';
-    	font-family: serif;
-    	font-style: normal;
-    	font-weight: 700;
-    	position: absolute;
-    	font-size: 175px;
-    	top: 0px;
-    	left: -105px;
-    	color: #317fad ;
-    	text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1);
-    }
+    // .mb-style-3 blockquote p:before{
+    // 	content: '\201C';
+    // 	font-family: serif;
+    // 	font-style: normal;
+    // 	font-weight: 700;
+    // 	position: absolute;
+    // 	font-size: 175px;
+    // 	top: 0px;
+    // 	left: -105px;
+    // 	color: #317fad ;
+    // 	text-shadow: 7px 14px 10px rgba(0, 0, 0, 0.1);
+    // }
 
 
     .mb-style-3 cite a:hover{
@@ -787,7 +789,22 @@ background: #f1f1f1;
   }
 
 }
+#featured{
+  background: #f1f1f1;
 
+  text-align: center;
+  padding: 50px;
+  padding-bottom: 100px;
+  h3{
+    color: #34495E;
+  }
+  .row{
+    text-align: center;
+    img{
+      width: 200px;
+    }
+  }
+}
 #team{
   #team-div{
     background: #f1f1f1;
