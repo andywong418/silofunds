@@ -619,32 +619,29 @@ $(document).ready(function(){
 
     }
   }
-  if(fund.description){
+  if(fund.description) {
     $('.fundBio').html(fund.description);
     $('.fundBio').find('*').css('font-size', '15px');
     $('.fundBio').find('*').css('font-family', 'PT Sans');
     $('.fundBio').find('*').css('line-height', '1.5');
     $('.fundBio').find('*').css('background-color', '#f0f2f4');
-    if($('.fundBio').find('.container')){
+    if ($('.fundBio').find('.container')) {
       $('.fundBio').find('.container').removeClass('.container');
     }
     var paragraphs = $('#fundBio').find('p');
     for (var i =0; i < paragraphs.length; i++ ){
       if(paragraphs[i].innerHTML == '&nbsp;'){
         var parent = document.getElementById('fundBio');
-        try{
+        try {
           parent.removeChild(paragraphs[i]);
         }
         catch(err){
         }
-
       }
-
     }
   }
   var subject = fund['subject'];
   var ImageModel = Backbone.Model.extend();
-
   var ImageView = Backbone.View.extend({
     tagName:'div',
     id:'criteria-handler',

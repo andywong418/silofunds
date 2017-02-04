@@ -68,6 +68,35 @@ block content
       p#header Recommended for you
       .row.recommended-row
         if funds.length > 0
+          // new suff
+          #recommended_div.desktop
+            #recommended-funds-flex
+              each fund in funds 
+                .fund-div
+                  a(href='/organisation/options/' + fund.id)
+                    .image
+                      if fund.organisation_picture
+                        img(src=fund.organisation_picture)
+                      else if fund.support_type
+                        img(src='/images/' + fund.support_type + '.svg')
+                      else 
+                        img(src='/images/fund_img_placeholder.jpg')
+                  .information
+                    .name
+                      a(href='/organisation/options/' + fund.id)
+                        span= fund.title
+                    .description
+                      if fund.maximum_amount || fund.support_type || fund.minimum_amount
+                        if fund.maximum_amount
+                          span.amount £#{fund.maximum_amount}
+                        else if fund.minimum_amount
+                          span.amount £#{fund.minimum_amount}
+                        if fund.support_type
+                          span.support_type= fund.support_type
+                        br
+                      .hello
+                        p(id="description_#{fund.number}")= fund.description
+          //
           .flex-it
             if picture_counter !== 0
               each fund in funds
@@ -98,6 +127,10 @@ block content
             span to request new funds. Alternatively bolster your 
               a(href='/user/profile') crowdfunding profile 
               span to connect with people interested in your goals.
+              
+              
+              
+              
     section#updates
       p#header Post an update
       .col-xs-2.mobile.force-block
@@ -455,6 +488,8 @@ block content
             .spacing_div
 
 block scripts
+  script.
+    var funds = !{JSON.stringify(funds)}
   script(src='/javascript/advanced-search.js')
   script(src='/javascript/signup-login.js')
   script(src='/javascript/notifications.js')
