@@ -6,13 +6,13 @@ $(document).ready(function() {
     var element = document.getElementById('description_' + funds[i].number);
     // innerText for IE, textContent for other browsers
     var text = element.innerText || element.textContent;
-    element.innerHTML = text;
-    console.log(element)
-    $(elem_id).find('*').css('font-size', '15px');
-    $(elem_id).find('*').css('font-family', 'PT Sans');
-    $(elem_id).find('*').css('line-height', '1.5');
-    $(elem_id).find('*').css('text-align', 'center');
-    $(elem_id).find('*').css('color', 'black');
+    element.innerHTML = text.replace(/<(?:.|\n)*?>/gm, '');
+    $(elem_id).css('font-size', '15px');
+    $(elem_id).css('font-family', 'PT Sans');
+    $(elem_id).css('line-height', '1.5');
+    $(elem_id).css('text-align', 'center');
+    $(elem_id).css('color', 'black');
+    console.log(element.innerText.replace(/<(?:.|\n)*?>/gm, ''))
     // if ($(elem_id).find('.container')) {
     //   $(elem_id).find('.container').removeClass('.container');
     // }
