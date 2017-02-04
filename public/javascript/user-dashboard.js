@@ -11,6 +11,7 @@ $(document).ready(function() {
     $(elem_id).css('font-family', 'PT Sans');
     $(elem_id).css('line-height', '1.5');
     $(elem_id).css('text-align', 'center');
+    $(elem_id).css('margin-bottom', '15px');
     $(elem_id).css('color', 'black');
   }
   var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]

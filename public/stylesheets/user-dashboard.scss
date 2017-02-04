@@ -88,118 +88,95 @@ a.start-crowdfunding{
     color: #010138;
   }
   // NEW RECOMMENDED
-  #recommended-funds-flex {
-    width: 106%;
-    margin-left: -3%;
-    margin-top: 2%;
-    display: flex;
-    flex-direction: row;
-    .fund-div {
-      background-color: white;
+  #recommended {
+    p#header {
+      border-bottom: 2px solid #010138;
+      display: inline-block;
+    }
+    #recommended-funds-flex {
+      width: 106%;
+      margin-left: -3%;
+      margin-top: 2%;
       display: flex;
-      width: 25%;
-      flex-direction: column;
-      background-color: #f0f2f4;
-      border-radius: 0px 0px 3px 3px;
-      padding: 0.5%;
-      img {
+      flex-direction: row;
+      .fund-div {
         background-color: white;
-        border-radius: 3px 3px 0px 0px;
-        width: 100%;
-        height: 300px;
-        cursor: pointer;
-      }
-      .information {
-        height: 100%;
-        background-color: white;
-        padding: 5px 7px;
         display: flex;
+        width: 25%;
         flex-direction: column;
-        .name {
-          text-align: center;
-          font-weight: 600;
-          height: 3.3em;
-          .center-align {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            height: 3.3em;
-            .span-div {
-              span {
-                text-align: center;
-                font-size: 1.2em;
-                cursor: pointer;
+        background-color: #f0f2f4;
+        border-radius: 0px 0px 3px 3px;
+        padding: 0.5%;
+        img {
+          background-color: white;
+          border-radius: 3px 3px 0px 0px;
+          width: 100%;
+          height: 300px;
+          cursor: pointer;
+        }
+        .information {
+          height: 100%;
+          background-color: white;
+          padding: 5px 7px;
+          display: flex;
+          flex-direction: column;
+          .name {
+            text-align: center;
+            font-weight: 600;
+            height: 3.5em;
+            .center-align {
+              display: flex;
+              width: 100%;
+              justify-content: center;
+              align-items: center;
+              height: 3.3em;
+              .span-div {
+                span {
+                  text-align: center;
+                  font-size: 1.3em;
+                  cursor: pointer;
+                }
               }
             }
           }
-        }
-        .description {
-          margin-top: 5px;
-          margin-top: 5px;
-          .support_type, .amount {
-            float: left;
-            margin-left: 2%;
-            font-family: Montserrat;
-            color: rgba(0, 0, 0, 0.8);
+          .description {
+            margin-top: 5px;
+            margin-top: 5px;
+            .support_type, .amount {
+              float: left;
+              margin-left: 2%;
+              font-family: Montserrat;
+              color: rgba(0, 0, 0, 0.8);
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+            .support_type {
+              float: right;
+              text-transform: capitalize;
+              margin-right: 2%;
+            }
+            p {
+              font-size: 16px;
+            }
+          }
+          .line-clamp-2, .line-clamp-5 {
+            text-align: center;
+            overflow : hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
-          .support_type {
-            float: right;
-            text-transform: capitalize;
-            margin-right: 2%;
+          .line-clamp-5 {
+            -webkit-line-clamp: 5;
           }
-          p {
-            font-size: 16px;
-          }
-        }
-        .line-clamp-2, .line-clamp-5 {
-          text-align: center;
-          overflow : hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-        .line-clamp-5 {
-          -webkit-line-clamp: 5;
         }
       }
     }
   }
 
   //
-
-
-  #recommended {
-    p#header {
-      display: inline-block;
-      border-bottom: 2px solid #010138;
-      color: #010138;
-      font-size: 17px;
-    }
-    .recommended-row {
-      .flex-it {
-        .col-md-12 {
-          padding-left: 0;
-        }
-      }
-      p {
-        margin-top: 5px;
-        font-size: 16px;
-      }
-    }
-    textarea {
-      width: 60%;
-      height: 100px;
-      border-radius: 3px;
-      font-size: 15px;
-      padding: 8px;
-      resize: none;
-    }
-  }
   #updates {
     margin-top: 20px;
     margin-bottom: 40px;
@@ -421,12 +398,6 @@ a.start-crowdfunding{
     .col-xs-2.mobile {
       margin-top: -10px;
     }
-  }
-}
-
-.row.recommended-row {
-  @media (min-width: 993px) {
-    margin-bottom: 15px;
   }
 }
 

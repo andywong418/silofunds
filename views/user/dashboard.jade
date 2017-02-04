@@ -82,11 +82,11 @@ block content
                       else 
                         img(src='/images/fund_img_placeholder.jpg')
                   .information
-                    .name.line-clamp-2
+                    .name
                       .center-align
                         .span-div
                           a(href='/organisation/options/' + fund.id)
-                            span= fund.title
+                            span.line-clamp-2= fund.title
                     .description
                       if fund.maximum_amount
                         span.amount £#{fund.maximum_amount}
@@ -95,32 +95,8 @@ block content
                       if fund.support_type
                         span.support_type= fund.support_type
                       br
-                      p.line-clamp-5(id="description_#{fund.number}")= fund.description
-          //
-          .flex-itr
-            if picture_counter !== 0
-              each fund in funds
-                if fund.organisation_picture
-                  .col-md-3.col-xs-6.fund-imgs
-                    .flex-img
-                      img.col-md-12(src=fund.organisation_picture)
-                    .flex-p                  
-                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
-                if !fund.organisation_picture
-                  .col-md-3.col-xs-6.fund-imgs
-                    .flex-img
-                      img.col-md-12(src='/images/fund_img_placeholder.jpg')
-                    .flex-p                  
-                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
-          if picture_counter == 0
-            each fund in funds
-              .col-xs-6.col-sm-6.col-md-6
-                .box
-                  .box-icon
-                    span.fa.fa-2x
-                  .info
-                    h4.text-center
-                      a(href='/organisation/options/'+ fund.id)= fund.title
+                      if fund.description
+                        p.line-clamp-5(id="description_#{fund.number}")= fund.description
         else
           p#none-recommended It seems that there are currently no currently no funds recommended for you. Click 
             a(href='/request-fund/' + user.id) here 
