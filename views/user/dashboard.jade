@@ -69,10 +69,10 @@ block content
       .row.recommended-row
         if funds.length > 0
           // new suff
-          #recommended_div.desktop
-            #recommended-funds-flex
+          #recommended_div
+            #recommended-funds-flex.desktop
               each fund in funds 
-                .fund-div
+                .fund-div(class="fund_div_#{fund.number}")
                   a(href='/organisation/options/' + fund.id)
                     .image
                       if fund.organisation_picture
