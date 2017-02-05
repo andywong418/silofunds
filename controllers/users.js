@@ -10,7 +10,7 @@ var aws_key;
 var request = require('request');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK');
+var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); // stripe*key
 // var stripe = require('stripe')('sk_test_pMhjrnm4PHA6cA5YZtmoD0dv');
 var crypto = require('crypto');
 var async = require('async');
@@ -136,7 +136,6 @@ module.exports = {
               "should": []
             }
           };
-
           user = user.get();
           if(user.college){
             queryOptions.filtered.query.bool.should.push({
@@ -153,18 +152,15 @@ module.exports = {
             var notAge = key !== "age";
             var notAmount = key !== "funding_needed";
             var notReligion = key !== "religion";
-
             if (notReligion) {
               if (user[key]) {
                 user[key] = user[key].join(", ");
               }
             }
-
             if (notAge && notAmount) {
               var matchObj = {
                 "match": {}
               };
-
               if (user[key] !== null) {
                 if (key === 'previous_degree') {
                   matchObj.match.required_degree = user[key];
@@ -178,7 +174,7 @@ module.exports = {
                     "query": user[key],
                     "boost": 5
                   };
-                } else if(key === 'target_university'){
+                } else if (key === 'target_university') {
                   matchObj.match.target_university = {
                     "query": user[key],
                     "minimum_should_match": "100%"
@@ -222,12 +218,12 @@ module.exports = {
               var resp_length_4 = [];
               for(var i = 0; i < resp.hits.hits.length; i++) {
                 if(resp_length_4.length < 4) {
-                  if(user.removed_funds && user.removed_funds.length > 0){
+                  if(user.removed_funds && user.removed_funds.length > 0) {
                     if(user.removed_funds.indexOf(resp.hits.hits[i]._id) > -1) {
                     } else {
                       resp_length_4.push(resp.hits.hits[i]);
                     }
-                  } else{
+                  } else {
                     resp_length_4 = resp.hits.hits.slice(0,4);
                   }
                 } else {
@@ -238,9 +234,8 @@ module.exports = {
               //
               var fund_id_list = [];
               var funds = resp.hits.hits.map(function(hit) {
-                var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places", "organisation_id"];
+                var fields = ["application_decision_date","application_documents","application_open_date","title","tags","maximum_amount","minimum_amount","country_of_residence","description","duration_of_scholarship","support_type", "email","application_link","maximum_age","minimum_age","invite_only","interview_date","link","description","religion","gender","financial_situation","specific_location","subject","target_degree","target_university","required_degree","required_grade","required_university","merit_or_finance","deadline","target_country","number_of_places","organisation_id"];
                 var hash = {};
-
                 for (var i = 0; i < fields.length ; i++) {
                   hash[fields[i]] = hit._source[fields[i]];
                 }
@@ -250,12 +245,15 @@ module.exports = {
                 hash.fund_user = false; // for the user logic later
                 return hash;
               });
+              for (var i = 0; i < funds.length; i++) {
+                funds[i].number = i
+              }
               models.users.find({ where: { organisation_or_user: { $in: fund_id_list }}}).then(function(user) {
                 if (user) {
                   for (var i=0; i < funds.length; i++) {
                     if (funds[i].organisation_id == user.organisation_or_user) {
                       funds[i].fund_user = true;
-                      if(user.profile_picture){
+                      if (user.profile_picture) {
                         funds[i].organisation_picture = user.profile_picture;
                       }
                     }
@@ -270,7 +268,6 @@ module.exports = {
                           applied_funds.push(fund);
                           callback();
                         });
-
                     }, function done(){
                       models.recently_browsed_funds.findAll({where: {user_id: user.id}, order: 'updated_at DESC'}).then(function(recent_funds){
                         var recently_browsed_funds = [];

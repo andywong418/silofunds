@@ -716,7 +716,6 @@ module.exports = {
 						} else {
 							console.log("SUCCESS", responseStatus);
 							heardFromsSend(user.id, user, heard_from, req, res);
-
 						}
 					});
 				});
@@ -724,24 +723,20 @@ module.exports = {
 		})
 	}
 	function heardFromsSend(userId, user, heard_from, req, res) {
+		var heardFromObject = {
+			user_id: userId
+		}
+		if (heard_from !== 'other') {
+			heardFromObject[heard_from] = true
+		} else if (heard_from == 'other') {
+			heardFromObject[other] = req.body.heard_other
+		}
 		models.heard_froms.find({where: {user_id: userId}}).then(function(row) {
 			if(row) {
 				res.send(row)
 			} else {
-				models.heard_froms.create({
-					user_id: userId
-				}).then(function(row) {
-					if(heard_from !== 'other' && heard_from !== '') {
-						row.update({other: heard_from}).then(function() {
-							res.send(user)
-						})
-					} else if (heard_from == 'other') {
-						row.update({other: req.body.heard_other}).then(function() {
-							res.send(user)
-						})
-					} else {
-						res.send(user)
-					}
+				models.heard_froms.create(heardFromObject).then(function(row) {
+					res.send(user)
 				})
 			}
 		})

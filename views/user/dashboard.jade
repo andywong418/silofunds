@@ -68,36 +68,110 @@ block content
       p#header Recommended for you
       .row.recommended-row
         if funds.length > 0
-          .flex-it
-            if picture_counter !== 0
-              each fund in funds
-                if fund.organisation_picture
-                  .col-md-3.col-xs-6.fund-imgs
-                    .flex-img
-                      img.col-md-12(src=fund.organisation_picture)
-                    .flex-p                  
-                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title
-                if !fund.organisation_picture
-                  .col-md-3.col-xs-6.fund-imgs
-                    .flex-img
-                      img.col-md-12(src='/images/fund_img_placeholder.jpg')
-                    .flex-p                  
-                      a(href='/organisation/options/'+ fund.id, target='_blank')= fund.title        
-          if picture_counter == 0
-            each fund in funds
-              .col-xs-6.col-sm-6.col-md-6
-                .box
-                  .box-icon
-                    span.fa.fa-2x
-                  .info
-                    h4.text-center
-                      a(href='/organisation/options/'+ fund.id)= fund.title
+          // new suff
+          #recommended_div
+            #recommended-funds-flex_desktop
+              each fund in funds 
+                .fund-div(class="fund_div_#{fund.number}")
+                  a(href='/organisation/options/' + fund.id)
+                    .image
+                      if fund.organisation_picture
+                        img(src=fund.organisation_picture)
+                      else if fund.support_type
+                        img(src='/images/' + fund.support_type + '.svg')
+                      else 
+                        img(src='/images/fund_img_placeholder.jpg')
+                  .information
+                    .name
+                      .center-align
+                        .span-div
+                          a(href='/organisation/options/' + fund.id)
+                            span.line-clamp-2= fund.title
+                    .description
+                      if fund.maximum_amount
+                        span.amount £#{fund.maximum_amount}
+                      else if fund.minimum_amount
+                        span.amount £#{fund.minimum_amount}
+                      if fund.support_type
+                        span.support_type= fund.support_type
+                      br
+                      if fund.description
+                        p.line-clamp-5(id="description_desktop_#{fund.number}")= fund.description
+            #recommended-funds-flex_mobile
+              #fund-carousel.carousel.slide.mobile(data-ride='carousel', data-interval='30000')
+                // Wrapper for slides
+                .carousel-inner
+                  each fund in funds 
+                    if fund.number == 0
+                      .item.active
+                        .fund-div(class="fund_div_#{fund.number}")
+                          a(href='/organisation/options/' + fund.id)
+                            .image
+                              if fund.organisation_picture
+                                img(src=fund.organisation_picture)
+                              else if fund.support_type
+                                img(src='/images/' + fund.support_type + '.svg')
+                              else 
+                                img(src='/images/fund_img_placeholder.jpg')
+                          .information
+                            .name
+                              .center-align
+                                .span-div
+                                  a(href='/organisation/options/' + fund.id)
+                                    span.line-clamp-2= fund.title
+                            .description
+                              if fund.maximum_amount
+                                span.amount £#{fund.maximum_amount}
+                              else if fund.minimum_amount
+                                span.amount £#{fund.minimum_amount}
+                              if fund.support_type
+                                span.support_type= fund.support_type
+                              br
+                              if fund.description
+                                p.line-clamp-5(id="description_mobile_#{fund.number}")= fund.description
+                    else
+                      .item
+                        .fund-div(class="fund_div_#{fund.number}")
+                          a(href='/organisation/options/' + fund.id)
+                            .image
+                              if fund.organisation_picture
+                                img(src=fund.organisation_picture)
+                              else if fund.support_type
+                                img(src='/images/' + fund.support_type + '.svg')
+                              else 
+                                img(src='/images/fund_img_placeholder.jpg')
+                          .information
+                            .name
+                              .center-align
+                                .span-div
+                                  a(href='/organisation/options/' + fund.id)
+                                    span.line-clamp-2= fund.title
+                            .description
+                              if fund.maximum_amount
+                                span.amount £#{fund.maximum_amount}
+                              else if fund.minimum_amount
+                                span.amount £#{fund.minimum_amount}
+                              if fund.support_type
+                                span.support_type= fund.support_type
+                              br
+                              if fund.description
+                                p.line-clamp-5(id="description_mobile_#{fund.number}")= fund.description
+                                
+                a.left.carousel-control(href='#fund-carousel', role='button', data-slide='prev')
+                  span.glyphicon.glyphicon-chevron-left
+                a.right.carousel-control(href='#fund-carousel', role='button', data-slide='next')
+                  span.glyphicon.glyphicon-chevron-right
+              // CAROUSEL END **
         else
           p#none-recommended It seems that there are currently no currently no funds recommended for you. Click 
             a(href='/request-fund/' + user.id) here 
             span to request new funds. Alternatively bolster your 
               a(href='/user/profile') crowdfunding profile 
               span to connect with people interested in your goals.
+              
+              
+              
+              
     section#updates
       p#header Post an update
       .col-xs-2.mobile.force-block
@@ -455,6 +529,8 @@ block content
             .spacing_div
 
 block scripts
+  script.
+    var funds = !{JSON.stringify(funds)}
   script(src='/javascript/advanced-search.js')
   script(src='/javascript/signup-login.js')
   script(src='/javascript/notifications.js')

@@ -1,4 +1,23 @@
 $(document).ready(function() {
+  console.log(funds)
+  for (var i = 0; i < funds.length; i++) {
+    var formatDescription = function (type) {
+      console.log('ooh whatcha saayy')
+      var elem_id = '#description_' + type + '_' + funds[i].number
+      var element = document.getElementById('description_' + type + '_' + funds[i].number);
+      // innerText for IE, textContent for other browsers
+      var text = element.innerText || element.textContent;
+      element.innerHTML = text.replace(/<(?:.|\n)*?>/gm, '');
+      $(elem_id).css('font-size', '15px');
+      $(elem_id).css('font-family', 'PT Sans');
+      $(elem_id).css('line-height', '1.5');
+      $(elem_id).css('text-align', 'center');
+      $(elem_id).css('margin-bottom', '15px');
+      $(elem_id).css('color', 'black');
+    }
+    formatDescription('desktop')
+    formatDescription('mobile')
+  }
   var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]
   if(previousLocation == 'create') {
     $('.first_time').css('display', 'block')

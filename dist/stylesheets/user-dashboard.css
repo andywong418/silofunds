@@ -2323,23 +2323,6 @@ a.start-crowdfunding {
   /* Everything else */
   h2#name {
     color: #010138; }
-  #recommended p#header {
-    display: inline-block;
-    border-bottom: 2px solid #010138;
-    color: #010138;
-    font-size: 17px; }
-  #recommended .recommended-row .flex-it .col-md-12 {
-    padding-left: 0; }
-  #recommended .recommended-row p {
-    margin-top: 5px;
-    font-size: 16px; }
-  #recommended textarea {
-    width: 60%;
-    height: 100px;
-    border-radius: 3px;
-    font-size: 15px;
-    padding: 8px;
-    resize: none; }
   #updates {
     margin-top: 20px;
     margin-bottom: 40px; }
@@ -2492,10 +2475,6 @@ a.start-crowdfunding {
   .col-xs-2.mobile {
     margin-top: -10px; } }
 
-@media (min-width: 993px) {
-  .row.recommended-row {
-    margin-bottom: 15px; } }
-
 .fund-imgs {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -2516,6 +2495,138 @@ a.start-crowdfunding {
 
 #recommended .row.recommended-row {
   margin-top: -35px; }
+
+#recommended #student-carousel .carousel-control.left, #recommended #student-carousel .carousel-control.right {
+  background-image: none; }
+
+#recommended #student-carousel .carousel-indicators li {
+  visibility: hidden; }
+
+#recommended p#header {
+  border-bottom: 2px solid #010138;
+  display: inline-block; }
+
+#recommended #recommended-funds-flex_desktop, #recommended #recommended-funds-flex_mobile {
+  width: 106%;
+  margin-left: -3%;
+  margin-top: 2%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row; }
+  @media (max-width: 890px) {
+    #recommended #recommended-funds-flex_desktop, #recommended #recommended-funds-flex_mobile {
+      width: 98%;
+      margin-left: 1%; } }
+  #recommended #recommended-funds-flex_desktop .fund-div, #recommended #recommended-funds-flex_mobile .fund-div {
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 25%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    background-color: #f0f2f4;
+    border-radius: 0px 0px 3px 3px;
+    padding: 0.5%; }
+    #recommended #recommended-funds-flex_desktop .fund-div img, #recommended #recommended-funds-flex_mobile .fund-div img {
+      background-color: white;
+      border-radius: 3px 3px 0px 0px;
+      width: 100%;
+      height: 300px;
+      cursor: pointer; }
+    #recommended #recommended-funds-flex_desktop .fund-div .information, #recommended #recommended-funds-flex_mobile .fund-div .information {
+      height: 100%;
+      background-color: white;
+      padding: 5px 7px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; }
+      #recommended #recommended-funds-flex_desktop .fund-div .information .name, #recommended #recommended-funds-flex_mobile .fund-div .information .name {
+        text-align: center;
+        font-weight: 600;
+        height: 3.5em; }
+        #recommended #recommended-funds-flex_desktop .fund-div .information .name .center-align, #recommended #recommended-funds-flex_mobile .fund-div .information .name .center-align {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          width: 100%;
+          -webkit-box-pack: center;
+              -ms-flex-pack: center;
+                  justify-content: center;
+          -webkit-box-align: center;
+              -ms-flex-align: center;
+                  align-items: center;
+          height: 3.3em; }
+          #recommended #recommended-funds-flex_desktop .fund-div .information .name .center-align .span-div span, #recommended #recommended-funds-flex_mobile .fund-div .information .name .center-align .span-div span {
+            text-align: center;
+            font-size: 1.3em;
+            cursor: pointer; }
+      #recommended #recommended-funds-flex_desktop .fund-div .information .description, #recommended #recommended-funds-flex_mobile .fund-div .information .description {
+        margin-top: 5px;
+        margin-top: 5px; }
+        #recommended #recommended-funds-flex_desktop .fund-div .information .description .support_type, #recommended #recommended-funds-flex_desktop .fund-div .information .description .amount, #recommended #recommended-funds-flex_mobile .fund-div .information .description .support_type, #recommended #recommended-funds-flex_mobile .fund-div .information .description .amount {
+          float: left;
+          margin-left: 2%;
+          font-family: Montserrat;
+          color: rgba(0, 0, 0, 0.8);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden; }
+        #recommended #recommended-funds-flex_desktop .fund-div .information .description .support_type, #recommended #recommended-funds-flex_mobile .fund-div .information .description .support_type {
+          float: right;
+          text-transform: capitalize;
+          margin-right: 2%; }
+        #recommended #recommended-funds-flex_desktop .fund-div .information .description p, #recommended #recommended-funds-flex_mobile .fund-div .information .description p {
+          font-size: 16px; }
+      #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-2, #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-5, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-2, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-5 {
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical; }
+      #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-5, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-5 {
+        -webkit-line-clamp: 5; }
+
+#recommended #fund-carousel .carousel-control.left, #recommended #fund-carousel .carousel-control.right {
+  background-image: none; }
+
+#recommended #fund-carousel .carousel-indicators li {
+  visibility: hidden; }
+
+#recommended #recommended-funds-flex_mobile {
+  margin-top: 18px; }
+  #recommended #recommended-funds-flex_mobile .fund-div {
+    width: 96%;
+    margin-left: 2%; }
+
+@media (max-width: 890px) {
+  #recommended #recommended-funds-flex_desktop .fund-div {
+    width: 33%; }
+  #recommended #recommended-funds-flex_desktop .fund_div_3 {
+    display: none; } }
+
+@media (min-width: 500px) {
+  #recommended #recommended-funds-flex_mobile {
+    display: none; } }
+
+@media (max-width: 500px) {
+  #recommended #recommended-funds-flex_desktop {
+    display: none; }
+  #recommended #recommended-funds-flex_mobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; } }
 
 .box {
   font-family: Source Sans Pro;

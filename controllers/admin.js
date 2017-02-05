@@ -4,6 +4,7 @@ var Busboy = require('busboy');
 var religions = require('../resources/religions');
 var testQueries = require('../resources/test-queries');
 var sequelize = models.sequelize;
+var analyticsMethods = require('./admin-analytics');
 var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); // stripe*key
 // var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
 var request = require("request");
@@ -725,5 +726,7 @@ module.exports = {
     //     res.redirect('/admin/stripe');
     //   });
     // }
-  }
+  },
+
+  analytics: analyticsMethods,
 };
