@@ -1,0 +1,32 @@
+extends admin-layout
+
+block content
+  .container
+    h2 Check your search
+    table(class='table table-bordered')
+      tr
+        each header, index in data.testArray
+          if header
+            th(class=index)= header.query
+            each result in header.results
+              tr
+                  td
+                    .result
+                      p.result-fund=result
+                    .form-group
+                      .checkbox
+                        label
+                          input(type='checkbox', name ='relevant', value='true' )
+                          | Relevant
+                      .checkbox
+                        label
+                          input(type='checkbox',name='not-relevant', value='false')
+                          | Not relevant
+                    button#submit-data(style='margin-right: 5px') Submit
+      button#check-precision Check precision
+          //- td
+          //-   form(action='/admin/stripe/' + account.id + '/destroy', method='post', name='destroy_stripe_user')
+          //-     button.btn.btn-danger(type='submit') Destroy
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+  // Include all compiled plugins (below), or include individual files as needed
+  script(src='/javascript/admin-test-search.js')

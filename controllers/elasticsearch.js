@@ -989,27 +989,38 @@ module.exports = {
               }
             }).then(function() {
               var results_page = true;
-              if (user) {
-                models.users.findById(user.id).then(function(user) {
-                  if (query.tags && Object.keys(query).length === 1) {
-                    Logger.error(relevantTerms);
-                    res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
+              console.log("QUERY TEST", req.query.test);
+              if(req.query.test === 'true'){
+                console.log("Lala")
+                res.json(funds);
+              }
+              else{
+                if (user) {
+                  models.users.findById(user.id).then(function(user) {
+
+                    if (query.tags && Object.keys(query).length === 1) {
+                      Logger.error(relevantTerms);
+                      res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
+                    } else {
+                      res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
+                    }
+                    //send to db query
+
+                  });
+                } else {
+                  if (query.tags && Object.keys(query).length === 1){
+                    console.log("RESULTS");
+                    res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
                   } else {
-                    res.render('results',{ funds: funds, user: user, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by } );
+                    console.log("ANOTHER RESULTS", query);
+                    res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
                   }
                   //send to db query
-                });
-              } else {
-                if (query.tags && Object.keys(query).length === 1){
-                  console.log("RESULTS");
-                  res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: relevantTerms, sort_by: sort_by });
-                } else {
-                  console.log("ANOTHER RESULTS", query);
-                  res.render('results', { funds: funds, user: false, resultsPage: results_page, query: query, relevant_terms: false, sort_by: sort_by });
-                }
-                //send to db query
 
+
+                }
               }
+
             });
           }, function(err) {
             console.trace(err.message);

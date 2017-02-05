@@ -12,7 +12,40 @@ $(function() {
       $('a.back-to-top').fadeOut('slow');
     }
   });
+  $('#test-search').click(function(){
+    var testQueryArray = ['/results?tags=cambridge+university&age=26&target_country=united+kingdom&country_of_residence=australia&required_degree=undergraduate&subject=health+biomedical+research&target_university=The+University+of+Cambridge&gender=female&target_degree=masters', '/results?subject=Chemistry+&target_university=Oxford+&target_degree=Masters+', '/results?subject=environment+&target_university=oxford+&target_degree=master+', '/results?subject=geography&target_university=oxford+&target_degree=masters','/results?subject=law&target_university=oxford+university+&target_degree=msc+', '/results?tags=Physics', '/results?tags=biochemistry+&amount_offered=10000&age=25', '/results?tags=oxford+university+&age=29&country_of_residence=Hong+Kong&required_degree=DPhil&gender=male', '/results?tags=royal+academy+of+engineering', '/results?tags=royal+academy+of+engineering', '/results?tags=Post+doc', '/results?tags=archaeology&age=26&required_university=Oxford&country_of_residence=United+Kingdom&subject=Archaeology', '/results?subject=Mathematics&target_university=Oxford&target_degree=Bachelors', , '/results?subject=Engineering+&target_university=Cambridge&target_degree=masters+', '/results?subject=International+relations&target_university=oxford+university+&target_degree=masters+', '/results?subject=evidence-based+health+care&target_university=Oxford&target_degree=MSc', '/results?tags=Psychology+Glasgow+Masters&age=20', "/results?tags=kings+college+london+&age=22", '/results?subject=sociology+&target_university=oxford+&target_degree=graduate', '/results?tags=history+phd'];
 
+    var dataArray = [];
+    function successHandler(data){
+      var dataObj = {};
+      console.log("HEY", this.url);
+      console.log("testQueryArray", testQueryArray.length);
+      dataObj["query"] = this.url;
+      dataObj["results"] = data.slice(0,10);
+      dataArray.push(dataObj);
+      if(this.indexValue === testQueryArray.length -1 ){
+        var wrapper = {};
+        wrapper.testArray = dataArray;
+        console.log("WRAPPEr", wrapper);
+        $.post('/admin/test-search', wrapper, function(data){
+          console.log("HELLO");
+          window.location = '/admin/test-search';
+        });
+      }
+    }
+    for(var i = 0; i < testQueryArray.length; i++){
+      $.ajax({
+        url: testQueryArray[i] + '&test=true',
+        dataType: 'JSON',
+        indexValue: i,
+        success: successHandler,
+      });
+    }
+
+
+
+
+  });
   $('a.back-to-top').click(function() {
   	$('html, body').animate({
   		scrollTop: 0

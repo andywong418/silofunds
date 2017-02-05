@@ -1,5 +1,6 @@
 extends admin-layout
 
+  
 block content
     .container
       h1.text-center Welcome to the Admin Portal!
@@ -9,3 +10,7 @@ block content
           a.btn.btn-default.btn-primary(href='/admin/funds', role='button') Funds
         .col-md-6.text-center
           a.btn.btn-default.btn-primary(href='/admin/organisations', role='button') Organisations 
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/admin.js')

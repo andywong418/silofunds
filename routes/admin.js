@@ -18,6 +18,9 @@ router.get('/migrations', admin.migrations);
 router.get('/migrateUp?*', admin.migrateUp);
 router.get('/migrateDown', admin.migrateDown);
 router.post('/funds/reset-table', admin.resetTable);
+router.post('/test-search', admin.testSearch);
+router.get('/test-search', admin.testSearchCheck);
+router.post('/update-relevance', admin.updateRelevance);
 router.get('/freshers-signup', function(req, res){
   res.render('admin/freshers-signup');
 });

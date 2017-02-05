@@ -2,9 +2,11 @@ var models = require('../models');
 var inspect = require('util').inspect;
 var Busboy = require('busboy');
 var religions = require('../resources/religions');
+var testQueries = require('../resources/test-queries');
 var sequelize = models.sequelize;
 var stripe = require('stripe')('sk_live_dd4eyhVytvbxcrELa3uibXjK'); // stripe*key
 // var stripe = require('stripe')("sk_test_pMhjrnm4PHA6cA5YZtmoD0dv");
+var request = require("request");
 var Umzug = require('umzug');
 var umzugOptions = {
   storage: 'sequelize',
@@ -22,7 +24,8 @@ var umzugOptions = {
 };
 var umzug = new Umzug(umzugOptions);
 var es = require('../elasticsearch');
-
+const fs = require('fs');
+var jsonfile = require('jsonfile');
 /*
 NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
 */
@@ -75,7 +78,8 @@ var reformatDate = function(date) {
 
 module.exports = {
   index: function(req, res) {
-    res.render('admin/index');
+
+    res.render('admin/index', testQueries.testQueries);
   },
 
   new: function(req, res) {
@@ -311,6 +315,46 @@ module.exports = {
       Logger.warn('Someone just tried to clear funds table and failed miserably.');
       res.redirect('/admin/funds');
     }
+  },
+  testSearch: function(req, res){
+    console.log("REQ BODY", req.body);
+    var json = req.body;
+    var file = 'test-queries/test-query.json';
+    jsonfile.writeFile(file, json, function(err, data){
+      res.send("success");
+    });
+  },
+  testSearchCheck: function(req, res){
+    var file = 'test-queries/test-query.json';
+    jsonfile.readFile(file, function(err, obj) {
+      var arrays = obj.testArray;
+      console.log("HI", obj.testArray.length);
+      for(var i =0 ; i< obj.testArray.length; i++){
+        console.log("what", obj.testArray[i]);
+        if(obj.testArray[i].results){
+          for(var j = 0; j <obj.testArray[i].results.length; j++){
+            console.log("Obj",obj.testArray[i].results[j]);
+            var queryArray = ["target_degree", "required_degree", "target_country", "country_of_residence", "subject", "required_university", "required_university"];
+            obj.testArray[i].results[j] = JSON.stringify(obj.testArray[i].results[j]);
+          }
+        }
+        else{
+          console.log("DETED");
+          delete obj.testArray[i];
+        }
+
+      }
+      res.render('admin/test-query-check', {data: obj});
+    });
+  },
+  updateRelevance: function(req, res){
+    var file = 'test-queries/test-query-relevance.json';
+    json.readFile(file, function(err, obj){
+      if(obj){
+          console.log("REQ",req.body);
+
+      }
+    });
   },
   fresherSignup: function(req, res){
     console.log(req.body);
