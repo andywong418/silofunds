@@ -27,6 +27,7 @@ var umzug = new Umzug(umzugOptions);
 var es = require('../elasticsearch');
 const fs = require('fs');
 var jsonfile = require('jsonfile');
+var _ = require('underscore');
 /*
 NOTE: organisation_id is omitted from 'fields' below because mapping would fuck up during upload. W amount of funds and X amount of organisations uploaded onto Y amount of existing funds and Z amount of existing organisations in the DB would cause all the organisation_id references to fuck up and reference the wrong things.
 */
@@ -327,34 +328,171 @@ module.exports = {
   },
   testSearchCheck: function(req, res){
     var file = 'test-queries/test-query.json';
+    var relevanceFile = 'test-queries/test-query-relevance.json';
     jsonfile.readFile(file, function(err, obj) {
-      var arrays = obj.testArray;
-      console.log("HI", obj.testArray.length);
-      for(var i =0 ; i< obj.testArray.length; i++){
-        console.log("what", obj.testArray[i]);
-        if(obj.testArray[i].results){
-          for(var j = 0; j <obj.testArray[i].results.length; j++){
-            console.log("Obj",obj.testArray[i].results[j]);
-            var queryArray = ["target_degree", "required_degree", "target_country", "country_of_residence", "subject", "required_university", "required_university"];
-            obj.testArray[i].results[j] = JSON.stringify(obj.testArray[i].results[j]);
+      jsonfile.readFile(relevanceFile, function(err, relObj){
+        for(var key in obj){
+          console.log("OBJ KEU", obj[key]);
+          if(relObj[key]){
+            for(var j = 0; j <relObj[key].length; j++){
+              console.log("WHAT rel", relObj[key][j]);
+              delete relObj[key][j].relevance;
+              console.log("AGAIN REL", relObj[key][j]);
+            }
+            for(var i =0; i < obj[key].length; i++){
+              console.log("ASDFASDF", obj[key][i]);
+              var overlap = _.any(relObj[key], function(item){ return _.isEqual(item, obj[key][i]); }); //logs true
+              if(overlap){
+                console.log("HUH");
+                console.log("WHAT the fudge", obj[key][i]);
+                obj[key].splice(i, 1);
+                i--;
+              }
+              else{
+                obj[key][i] = JSON.stringify(obj[key][i]);
+              }
+
+            }
           }
-        }
-        else{
-          console.log("DETED");
-          delete obj.testArray[i];
+          else{
+            for(var k =0; k < obj[key].length; k++){
+                obj[key][k] = JSON.stringify(obj[key][k]);
+            }
+          }
+
         }
 
-      }
-      res.render('admin/test-query-check', {data: obj});
+        res.render('admin/test-query-check', {data: obj});
+      });
+    });
+  },
+  testPrecision: function(req, res){
+    console.log("WHAT");
+    var file = 'test-queries/test-query.json';
+    var relevanceFile = 'test-queries/test-query-relevance.json';
+    jsonfile.readFile(file, function(err, obj){
+      jsonfile.readFile(relevanceFile, function(err, relObj){
+
+        var queryArray = [];
+        for(var key in obj){
+
+          if(relObj[key]){
+            var relevantCopy = {};
+            relevantCopy[key] = [];
+            for(var j = 0; j <relObj[key].length; j++){
+
+              relevantCopy[key][j] = {};
+              for ( var propKey in relObj[key][j]){
+                if(propKey!== 'relevance'){
+
+                  relevantCopy[key][j][propKey] = relObj[key][j][propKey];
+                }
+              }
+            }
+            var numberRel = 0;
+            var allLabelled = true;
+            for(var i =0; i < obj[key].length; i++){
+              console.log("ASDFASDF", obj[key][i]);
+              var overlap = relevantCopy[key].filter(function ( item ) {
+                console.log("ITEMASDF", item);
+                  return _.isEqual(item, obj[key][i]);
+              });
+
+              if(overlap.length > 0){
+                // This is labelled - relevance is stated for this fund per this query
+                console.log("overlap 1", relevantCopy[key].indexOf(overlap[0]));
+                var relIndex = relevantCopy[key].indexOf(overlap[0]);
+                console.log("OVERLAP copy", relObj[key][relIndex]);
+                var queryRelevance = relObj[key][relIndex].relevance;
+                if(queryRelevance === 'true'){
+                  numberRel++;
+                }
+              }
+              else{
+                //not labelled
+                allLabelled = false;
+              }
+
+            }
+            var queryObj = {};
+            if(allLabelled){
+              var precision = numberRel/(obj[key].length) * 100;
+              queryObj[key] = precision;
+              queryArray.push(queryObj);
+            }
+            else{
+              queryObj[key] = "Results not all labelled";
+              queryArray.push(queryObj);
+            }
+          }
+
+        }
+        console.log("query array", queryArray);
+        var totalPrecision = 0;
+        var totalCounter = 0;
+        for(var x = 0; x<queryArray.length; x++){
+          for(var key in queryArray[x]){
+            if(typeof queryArray[x][key] !== 'string'){
+              console.log("new acc", queryArray[x][key]);
+              totalCounter++;
+              console.log("counter", totalCounter);
+              totalPrecision = totalPrecision + queryArray[x][key];
+
+            }
+
+          }
+        }
+        var meanPrecision = totalPrecision/totalCounter;
+        console.log("MEAN PRECISION", meanPrecision);
+        var precisionObj = {
+          "precision": meanPrecision
+        };
+        res.render('admin/show-precision', {queryArray: queryArray, precision: precisionObj});
+      });
     });
   },
   updateRelevance: function(req, res){
+    var query = req.body.query;
+    var relevance = req.body.relevance;
+    var data = req.body;
+    delete req.body['query'];
+    delete req.body['relevance'];
+    var newArr = [req.body];
     var file = 'test-queries/test-query-relevance.json';
-    json.readFile(file, function(err, obj){
-      if(obj){
-          console.log("REQ",req.body);
+    _.intersectionObjects = _.intersect = function(array) {
+        var slice = Array.prototype.slice;
+        var rest = slice.call(arguments, 1);
+        return _.filter(_.uniq(array), function(item) {
+          return _.every(rest, function(other) {
+            //return _.indexOf(other, item) >= 0;
+            return _.any(other, function(element) { return _.isEqual(element, item); });
+          });
+        });
+      };
+    console.log("QUERY /query", query);
+    jsonfile.readFile(file, function(err, obj){
+        console.log("QUERY OBJ", obj[query]);
+        if(obj[query]){
+          console.log("RIGHT");
+          var result = _.intersectionObjects(newArr, obj[query]);
+          console.log(result);
+          if(result.length ===0){
+            data.relevance = relevance;
+            obj[query].push(data);
+            jsonfile.writeFile(file, obj, function(err){
+              res.send('data');
+            });
+          }
+        }
+        else{
+          data.relevance = relevance;
+          obj[query] =  [data];
+          jsonfile.writeFile(file, obj, function(err){
+            res.send('data');
+          });
+        }
 
-      }
+
     });
   },
   fresherSignup: function(req, res){

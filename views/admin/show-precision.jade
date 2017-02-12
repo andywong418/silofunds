@@ -1,0 +1,13 @@
+extends admin-layout
+
+block content
+  .container
+    h2 Precision
+    table(class='table table-bordered')
+      each query in queryArray
+        tr
+          each key,value in query
+            th= key + '%'
+            td= value
+    p Mean precision
+    p= precision.precision + '%'

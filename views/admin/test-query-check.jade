@@ -1,14 +1,17 @@
 extends admin-layout
 
 block content
+  script.
+    var data = !{JSON.stringify(data)};
+    console.log(data)
   .container
     h2 Check your search
     table(class='table table-bordered')
       tr
-        each header, index in data.testArray
-          if header
-            th(class=index)= header.query
-            each result in header.results
+        each val, key in data
+          if key && val.length > 0
+            th= key
+            each result, resultIndex in val
               tr
                   td
                     .result
@@ -22,7 +25,9 @@ block content
                         label
                           input(type='checkbox',name='not-relevant', value='false')
                           | Not relevant
-                    button#submit-data(style='margin-right: 5px') Submit
+                    .hidden
+                      p#hidden-query=key
+                    button.submit-data(style='margin-right: 5px', id='checkbox-' + resultIndex) Submit
       button#check-precision Check precision
           //- td
           //-   form(action='/admin/stripe/' + account.id + '/destroy', method='post', name='destroy_stripe_user')
