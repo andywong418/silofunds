@@ -2538,7 +2538,7 @@ a.start-crowdfunding {
       background-color: white;
       border-radius: 3px 3px 0px 0px;
       width: 100%;
-      height: 300px;
+      height: 200px;
       cursor: pointer; }
     #recommended #recommended-funds-flex_desktop .fund-div .information, #recommended #recommended-funds-flex_mobile .fund-div .information {
       height: 100%;
@@ -2576,7 +2576,7 @@ a.start-crowdfunding {
         margin-top: 5px; }
         #recommended #recommended-funds-flex_desktop .fund-div .information .description .support_type, #recommended #recommended-funds-flex_desktop .fund-div .information .description .amount, #recommended #recommended-funds-flex_mobile .fund-div .information .description .support_type, #recommended #recommended-funds-flex_mobile .fund-div .information .description .amount {
           float: left;
-          margin-left: 2%;
+          margin-left: 6%;
           font-family: Montserrat;
           color: rgba(0, 0, 0, 0.8);
           text-overflow: ellipsis;
@@ -2585,7 +2585,7 @@ a.start-crowdfunding {
         #recommended #recommended-funds-flex_desktop .fund-div .information .description .support_type, #recommended #recommended-funds-flex_mobile .fund-div .information .description .support_type {
           float: right;
           text-transform: capitalize;
-          margin-right: 2%; }
+          margin-right: 6%; }
         #recommended #recommended-funds-flex_desktop .fund-div .information .description p, #recommended #recommended-funds-flex_mobile .fund-div .information .description p {
           font-size: 16px; }
       #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-2, #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-5, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-2, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-5 {
@@ -2596,6 +2596,7 @@ a.start-crowdfunding {
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical; }
       #recommended #recommended-funds-flex_desktop .fund-div .information .line-clamp-5, #recommended #recommended-funds-flex_mobile .fund-div .information .line-clamp-5 {
+        margin-top: 4px;
         -webkit-line-clamp: 5; }
 
 #recommended #fund-carousel .carousel-control.left, #recommended #fund-carousel .carousel-control.right {
