@@ -1,0 +1,58 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/new-user-profile-guide.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade
+  div.col-md-4#sidebar
+    div#crowdfunding_guide_nav
+      div.crowdfunding_guide_nav_title Crowdfunding Guide
+      div.crowdfunding_guide_nav_item_list
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/introduction") Introduction
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step1") A Compelling Story
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-1") First Subitem
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-2") Second Subitem
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-3") Third Subitem
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step2") Make a video
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step3") Social media
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step4") Time management
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step5") Past work
+        div.crowdfunding_guide_nav_current_item
+          div.crowdfunding_guide_nav_item
+            a(href="/crowdfunding-guide/conclusion") Conclusion
+  div.col-md-8#crowdfunding_guide_content
+    section.section-step.conclusion.content-section
+      h3 Conclusion
+      p(style='margin-bottom: 10px') We have created an outline of what our users should do, but what matters most is your persistence and determination. Our team will be with you all the way so do not hesistate to 
+        a(href='support@silofunds.com') contact us
+        | , either to connect with successful crowdfunders and potential donors or to let us know of any improvements we can make to enrich your user experience.
+      p.intro(style='color: #f39c12') With love from the Silo team
+        i.fa.fa-heart(style='color: red; margin-right: 5px; float: left; margin-top: 5px;')
+  
+  include ./partials/footer.jade  

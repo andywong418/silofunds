@@ -165,16 +165,30 @@ router.get('/privacy-policy', function(req, res) {
   res.render('privacy_policy');
 });
 
-router.get('/user-profile-guide', function(req, res){
-  var user;
+router.get('/user-profile-guide', function(req, res) {
+  var user = req.user || false;
+  res.render('user-profile-guide', {user: user});
+});
+
+router.get('/crowdfunding-guide', function(req, res, next) {
+  // Forward user to introduction of guide
+  req.url = '/crowdfunding-guide/introduction';
+  next('route');
+});
+
+router.get('/crowdfunding-guide/:page', function(req, res) {
+  var page = "introduction";
+  if (req.params.page) {
+    page = req.params.page;
+  }
+  console.log(page);
+  var user = false;
   if(req.user){
     user = req.user;
   }
-  else{
-    user = false;
-  }
-  res.render('user-profile-guide', {user: user});
+  res.render('crowdfunding-guide-' + page, {user: user});
 });
+
 router.get('/crowdfunding-video', function(req, res){
   var user;
   if(req.user){

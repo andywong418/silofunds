@@ -1,0 +1,55 @@
+extends layout
+
+block extraHeader
+  link(href='/stylesheets/navbar-loggedin.css', rel='stylesheet')
+  link(href='/stylesheets/footer.css', rel='stylesheet')
+  link(href='/stylesheets/new-user-profile-guide.css', rel='stylesheet')
+  
+block content
+  script.
+    var bodyEl = document.getElementsByTagName('body');
+    var user = !{JSON.stringify(user)};
+    if(user){
+      bodyEl[0].className = bodyEl[0].className.split('nojs').join(' jsEnabled ');
+      windowPortWidth = window.innerWidth;
+      if(windowPortWidth <767){
+        document.write('<style type="text/css">nav.navbar-custom{display:none}</style>');
+      }
+    }
+
+  include ./navbar.jade
+  include ./partials/navbar-loggedin.jade
+  include ./partials/signup-modal.jade
+  include ./advanced-search.jade
+  div.col-md-4#sidebar
+    div#crowdfunding_guide_nav
+      div.crowdfunding_guide_nav_title Crowdfunding Guide
+      div.crowdfunding_guide_nav_item_list
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/introduction") Introduction
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step1") A Compelling Story
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-1") First Subitem
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-2") Second Subitem
+          div.crowdfunding_guide_nav_sub_item
+            a(href="#step-3") Third Subitem
+        div.crowdfunding_guide_nav_current_item
+          div.crowdfunding_guide_nav_item
+            a(href="/crowdfunding-guide/step2") Make a video
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step3") Social media
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step4") Time management
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/step5") Past work
+        div.crowdfunding_guide_nav_item
+          a(href="/crowdfunding-guide/conclusion") Conclusion
+  div.col-md-8#crowdfunding_guide_content
+    section.section-step#step-2.content-section
+      h3 Step 2: Make a video
+      p Any serious crowdfunder will tell you that a video is essential to their cause. Based on statistics from Kickstarter a campaign with a video is 20% more likely to succeed than one without. The video is the first item on a crowdfunding page and you will be able to create a better connection with a potential donor on first impressions. This is so crucial that we have a guide just to 
+        a(href='/crowdfunding-video', style='cursor: pointer') create the perfect crowdfunding video.
+  
+  include ./partials/footer.jade  
