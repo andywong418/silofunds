@@ -1,0 +1,44 @@
+extends admin-layout
+
+block content
+    .container
+      .alert.alert-danger.alert-dismissible.hidden(role='alert')
+        strong Oops!
+        |  That job has already been entered. Please try again.
+      a.btn.btn-default.btn-link(href='/admin/jobs', role='button') Back to job listings
+      h1 Create a new job here:
+      table.table.table-responsive
+        form(action='/admin/jobs', method='post', name='create_job')
+          .row
+            tr
+              .col-md-9.form-group
+                label(for='name') Name of Company
+                input#name.form-control(type='text', name='name', autofocus, required)
+              .col-md-9.form-group
+                label(for='url') Company URL
+                input#url.form-control(type='text', name='url')
+              .col-md-9.form-group
+                label(for='job_description') Description
+                input#job_description.form-control(type='text', name='description', required)
+              .col-md-9.form-group
+                label(for='requirements') Requirements
+                input#requirements.form-control(type='text', name='requirements', required)
+              .col-md-9.form-group
+                label(for='location') Location
+                input#location.form-control(type='text', name='location', required)
+              .col-md-9.form-group
+                label(for='time_requirements') Time Requirements
+                input#time_requirements.form-control(type='text', name='time_requirements', required)
+              .col-md-9.form-group
+                label(for='pay') Pay
+                input#pay.form-control(type='text', name='pay', required)
+          .row
+            tr
+              .col-md-12.form-group
+                button.btn.btn-primary(type='submit') Add Job!
+
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/admin.js')

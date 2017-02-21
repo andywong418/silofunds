@@ -1,0 +1,46 @@
+extends admin-layout
+
+block content
+    .container
+      h1.text-center Organisations Table
+      hr
+      .row
+        .col-md-2
+          a.btn.btn-default.btn-success(href='/admin/organisations/new', role='button') Create a new organisation
+        .col-md-4
+          form(action="/admin/organisations/upload", method="post", enctype="multipart/form-data")
+            .col-md-6(style='padding: 0;')
+              input(type="file", name="jsonData")
+              button.btn.btn-default.btn-primary(type='submit') Upload JSON!
+            .col-md-6(style='padding: 0;')
+              input(type='checkbox', name='overwrite_id', style='margin-right: 10px;')
+              | Non-sequential IDs?
+              label(for='offset_number', style='font-size: 12px;') Offset id by:
+              input(type='text', name='offset_number', value='0')
+        .col-md-2
+          form(action="/admin/organisations/reset-table", method="post", name='reset-table')
+            button.btn.btn-default.btn-danger(type='submit') Clear & Reset Table
+        .col-md-2
+          form(action="/admin/organisations/sync", method="post", name="sync_db")
+            button.btn.btn-warning(type="submit" disabled) Sync ES to PG
+        .col-md-2
+          a.btn.btn-default.btn-link#downloader(href='/admin/organisations/download' download) Generate download link
+          .downloader#generated_download_link
+      hr
+      a.back-to-top(href='#')
+      table.table.table-bordered.table-responsive
+        tr
+          th ID
+          th Name
+          th Charity ID
+
+    .container
+      hr
+    
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='/javascript/lib/bootstrap.min.js')
+    script(src='/javascript/admin.js')
+    //- script.
+    //-   var fundData =!{JSON.stringify(funds)};
