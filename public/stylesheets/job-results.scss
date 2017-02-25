@@ -26,16 +26,18 @@ div.job_listing {
   }
   p {
     font-size: 16px;
-    line-height: 1;
     margin-bottom: 10px;
+    line-height: 1.5
   }
   p.description::before {
     content: "Description: ";
     font-weight: bold;
+    font-size: 17px;
   }
   p.requirements::before {
     content: "Requirements: ";
     font-weight: bold;
+    font-size: 17px;
   }
   p.pay::before {
     content: "Pay: ";
