@@ -12,17 +12,20 @@ block content
           .row
             tr
               .col-md-9.form-group
-                label(for='name') Name of Job 
+                label(for='name') Name of Company
                 input#name.form-control(type='text', name='name', autofocus, value=job.name, required)
+              .col-md-9.form-group
+                label(for='title') Job Title
+                input#title.form-control(type='text', name='title', value=job.title, required)
               .col-md-9.form-group
                 label(for='url') Company URL
                 input#url.form-control(type='text', name='url', value=job.url)
               .col-md-9.form-group
                 label(for='job_description') Description
-                input#job_description.form-control(type='text', name='description', value=job.description, required)
+                textarea#job_description.form-control(type='text', name='description', required)= job.description
               .col-md-9.form-group
                 label(for='requirements') Requirements
-                input#requirements.form-control(type='text', name='requirements', required, value=job.requirements)
+                textarea#requirements.form-control(type='text', name='requirements', required)= job.requirements
               .col-md-9.form-group
                 label(for='location') Location
                 input#location.form-control(type='text', name='location', required, value=job.location)

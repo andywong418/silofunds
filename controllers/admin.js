@@ -706,7 +706,7 @@ module.exports = {
     create: function(req, res) {
       var job = req.body;
       var params = {};
-      var fields = ['name', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
+      var fields = ['name', 'title', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
       for (i in fields) {
         params[fields[i]] = job[fields[i]];
       }
@@ -731,7 +731,7 @@ module.exports = {
 
       var job = req.body;
       var params = {};
-      var fields = ['name', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
+      var fields = ['name', 'title', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
       for (i in fields) {
         params[fields[i]] = job[fields[i]];
       }

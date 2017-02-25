@@ -36,11 +36,15 @@ block content
 				each job in jobs
 					div.job_listing
 						a(href=job.url)
-							h2.name= job.name  
+							h2.name= job.title + " - " + job.name  
 								p.location= job.location
 								p.time_requirements= job.time_requirements
-						p.description= job.description
-						p.requirements= job.requirements
+						p.description= ""
+							each line in job.description.split('\n')
+								| !{ line } <br>
+						p.requirements= ""
+							each line in job.requirements.split('\n')
+								| !{ line } <br>
 						p.pay= job.pay
 						button.btn.btn-info.enquire(data-id=job.id, data-name=job.name, data-url=job.url) Enquire
 							i.fa.fa-envelope

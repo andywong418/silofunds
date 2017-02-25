@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.TEXT,
 			field: 'name'
 		},
+		title: {
+			type: DataTypes.TEXT,
+			field: 'title'
+		},
     url: {
       type: DataTypes.TEXT,
       field: 'url'
