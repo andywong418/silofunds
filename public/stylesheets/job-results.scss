@@ -1,0 +1,50 @@
+div.listings {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+div.job_listing {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 2px solid #DADFE1;
+  padding: 15px;
+  border-radius: 15px;
+  h2.name {
+    margin-bottom: 10px;
+    p.location::before {
+      content: "-";
+      margin: 0 10px;
+      font-size: 22px;
+    }
+    p.location, p.time_requirements {
+      color: gray;
+      display: inline-block;
+    }
+    p.time_requirements::before {
+      content: ", ";
+    }
+  }
+  p {
+    font-size: 16px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  p.description::before {
+    content: "Description: ";
+    font-weight: bold;
+  }
+  p.requirements::before {
+    content: "Requirements: ";
+    font-weight: bold;
+  }
+  p.pay::before {
+    content: "Pay: ";
+    font-weight: bold;
+  }
+  button.enquire {
+    font-weight: bold;
+    i {
+      margin-left: 10px;
+    }
+  }
+}

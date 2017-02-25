@@ -42,6 +42,13 @@ router.post('/organisations/download', admin.organisations.download);
 router.post('/organisations/upload', admin.organisations.upload);
 router.post('/organisations/reset-table', admin.organisations.resetTable);
 
+router.get('/jobs', admin.jobs.index);
+router.get('/jobs/new', admin.jobs.new);
+router.post('/jobs', admin.jobs.create);
+router.get('/jobs/:id/edit', admin.jobs.edit);
+router.post('/jobs/:id/edit', admin.jobs.update);
+router.post('/jobs/:id/destroy', admin.jobs.destroy);
+
 router.get('/analytics', admin.analytics.index);
 router.get('/analytics/seg_uk', admin.analytics.seg_uk);
 router.get('/analytics/seg_colleges', admin.analytics.seg_colleges);

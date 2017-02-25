@@ -692,6 +692,68 @@ module.exports = {
     });
   },
 
+  jobs: {
+    index: function(req, res) {
+      models.jobs.findAll({ order: 'name ASC' }).then(function(jobs) {
+        res.render('admin/joblistings', { jobs: jobs });
+      });
+    },
+
+    new: function(req, res) {
+      res.render('admin/jobs-new');
+    },
+
+    create: function(req, res) {
+      var job = req.body;
+      var params = {};
+      var fields = ['name', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
+      for (i in fields) {
+        params[fields[i]] = job[fields[i]];
+      }
+
+      models.jobs.create(params).catch(function(err) {
+        Logger.info("There seems to have been an error: " + err);
+      }).then(function() {
+        res.redirect('/admin/jobs');
+      });
+    },
+
+    edit: function(req, res) {
+      var id = req.params.id;
+
+      models.jobs.findById(id).then(function(job) {
+        res.render('admin/jobs-edit', { job: job });
+      });
+    },
+
+    update: function(req, res) {
+      var id = req.params.id;
+
+      var job = req.body;
+      var params = {};
+      var fields = ['name', 'url', 'description', 'requirements', 'location', 'time_requirements', 'pay'];
+      for (i in fields) {
+        params[fields[i]] = job[fields[i]];
+      }
+
+      models.jobs.findById(id).then(function(job) {
+        job.update(params).then(function() {
+          res.redirect('/admin/jobs');
+        });
+      });
+    },
+
+    destroy: function(req, res) {
+      var id = req.params.id;
+
+      models.jobs.findById(id).then(function(job) {
+        job.destroy().then(function() {
+          res.redirect('/admin/jobs');
+        });
+      });
+    }
+  },
+
   organisations: {
     index: function(req, res) {
       models.organisations.findAll({ order: 'name ASC' }).then(function(organisations) {
