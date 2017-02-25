@@ -16,7 +16,7 @@ div.job_listing {
       font-size: 22px; }
     div.job_listing h2.name p.location, div.job_listing h2.name p.time_requirements {
       color: gray;
-      display: inline-block; }
+      display: inline; }
     div.job_listing h2.name p.time_requirements::before {
       content: ", "; }
   div.job_listing p {
