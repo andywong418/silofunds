@@ -30,23 +30,26 @@ block content
 					| to search for students in a specific subject or college
 	
 	.col-lg-8.col-lg-offset-2.col-sm-10.col-sm-offset-1
-		if jobs.length > 0
-			div.listings
+		div.listings
+			if jobs.length > 0
 				h1.page_title Job Listings
 				each job in jobs
 					div.job_listing
 						a(href=job.url)
-							h2.name= job.name  
+							h2.name= job.title + " - " + job.name  
 								p.location= job.location
 								p.time_requirements= job.time_requirements
-						p.description= job.description
-						p.requirements= job.requirements
+						p.description= ""
+							each line in job.description.split('\n')
+								| !{ line } <br>
+						p.requirements= ""
+							each line in job.requirements.split('\n')
+								| !{ line } <br>
 						p.pay= job.pay
 						button.btn.btn-info.enquire(data-id=job.id, data-name=job.name, data-url=job.url) Enquire
 							i.fa.fa-envelope
-		else
-			p#no-results(style= 'text-align: center; margin-top: 10px;') Your search returned no results. Try changing the 
-				a(href='/advanced-search') search queries here.
+			else
+				p#no-results(style= 'text-align: center; margin-top: 10px;') No jobs currently listed. 
 	include ./partials/footer.jade
 block scripts
 	script(src='/javascript/advanced-search.js')
