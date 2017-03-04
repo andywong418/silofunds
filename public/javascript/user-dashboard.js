@@ -20,9 +20,9 @@ $(document).ready(function() {
   }
   var previousLocation = document.referrer.split('/')[document.referrer.split('/').length - 1]
   if(previousLocation == 'create') {
-    $('.first_time').css('display', 'block')
+    $('.first_time').css('display', 'inline-block')
   } else {
-    $('.not-first_time').css('display', 'block')
+    $('.not-first_time').css('display', 'inline-block')
 
   }
   checkMixpanel();

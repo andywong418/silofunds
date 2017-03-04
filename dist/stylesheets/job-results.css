@@ -2,22 +2,25 @@ div.listings {
   margin-top: 50px;
   margin-bottom: 30px; }
 
+h3 {
+  font-size: 20px; }
+
 div.job_listing {
   margin-top: 1em;
   margin-bottom: 1em;
   border: 2px solid #DADFE1;
   padding: 15px;
   border-radius: 15px; }
-  div.job_listing h2.name {
+  div.job_listing h3.name {
     margin-bottom: 10px; }
-    div.job_listing h2.name p.location::before {
+    div.job_listing h3.name p.location::before {
       content: "-";
       margin: 0 10px;
       font-size: 22px; }
-    div.job_listing h2.name p.location, div.job_listing h2.name p.time_requirements {
+    div.job_listing h3.name p.location, div.job_listing h3.name p.time_requirements {
       color: gray;
       display: inline; }
-    div.job_listing h2.name p.time_requirements::before {
+    div.job_listing h3.name p.time_requirements::before {
       content: ", "; }
   div.job_listing p {
     font-size: 16px;

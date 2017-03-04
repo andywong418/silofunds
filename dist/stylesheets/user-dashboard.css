@@ -2285,6 +2285,16 @@ h2#name {
   display: none;
   margin-bottom: 15px; }
 
+.job-search {
+  display: inline; }
+  .job-search a {
+    font-size: 17px;
+    margin-left: 10px;
+    border: none; }
+  @media (max-width: 579px) {
+    .job-search {
+      font-size: 15px; } }
+
 a.start-crowdfunding {
   background-color: #05d257;
   border: none;
