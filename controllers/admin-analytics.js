@@ -75,5 +75,37 @@ module.exports = {
       res.send(college_counts);
       res.end();
     });
+  },
+
+  seg_subjects: function(req, res) {
+    models.sequelize.query("select subject, count(*) from users group by subject").spread(function(data, metadata) {
+      console.log(data);
+
+      // NOTE: Think about whether we need to split up field values into unique subjects. We're losing information if we do unique. Number of people studying "law and history" is different from number of people studying "law" and then "history"...
+
+      // NOTE: See seg_colleges method for example, it's already implemented there.
+
+      // Reformat array
+      var subject_counts = {};
+
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].subject) {
+          for (var j = 0; j < data[i].subject.length; j++) {
+            var subject = data[i].subject[j].toLowerCase();
+            if (subject_counts.hasOwnProperty(subject)) {
+              subject_counts[subject] += parseInt(data[i].count);
+            } else {
+              subject_counts[subject] = parseInt(data[i].count);
+            }
+          }
+        } else {
+          // Subject field is null
+          subject_counts["null"] = parseInt(data[i].count);
+        }
+      }
+
+      res.send(subject_counts);
+      res.end();
+    });
   }
 }

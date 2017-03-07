@@ -52,5 +52,6 @@ router.post('/jobs/:id/destroy', admin.jobs.destroy);
 router.get('/analytics', admin.analytics.index);
 router.get('/analytics/seg_uk', admin.analytics.seg_uk);
 router.get('/analytics/seg_colleges', admin.analytics.seg_colleges);
+router.get('/analytics/seg_subjects', admin.analytics.seg_subjects);
 
 module.exports = router;

@@ -29,7 +29,7 @@ block content
               form(action='/admin/analytics/seg_uk', method='get', name='seg_uk')
                 button.btn.btn-primary(type='submit') GET
     .row
-      .col-md-12
+      .col-md-12.scrollable-table
         h3 Unparameterized
         table.table.table-responsive#seg-colleges
           tr
@@ -39,6 +39,16 @@ block content
             td Colleges
             td
               form(action='/admin/analytics/seg_colleges', method='get', name='seg_colleges')
+                button.btn.btn-primary(type='submit') GET
+      .col-md-12.scrollable-table
+        table.table.table-responsive#seg-subjects
+          tr
+            th Query
+            th Action
+          tr
+            td Subjects
+            td
+              form(action='/admin/analytics/seg_subjects', method='get', name='seg_subjects')
                 button.btn.btn-primary(type='submit') GET
   // jQuery (necessary for Bootstrap's JavaScript plugins)
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')

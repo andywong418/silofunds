@@ -59,4 +59,32 @@ $(document).ready(function() {
 
     return false;
   });
+
+  // Segmentation for Subjects
+  $('form[name="seg_subjects"]').submit(function(e) {
+    e.preventDefault();
+
+    // Clear existing entries so won't duplicate the appends later.
+    $('tr').remove('.seg-subjects');
+
+    var url = e.currentTarget.action;
+
+    $.ajax({
+      url: url,
+      method: "GET",
+    }).done(function(subject_counts) {
+      for (var key in subject_counts) {
+        // skip loop if the property is from prototype
+        if (!subject_counts.hasOwnProperty(key)) continue;
+
+        var count = subject_counts[key];
+        var percentage = (count / userCount) * 100;
+        var countStr = count + " (" + percentage.toFixed(2) + "%)";
+
+        $('table#seg-subjects tbody').append("<tr class='seg-subjects'><td>" + key + "</td><td>" + countStr + "</td></tr>");
+      }
+    });
+
+    return false;
+  });
 });

@@ -49,3 +49,7 @@ textarea {
 
 select {
   width: 100%; }
+
+.scrollable-table {
+  height: 275px;
+  overflow: auto; }
