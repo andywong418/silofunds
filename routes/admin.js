@@ -53,5 +53,6 @@ router.get('/analytics', admin.analytics.index);
 router.get('/analytics/seg_uk', admin.analytics.seg_uk);
 router.get('/analytics/seg_colleges', admin.analytics.seg_colleges);
 router.get('/analytics/seg_subjects', admin.analytics.seg_subjects);
+router.get('/analytics/seg_pg', admin.analytics.seg_pg);
 
 module.exports = router;

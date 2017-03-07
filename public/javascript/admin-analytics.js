@@ -32,6 +32,38 @@ $(document).ready(function() {
     return false;
   });
 
+  // Segmentation for Postgrad
+  $('form[name="seg_pg"]').submit(function(e) {
+    e.preventDefault();
+
+    // Alert if input is empty;
+    var input = $('input[form="seg_pg"]').val();
+    if (input === '') {
+      alert("Input cannnot be empty");
+      return false;
+    }
+
+    var url = e.currentTarget.action;
+    var params = $('input[form="seg_pg"]').val().split(",").map(function(tag) {
+      return tag.trim();
+    });
+
+    $.ajax({
+      url: url,
+      method: "GET",
+      data: {
+        tags: params,
+      },
+    }).done(function(res) {
+      var percentage = (res / userCount) * 100;
+      var str = res + " (" + percentage.toFixed(2) + "%)";
+
+      $('td#seg-pg-result').html(str);
+    });
+
+    return false;
+  });
+
   // Segmentation for Colleges
   $('form[name="seg_colleges"]').submit(function(e) {
     e.preventDefault();

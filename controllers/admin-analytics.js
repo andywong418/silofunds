@@ -49,6 +49,25 @@ module.exports = {
     });
   },
 
+  seg_pg: function(req, res) {
+    var tags = req.query.tags;
+    var tagArray = [];
+
+    for (var i = 0; i < tags.length; i++) {
+      tagArray.push("'" + tags[i] + "'");
+    }
+
+    tagArray = tagArray.join(",");
+
+    // Note that each tag in the tagArray has to be wrapped around single quote characters.
+    models.sequelize.query("SELECT count(*) from users where array[" + tagArray + "]::text[] && previous_degree").spread(function(count, metadata) {
+      count = count[0].count;
+
+      res.send(count);
+      res.end();
+    });
+  },
+
   seg_colleges: function(req, res) {
     models.sequelize.query("select college, count(*) from users group by college").spread(function(data, metadata) {
       console.log(data);
@@ -107,5 +126,5 @@ module.exports = {
       res.send(subject_counts);
       res.end();
     });
-  }
+  },
 }
