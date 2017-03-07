@@ -64,6 +64,38 @@ $(document).ready(function() {
     return false;
   });
 
+  // Segmentation for Undergrad
+  $('form[name="seg_ug"]').submit(function(e) {
+    e.preventDefault();
+
+    // Alert if input is empty;
+    var input = $('input[form="seg_ug"]').val();
+    if (input === '') {
+      alert("Input cannnot be empty");
+      return false;
+    }
+
+    var url = e.currentTarget.action;
+    var params = $('input[form="seg_ug"]').val().split(",").map(function(tag) {
+      return tag.trim();
+    });
+
+    $.ajax({
+      url: url,
+      method: "GET",
+      data: {
+        tags: params,
+      },
+    }).done(function(res) {
+      var percentage = (res / userCount) * 100;
+      var str = res + " (" + percentage.toFixed(2) + "%)";
+
+      $('td#seg-ug-result').html(str);
+    });
+
+    return false;
+  });
+
   // Segmentation for Colleges
   $('form[name="seg_colleges"]').submit(function(e) {
     e.preventDefault();

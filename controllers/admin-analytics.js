@@ -49,7 +49,7 @@ module.exports = {
     });
   },
 
-  seg_pg: function(req, res) {
+  param_seg_pd: function(req, res) {
     var tags = req.query.tags;
     var tagArray = [];
 

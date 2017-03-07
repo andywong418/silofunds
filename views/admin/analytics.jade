@@ -29,7 +29,6 @@ block content
               form(action='/admin/analytics/seg_uk', method='get', name='seg_uk')
                 button.btn.btn-primary(type='submit') GET
       .col-md-12
-        h3 Parameterized
         table.table.table-responsive
           tr
             th Query
@@ -42,7 +41,21 @@ block content
               input(type='text' name='seg_pg' form='seg_pg' value='Msc, Masters, Master, MPhil')
             td#seg-pg-result -
             td
-              form(action='/admin/analytics/seg_pg', method='get', name='seg_pg')
+              form(action='/admin/analytics/param_seg_pd', method='get', name='seg_pg')
+                button.btn.btn-primary(type='submit') GET
+        table.table.table-responsive
+          tr
+            th Query
+            th Parameters
+            th Result
+            th Action
+          tr
+            td Number of Undergrads
+            td
+              input(type='text' name='seg_ug' form='seg_ug' value='BA, Bachelor, Undergrad, Undergraduate')
+            td#seg-ug-result -
+            td
+              form(action='/admin/analytics/param_seg_pd', method='get', name='seg_ug')
                 button.btn.btn-primary(type='submit') GET
     .row
       .col-md-12.scrollable-table
