@@ -37,7 +37,7 @@ div.job_listing {
   div.job_listing p.pay::before {
     content: "Pay: ";
     font-weight: bold; }
-  div.job_listing button.enquire {
+  div.job_listing a.enquire {
     font-weight: bold; }
-    div.job_listing button.enquire i {
+    div.job_listing a.enquire i {
       margin-left: 10px; }

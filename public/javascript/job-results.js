@@ -4,6 +4,6 @@ $(document).ready(function() {
     var job_id = e.target.getAttribute('data-id');
     var company_url = e.target.getAttribute('data-url');
 
-    window.location.href = "mailto:andros@silofunds.com?subject=Enquiry about " + company_name + " (id: " + job_id + ") job listing'></a>";
+    window.location.href = "mailto:andros@silofunds.com?subject=Enquiry about " + company_name + " (id: " + job_id + ") job listing";
   });
 });

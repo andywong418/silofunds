@@ -46,7 +46,7 @@ block content
 							each line in job.requirements.split('\n')
 								| !{ line } <br>
 						p.pay= job.pay
-						button.btn.btn-info.enquire(data-id=job.id, data-name=job.name, data-url=job.url) Enquire
+						a.btn.btn-info.enquire(href="mailto:andros@silofunds.com?subject=Enquiry about " + job.name+ " (id: " + job.id + ") job listing") Enquire
 							i.fa.fa-envelope
 			else
 				p#no-results(style= 'text-align: center; margin-top: 10px;') No jobs currently listed. 
