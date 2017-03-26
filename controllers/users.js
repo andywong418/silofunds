@@ -796,7 +796,7 @@ module.exports = {
                      pass: 'whatever418'}
               }));
               var locals = {
-                header: "Dear Sir/Madam,",
+                header: "Dear " + fund.title + ',',
                 fund_title: fund.title,
                 fund_id: fund.id
               };
@@ -811,7 +811,7 @@ module.exports = {
                   from: 'Silofunds',
                   to: fund.email,
                   subject: "Connecting students with your institution",
-                  html: results.html
+                  html: '<p> Dear ' + fund.title + ',</p> <br><p> One of our users has expressed interest in applying to ' + fund_title + ' through Silo. </p> <p>We are an Oxford based start up that connects students with funding institutions. Our goal is to make it easier for students to complete their funding campaign, and funding institutions like yourself play an integral role in the process.<p> Having launched 5 months ago in Oxford University only, over 2000 students have signed up and over 700 grant applications have been made. Currently we have taken the feedback of our users to create a grant application tool that allows them to streamline their applications to multiple grants, tracking their end to end progress. As a result we would need to build an application management system for funding institutions like yourselves that either complements an existing system or helps you create one. So far we have already generated interest from both large organisations like the Rhodes Trust and smaller charities based in Oxford.</p><p>We would love to hear from you over email or phone if you are interested in a system that not only lessens your adminstrative burdens and helps you find the relevant candidates, but also benefits the students you are trying to help.</p><p>CEO and co-founder of Silo</p><p>Andros Wong</p><p>Tel no: +447960478277</p> ' 
                 }, function(err, responseStatus){
                   if(err) {
                    console.error(err);

@@ -38,6 +38,7 @@ div.job_listing {
     content: "Pay: ";
     font-weight: bold; }
   div.job_listing a.enquire {
-    font-weight: bold; }
+    font-weight: bold;
+    background-color: rgba(0, 153, 153, 0.8); }
     div.job_listing a.enquire i {
       margin-left: 10px; }
