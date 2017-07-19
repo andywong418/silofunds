@@ -793,7 +793,7 @@ module.exports = {
               var transporter = nodemailer.createTransport(smtpTransport({
                service: 'Gmail',
                auth: {user: 'andros@silofunds.com',
-                     pass: 'whatever418'}
+                     pass:''}
               }));
               var locals = {
                 header: "Dear " + fund.title + ',',
@@ -1985,7 +1985,7 @@ function sendDonorEmail(userId, charge, res) {
     var transporter = nodemailer.createTransport(smtpTransport({
       service: 'Gmail',
       auth: {user: 'andros@silofunds.com',
-            pass: 'whatever418'}
+            pass: ''}
     }));
     var date = reformatDate(new Date()).split('-').reverse().join('/')
     var charge_amount = charge.amount.toString();
